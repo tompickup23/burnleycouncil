@@ -42,6 +42,7 @@ const Intelligence = lazy(() => import('./pages/Intelligence'))
 const CouncillorDossier = lazy(() => import('./pages/CouncillorDossier'))
 const PropertyPortfolio = lazy(() => import('./pages/PropertyPortfolio'))
 const PropertyDetail = lazy(() => import('./pages/PropertyDetail'))
+const Housing = lazy(() => import('./pages/Housing'))
 const Highways = lazy(() => import('./pages/Highways'))
 const Roadworks = lazy(() => import('./pages/Roadworks'))
 const AdminPanel = lazy(() => import('./components/AdminPanel'))
@@ -147,6 +148,7 @@ function RouterContent() {
             <Route path="/councillor/:councillorId" element={<Guarded><CouncillorDossier /></Guarded>} />
             <Route path="/properties" element={<Guarded><PropertyPortfolio /></Guarded>} />
             <Route path="/property/:propertyId" element={<Guarded><PropertyDetail /></Guarded>} />
+            <Route path="/housing" element={<Guarded><Housing /></Guarded>} />
             <Route path="/highways" element={<Guarded><Highways /></Guarded>} />
             <Route path="/roadworks" element={<Guarded><Roadworks /></Guarded>} />
             <Route path="/admin" element={<Guarded><AdminPanel /></Guarded>} />

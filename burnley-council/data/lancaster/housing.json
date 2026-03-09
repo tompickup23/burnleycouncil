@@ -1,0 +1,1678 @@
+{
+  "meta": {
+    "source": "ONS Census 2021 via Nomis API + policy compilation",
+    "council_id": "lancaster",
+    "council_name": "Lancaster",
+    "ons_code": "E07000121",
+    "census_date": "2021-03-21",
+    "generated": "2026-03-09T20:00:46"
+  },
+  "census": {
+    "council_totals": {
+      "tenure": {
+        "Total: All households": 59978,
+        "Owned": 40266,
+        "Owned: Owns outright": 23152,
+        "Owned: Owns with a mortgage or loan": 17114,
+        "Shared ownership": 488,
+        "Shared ownership: Shared ownership": 488,
+        "Social rented": 6153,
+        "Social rented: Rents from council or Local Authority": 3384,
+        "Social rented: Other social rented": 2769,
+        "Private rented": 13029,
+        "Private rented: Private landlord or letting agency": 11460,
+        "Private rented: Other private rented": 1569,
+        "Lives rent free": 42,
+        "Owns with a mortgage or loan or shared ownership": 17602,
+        "Private rented or lives rent free": 13071
+      },
+      "accommodation_type": {
+        "Total": 59980,
+        "Detached": 11657,
+        "Semi-detached": 22823,
+        "Terraced": 15302,
+        "In a purpose-built block of flats or tenement": 6549,
+        "Part of a converted or shared house, including bedsits": 1858,
+        "Part of another converted building, for example, former school, church or warehouse": 653,
+        "In a commercial building, for example, in an office building, hotel or over a shop": 489,
+        "A caravan or other mobile or temporary structure": 649
+      },
+      "overcrowding": {
+        "Total: All households": 59980,
+        "Occupancy rating of bedrooms: +2 or more": 22319,
+        "Occupancy rating of bedrooms: +1": 22947,
+        "Occupancy rating of bedrooms: 0": 13565,
+        "Occupancy rating of bedrooms: -1": 1016,
+        "Occupancy rating of bedrooms: -2 or less": 133
+      },
+      "bedrooms": {
+        "Total: All households": 59980,
+        "1 bedroom": 5684,
+        "2 bedrooms": 17495,
+        "3 bedrooms": 24687,
+        "4 or more bedrooms": 12114
+      },
+      "household_size": {
+        "Total: All households": 59983,
+        "0 people in household": 0,
+        "1 person in household": 19526,
+        "2 people in household": 21376,
+        "3 people in household": 8885,
+        "4 people in household": 6871,
+        "5 people in household": 2234,
+        "6 people in household": 724,
+        "7 people in household": 218,
+        "8 or more people in household": 149
+      }
+    },
+    "wards": {
+      "E05009592": {
+        "name": "Bare",
+        "tenure": {
+          "Total: All households": 3218,
+          "Owned": 2572,
+          "Owned: Owns outright": 1662,
+          "Owned: Owns with a mortgage or loan": 910,
+          "Shared ownership": 16,
+          "Shared ownership: Shared ownership": 16,
+          "Social rented": 59,
+          "Social rented: Rents from council or Local Authority": 23,
+          "Social rented: Other social rented": 36,
+          "Private rented": 571,
+          "Private rented: Private landlord or letting agency": 480,
+          "Private rented: Other private rented": 91,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 926,
+          "Private rented or lives rent free": 571
+        },
+        "accommodation_type": {
+          "Total": 3220,
+          "Detached": 500,
+          "Semi-detached": 1753,
+          "Terraced": 254,
+          "In a purpose-built block of flats or tenement": 418,
+          "Part of a converted or shared house, including bedsits": 235,
+          "Part of another converted building, for example, former school, church or warehouse": 17,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 39,
+          "A caravan or other mobile or temporary structure": 4
+        },
+        "overcrowding": {
+          "Total: All households": 3217,
+          "Occupancy rating of bedrooms: +2 or more": 1164,
+          "Occupancy rating of bedrooms: +1": 1399,
+          "Occupancy rating of bedrooms: 0": 630,
+          "Occupancy rating of bedrooms: -1": 21,
+          "Occupancy rating of bedrooms: -2 or less": 3
+        },
+        "bedrooms": {
+          "Total: All households": 3217,
+          "1 bedroom": 351,
+          "2 bedrooms": 1040,
+          "3 bedrooms": 1215,
+          "4 or more bedrooms": 611
+        },
+        "household_size": {
+          "Total: All households": 3216,
+          "0 people in household": 0,
+          "1 person in household": 1168,
+          "2 people in household": 1191,
+          "3 people in household": 386,
+          "4 people in household": 336,
+          "5 people in household": 96,
+          "6 people in household": 24,
+          "7 people in household": 10,
+          "8 or more people in household": 5
+        }
+      },
+      "E05009593": {
+        "name": "Bolton & Slyne",
+        "tenure": {
+          "Total: All households": 3232,
+          "Owned": 2860,
+          "Owned: Owns outright": 1851,
+          "Owned: Owns with a mortgage or loan": 1009,
+          "Shared ownership": 17,
+          "Shared ownership: Shared ownership": 17,
+          "Social rented": 84,
+          "Social rented: Rents from council or Local Authority": 55,
+          "Social rented: Other social rented": 29,
+          "Private rented": 271,
+          "Private rented: Private landlord or letting agency": 219,
+          "Private rented: Other private rented": 52,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 1026,
+          "Private rented or lives rent free": 271
+        },
+        "accommodation_type": {
+          "Total": 3232,
+          "Detached": 1375,
+          "Semi-detached": 1410,
+          "Terraced": 256,
+          "In a purpose-built block of flats or tenement": 79,
+          "Part of a converted or shared house, including bedsits": 63,
+          "Part of another converted building, for example, former school, church or warehouse": 20,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 16,
+          "A caravan or other mobile or temporary structure": 13
+        },
+        "overcrowding": {
+          "Total: All households": 3232,
+          "Occupancy rating of bedrooms: +2 or more": 1643,
+          "Occupancy rating of bedrooms: +1": 1182,
+          "Occupancy rating of bedrooms: 0": 379,
+          "Occupancy rating of bedrooms: -1": 26,
+          "Occupancy rating of bedrooms: -2 or less": 2
+        },
+        "bedrooms": {
+          "Total: All households": 3235,
+          "1 bedroom": 117,
+          "2 bedrooms": 836,
+          "3 bedrooms": 1387,
+          "4 or more bedrooms": 895
+        },
+        "household_size": {
+          "Total: All households": 3232,
+          "0 people in household": 0,
+          "1 person in household": 904,
+          "2 people in household": 1391,
+          "3 people in household": 432,
+          "4 people in household": 375,
+          "5 people in household": 88,
+          "6 people in household": 33,
+          "7 people in household": 7,
+          "8 or more people in household": 2
+        }
+      },
+      "E05009594": {
+        "name": "Bulk",
+        "tenure": {
+          "Total: All households": 3619,
+          "Owned": 1941,
+          "Owned: Owns outright": 905,
+          "Owned: Owns with a mortgage or loan": 1036,
+          "Shared ownership": 37,
+          "Shared ownership: Shared ownership": 37,
+          "Social rented": 748,
+          "Social rented: Rents from council or Local Authority": 474,
+          "Social rented: Other social rented": 274,
+          "Private rented": 881,
+          "Private rented: Private landlord or letting agency": 799,
+          "Private rented: Other private rented": 82,
+          "Lives rent free": 12,
+          "Owns with a mortgage or loan or shared ownership": 1073,
+          "Private rented or lives rent free": 893
+        },
+        "accommodation_type": {
+          "Total": 3615,
+          "Detached": 304,
+          "Semi-detached": 818,
+          "Terraced": 1647,
+          "In a purpose-built block of flats or tenement": 633,
+          "Part of a converted or shared house, including bedsits": 28,
+          "Part of another converted building, for example, former school, church or warehouse": 160,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 24,
+          "A caravan or other mobile or temporary structure": 1
+        },
+        "overcrowding": {
+          "Total: All households": 3617,
+          "Occupancy rating of bedrooms: +2 or more": 1047,
+          "Occupancy rating of bedrooms: +1": 1380,
+          "Occupancy rating of bedrooms: 0": 1089,
+          "Occupancy rating of bedrooms: -1": 83,
+          "Occupancy rating of bedrooms: -2 or less": 18
+        },
+        "bedrooms": {
+          "Total: All households": 3613,
+          "1 bedroom": 528,
+          "2 bedrooms": 1111,
+          "3 bedrooms": 1342,
+          "4 or more bedrooms": 632
+        },
+        "household_size": {
+          "Total: All households": 3618,
+          "0 people in household": 0,
+          "1 person in household": 1248,
+          "2 people in household": 1155,
+          "3 people in household": 547,
+          "4 people in household": 446,
+          "5 people in household": 139,
+          "6 people in household": 50,
+          "7 people in household": 16,
+          "8 or more people in household": 17
+        }
+      },
+      "E05009595": {
+        "name": "Carnforth & Millhead",
+        "tenure": {
+          "Total: All households": 2707,
+          "Owned": 2030,
+          "Owned: Owns outright": 1159,
+          "Owned: Owns with a mortgage or loan": 871,
+          "Shared ownership": 15,
+          "Shared ownership: Shared ownership": 15,
+          "Social rented": 200,
+          "Social rented: Rents from council or Local Authority": 164,
+          "Social rented: Other social rented": 36,
+          "Private rented": 461,
+          "Private rented: Private landlord or letting agency": 368,
+          "Private rented: Other private rented": 93,
+          "Lives rent free": 1,
+          "Owns with a mortgage or loan or shared ownership": 886,
+          "Private rented or lives rent free": 462
+        },
+        "accommodation_type": {
+          "Total": 2705,
+          "Detached": 657,
+          "Semi-detached": 769,
+          "Terraced": 1026,
+          "In a purpose-built block of flats or tenement": 136,
+          "Part of a converted or shared house, including bedsits": 15,
+          "Part of another converted building, for example, former school, church or warehouse": 8,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 29,
+          "A caravan or other mobile or temporary structure": 65
+        },
+        "overcrowding": {
+          "Total: All households": 2706,
+          "Occupancy rating of bedrooms: +2 or more": 1049,
+          "Occupancy rating of bedrooms: +1": 1103,
+          "Occupancy rating of bedrooms: 0": 503,
+          "Occupancy rating of bedrooms: -1": 49,
+          "Occupancy rating of bedrooms: -2 or less": 2
+        },
+        "bedrooms": {
+          "Total: All households": 2705,
+          "1 bedroom": 150,
+          "2 bedrooms": 855,
+          "3 bedrooms": 1233,
+          "4 or more bedrooms": 467
+        },
+        "household_size": {
+          "Total: All households": 2705,
+          "0 people in household": 0,
+          "1 person in household": 875,
+          "2 people in household": 1001,
+          "3 people in household": 380,
+          "4 people in household": 331,
+          "5 people in household": 92,
+          "6 people in household": 22,
+          "7 people in household": 2,
+          "8 or more people in household": 2
+        }
+      },
+      "E05009596": {
+        "name": "Castle (Lancaster)",
+        "tenure": {
+          "Total: All households": 2149,
+          "Owned": 886,
+          "Owned: Owns outright": 555,
+          "Owned: Owns with a mortgage or loan": 331,
+          "Shared ownership": 19,
+          "Shared ownership: Shared ownership": 19,
+          "Social rented": 265,
+          "Social rented: Rents from council or Local Authority": 47,
+          "Social rented: Other social rented": 218,
+          "Private rented": 977,
+          "Private rented: Private landlord or letting agency": 912,
+          "Private rented: Other private rented": 65,
+          "Lives rent free": 2,
+          "Owns with a mortgage or loan or shared ownership": 350,
+          "Private rented or lives rent free": 979
+        },
+        "accommodation_type": {
+          "Total": 2150,
+          "Detached": 67,
+          "Semi-detached": 165,
+          "Terraced": 746,
+          "In a purpose-built block of flats or tenement": 831,
+          "Part of a converted or shared house, including bedsits": 138,
+          "Part of another converted building, for example, former school, church or warehouse": 124,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 78,
+          "A caravan or other mobile or temporary structure": 1
+        },
+        "overcrowding": {
+          "Total: All households": 2150,
+          "Occupancy rating of bedrooms: +2 or more": 515,
+          "Occupancy rating of bedrooms: +1": 674,
+          "Occupancy rating of bedrooms: 0": 896,
+          "Occupancy rating of bedrooms: -1": 58,
+          "Occupancy rating of bedrooms: -2 or less": 7
+        },
+        "bedrooms": {
+          "Total: All households": 2148,
+          "1 bedroom": 631,
+          "2 bedrooms": 645,
+          "3 bedrooms": 396,
+          "4 or more bedrooms": 476
+        },
+        "household_size": {
+          "Total: All households": 2150,
+          "0 people in household": 0,
+          "1 person in household": 1005,
+          "2 people in household": 540,
+          "3 people in household": 218,
+          "4 people in household": 169,
+          "5 people in household": 85,
+          "6 people in household": 70,
+          "7 people in household": 23,
+          "8 or more people in household": 40
+        }
+      },
+      "E05009597": {
+        "name": "Ellel",
+        "tenure": {
+          "Total: All households": 1836,
+          "Owned": 1346,
+          "Owned: Owns outright": 730,
+          "Owned: Owns with a mortgage or loan": 616,
+          "Shared ownership": 49,
+          "Shared ownership: Shared ownership": 49,
+          "Social rented": 65,
+          "Social rented: Rents from council or Local Authority": 40,
+          "Social rented: Other social rented": 25,
+          "Private rented": 376,
+          "Private rented: Private landlord or letting agency": 314,
+          "Private rented: Other private rented": 62,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 665,
+          "Private rented or lives rent free": 376
+        },
+        "accommodation_type": {
+          "Total": 1831,
+          "Detached": 586,
+          "Semi-detached": 687,
+          "Terraced": 465,
+          "In a purpose-built block of flats or tenement": 22,
+          "Part of a converted or shared house, including bedsits": 20,
+          "Part of another converted building, for example, former school, church or warehouse": 17,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 8,
+          "A caravan or other mobile or temporary structure": 26
+        },
+        "overcrowding": {
+          "Total: All households": 1836,
+          "Occupancy rating of bedrooms: +2 or more": 817,
+          "Occupancy rating of bedrooms: +1": 712,
+          "Occupancy rating of bedrooms: 0": 277,
+          "Occupancy rating of bedrooms: -1": 26,
+          "Occupancy rating of bedrooms: -2 or less": 4
+        },
+        "bedrooms": {
+          "Total: All households": 1834,
+          "1 bedroom": 73,
+          "2 bedrooms": 497,
+          "3 bedrooms": 778,
+          "4 or more bedrooms": 486
+        },
+        "household_size": {
+          "Total: All households": 1835,
+          "0 people in household": 0,
+          "1 person in household": 520,
+          "2 people in household": 698,
+          "3 people in household": 268,
+          "4 people in household": 232,
+          "5 people in household": 84,
+          "6 people in household": 22,
+          "7 people in household": 8,
+          "8 or more people in household": 3
+        }
+      },
+      "E05009598": {
+        "name": "Halton-with-Aughton",
+        "tenure": {
+          "Total: All households": 1242,
+          "Owned": 1031,
+          "Owned: Owns outright": 590,
+          "Owned: Owns with a mortgage or loan": 441,
+          "Shared ownership": 5,
+          "Shared ownership: Shared ownership": 5,
+          "Social rented": 78,
+          "Social rented: Rents from council or Local Authority": 45,
+          "Social rented: Other social rented": 33,
+          "Private rented": 127,
+          "Private rented: Private landlord or letting agency": 108,
+          "Private rented: Other private rented": 19,
+          "Lives rent free": 1,
+          "Owns with a mortgage or loan or shared ownership": 446,
+          "Private rented or lives rent free": 128
+        },
+        "accommodation_type": {
+          "Total": 1242,
+          "Detached": 455,
+          "Semi-detached": 488,
+          "Terraced": 240,
+          "In a purpose-built block of flats or tenement": 45,
+          "Part of a converted or shared house, including bedsits": 1,
+          "Part of another converted building, for example, former school, church or warehouse": 4,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 0,
+          "A caravan or other mobile or temporary structure": 9
+        },
+        "overcrowding": {
+          "Total: All households": 1240,
+          "Occupancy rating of bedrooms: +2 or more": 624,
+          "Occupancy rating of bedrooms: +1": 436,
+          "Occupancy rating of bedrooms: 0": 167,
+          "Occupancy rating of bedrooms: -1": 12,
+          "Occupancy rating of bedrooms: -2 or less": 1
+        },
+        "bedrooms": {
+          "Total: All households": 1242,
+          "1 bedroom": 52,
+          "2 bedrooms": 294,
+          "3 bedrooms": 513,
+          "4 or more bedrooms": 383
+        },
+        "household_size": {
+          "Total: All households": 1242,
+          "0 people in household": 0,
+          "1 person in household": 337,
+          "2 people in household": 475,
+          "3 people in household": 204,
+          "4 people in household": 169,
+          "5 people in household": 44,
+          "6 people in household": 7,
+          "7 people in household": 5,
+          "8 or more people in household": 1
+        }
+      },
+      "E05009599": {
+        "name": "Harbour",
+        "tenure": {
+          "Total: All households": 3379,
+          "Owned": 1846,
+          "Owned: Owns outright": 948,
+          "Owned: Owns with a mortgage or loan": 898,
+          "Shared ownership": 44,
+          "Shared ownership: Shared ownership": 44,
+          "Social rented": 355,
+          "Social rented: Rents from council or Local Authority": 46,
+          "Social rented: Other social rented": 309,
+          "Private rented": 1133,
+          "Private rented: Private landlord or letting agency": 1054,
+          "Private rented: Other private rented": 79,
+          "Lives rent free": 1,
+          "Owns with a mortgage or loan or shared ownership": 942,
+          "Private rented or lives rent free": 1134
+        },
+        "accommodation_type": {
+          "Total": 3383,
+          "Detached": 153,
+          "Semi-detached": 1550,
+          "Terraced": 621,
+          "In a purpose-built block of flats or tenement": 553,
+          "Part of a converted or shared house, including bedsits": 396,
+          "Part of another converted building, for example, former school, church or warehouse": 33,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 60,
+          "A caravan or other mobile or temporary structure": 17
+        },
+        "overcrowding": {
+          "Total: All households": 3384,
+          "Occupancy rating of bedrooms: +2 or more": 1005,
+          "Occupancy rating of bedrooms: +1": 1210,
+          "Occupancy rating of bedrooms: 0": 1076,
+          "Occupancy rating of bedrooms: -1": 81,
+          "Occupancy rating of bedrooms: -2 or less": 12
+        },
+        "bedrooms": {
+          "Total: All households": 3381,
+          "1 bedroom": 549,
+          "2 bedrooms": 889,
+          "3 bedrooms": 1432,
+          "4 or more bedrooms": 511
+        },
+        "household_size": {
+          "Total: All households": 3381,
+          "0 people in household": 0,
+          "1 person in household": 1229,
+          "2 people in household": 1023,
+          "3 people in household": 522,
+          "4 people in household": 373,
+          "5 people in household": 155,
+          "6 people in household": 46,
+          "7 people in household": 13,
+          "8 or more people in household": 20
+        }
+      },
+      "E05009600": {
+        "name": "Heysham Central",
+        "tenure": {
+          "Total: All households": 2093,
+          "Owned": 1590,
+          "Owned: Owns outright": 916,
+          "Owned: Owns with a mortgage or loan": 674,
+          "Shared ownership": 6,
+          "Shared ownership: Shared ownership": 6,
+          "Social rented": 150,
+          "Social rented: Rents from council or Local Authority": 115,
+          "Social rented: Other social rented": 35,
+          "Private rented": 347,
+          "Private rented: Private landlord or letting agency": 296,
+          "Private rented: Other private rented": 51,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 680,
+          "Private rented or lives rent free": 347
+        },
+        "accommodation_type": {
+          "Total": 2095,
+          "Detached": 321,
+          "Semi-detached": 1241,
+          "Terraced": 237,
+          "In a purpose-built block of flats or tenement": 160,
+          "Part of a converted or shared house, including bedsits": 91,
+          "Part of another converted building, for example, former school, church or warehouse": 9,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 13,
+          "A caravan or other mobile or temporary structure": 23
+        },
+        "overcrowding": {
+          "Total: All households": 2095,
+          "Occupancy rating of bedrooms: +2 or more": 825,
+          "Occupancy rating of bedrooms: +1": 838,
+          "Occupancy rating of bedrooms: 0": 399,
+          "Occupancy rating of bedrooms: -1": 29,
+          "Occupancy rating of bedrooms: -2 or less": 4
+        },
+        "bedrooms": {
+          "Total: All households": 2095,
+          "1 bedroom": 156,
+          "2 bedrooms": 573,
+          "3 bedrooms": 1031,
+          "4 or more bedrooms": 335
+        },
+        "household_size": {
+          "Total: All households": 2096,
+          "0 people in household": 0,
+          "1 person in household": 691,
+          "2 people in household": 742,
+          "3 people in household": 313,
+          "4 people in household": 231,
+          "5 people in household": 83,
+          "6 people in household": 27,
+          "7 people in household": 7,
+          "8 or more people in household": 2
+        }
+      },
+      "E05009601": {
+        "name": "Heysham North",
+        "tenure": {
+          "Total: All households": 2106,
+          "Owned": 1176,
+          "Owned: Owns outright": 590,
+          "Owned: Owns with a mortgage or loan": 586,
+          "Shared ownership": 27,
+          "Shared ownership: Shared ownership": 27,
+          "Social rented": 71,
+          "Social rented: Rents from council or Local Authority": 15,
+          "Social rented: Other social rented": 56,
+          "Private rented": 831,
+          "Private rented: Private landlord or letting agency": 762,
+          "Private rented: Other private rented": 69,
+          "Lives rent free": 1,
+          "Owns with a mortgage or loan or shared ownership": 613,
+          "Private rented or lives rent free": 832
+        },
+        "accommodation_type": {
+          "Total": 2105,
+          "Detached": 73,
+          "Semi-detached": 616,
+          "Terraced": 670,
+          "In a purpose-built block of flats or tenement": 417,
+          "Part of a converted or shared house, including bedsits": 294,
+          "Part of another converted building, for example, former school, church or warehouse": 18,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 15,
+          "A caravan or other mobile or temporary structure": 2
+        },
+        "overcrowding": {
+          "Total: All households": 2106,
+          "Occupancy rating of bedrooms: +2 or more": 629,
+          "Occupancy rating of bedrooms: +1": 793,
+          "Occupancy rating of bedrooms: 0": 624,
+          "Occupancy rating of bedrooms: -1": 57,
+          "Occupancy rating of bedrooms: -2 or less": 3
+        },
+        "bedrooms": {
+          "Total: All households": 2106,
+          "1 bedroom": 347,
+          "2 bedrooms": 607,
+          "3 bedrooms": 753,
+          "4 or more bedrooms": 399
+        },
+        "household_size": {
+          "Total: All households": 2106,
+          "0 people in household": 0,
+          "1 person in household": 799,
+          "2 people in household": 658,
+          "3 people in household": 274,
+          "4 people in household": 220,
+          "5 people in household": 100,
+          "6 people in household": 40,
+          "7 people in household": 11,
+          "8 or more people in household": 4
+        }
+      },
+      "E05009602": {
+        "name": "Heysham South",
+        "tenure": {
+          "Total: All households": 2818,
+          "Owned": 2062,
+          "Owned: Owns outright": 989,
+          "Owned: Owns with a mortgage or loan": 1073,
+          "Shared ownership": 6,
+          "Shared ownership: Shared ownership": 6,
+          "Social rented": 268,
+          "Social rented: Rents from council or Local Authority": 149,
+          "Social rented: Other social rented": 119,
+          "Private rented": 481,
+          "Private rented: Private landlord or letting agency": 415,
+          "Private rented: Other private rented": 66,
+          "Lives rent free": 1,
+          "Owns with a mortgage or loan or shared ownership": 1079,
+          "Private rented or lives rent free": 482
+        },
+        "accommodation_type": {
+          "Total": 2817,
+          "Detached": 962,
+          "Semi-detached": 1275,
+          "Terraced": 265,
+          "In a purpose-built block of flats or tenement": 226,
+          "Part of a converted or shared house, including bedsits": 48,
+          "Part of another converted building, for example, former school, church or warehouse": 6,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 7,
+          "A caravan or other mobile or temporary structure": 28
+        },
+        "overcrowding": {
+          "Total: All households": 2816,
+          "Occupancy rating of bedrooms: +2 or more": 1132,
+          "Occupancy rating of bedrooms: +1": 1111,
+          "Occupancy rating of bedrooms: 0": 518,
+          "Occupancy rating of bedrooms: -1": 51,
+          "Occupancy rating of bedrooms: -2 or less": 4
+        },
+        "bedrooms": {
+          "Total: All households": 2814,
+          "1 bedroom": 129,
+          "2 bedrooms": 685,
+          "3 bedrooms": 1400,
+          "4 or more bedrooms": 600
+        },
+        "household_size": {
+          "Total: All households": 2813,
+          "0 people in household": 0,
+          "1 person in household": 733,
+          "2 people in household": 1001,
+          "3 people in household": 504,
+          "4 people in household": 418,
+          "5 people in household": 118,
+          "6 people in household": 33,
+          "7 people in household": 5,
+          "8 or more people in household": 1
+        }
+      },
+      "E05009603": {
+        "name": "John O'Gaunt",
+        "tenure": {
+          "Total: All households": 2910,
+          "Owned": 1801,
+          "Owned: Owns outright": 940,
+          "Owned: Owns with a mortgage or loan": 861,
+          "Shared ownership": 14,
+          "Shared ownership: Shared ownership": 14,
+          "Social rented": 137,
+          "Social rented: Rents from council or Local Authority": 28,
+          "Social rented: Other social rented": 109,
+          "Private rented": 954,
+          "Private rented: Private landlord or letting agency": 904,
+          "Private rented: Other private rented": 50,
+          "Lives rent free": 4,
+          "Owns with a mortgage or loan or shared ownership": 875,
+          "Private rented or lives rent free": 958
+        },
+        "accommodation_type": {
+          "Total": 2913,
+          "Detached": 332,
+          "Semi-detached": 832,
+          "Terraced": 1543,
+          "In a purpose-built block of flats or tenement": 161,
+          "Part of a converted or shared house, including bedsits": 21,
+          "Part of another converted building, for example, former school, church or warehouse": 11,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 11,
+          "A caravan or other mobile or temporary structure": 2
+        },
+        "overcrowding": {
+          "Total: All households": 2913,
+          "Occupancy rating of bedrooms: +2 or more": 1056,
+          "Occupancy rating of bedrooms: +1": 1228,
+          "Occupancy rating of bedrooms: 0": 576,
+          "Occupancy rating of bedrooms: -1": 47,
+          "Occupancy rating of bedrooms: -2 or less": 6
+        },
+        "bedrooms": {
+          "Total: All households": 2913,
+          "1 bedroom": 128,
+          "2 bedrooms": 920,
+          "3 bedrooms": 1133,
+          "4 or more bedrooms": 732
+        },
+        "household_size": {
+          "Total: All households": 2913,
+          "0 people in household": 0,
+          "1 person in household": 871,
+          "2 people in household": 927,
+          "3 people in household": 497,
+          "4 people in household": 417,
+          "5 people in household": 121,
+          "6 people in household": 62,
+          "7 people in household": 13,
+          "8 or more people in household": 5
+        }
+      },
+      "E05009604": {
+        "name": "Kellet",
+        "tenure": {
+          "Total: All households": 995,
+          "Owned": 848,
+          "Owned: Owns outright": 566,
+          "Owned: Owns with a mortgage or loan": 282,
+          "Shared ownership": 2,
+          "Shared ownership: Shared ownership": 2,
+          "Social rented": 35,
+          "Social rented: Rents from council or Local Authority": 18,
+          "Social rented: Other social rented": 17,
+          "Private rented": 110,
+          "Private rented: Private landlord or letting agency": 75,
+          "Private rented: Other private rented": 35,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 284,
+          "Private rented or lives rent free": 110
+        },
+        "accommodation_type": {
+          "Total": 994,
+          "Detached": 454,
+          "Semi-detached": 364,
+          "Terraced": 94,
+          "In a purpose-built block of flats or tenement": 7,
+          "Part of a converted or shared house, including bedsits": 4,
+          "Part of another converted building, for example, former school, church or warehouse": 5,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 5,
+          "A caravan or other mobile or temporary structure": 61
+        },
+        "overcrowding": {
+          "Total: All households": 992,
+          "Occupancy rating of bedrooms: +2 or more": 534,
+          "Occupancy rating of bedrooms: +1": 345,
+          "Occupancy rating of bedrooms: 0": 106,
+          "Occupancy rating of bedrooms: -1": 6,
+          "Occupancy rating of bedrooms: -2 or less": 1
+        },
+        "bedrooms": {
+          "Total: All households": 995,
+          "1 bedroom": 34,
+          "2 bedrooms": 219,
+          "3 bedrooms": 438,
+          "4 or more bedrooms": 304
+        },
+        "household_size": {
+          "Total: All households": 994,
+          "0 people in household": 0,
+          "1 person in household": 264,
+          "2 people in household": 430,
+          "3 people in household": 134,
+          "4 people in household": 109,
+          "5 people in household": 45,
+          "6 people in household": 8,
+          "7 people in household": 3,
+          "8 or more people in household": 1
+        }
+      },
+      "E05009605": {
+        "name": "Lower Lune Valley",
+        "tenure": {
+          "Total: All households": 1974,
+          "Owned": 1576,
+          "Owned: Owns outright": 1044,
+          "Owned: Owns with a mortgage or loan": 532,
+          "Shared ownership": 18,
+          "Shared ownership: Shared ownership": 18,
+          "Social rented": 104,
+          "Social rented: Rents from council or Local Authority": 78,
+          "Social rented: Other social rented": 26,
+          "Private rented": 276,
+          "Private rented: Private landlord or letting agency": 210,
+          "Private rented: Other private rented": 66,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 550,
+          "Private rented or lives rent free": 276
+        },
+        "accommodation_type": {
+          "Total": 1975,
+          "Detached": 764,
+          "Semi-detached": 785,
+          "Terraced": 342,
+          "In a purpose-built block of flats or tenement": 12,
+          "Part of a converted or shared house, including bedsits": 13,
+          "Part of another converted building, for example, former school, church or warehouse": 31,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 10,
+          "A caravan or other mobile or temporary structure": 18
+        },
+        "overcrowding": {
+          "Total: All households": 1976,
+          "Occupancy rating of bedrooms: +2 or more": 1043,
+          "Occupancy rating of bedrooms: +1": 652,
+          "Occupancy rating of bedrooms: 0": 267,
+          "Occupancy rating of bedrooms: -1": 11,
+          "Occupancy rating of bedrooms: -2 or less": 3
+        },
+        "bedrooms": {
+          "Total: All households": 1976,
+          "1 bedroom": 75,
+          "2 bedrooms": 428,
+          "3 bedrooms": 833,
+          "4 or more bedrooms": 640
+        },
+        "household_size": {
+          "Total: All households": 1975,
+          "0 people in household": 0,
+          "1 person in household": 542,
+          "2 people in household": 815,
+          "3 people in household": 277,
+          "4 people in household": 246,
+          "5 people in household": 68,
+          "6 people in household": 19,
+          "7 people in household": 6,
+          "8 or more people in household": 2
+        }
+      },
+      "E05009606": {
+        "name": "Marsh",
+        "tenure": {
+          "Total: All households": 2617,
+          "Owned": 1634,
+          "Owned: Owns outright": 739,
+          "Owned: Owns with a mortgage or loan": 895,
+          "Shared ownership": 52,
+          "Shared ownership: Shared ownership": 52,
+          "Social rented": 410,
+          "Social rented: Rents from council or Local Authority": 210,
+          "Social rented: Other social rented": 200,
+          "Private rented": 520,
+          "Private rented: Private landlord or letting agency": 479,
+          "Private rented: Other private rented": 41,
+          "Lives rent free": 1,
+          "Owns with a mortgage or loan or shared ownership": 947,
+          "Private rented or lives rent free": 521
+        },
+        "accommodation_type": {
+          "Total": 2617,
+          "Detached": 555,
+          "Semi-detached": 652,
+          "Terraced": 1147,
+          "In a purpose-built block of flats or tenement": 216,
+          "Part of a converted or shared house, including bedsits": 26,
+          "Part of another converted building, for example, former school, church or warehouse": 13,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 6,
+          "A caravan or other mobile or temporary structure": 2
+        },
+        "overcrowding": {
+          "Total: All households": 2617,
+          "Occupancy rating of bedrooms: +2 or more": 1005,
+          "Occupancy rating of bedrooms: +1": 975,
+          "Occupancy rating of bedrooms: 0": 595,
+          "Occupancy rating of bedrooms: -1": 39,
+          "Occupancy rating of bedrooms: -2 or less": 3
+        },
+        "bedrooms": {
+          "Total: All households": 2618,
+          "1 bedroom": 202,
+          "2 bedrooms": 810,
+          "3 bedrooms": 948,
+          "4 or more bedrooms": 658
+        },
+        "household_size": {
+          "Total: All households": 2618,
+          "0 people in household": 0,
+          "1 person in household": 809,
+          "2 people in household": 937,
+          "3 people in household": 414,
+          "4 people in household": 300,
+          "5 people in household": 108,
+          "6 people in household": 32,
+          "7 people in household": 12,
+          "8 or more people in household": 6
+        }
+      },
+      "E05009607": {
+        "name": "Overton (Lancaster)",
+        "tenure": {
+          "Total: All households": 1108,
+          "Owned": 888,
+          "Owned: Owns outright": 560,
+          "Owned: Owns with a mortgage or loan": 328,
+          "Shared ownership": 2,
+          "Shared ownership: Shared ownership": 2,
+          "Social rented": 23,
+          "Social rented: Rents from council or Local Authority": 10,
+          "Social rented: Other social rented": 13,
+          "Private rented": 195,
+          "Private rented: Private landlord or letting agency": 151,
+          "Private rented: Other private rented": 44,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 330,
+          "Private rented or lives rent free": 195
+        },
+        "accommodation_type": {
+          "Total": 1108,
+          "Detached": 326,
+          "Semi-detached": 435,
+          "Terraced": 152,
+          "In a purpose-built block of flats or tenement": 42,
+          "Part of a converted or shared house, including bedsits": 5,
+          "Part of another converted building, for example, former school, church or warehouse": 5,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 4,
+          "A caravan or other mobile or temporary structure": 139
+        },
+        "overcrowding": {
+          "Total: All households": 1108,
+          "Occupancy rating of bedrooms: +2 or more": 371,
+          "Occupancy rating of bedrooms: +1": 500,
+          "Occupancy rating of bedrooms: 0": 217,
+          "Occupancy rating of bedrooms: -1": 19,
+          "Occupancy rating of bedrooms: -2 or less": 1
+        },
+        "bedrooms": {
+          "Total: All households": 1108,
+          "1 bedroom": 88,
+          "2 bedrooms": 406,
+          "3 bedrooms": 417,
+          "4 or more bedrooms": 197
+        },
+        "household_size": {
+          "Total: All households": 1108,
+          "0 people in household": 0,
+          "1 person in household": 326,
+          "2 people in household": 456,
+          "3 people in household": 157,
+          "4 people in household": 113,
+          "5 people in household": 40,
+          "6 people in household": 10,
+          "7 people in household": 3,
+          "8 or more people in household": 3
+        }
+      },
+      "E05009608": {
+        "name": "Poulton",
+        "tenure": {
+          "Total: All households": 2422,
+          "Owned": 1084,
+          "Owned: Owns outright": 640,
+          "Owned: Owns with a mortgage or loan": 444,
+          "Shared ownership": 26,
+          "Shared ownership: Shared ownership": 26,
+          "Social rented": 263,
+          "Social rented: Rents from council or Local Authority": 21,
+          "Social rented: Other social rented": 242,
+          "Private rented": 1049,
+          "Private rented: Private landlord or letting agency": 942,
+          "Private rented: Other private rented": 107,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 470,
+          "Private rented or lives rent free": 1049
+        },
+        "accommodation_type": {
+          "Total": 2422,
+          "Detached": 99,
+          "Semi-detached": 380,
+          "Terraced": 909,
+          "In a purpose-built block of flats or tenement": 614,
+          "Part of a converted or shared house, including bedsits": 277,
+          "Part of another converted building, for example, former school, church or warehouse": 63,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 76,
+          "A caravan or other mobile or temporary structure": 4
+        },
+        "overcrowding": {
+          "Total: All households": 2422,
+          "Occupancy rating of bedrooms: +2 or more": 597,
+          "Occupancy rating of bedrooms: +1": 856,
+          "Occupancy rating of bedrooms: 0": 909,
+          "Occupancy rating of bedrooms: -1": 55,
+          "Occupancy rating of bedrooms: -2 or less": 5
+        },
+        "bedrooms": {
+          "Total: All households": 2422,
+          "1 bedroom": 558,
+          "2 bedrooms": 793,
+          "3 bedrooms": 643,
+          "4 or more bedrooms": 428
+        },
+        "household_size": {
+          "Total: All households": 2420,
+          "0 people in household": 0,
+          "1 person in household": 1036,
+          "2 people in household": 692,
+          "3 people in household": 328,
+          "4 people in household": 240,
+          "5 people in household": 83,
+          "6 people in household": 27,
+          "7 people in household": 9,
+          "8 or more people in household": 5
+        }
+      },
+      "E05009609": {
+        "name": "Scotforth East",
+        "tenure": {
+          "Total: All households": 1845,
+          "Owned": 1347,
+          "Owned: Owns outright": 812,
+          "Owned: Owns with a mortgage or loan": 535,
+          "Shared ownership": 4,
+          "Shared ownership: Shared ownership": 4,
+          "Social rented": 298,
+          "Social rented: Rents from council or Local Authority": 178,
+          "Social rented: Other social rented": 120,
+          "Private rented": 195,
+          "Private rented: Private landlord or letting agency": 168,
+          "Private rented: Other private rented": 27,
+          "Lives rent free": 1,
+          "Owns with a mortgage or loan or shared ownership": 539,
+          "Private rented or lives rent free": 196
+        },
+        "accommodation_type": {
+          "Total": 1842,
+          "Detached": 504,
+          "Semi-detached": 906,
+          "Terraced": 198,
+          "In a purpose-built block of flats or tenement": 210,
+          "Part of a converted or shared house, including bedsits": 8,
+          "Part of another converted building, for example, former school, church or warehouse": 7,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 7,
+          "A caravan or other mobile or temporary structure": 2
+        },
+        "overcrowding": {
+          "Total: All households": 1843,
+          "Occupancy rating of bedrooms: +2 or more": 829,
+          "Occupancy rating of bedrooms: +1": 604,
+          "Occupancy rating of bedrooms: 0": 384,
+          "Occupancy rating of bedrooms: -1": 23,
+          "Occupancy rating of bedrooms: -2 or less": 3
+        },
+        "bedrooms": {
+          "Total: All households": 1842,
+          "1 bedroom": 176,
+          "2 bedrooms": 351,
+          "3 bedrooms": 842,
+          "4 or more bedrooms": 473
+        },
+        "household_size": {
+          "Total: All households": 1842,
+          "0 people in household": 0,
+          "1 person in household": 583,
+          "2 people in household": 633,
+          "3 people in household": 278,
+          "4 people in household": 239,
+          "5 people in household": 84,
+          "6 people in household": 16,
+          "7 people in household": 8,
+          "8 or more people in household": 1
+        }
+      },
+      "E05009610": {
+        "name": "Scotforth West",
+        "tenure": {
+          "Total: All households": 2914,
+          "Owned": 1844,
+          "Owned: Owns outright": 1027,
+          "Owned: Owns with a mortgage or loan": 817,
+          "Shared ownership": 44,
+          "Shared ownership: Shared ownership": 44,
+          "Social rented": 203,
+          "Social rented: Rents from council or Local Authority": 122,
+          "Social rented: Other social rented": 81,
+          "Private rented": 823,
+          "Private rented: Private landlord or letting agency": 748,
+          "Private rented: Other private rented": 75,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 861,
+          "Private rented or lives rent free": 823
+        },
+        "accommodation_type": {
+          "Total": 2916,
+          "Detached": 500,
+          "Semi-detached": 700,
+          "Terraced": 1241,
+          "In a purpose-built block of flats or tenement": 358,
+          "Part of a converted or shared house, including bedsits": 47,
+          "Part of another converted building, for example, former school, church or warehouse": 59,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 11,
+          "A caravan or other mobile or temporary structure": 0
+        },
+        "overcrowding": {
+          "Total: All households": 2915,
+          "Occupancy rating of bedrooms: +2 or more": 1191,
+          "Occupancy rating of bedrooms: +1": 1023,
+          "Occupancy rating of bedrooms: 0": 648,
+          "Occupancy rating of bedrooms: -1": 44,
+          "Occupancy rating of bedrooms: -2 or less": 9
+        },
+        "bedrooms": {
+          "Total: All households": 2915,
+          "1 bedroom": 215,
+          "2 bedrooms": 778,
+          "3 bedrooms": 1162,
+          "4 or more bedrooms": 760
+        },
+        "household_size": {
+          "Total: All households": 2917,
+          "0 people in household": 0,
+          "1 person in household": 867,
+          "2 people in household": 1015,
+          "3 people in household": 468,
+          "4 people in household": 407,
+          "5 people in household": 108,
+          "6 people in household": 30,
+          "7 people in household": 10,
+          "8 or more people in household": 12
+        }
+      },
+      "E05009611": {
+        "name": "Silverdale (Lancaster)",
+        "tenure": {
+          "Total: All households": 860,
+          "Owned": 744,
+          "Owned: Owns outright": 550,
+          "Owned: Owns with a mortgage or loan": 194,
+          "Shared ownership": 2,
+          "Shared ownership: Shared ownership": 2,
+          "Social rented": 35,
+          "Social rented: Rents from council or Local Authority": 23,
+          "Social rented: Other social rented": 12,
+          "Private rented": 79,
+          "Private rented: Private landlord or letting agency": 58,
+          "Private rented: Other private rented": 21,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 196,
+          "Private rented or lives rent free": 79
+        },
+        "accommodation_type": {
+          "Total": 863,
+          "Detached": 466,
+          "Semi-detached": 242,
+          "Terraced": 117,
+          "In a purpose-built block of flats or tenement": 23,
+          "Part of a converted or shared house, including bedsits": 6,
+          "Part of another converted building, for example, former school, church or warehouse": 6,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 3,
+          "A caravan or other mobile or temporary structure": 0
+        },
+        "overcrowding": {
+          "Total: All households": 864,
+          "Occupancy rating of bedrooms: +2 or more": 508,
+          "Occupancy rating of bedrooms: +1": 271,
+          "Occupancy rating of bedrooms: 0": 74,
+          "Occupancy rating of bedrooms: -1": 7,
+          "Occupancy rating of bedrooms: -2 or less": 4
+        },
+        "bedrooms": {
+          "Total: All households": 863,
+          "1 bedroom": 30,
+          "2 bedrooms": 189,
+          "3 bedrooms": 392,
+          "4 or more bedrooms": 252
+        },
+        "household_size": {
+          "Total: All households": 864,
+          "0 people in household": 0,
+          "1 person in household": 223,
+          "2 people in household": 433,
+          "3 people in household": 112,
+          "4 people in household": 66,
+          "5 people in household": 18,
+          "6 people in household": 7,
+          "7 people in household": 2,
+          "8 or more people in household": 3
+        }
+      },
+      "E05009612": {
+        "name": "Skerton East",
+        "tenure": {
+          "Total: All households": 3114,
+          "Owned": 1814,
+          "Owned: Owns outright": 905,
+          "Owned: Owns with a mortgage or loan": 909,
+          "Shared ownership": 23,
+          "Shared ownership: Shared ownership": 23,
+          "Social rented": 552,
+          "Social rented: Rents from council or Local Authority": 373,
+          "Social rented: Other social rented": 179,
+          "Private rented": 723,
+          "Private rented: Private landlord or letting agency": 640,
+          "Private rented: Other private rented": 83,
+          "Lives rent free": 2,
+          "Owns with a mortgage or loan or shared ownership": 932,
+          "Private rented or lives rent free": 725
+        },
+        "accommodation_type": {
+          "Total": 3113,
+          "Detached": 163,
+          "Semi-detached": 1241,
+          "Terraced": 1256,
+          "In a purpose-built block of flats or tenement": 403,
+          "Part of a converted or shared house, including bedsits": 28,
+          "Part of another converted building, for example, former school, church or warehouse": 5,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 12,
+          "A caravan or other mobile or temporary structure": 5
+        },
+        "overcrowding": {
+          "Total: All households": 3113,
+          "Occupancy rating of bedrooms: +2 or more": 925,
+          "Occupancy rating of bedrooms: +1": 1270,
+          "Occupancy rating of bedrooms: 0": 819,
+          "Occupancy rating of bedrooms: -1": 80,
+          "Occupancy rating of bedrooms: -2 or less": 19
+        },
+        "bedrooms": {
+          "Total: All households": 3113,
+          "1 bedroom": 212,
+          "2 bedrooms": 1116,
+          "3 bedrooms": 1490,
+          "4 or more bedrooms": 295
+        },
+        "household_size": {
+          "Total: All households": 3113,
+          "0 people in household": 0,
+          "1 person in household": 1057,
+          "2 people in household": 1024,
+          "3 people in household": 536,
+          "4 people in household": 329,
+          "5 people in household": 112,
+          "6 people in household": 42,
+          "7 people in household": 8,
+          "8 or more people in household": 5
+        }
+      },
+      "E05009613": {
+        "name": "Skerton West",
+        "tenure": {
+          "Total: All households": 3022,
+          "Owned": 1682,
+          "Owned: Owns outright": 819,
+          "Owned: Owns with a mortgage or loan": 863,
+          "Shared ownership": 9,
+          "Shared ownership: Shared ownership": 9,
+          "Social rented": 955,
+          "Social rented: Rents from council or Local Authority": 647,
+          "Social rented: Other social rented": 308,
+          "Private rented": 365,
+          "Private rented: Private landlord or letting agency": 303,
+          "Private rented: Other private rented": 62,
+          "Lives rent free": 11,
+          "Owns with a mortgage or loan or shared ownership": 872,
+          "Private rented or lives rent free": 376
+        },
+        "accommodation_type": {
+          "Total": 3022,
+          "Detached": 345,
+          "Semi-detached": 1746,
+          "Terraced": 480,
+          "In a purpose-built block of flats or tenement": 416,
+          "Part of a converted or shared house, including bedsits": 17,
+          "Part of another converted building, for example, former school, church or warehouse": 3,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 12,
+          "A caravan or other mobile or temporary structure": 3
+        },
+        "overcrowding": {
+          "Total: All households": 3022,
+          "Occupancy rating of bedrooms: +2 or more": 985,
+          "Occupancy rating of bedrooms: +1": 1012,
+          "Occupancy rating of bedrooms: 0": 942,
+          "Occupancy rating of bedrooms: -1": 73,
+          "Occupancy rating of bedrooms: -2 or less": 10
+        },
+        "bedrooms": {
+          "Total: All households": 3022,
+          "1 bedroom": 403,
+          "2 bedrooms": 569,
+          "3 bedrooms": 1736,
+          "4 or more bedrooms": 314
+        },
+        "household_size": {
+          "Total: All households": 3022,
+          "0 people in household": 0,
+          "1 person in household": 897,
+          "2 people in household": 993,
+          "3 people in household": 542,
+          "4 people in household": 395,
+          "5 people in household": 138,
+          "6 people in household": 39,
+          "7 people in household": 13,
+          "8 or more people in household": 5
+        }
+      },
+      "E05009614": {
+        "name": "Torrisholme",
+        "tenure": {
+          "Total: All households": 2087,
+          "Owned": 1805,
+          "Owned: Owns outright": 1185,
+          "Owned: Owns with a mortgage or loan": 620,
+          "Shared ownership": 11,
+          "Shared ownership: Shared ownership": 11,
+          "Social rented": 26,
+          "Social rented: Rents from council or Local Authority": 13,
+          "Social rented: Other social rented": 13,
+          "Private rented": 245,
+          "Private rented: Private landlord or letting agency": 193,
+          "Private rented: Other private rented": 52,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 631,
+          "Private rented or lives rent free": 245
+        },
+        "accommodation_type": {
+          "Total": 2085,
+          "Detached": 382,
+          "Semi-detached": 1391,
+          "Terraced": 153,
+          "In a purpose-built block of flats or tenement": 122,
+          "Part of a converted or shared house, including bedsits": 22,
+          "Part of another converted building, for example, former school, church or warehouse": 2,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 13,
+          "A caravan or other mobile or temporary structure": 0
+        },
+        "overcrowding": {
+          "Total: All households": 2085,
+          "Occupancy rating of bedrooms: +2 or more": 743,
+          "Occupancy rating of bedrooms: +1": 1052,
+          "Occupancy rating of bedrooms: 0": 268,
+          "Occupancy rating of bedrooms: -1": 19,
+          "Occupancy rating of bedrooms: -2 or less": 3
+        },
+        "bedrooms": {
+          "Total: All households": 2087,
+          "1 bedroom": 82,
+          "2 bedrooms": 824,
+          "3 bedrooms": 862,
+          "4 or more bedrooms": 319
+        },
+        "household_size": {
+          "Total: All households": 2086,
+          "0 people in household": 0,
+          "1 person in household": 701,
+          "2 people in household": 836,
+          "3 people in household": 289,
+          "4 people in household": 189,
+          "5 people in household": 59,
+          "6 people in household": 8,
+          "7 people in household": 3,
+          "8 or more people in household": 1
+        }
+      },
+      "E05009615": {
+        "name": "University & Scotforth Rural",
+        "tenure": {
+          "Total: All households": 240,
+          "Owned": 197,
+          "Owned: Owns outright": 125,
+          "Owned: Owns with a mortgage or loan": 72,
+          "Shared ownership": 3,
+          "Shared ownership: Shared ownership": 3,
+          "Social rented": 6,
+          "Social rented: Rents from council or Local Authority": 3,
+          "Social rented: Other social rented": 3,
+          "Private rented": 34,
+          "Private rented: Private landlord or letting agency": 23,
+          "Private rented: Other private rented": 11,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 75,
+          "Private rented or lives rent free": 34
+        },
+        "accommodation_type": {
+          "Total": 238,
+          "Detached": 134,
+          "Semi-detached": 71,
+          "Terraced": 26,
+          "In a purpose-built block of flats or tenement": 3,
+          "Part of a converted or shared house, including bedsits": 2,
+          "Part of another converted building, for example, former school, church or warehouse": 0,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 1,
+          "A caravan or other mobile or temporary structure": 1
+        },
+        "overcrowding": {
+          "Total: All households": 239,
+          "Occupancy rating of bedrooms: +2 or more": 146,
+          "Occupancy rating of bedrooms: +1": 65,
+          "Occupancy rating of bedrooms: 0": 27,
+          "Occupancy rating of bedrooms: -1": 1,
+          "Occupancy rating of bedrooms: -2 or less": 0
+        },
+        "bedrooms": {
+          "Total: All households": 240,
+          "1 bedroom": 7,
+          "2 bedrooms": 33,
+          "3 bedrooms": 85,
+          "4 or more bedrooms": 115
+        },
+        "household_size": {
+          "Total: All households": 240,
+          "0 people in household": 0,
+          "1 person in household": 49,
+          "2 people in household": 108,
+          "3 people in household": 31,
+          "4 people in household": 30,
+          "5 people in household": 17,
+          "6 people in household": 2,
+          "7 people in household": 3,
+          "8 or more people in household": 0
+        }
+      },
+      "E05009616": {
+        "name": "Upper Lune Valley",
+        "tenure": {
+          "Total: All households": 1054,
+          "Owned": 797,
+          "Owned: Owns outright": 537,
+          "Owned: Owns with a mortgage or loan": 260,
+          "Shared ownership": 15,
+          "Shared ownership: Shared ownership": 15,
+          "Social rented": 41,
+          "Social rented: Rents from council or Local Authority": 21,
+          "Social rented: Other social rented": 20,
+          "Private rented": 201,
+          "Private rented: Private landlord or letting agency": 154,
+          "Private rented: Other private rented": 47,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 275,
+          "Private rented or lives rent free": 201
+        },
+        "accommodation_type": {
+          "Total": 1055,
+          "Detached": 490,
+          "Semi-detached": 292,
+          "Terraced": 217,
+          "In a purpose-built block of flats or tenement": 24,
+          "Part of a converted or shared house, including bedsits": 7,
+          "Part of another converted building, for example, former school, church or warehouse": 18,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 4,
+          "A caravan or other mobile or temporary structure": 3
+        },
+        "overcrowding": {
+          "Total: All households": 1055,
+          "Occupancy rating of bedrooms: +2 or more": 627,
+          "Occupancy rating of bedrooms: +1": 324,
+          "Occupancy rating of bedrooms: 0": 94,
+          "Occupancy rating of bedrooms: -1": 10,
+          "Occupancy rating of bedrooms: -2 or less": 0
+        },
+        "bedrooms": {
+          "Total: All households": 1055,
+          "1 bedroom": 37,
+          "2 bedrooms": 214,
+          "3 bedrooms": 431,
+          "4 or more bedrooms": 373
+        },
+        "household_size": {
+          "Total: All households": 1055,
+          "0 people in household": 0,
+          "1 person in household": 291,
+          "2 people in household": 475,
+          "3 people in household": 143,
+          "4 people in household": 100,
+          "5 people in household": 33,
+          "6 people in household": 9,
+          "7 people in household": 4,
+          "8 or more people in household": 0
+        }
+      },
+      "E05009617": {
+        "name": "Warton",
+        "tenure": {
+          "Total: All households": 926,
+          "Owned": 760,
+          "Owned: Owns outright": 503,
+          "Owned: Owns with a mortgage or loan": 257,
+          "Shared ownership": 7,
+          "Shared ownership: Shared ownership": 7,
+          "Social rented": 62,
+          "Social rented: Rents from council or Local Authority": 47,
+          "Social rented: Other social rented": 15,
+          "Private rented": 97,
+          "Private rented: Private landlord or letting agency": 68,
+          "Private rented: Other private rented": 29,
+          "Lives rent free": 0,
+          "Owns with a mortgage or loan or shared ownership": 264,
+          "Private rented or lives rent free": 97
+        },
+        "accommodation_type": {
+          "Total": 925,
+          "Detached": 277,
+          "Semi-detached": 389,
+          "Terraced": 192,
+          "In a purpose-built block of flats or tenement": 24,
+          "Part of a converted or shared house, including bedsits": 11,
+          "Part of another converted building, for example, former school, church or warehouse": 3,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 2,
+          "A caravan or other mobile or temporary structure": 27
+        },
+        "overcrowding": {
+          "Total: All households": 925,
+          "Occupancy rating of bedrooms: +2 or more": 486,
+          "Occupancy rating of bedrooms: +1": 323,
+          "Occupancy rating of bedrooms: 0": 109,
+          "Occupancy rating of bedrooms: -1": 7,
+          "Occupancy rating of bedrooms: -2 or less": 0
+        },
+        "bedrooms": {
+          "Total: All households": 925,
+          "1 bedroom": 42,
+          "2 bedrooms": 232,
+          "3 bedrooms": 436,
+          "4 or more bedrooms": 215
+        },
+        "household_size": {
+          "Total: All households": 924,
+          "0 people in household": 0,
+          "1 person in household": 269,
+          "2 people in household": 414,
+          "3 people in household": 117,
+          "4 people in household": 96,
+          "5 people in household": 18,
+          "6 people in household": 8,
+          "7 people in household": 2,
+          "8 or more people in household": 0
+        }
+      },
+      "E05009618": {
+        "name": "Westgate (Lancaster)",
+        "tenure": {
+          "Total: All households": 3497,
+          "Owned": 2109,
+          "Owned: Owns outright": 1308,
+          "Owned: Owns with a mortgage or loan": 801,
+          "Shared ownership": 14,
+          "Shared ownership: Shared ownership": 14,
+          "Social rented": 668,
+          "Social rented: Rents from council or Local Authority": 423,
+          "Social rented: Other social rented": 245,
+          "Private rented": 703,
+          "Private rented: Private landlord or letting agency": 616,
+          "Private rented: Other private rented": 87,
+          "Lives rent free": 3,
+          "Owns with a mortgage or loan or shared ownership": 815,
+          "Private rented or lives rent free": 706
+        },
+        "accommodation_type": {
+          "Total": 3494,
+          "Detached": 413,
+          "Semi-detached": 1627,
+          "Terraced": 808,
+          "In a purpose-built block of flats or tenement": 393,
+          "Part of a converted or shared house, including bedsits": 34,
+          "Part of another converted building, for example, former school, church or warehouse": 5,
+          "In a commercial building, for example, in an office building, hotel or over a shop": 21,
+          "A caravan or other mobile or temporary structure": 193
+        },
+        "overcrowding": {
+          "Total: All households": 3494,
+          "Occupancy rating of bedrooms: +2 or more": 826,
+          "Occupancy rating of bedrooms: +1": 1610,
+          "Occupancy rating of bedrooms: 0": 967,
+          "Occupancy rating of bedrooms: -1": 82,
+          "Occupancy rating of bedrooms: -2 or less": 9
+        },
+        "bedrooms": {
+          "Total: All households": 3495,
+          "1 bedroom": 311,
+          "2 bedrooms": 1575,
+          "3 bedrooms": 1362,
+          "4 or more bedrooms": 247
+        },
+        "household_size": {
+          "Total: All households": 3492,
+          "0 people in household": 0,
+          "1 person in household": 1231,
+          "2 people in household": 1314,
+          "3 people in household": 515,
+          "4 people in household": 292,
+          "5 people in household": 97,
+          "6 people in household": 32,
+          "7 people in household": 11,
+          "8 or more people in household": 0
+        }
+      }
+    }
+  },
+  "policy": {
+    "article_4": {
+      "active": true,
+      "date": "Nov 2021",
+      "scope": "Selected wards",
+      "wards": [
+        "Bulk",
+        "Castle",
+        "John O'Gaunt",
+        "Marsh",
+        "Scotforth East",
+        "Scotforth West",
+        "Skerton East",
+        "Skerton West",
+        "Galgate"
+      ]
+    },
+    "selective_licensing": {
+      "active": false
+    }
+  },
+  "summary": {
+    "total_households": 59978,
+    "owned": 40266,
+    "owned_pct": 67.1,
+    "social_rented": 6153,
+    "social_rented_pct": 10.3,
+    "private_rented": 13071,
+    "private_rented_pct": 21.8,
+    "rent_free": 42,
+    "rent_free_pct": 0.1,
+    "overcrowded": 1149,
+    "overcrowding_pct": 1.9,
+    "detached_pct": 19.4,
+    "semi_detached_pct": 38.1,
+    "terraced_pct": 25.5,
+    "flat_pct": 15.9,
+    "avg_household_size": 2.24,
+    "has_article_4": true,
+    "has_selective_licensing": false
+  }
+}
