@@ -108,8 +108,8 @@ describe('Home', () => {
   it('renders hero section with council data', () => {
     setupMocks()
     renderComponent()
-    expect(screen.getByText(/Do You Know Where It Went/i)).toBeInTheDocument()
-    expect(screen.getAllByText(/forensic checks/i).length).toBeGreaterThan(0)
+    expect(screen.getByText(/Here's Where It Went/i)).toBeInTheDocument()
+    expect(screen.getAllByText(/automated analysis/i).length).toBeGreaterThan(0)
   })
 
   it('renders disclaimer banner', () => {

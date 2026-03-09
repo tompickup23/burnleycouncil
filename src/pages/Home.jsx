@@ -4,7 +4,7 @@ import {
   TrendingUp, AlertTriangle, Users, Building, PoundSterling, FileText,
   Search, ChevronRight, Shield, Eye, Info, Newspaper, FileQuestion,
   Calendar, Repeat, GitCompareArrows, Zap, Scale, BarChart3, Target,
-  ArrowDown, HelpCircle, ExternalLink, MapPin, Landmark, Construction
+  HelpCircle, MapPin, Landmark, Construction
 } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
@@ -240,10 +240,10 @@ function Home() {
             <Shield size={16} />
             <span>AI DOGE — Department of Government Efficiency</span>
           </div>
-          <h1>Your Council Spent {animatedSpend}.<br /><span className="highlight">Do You Know Where It Went?</span></h1>
+          <h1>Your Council Spent {animatedSpend}.<br /><span className="highlight">Here&apos;s Where It Went.</span></h1>
           <p className="hero-subtitle">
             Every payment {councilFullName} makes is published by law. We collected every one,
-            ran 35+ forensic checks, and found patterns they never told you about.
+            ran automated analysis, and made the spending data easy to explore.
           </p>
         </div>
 
@@ -259,7 +259,7 @@ function Home() {
             <FileText size={20} className="impact-icon" />
             <span className="impact-value">{animatedRecords}</span>
             <span className="impact-label">Individual Payments</span>
-            <span className="impact-period">Each one checked</span>
+            <span className="impact-period">Each one searchable</span>
           </div>
           <div className="impact-card impact-suppliers">
             <Building size={20} className="impact-icon" />
@@ -271,8 +271,8 @@ function Home() {
             <div className="impact-card impact-savings">
               <Zap size={20} className="impact-icon" />
               <span className="impact-value">{animatedSavings}</span>
-              <span className="impact-label">Potential Savings Identified</span>
-              <span className="impact-period">Flagged for investigation</span>
+              <span className="impact-label">Spending Patterns Flagged</span>
+              <span className="impact-period">For further review</span>
             </div>
           )}
         </div>
@@ -301,7 +301,7 @@ function Home() {
           {dataSources.doge_investigation && (
             <Link to="/doge" className="btn-accent">
               <Shield size={18} />
-              Read the Full Audit
+              View the Full Analysis
             </Link>
           )}
           {dataSources.budgets && (
@@ -320,7 +320,7 @@ function Home() {
           <div className="premium-map-header">
             <h2><MapPin size={22} /> {councilName} Ward Map</h2>
             <p className="section-intro">
-              Interactive ward-level intelligence. Click any ward to explore councillors, spending, and demographics.
+              Interactive ward-level data. Click any ward to explore councillors, spending, and demographics.
             </p>
             <div className="premium-map-toggles">
               <button
@@ -425,20 +425,20 @@ function Home() {
             <div className="explainer-item">
               <div className="explainer-step">3</div>
               <div>
-                <h4>AI ran 12 forensic checks</h4>
+                <h4>Automated spending checks</h4>
                 <p>
-                  Duplicate payments, split payment evasion, Companies House compliance,
-                  Benford&apos;s Law screening, and more — all automated, all transparent.
+                  Duplicate payments, split payment patterns, Companies House status,
+                  statistical checks (including Benford&apos;s Law digit analysis), and more — all automated, all transparent.
                 </p>
               </div>
             </div>
             <div className="explainer-item">
               <div className="explainer-step">4</div>
               <div>
-                <h4>You hold them to account</h4>
+                <h4>You can explore it yourself</h4>
                 <p>
-                  Use this data at council meetings, in FOI requests, or just to understand
-                  where your money goes. Democracy works best when people are informed.
+                  Use this data at council meetings, in FOI requests, or simply to understand
+                  where your money goes. Public services work best when people are informed.
                 </p>
               </div>
             </div>
@@ -449,15 +449,15 @@ function Home() {
       {/* Service Scope — shows what this council tier handles */}
       <ServiceScope tier={config.council_tier} councilName={councilName} />
 
-      {/* ===== DOGE FINDINGS — Lead with the audit results ===== */}
+      {/* ===== DOGE FINDINGS — Spending analysis results ===== */}
       {findings.length > 0 && (
         <section className="doge-section">
           <div className="doge-header">
             <div className="doge-header-text">
-              <h2><Shield size={22} /> DOGE Audit Results</h2>
+              <h2><Shield size={22} /> DOGE Spending Analysis</h2>
               <p className="section-intro">
-                Our automated checks flagged {dogeStats.flagsCount > 0 ? formatNumber(dogeStats.flagsCount) + ' anomalies' : 'these patterns'} across {formatNumber(totalRecords)} transactions.
-                Anomalies are not accusations — they&apos;re starting points for investigation.
+                Our automated checks flagged {dogeStats.flagsCount > 0 ? formatNumber(dogeStats.flagsCount) + ' notable patterns' : 'these patterns'} across {formatNumber(totalRecords)} transactions.
+                These are statistical observations, not accusations — they highlight areas that may warrant further review.
               </p>
             </div>
           </div>
@@ -488,17 +488,17 @@ function Home() {
           )}
 
           <Link to="/doge" className="doge-cta">
-            Read the full DOGE investigation with methodology &amp; evidence <ChevronRight size={16} />
+            View the full DOGE analysis with methodology &amp; sources <ChevronRight size={16} />
           </Link>
         </section>
       )}
 
-      {/* ===== KEY FINDINGS — Data-driven investigation cards ===== */}
+      {/* ===== KEY FINDINGS — Data-driven observation cards ===== */}
       {keyFindings.length > 0 && (
         <section className="findings-section">
           <h2>Key Findings</h2>
           <p className="section-intro">
-            Specific patterns in the spending data worth knowing about.
+            Notable patterns identified in the spending data.
           </p>
 
           <div className="findings-grid stagger-children">
@@ -522,9 +522,9 @@ function Home() {
 
       {/* ===== FOLLOW THE MONEY — Charts ===== */}
       <section ref={chartsRef} className={`charts-section reveal ${chartsVisible ? "is-visible" : ""}`}>
-        <h2><BarChart3 size={22} /> Follow the Money</h2>
+        <h2><BarChart3 size={22} /> Spending Breakdown</h2>
         <p className="section-intro">
-          Where does your council tax actually go? Here are the biggest recipients and spending trends.
+          Where does your council tax go? Here are the largest recipients and spending trends over time.
         </p>
 
         <div className="charts-grid">
@@ -532,8 +532,8 @@ function Home() {
           <div className="chart-card">
             <h3>Largest Suppliers ({periodLabel})</h3>
             <p className="chart-description">
-              These 8 companies received the most public money. Top 20 suppliers account
-              for {formatPercent(topSupplierConcentration * 100)} of all payments.
+              The 8 suppliers receiving the highest total payments. The top 20 suppliers account
+              for {formatPercent(topSupplierConcentration * 100)} of all recorded payments.
             </p>
             <div className="chart-container" role="img" aria-label="Bar chart showing top 8 suppliers by total payment value">
               <ResponsiveContainer width="100%" height={300}>
@@ -610,7 +610,7 @@ function Home() {
       <section className="findings-section">
         <h2><Target size={22} /> Supplier Concentration</h2>
         <p className="section-intro">
-          {formatNumber(uniqueSuppliers)} companies were paid by the council. But the money isn&apos;t spread evenly.
+          {formatNumber(uniqueSuppliers)} companies were paid by the council. Here is how spending is distributed.
         </p>
 
         <div className="concentration-grid">
@@ -711,12 +711,12 @@ function Home() {
         </section>
       )}
 
-      {/* ===== LATEST NEWS — Investigations and analysis ===== */}
+      {/* ===== LATEST NEWS — Articles and analysis ===== */}
       {articlesIndex.length > 0 && (
         <section className="news-preview-section">
-          <h2><Newspaper size={24} /> Latest Investigations</h2>
+          <h2><Newspaper size={24} /> Latest Analysis</h2>
           <p className="section-intro">
-            Data-driven investigations and analysis for {councilName} Council.
+            Data-driven articles and analysis for {councilName} Council.
           </p>
 
           <div className="news-preview-grid">
@@ -731,7 +731,7 @@ function Home() {
           </div>
 
           <Link to="/news" className="view-all-link">
-            View all investigations <ChevronRight size={16} />
+            View all articles <ChevronRight size={16} />
           </Link>
         </section>
       )}
@@ -741,19 +741,19 @@ function Home() {
         <section className="meetings-preview-section">
           <h2><Calendar size={24} /> Upcoming Meetings</h2>
           <p className="section-intro">
-            Council meetings where decisions are made about your money. Attend, ask questions, hold them to account.
+            Council meetings where decisions about local services and spending are made. Members of the public can attend and ask questions.
           </p>
           <div className="meetings-preview-grid">
             <Link to="/meetings" className="meetings-preview-card highlight">
               <span className="meeting-preview-label">Full Council</span>
               <h4>Public Question Time</h4>
-              <p>Every resident can ask questions at Full Council. Use our DOGE findings to challenge spending decisions.</p>
+              <p>Every resident can ask questions at Full Council meetings. Use this spending data to inform your questions.</p>
               <span className="read-more">View meetings calendar <ChevronRight size={14} /></span>
             </Link>
             <Link to="/meetings" className="meetings-preview-card">
               <span className="meeting-preview-label">Scrutiny</span>
-              <h4>Hold the Cabinet to Account</h4>
-              <p>Scrutiny committees review Executive decisions and can investigate concerns raised by the public.</p>
+              <h4>Scrutiny Committees</h4>
+              <p>Scrutiny committees review Executive decisions and can look into concerns raised by the public.</p>
               <span className="read-more">See upcoming scrutiny <ChevronRight size={14} /></span>
             </Link>
           </div>
@@ -765,8 +765,8 @@ function Home() {
         <section className="highways-preview-section">
           <h2><Construction size={24} /> Highways &amp; Roadworks</h2>
           <p className="section-intro">
-            Live roadworks data, traffic intelligence, and infrastructure disruption analysis.
-            See what&apos;s being dug up, where capacity is being lost, and which schemes clash.
+            Live roadworks data, traffic analysis, and infrastructure impact assessment.
+            See current works, estimated capacity effects, and where schemes overlap.
           </p>
           <div className="meetings-preview-grid">
             <Link to="/highways" className="meetings-preview-card highlight">
@@ -776,10 +776,10 @@ function Home() {
               <span className="read-more">View roadworks map <ChevronRight size={14} /></span>
             </Link>
             <Link to="/highways" className="meetings-preview-card">
-              <span className="meeting-preview-label">Intelligence</span>
-              <h4>Traffic &amp; Deferral Analysis</h4>
-              <p>Junction congestion index, corridor clash detection under NRSWA s59, and evidence-based deferral recommendations.</p>
-              <span className="read-more">See traffic intelligence <ChevronRight size={14} /></span>
+              <span className="meeting-preview-label">Analysis</span>
+              <h4>Traffic &amp; Scheduling Analysis</h4>
+              <p>Junction congestion scoring, overlapping works detection, and scheduling recommendations based on traffic data.</p>
+              <span className="read-more">See traffic analysis <ChevronRight size={14} /></span>
             </Link>
           </div>
         </section>
@@ -923,7 +923,7 @@ function Home() {
         <div className="cta-content">
           <h2>What Do You Want to Know?</h2>
           <p>
-            This is your data. Search it, share it, use it to ask better questions.
+            This is publicly available data, made easier to explore. Search, browse, or dig into the details.
           </p>
           <div className="cta-actions">
             <Link to={spendingLink} className="btn-primary">
@@ -933,7 +933,7 @@ function Home() {
             {dataSources.doge_investigation && (
               <Link to="/doge" className="btn-secondary">
                 <Shield size={18} />
-                DOGE Audit
+                DOGE Analysis
               </Link>
             )}
             {dataSources.meetings && (

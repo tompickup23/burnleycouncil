@@ -327,16 +327,16 @@ describe('CouncillorDossier', () => {
     it('shows red flags count', () => {
       setupMocks()
       renderDossier()
-      expect(screen.getByText('Red Flags')).toBeInTheDocument()
-      // Verify the stat section exists with red flags label
-      const statsSection = screen.getByText('Red Flags').closest('.dossier-stats')
+      expect(screen.getByText('Integrity Flags')).toBeInTheDocument()
+      // Verify the stat section exists with integrity flags label
+      const statsSection = screen.getByText('Integrity Flags').closest('.dossier-stats')
       expect(statsSection).toBeTruthy()
     })
 
     it('shows supplier conflicts count', () => {
       setupMocks()
       renderDossier()
-      expect(screen.getByText('Supplier Conflicts')).toBeInTheDocument()
+      expect(screen.getByText('Supplier Overlaps')).toBeInTheDocument()
     })
   })
 
@@ -354,8 +354,8 @@ describe('CouncillorDossier', () => {
     it('defaults to integrity tab', () => {
       setupMocks()
       renderDossier()
-      // Integrity tab should show red flags content
-      expect(screen.getByText(/3 flag/)).toBeInTheDocument()
+      // Integrity tab should show indicators content
+      expect(screen.getByText(/3 indicator/)).toBeInTheDocument()
     })
 
     it('switches to companies tab', () => {
@@ -419,14 +419,14 @@ describe('CouncillorDossier', () => {
     it('shows summary counts', () => {
       setupMocks()
       renderDossier()
-      expect(screen.getByText(/8 sources/)).toBeInTheDocument()
+      expect(screen.getByText(/8 public data sources/)).toBeInTheDocument()
     })
 
     it('shows empty state for clean councillor', () => {
       setupMocks()
       renderDossier('jane-doe')
       // Jane Doe has 0 flags
-      expect(screen.getByText(/No integrity flags detected/)).toBeInTheDocument()
+      expect(screen.getByText(/No integrity flags identified/)).toBeInTheDocument()
     })
   })
 
@@ -464,7 +464,7 @@ describe('CouncillorDossier', () => {
       setupMocks()
       renderDossier()
       fireEvent.click(screen.getByText('Companies'))
-      expect(screen.getByText(/Direct Supplier Conflicts/)).toBeInTheDocument()
+      expect(screen.getByText(/Supplier Name Matches/)).toBeInTheDocument()
     })
 
     it('renders network graph', () => {

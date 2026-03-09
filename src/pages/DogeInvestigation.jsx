@@ -153,7 +153,7 @@ function DogeInvestigation() {
   }, [integrityData])
 
   useEffect(() => {
-    document.title = `DOGE Investigation | ${councilName} Council Transparency`
+    document.title = `DOGE Spending Review | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
 
@@ -173,8 +173,8 @@ function DogeInvestigation() {
   if (!dogeFindings) {
     return (
       <div className="doge-page animate-fade-in">
-        <h1>DOGE Investigation</h1>
-        <p>Investigation data is not yet available for {councilName}.</p>
+        <h1>DOGE Spending Review</h1>
+        <p>Spending review data is not yet available for {councilName}.</p>
       </div>
     )
   }
@@ -262,11 +262,12 @@ function DogeInvestigation() {
           <Shield size={20} />
           AI-Powered Public Scrutiny
         </div>
-        <h1>DOGE Investigation: {councilName}</h1>
+        <h1>DOGE Spending Review: {councilName}</h1>
         <p className="doge-hero-subtitle">
-          Automated efficiency audit of {formatCurrency(totalSpend, true)} in public spending
+          Automated spending pattern analysis of {formatCurrency(totalSpend, true)} in public expenditure
           across {formatNumber(totalRecords)} transactions to {formatNumber(uniqueSuppliers)} suppliers.
-          Every finding is algorithmically generated and self-verified.
+          Every finding is algorithmically generated from public data and self-verified.
+          Patterns identified here warrant further review — they do not indicate wrongdoing.
         </p>
         <div className="doge-hero-stats">
           <div className="doge-hero-stat">
@@ -287,14 +288,14 @@ function DogeInvestigation() {
           </div>
         </div>
 
-        {/* Gauge overview — fraud triangle + data quality */}
+        {/* Gauge overview — fraud risk indicators + data quality */}
         {(dogeFindings.fraud_triangle || dataQuality.overall_score != null) && (
           <div className="gauge-grid" style={{ marginTop: 20 }}>
             {dogeFindings.fraud_triangle && (
               <GaugeChart
                 value={dogeFindings.fraud_triangle.overall_score}
                 max={100}
-                label="Fraud Triangle"
+                label="Fraud Risk Indicators"
                 subtitle={dogeFindings.fraud_triangle.risk_level}
                 size={130}
               />
@@ -326,10 +327,12 @@ function DogeInvestigation() {
       <div className="methodology-banner">
         <Info size={18} />
         <div>
-          <strong>How this works:</strong> Our analysis pipeline subjects every transaction to automated checks
-          for duplicates, split payments, Companies House compliance, and cross-council price comparison.
+          <strong>How this works:</strong> This analysis applies established forensic accounting techniques
+          to publicly available spending data. Transactions are checked for statistical patterns including
+          duplicates, payment clustering, Companies House compliance, and cross-council price comparison.
           Findings are categorised by severity and confidence level. Each result includes self-verification
           explaining the evidence basis and known limitations.
+          Patterns flagged here are indicators for further review, not evidence of wrongdoing.
           <Link to="/about"> Learn more about our methodology →</Link>
         </div>
       </div>
@@ -411,12 +414,13 @@ function DogeInvestigation() {
               <div className="analysis-summary">
                 <p>
                   <strong>{verifiedFindings.ch_breach_spend.suppliers || 0} suppliers</strong> received
-                  payments while in active breach of the Companies Act 2006. This includes companies with
-                  no active directors, overdue accounts, or facing strike-off proceedings.
+                  payments during periods when they had compliance issues recorded at Companies House
+                  under the Companies Act 2006. This includes companies with no active directors,
+                  overdue accounts, or facing strike-off proceedings.
                 </p>
                 {verifiedFindings.ch_breach_spend.top_cases && (
                   <div className="top-cases">
-                    <h4>Highest-Risk Suppliers</h4>
+                    <h4>Suppliers with Most Compliance Issues</h4>
                     <div className="cases-table">
                       {verifiedFindings.ch_breach_spend.top_cases.map((c, i) => (
                         <div key={i} className="case-row">
@@ -523,7 +527,7 @@ function DogeInvestigation() {
         {/* Split Payments */}
         {verifiedFindings.split_payments && (
           <ExpandableSection
-            title="Bills Broken Up to Avoid Checks"
+            title="Payment Clustering Below Approval Thresholds"
             subtitle={verifiedFindings.split_payments.value}
             severity="warning"
           >
@@ -532,8 +536,9 @@ function DogeInvestigation() {
                 <p>
                   <strong>{verifiedFindings.split_payments.instances || 'Multiple'} instances</strong> where
                   payments to the same supplier in the same week fall just below approval thresholds
-                  (£500, £1,000, £5,000, £10,000, £25,000, £50,000, £100,000). This pattern can indicate
-                  deliberate threshold avoidance — but may also reflect legitimate batch processing.
+                  (£500, £1,000, £5,000, £10,000, £25,000, £50,000, £100,000). This pattern is consistent
+                  with potential threshold avoidance but may also reflect legitimate batch processing,
+                  staged invoicing, or standard procurement practices.
                 </p>
                 {verifiedFindings.split_payments.note && (
                   <div className="analysis-note">
@@ -566,7 +571,7 @@ function DogeInvestigation() {
         {/* Year-End Pattern */}
         {verifiedFindings.year_end_pattern && (
           <ExpandableSection
-            title="The March Spending Frenzy"
+            title="Year-End Spending Patterns"
             subtitle={verifiedFindings.year_end_pattern.value}
             severity={verifiedFindings.year_end_pattern.confidence === 'retired' ? 'info' : 'warning'}
           >
@@ -720,7 +725,7 @@ function DogeInvestigation() {
         {/* Supplier Concentration */}
         {dogeFindings.supplier_concentration && (
           <ExpandableSection
-            title="Too Much Money, Too Few Suppliers"
+            title="Supplier Market Concentration"
             subtitle={`HHI: ${dogeFindings.supplier_concentration.hhi} (${dogeFindings.supplier_concentration.concentration_level})`}
             severity="info"
           >
@@ -742,7 +747,7 @@ function DogeInvestigation() {
                     max={10000}
                     label="HHI Score"
                     subtitle={dogeFindings.supplier_concentration.concentration_level}
-                    format={(v) => v.toFixed(0)}
+                    format={(v) => Number(v).toFixed(0)}
                     size={120}
                   />
                   <GaugeChart
@@ -750,7 +755,7 @@ function DogeInvestigation() {
                     max={100}
                     label="Top 5 Share"
                     subtitle={`${dogeFindings.supplier_concentration.top5?.pct || 0}% of spend`}
-                    format={(v) => v.toFixed(0) + '%'}
+                    format={(v) => Number(v).toFixed(0) + '%'}
                     size={120}
                   />
                   <GaugeChart
@@ -758,7 +763,7 @@ function DogeInvestigation() {
                     max={100}
                     label="Top 10 Share"
                     subtitle={`${dogeFindings.supplier_concentration.top10_pct || 0}% of spend`}
-                    format={(v) => v.toFixed(0) + '%'}
+                    format={(v) => Number(v).toFixed(0) + '%'}
                     size={120}
                   />
                 </div>
@@ -818,7 +823,7 @@ function DogeInvestigation() {
         {/* Procurement Compliance */}
         {dogeFindings.procurement_compliance && (
           <ExpandableSection
-            title="Contracts Without Proper Competition"
+            title="Procurement Competition Analysis"
             subtitle={`${dogeFindings.procurement_compliance.awarded_contracts} contracts analysed`}
             severity={dogeFindings.procurement_compliance.threshold_suspect_count > 3 ? 'warning' : 'info'}
           >
@@ -977,10 +982,11 @@ function DogeInvestigation() {
                 )}
                 {dogeFindings.procurement_compliance.weak_competition?.length > 0 && (
                   <div className="velocity-table-section">
-                    <h4><ShieldAlert size={16} /> Contracts That Raise Questions</h4>
+                    <h4><ShieldAlert size={16} /> Contracts with Limited Competition Indicators</h4>
                     <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', marginBottom: 'var(--space-sm)' }}>
-                      Contracts with short tender periods (&lt;14 days) or rapid award after deadline (&lt;7 days)
-                      may indicate limited competitive bidding. Contracts Finder does not publish bid counts directly.
+                      Contracts with short tender periods (&lt;14 days) or rapid award after deadline (&lt;7 days).
+                      These patterns may reflect framework call-offs or genuine urgency rather than restricted competition.
+                      Contracts Finder does not publish bid counts directly.
                     </p>
                     <div className="velocity-table-wrap">
                       <table className="velocity-table">
@@ -1082,17 +1088,19 @@ function DogeInvestigation() {
       {/* Fraud Triangle Risk Assessment */}
       {dogeFindings.fraud_triangle && (
         <ExpandableSection
-          title="Where the Risk Is Highest"
+          title="Fraud Risk Indicator Assessment"
           subtitle={`Overall: ${dogeFindings.fraud_triangle.overall_score}/100 (${dogeFindings.fraud_triangle.risk_level})`}
           severity={dogeFindings.fraud_triangle.risk_level === 'elevated' ? 'critical' : dogeFindings.fraud_triangle.risk_level === 'moderate' ? 'warning' : 'info'}
         >
           <div className="analysis-content">
             <div className="analysis-summary">
               <p>
-                The fraud triangle model (Cressey 1953) identifies three conditions that increase fraud risk:
-                <strong> Opportunity</strong> (weak controls), <strong>Pressure</strong> (budget stress),
+                The Fraud Triangle is an established academic framework (Cressey, 1953) used by auditors
+                worldwide to assess the presence of conditions associated with fraud risk. It measures three
+                dimensions: <strong>Opportunity</strong> (weak controls), <strong>Pressure</strong> (budget stress),
                 and <strong>Rationalization</strong> (cultural tolerance of non-compliance).
-                This is a <em>screening tool</em> — elevated scores warrant investigation, not accusation.
+                This score measures the presence of recognised fraud risk indicators in the data, not actual fraud.
+                Elevated scores identify areas warranting further review by qualified auditors.
               </p>
 
               {/* Gauge overview of three dimensions */}
@@ -1187,8 +1195,8 @@ function DogeInvestigation() {
                 status: 'pass'
               },
               {
-                label: 'Critical limitation',
-                detail: 'This is a screening tool based on publicly available spending data. It cannot detect collusion, bribery, or other forms of fraud that leave no paper trail. High scores warrant investigation, not accusation.',
+                label: 'Important context',
+                detail: 'This is a risk indicator screening tool based on publicly available spending data. It identifies statistical patterns, not wrongdoing. It cannot detect collusion, bribery, or other conduct that leaves no data trail. Elevated scores identify areas for further professional review.',
                 status: 'info'
               }
             ]} />
@@ -1305,7 +1313,7 @@ function DogeInvestigation() {
       {/* Supplier Risk Intelligence */}
       {dogeFindings.supplier_risk?.top_20_risk?.length > 0 && (
         <ExpandableSection
-          title="Suppliers That Raise Questions"
+          title="Supplier Risk Indicator Scoring"
           subtitle={`${dogeFindings.supplier_risk.high_risk || 0} high-risk, ${dogeFindings.supplier_risk.elevated_risk || 0} elevated-risk suppliers`}
           severity={dogeFindings.supplier_risk.high_risk > 0 ? 'warning' : 'info'}
         >
@@ -1361,7 +1369,7 @@ function DogeInvestigation() {
 
             <VerificationPanel checks={[
               { label: 'Methodology', detail: 'Multi-dimensional scoring: CH Risk (0-25), Payment Risk (0-25), Concentration Risk (0-25), Transparency Risk (0-25). ACFE/Moody\'s aligned.', status: 'pass' },
-              { label: 'Limitation', detail: 'High risk score indicates statistical anomalies warranting investigation, not confirmed fraud. Many triggers have legitimate explanations.', status: 'info' },
+              { label: 'Important context', detail: 'A higher risk score indicates a greater number of statistical anomalies present in the data. This does not indicate wrongdoing. Many triggers have legitimate explanations and professional review is needed to assess individual cases.', status: 'info' },
             ]} />
           </div>
         </ExpandableSection>
@@ -1370,7 +1378,7 @@ function DogeInvestigation() {
       {/* Advanced Benford's Analysis */}
       {dogeFindings.benfords_advanced && (
         <ExpandableSection
-          title="The Numbers Don't Add Up"
+          title="Benford's Law Statistical Analysis"
           subtitle={`4 tests: first-two digits, last-two digits, summation, per-supplier MAD`}
           severity={
             dogeFindings.benfords_advanced.first_two_digits?.conformity === 'non_conforming' ? 'warning' : 'info'
@@ -1386,7 +1394,7 @@ function DogeInvestigation() {
             {dogeFindings.benfords_advanced.first_two_digits?.spikes?.length > 0 && (
               <div className="benford-subsection">
                 <h4>First-Two Digits Test (Nigrini Primary Audit Tool)</h4>
-                <p>Analyses digits 10-99. Spikes indicate manufactured amount ranges.</p>
+                <p>Analyses digits 10-99. Spikes may indicate non-organic amount distributions warranting review.</p>
                 <div className="benford-stats">
                   <span>χ²={dogeFindings.benfords_advanced.first_two_digits.chi_squared} (df=89)</span>
                   <span className={`conformity-badge ${dogeFindings.benfords_advanced.first_two_digits.conformity}`}>
@@ -1424,8 +1432,8 @@ function DogeInvestigation() {
             {/* Summation Test */}
             {dogeFindings.benfords_advanced.summation?.distortions?.length > 0 && (
               <div className="benford-subsection">
-                <h4>Summation Test (Large Fraud Detection)</h4>
-                <p>Each first-digit group should contribute ~11.1% of total value. Distortions indicate outsized payments.</p>
+                <h4>Summation Test (Value Distribution Analysis)</h4>
+                <p>Each first-digit group should contribute ~11.1% of total value. Significant distortions may indicate an unusual concentration of payments in certain amount ranges.</p>
                 <div className="summation-bars">
                   {dogeFindings.benfords_advanced.summation.digit_analysis?.map((d) => (
                     <div key={d.digit} className="summation-bar-row">
@@ -1475,7 +1483,7 @@ function DogeInvestigation() {
 
             <VerificationPanel checks={[
               { label: 'Reference', detail: 'Nigrini, M.J. (2012). Benford\'s Law: Applications for Forensic Accounting, Auditing, and Fraud Detection. Wiley.', status: 'pass' },
-              { label: 'Limitation', detail: 'Benford\'s Law applies to naturally occurring datasets. Municipal spending typically conforms, but high χ² values alone don\'t prove fraud — they identify audit samples.', status: 'info' },
+              { label: 'Important context', detail: 'Benford\'s Law applies to naturally occurring datasets. Municipal spending typically conforms, but non-conformity has many legitimate causes (fixed-price contracts, standard fee schedules). High χ² values identify areas for review, not evidence of wrongdoing.', status: 'info' },
             ]} />
           </div>
         </ExpandableSection>
@@ -1484,7 +1492,7 @@ function DogeInvestigation() {
       {/* Forensic Accounting Classics */}
       {dogeFindings.forensic_classics && (
         <ExpandableSection
-          title="Following the Money"
+          title="Forensic Accounting Pattern Analysis"
           subtitle="Same-same-different, vendor integrity, credit patterns, description quality"
           severity={
             (dogeFindings.forensic_classics.vendor_integrity?.total_suspect_pairs > 5 ||
@@ -1508,7 +1516,7 @@ function DogeInvestigation() {
                     <strong>{dogeFindings.forensic_classics.same_same_different.cross_department?.total_flags || 0}</strong> Cross-dept flags
                   </div>
                   <div className="stat-pill">
-                    <strong>{dogeFindings.forensic_classics.same_same_different.collusion_indicators?.total_flags || 0}</strong> Collusion indicators
+                    <strong>{dogeFindings.forensic_classics.same_same_different.collusion_indicators?.total_flags || 0}</strong> Coordination pattern flags
                   </div>
                 </div>
               </div>
@@ -1518,9 +1526,10 @@ function DogeInvestigation() {
             {(dogeFindings.forensic_classics.vendor_integrity?.total_suspect_pairs > 0 ||
               dogeFindings.forensic_classics.vendor_integrity?.total_single_payment > 0) && (
               <div className="forensic-subsection">
-                <h4>Fictitious Vendor Detection</h4>
+                <h4>Vendor Integrity Analysis</h4>
                 <p className="section-methodology">
-                  ACFE methodology: fuzzy name matching, single-payment high-value vendors, unverified high-spend suppliers.
+                  ACFE methodology: fuzzy name matching identifies potential duplicate supplier records,
+                  single-payment high-value vendors, and suppliers not verified against Companies House.
                 </p>
                 <div className="risk-summary-stats">
                   <div className="stat-pill warning">
@@ -1564,8 +1573,9 @@ function DogeInvestigation() {
               <div className="forensic-subsection">
                 <h4>Credit &amp; Refund Pattern Analysis</h4>
                 <p className="section-methodology">
-                  ACFE indicator: long-standing suppliers with zero credits may indicate fictitious vendors
-                  (real suppliers occasionally have refunds/credits).
+                  ACFE indicator: long-standing suppliers with zero credits are statistically unusual,
+                  as established supplier relationships typically involve occasional refunds or credits.
+                  This pattern alone has many legitimate explanations.
                 </p>
                 <div className="risk-summary-stats">
                   <div className="stat-pill warning">
@@ -1587,7 +1597,8 @@ function DogeInvestigation() {
               <div className="forensic-subsection">
                 <h4>Description Quality &amp; Transparency</h4>
                 <p className="section-methodology">
-                  Vague descriptions correlate with fraud risk (ACFE). Transparency score = % of spend with meaningful descriptions.
+                  Transaction description quality is a recognised audit indicator (ACFE). Vague or missing descriptions
+                  reduce public accountability. Transparency score = % of spend with meaningful descriptions.
                 </p>
                 <div className="risk-summary-stats">
                   <div className={`stat-pill ${dogeFindings.forensic_classics.description_quality.transparency_score < 70 ? 'warning' : ''}`}>
@@ -1603,8 +1614,8 @@ function DogeInvestigation() {
                 {dogeFindings.forensic_classics.description_quality.priority_investigation?.length > 0 && (
                   <div className="priority-alert">
                     <AlertTriangle size={16} />
-                    <strong>Priority:</strong> {dogeFindings.forensic_classics.description_quality.priority_investigation.length} departments
-                    with &gt;30% vague descriptions AND &gt;£50K spend flagged for investigation.
+                    <strong>Priority for review:</strong> {dogeFindings.forensic_classics.description_quality.priority_investigation.length} departments
+                    with &gt;30% vague descriptions AND &gt;£50K spend flagged for further examination.
                   </div>
                 )}
               </div>
@@ -1621,7 +1632,7 @@ function DogeInvestigation() {
       {/* Temporal Intelligence */}
       {dogeFindings.temporal_intelligence && (
         <ExpandableSection
-          title="When the Money Moves"
+          title="Temporal Spending Pattern Analysis"
           subtitle={`Year-end acceleration, change-points, statistical process control`}
           severity={dogeFindings.temporal_intelligence.dept_acceleration?.length > 5 ? 'warning' : 'info'}
         >
@@ -1631,7 +1642,7 @@ function DogeInvestigation() {
               <div className="forensic-subsection">
                 <h4>Year-End Acceleration Index</h4>
                 <p className="section-methodology">
-                  March spend / average monthly spend. Index &gt; 2.0 indicates year-end budget dumping.
+                  March spend / average monthly spend. Index &gt; 2.0 indicates significant year-end spending acceleration.
                 </p>
                 <div className="acceleration-chart">
                   <ResponsiveContainer width="100%" height={200}>
@@ -1658,8 +1669,9 @@ function DogeInvestigation() {
               <div className="forensic-subsection">
                 <h4>Change-Point Detection (CUSUM)</h4>
                 <p className="section-methodology">
-                  Detects moments when a supplier&apos;s spending pattern fundamentally shifts — potential
-                  contract kickback start, price manipulation, or relationship change.
+                  Detects moments when a supplier&apos;s spending pattern fundamentally shifts. This may
+                  reflect contract renegotiation, scope changes, new service agreements, or other
+                  changes in the commercial relationship that warrant review.
                 </p>
                 <div className="table-container">
                   <table className="doge-table compact">
@@ -1717,7 +1729,7 @@ function DogeInvestigation() {
       {/* Procurement Intelligence */}
       {dogeFindings.procurement_intelligence && (
         <ExpandableSection
-          title="Who Gets the Contracts?"
+          title="Procurement Pattern Analysis"
           subtitle="Maverick spend, price escalation, cross-department splitting"
           severity={dogeFindings.procurement_intelligence.maverick_spend?.overall_maverick_pct > 30 ? 'warning' : 'info'}
         >
@@ -1851,9 +1863,9 @@ function DogeInvestigation() {
                 <h4>ACFE Occupational Fraud Risk Matrix</h4>
                 <div className="acfe-matrix">
                   {[
-                    { key: 'asset_misappropriation', label: 'Asset Misappropriation', desc: 'Duplicates, fictitious vendors, credits' },
-                    { key: 'corruption', label: 'Corruption', desc: 'Concentration, sole-source, CH breaches' },
-                    { key: 'financial_statement', label: 'Financial Statement', desc: 'Budget variance, year-end spikes, reserves' },
+                    { key: 'asset_misappropriation', label: 'Asset Misappropriation Risk', desc: 'Duplicate patterns, vendor integrity, credit anomalies' },
+                    { key: 'corruption', label: 'Procurement Risk', desc: 'Concentration, sole-source patterns, CH compliance' },
+                    { key: 'financial_statement', label: 'Financial Reporting Risk', desc: 'Budget variance, year-end patterns, reserves' },
                   ].map(({ key, label, desc }) => {
                     const score = dogeFindings.audit_standards.acfe_risk_matrix[key] || 0
                     return (
@@ -1881,7 +1893,7 @@ function DogeInvestigation() {
               <div className="forensic-subsection">
                 <h4>Lancashire Peer Benchmark</h4>
                 <p>
-                  Fraud triangle rank: <strong>{dogeFindings.audit_standards.peer_benchmark.fraud_triangle_rank}</strong>
+                  Fraud risk indicator rank: <strong>{dogeFindings.audit_standards.peer_benchmark.fraud_triangle_rank}</strong>
                   /{dogeFindings.audit_standards.peer_benchmark.total_councils} councils
                   (percentile: {dogeFindings.audit_standards.peer_benchmark.fraud_triangle_percentile}%)
                 </p>
@@ -1894,16 +1906,17 @@ function DogeInvestigation() {
       {/* Supplier Lifecycle */}
       {dogeFindings.supplier_lifecycle?.total_pump_dump > 0 && (
         <ExpandableSection
-          title="The Supplier Story"
-          subtitle={`${dogeFindings.supplier_lifecycle.total_pump_dump} pump-and-dump flags, ${dogeFindings.supplier_lifecycle.total_escalations} escalation alerts`}
+          title="Supplier Lifecycle Analysis"
+          subtitle={`${dogeFindings.supplier_lifecycle.total_pump_dump} short-tenure high-spend flags, ${dogeFindings.supplier_lifecycle.total_escalations} escalation alerts`}
           severity={dogeFindings.supplier_lifecycle.total_pump_dump > 3 ? 'warning' : 'info'}
         >
           <div className="forensic-section">
             <div className="forensic-subsection">
-              <h4>Pump-and-Dump Detection</h4>
+              <h4>Short-Tenure High-Spend Suppliers</h4>
               <p className="section-methodology">
-                Suppliers active &lt;6 months, receiving &gt;£50K, then disappearing. May indicate
-                fictitious vendor fraud or phoenix company behaviour.
+                Suppliers active for fewer than 6 months that received over £50,000 before ceasing
+                to receive payments. This pattern has legitimate explanations (one-off projects,
+                emergency procurement) but is a recognised audit indicator warranting review.
               </p>
               {dogeFindings.supplier_lifecycle.pump_dump?.length > 0 && (
                 <div className="table-container">

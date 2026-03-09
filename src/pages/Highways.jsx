@@ -764,7 +764,7 @@ export default function Highways() {
         {hasStrategicData && (
           <CollapsibleSection
             title="Strategic Recommendations"
-            subtitle="Actions LCC can take now to ease congestion — based on all current data"
+            subtitle="Potential congestion management actions identified from current data"
             severity={strategicSeverity}
             icon={<TrendingUp size={18} />}
             count={strategicCount}
@@ -794,7 +794,7 @@ export default function Highways() {
               const actions = immediateActions.filter(a => a.priority === priority)
               if (!actions.length) return null
               const isCritical = priority === 'critical'
-              const label = isCritical ? 'Critical — Action Required Today' : 'High Priority'
+              const label = isCritical ? 'Critical Priority' : 'High Priority'
               return (
                 <div key={priority} className="hw-priority-group">
                   <div className={`hw-priority-heading hw-priority-heading--${priority}`}>{label}</div>
@@ -1305,7 +1305,7 @@ export default function Highways() {
                 <div className="hw-cost-card hw-cost-card--gap">
                   <div className="hw-cost-card-label">Years to Clear Backlog</div>
                   <div className="hw-cost-card-value">~{Math.round(assets.investment_analysis?.lcc_maintenance_backlog / assets.investment_analysis?.current_best_annual_capital)}yr</div>
-                  <div className="hw-cost-card-note">At current spend, assuming zero new deterioration — impossible in practice.</div>
+                  <div className="hw-cost-card-note">At current spend, assuming zero new deterioration (not achievable in practice).</div>
                 </div>
               </div>
               <div className="hw-cost-insight">{assets.investment_analysis?.key_insight}</div>
@@ -1316,7 +1316,7 @@ export default function Highways() {
               <>
                 <div className="hw-assets-sub-heading" style={{ marginTop: 24 }}>
                   <TrendingDown size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#ff453a' }} />
-                  {assets.historic_investment?.section_title || '14 Years of Underfunding'}
+                  {assets.historic_investment?.section_title || 'Historic Investment Gap (2013–2027)'}
                 </div>
                 <div className="hw-investment-summary">{assets.historic_investment?.summary}</div>
 
@@ -1341,7 +1341,7 @@ export default function Highways() {
                     <div className="hw-cost-card hw-cost-card--gap">
                       <div className="hw-cost-card-label">National Resurfacing Cycle</div>
                       <div className="hw-cost-card-value">{assets.historic_investment?.national_context?.resurfacing_cycle_years || 93}yr</div>
-                      <div className="hw-cost-card-note">At current rates, each road is resurfaced once every 93 years. Should be every 25.</div>
+                      <div className="hw-cost-card-note">At current rates, each road is resurfaced once every 93 years. Industry guidance suggests a 25-year cycle.</div>
                     </div>
                   </div>
                 )}
@@ -1498,7 +1498,7 @@ export default function Highways() {
               <Wrench size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#bf5af2' }} />
               Lifecycle Economics — Which Treatment is Best Value?
             </div>
-            <div className="hw-lifecycle-intro">Cost per km per year of life is the key metric. Surface dressing (£3,750/yr) is 5× cheaper than full reconstruction (£18,750/yr) — the case for preventative maintenance.</div>
+            <div className="hw-lifecycle-intro">Cost per km per year of life provides a comparison across treatment types. On this measure, surface dressing (£3,750/yr) costs approximately one-fifth of full reconstruction (£18,750/yr).</div>
             <div className="hw-table-overflow">
               <table className="hw-legal-table">
                 <thead>
@@ -1635,7 +1635,7 @@ export default function Highways() {
           >
             {/* Buying power insight */}
             <div className="hw-inflation-insight">
-              <strong>The £72M illusion:</strong> LCC's 2026/27 highways capital budget of £72M sounds like a massive increase from £{assets.cost_inflation.buying_power_analysis?.budget_2015 ? (assets.cost_inflation.buying_power_analysis.budget_2015 / 1e6).toFixed(0) : '25'}M in 2015. But construction costs have risen {assets.cost_inflation.indices?.construction_infrastructure_2015_2025 || 45}%. In real terms, £72M buys approximately £{assets.cost_inflation.buying_power_analysis?.budget_2027_in_2015_terms ? (assets.cost_inflation.buying_power_analysis.budget_2027_in_2015_terms / 1e6).toFixed(0) : '50'}M of 2015 road work.
+              <strong>Buying power in real terms:</strong> LCC's 2026/27 highways capital budget is £72M, up from £{assets.cost_inflation.buying_power_analysis?.budget_2015 ? (assets.cost_inflation.buying_power_analysis.budget_2015 / 1e6).toFixed(0) : '25'}M in 2015. However, construction costs have risen {assets.cost_inflation.indices?.construction_infrastructure_2015_2025 || 45}% over the same period. Adjusted for inflation, £72M purchases approximately £{assets.cost_inflation.buying_power_analysis?.budget_2027_in_2015_terms ? (assets.cost_inflation.buying_power_analysis.budget_2027_in_2015_terms / 1e6).toFixed(0) : '50'}M of 2015-equivalent road work.
             </div>
 
             {/* Component costs bar chart */}
@@ -1701,7 +1701,7 @@ export default function Highways() {
             {/* Backlog inflation impact */}
             {assets.cost_inflation.backlog_inflation_impact && (
               <>
-                <div className="hw-assets-sub-heading">The Cost of Delay</div>
+                <div className="hw-assets-sub-heading">Projected Backlog Growth With Inflation</div>
                 <div className="hw-backlog-timeline">
                   <div className="hw-backlog-step">
                     <span className="hw-backlog-year">Today</span>
@@ -1771,7 +1771,7 @@ export default function Highways() {
                   <div className="hw-future-icon">🚚</div>
                   <div className="hw-future-body">
                     <div className="hw-future-head">
-                      <h4>Delivery Van Surge</h4>
+                      <h4>Light Goods Vehicle Growth</h4>
                       <span className="hw-future-stat">+{assets.future_outlook.lgv_growth.lgv_increase_2010_2023_pct}%</span>
                     </div>
                     <p>{assets.future_outlook.lgv_growth.highway_impact}</p>
@@ -1786,7 +1786,7 @@ export default function Highways() {
                   <div className="hw-future-icon">🌧️</div>
                   <div className="hw-future-body">
                     <div className="hw-future-head">
-                      <h4>Climate Damage</h4>
+                      <h4>Climate-Related Deterioration</h4>
                       <span className="hw-future-stat">+{assets.future_outlook.climate_change.bc_roads_deterioration_2024_25_pct}% deterioration</span>
                     </div>
                     <p>{assets.future_outlook.climate_change.highway_impact}</p>
@@ -1816,7 +1816,7 @@ export default function Highways() {
                   <div className="hw-future-icon">💰</div>
                   <div className="hw-future-body">
                     <div className="hw-future-head">
-                      <h4>Motoring Tax Crisis</h4>
+                      <h4>Motoring Tax Revenue Pressure</h4>
                       <span className="hw-future-stat">£{(assets.future_outlook.motoring_tax_crisis.cost_of_freeze_since_2011 / 1e9).toFixed(0)}B lost</span>
                     </div>
                     <p>{assets.future_outlook.motoring_tax_crisis.highway_impact}</p>

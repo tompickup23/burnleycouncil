@@ -356,6 +356,20 @@ export default function CouncillorDossier() {
         <ChevronLeft size={14} /> Back to Integrity
       </Link>
 
+      {/* Data source notice */}
+      <div style={{
+        padding: 'var(--space-sm) var(--space-md)',
+        background: 'rgba(255, 159, 10, 0.06)',
+        border: '1px solid rgba(255, 159, 10, 0.15)',
+        borderRadius: 'var(--radius-md)',
+        fontSize: '0.72rem',
+        color: 'var(--text-secondary)',
+        marginBottom: 'var(--space-md)',
+        lineHeight: 1.6,
+      }}>
+        This profile is compiled from publicly available data sources including Companies House, the council&apos;s register of interests, electoral records, and published council spending data. All matches are automated and may contain errors. Indicators are not findings of wrongdoing — they highlight areas that may warrant further review. Always verify against primary sources.
+      </div>
+
       {/* ── HEADER ── */}
       <div className="dossier-header">
         {councillor.photo_url ? (
@@ -413,7 +427,7 @@ export default function CouncillorDossier() {
           <div className="dossier-stat-value" style={{ color: stats.highRiskFlags > 0 ? '#ef4444' : stats.redFlags > 0 ? '#ff9f0a' : '#22c55e' }}>
             {stats.redFlags}
           </div>
-          <div className="dossier-stat-label">Red Flags</div>
+          <div className="dossier-stat-label">Integrity Flags</div>
         </div>
         <div className="dossier-stat-card">
           <div className="dossier-stat-value">{stats.committees}</div>
@@ -423,7 +437,7 @@ export default function CouncillorDossier() {
           <div className="dossier-stat-value" style={{ color: stats.supplierConflicts > 0 ? '#ef4444' : 'inherit' }}>
             {stats.supplierConflicts}
           </div>
-          <div className="dossier-stat-label">Supplier Conflicts</div>
+          <div className="dossier-stat-label">Supplier Overlaps</div>
         </div>
         <div className="dossier-stat-card">
           <div className="dossier-stat-value">{stats.coDirectors}</div>
@@ -507,9 +521,9 @@ function IntegrityTab({ redFlags, integrityData, councillor, legalFramework }) {
     return (
       <div className="dossier-empty">
         <ShieldCheck size={40} style={{ color: '#22c55e', marginBottom: 'var(--space-md)' }} />
-        <p>No integrity flags detected for Cllr {councillor.name}.</p>
+        <p>No integrity flags identified for Cllr {councillor.name} from public register data.</p>
         <p style={{ fontSize: '0.75rem', marginTop: 'var(--space-sm)' }}>
-          {integrityData?.sources_checked || 0} sources checked.
+          {integrityData?.sources_checked || 0} public data sources checked. This automated analysis is not exhaustive.
         </p>
       </div>
     )
@@ -526,9 +540,10 @@ function IntegrityTab({ redFlags, integrityData, councillor, legalFramework }) {
         color: 'var(--text-secondary)',
         marginBottom: 'var(--space-sm)',
       }}>
-        {redFlags.length} flag{redFlags.length > 1 ? 's' : ''} detected across {integrityData?.sources_checked || '?'} sources.
-        {' '}Critical: {redFlags.filter(f => f.severity === 'critical').length},
-        High: {redFlags.filter(f => ['high', 'elevated'].includes(f.severity)).length},
+        {redFlags.length} indicator{redFlags.length > 1 ? 's' : ''} identified from {integrityData?.sources_checked || '?'} public data sources.
+        {' '}These are automated matches that may warrant further review, not findings of wrongdoing.
+        {' '}Elevated: {redFlags.filter(f => f.severity === 'critical').length},
+        Notable: {redFlags.filter(f => ['high', 'elevated'].includes(f.severity)).length},
         Other: {redFlags.filter(f => !['critical', 'high', 'elevated'].includes(f.severity)).length}.
       </div>
 
@@ -628,12 +643,15 @@ function CompaniesTab({ companies, coDirectors, supplierConflicts, networkCrosso
       {supplierConflicts.length > 0 && (
         <div style={{ marginTop: 'var(--space-xl)' }}>
           <h3 style={{ fontSize: '0.85rem', color: '#ef4444', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: 'var(--space-md)' }}>
-            <AlertTriangle size={15} /> Direct Supplier Conflicts ({supplierConflicts.length})
+            <AlertTriangle size={15} /> Supplier Name Matches ({supplierConflicts.length})
           </h3>
+          <p style={{ fontSize: '0.72rem', color: 'var(--text-secondary)', marginBottom: 'var(--space-md)' }}>
+            Companies House directorship records that share a name with a council supplier. A name match does not necessarily indicate a conflict of interest — it may reflect common company names or legitimate disclosed interests.
+          </p>
           {supplierConflicts.map((conflict, i) => (
             <EvidenceChain
               key={i}
-              finding={`Director of ${conflict.company_name} matches council supplier`}
+              finding={`Directorship at ${conflict.company_name} shares name with council supplier record`}
               supplier={{
                 name: conflict.supplier_match?.supplier || conflict.supplier_name || conflict.company_name,
                 chNumber: conflict.company_number,
@@ -738,7 +756,7 @@ function CompanyCard({ company, supplierConflicts = [], past = false }) {
       </div>
       {isConflict && (
         <div style={{ marginTop: 'var(--space-sm)', fontSize: '0.75rem', color: '#ef4444', display: 'flex', alignItems: 'center', gap: '4px' }}>
-          <AlertTriangle size={12} /> This company matches a council supplier
+          <AlertTriangle size={12} /> Company name matches a council supplier record
         </div>
       )}
     </div>
@@ -776,9 +794,9 @@ function RegisterTab({ registerData, councillor, supplierConflicts }) {
     return (
       <div className="dossier-empty">
         <FileText size={40} style={{ color: '#ff9f0a', marginBottom: 'var(--space-md)' }} />
-        <p>Register appears empty for Cllr {councillor.name}.</p>
+        <p>No register entries found for Cllr {councillor.name}.</p>
         <p style={{ fontSize: '0.75rem', marginTop: 'var(--space-sm)', color: '#ff9f0a' }}>
-          An empty register may indicate non-disclosure — this is itself a concern under the Localism Act 2011.
+          An empty register may reflect nil returns, data not yet published, or entries not captured by the automated scraper. Under the Localism Act 2011, councillors are required to maintain a register of interests.
         </p>
       </div>
     )

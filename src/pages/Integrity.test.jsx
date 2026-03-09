@@ -428,7 +428,7 @@ describe('Integrity', () => {
   it('renders the page heading with data', () => {
     useData.mockReturnValue({ data: [mockIntegrity, mockCouncillors, null, null, null, null], loading: false, error: null })
     renderComponent()
-    expect(screen.getByText('Councillor Integrity Checker')).toBeInTheDocument()
+    expect(screen.getByText('Councillor Public Interest Register')).toBeInTheDocument()
   })
 
   it('renders councillor name from data', () => {
@@ -462,7 +462,7 @@ describe('Integrity', () => {
     it('renders red flags total', () => {
       renderWithRichData()
       const dashboard = document.querySelector('.integrity-dashboard')
-      expect(within(dashboard).getByText('Red Flags')).toBeInTheDocument()
+      expect(within(dashboard).getByText('Compliance Flags', { selector: '.dashboard-label' })).toBeInTheDocument()
     })
 
     it('renders supplier connections count', () => {
@@ -473,7 +473,7 @@ describe('Integrity', () => {
 
     it('renders risk distribution section with all risk levels', () => {
       renderWithRichData()
-      expect(screen.getByText('Risk Distribution')).toBeInTheDocument()
+      expect(screen.getAllByText('Risk Distribution').length).toBeGreaterThan(0)
       expect(screen.getByText('Low Risk', { selector: '.risk-bar-label' })).toBeInTheDocument()
       expect(screen.getByText('Medium', { selector: '.risk-bar-label' })).toBeInTheDocument()
       expect(screen.getByText('Elevated', { selector: '.risk-bar-label' })).toBeInTheDocument()
@@ -836,7 +836,7 @@ describe('Integrity', () => {
 
     it('renders red flags with severity badges', () => {
       const detail = document.querySelector('.integrity-detail')
-      expect(within(detail).getByText(/Red Flags/)).toBeInTheDocument()
+      expect(within(detail).getByText(/Compliance Flags/)).toBeInTheDocument()
       const flagsSection = detail.querySelector('.flags-section')
       const badges = flagsSection.querySelectorAll('.flag-severity')
       const badgeTexts = [...badges].map(b => b.textContent.trim())
@@ -880,7 +880,7 @@ describe('Integrity', () => {
     })
 
     it('renders network investigation advisory for high-priority', () => {
-      expect(screen.getByText('Network investigation advisable')).toBeInTheDocument()
+      expect(screen.getByText('Extended network review suggested')).toBeInTheDocument()
       expect(screen.getByText('HIGH PRIORITY')).toBeInTheDocument()
     })
 
@@ -900,7 +900,7 @@ describe('Integrity', () => {
 
     it('renders misconduct patterns section', () => {
       const detail = document.querySelector('.integrity-detail')
-      expect(within(detail).getByText(/Misconduct Patterns/)).toBeInTheDocument()
+      expect(within(detail).getByText(/Conduct Pattern Flags/)).toBeInTheDocument()
       expect(within(detail).getByText('Pattern of late declaration of interests')).toBeInTheDocument()
     })
 
@@ -1197,7 +1197,7 @@ describe('Integrity', () => {
       const grid = getCardsSection()
       const header = within(grid).getByText('Alice Pemberton').closest('.integrity-card-header')
       fireEvent.click(header)
-      expect(screen.getByText(/Family member's company is a council supplier/)).toBeInTheDocument()
+      expect(screen.getByText(/Family member's company matches a council supplier record/)).toBeInTheDocument()
     })
 
     it('renders family member name and relationship', () => {
@@ -1329,7 +1329,7 @@ describe('Integrity', () => {
   describe('network investigation advisory', () => {
     it('renders network investigation advisory section', () => {
       renderWithRichData()
-      expect(screen.getByText('Network Investigation Advisable')).toBeInTheDocument()
+      expect(screen.getByText('Extended Network Review Suggested')).toBeInTheDocument()
     })
 
     it('lists network investigation candidate names', () => {
@@ -1347,7 +1347,7 @@ describe('Integrity', () => {
   describe('methodology banner', () => {
     it('renders methodology banner', () => {
       renderWithRichData()
-      expect(screen.getByText(/source political fraud detection/)).toBeInTheDocument()
+      expect(screen.getByText(/source public register cross-reference/)).toBeInTheDocument()
     })
 
     it('shows register available message when register is available', () => {
@@ -1434,7 +1434,7 @@ describe('Integrity', () => {
         loading: false, error: null,
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
-      const tab = screen.getByRole('tab', { name: /Investigation Priorities/i })
+      const tab = screen.getByRole('tab', { name: /Review Priorities/i })
       expect(tab).toBeInTheDocument()
     })
 
@@ -1600,7 +1600,7 @@ describe('Integrity', () => {
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
       fireEvent.click(screen.getByText('Donations'))
-      expect(screen.getByText('Supplier-Donor Pipeline')).toBeInTheDocument()
+      expect(screen.getByText('Supplier-Donor Overlap')).toBeInTheDocument()
       expect(screen.getByText(/Acme Corp Ltd/)).toBeInTheDocument()
     })
 
@@ -1742,7 +1742,7 @@ describe('Integrity', () => {
         loading: false, error: null,
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
-      expect(screen.getByText('Shell Company Donors')).toBeInTheDocument()
+      expect(screen.getByText('Dormant Company Donor Links')).toBeInTheDocument()
     })
 
     it('renders contract splitting stat when present', () => {
@@ -1764,7 +1764,7 @@ describe('Integrity', () => {
         loading: false, error: null,
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
-      expect(screen.getByText('Bid Rigging Patterns')).toBeInTheDocument()
+      expect(screen.getByText('Procurement Pattern Flags')).toBeInTheDocument()
     })
 
     it('does not render v5 stats when zero', () => {
@@ -1773,9 +1773,9 @@ describe('Integrity', () => {
         loading: false, error: null,
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
-      expect(screen.queryByText('Shell Company Donors')).not.toBeInTheDocument()
+      expect(screen.queryByText('Dormant Company Donor Links')).not.toBeInTheDocument()
       expect(screen.queryByText('Contract Splitting')).not.toBeInTheDocument()
-      expect(screen.queryByText('Bid Rigging Patterns')).not.toBeInTheDocument()
+      expect(screen.queryByText('Procurement Pattern Flags')).not.toBeInTheDocument()
     })
   })
 
@@ -1803,7 +1803,7 @@ describe('Integrity', () => {
         el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
       )
       fireEvent.click(headers[0])
-      expect(screen.getByText('Shell Company Donor Findings')).toBeInTheDocument()
+      expect(screen.getByText('Dormant Company Donor Links')).toBeInTheDocument()
       expect(screen.getByText(/Donor XYZ Ltd is a shell company/)).toBeInTheDocument()
     })
 
@@ -1821,7 +1821,7 @@ describe('Integrity', () => {
         el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
       )
       fireEvent.click(headers[0])
-      expect(screen.getByText('Contract Splitting Detection')).toBeInTheDocument()
+      expect(screen.getByText('Contract Splitting Pattern')).toBeInTheDocument()
     })
 
     it('renders bid rigging indicators in expanded detail', () => {
@@ -1838,7 +1838,8 @@ describe('Integrity', () => {
         el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
       )
       fireEvent.click(headers[0])
-      expect(screen.getByText('Bid Rigging Indicators')).toBeInTheDocument()
+      const detail = document.querySelector('.integrity-detail')
+      expect(within(detail).getByText(/Procurement Pattern Indicators/)).toBeInTheDocument()
     })
 
     it('renders phantom company detection in expanded detail', () => {
@@ -1855,7 +1856,7 @@ describe('Integrity', () => {
         el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
       )
       fireEvent.click(headers[0])
-      expect(screen.getByText('Phantom Company Detection')).toBeInTheDocument()
+      expect(screen.getByText('Minimal-Activity Company Links')).toBeInTheDocument()
     })
 
     it('renders social network triangulation in expanded detail', () => {
@@ -1923,7 +1924,7 @@ describe('Integrity', () => {
         el => el.classList.contains('integrity-card-header') && el.textContent.includes('Alice Pemberton')
       )
       fireEvent.click(headers[0])
-      expect(screen.getByText('Donation Threshold Manipulation')).toBeInTheDocument()
+      expect(screen.getByText('Donation Threshold Proximity')).toBeInTheDocument()
     })
 
     it('renders hansard parliamentary mentions in expanded detail', () => {
@@ -1987,7 +1988,7 @@ describe('Integrity', () => {
         loading: false, error: null,
       })
       render(<MemoryRouter><Integrity /></MemoryRouter>)
-      expect(screen.getByText(/source political fraud detection/)).toBeInTheDocument()
+      expect(screen.getByText(/source public register cross-reference/)).toBeInTheDocument()
     })
 
     it('mentions shell company detection in methodology', () => {

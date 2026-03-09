@@ -48,7 +48,7 @@ const ICON_MAP = {
   PoundSterling, School, AlertTriangle,
 }
 
-// Severity colors for attack lines
+// Severity colors for briefing notes
 const SEVERITY_COLORS = { high: '#ff453a', medium: '#ff9f0a', low: '#8e8e93' }
 
 // Section definitions
@@ -167,7 +167,7 @@ export default function Strategy() {
 
   // --- State ---
   const [activeSection, setActiveSection] = useState('dashboard')
-  const [ourParty, setOurParty] = useState('Reform UK')
+  const [ourParty, setOurParty] = useState('')
   const [expandedWards, setExpandedWards] = useState({})
   const [totalHours, setTotalHours] = useState(1000)
   const [wardHourOverrides, setWardHourOverrides] = useState({}) // { wardName: hours }
@@ -181,11 +181,18 @@ export default function Strategy() {
     return () => { document.title = `${councilName} Transparency` }
   }, [councilName])
 
-  // --- Derived: party list ---
+  // --- Derived: party list (sorted by seat count from council data) ---
   const partyList = useMemo(() => {
-    if (!politicsSummary?.by_party) return ['Reform UK', 'Labour', 'Conservative', 'Liberal Democrats']
+    if (!politicsSummary?.by_party) return ['Labour', 'Conservative', 'Liberal Democrats']
     return politicsSummary.by_party.map(p => p.party).filter(Boolean)
   }, [politicsSummary])
+
+  // Auto-select largest party if no party set yet
+  useEffect(() => {
+    if (!ourParty && partyList.length > 0) {
+      setOurParty(partyList[0])
+    }
+  }, [ourParty, partyList])
 
   // --- Derived: wards up for election ---
   const wardsUp = useMemo(() => {
@@ -594,7 +601,7 @@ export default function Strategy() {
           <h2><Crosshair size={20} /> Battleground {wardLabel}s</h2>
           <p className="strategy-section-desc">
             All {wardsUp.length} contested {wardLabel.toLowerCase()}s ranked by strategic priority for {ourParty}.
-            Click a {wardLabel.toLowerCase()} to see talking points.
+            Click a {wardLabel.toLowerCase()} to see data-informed discussion points.
           </p>
 
           <div className="strategy-table-wrap">
@@ -604,10 +611,10 @@ export default function Strategy() {
                   <th>#</th>
                   <th>{wardLabel}</th>
                   <th>Class</th>
-                  <th>Predicted Winner</th>
-                  <th>Our Share</th>
+                  <th>Projected Winner</th>
+                  <th>Est. Share</th>
                   <th>Swing Req</th>
-                  <th>Win Prob</th>
+                  <th>Win Prob.</th>
                   <th>Turnout</th>
                   <th>Score</th>
                   <th></th>
@@ -649,8 +656,8 @@ export default function Strategy() {
             <>
               <h2><FileText size={20} /> {wardLabel} Dossiers</h2>
               <p className="strategy-section-desc">
-                Select a {wardLabel.toLowerCase()} to generate a full campaign dossier with councillor intel,
-                council criticism, constituency data, and a printable cheat sheet.
+                Select a {wardLabel.toLowerCase()} to generate a full campaign dossier with councillor profiles,
+                council performance data, constituency context, and a printable briefing sheet.
               </p>
               <div className="dossier-ward-grid">
                 {rankedWards.map(w => {
@@ -771,8 +778,8 @@ export default function Strategy() {
                 <thead>
                   <tr>
                     <th>{wardLabel}</th>
-                    <th>Predicted Winner</th>
-                    <th>Our Share</th>
+                    <th>Projected Winner</th>
+                    <th>Est. Share</th>
                     <th>Deficit</th>
                     <th>Confidence</th>
                     <th>Score</th>
@@ -1072,8 +1079,8 @@ export default function Strategy() {
 
               <div className="premium-map-summary">
                 <span>{wardsUp.length} contested {wardLabel.toLowerCase()}s</span>
-                {summary && <span>{summary.predictedGains} predicted gains</span>}
-                {summary && <span>{summary.predictedLosses} predicted losses</span>}
+                {summary && <span>{summary.predictedGains} projected gains</span>}
+                {summary && <span>{summary.predictedLosses} projected losses</span>}
               </div>
             </div>
           )}
@@ -1253,7 +1260,7 @@ function WardRow({ rank, ward, ourParty, expanded, onToggle, onDossier }) {
         <tr className="talking-points-row">
           <td colSpan={10}>
             <div className="talking-points">
-              <h4>Talking Points for {ward.ward}</h4>
+              <h4>Discussion Points for {ward.ward}</h4>
               <ul>
                 {ward.talkingPoints.map((tp, i) => (
                   <li key={i} className={`tp-item tp-${tp.category.toLowerCase()}`}>
@@ -1280,8 +1287,8 @@ const DOSSIER_TABS = [
   { id: 'council', label: 'Council', icon: AlertTriangle },
   { id: 'constituency', label: 'Constituency', icon: MapPin },
   { id: 'property', label: 'Property', icon: Building },
-  { id: 'talkingPoints', label: 'Talking Points', icon: Briefcase },
-  { id: 'cheatSheet', label: 'Cheat Sheet', icon: Printer },
+  { id: 'talkingPoints', label: 'Discussion Points', icon: Briefcase },
+  { id: 'cheatSheet', label: 'Briefing Sheet', icon: Printer },
 ]
 
 function WardDossierView({ dossier, ourParty, wardLabel, activeTab, onTabChange, onBack }) {
@@ -1393,7 +1400,7 @@ function DossierElection({ election, ourParty }) {
   if (!election) return <p className="dossier-empty">No election data available.</p>
   return (
     <div className="dossier-panel">
-      <h3>Election Intelligence</h3>
+      <h3>Election Analysis</h3>
       {election.defender && (
         <div className="dossier-defender-card">
           <h4>Defending Councillor</h4>
@@ -1402,11 +1409,11 @@ function DossierElection({ election, ourParty }) {
       )}
       {election.prediction && (
         <div className="dossier-subsection">
-          <h4>Prediction</h4>
+          <h4>Model Projection <span style={{ fontSize: '0.7rem', color: '#8e8e93', fontWeight: 400 }}>(based on polling and historical data)</span></h4>
           <div className="dossier-stat-grid small">
-            <div className="dossier-stat-item"><div className="dossier-stat-value"><PartyBadge party={election.prediction.winner} /></div><div className="dossier-stat-label">Predicted Winner</div></div>
-            <div className="dossier-stat-item"><div className="dossier-stat-value">{((election.prediction.ourPct ?? 0) * 100).toFixed(1)}%</div><div className="dossier-stat-label">Our Share</div></div>
-            <div className="dossier-stat-item"><div className="dossier-stat-value">{Math.round((election.prediction.winProbability ?? 0) * 100)}%</div><div className="dossier-stat-label">Win Probability</div></div>
+            <div className="dossier-stat-item"><div className="dossier-stat-value"><PartyBadge party={election.prediction.winner} /></div><div className="dossier-stat-label">Projected Winner</div></div>
+            <div className="dossier-stat-item"><div className="dossier-stat-value">{((election.prediction.ourPct ?? 0) * 100).toFixed(1)}%</div><div className="dossier-stat-label">Est. Share</div></div>
+            <div className="dossier-stat-item"><div className="dossier-stat-value">{Math.round((election.prediction.winProbability ?? 0) * 100)}%</div><div className="dossier-stat-label">Est. Win Prob.</div></div>
             <div className="dossier-stat-item"><div className="dossier-stat-value">{(election.prediction.swingRequired ?? 0) > 0 ? '+' : ''}{((election.prediction.swingRequired ?? 0) * 100).toFixed(1)}pp</div><div className="dossier-stat-label">Swing Needed</div></div>
           </div>
         </div>
@@ -1440,7 +1447,7 @@ function DossierCouncillors({ councillors }) {
   if (!councillors?.length) return <p className="dossier-empty">No councillor data available.</p>
   return (
     <div className="dossier-panel">
-      <h3>Councillor Dossiers</h3>
+      <h3>Councillor Profiles</h3>
       {councillors.map((c, i) => (
         <div key={i} className={`councillor-card ${c.isDefender ? 'defender' : ''}`}>
           <div className="councillor-card-header">
@@ -1469,7 +1476,7 @@ function DossierCouncillors({ councillors }) {
           )}
           {c.attackLines?.length > 0 && (
             <div className="councillor-attack-lines">
-              <h5>Attack Lines</h5>
+              <h5>Key Discussion Points</h5>
               {c.attackLines.map((a, j) => (
                 <div key={j} className="attack-line" style={{ borderLeftColor: SEVERITY_COLORS[a.severity] || '#888' }}>
                   {a.text}
@@ -1490,7 +1497,7 @@ function DossierCouncilPerf({ perf }) {
       <h3>Council Performance</h3>
       <div className="dossier-stat-grid small">
         <div className="dossier-stat-item"><div className="dossier-stat-value">{perf.politicalControl}</div><div className="dossier-stat-label">Political Control</div></div>
-        {perf.fraudTriangleScore != null && <div className="dossier-stat-item"><div className="dossier-stat-value" style={{ color: perf.fraudTriangleScore > 70 ? '#ff453a' : perf.fraudTriangleScore > 60 ? '#ff9f0a' : '#30d158' }}>{perf.fraudTriangleScore}</div><div className="dossier-stat-label">Fraud Triangle</div></div>}
+        {perf.fraudTriangleScore != null && <div className="dossier-stat-item"><div className="dossier-stat-value" style={{ color: perf.fraudTriangleScore > 70 ? '#ff453a' : perf.fraudTriangleScore > 60 ? '#ff9f0a' : '#30d158' }}>{perf.fraudTriangleScore}</div><div className="dossier-stat-label" title="Composite risk score measuring opportunity, pressure, and rationalisation indicators (higher = more risk factors present)">Governance Risk Score</div></div>}
         {perf.collectionRate && <div className="dossier-stat-item"><div className="dossier-stat-value">{perf.collectionRate.latest}%</div><div className="dossier-stat-label">Collection Rate</div></div>}
         {perf.councilTaxBandD != null && <div className="dossier-stat-item"><div className="dossier-stat-value">£{perf.councilTaxBandD.toFixed(2)}</div><div className="dossier-stat-label">Band D</div></div>}
       </div>
@@ -1509,7 +1516,7 @@ function DossierCouncilPerf({ perf }) {
 
       {perf.attackLines?.length > 0 && (
         <div className="dossier-subsection">
-          <h4>Council Attack Lines</h4>
+          <h4>Council Performance Discussion Points</h4>
           {perf.attackLines.map((a, i) => (
             <div key={i} className="attack-line" style={{ borderLeftColor: SEVERITY_COLORS[a.severity] || '#888' }}>
               <span className="attack-category">{a.category}</span>
@@ -1537,7 +1544,7 @@ function DossierConstituency({ constituency }) {
           {constituency.votingRecord && (
             <p className="dossier-meta">
               Voting: {constituency.votingRecord.rebellions || 0} rebellions in {constituency.votingRecord.total_divisions || '—'} divisions
-              {constituency.votingRecord.rebellions === 0 && <span style={{ color: '#ff9f0a' }}> — lobby fodder</span>}
+              {constituency.votingRecord.rebellions === 0 && <span style={{ color: '#ff9f0a' }}> — votes with party on all divisions</span>}
             </p>
           )}
         </div>
@@ -1714,16 +1721,16 @@ function DossierProperty({ propertySummary }) {
 }
 
 function DossierTalkingPoints({ talkingPoints }) {
-  if (!talkingPoints) return <p className="dossier-empty">No talking points available.</p>
+  if (!talkingPoints) return <p className="dossier-empty">No discussion points available.</p>
   const categories = [
     { key: 'local', label: 'Local (Ward-Specific)', icon: MapPin },
-    { key: 'council', label: 'Council Criticism', icon: AlertTriangle },
-    { key: 'national', label: 'National Reform Lines', icon: Globe },
+    { key: 'council', label: 'Council Performance', icon: AlertTriangle },
+    { key: 'national', label: 'National Policy Points', icon: Globe },
     { key: 'constituency', label: 'Constituency', icon: Briefcase },
   ]
   return (
     <div className="dossier-panel">
-      <h3>Talking Points</h3>
+      <h3>Data-Informed Discussion Points</h3>
       {categories.map(cat => {
         const points = talkingPoints[cat.key] || []
         if (points.length === 0) return null
@@ -1754,7 +1761,7 @@ function DossierCheatSheet({ cheatSheet }) {
   return (
     <div className="dossier-panel cheat-sheet-panel">
       <div className="cheat-sheet-header">
-        <h3>Campaign Cheat Sheet</h3>
+        <h3>Campaign Briefing Sheet</h3>
         <button className="dossier-print-btn" onClick={handlePrint}>
           <Printer size={14} /> Print
         </button>
@@ -1779,7 +1786,7 @@ function DossierCheatSheet({ cheatSheet }) {
         </div>
 
         <div className="cheat-section">
-          <h4>Top 5 Talking Points</h4>
+          <h4>Top 5 Discussion Points</h4>
           <ol className="cheat-tp-list">
             {cheatSheet.top5TalkingPoints?.map((tp, i) => (
               <li key={i}>{tp.text}</li>

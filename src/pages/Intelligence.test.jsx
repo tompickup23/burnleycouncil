@@ -255,10 +255,10 @@ describe('Intelligence', () => {
   it('renders section navigation with 4 tabs', () => {
     setupMocks()
     renderIntelligence()
-    expect(screen.getByText('War Room')).toBeInTheDocument()
+    expect(screen.getByText('Briefing Room')).toBeInTheDocument()
     expect(screen.getByText('Opposition')).toBeInTheDocument()
     expect(screen.getByText('Dossier')).toBeInTheDocument()
-    expect(screen.getByText("Reform's Record")).toBeInTheDocument()
+    expect(screen.getByText('Reform UK Record')).toBeInTheDocument()
   })
 
   it('shows subtitle with opposition count', () => {
@@ -269,10 +269,10 @@ describe('Intelligence', () => {
 
   // --- War Room (default section) ---
 
-  it('defaults to War Room section', () => {
+  it('defaults to Briefing Room section', () => {
     setupMocks()
     renderIntelligence()
-    expect(screen.getByText(/meeting war room/i)).toBeInTheDocument()
+    expect(screen.getByText(/meeting briefing room/i)).toBeInTheDocument()
   })
 
   it('shows meeting selector with meetings sorted by date', () => {
@@ -302,9 +302,10 @@ describe('Intelligence', () => {
     expect(screen.getByText(/print briefing/i)).toBeInTheDocument()
   })
 
-  it('shows Reform members in committee grid', () => {
+  it('shows ruling party members in committee grid', () => {
     setupMocks()
     renderIntelligence()
+    // Ruling party detected dynamically from politics_summary (Reform UK is largest)
     expect(screen.getByText(/Reform UK \(2\)/i)).toBeInTheDocument()
     expect(screen.getByText('Tom Pickup')).toBeInTheDocument()
   })
@@ -474,7 +475,7 @@ describe('Intelligence', () => {
     expect(screen.getByText('Profile')).toBeInTheDocument()
     expect(screen.getByText('Voting Record')).toBeInTheDocument()
     expect(screen.getByText('Integrity')).toBeInTheDocument()
-    expect(screen.getByText('Attack Lines')).toBeInTheDocument()
+    expect(screen.getByText('Briefing Notes')).toBeInTheDocument()
   })
 
   it('dossier voting tab shows vote count', () => {
@@ -497,12 +498,12 @@ describe('Intelligence', () => {
     expect(screen.getByText('62')).toBeInTheDocument()
   })
 
-  it('dossier attack lines tab shows severity-grouped lines', () => {
+  it('dossier briefing notes tab shows severity-grouped notes', () => {
     setupMocks()
     renderIntelligence()
     fireEvent.click(screen.getByText('Azhar Ali OBE'))
     fireEvent.click(screen.getByText('Full Dossier'))
-    fireEvent.click(screen.getByText('Attack Lines'))
+    fireEvent.click(screen.getByText('Briefing Notes'))
     expect(screen.getByText(/high severity/i)).toBeInTheDocument()
     expect(screen.getByText('Former Labour leader')).toBeInTheDocument()
   })
@@ -517,27 +518,27 @@ describe('Intelligence', () => {
 
   // --- Reform's Record ---
 
-  it('switches to Reform Record section', () => {
+  it('switches to ruling party Record section', () => {
     setupMocks()
     renderIntelligence()
-    fireEvent.click(screen.getByText("Reform's Record"))
-    // The heading "Reform's Record" appears both in the nav tab and as section heading
-    const matches = screen.getAllByText(/reform's record/i)
+    fireEvent.click(screen.getByText('Reform UK Record'))
+    // The heading should appear both in the nav tab and as section heading
+    const matches = screen.getAllByText(/reform uk record/i)
     expect(matches.length).toBeGreaterThanOrEqual(2) // nav tab + section heading
   })
 
   it('shows rebuttal guide', () => {
     setupMocks()
     renderIntelligence()
-    fireEvent.click(screen.getByText("Reform's Record"))
+    fireEvent.click(screen.getByText('Reform UK Record'))
     expect(screen.getByText(/rebuttal guide/i)).toBeInTheDocument()
   })
 
-  it('shows defence lines by policy area section', () => {
+  it('shows response points by policy area section', () => {
     setupMocks()
     renderIntelligence()
-    fireEvent.click(screen.getByText("Reform's Record"))
-    expect(screen.getByText(/defence lines by policy area/i)).toBeInTheDocument()
+    fireEvent.click(screen.getByText('Reform UK Record'))
+    expect(screen.getByText(/response points by policy area/i)).toBeInTheDocument()
   })
 
   // --- Graceful degradation ---
@@ -558,8 +559,8 @@ describe('Intelligence', () => {
       },
     })
     renderIntelligence()
-    // Should render the war room even with no meetings
-    expect(screen.getByText(/meeting war room/i)).toBeInTheDocument()
+    // Should render the briefing room even with no meetings
+    expect(screen.getByText(/meeting briefing room/i)).toBeInTheDocument()
   })
 
   it('handles null politics_summary gracefully', () => {

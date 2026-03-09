@@ -11,6 +11,37 @@ vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
 
+// Mock Recharts to avoid heavy SVG rendering in JSDOM
+vi.mock('recharts', () => {
+  const MockChart = ({ children }) => <div data-testid="recharts-mock">{children}</div>
+  return {
+    ResponsiveContainer: ({ children }) => <div>{children}</div>,
+    BarChart: MockChart,
+    Bar: () => null,
+    XAxis: () => null,
+    YAxis: () => null,
+    CartesianGrid: () => null,
+    Tooltip: () => null,
+    PieChart: MockChart,
+    Pie: () => null,
+    Cell: () => null,
+    Legend: () => null,
+  }
+})
+
+vi.mock('../components/ui/HeatmapGrid', () => ({
+  default: () => <div data-testid="heatmap-grid">HeatmapGrid</div>,
+}))
+
+vi.mock('../components/ui/ChartCard', () => ({
+  default: ({ title, children }) => <div>{title}{children}</div>,
+  ChartCard: ({ title, children }) => <div>{title}{children}</div>,
+}))
+
+vi.mock('../components/CouncillorLink', () => ({
+  default: ({ children }) => <span>{children}</span>,
+}))
+
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 

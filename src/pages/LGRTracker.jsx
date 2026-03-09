@@ -545,14 +545,14 @@ function LGRTracker() {
     { id: 'council-tax', label: 'Council Tax', icon: PoundSterling },
     { id: 'assets', label: 'Assets', icon: PoundSterling },
     { id: 'handover', label: 'Handover', icon: ArrowRight },
-    { id: 'critique', label: 'CCN Critique', icon: BookOpen },
+    { id: 'critique', label: 'CCN Comparison', icon: BookOpen },
     { id: 'demographics', label: 'Demographics', icon: Users },
     { id: 'politics', label: 'Politics', icon: Vote },
     { id: 'national', label: 'National Context', icon: Globe },
     { id: 'risks', label: 'Risks', icon: AlertTriangle },
     { id: 'precedents', label: 'Precedents', icon: Shield },
     { id: 'northern-precedents', label: 'Northern Towns', icon: MapPin },
-    { id: 'alternative-timeline', label: 'Our Timeline', icon: Clock },
+    { id: 'alternative-timeline', label: 'Alt. Timeline', icon: Clock },
     { id: 'demographic-risk', label: 'Demographic Risk', icon: Users },
     { id: 'timeline-risk', label: 'Timeline Risk', icon: Clock },
     { id: 'boundary-maps', label: 'Maps', icon: MapPin },
@@ -568,7 +568,7 @@ function LGRTracker() {
         <div className="lgr-header-row">
           <div>
             <h1>LGR <span className="accent">Tracker</span></h1>
-            <p className="subtitle">Independent analysis of Lancashire&apos;s reorganisation — 5 proposals, £12B+ in spending data, 1.6 million residents</p>
+            <p className="subtitle">Analysis of Lancashire&apos;s proposed reorganisation — 5 proposals, £12B+ in spending data, 1.6 million residents</p>
           </div>
           {daysUntilClose !== null && daysUntilClose > 0 && (
             <div className="consultation-countdown">
@@ -587,7 +587,7 @@ function LGRTracker() {
         <AlertTriangle size={16} />
         <span>
           <strong>{config.council_full_name || councilName + ' Council'}</strong> is one of 15 Lancashire councils
-          proposed for abolition by April 2028. {relevantModels[0]?.myAuthority ? (
+          proposed for reorganisation into new unitary authorities by April 2028. {relevantModels[0]?.myAuthority ? (
             <>Under the most-discussed model, {councilName} would become part of <strong>{relevantModels[0].myAuthority.name}</strong>.</>
           ) : (
             <>Five proposals are under public consultation until 26 March 2026.</>
@@ -809,15 +809,15 @@ function LGRTracker() {
       )}
 
       {/* AI DOGE Independent Model */}
-      <CollapsibleSection id="lgr-independent" title="AI DOGE Independent Financial Model" icon={<Brain size={20} />} defaultOpen>
+      <CollapsibleSection id="lgr-independent" title="AI DOGE Financial Model" icon={<Brain size={20} />} defaultOpen>
         <p className="section-desc">{lgrData.independent_model?.subtitle}</p>
 
         {dogeComparisonData.length > 0 && (
           <>
             <div className="lgr-savings-explainer">
-              <h3><AlertTriangle size={16} /> How We Calculate Savings</h3>
+              <h3><AlertTriangle size={16} /> How Savings Are Calculated</h3>
               <p>
-                AI DOGE computes savings bottom-up from 192 real GOV.UK budget lines across all 15 Lancashire councils.
+                This model computes savings bottom-up from 192 GOV.UK budget lines across all 15 Lancashire councils.
                 The chart below shows <strong>realistic annual savings</strong> — after deducting ongoing costs of the new
                 authorities and applying a <strong>75% realisation rate</strong> (because reorganisations never achieve
                 100% of projected savings — see E&amp;Y 2016, Durham/Wiltshire evidence).
@@ -914,10 +914,10 @@ function LGRTracker() {
         {/* Newton Europe vs DOGE comparison */}
         {lgrData.independent_model?.presentation_comparison && (
           <div className="lgr-chart-card" style={{ marginTop: '1rem' }}>
-            <h3>Consultants vs AI DOGE: Gross Savings Comparison</h3>
+            <h3>Newton Europe vs AI DOGE: Gross Savings Comparison</h3>
             <p className="chart-desc">
               Newton Europe (commissioned by LCC) uses activity-based costing with wider scope and higher savings assumptions.
-              AI DOGE uses bottom-up GOV.UK outturn data with conservative academic benchmarks.
+              The AI DOGE model uses bottom-up GOV.UK outturn data with academic benchmarks.
               Both figures shown are <strong>gross</strong> (before realisation adjustments).
               Note: County UA is the hypothetical single-authority option — no council proposed this.
             </p>
@@ -936,11 +936,11 @@ function LGRTracker() {
                 <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
                 <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [
                   `£${v?.toFixed(1)}M/yr (gross)`,
-                  name === 'newton' ? 'Newton Europe (consultants)' : 'AI DOGE (independent)'
+                  name === 'newton' ? 'Newton Europe (consultants)' : 'AI DOGE (this site)'
                 ]} />
                 <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
                 <Bar dataKey="newton" name="Newton Europe (consultants)" fill="#636366" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
-                <Bar dataKey="doge" name="AI DOGE (independent)" fill="#00d4aa" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Bar dataKey="doge" name="AI DOGE (this site)" fill="#00d4aa" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Legend />
               </BarChart>
             </ResponsiveContainer>
@@ -1347,7 +1347,7 @@ function LGRTracker() {
                 {activeProposal && (
                   <div className="ct-savings-comparison">
                     <div className="ct-savings-item doge">
-                      <span className="ct-savings-label"><Brain size={14} /> AI DOGE realistic savings</span>
+                      <span className="ct-savings-label"><Brain size={14} /> AI DOGE (net, 75% realisation)</span>
                       <span className={`ct-savings-value ${(activeProposal.doge_annual_savings || 0) >= 0 ? 'text-green' : 'text-red'}`}>
                         {(activeProposal.doge_annual_savings || 0) >= 0
                           ? `${formatCurrency(activeProposal.doge_annual_savings, true)}/yr`
@@ -1734,10 +1734,10 @@ function LGRTracker() {
 
             return (
               <div className="lgr-chart-card" style={{ marginBottom: '1rem' }}>
-                <h3>CCN/PwC vs AI DOGE: Realistic Annual Savings</h3>
+                <h3>CCN/PwC vs AI DOGE: Annual Savings Comparison</h3>
                 <p className="chart-desc">
-                  Comparing the CCN (county council lobby group) estimates with AI DOGE&apos;s independent analysis.
-                  AI DOGE figures are <strong>realistic</strong> (net of ongoing costs, at 75% realisation).
+                  Comparing the CCN (County Councils Network) estimates with AI DOGE&apos;s analysis.
+                  AI DOGE figures are net of ongoing costs, with a 75% realisation rate applied.
                   CCN did not model the 5-UA option.
                 </p>
                 <ResponsiveContainer width="100%" height={300}>
@@ -1747,7 +1747,7 @@ function LGRTracker() {
                     <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
                     <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [
                       v != null ? `£${v.toFixed(1)}M/yr` : 'Not modelled',
-                      name === 'ccnSavings' ? 'CCN/PwC estimate' : 'AI DOGE realistic'
+                      name === 'ccnSavings' ? 'CCN/PwC estimate' : 'AI DOGE (net, 75% realisation)'
                     ]} />
                     <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
                     <Bar dataKey="ccnSavings" name="CCN/PwC" fill="#636366" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
@@ -1783,7 +1783,7 @@ function LGRTracker() {
 
       {/* Proposed Models */}
       <CollapsibleSection id="lgr-proposals" title="The Five Proposals" icon={<Building size={20} />} defaultOpen>
-        <p className="section-desc">Five proposals submitted in November 2025. Each was submitted by a council with something to gain or lose. Select a proposal to explore.</p>
+        <p className="section-desc">Five proposals were submitted in November 2025 by various Lancashire councils. Select a proposal to explore its structure and implications.</p>
 
         <div className="model-tabs" role="tablist" aria-label="LGR proposal models">
           {lgrData.proposed_models.map((model, i) => (
@@ -1928,8 +1928,8 @@ function LGRTracker() {
                   <div className="pol-grid">
                     <div className="pol-item"><span className="pol-label">Likely control:</span><p>{activeModelData.political_analysis.likely_control}</p></div>
                     <div className="pol-item"><span className="pol-label">Councillor reduction:</span><p>{activeModelData.political_analysis.councillor_reduction}</p></div>
-                    <div className="pol-item"><span className="pol-label">Who benefits:</span><p>{activeModelData.political_analysis.who_benefits}</p></div>
-                    <div className="pol-item"><span className="pol-label">Who loses:</span><p>{activeModelData.political_analysis.who_loses}</p></div>
+                    <div className="pol-item"><span className="pol-label">Potential advantages:</span><p>{activeModelData.political_analysis.who_benefits}</p></div>
+                    <div className="pol-item"><span className="pol-label">Potential disadvantages:</span><p>{activeModelData.political_analysis.who_loses}</p></div>
                   </div>
                 )}
               </div>
@@ -1953,12 +1953,12 @@ function LGRTracker() {
               </div>
             )}
 
-            {/* AI DOGE Verdict with multi-score */}
+            {/* AI DOGE Assessment with multi-score */}
             {dogeAssessment && (
               <div className="doge-verdict">
                 <div className="doge-verdict-header">
                   <Shield size={18} />
-                  <h4>AI DOGE Verdict: {dogeAssessment.verdict}</h4>
+                  <h4>AI DOGE Assessment: {dogeAssessment.verdict}</h4>
                 </div>
                 <div className="doge-multi-score">
                   <ScoreBar score={dogeAssessment.financial_score} label="Financial" />

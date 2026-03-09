@@ -303,12 +303,13 @@ describe('Strategy', () => {
       expect(screen.getByText(/7 May 2026/)).toBeInTheDocument()
     })
 
-    it('renders party selector with Reform UK as default', () => {
+    it('renders party selector with largest party as default', () => {
       setupMocks()
       renderComponent()
       const select = screen.getByLabelText(/strategise for/i)
       expect(select).toBeInTheDocument()
-      expect(select.value).toBe('Reform UK')
+      // Default is now the largest party from politics_summary (Labour has 27 seats)
+      expect(select.value).toBe('Labour')
     })
 
     it('shows restricted access banner', () => {
@@ -424,22 +425,22 @@ describe('Strategy', () => {
       renderComponent()
       fireEvent.click(screen.getByText('Battlegrounds'))
       expect(screen.getByText('Class')).toBeInTheDocument()
-      expect(screen.getByText('Predicted Winner')).toBeInTheDocument()
-      expect(screen.getByText('Our Share')).toBeInTheDocument()
+      expect(screen.getByText('Projected Winner')).toBeInTheDocument()
+      expect(screen.getByText('Est. Share')).toBeInTheDocument()
       expect(screen.getByText('Swing Req')).toBeInTheDocument()
-      expect(screen.getByText('Win Prob')).toBeInTheDocument()
+      expect(screen.getByText('Win Prob.')).toBeInTheDocument()
       expect(screen.getByText('Turnout')).toBeInTheDocument()
       expect(screen.getByText('Score')).toBeInTheDocument()
     })
 
-    it('expands ward row to show talking points on click', () => {
+    it('expands ward row to show discussion points on click', () => {
       setupMocks()
       renderComponent()
       fireEvent.click(screen.getByText('Battlegrounds'))
       // Click on the first ward row
       const wardRow = screen.getByText('Bank Hall').closest('tr')
       fireEvent.click(wardRow)
-      expect(screen.getByText(/Talking Points for Bank Hall/)).toBeInTheDocument()
+      expect(screen.getByText(/Discussion Points for Bank Hall/)).toBeInTheDocument()
     })
 
     it('shows rank number for each ward', () => {
@@ -553,7 +554,8 @@ describe('Strategy', () => {
       setupMocks()
       renderComponent()
       fireEvent.click(screen.getByText('Swing History'))
-      expect(screen.getByText(/Reform UK vote share trends/)).toBeInTheDocument()
+      // Default party is now the largest from politics_summary (Labour)
+      expect(screen.getByText(/Labour vote share trends/)).toBeInTheDocument()
     })
 
     it('shows swing cards for each contested ward', () => {
@@ -918,8 +920,8 @@ describe('Strategy', () => {
       expect(within(tabBar).getByText('Councillors')).toBeInTheDocument()
       expect(within(tabBar).getByText('Council')).toBeInTheDocument()
       expect(within(tabBar).getByText('Constituency')).toBeInTheDocument()
-      expect(within(tabBar).getByText('Talking Points')).toBeInTheDocument()
-      expect(within(tabBar).getByText('Cheat Sheet')).toBeInTheDocument()
+      expect(within(tabBar).getByText('Discussion Points')).toBeInTheDocument()
+      expect(within(tabBar).getByText('Briefing Sheet')).toBeInTheDocument()
     })
 
     it('shows profile tab by default with ward stats', () => {
@@ -941,10 +943,10 @@ describe('Strategy', () => {
       fireEvent.click(bankHallCard)
       const tabBar = document.querySelector('.dossier-tab-bar')
       fireEvent.click(within(tabBar).getByText('Election'))
-      expect(screen.getByText('Election Intelligence')).toBeInTheDocument()
+      expect(screen.getByText('Election Analysis')).toBeInTheDocument()
     })
 
-    it('shows councillor attack lines in councillors tab', () => {
+    it('shows councillor profiles in councillors tab', () => {
       setupMocks()
       renderComponent()
       fireEvent.click(screen.getByText('Ward Dossiers'))
@@ -952,13 +954,13 @@ describe('Strategy', () => {
       fireEvent.click(bankHallCard)
       const tabBar = document.querySelector('.dossier-tab-bar')
       fireEvent.click(within(tabBar).getByText('Councillors'))
-      expect(screen.getByText('Councillor Dossiers')).toBeInTheDocument()
+      expect(screen.getByText('Councillor Profiles')).toBeInTheDocument()
       // Should show attack lines
       const attackLines = document.querySelectorAll('.attack-line')
       expect(attackLines.length).toBeGreaterThan(0)
     })
 
-    it('shows council performance tab with fraud triangle', () => {
+    it('shows council performance tab with governance risk score', () => {
       setupMocks()
       renderComponent()
       fireEvent.click(screen.getByText('Ward Dossiers'))
@@ -967,7 +969,7 @@ describe('Strategy', () => {
       const tabBar = document.querySelector('.dossier-tab-bar')
       fireEvent.click(within(tabBar).getByText('Council'))
       expect(screen.getByText('Council Performance')).toBeInTheDocument()
-      expect(screen.getByText('Fraud Triangle')).toBeInTheDocument()
+      expect(screen.getByText('Governance Risk Score')).toBeInTheDocument()
     })
 
     it('shows constituency tab with MP data', () => {
@@ -982,52 +984,52 @@ describe('Strategy', () => {
       expect(screen.getByText(/Oliver Ryan/)).toBeInTheDocument()
     })
 
-    it('shows talking points tab with categories', () => {
+    it('shows discussion points tab with categories', () => {
       setupMocks()
       renderComponent()
       fireEvent.click(screen.getByText('Ward Dossiers'))
       const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
       fireEvent.click(bankHallCard)
       const tabBar = document.querySelector('.dossier-tab-bar')
-      fireEvent.click(within(tabBar).getByText('Talking Points'))
-      // The panel heading says "Talking Points" — use getByRole to disambiguate from tab
+      fireEvent.click(within(tabBar).getByText('Discussion Points'))
+      // The panel heading says "Data-Informed Discussion Points" — use getByRole to disambiguate from tab
       const panel = document.querySelector('.dossier-panel')
-      expect(within(panel).getByText('Talking Points')).toBeInTheDocument()
+      expect(within(panel).getByText('Data-Informed Discussion Points')).toBeInTheDocument()
     })
 
-    it('shows cheat sheet tab with print button', () => {
+    it('shows briefing sheet tab with print button', () => {
       setupMocks()
       renderComponent()
       fireEvent.click(screen.getByText('Ward Dossiers'))
       const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
       fireEvent.click(bankHallCard)
       const tabBar = document.querySelector('.dossier-tab-bar')
-      fireEvent.click(within(tabBar).getByText('Cheat Sheet'))
-      expect(screen.getByText('Campaign Cheat Sheet')).toBeInTheDocument()
+      fireEvent.click(within(tabBar).getByText('Briefing Sheet'))
+      expect(screen.getByText('Campaign Briefing Sheet')).toBeInTheDocument()
       expect(screen.getByText('Print')).toBeInTheDocument()
     })
 
-    it('cheat sheet shows key stats', () => {
+    it('briefing sheet shows key stats', () => {
       setupMocks()
       renderComponent()
       fireEvent.click(screen.getByText('Ward Dossiers'))
       const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
       fireEvent.click(bankHallCard)
       const tabBar = document.querySelector('.dossier-tab-bar')
-      fireEvent.click(within(tabBar).getByText('Cheat Sheet'))
+      fireEvent.click(within(tabBar).getByText('Briefing Sheet'))
       const cheatStats = document.querySelectorAll('.cheat-stat')
       expect(cheatStats.length).toBeGreaterThan(0)
     })
 
-    it('cheat sheet shows top 5 talking points', () => {
+    it('briefing sheet shows top 5 discussion points', () => {
       setupMocks()
       renderComponent()
       fireEvent.click(screen.getByText('Ward Dossiers'))
       const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
       fireEvent.click(bankHallCard)
       const tabBar = document.querySelector('.dossier-tab-bar')
-      fireEvent.click(within(tabBar).getByText('Cheat Sheet'))
-      expect(screen.getByText('Top 5 Talking Points')).toBeInTheDocument()
+      fireEvent.click(within(tabBar).getByText('Briefing Sheet'))
+      expect(screen.getByText('Top 5 Discussion Points')).toBeInTheDocument()
     })
 
     it('shows score badge in dossier header', () => {

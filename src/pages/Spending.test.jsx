@@ -34,6 +34,7 @@ vi.mock('recharts', () => {
     BarChart: ({ children }) => React.createElement('div', { 'data-testid': 'bar-chart' }, children),
     PieChart: ({ children }) => React.createElement('div', { 'data-testid': 'pie-chart' }, children),
     AreaChart: ({ children }) => React.createElement('div', { 'data-testid': 'area-chart' }, children),
+    Treemap: ({ children }) => React.createElement('div', { 'data-testid': 'treemap' }, children),
     Bar: () => null,
     XAxis: () => null,
     YAxis: () => null,
@@ -42,6 +43,7 @@ vi.mock('recharts', () => {
     Pie: () => null,
     Cell: () => null,
     Area: () => null,
+    Brush: () => null,
   }
 })
 

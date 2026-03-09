@@ -100,7 +100,7 @@ function Integrity() {
   const [activeTab, setActiveTab] = useState('councillors') // councillors, mps, donations, investigation
 
   useEffect(() => {
-    document.title = `Councillor Integrity | ${councilName} Council Transparency`
+    document.title = `Councillor Public Interest Register | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
 
@@ -379,18 +379,18 @@ function Integrity() {
   const detectionTypeSummary = useMemo(() => {
     if (!councillors.length) return []
     const types = [
-      { key: 'supplier_conflicts', label: 'Supplier Conflicts', icon: 'scale' },
+      { key: 'supplier_conflicts', label: 'Supplier Connections', icon: 'scale' },
       { key: 'cross_council_conflicts', label: 'Cross-Council', icon: 'globe' },
-      { key: 'red_flags', label: 'Red Flags', icon: 'alert' },
-      { key: 'misconduct_patterns', label: 'Misconduct', icon: 'shield' },
-      { key: 'shell_company_findings', label: 'Shell Companies', icon: 'building' },
+      { key: 'red_flags', label: 'Compliance Flags', icon: 'alert' },
+      { key: 'misconduct_patterns', label: 'Conduct Patterns', icon: 'shield' },
+      { key: 'shell_company_findings', label: 'Dormant Company Links', icon: 'building' },
       { key: 'threshold_manipulation', label: 'Threshold Alerts', icon: 'pound' },
-      { key: 'contract_splitting', label: 'Contract Splitting', icon: 'alert' },
-      { key: 'bid_rigging', label: 'Bid Rigging', icon: 'alert' },
-      { key: 'undeclared_interests', label: 'Undeclared Interests', icon: 'eye' },
+      { key: 'contract_splitting', label: 'Contract Splitting Patterns', icon: 'alert' },
+      { key: 'bid_rigging', label: 'Procurement Pattern Indicators', icon: 'alert' },
+      { key: 'undeclared_interests', label: 'Unmatched Register Entries', icon: 'eye' },
       { key: 'formation_timing', label: 'Formation Timing', icon: 'file' },
       { key: 'securities_conflicts', label: 'Securities', icon: 'trending' },
-      { key: 'phantom_companies', label: 'Phantom Companies', icon: 'building' },
+      { key: 'phantom_companies', label: 'Minimal-Activity Companies', icon: 'building' },
     ]
     return types.map(t => {
       const counts = councillors.map(c => (c[t.key]?.length || 0))
@@ -423,10 +423,12 @@ function Integrity() {
         <div className="integrity-title-row">
           <Fingerprint size={32} className="integrity-icon" />
           <div>
-            <h1>Councillor Integrity Checker</h1>
+            <h1>Councillor Public Interest Register</h1>
             <p className="subtitle">
               Cross-referencing {councillors.length} councillors against 8+ public data sources
-              including Companies House, Electoral Commission, FCA Register, and council spending data
+              including Companies House, Electoral Commission, FCA Register, and council spending data.
+              All data shown is from publicly available registers. Patterns identified here are for
+              transparency purposes and do not imply wrongdoing.
             </p>
           </div>
         </div>
@@ -435,7 +437,7 @@ function Integrity() {
       {/* Methodology */}
       <CollapsibleSection
         title="Methodology"
-        subtitle={`${integrity?.data_sources?.length || 31}-source political fraud detection (v${integrity?.version || '6.0'})`}
+        subtitle={`${integrity?.data_sources?.length || 31}-source public register cross-reference (v${integrity?.version || '6.0'})`}
         icon={<Info size={18} />}
         severity="info"
       >
@@ -544,11 +546,11 @@ function Integrity() {
             </div>
             <div className="dashboard-card accent-warning">
               <span className="dashboard-number">{stats.red_flags_total}</span>
-              <span className="dashboard-label">Red Flags</span>
+              <span className="dashboard-label">Compliance Flags</span>
             </div>
             <div className="dashboard-card accent-critical">
               <span className="dashboard-number">{stats.supplier_conflicts + (stats.cross_council_conflicts || 0)}</span>
-              <span className="dashboard-label">Supplier Connections</span>
+              <span className="dashboard-label">Supplier Overlaps</span>
               {stats.supplier_conflicts_by_type && (
                 <span className="dashboard-breakdown">
                   {stats.supplier_conflicts_by_type.commercial > 0 && <span className="breakdown-commercial">{stats.supplier_conflicts_by_type.commercial} commercial</span>}
@@ -564,7 +566,7 @@ function Integrity() {
             </div>
             <div className="dashboard-card">
               <span className="dashboard-number">{stats.misconduct_patterns || 0}</span>
-              <span className="dashboard-label">Misconduct Patterns</span>
+              <span className="dashboard-label">Conduct Patterns</span>
             </div>
             <div className="dashboard-card">
               <span className="dashboard-number">{stats.co_directors_mapped || 0}</span>
@@ -609,7 +611,7 @@ function Integrity() {
             {(stats.shell_company_donors || 0) > 0 && (
               <div className="dashboard-card accent-critical">
                 <span className="dashboard-number">{stats.shell_company_donors}</span>
-                <span className="dashboard-label">Shell Company Donors</span>
+                <span className="dashboard-label">Dormant Company Donor Links</span>
               </div>
             )}
             {(stats.threshold_manipulation_alerts || 0) > 0 && (
@@ -627,13 +629,13 @@ function Integrity() {
             {(stats.phantom_companies || 0) > 0 && (
               <div className="dashboard-card accent-warning">
                 <span className="dashboard-number">{stats.phantom_companies}</span>
-                <span className="dashboard-label">Phantom Companies</span>
+                <span className="dashboard-label">Minimal-Activity Companies</span>
               </div>
             )}
             {(stats.bid_rigging_indicators || 0) > 0 && (
               <div className="dashboard-card accent-critical">
                 <span className="dashboard-number">{stats.bid_rigging_indicators}</span>
-                <span className="dashboard-label">Bid Rigging Patterns</span>
+                <span className="dashboard-label">Procurement Pattern Flags</span>
               </div>
             )}
             {(stats.temporal_clusters || 0) > 0 && (
@@ -651,7 +653,7 @@ function Integrity() {
             {(stats.undeclared_interests || 0) > 0 && (
               <div className="dashboard-card accent-critical">
                 <span className="dashboard-number">{stats.undeclared_interests}</span>
-                <span className="dashboard-label">Undeclared Interests</span>
+                <span className="dashboard-label">Unmatched Register Entries</span>
               </div>
             )}
             {(stats.formation_timing_flags || 0) > 0 && (
@@ -807,12 +809,12 @@ function Integrity() {
             <div className="network-advisory">
               <div className="network-advisory-header">
                 <Users size={20} />
-                <h3>Network Investigation Advisable</h3>
+                <h3>Extended Network Review Suggested</h3>
               </div>
               <p>
-                <strong>{stats.networkInvestigationCandidates} councillor{stats.networkInvestigationCandidates !== 1 ? 's' : ''}</strong> flagged
-                for deeper associate network analysis based on: 3+ active directorships, supplier conflicts,
-                or elevated/high risk profile.
+                <strong>{stats.networkInvestigationCandidates} councillor{stats.networkInvestigationCandidates !== 1 ? 's' : ''}</strong> identified
+                as candidates for extended network review based on: 3+ active directorships, supplier overlaps,
+                or elevated risk indicator profile. This is a data-driven suggestion, not an allegation.
               </p>
               <div className="network-candidates">
                 {stats.networkCandidateNames.map(name => (
@@ -822,8 +824,9 @@ function Integrity() {
                 ))}
               </div>
               <p className="network-note">
-                A network investigation traces all co-directors of each company, maps their other companies,
-                and identifies hidden connections to council spending, insolvency practitioners, or shell company networks.
+                An extended network review traces all co-directors of each company, maps their other companies,
+                and identifies connections to council spending or related entities that may not be immediately
+                apparent from public register data alone.
               </p>
             </div>
           )}
@@ -878,7 +881,7 @@ function Integrity() {
               aria-selected={activeTab === 'investigation'}
             >
               <Eye size={16} />
-              Investigation Priorities
+              Review Priorities
               <span className="tab-count">{investigationPriorities.length}</span>
             </button>
           )}
@@ -1030,11 +1033,12 @@ function Integrity() {
       {/* ══════ Investigation Priorities Tab ══════ */}
       {activeTab === 'investigation' && investigationPriorities.length > 0 && (
         <section className="integrity-investigation-section">
-          <h3><Eye size={18} /> Investigation Priorities</h3>
+          <h3><Eye size={18} /> Review Priorities</h3>
           <p className="section-desc">
-            Ranked list of the most concerning findings across all councillors, sorted by
-            critical flag count and network centrality score. These represent the highest-priority
-            cases for further examination.
+            Ranked list of councillors with the highest number of flagged patterns across all data sources,
+            sorted by flag count and network centrality score. These represent cases where the most
+            public register data points overlap, warranting closer review. This ranking does not imply
+            wrongdoing.
           </p>
           <div className="investigation-list">
             {investigationPriorities.map((item, i) => (
@@ -1105,8 +1109,8 @@ function Integrity() {
           {/* Supplier-donor pipeline */}
           {ecDonations.supplier_donations?.length > 0 && (
             <div className="donations-findings">
-              <h4><AlertTriangle size={16} /> Supplier-Donor Pipeline</h4>
-              <p className="section-desc">Companies that both donate to political parties AND receive council contracts.</p>
+              <h4><AlertTriangle size={16} /> Supplier-Donor Overlap</h4>
+              <p className="section-desc">Organisations that appear in both Electoral Commission donation records and council supplier payment records. This overlap is disclosed for transparency; it does not imply any improper relationship.</p>
               <div className="findings-list">
                 {ecDonations.supplier_donations.slice(0, 20).map((sd, i) => (
                   <div key={i} className="integrity-finding severity-high">
@@ -1129,7 +1133,7 @@ function Integrity() {
           {ecDonations.threshold_proximity?.length > 0 && (
             <div className="donations-findings">
               <h4><AlertTriangle size={16} /> Threshold Proximity Alerts</h4>
-              <p className="section-desc">Donations suspiciously close to PPERA reporting thresholds — may indicate structured giving.</p>
+              <p className="section-desc">Donations close to PPERA reporting thresholds. Proximity to thresholds has many legitimate explanations and does not indicate deliberate structuring.</p>
               <div className="findings-list">
                 {ecDonations.threshold_proximity.slice(0, 15).map((tp, i) => (
                   <div key={i} className="integrity-finding severity-warning">
@@ -1148,7 +1152,7 @@ function Integrity() {
           {ecDonations.temporal_clusters?.length > 0 && (
             <div className="donations-findings">
               <h4><AlertTriangle size={16} /> Temporal Donation Clusters</h4>
-              <p className="section-desc">Multiple donations from different donors arriving within a 30-day window — possible coordination.</p>
+              <p className="section-desc">Multiple donations from different donors arriving within a 30-day window. Clustering may reflect campaign periods, fundraising events, or other legitimate activity.</p>
               <div className="findings-list">
                 {ecDonations.temporal_clusters.slice(0, 10).map((tc, i) => (
                   <div key={i} className="integrity-finding severity-high">
@@ -1507,9 +1511,9 @@ function Integrity() {
                       </span>
                     )}
                     {hasConflicts && (
-                      <span className="badge-conflict" title="Potential supplier conflict">
+                      <span className="badge-conflict" title="Company directorship overlaps with a council supplier">
                         <AlertTriangle size={12} />
-                        Conflict
+                        Supplier Overlap
                       </span>
                     )}
                     {hasCrossCouncil && (
@@ -1519,19 +1523,19 @@ function Integrity() {
                       </span>
                     )}
                     {hasMisconduct && (
-                      <span className="badge-misconduct" title="Misconduct pattern detected">
+                      <span className="badge-misconduct" title="Conduct pattern flagged from public register data">
                         <ShieldAlert size={12} />
-                        Misconduct
+                        Conduct Flag
                       </span>
                     )}
                     {hasFamilyConflict && (
-                      <span className="badge-family" title="Family member supplier conflict">
+                      <span className="badge-family" title="Family member linked to a council supplier">
                         <Heart size={12} />
                         Family
                       </span>
                     )}
                     {needsNetworkInvestigation && (
-                      <span className="badge-network" title="Network investigation advisable">
+                      <span className="badge-network" title="Extended network review suggested">
                         <Users size={12} />
                         Network
                       </span>
@@ -1584,9 +1588,9 @@ function Integrity() {
                         <span className="score-title">Integrity Score</span>
                         <span className="score-desc">
                           Based on {ch.total_directorships} directorship{ch.total_directorships !== 1 ? 's' : ''},{' '}
-                          {councillor.red_flags?.length || 0} red flag{(councillor.red_flags?.length || 0) !== 1 ? 's' : ''},{' '}
-                          {councillor.supplier_conflicts?.length || 0} supplier conflict{(councillor.supplier_conflicts?.length || 0) !== 1 ? 's' : ''},
-                          {councillor.misconduct_patterns?.length ? ` ${councillor.misconduct_patterns.length} misconduct pattern${councillor.misconduct_patterns.length !== 1 ? 's' : ''},` : ''}
+                          {councillor.red_flags?.length || 0} compliance flag{(councillor.red_flags?.length || 0) !== 1 ? 's' : ''},{' '}
+                          {councillor.supplier_conflicts?.length || 0} supplier overlap{(councillor.supplier_conflicts?.length || 0) !== 1 ? 's' : ''},
+                          {councillor.misconduct_patterns?.length ? ` ${councillor.misconduct_patterns.length} conduct pattern flag${councillor.misconduct_patterns.length !== 1 ? 's' : ''},` : ''}
                           {' '}checked across {councillor.data_sources_checked?.length || 1} data source{(councillor.data_sources_checked?.length || 1) !== 1 ? 's' : ''}
                         </span>
                       </div>
@@ -1599,7 +1603,7 @@ function Integrity() {
                       <summary className="network-investigation-summary">
                         <Users size={16} />
                         <strong>
-                          Network investigation advisable
+                          Extended network review suggested
                           {networkPriority === 'high' && <span className="priority-badge">HIGH PRIORITY</span>}
                         </strong>
                         <span className="network-reasons-count">{networkReasons.length || '?'} reason{networkReasons.length !== 1 ? 's' : ''}</span>
@@ -1619,9 +1623,10 @@ function Integrity() {
                           </p>
                         )}
                         <p className="network-methodology">
-                          A network investigation traces all co-directors of each company, maps their
-                          other directorships, checks insolvency records and the Gazette, and identifies
-                          hidden connections to council spending or shell company networks.
+                          An extended network review traces all co-directors of each company, maps their
+                          other directorships, checks public insolvency records and the Gazette, and
+                          identifies connections to council spending not immediately apparent from register
+                          data alone.
                         </p>
                       </div>
                     </details>
@@ -1742,7 +1747,7 @@ function Integrity() {
                   {/* Red Flags */}
                   {councillor.red_flags?.length > 0 && (
                     <div className="flags-section">
-                      <h4><AlertTriangle size={16} /> Red Flags ({councillor.red_flags.length})</h4>
+                      <h4><AlertTriangle size={16} /> Compliance Flags ({councillor.red_flags.length})</h4>
                       <div className="flags-list">
                         {councillor.red_flags.map((flag, i) => (
                           <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[flag.severity] || '#666' }}>
@@ -1777,7 +1782,7 @@ function Integrity() {
                             arms_length_body: 'conflict-type-armslength',
                           }[ctype] || 'conflict-type-commercial'
                           const typeTooltip = {
-                            commercial: 'Personal commercial interest — genuine conflict of interest',
+                            commercial: 'Personal commercial interest — directorship overlaps with council supplier',
                             community_trustee: 'Community organisation or charity — informational only',
                             council_appointed: 'Council-nominated directorship — not a personal conflict. This role is likely appointed by the council.',
                             arms_length_body: "Arm's-length body or outsourcing partner — standard council relationship",
@@ -1837,7 +1842,7 @@ function Integrity() {
                             arms_length_body: 'conflict-type-armslength',
                           }[ctype] || 'conflict-type-commercial'
                           const typeTooltip = {
-                            commercial: 'Personal commercial interest — genuine conflict of interest',
+                            commercial: 'Personal commercial interest — directorship overlaps with council supplier',
                             community_trustee: 'Community organisation or charity — informational only',
                             council_appointed: 'Council-nominated directorship — not a personal conflict',
                             arms_length_body: "Arm's-length body or outsourcing partner — standard council relationship",
@@ -1953,7 +1958,7 @@ function Integrity() {
                   {/* Misconduct Patterns */}
                   {councillor.misconduct_patterns?.length > 0 && (
                     <div className="misconduct-section">
-                      <h4><ShieldAlert size={16} /> Misconduct Patterns ({councillor.misconduct_patterns.length})</h4>
+                      <h4><ShieldAlert size={16} /> Conduct Pattern Flags ({councillor.misconduct_patterns.length})</h4>
                       <div className="flags-list">
                         {councillor.misconduct_patterns.map((pattern, i) => (
                           <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[pattern.severity] || '#666' }}>
@@ -1974,7 +1979,7 @@ function Integrity() {
                       {councillor.familial_connections.has_family_supplier_conflict && (
                         <div className="family-alert">
                           <AlertTriangle size={14} />
-                          <strong>Family member's company is a council supplier — potential undeclared DPI</strong>
+                          <strong>Family member's company matches a council supplier record — may be a Disclosable Pecuniary Interest (DPI) under the Localism Act 2011</strong>
                         </div>
                       )}
                       <div className="family-members-list">
@@ -2150,7 +2155,7 @@ function Integrity() {
                   {/* v5: Shell Company Findings */}
                   {councillor.shell_company_findings?.length > 0 && (
                     <div className="v5-findings-section">
-                      <h4><Building2 size={16} /> Shell Company Donor Findings</h4>
+                      <h4><Building2 size={16} /> Dormant Company Donor Links</h4>
                       <div className="flags-list">
                         {councillor.shell_company_findings.map((finding, i) => (
                           <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.critical }}>
@@ -2167,7 +2172,7 @@ function Integrity() {
                   {/* v5: Contract Splitting */}
                   {councillor.contract_splitting?.length > 0 && (
                     <div className="v5-findings-section">
-                      <h4><AlertTriangle size={16} /> Contract Splitting Detection</h4>
+                      <h4><AlertTriangle size={16} /> Contract Splitting Pattern</h4>
                       <div className="flags-list">
                         {councillor.contract_splitting.map((finding, i) => (
                           <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.critical }}>
@@ -2184,7 +2189,7 @@ function Integrity() {
                   {/* v5: Phantom Companies */}
                   {councillor.phantom_companies?.length > 0 && (
                     <div className="v5-findings-section">
-                      <h4><Building2 size={16} /> Phantom Company Detection</h4>
+                      <h4><Building2 size={16} /> Minimal-Activity Company Links</h4>
                       <div className="flags-list">
                         {councillor.phantom_companies.map((finding, i) => (
                           <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.high }}>
@@ -2225,7 +2230,7 @@ function Integrity() {
                   {/* v5: Bid Rigging */}
                   {councillor.bid_rigging?.length > 0 && (
                     <div className="v5-findings-section">
-                      <h4><ShieldAlert size={16} /> Bid Rigging Indicators</h4>
+                      <h4><ShieldAlert size={16} /> Procurement Pattern Indicators</h4>
                       <div className="flags-list">
                         {councillor.bid_rigging.map((finding, i) => (
                           <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.critical }}>
@@ -2242,7 +2247,7 @@ function Integrity() {
                   {/* v5: Threshold Manipulation */}
                   {councillor.threshold_manipulation?.length > 0 && (
                     <div className="v5-findings-section">
-                      <h4><PoundSterling size={16} /> Donation Threshold Manipulation</h4>
+                      <h4><PoundSterling size={16} /> Donation Threshold Proximity</h4>
                       <div className="flags-list">
                         {councillor.threshold_manipulation.map((finding, i) => (
                           <div key={i} className="flag-row" style={{ borderLeftColor: SEVERITY_COLORS[finding.severity] || SEVERITY_COLORS.high }}>

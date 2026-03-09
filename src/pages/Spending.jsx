@@ -913,16 +913,18 @@ function Spending() {
                     {chartData.supplierData.slice(0, 10).map((s, i) => {
                       const totalAll = chartData.supplierData.reduce((sum, x) => sum + x.value, 0) || 1
                       const pct = (s.value / totalAll * 100).toFixed(1)
-                      // Generate fake sparkline from value distribution
-                      const sparkData = Array.from({ length: 8 }, () => Math.random() * s.value / 8 + s.value / 16)
                       return (
                         <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
                           <td style={{ padding: '6px 8px', color: '#e5e5e7' }}>{truncate(s.fullName || s.name, 28)}</td>
                           <td style={{ padding: '6px 8px', textAlign: 'right', color: '#fff', fontWeight: 600 }}>{formatCurrency(s.value, true)}</td>
                           <td style={{ padding: '6px 8px', textAlign: 'right', color: '#8e8e93' }}>{s.count.toLocaleString()}</td>
                           <td style={{ padding: '6px 8px', textAlign: 'center' }}>
-                            <SparkLine data={sparkData} color={CHART_COLORS[i % CHART_COLORS.length]} width={60} height={20} showDot fill />
-                            <span style={{ fontSize: 10, color: '#636366', marginLeft: 4 }}>{pct}%</span>
+                            <div style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}>
+                              <div style={{ width: 50, height: 6, borderRadius: 3, background: 'rgba(255,255,255,0.08)', overflow: 'hidden' }}>
+                                <div style={{ width: `${Math.min(parseFloat(pct), 100)}%`, height: '100%', borderRadius: 3, background: CHART_COLORS[i % CHART_COLORS.length] }} />
+                              </div>
+                              <span style={{ fontSize: 10, color: '#636366' }}>{pct}%</span>
+                            </div>
                           </td>
                         </tr>
                       )

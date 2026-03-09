@@ -24,7 +24,8 @@ function formatTime(timeStr) {
   const hour = parseInt(parts[0], 10)
   const min = parts[1] || '00'
   if (isNaN(hour)) return timeStr
-  return `${hour > 12 ? hour - 12 : hour}:${min} ${hour >= 12 ? 'PM' : 'AM'}`
+  const displayHour = hour === 0 ? 12 : (hour > 12 ? hour - 12 : hour)
+  return `${displayHour}:${min} ${hour >= 12 ? 'PM' : 'AM'}`
 }
 
 function daysUntil(dateStr) {

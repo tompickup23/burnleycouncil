@@ -30,22 +30,22 @@ import './Intelligence.css'
 const SEVERITY_COLORS = { high: '#ff453a', medium: '#ff9f0a', low: '#8e8e93' }
 const RISK_COLORS = { high: '#ff453a', elevated: '#ff9f0a', medium: '#ffd60a', low: '#30d158' }
 
-// Section definitions
-const SECTIONS = [
-  { id: 'warRoom', label: 'War Room', icon: Swords },
+// Section definitions — labels are set dynamically below based on the ruling party
+const BASE_SECTIONS = [
+  { id: 'warRoom', label: 'Briefing Room', icon: Swords },
   { id: 'profiles', label: 'Opposition', icon: Users },
   { id: 'dossier', label: 'Dossier', icon: FileText },
-  { id: 'reform', label: "Reform's Record", icon: Award },
+  { id: 'rulingRecord', label: 'Our Record', icon: Award },
 ]
 
 // ============================================================================
 // Sub-components
 // ============================================================================
 
-function SectionNav({ activeSection, onSelect }) {
+function SectionNav({ activeSection, onSelect, sections }) {
   return (
     <nav className="intel-section-nav" aria-label="Intelligence sections">
-      {SECTIONS.map(s => (
+      {sections.map(s => (
         <button
           key={s.id}
           className={`intel-nav-btn ${activeSection === s.id ? 'active' : ''}`}
@@ -105,7 +105,7 @@ function CopyButton({ text }) {
   )
 }
 
-function AttackLine({ line }) {
+function BriefingNote({ line }) {
   return (
     <div className="intel-attack-line" style={{ borderLeftColor: SEVERITY_COLORS[line.severity] || '#888' }}>
       <div className="attack-line-content">
@@ -206,11 +206,29 @@ export default function Intelligence() {
     return buildMeetingBriefing(selectedMeeting, allData)
   }, [selectedMeeting, allData])
 
+  // --- Derived: ruling party (largest party by seats, from politics_summary) ---
+  const rulingParty = useMemo(() => {
+    if (!politicsSummary?.by_party?.length) return null
+    // Largest party by seat count
+    return [...politicsSummary.by_party].sort((a, b) => (b.count || 0) - (a.count || 0))[0]?.party || null
+  }, [politicsSummary])
+
+  // --- Derived: section labels (dynamic based on ruling party) ---
+  const SECTIONS = useMemo(() => {
+    return BASE_SECTIONS.map(s => {
+      if (s.id === 'rulingRecord' && rulingParty) {
+        return { ...s, label: `${rulingParty} Record` }
+      }
+      return s
+    })
+  }, [rulingParty])
+
   // --- Derived: opposition councillors ---
   const oppositionCouncillors = useMemo(() => {
     const councillors = allData.councillors || []
-    return councillors.filter(c => c.party && c.party !== 'Reform UK')
-  }, [allData.councillors])
+    if (!rulingParty) return councillors
+    return councillors.filter(c => c.party && c.party !== rulingParty)
+  }, [allData.councillors, rulingParty])
 
   // --- Derived: opposition parties for filter ---
   const oppositionParties = useMemo(() => {
@@ -304,7 +322,7 @@ export default function Intelligence() {
           <div>
             <h1><Shield size={28} /> {councilName} Intelligence</h1>
             <p className="intel-subtitle">
-              Opposition war-gaming • {oppositionCouncillors.length} opposition councillors • {sortedMeetings.length} meetings tracked
+              Opposition analysis • {oppositionCouncillors.length} opposition councillors • {sortedMeetings.length} meetings tracked
             </p>
           </div>
         </div>
@@ -313,16 +331,16 @@ export default function Intelligence() {
         </div>
       </header>
 
-      <SectionNav activeSection={activeSection} onSelect={setActiveSection} />
+      <SectionNav activeSection={activeSection} onSelect={setActiveSection} sections={SECTIONS} />
 
       {/* ================================================================ */}
-      {/* SECTION A: MEETING WAR ROOM */}
+      {/* SECTION A: MEETING BRIEFING ROOM */}
       {/* ================================================================ */}
       {activeSection === 'warRoom' && (
         <section className="intel-section">
-          <h2><Swords size={20} /> Meeting War Room</h2>
+          <h2><Swords size={20} /> Meeting Briefing Room</h2>
           <p className="intel-section-desc">
-            Select a meeting to see who's in the room, get opposition dossiers, and prepare attack material.
+            Select a meeting to review attendees, view opposition profiles, and prepare briefing notes.
           </p>
 
           {/* Meeting selector */}
@@ -393,11 +411,11 @@ export default function Intelligence() {
             <div className="intel-members-section">
               <h3><Users size={16} /> Committee Members</h3>
 
-              {/* Reform members */}
+              {/* Ruling party members */}
               {meetingBriefing.reformMembers?.length > 0 && (
                 <div className="members-group">
                   <h4 className="members-group-label reform-label">
-                    <UserCheck size={14} /> Reform UK ({meetingBriefing.reformMembers.length})
+                    <UserCheck size={14} /> {rulingParty || 'Ruling Party'} ({meetingBriefing.reformMembers.length})
                   </h4>
                   <div className="members-grid">
                     {meetingBriefing.reformMembers.map((m, i) => (
@@ -527,12 +545,13 @@ export default function Intelligence() {
             </div>
           )}
 
-          {/* War Game — per-item attack prediction and counter-arguments */}
+          {/* Scenario analysis — per-item opposition challenge scenarios and counter-arguments */}
           {meetingBriefing?.warGame?.length > 0 && (
             <div className="intel-wargame-section">
-              <h3><Swords size={16} /> War Game — Attack Predictions &amp; Counters</h3>
+              <h3><Swords size={16} /> Scenario Analysis — Opposition Challenges &amp; Responses</h3>
               <p className="intel-section-desc">
-                Predicted opposition attacks per agenda item with prepared counter-arguments and supporting data.
+                Modelled opposition challenges per agenda item with prepared counter-arguments and supporting data.
+                These are data-informed projections, not certainties.
               </p>
               {meetingBriefing.warGame.map((wg, i) => (
                 <WarGameCard key={i} warGame={wg} />
@@ -691,7 +710,7 @@ export default function Intelligence() {
             <div className="intel-empty-state">
               <FileText size={48} />
               <h3>No councillor selected</h3>
-              <p>Select a councillor from the Opposition Profiles or War Room to view their full dossier.</p>
+              <p>Select a councillor from the Opposition Profiles or Briefing Room to view their full dossier.</p>
               <button className="intel-action-btn" onClick={() => setActiveSection('profiles')}>
                 <Users size={14} /> Browse Opposition
               </button>
@@ -701,25 +720,25 @@ export default function Intelligence() {
       )}
 
       {/* ================================================================ */}
-      {/* SECTION D: REFORM'S RECORD */}
+      {/* SECTION D: RULING PARTY RECORD */}
       {/* ================================================================ */}
-      {activeSection === 'reform' && (
+      {activeSection === 'rulingRecord' && (
         <section className="intel-section">
-          <h2><Award size={20} /> Reform's Record</h2>
+          <h2><Award size={20} /> {rulingParty ? `${rulingParty} Record` : 'Administration Record'}</h2>
           <p className="intel-section-desc">
-            Defensive talking points and achievements by policy area. Use these to rebut opposition attacks.
+            Data-informed discussion points and achievements by policy area. Use these to respond to opposition challenges.
           </p>
 
           {/* Reform rebuttals */}
           {REFORM_REBUTTALS.length > 0 && (
             <div className="intel-rebuttals-section">
               <h3><Shield size={16} /> Rebuttal Guide</h3>
-              <p className="intel-section-desc">Common opposition attacks and pre-built Reform responses.</p>
+              <p className="intel-section-desc">Common opposition challenges with data-informed responses.</p>
               <div className="rebuttal-list">
                 {REFORM_REBUTTALS.map((r, i) => (
                   <div key={i} className="rebuttal-card">
                     <div className="rebuttal-attack">
-                      <span className="rebuttal-label">Attack:</span> "{r.attack}"
+                      <span className="rebuttal-label">Challenge:</span> "{r.attack}"
                     </div>
                     <div className="rebuttal-response">
                       <span className="rebuttal-label">Response:</span> {r.rebuttal}
@@ -755,14 +774,14 @@ export default function Intelligence() {
               {/* Comparison table */}
               {(reformTransformation.comparison_table?.rows?.length > 0 || (Array.isArray(reformTransformation.comparison_table) && reformTransformation.comparison_table.length > 0)) && (
                 <div className="intel-comparison">
-                  <h4>{reformTransformation.comparison_table?.title || 'Reform vs Conservative'}</h4>
+                  <h4>{reformTransformation.comparison_table?.title || 'Administration Comparison'}</h4>
                   <div className="comparison-table-wrap">
                     <table className="intel-comparison-table">
                       <thead>
                         <tr>
                           <th>Metric</th>
-                          <th>Conservative</th>
-                          <th>Reform UK</th>
+                          <th>Previous Administration</th>
+                          <th>Current Administration</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -807,7 +826,7 @@ export default function Intelligence() {
 
           {/* Defence lines by policy area */}
           <div className="intel-defence-section">
-            <h3><Shield size={16} /> Defence Lines by Policy Area</h3>
+            <h3><Shield size={16} /> Response Points by Policy Area</h3>
             <div className="defence-area-grid">
               {Object.entries(POLICY_AREAS).map(([areaKey, areaLabel]) => {
                 const defence = buildReformDefenceLines(areaKey, reformTransformation)
@@ -835,7 +854,7 @@ export default function Intelligence() {
       <footer className="intel-footer">
         <p>
           Intelligence engine powered by AI DOGE data (voting records, integrity checks, register of interests, DOGE findings).
-          Attack lines are for internal strategic use only. Always verify facts before deployment.
+          Briefing notes are data-informed discussion points for internal strategic use only. Always verify facts independently before use.
         </p>
       </footer>
     </div>
@@ -867,17 +886,17 @@ function WarGameCard({ warGame }) {
           <span className="wargame-card-title">{warGame.agendaItem}</span>
         </div>
         <div className="wargame-card-tags">
-          <span className="wargame-attack-count">{warGame.attackPredictions.length} predicted attacker{warGame.attackPredictions.length !== 1 ? 's' : ''}</span>
-          <span className="wargame-counter-count">{warGame.counters.length} counter{warGame.counters.length !== 1 ? 's' : ''}</span>
+          <span className="wargame-attack-count">{warGame.attackPredictions.length} projected challenger{warGame.attackPredictions.length !== 1 ? 's' : ''}</span>
+          <span className="wargame-counter-count">{warGame.counters.length} response{warGame.counters.length !== 1 ? 's' : ''}</span>
         </div>
       </div>
 
       {expanded && (
         <div className="wargame-card-body">
-          {/* Predicted attacks per opposition member */}
+          {/* Projected challenges per opposition member */}
           {warGame.attackPredictions.length > 0 && (
             <div className="wargame-subsection attacks">
-              <h5><AlertTriangle size={12} /> Predicted Attacks</h5>
+              <h5><AlertTriangle size={12} /> Projected Challenges</h5>
               {warGame.attackPredictions.map((att, i) => (
                 <div key={i} className="wargame-attacker">
                   <div className="wargame-attacker-header">
@@ -911,7 +930,7 @@ function WarGameCard({ warGame }) {
           {/* Counter-arguments */}
           {warGame.counters.length > 0 && (
             <div className="wargame-subsection counters">
-              <h5><Shield size={12} /> Counter-Arguments &amp; Reform Record</h5>
+              <h5><Shield size={12} /> Counter-Arguments &amp; Administration Record</h5>
               {warGame.counters.map((c, i) => (
                 <div key={i} className={`wargame-counter ${c.type}`}>
                   {c.type === 'rebuttal' && c.trigger && (
@@ -997,7 +1016,7 @@ function AgendaIntelCard({ intel }) {
 
           {intel.matchingAchievements?.length > 0 && (
             <div className="agenda-intel-subsection">
-              <h5>Reform Achievements</h5>
+              <h5>Administration Achievements</h5>
               {intel.matchingAchievements.map((a, i) => (
                 <div key={i} className="agenda-achievement">
                   <strong>{a.title || a.headline}</strong>
@@ -1012,7 +1031,7 @@ function AgendaIntelCard({ intel }) {
               <h5>Prepared Rebuttals</h5>
               {intel.matchingRebuttals.map((r, i) => (
                 <div key={i} className="agenda-rebuttal">
-                  <strong>If they say:</strong> "{r.attack}" → <strong>We say:</strong> {r.rebuttal}
+                  <strong>If challenged:</strong> "{r.attack}" → <strong>Suggested response:</strong> {r.rebuttal}
                 </div>
               ))}
             </div>
@@ -1040,7 +1059,7 @@ const DOSSIER_TABS = [
   { id: 'profile', label: 'Profile', icon: Users },
   { id: 'voting', label: 'Voting Record', icon: BarChart3 },
   { id: 'integrity', label: 'Integrity', icon: Shield },
-  { id: 'attacks', label: 'Attack Lines', icon: Swords },
+  { id: 'attacks', label: 'Briefing Notes', icon: Swords },
 ]
 
 function CouncillorDossierView({ dossier, activeTab, onTabChange, onBack }) {
@@ -1341,14 +1360,14 @@ function DossierIntegrityTab({ dossier }) {
 
 function DossierAttacksTab({ dossier }) {
   if (!dossier.attackLines?.length) {
-    return <p className="dossier-empty-tab">No attack lines generated for this councillor.</p>
+    return <p className="dossier-empty-tab">No briefing notes generated for this councillor.</p>
   }
 
   return (
     <div className="dossier-tab-panel">
       <p className="intel-section-desc">
-        {dossier.attackLines.length} attack lines sorted by severity.
-        Click the copy icon to copy individual lines to clipboard.
+        {dossier.attackLines.length} data-informed briefing notes sorted by relevance.
+        These are factual discussion points drawn from public records. Click the copy icon to copy individual notes.
       </p>
 
       {/* Attack severity distribution chart */}
@@ -1368,7 +1387,7 @@ function DossierAttacksTab({ dossier }) {
                 <YAxis dataKey="severity" type="category" tick={AXIS_TICK_STYLE} width={70} />
                 <Tooltip
                   contentStyle={TOOLTIP_STYLE}
-                  formatter={(v) => [`${v} attack line${v !== 1 ? 's' : ''}`, 'Count']}
+                  formatter={(v) => [`${v} briefing note${v !== 1 ? 's' : ''}`, 'Count']}
                 />
                 <Bar dataKey="count" radius={[0, 6, 6, 0]}>
                   {severityCounts.map((entry, i) => (
@@ -1391,7 +1410,7 @@ function DossierAttacksTab({ dossier }) {
               {sev.charAt(0).toUpperCase() + sev.slice(1)} Severity ({lines.length})
             </h4>
             {lines.map((line, i) => (
-              <AttackLine key={i} line={line} />
+              <BriefingNote key={i} line={line} />
             ))}
           </div>
         )

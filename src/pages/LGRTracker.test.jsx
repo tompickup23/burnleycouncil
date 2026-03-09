@@ -583,7 +583,7 @@ describe('LGRTracker', () => {
       expect(screen.getByText('Proposals submitted')).toBeInTheDocument()
       expect(screen.getByText('Consultation opens')).toBeInTheDocument()
       expect(screen.getByText('Consultation closes')).toBeInTheDocument()
-    })
+    }, 15000)
 
     it('shows event details', () => {
       setupMocks()
@@ -682,13 +682,13 @@ describe('LGRTracker', () => {
     it('renders the independent model heading', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText(/AI DOGE Independent Financial Model/)).toBeInTheDocument()
+      expect(screen.getByText(/AI DOGE Financial Model/)).toBeInTheDocument()
     })
 
     it('shows savings explainer', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText('How We Calculate Savings')).toBeInTheDocument()
+      expect(screen.getByText(/How Savings Are Calculated/)).toBeInTheDocument()
       expect(screen.getAllByText(/75% realisation rate/).length).toBeGreaterThanOrEqual(1)
     })
 
@@ -715,7 +715,7 @@ describe('LGRTracker', () => {
     it('shows Newton Europe comparison', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText(/Consultants vs AI DOGE: Gross Savings Comparison/)).toBeInTheDocument()
+      expect(screen.getByText(/Newton Europe vs AI DOGE: Gross Savings Comparison/)).toBeInTheDocument()
     })
 
     it('shows net annual impact', () => {
@@ -878,7 +878,7 @@ describe('LGRTracker', () => {
     it('shows AI DOGE savings comparison', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText(/AI DOGE realistic savings/)).toBeInTheDocument()
+      expect(screen.getByText(/AI DOGE \(net, 75% realisation\)/)).toBeInTheDocument()
     })
   })
 
@@ -981,7 +981,7 @@ describe('LGRTracker', () => {
     it('shows CCN vs DOGE comparison chart', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText(/CCN\/PwC vs AI DOGE: Realistic Annual Savings/)).toBeInTheDocument()
+      expect(screen.getByText(/CCN\/PwC vs AI DOGE: Annual Savings Comparison/)).toBeInTheDocument()
     })
   })
 

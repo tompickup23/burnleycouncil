@@ -230,7 +230,7 @@ describe('DogeInvestigation', () => {
     it('shows unavailable message when dogeFindings is null', () => {
       setupMocks({ mainData: [null, null, null, null, null] })
       renderComponent()
-      expect(screen.getByText(/investigation data is not yet available/i)).toBeInTheDocument()
+      expect(screen.getByText(/spending review data is not yet available/i)).toBeInTheDocument()
       expect(screen.getByText(/Burnley/)).toBeInTheDocument()
     })
 
@@ -241,7 +241,7 @@ describe('DogeInvestigation', () => {
         return { data: null, loading: false, error: null }
       })
       renderComponent()
-      expect(screen.getByText(/investigation data is not yet available/i)).toBeInTheDocument()
+      expect(screen.getByText(/spending review data is not yet available/i)).toBeInTheDocument()
     })
   })
 
@@ -250,7 +250,7 @@ describe('DogeInvestigation', () => {
     it('renders the page heading with council name', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText(/DOGE Investigation: Burnley/)).toBeInTheDocument()
+      expect(screen.getByText(/DOGE Spending Review: Burnley/)).toBeInTheDocument()
     })
 
     it('displays hero stats with correct values', () => {
@@ -291,7 +291,7 @@ describe('DogeInvestigation', () => {
       setupMocks()
       renderComponent()
       expect(screen.getByText(/How this works/)).toBeInTheDocument()
-      expect(screen.getByText(/automated checks/i)).toBeInTheDocument()
+      expect(screen.getByText(/forensic accounting techniques/i)).toBeInTheDocument()
     })
 
     it('includes link to about page', () => {
@@ -391,7 +391,7 @@ describe('DogeInvestigation', () => {
     it('renders top cases table', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText('Highest-Risk Suppliers')).toBeInTheDocument()
+      expect(screen.getByText('Suppliers with Most Compliance Issues')).toBeInTheDocument()
       expect(screen.getByText('DODGY LTD')).toBeInTheDocument()
       expect(screen.getByText('LATE FILER CO')).toBeInTheDocument()
     })
@@ -426,13 +426,13 @@ describe('DogeInvestigation', () => {
     it('renders split payments section', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText('Bills Broken Up to Avoid Checks')).toBeInTheDocument()
+      expect(screen.getByText('Payment Clustering Below Approval Thresholds')).toBeInTheDocument()
     })
 
     it('shows instance count on expand', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText('Bills Broken Up to Avoid Checks').closest('button')
+      const btn = screen.getByText('Payment Clustering Below Approval Thresholds').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/12 instances/)).toBeInTheDocument()
     })
@@ -440,7 +440,7 @@ describe('DogeInvestigation', () => {
     it('shows split payment verification checks', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText('Bills Broken Up to Avoid Checks').closest('button')
+      const btn = screen.getByText('Payment Clustering Below Approval Thresholds').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText('Threshold analysis')).toBeInTheDocument()
       expect(screen.getByText(/False positive risk/)).toBeInTheDocument()
@@ -452,13 +452,13 @@ describe('DogeInvestigation', () => {
     it('renders year-end pattern section', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText('The March Spending Frenzy')).toBeInTheDocument()
+      expect(screen.getByText('Year-End Spending Patterns')).toBeInTheDocument()
     })
 
     it('shows public interest note on expand', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText('The March Spending Frenzy').closest('button')
+      const btn = screen.getByText('Year-End Spending Patterns').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Pattern consistent across multiple years/)).toBeInTheDocument()
     })
@@ -505,13 +505,13 @@ describe('DogeInvestigation', () => {
     it('renders supplier concentration section with HHI', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText('Too Much Money, Too Few Suppliers')).toBeInTheDocument()
+      expect(screen.getByText('Supplier Market Concentration')).toBeInTheDocument()
     })
 
     it('shows top 5 suppliers table on expand', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText('Too Much Money, Too Few Suppliers').closest('button')
+      const btn = screen.getByText('Supplier Market Concentration').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Top 5 Suppliers/)).toBeInTheDocument()
       expect(screen.getByText('BIG CONTRACTOR LTD')).toBeInTheDocument()
@@ -521,7 +521,7 @@ describe('DogeInvestigation', () => {
     it('shows concentration description', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText('Too Much Money, Too Few Suppliers').closest('button')
+      const btn = screen.getByText('Supplier Market Concentration').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/highly concentrated market/)).toBeInTheDocument()
     })
@@ -532,13 +532,13 @@ describe('DogeInvestigation', () => {
     it('renders procurement compliance section', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText('Contracts Without Proper Competition')).toBeInTheDocument()
+      expect(screen.getByText('Procurement Competition Analysis')).toBeInTheDocument()
     })
 
     it('shows procurement stats on expand', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText('Contracts Without Proper Competition').closest('button')
+      const btn = screen.getByText('Procurement Competition Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText('Threshold Suspects')).toBeInTheDocument()
       expect(screen.getByText('Repeat Winners')).toBeInTheDocument()
@@ -549,7 +549,7 @@ describe('DogeInvestigation', () => {
     it('shows threshold suspects table', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText('Contracts Without Proper Competition').closest('button')
+      const btn = screen.getByText('Procurement Competition Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Contracts Near Procurement Thresholds/)).toBeInTheDocument()
       expect(screen.getByText('IT Support Contract')).toBeInTheDocument()
@@ -558,7 +558,7 @@ describe('DogeInvestigation', () => {
     it('shows repeat winners table', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText('Contracts Without Proper Competition').closest('button')
+      const btn = screen.getByText('Procurement Competition Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Repeat Contract Winners/)).toBeInTheDocument()
       expect(screen.getByText('REPEAT WINNER CO')).toBeInTheDocument()
@@ -567,7 +567,7 @@ describe('DogeInvestigation', () => {
     it('shows late publications table', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText('Contracts Without Proper Competition').closest('button')
+      const btn = screen.getByText('Procurement Competition Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Late Contract Publications/)).toBeInTheDocument()
       expect(screen.getByText('WASTE CO')).toBeInTheDocument()
@@ -576,16 +576,16 @@ describe('DogeInvestigation', () => {
     it('shows weak competition table', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText('Contracts Without Proper Competition').closest('button')
+      const btn = screen.getByText('Procurement Competition Analysis').closest('button')
       fireEvent.click(btn)
-      expect(screen.getByText(/Contracts That Raise Questions/)).toBeInTheDocument()
+      expect(screen.getByText(/Contracts with Limited Competition Indicators/)).toBeInTheDocument()
       expect(screen.getByText('GUARD LTD')).toBeInTheDocument()
     })
 
     it('shows monopoly categories table', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText('Contracts Without Proper Competition').closest('button')
+      const btn = screen.getByText('Procurement Competition Analysis').closest('button')
       fireEvent.click(btn)
       // "Category Monopolies" heading exists plus monopoly_category_count stat label
       expect(screen.getAllByText(/Category Monopolies/).length).toBeGreaterThan(0)
@@ -595,7 +595,7 @@ describe('DogeInvestigation', () => {
     it('shows publication timing stats', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText('Contracts Without Proper Competition').closest('button')
+      const btn = screen.getByText('Procurement Competition Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/45 days/)).toBeInTheDocument()
       expect(screen.getByText(/Avg Publication Delay/)).toBeInTheDocument()
@@ -607,13 +607,13 @@ describe('DogeInvestigation', () => {
     it('renders fraud triangle section', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText(/Where the Risk Is Highest/)).toBeInTheDocument()
+      expect(screen.getByText(/Fraud Risk Indicator Assessment/)).toBeInTheDocument()
     })
 
     it('shows overall score and risk level on expand', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText(/Where the Risk Is Highest/).closest('button')
+      const btn = screen.getByText(/Fraud Risk Indicator Assessment/).closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/68\/100/)).toBeInTheDocument()
     })
@@ -621,7 +621,7 @@ describe('DogeInvestigation', () => {
     it('shows three dimensions with scores', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText(/Where the Risk Is Highest/).closest('button')
+      const btn = screen.getByText(/Fraud Risk Indicator Assessment/).closest('button')
       fireEvent.click(btn)
       // "Opportunity" appears in signals too, use getAllByText
       expect(screen.getAllByText(/Opportunity/).length).toBeGreaterThan(0)
@@ -635,7 +635,7 @@ describe('DogeInvestigation', () => {
     it('shows dimension signals', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText(/Where the Risk Is Highest/).closest('button')
+      const btn = screen.getByText(/Fraud Risk Indicator Assessment/).closest('button')
       fireEvent.click(btn)
       expect(screen.getByText('High supplier concentration')).toBeInTheDocument()
       expect(screen.getByText('Weak procurement controls')).toBeInTheDocument()
@@ -645,7 +645,7 @@ describe('DogeInvestigation', () => {
     it('shows no signals message for empty dimension', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText(/Where the Risk Is Highest/).closest('button')
+      const btn = screen.getByText(/Fraud Risk Indicator Assessment/).closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/No signals detected in this dimension/)).toBeInTheDocument()
     })
@@ -653,7 +653,7 @@ describe('DogeInvestigation', () => {
     it('shows fraud triangle radar chart', () => {
       setupMocks()
       renderComponent()
-      const btn = screen.getByText(/Where the Risk Is Highest/).closest('button')
+      const btn = screen.getByText(/Fraud Risk Indicator Assessment/).closest('button')
       fireEvent.click(btn)
       expect(screen.getByText('Risk Dimensions')).toBeInTheDocument()
     })
@@ -945,7 +945,7 @@ describe('DogeInvestigation', () => {
       renderComponent()
       // Split payments is not defaultOpen
       expect(screen.queryByText(/12 instances/)).not.toBeInTheDocument()
-      const btn = screen.getByText('Bills Broken Up to Avoid Checks').closest('button')
+      const btn = screen.getByText('Payment Clustering Below Approval Thresholds').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/12 instances/)).toBeInTheDocument()
       // Click again to close
@@ -957,7 +957,7 @@ describe('DogeInvestigation', () => {
       setupMocks()
       renderComponent()
       // defaultOpen={true} so should be visible without clicking
-      expect(screen.getByText('Highest-Risk Suppliers')).toBeInTheDocument()
+      expect(screen.getByText('Suppliers with Most Compliance Issues')).toBeInTheDocument()
     })
   })
 
@@ -967,27 +967,27 @@ describe('DogeInvestigation', () => {
       setupMocks({ mainData: [mockFindings, null, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
       // Should still render — totalSpend/totalRecords default to 0
-      expect(screen.getByText(/DOGE Investigation: Burnley/)).toBeInTheDocument()
+      expect(screen.getByText(/DOGE Spending Review: Burnley/)).toBeInTheDocument()
     })
 
     it('handles empty findings array', () => {
       const emptyFindings = { ...mockFindings, findings: [], key_findings: [] }
       setupMocks({ mainData: [emptyFindings, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      expect(screen.getByText('0')).toBeInTheDocument() // 0 findings
+      expect(screen.getAllByText('0').length).toBeGreaterThan(0) // 0 findings
     })
 
     it('handles missing verification data', () => {
       setupMocks({ mainData: [mockFindings, mockInsights, null, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      expect(screen.getByText(/DOGE Investigation: Burnley/)).toBeInTheDocument()
+      expect(screen.getByText(/DOGE Spending Review: Burnley/)).toBeInTheDocument()
     })
 
     it('uses doge_context as fallback when no doge_knowledge', () => {
       setupMocks({ knowledgeData: null })
       renderComponent()
       // Should still render — uses config.doge_context as fallback profile
-      expect(screen.getByText(/DOGE Investigation: Burnley/)).toBeInTheDocument()
+      expect(screen.getByText(/DOGE Spending Review: Burnley/)).toBeInTheDocument()
     })
 
     it('handles no payment velocity data', () => {
@@ -1001,28 +1001,28 @@ describe('DogeInvestigation', () => {
       const noSC = { ...mockFindings, supplier_concentration: undefined }
       setupMocks({ mainData: [noSC, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      expect(screen.queryByText('Too Much Money, Too Few Suppliers')).not.toBeInTheDocument()
+      expect(screen.queryByText('Supplier Market Concentration')).not.toBeInTheDocument()
     })
 
     it('handles no procurement compliance data', () => {
       const noPC = { ...mockFindings, procurement_compliance: undefined }
       setupMocks({ mainData: [noPC, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      expect(screen.queryByText('Contracts Without Proper Competition')).not.toBeInTheDocument()
+      expect(screen.queryByText('Procurement Competition Analysis')).not.toBeInTheDocument()
     })
 
     it('handles no fraud triangle data', () => {
       const noFT = { ...mockFindings, fraud_triangle: undefined }
       setupMocks({ mainData: [noFT, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      expect(screen.queryByText(/Where the Risk Is Highest/)).not.toBeInTheDocument()
+      expect(screen.queryByText(/Fraud Risk Indicator Assessment/)).not.toBeInTheDocument()
     })
 
     it('uses council_full_name in config', () => {
       const customConfig = { ...mockConfig, council_name: 'Test', council_full_name: 'Test Metropolitan Borough' }
       setupMocks({ config: customConfig })
       renderComponent()
-      expect(screen.getByText(/DOGE Investigation: Test/)).toBeInTheDocument()
+      expect(screen.getByText(/DOGE Spending Review: Test/)).toBeInTheDocument()
     })
   })
 
@@ -1031,31 +1031,31 @@ describe('DogeInvestigation', () => {
     it('does not render supplier risk section when data absent', () => {
       setupMocks()
       renderComponent()
-      expect(screen.queryByText('Suppliers That Raise Questions')).not.toBeInTheDocument()
+      expect(screen.queryByText('Supplier Risk Indicator Scoring')).not.toBeInTheDocument()
     })
 
     it('does not render advanced benfords section when data absent', () => {
       setupMocks()
       renderComponent()
-      expect(screen.queryByText("The Numbers Don't Add Up")).not.toBeInTheDocument()
+      expect(screen.queryByText("Benford's Law Statistical Analysis")).not.toBeInTheDocument()
     })
 
     it('does not render forensic accounting section when data absent', () => {
       setupMocks()
       renderComponent()
-      expect(screen.queryByText('Following the Money')).not.toBeInTheDocument()
+      expect(screen.queryByText('Forensic Accounting Pattern Analysis')).not.toBeInTheDocument()
     })
 
     it('does not render temporal intelligence section when data absent', () => {
       setupMocks()
       renderComponent()
-      expect(screen.queryByText('When the Money Moves')).not.toBeInTheDocument()
+      expect(screen.queryByText('Temporal Spending Pattern Analysis')).not.toBeInTheDocument()
     })
 
     it('does not render procurement intelligence section when data absent', () => {
       setupMocks()
       renderComponent()
-      expect(screen.queryByText('Who Gets the Contracts?')).not.toBeInTheDocument()
+      expect(screen.queryByText('Procurement Pattern Analysis')).not.toBeInTheDocument()
     })
 
     it('does not render audit standards section when data absent', () => {
@@ -1067,7 +1067,7 @@ describe('DogeInvestigation', () => {
     it('does not render supplier lifecycle section when data absent', () => {
       setupMocks()
       renderComponent()
-      expect(screen.queryByText('The Supplier Story')).not.toBeInTheDocument()
+      expect(screen.queryByText('Supplier Lifecycle Analysis')).not.toBeInTheDocument()
     })
 
     it('always renders methodology section', () => {
@@ -1097,13 +1097,13 @@ describe('DogeInvestigation', () => {
     it('renders supplier risk section when data present', () => {
       setupMocks({ mainData: [withSupplierRisk, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      expect(screen.getByText('Suppliers That Raise Questions')).toBeInTheDocument()
+      expect(screen.getByText('Supplier Risk Indicator Scoring')).toBeInTheDocument()
     })
 
     it('shows risk stat pills on expand', () => {
       setupMocks({ mainData: [withSupplierRisk, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('Suppliers That Raise Questions').closest('button')
+      const btn = screen.getByText('Supplier Risk Indicator Scoring').closest('button')
       fireEvent.click(btn)
       // stat-pill contains "<strong>3</strong> High Risk" — check container text
       const pills = document.querySelectorAll('.stat-pill')
@@ -1115,7 +1115,7 @@ describe('DogeInvestigation', () => {
     it('shows supplier risk table on expand', () => {
       setupMocks({ mainData: [withSupplierRisk, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('Suppliers That Raise Questions').closest('button')
+      const btn = screen.getByText('Supplier Risk Indicator Scoring').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText('RISKY CORP LTD')).toBeInTheDocument()
       expect(screen.getByText('DODGY SERVICES')).toBeInTheDocument()
@@ -1124,7 +1124,7 @@ describe('DogeInvestigation', () => {
     it('supplier names link to spending evidence', () => {
       setupMocks({ mainData: [withSupplierRisk, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('Suppliers That Raise Questions').closest('button')
+      const btn = screen.getByText('Supplier Risk Indicator Scoring').closest('button')
       fireEvent.click(btn)
       const links = document.querySelectorAll('.supplier-evidence-link')
       expect(links.length).toBeGreaterThan(0)
@@ -1174,13 +1174,13 @@ describe('DogeInvestigation', () => {
     it("renders advanced benfords section when data present", () => {
       setupMocks({ mainData: [withBenfords, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      expect(screen.getByText("The Numbers Don't Add Up")).toBeInTheDocument()
+      expect(screen.getByText("Benford's Law Statistical Analysis")).toBeInTheDocument()
     })
 
     it('shows first-two digits test on expand', () => {
       setupMocks({ mainData: [withBenfords, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText("The Numbers Don't Add Up").closest('button')
+      const btn = screen.getByText("Benford's Law Statistical Analysis").closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/First-Two Digits Test/)).toBeInTheDocument()
       expect(screen.getByText(/145.2/)).toBeInTheDocument()
@@ -1189,7 +1189,7 @@ describe('DogeInvestigation', () => {
     it('shows spike badges on expand', () => {
       setupMocks({ mainData: [withBenfords, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText("The Numbers Don't Add Up").closest('button')
+      const btn = screen.getByText("Benford's Law Statistical Analysis").closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/£15xx/)).toBeInTheDocument()
       expect(screen.getByText(/2.3x expected/)).toBeInTheDocument()
@@ -1198,7 +1198,7 @@ describe('DogeInvestigation', () => {
     it('shows last-two digits test', () => {
       setupMocks({ mainData: [withBenfords, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText("The Numbers Don't Add Up").closest('button')
+      const btn = screen.getByText("Benford's Law Statistical Analysis").closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Last-Two Digits Uniformity Test/)).toBeInTheDocument()
       expect(screen.getByText(/Round-number excess: 4.2%/)).toBeInTheDocument()
@@ -1207,7 +1207,7 @@ describe('DogeInvestigation', () => {
     it('shows per-supplier MAD table', () => {
       setupMocks({ mainData: [withBenfords, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText("The Numbers Don't Add Up").closest('button')
+      const btn = screen.getByText("Benford's Law Statistical Analysis").closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Per-Supplier Benford/)).toBeInTheDocument()
       expect(screen.getByText('ANOMALY CO')).toBeInTheDocument()
@@ -1217,7 +1217,7 @@ describe('DogeInvestigation', () => {
     it('MAD outlier suppliers link to spending evidence', () => {
       setupMocks({ mainData: [withBenfords, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText("The Numbers Don't Add Up").closest('button')
+      const btn = screen.getByText("Benford's Law Statistical Analysis").closest('button')
       fireEvent.click(btn)
       const link = screen.getByText('ANOMALY CO').closest('a')
       expect(link).toBeTruthy()
@@ -1263,13 +1263,13 @@ describe('DogeInvestigation', () => {
     it('renders forensic accounting section when data present', () => {
       setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      expect(screen.getByText('Following the Money')).toBeInTheDocument()
+      expect(screen.getByText('Forensic Accounting Pattern Analysis')).toBeInTheDocument()
     })
 
     it('shows same-same-different stats on expand', () => {
       setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('Following the Money').closest('button')
+      const btn = screen.getByText('Forensic Accounting Pattern Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Same-Same-Different Testing/)).toBeInTheDocument()
       expect(screen.getByText(/Re-billing flags/)).toBeInTheDocument()
@@ -1278,9 +1278,9 @@ describe('DogeInvestigation', () => {
     it('shows vendor integrity suspect pairs with evidence links', () => {
       setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('Following the Money').closest('button')
+      const btn = screen.getByText('Forensic Accounting Pattern Analysis').closest('button')
       fireEvent.click(btn)
-      expect(screen.getByText(/Fictitious Vendor Detection/)).toBeInTheDocument()
+      expect(screen.getByText(/Vendor Integrity Analysis/)).toBeInTheDocument()
       // Suspect pair names should link to spending evidence
       const abcLink = screen.getByText('ABC CONSULTING').closest('a')
       expect(abcLink).toBeTruthy()
@@ -1290,7 +1290,7 @@ describe('DogeInvestigation', () => {
     it('shows credit patterns', () => {
       setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('Following the Money').closest('button')
+      const btn = screen.getByText('Forensic Accounting Pattern Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Credit & Refund Pattern Analysis/)).toBeInTheDocument()
       // stat-pill contains "<strong>15</strong> Zero-credit suppliers"
@@ -1302,7 +1302,7 @@ describe('DogeInvestigation', () => {
     it('shows description quality transparency score', () => {
       setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('Following the Money').closest('button')
+      const btn = screen.getByText('Forensic Accounting Pattern Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Description Quality/)).toBeInTheDocument()
       expect(screen.getByText(/62\/100/)).toBeInTheDocument()
@@ -1311,9 +1311,9 @@ describe('DogeInvestigation', () => {
     it('shows priority investigation alert', () => {
       setupMocks({ mainData: [withForensics, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('Following the Money').closest('button')
+      const btn = screen.getByText('Forensic Accounting Pattern Analysis').closest('button')
       fireEvent.click(btn)
-      expect(screen.getByText(/Priority:/)).toBeInTheDocument()
+      expect(screen.getByText(/Priority for review:/)).toBeInTheDocument()
       expect(screen.getByText(/1 departments/)).toBeInTheDocument()
     })
   })
@@ -1346,13 +1346,13 @@ describe('DogeInvestigation', () => {
     it('renders temporal intelligence section when data present', () => {
       setupMocks({ mainData: [withTemporal, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      expect(screen.getByText('When the Money Moves')).toBeInTheDocument()
+      expect(screen.getByText('Temporal Spending Pattern Analysis')).toBeInTheDocument()
     })
 
     it('shows year-end acceleration on expand', () => {
       setupMocks({ mainData: [withTemporal, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('When the Money Moves').closest('button')
+      const btn = screen.getByText('Temporal Spending Pattern Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Year-End Acceleration Index/)).toBeInTheDocument()
       expect(screen.getByText(/6 departments/)).toBeInTheDocument()
@@ -1361,7 +1361,7 @@ describe('DogeInvestigation', () => {
     it('shows change-point detection table with evidence links', () => {
       setupMocks({ mainData: [withTemporal, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('When the Money Moves').closest('button')
+      const btn = screen.getByText('Temporal Spending Pattern Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Change-Point Detection/)).toBeInTheDocument()
       const changeLink = screen.getByText('CHANGE SUPPLIER').closest('a')
@@ -1372,7 +1372,7 @@ describe('DogeInvestigation', () => {
     it('shows SPC control cards with evidence links', () => {
       setupMocks({ mainData: [withTemporal, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('When the Money Moves').closest('button')
+      const btn = screen.getByText('Temporal Spending Pattern Analysis').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Statistical Process Control/)).toBeInTheDocument()
       const spcLink = screen.getByText('SPC TEST LTD').closest('a')
@@ -1423,9 +1423,9 @@ describe('DogeInvestigation', () => {
       const btn = screen.getByText('Audit Standards & Materiality').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/ACFE Occupational Fraud Risk Matrix/)).toBeInTheDocument()
-      expect(screen.getByText('Asset Misappropriation')).toBeInTheDocument()
-      expect(screen.getByText('Corruption')).toBeInTheDocument()
-      expect(screen.getByText('Financial Statement')).toBeInTheDocument()
+      expect(screen.getByText('Asset Misappropriation Risk')).toBeInTheDocument()
+      expect(screen.getByText('Procurement Risk')).toBeInTheDocument()
+      expect(screen.getByText('Financial Reporting Risk')).toBeInTheDocument()
       expect(screen.getByText('45/100')).toBeInTheDocument()
       expect(screen.getByText('62/100')).toBeInTheDocument()
       expect(screen.getByText('28/100')).toBeInTheDocument()
@@ -1437,7 +1437,7 @@ describe('DogeInvestigation', () => {
       const btn = screen.getByText('Audit Standards & Materiality').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText(/Lancashire Peer Benchmark/)).toBeInTheDocument()
-      // Rendered as: "Fraud triangle rank: <strong>3</strong>/15 councils (percentile: 80%)"
+      // Rendered as: "Fraud risk indicator rank: <strong>3</strong>/15 councils (percentile: 80%)"
       const peerSection = screen.getByText(/Lancashire Peer Benchmark/).closest('.forensic-subsection')
       expect(peerSection.textContent).toContain('/15 councils')
       expect(peerSection.textContent).toContain('80%')
@@ -1460,15 +1460,15 @@ describe('DogeInvestigation', () => {
     it('renders supplier lifecycle section when pump-dump data present', () => {
       setupMocks({ mainData: [withLifecycle, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      expect(screen.getByText('The Supplier Story')).toBeInTheDocument()
+      expect(screen.getByText('Supplier Lifecycle Analysis')).toBeInTheDocument()
     })
 
     it('shows pump-and-dump table with evidence links on expand', () => {
       setupMocks({ mainData: [withLifecycle, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('The Supplier Story').closest('button')
+      const btn = screen.getByText('Supplier Lifecycle Analysis').closest('button')
       fireEvent.click(btn)
-      expect(screen.getByText(/Pump-and-Dump Detection/)).toBeInTheDocument()
+      expect(screen.getByText(/Short-Tenure High-Spend Suppliers/)).toBeInTheDocument()
       // Suppliers should now be evidence links
       const phantomLink = screen.getByText('PHANTOM SUPPLIER').closest('a')
       expect(phantomLink).toBeTruthy()
@@ -1483,7 +1483,7 @@ describe('DogeInvestigation', () => {
       const noFlags = { ...mockFindings, supplier_lifecycle: { total_pump_dump: 0, total_escalations: 0 } }
       setupMocks({ mainData: [noFlags, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      expect(screen.queryByText('The Supplier Story')).not.toBeInTheDocument()
+      expect(screen.queryByText('Supplier Lifecycle Analysis')).not.toBeInTheDocument()
     })
   })
 
@@ -1510,7 +1510,7 @@ describe('DogeInvestigation', () => {
     it('renders procurement intelligence with evidence links', () => {
       setupMocks({ mainData: [withProcurement, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('Who Gets the Contracts?').closest('button')
+      const btn = screen.getByText('Procurement Pattern Analysis').closest('button')
       fireEvent.click(btn)
       // Price escalation supplier should link to spending
       const escalationLink = screen.getByText('INFLATING CORP').closest('a')
@@ -1521,7 +1521,7 @@ describe('DogeInvestigation', () => {
     it('shows cross-dept splitting table with evidence links', () => {
       setupMocks({ mainData: [withProcurement, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('Who Gets the Contracts?').closest('button')
+      const btn = screen.getByText('Procurement Pattern Analysis').closest('button')
       fireEvent.click(btn)
       const splitLink = screen.getByText('SPLITTING SERVICES').closest('a')
       expect(splitLink).toBeTruthy()
@@ -1542,7 +1542,7 @@ describe('DogeInvestigation', () => {
       const noSpendingConfig = { ...mockConfig, data_sources: { spending: false, foi: true } }
       setupMocks({ config: noSpendingConfig, mainData: [withSupplierRisk, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
       renderComponent()
-      const btn = screen.getByText('Suppliers That Raise Questions').closest('button')
+      const btn = screen.getByText('Supplier Risk Indicator Scoring').closest('button')
       fireEvent.click(btn)
       expect(screen.getByText('TEST SUPPLIER')).toBeInTheDocument()
       // Should NOT be a link
