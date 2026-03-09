@@ -1,8 +1,8 @@
 import { useEffect, useMemo } from 'react'
 import { Users, TrendingUp, AlertTriangle, Building, ChevronRight, Info, Briefcase, Award, FileText, Hash } from 'lucide-react'
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend } from 'recharts'
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, Legend, Brush } from 'recharts'
 import { formatCurrency } from '../utils/format'
-import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -166,9 +166,10 @@ function PayComparison() {
                   contentStyle={TOOLTIP_STYLE}
                 />
                 <Legend />
-                <Line type="monotone" dataKey="total" name="CEO Total Remuneration" stroke="#ff453a" strokeWidth={2} dot={{ r: 4 }} />
-                <Line type="monotone" dataKey="salary" name="CEO Base Salary" stroke="#ff9f0a" strokeWidth={2} dot={{ r: 4 }} strokeDasharray="5 5" />
-                <Line type="monotone" dataKey="median" name="Median Employee" stroke="#30d158" strokeWidth={2} dot={{ r: 4 }} />
+                <Line type="monotone" dataKey="total" name="CEO Total Remuneration" stroke="#ff453a" strokeWidth={2} dot={{ r: 4 }} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Line type="monotone" dataKey="salary" name="CEO Base Salary" stroke="#ff9f0a" strokeWidth={2} dot={{ r: 4 }} strokeDasharray="5 5" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Line type="monotone" dataKey="median" name="Median Employee" stroke="#30d158" strokeWidth={2} dot={{ r: 4 }} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                {salaryTrendData.length > 6 && <Brush dataKey="year" height={30} stroke="#00d4aa" fill="rgba(0, 212, 170, 0.1)" />}
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -193,8 +194,8 @@ function PayComparison() {
                   contentStyle={TOOLTIP_STYLE}
                 />
                 <Legend />
-                <Bar dataKey="medianRatio" name="CEO:Median" fill="#0a84ff" radius={[4, 4, 0, 0]} />
-                <Bar dataKey="lowestRatio" name="CEO:Lowest Paid" fill="#ff9f0a" radius={[4, 4, 0, 0]} />
+                <Bar dataKey="medianRatio" name="CEO:Median" fill="#00d4aa" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Bar dataKey="lowestRatio" name="CEO:Lowest Paid" fill="#ff9f0a" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -218,9 +219,9 @@ function PayComparison() {
                   formatter={(value) => [formatCurrency(value), 'CEO Salary Midpoint']}
                   contentStyle={TOOLTIP_STYLE}
                 />
-                <Bar dataKey="salary" radius={[0, 4, 4, 0]}>
+                <Bar dataKey="salary" radius={[0, 4, 4, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {comparisonData.map((entry, i) => (
-                    <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
+                    <Cell key={i} fill={entry.isCurrent ? '#00d4aa' : '#48484a'} />
                   ))}
                 </Bar>
               </BarChart>

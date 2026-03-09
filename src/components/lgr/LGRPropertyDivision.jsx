@@ -19,7 +19,7 @@ import './LGRPropertyDivision.css'
  */
 
 const AUTHORITY_COLORS = [
-  '#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a',
+  '#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a',
 ]
 
 const TIER_LABELS = {
@@ -30,7 +30,7 @@ const TIER_LABELS = {
 }
 
 const TIER_COLORS = {
-  county: '#0a84ff',
+  county: '#00d4aa',
   subsidiary: '#30d158',
   jv: '#ff9f0a',
   third_party: '#8e8e93',
@@ -247,7 +247,7 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
                 formatter={(value) => value === 'green_book' ? 'Green Book NPV' : value === 'red_book' ? 'Red Book MV' : 'Existing Use Value'}
               />
               <Bar dataKey="green_book" fill="#ff9f0a" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="red_book" fill="#0a84ff" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="red_book" fill="#00d4aa" radius={[4, 4, 0, 0]} />
               <Bar dataKey="euv" fill="#30d158" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
@@ -325,7 +325,7 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
             </div>
           </div>
           <div className="lgr-prop-related-item">
-            <span className="lgr-prop-related-badge" style={{ background: '#0a84ff' }}>Police</span>
+            <span className="lgr-prop-related-badge" style={{ background: '#00d4aa' }}>Police</span>
             <div>
               <strong>Lancashire Constabulary</strong>
               <span>~30 police stations + custody suites + HQ complex. Under PCC — estate unchanged by LGR.</span>

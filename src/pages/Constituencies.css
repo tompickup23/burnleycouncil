@@ -28,7 +28,7 @@
 }
 
 .constituencies-icon {
-  color: #0a84ff;
+  color: #00d4aa;
   flex-shrink: 0;
 }
 
@@ -79,18 +79,18 @@
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: #0a84ff15;
-  border: 1px solid #0a84ff44;
+  background: rgba(0, 212, 170, 0.08);
+  border: 1px solid rgba(0, 212, 170, 0.25);
   border-radius: 10px;
-  color: #0a84ff;
+  color: #00d4aa;
   text-decoration: none;
   font-size: 0.88rem;
   font-weight: 500;
   transition: all 0.15s;
 }
 .compare-mps-btn:hover {
-  background: #0a84ff25;
-  border-color: #0a84ff66;
+  background: rgba(0, 212, 170, 0.14);
+  border-color: rgba(0, 212, 170, 0.4);
 }
 
 /* Controls */
@@ -168,9 +168,9 @@
 }
 
 .constituency-card:hover {
-  border-color: #0a84ff;
+  border-color: #00d4aa;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(10, 132, 255, 0.1);
+  box-shadow: 0 4px 12px rgba(0, 212, 170, 0.1);
 }
 
 .constituency-card-accent {
@@ -274,12 +274,7 @@
   letter-spacing: 0.05em;
 }
 
-/* Claimant rate footnote */
-.constituency-card-claimant {
-  font-size: 0.72rem;
-  color: #636366;
-  text-align: center;
-}
+/* Claimant rate footnote — overridden by detail panel styles with sparkline */
 
 /* Empty state */
 .constituencies-empty {
@@ -318,6 +313,155 @@
   font-size: 0.75rem;
 }
 
+/* Selected card highlight */
+.constituency-card--selected {
+  border-color: #00d4aa;
+  box-shadow: 0 0 0 1px #00d4aa33, 0 4px 16px rgba(0, 212, 170, 0.12);
+}
+
+/* Expand/collapse detail button */
+.constituency-card-expand {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #8e8e93;
+  font-size: 0.72rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  align-self: flex-end;
+}
+
+.constituency-card-expand:hover {
+  background: rgba(0, 212, 170, 0.1);
+  border-color: #00d4aa44;
+  color: #00d4aa;
+}
+
+.constituency-card-expand--active {
+  background: rgba(0, 212, 170, 0.12);
+  border-color: #00d4aa55;
+  color: #00d4aa;
+}
+
+/* Claimant row with sparkline */
+.constituency-card-claimant {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: center;
+  font-size: 0.72rem;
+  color: #636366;
+}
+
+/* ── Detail Panel ── */
+.constituency-detail-panel {
+  margin-top: 1.5rem;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
+  border: 1px solid rgba(0, 212, 170, 0.2);
+  border-radius: 16px;
+  padding: 1.5rem;
+  animation: detailPanelIn 0.3s ease-out;
+}
+
+@keyframes detailPanelIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.constituency-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.constituency-detail-header h2 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #e5e5e7;
+  margin: 0;
+}
+
+.constituency-detail-header h2 svg {
+  color: #00d4aa;
+}
+
+.constituency-detail-close {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #8e8e93;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.constituency-detail-close:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #e5e5e7;
+}
+
+/* Charts row — BarChart + PieChart side by side */
+.constituency-detail-charts {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+/* Pie legend */
+.pie-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+.pie-legend-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.75rem;
+  color: #a1a1a6;
+}
+
+.pie-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* Empty state for detail panel */
+.constituency-detail-empty {
+  text-align: center;
+  color: #636366;
+  padding: 2rem;
+  font-size: 0.88rem;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .constituencies-header h1 {
@@ -339,6 +483,20 @@
 
   .constituencies-search {
     min-width: unset;
+  }
+
+  .constituency-detail-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .constituency-detail-header {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .constituency-detail-header h2 {
+    font-size: 1rem;
   }
 }
 

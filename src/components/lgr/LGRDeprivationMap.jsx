@@ -18,7 +18,7 @@ import { formatCurrency, formatNumber, formatPercent } from '../../utils/format'
 import { adjustSavingsForDeprivation } from '../../utils/lgrModel'
 import './LGRDeprivationMap.css'
 
-const AUTH_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff']
+const AUTH_COLORS = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff']
 
 /** Classify IMD score to severity color. */
 function imdColor(score) {

@@ -3,13 +3,13 @@ import { Link } from 'react-router-dom'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber } from '../utils/format'
-import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine } from 'recharts'
 import { Search, Loader2, AlertCircle, PoundSterling, Home, TrendingDown, TrendingUp, ArrowRight, Calculator, MapPin, Building, Users, ChevronDown, ChevronRight, Check, X as XIcon, HelpCircle, ExternalLink, Calendar, AlertTriangle, Brain, BookOpen } from 'lucide-react'
 import { LoadingState } from '../components/ui'
 import './LGRCostCalculator.css'
 
-const PROPOSAL_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a']
+const PROPOSAL_COLORS = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a']
 
 // Council tax annual increase assumptions — based on recent Lancashire trends
 // Most districts+LCC have been raising 4-5% p.a. (max district 3% + LCC ~5%)
@@ -346,7 +346,7 @@ function LGRCostCalculator() {
       }))
   }, [currentCosts])
 
-  const PIE_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#5ac8fa', '#ff6b6b', '#ffd60a', '#64d2ff']
+  const PIE_COLORS = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#5ac8fa', '#ff6b6b', '#ffd60a', '#64d2ff']
 
   // --- Loading / Error states ---
   if (loading) return <LoadingState message="Loading cost data..." />
@@ -539,6 +539,8 @@ function LGRCostCalculator() {
                       outerRadius={110}
                       label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
                       labelLine={false}
+                      animationDuration={CHART_ANIMATION.duration}
+                      animationEasing={CHART_ANIMATION.easing}
                     >
                       {serviceChartData.map((_, i) => (
                         <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />
@@ -584,7 +586,7 @@ function LGRCostCalculator() {
                   formatter={(v) => [formatCurrency(v), `Annual bill (Band ${selectedBand})`]}
                   contentStyle={TOOLTIP_STYLE}
                 />
-                <Bar dataKey="cost" radius={[6, 6, 0, 0]}>
+                <Bar dataKey="cost" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {comparisonChartData.map((entry, i) => (
                     <Cell key={i} fill={entry.fill} />
                   ))}

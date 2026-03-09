@@ -1,11 +1,15 @@
 import { useState, useEffect, useMemo } from 'react'
 import { Calendar, Clock, MapPin, ExternalLink, AlertTriangle, ChevronRight, MessageSquare, Filter, Info, FileText, Users } from 'lucide-react'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import CouncillorLink from '../components/CouncillorLink'
+import HeatmapGrid from '../components/ui/HeatmapGrid'
+import ChartCard from '../components/ui/ChartCard'
 import { slugify } from '../utils/format'
-import { MEETING_TYPE_LABELS as TYPE_LABELS, MEETING_TYPE_COLORS as TYPE_COLORS } from '../utils/constants'
+import { MEETING_TYPE_LABELS as TYPE_LABELS, MEETING_TYPE_COLORS as TYPE_COLORS, CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
+import '../components/ui/AdvancedCharts.css'
 import './Meetings.css'
 
 function formatMeetingDate(dateStr) {
@@ -81,6 +85,54 @@ function Meetings() {
   const dogeRelevantCount = useMemo(() => {
     if (!meetingsData?.meetings) return 0
     return meetingsData.meetings.filter(m => !m.cancelled && detectDogeRelevance(m)).length
+  }, [meetingsData])
+
+  // ── Chart Data: Meetings Per Month ──
+  const monthlyChartData = useMemo(() => {
+    if (!meetingsData?.meetings) return []
+    const counts = {}
+    meetingsData.meetings.forEach(m => {
+      if (m.cancelled) return
+      const monthKey = m.date.slice(0, 7) // 'YYYY-MM'
+      counts[monthKey] = (counts[monthKey] || 0) + 1
+    })
+    return Object.entries(counts)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([month, count]) => {
+        const d = new Date(month + '-01')
+        return {
+          month,
+          label: d.toLocaleDateString('en-GB', { month: 'short', year: '2-digit' }),
+          count,
+        }
+      })
+  }, [meetingsData])
+
+  // ── Chart Data: Meeting Type Distribution ──
+  const typeDistributionData = useMemo(() => {
+    if (!meetingsData?.meetings) return []
+    const counts = {}
+    meetingsData.meetings.forEach(m => {
+      if (m.cancelled) return
+      const type = m.type || 'other'
+      counts[type] = (counts[type] || 0) + 1
+    })
+    return Object.entries(counts)
+      .map(([type, count]) => ({
+        type,
+        name: TYPE_LABELS[type] || type,
+        count,
+        color: TYPE_COLORS[type] || '#8e8e93',
+      }))
+      .sort((a, b) => b.count - a.count)
+  }, [meetingsData])
+
+  // ── Chart Data: Calendar Heatmap ──
+  const calendarHeatmapData = useMemo(() => {
+    if (!meetingsData?.meetings) return []
+    return meetingsData.meetings
+      .filter(m => !m.cancelled && m.date)
+      .map(m => ({ date: m.date, value: 1 }))
   }, [meetingsData])
 
   if (loading) return <LoadingState message="Loading meetings calendar..." />
@@ -166,6 +218,87 @@ function Meetings() {
           )}
         </div>
       </details>
+      )}
+
+      {/* Meeting Analytics Charts */}
+      {meetingsData?.meetings?.length > 0 && (
+        <div className="meetings-charts-section">
+          <div className="charts-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))', gap: '1rem', marginBottom: '1.5rem' }}>
+            {/* Meetings Per Month BarChart */}
+            {monthlyChartData.length > 0 && (
+              <ChartCard title="Meetings Per Month" description="Distribution of council meetings across months">
+                <ResponsiveContainer width="100%" height={260}>
+                  <BarChart data={monthlyChartData} margin={{ top: 8, right: 8, left: -12, bottom: 4 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} vertical={false} />
+                    <XAxis dataKey="label" tick={AXIS_TICK_STYLE} axisLine={false} tickLine={false} />
+                    <YAxis tick={AXIS_TICK_STYLE} axisLine={false} tickLine={false} allowDecimals={false} />
+                    <Tooltip
+                      contentStyle={TOOLTIP_STYLE}
+                      formatter={(value) => [`${value} meeting${value !== 1 ? 's' : ''}`, 'Count']}
+                      labelFormatter={(label) => label}
+                      cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+                    />
+                    <Bar
+                      dataKey="count"
+                      fill="#00d4aa"
+                      radius={[4, 4, 0, 0]}
+                      animationDuration={CHART_ANIMATION.duration}
+                      animationEasing={CHART_ANIMATION.easing}
+                    />
+                  </BarChart>
+                </ResponsiveContainer>
+              </ChartCard>
+            )}
+
+            {/* Meeting Type Distribution PieChart */}
+            {typeDistributionData.length > 0 && (
+              <ChartCard title="Meeting Types" description="Breakdown by committee type">
+                <ResponsiveContainer width="100%" height={260}>
+                  <PieChart>
+                    <Pie
+                      data={typeDistributionData}
+                      dataKey="count"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={85}
+                      innerRadius={40}
+                      paddingAngle={2}
+                      animationDuration={CHART_ANIMATION.duration}
+                      animationEasing={CHART_ANIMATION.easing}
+                    >
+                      {typeDistributionData.map((entry, i) => (
+                        <Cell key={entry.type} fill={entry.color} stroke="rgba(0,0,0,0.3)" strokeWidth={1} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      contentStyle={TOOLTIP_STYLE}
+                      formatter={(value, name) => [`${value} meeting${value !== 1 ? 's' : ''}`, name]}
+                    />
+                    <Legend
+                      iconType="circle"
+                      iconSize={8}
+                      wrapperStyle={{ fontSize: '11px', color: '#8e8e93' }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </ChartCard>
+            )}
+          </div>
+
+          {/* Meeting Calendar Heatmap — full width */}
+          {calendarHeatmapData.length > 0 && (
+            <ChartCard title="Meeting Calendar" description="Activity heatmap -- brighter cells indicate more meetings on that day" wide>
+              <HeatmapGrid
+                data={calendarHeatmapData}
+                colorScale="intensity"
+                cellSize={14}
+                cellGap={2}
+                formatValue={(v) => `${v} meeting${v !== 1 ? 's' : ''}`}
+              />
+            </ChartCard>
+          )}
+        </div>
       )}
 
       {/* Filters */}

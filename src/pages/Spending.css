@@ -77,8 +77,8 @@
   gap: var(--space-sm);
   padding: var(--space-md);
   margin-bottom: var(--space-md);
-  background: linear-gradient(135deg, rgba(10, 132, 255, 0.12), rgba(10, 132, 255, 0.04));
-  border: 1px solid rgba(10, 132, 255, 0.25);
+  background: linear-gradient(135deg, rgba(0, 212, 170, 0.12), rgba(0, 212, 170, 0.04));
+  border: 1px solid rgba(0, 212, 170, 0.25);
   border-radius: var(--radius-md);
   font-size: 0.875rem;
   color: var(--text-secondary);
@@ -86,13 +86,13 @@
 }
 
 .doge-evidence-banner svg {
-  color: #0a84ff;
+  color: #00d4aa;
   flex-shrink: 0;
   margin-top: 2px;
 }
 
 .doge-evidence-banner a {
-  color: #0a84ff;
+  color: #00d4aa;
   text-decoration: none;
   font-weight: 500;
   background-image: none !important;
@@ -111,7 +111,7 @@
 
 .doge-evidence-summary {
   font-size: 0.8rem;
-  color: #0a84ff;
+  color: #00d4aa;
   font-weight: 600;
   letter-spacing: 0.02em;
 }
@@ -121,15 +121,15 @@
   white-space: nowrap;
   font-size: 0.8125rem;
   padding: 4px 12px;
-  border: 1px solid rgba(10, 132, 255, 0.3);
+  border: 1px solid rgba(0, 212, 170, 0.3);
   border-radius: var(--radius-sm, 6px);
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
 
 .doge-evidence-banner .evidence-back-link:hover {
-  background: rgba(10, 132, 255, 0.1);
-  border-color: rgba(10, 132, 255, 0.5);
+  background: rgba(0, 212, 170, 0.1);
+  border-color: rgba(0, 212, 170, 0.5);
   text-decoration: none;
 }
 
@@ -205,7 +205,7 @@
 .filter-toggle:hover,
 .filter-toggle.active {
   background: rgba(44, 44, 46, 0.8);
-  border-color: rgba(10, 132, 255, 0.2);
+  border-color: rgba(0, 212, 170, 0.2);
 }
 
 .filter-count {
@@ -422,7 +422,7 @@
   transition: flex 0.5s ease;
 }
 
-.type-segment.spend { background: #0a84ff; }
+.type-segment.spend { background: #00d4aa; }
 .type-segment.contracts { background: #bf5af2; }
 .type-segment.purchase_cards { background: #30d158; }
 
@@ -447,7 +447,7 @@
   flex-shrink: 0;
 }
 
-.type-dot.spend { background: #0a84ff; }
+.type-dot.spend { background: #00d4aa; }
 .type-dot.contracts { background: #bf5af2; }
 .type-dot.purchase_cards { background: #30d158; }
 
@@ -515,8 +515,8 @@
   align-items: center;
   gap: 8px;
   padding: 10px 16px;
-  background: rgba(10, 132, 255, 0.1);
-  border: 1px solid rgba(10, 132, 255, 0.2);
+  background: rgba(0, 212, 170, 0.1);
+  border: 1px solid rgba(0, 212, 170, 0.2);
   border-radius: var(--radius-lg);
   color: var(--accent-blue);
   font-size: 0.85rem;
@@ -647,12 +647,12 @@
 .supplier-link {
   color: var(--text-primary);
   text-decoration: none;
-  border-bottom: 1px dotted var(--accent, #0a84ff);
+  border-bottom: 1px dotted var(--accent, #00d4aa);
   transition: color 0.15s ease;
 }
 
 .supplier-link:hover {
-  color: var(--accent, #0a84ff);
+  color: var(--accent, #00d4aa);
   border-bottom-style: solid;
 }
 
@@ -699,9 +699,9 @@
 }
 
 .type-badge.spend {
-  background: rgba(10, 132, 255, 0.18);
-  color: #0a84ff;
-  border-left: 3px solid #0a84ff;
+  background: rgba(0, 212, 170, 0.18);
+  color: #00d4aa;
+  border-left: 3px solid #00d4aa;
 }
 
 .type-badge.contracts {

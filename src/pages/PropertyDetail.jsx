@@ -49,7 +49,7 @@ const CATEGORY_LABELS = {
 }
 
 const CATEGORY_COLORS = {
-  education: '#0a84ff',
+  education: '#00d4aa',
   library: '#bf5af2',
   children_social_care: '#ff453a',
   office_civic: '#30d158',
@@ -94,7 +94,7 @@ const RECOMMENDATION_COLORS = {
   Sell: '#ff453a',
   'Co-locate': '#ff9f0a',
   Review: '#ffd60a',
-  Transfer: '#0a84ff',
+  Transfer: '#00d4aa',
   Dispose: '#ff453a',
   Repurpose: '#bf5af2',
   Governance: '#8e8e93',
@@ -103,7 +103,7 @@ const RECOMMENDATION_COLORS = {
 const PATHWAY_COLORS = {
   quick_win_auction:       '#00c853',
   private_treaty_sale:     '#30d158',
-  development_partnership: '#0a84ff',
+  development_partnership: '#00d4aa',
   community_asset_transfer:'#bf5af2',
   long_lease_income:       '#ff9f0a',
   meanwhile_use:           '#64d2ff',
@@ -126,7 +126,7 @@ const OCCUPANCY_LABELS = {
 }
 
 const OCCUPANCY_COLORS = {
-  occupied: '#0a84ff',
+  occupied: '#00d4aa',
   school_grounds: '#5e5ce6',
   likely_vacant: '#ff9f0a',
   vacant_land: '#30d158',
@@ -178,7 +178,7 @@ function recommendationColor(rec) {
   if (lower.includes('sell')) return RECOMMENDATION_COLORS.Sell
   if (lower.includes('co-locate')) return RECOMMENDATION_COLORS['Co-locate']
   if (lower.includes('review')) return RECOMMENDATION_COLORS.Review
-  return '#0a84ff'
+  return '#00d4aa'
 }
 
 function confidenceColor(conf) {
@@ -299,8 +299,8 @@ function OverviewTab({ asset }) {
                 {asset.tier && (
                   <Badge
                     label={asset.tier.replace(/_/g, ' ')}
-                    color={asset.tier === 'subsidiary' ? '#ff9f0a' : asset.tier === 'jv' ? '#bf5af2' : asset.tier === 'third_party' ? '#ff453a' : '#0a84ff'}
-                    bg={`${asset.tier === 'subsidiary' ? '#ff9f0a' : asset.tier === 'jv' ? '#bf5af2' : asset.tier === 'third_party' ? '#ff453a' : '#0a84ff'}22`}
+                    color={asset.tier === 'subsidiary' ? '#ff9f0a' : asset.tier === 'jv' ? '#bf5af2' : asset.tier === 'third_party' ? '#ff453a' : '#00d4aa'}
+                    bg={`${asset.tier === 'subsidiary' ? '#ff9f0a' : asset.tier === 'jv' ? '#bf5af2' : asset.tier === 'third_party' ? '#ff453a' : '#00d4aa'}22`}
                   />
                 )}
               </span>
@@ -522,8 +522,8 @@ function ServicesTab({ asset }) {
               <span key={s} style={{
                 padding: '3px 10px',
                 borderRadius: '12px',
-                background: 'rgba(10, 132, 255, 0.12)',
-                color: '#0a84ff',
+                background: 'rgba(0, 212, 170, 0.12)',
+                color: '#00d4aa',
                 fontSize: '0.75rem',
                 textTransform: 'capitalize',
               }}>
@@ -590,7 +590,7 @@ function FinancialsTab({ asset }) {
         <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)' }}>Linked Spending</h3>
         <div style={{ display: 'flex', gap: 'var(--space-xl)', flexWrap: 'wrap' }}>
           <div>
-            <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#0a84ff' }}>
+            <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#00d4aa' }}>
               {formatCurrency(spending.total)}
             </div>
             <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Total Linked Spend</div>
@@ -890,7 +890,7 @@ function DisposalTab({ asset }) {
             )}
             {disp.revenue_estimate_annual > 0 && (
               <div>
-                <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#0a84ff' }}>
+                <div style={{ fontSize: '1.6rem', fontWeight: 700, color: '#00d4aa' }}>
                   £{(disp.revenue_estimate_annual / 1000).toFixed(0)}k<span style={{ fontSize: '0.9rem' }}>/yr</span>
                 </div>
                 <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Annual Income</div>
@@ -1015,7 +1015,7 @@ const GB_OPTION_LABELS = {
 const GB_OPTION_COLORS = {
   do_nothing: '#8e8e93',
   dispose: '#30d158',
-  repurpose: '#0a84ff',
+  repurpose: '#00d4aa',
   community_transfer: '#bf5af2',
   redevelop: '#ff9f0a',
 }
@@ -1038,7 +1038,7 @@ function NpvBar({ label, npv, maxNpv, color }) {
         </span>
       </div>
       <div style={{ background: 'rgba(255,255,255,0.06)', borderRadius: '4px', height: '8px', overflow: 'hidden' }}>
-        <div style={{ width: `${pct}%`, height: '100%', background: color || '#0a84ff', borderRadius: '4px', transition: 'width 0.4s ease' }} />
+        <div style={{ width: `${pct}%`, height: '100%', background: color || '#00d4aa', borderRadius: '4px', transition: 'width 0.4s ease' }} />
       </div>
     </div>
   )
@@ -1105,7 +1105,7 @@ function ValuationTab({ asset }) {
       {gb?.options && (
         <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
           <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-            <BarChart3 size={16} style={{ color: '#0a84ff' }} /> Green Book Options Appraisal
+            <BarChart3 size={16} style={{ color: '#00d4aa' }} /> Green Book Options Appraisal
           </h3>
           <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginBottom: 'var(--space-md)' }}>
             HM Treasury 5-case model. 10-year NPV at {((gb.discount_rate || 0.035) * 100).toFixed(1)}% Social Time Preference Rate.
@@ -1113,8 +1113,8 @@ function ValuationTab({ asset }) {
 
           {/* Preferred option banner */}
           <div style={{
-            background: `${GB_OPTION_COLORS[gb.preferred_option] || '#0a84ff'}18`,
-            border: `1px solid ${GB_OPTION_COLORS[gb.preferred_option] || '#0a84ff'}44`,
+            background: `${GB_OPTION_COLORS[gb.preferred_option] || '#00d4aa'}18`,
+            border: `1px solid ${GB_OPTION_COLORS[gb.preferred_option] || '#00d4aa'}44`,
             borderRadius: '8px', padding: '12px 16px', marginBottom: 'var(--space-lg)',
             display: 'flex', justifyContent: 'space-between', alignItems: 'center',
           }}>
@@ -1122,7 +1122,7 @@ function ValuationTab({ asset }) {
               <div style={{ fontSize: '0.7rem', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
                 Preferred Option
               </div>
-              <div style={{ fontSize: '1rem', fontWeight: 700, color: GB_OPTION_COLORS[gb.preferred_option] || '#0a84ff' }}>
+              <div style={{ fontSize: '1rem', fontWeight: 700, color: GB_OPTION_COLORS[gb.preferred_option] || '#00d4aa' }}>
                 {GB_OPTION_LABELS[gb.preferred_option] || gb.preferred_option_name}
               </div>
             </div>
@@ -1144,7 +1144,7 @@ function ValuationTab({ asset }) {
                 label={`${opt.rank}. ${GB_OPTION_LABELS[Object.keys(gb.options).find(k => gb.options[k] === opt)] || opt.name}`}
                 npv={opt.npv}
                 maxNpv={maxAbs}
-                color={GB_OPTION_COLORS[Object.keys(gb.options).find(k => gb.options[k] === opt)] || '#0a84ff'}
+                color={GB_OPTION_COLORS[Object.keys(gb.options).find(k => gb.options[k] === opt)] || '#00d4aa'}
               />
             ))
           })()}
@@ -1167,7 +1167,7 @@ function ValuationTab({ asset }) {
       {gb?.options && Object.entries(gb.options).sort(([,a],[,b]) => a.rank - b.rank).map(([code, opt]) => (
         <div key={code} className="glass-card" style={{
           padding: 'var(--space-lg)', marginBottom: 'var(--space-md)',
-          borderLeft: `3px solid ${GB_OPTION_COLORS[code] || '#0a84ff'}`,
+          borderLeft: `3px solid ${GB_OPTION_COLORS[code] || '#00d4aa'}`,
         }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-sm)' }}>
             <h4 style={{ fontSize: '0.9rem', fontWeight: 600, margin: 0, color: GB_OPTION_COLORS[code] }}>
@@ -1349,8 +1349,8 @@ function ValuationTab({ asset }) {
             <Building size={16} style={{ color: '#ff9f0a' }} /> Ownership
             <Badge
               label={asset.tier || 'county'}
-              color={asset.tier === 'subsidiary' ? '#ff9f0a' : asset.tier === 'jv' ? '#bf5af2' : asset.tier === 'third_party' ? '#ff453a' : '#0a84ff'}
-              bg={`${asset.tier === 'subsidiary' ? '#ff9f0a' : asset.tier === 'jv' ? '#bf5af2' : asset.tier === 'third_party' ? '#ff453a' : '#0a84ff'}22`}
+              color={asset.tier === 'subsidiary' ? '#ff9f0a' : asset.tier === 'jv' ? '#bf5af2' : asset.tier === 'third_party' ? '#ff453a' : '#00d4aa'}
+              bg={`${asset.tier === 'subsidiary' ? '#ff9f0a' : asset.tier === 'jv' ? '#bf5af2' : asset.tier === 'third_party' ? '#ff453a' : '#00d4aa'}22`}
             />
           </h3>
           <div className="property-detail-grid">
@@ -1366,7 +1366,7 @@ function ValuationTab({ asset }) {
               <div className="property-detail-row">
                 <span className="property-detail-label">Companies House</span>
                 <span className="property-detail-value">
-                  <a href={`https://find-and-update.company-information.service.gov.uk/company/${asset.ownership_detail.ch_number}`} target="_blank" rel="noopener noreferrer" style={{ color: '#0a84ff' }}>
+                  <a href={`https://find-and-update.company-information.service.gov.uk/company/${asset.ownership_detail.ch_number}`} target="_blank" rel="noopener noreferrer" style={{ color: '#00d4aa' }}>
                     {asset.ownership_detail.ch_number}
                   </a>
                 </span>
@@ -1610,7 +1610,7 @@ function LocationTab({ asset, nearbyPlanning = [] }) {
                   <a
                     href={`https://historicengland.org.uk/listing/the-list/list-entry/${asset.heritage.listed_building_entry}`}
                     target="_blank" rel="noopener noreferrer"
-                    style={{ color: '#0a84ff' }}
+                    style={{ color: '#00d4aa' }}
                   >
                     #{asset.heritage.listed_building_entry} <ExternalLink size={11} />
                   </a>
@@ -1856,7 +1856,7 @@ function SalesEvidenceSection({ evidence }) {
   return (
     <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
       <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-        <TrendingUp size={16} style={{ color: '#0a84ff' }} /> Sales Evidence
+        <TrendingUp size={16} style={{ color: '#00d4aa' }} /> Sales Evidence
       </h3>
       <div style={{ overflowX: 'auto' }}>
         <table className="property-table">
@@ -1895,7 +1895,7 @@ function SalesEvidenceSection({ evidence }) {
                 <td>
                   <Badge
                     label={ev.status || '-'}
-                    color={ev.status === 'marketed' ? '#30d158' : ev.status === 'sold' ? '#0a84ff' : '#8e8e93'}
+                    color={ev.status === 'marketed' ? '#30d158' : ev.status === 'sold' ? '#00d4aa' : '#8e8e93'}
                     bg={ev.status === 'marketed' ? 'rgba(48,209,88,0.15)' : ev.status === 'sold' ? 'rgba(10,132,255,0.15)' : 'rgba(142,142,147,0.15)'}
                   />
                 </td>
@@ -2088,7 +2088,7 @@ function LGRTab({ asset, lgrData }) {
     <div>
       <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
         <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-sm)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <Landmark size={16} style={{ color: '#0a84ff' }} /> LGR Authority Assignment
+          <Landmark size={16} style={{ color: '#00d4aa' }} /> LGR Authority Assignment
         </h3>
         <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginBottom: 'var(--space-md)' }}>
           How this asset would be allocated under each proposed LGR model. {asset.district && <>District: <strong>{asset.district}</strong></>}
@@ -2322,8 +2322,8 @@ function PropertyDetail() {
           <span style={{ color: 'var(--text-secondary)' }}>Primary Recommendation:</span>
           <Badge
             label={asset.primary_option.charAt(0).toUpperCase() + asset.primary_option.slice(1)}
-            color={RECOMMENDATION_COLORS[asset.primary_option.charAt(0).toUpperCase() + asset.primary_option.slice(1)] || '#0a84ff'}
-            bg={`${RECOMMENDATION_COLORS[asset.primary_option.charAt(0).toUpperCase() + asset.primary_option.slice(1)] || '#0a84ff'}20`}
+            color={RECOMMENDATION_COLORS[asset.primary_option.charAt(0).toUpperCase() + asset.primary_option.slice(1)] || '#00d4aa'}
+            bg={`${RECOMMENDATION_COLORS[asset.primary_option.charAt(0).toUpperCase() + asset.primary_option.slice(1)] || '#00d4aa'}20`}
           />
         </div>
       )}

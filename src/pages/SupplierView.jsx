@@ -8,12 +8,12 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import CouncillorLink from '../components/CouncillorLink'
 import IntegrityBadge from '../components/IntegrityBadge'
-import { SEVERITY_COLORS, TOOLTIP_STYLE, COUNCIL_COLORS, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
+import { SEVERITY_COLORS, TOOLTIP_STYLE, COUNCIL_COLORS, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
 import './SupplierView.css'
 
 const RISK_COLORS = {
   clean: '#30d158',
-  low: '#0a84ff',
+  low: '#00d4aa',
   medium: '#ffd60a',
   high: '#ff9f0a',
   critical: '#ff453a',
@@ -329,7 +329,7 @@ function SupplierView() {
                     formatter={(value) => [formatCurrency(value), 'Spend']}
                     labelFormatter={(l) => `FY ${l}`}
                   />
-                  <Bar dataKey="amount" fill="#0a84ff" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="amount" fill="#00d4aa" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -357,7 +357,7 @@ function SupplierView() {
                     contentStyle={TOOLTIP_STYLE}
                     formatter={(value) => [formatCurrency(value), 'Spend']}
                   />
-                  <Bar dataKey="amount" fill="#bf5af2" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="amount" fill="#bf5af2" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -695,7 +695,7 @@ function SupplierView() {
                   contentStyle={TOOLTIP_STYLE}
                   formatter={(value) => [formatCurrency(value), 'Spend']}
                 />
-                <Bar dataKey="amount" fill="#bf5af2" radius={[0, 6, 6, 0]} />
+                <Bar dataKey="amount" fill="#bf5af2" radius={[0, 6, 6, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
               </BarChart>
             </ResponsiveContainer>
           </div>

@@ -23,6 +23,8 @@ import 'leaflet/dist/leaflet.css'
 import 'leaflet.markercluster'
 import 'leaflet.markercluster/dist/MarkerCluster.css'
 import 'leaflet.markercluster/dist/MarkerCluster.Default.css'
+import { createSVGIcon, getIconType, getSeverity } from './map/MapIcons'
+import './map/MapIcons.css'
 
 // CartoDB Dark Matter tiles — free, no API key, matches dark UI
 const TILE_URL = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
@@ -134,7 +136,7 @@ function buildPopupHTML(rw) {
 
   // Status + severity badges
   lines.push(`<div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">`)
-  const statusColor = rw.status === 'Works started' ? '#ff9f0a' : '#0a84ff'
+  const statusColor = rw.status === 'Works started' ? '#ff9f0a' : '#00d4aa'
   lines.push(`<span style="background:${statusColor}20;color:${statusColor};padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid ${statusColor}30">${esc(rw.status || 'Unknown')}</span>`)
   if (rw.severity) {
     const sevColor = SEVERITY_MARKER_COLORS[rw.severity] || '#8e8e93'
@@ -333,9 +335,9 @@ export default function HighwaysMap({
 
     const geoLayer = L.geoJSON(boundaries, {
       style: () => ({
-        color: 'rgba(10, 132, 255, 0.2)',
+        color: 'rgba(0, 212, 170, 0.2)',
         weight: 1.5,
-        fillColor: 'rgba(10, 132, 255, 0.03)',
+        fillColor: 'rgba(0, 212, 170, 0.03)',
         fillOpacity: 1,
         dashArray: '4 3',
       }),
@@ -349,16 +351,16 @@ export default function HighwaysMap({
           })
           layer.on('mouseover', () => {
             layer.setStyle({
-              color: 'rgba(10, 132, 255, 0.5)',
+              color: 'rgba(0, 212, 170, 0.5)',
               weight: 2.5,
-              fillColor: 'rgba(10, 132, 255, 0.08)',
+              fillColor: 'rgba(0, 212, 170, 0.08)',
             })
           })
           layer.on('mouseout', () => {
             layer.setStyle({
-              color: 'rgba(10, 132, 255, 0.2)',
+              color: 'rgba(0, 212, 170, 0.2)',
               weight: 1.5,
-              fillColor: 'rgba(10, 132, 255, 0.03)',
+              fillColor: 'rgba(0, 212, 170, 0.03)',
             })
           })
         }
@@ -419,17 +421,17 @@ export default function HighwaysMap({
 
     filtered.forEach(rw => {
       const rc = classifyRestriction(rw)
-      const style = RESTRICTION_STYLES[rc]
       const isSelected = rw.id === selectedId
-
-      const marker = L.circleMarker([rw.lat, rw.lng], {
-        radius: isSelected ? 10 : rc === 'full_closure' ? 8 : rc === 'lane_restriction' ? 6 : 5,
-        fillColor: style.color,
-        color: isSelected ? '#fff' : 'rgba(255,255,255,0.3)',
-        weight: isSelected ? 3 : 1.5,
-        fillOpacity: isSelected ? 1 : 0.85,
-        opacity: 1,
+      const iconType = getIconType(rw)
+      const severity = rc === 'full_closure' ? 'high' : rc === 'lane_restriction' ? 'warning' : 'default'
+      const iconSize = isSelected ? 36 : rc === 'full_closure' ? 32 : rc === 'lane_restriction' ? 26 : 22
+      const icon = createSVGIcon(iconType, severity, {
+        size: iconSize,
+        pulse: rc === 'full_closure',
+        className: isSelected ? 'svg-map-marker--selected' : '',
       })
+
+      const marker = L.marker([rw.lat, rw.lng], { icon })
 
       marker.bindPopup(buildPopupHTML(rw), {
         maxWidth: 360,
@@ -664,7 +666,7 @@ export default function HighwaysMap({
         </div>
         {showJunctions && (
           <div className="hw-legend-item">
-            <span className="hw-legend-dot" style={{ background: '#0a84ff', boxShadow: '0 0 6px rgba(10,132,255,0.4)' }} />
+            <span className="hw-legend-dot" style={{ background: '#00d4aa', boxShadow: '0 0 6px rgba(0,212,170,0.4)' }} />
             <span>JCI</span>
           </div>
         )}

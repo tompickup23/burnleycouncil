@@ -236,7 +236,7 @@
 
 .lgr-alt-factor::before {
   content: '\2022 ';
-  color: #0a84ff;
+  color: #00d4aa;
 }
 
 /* LGA Letter stats */
@@ -313,7 +313,7 @@
 }
 
 .lgr-alt-lga-source a {
-  color: #0a84ff;
+  color: #00d4aa;
 }
 
 /* Precedent experience cards */
@@ -408,8 +408,8 @@
 }
 
 .lgr-alt-precedent-relevance {
-  background: rgba(10, 132, 255, 0.06);
-  border: 1px solid rgba(10, 132, 255, 0.12);
+  background: rgba(0, 212, 170, 0.06);
+  border: 1px solid rgba(0, 212, 170, 0.12);
   border-radius: 8px;
   padding: 0.65rem 0.85rem;
   margin-top: 0.75rem;
@@ -420,7 +420,7 @@
 
 .lgr-alt-precedent-relevance strong {
   display: inline;
-  color: #0a84ff;
+  color: #00d4aa;
   margin: 0;
 }
 

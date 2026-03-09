@@ -69,7 +69,7 @@ const SECTIONS = [
 const TREND_CONFIG = {
   improving: { label: 'Improving', color: '#30d158', icon: TrendingUp },
   declining: { label: 'Declining', color: '#ff453a', icon: TrendingDown },
-  stable: { label: 'Stable', color: '#0a84ff', icon: Target },
+  stable: { label: 'Stable', color: '#00d4aa', icon: Target },
   volatile: { label: 'Volatile', color: '#ff9f0a', icon: AlertTriangle },
   insufficient: { label: 'Insufficient Data', color: '#8e8e93', icon: AlertTriangle },
   unknown: { label: 'No Data', color: '#8e8e93', icon: AlertTriangle },
@@ -1546,7 +1546,7 @@ const PATHWAY_SHORT = {
   refurbish_relet: 'Refurb/Let',
 }
 const PATHWAY_COL = {
-  quick_win_auction: '#30d158', private_treaty_sale: '#0a84ff', development_partnership: '#bf5af2',
+  quick_win_auction: '#30d158', private_treaty_sale: '#00d4aa', development_partnership: '#bf5af2',
   community_asset_transfer: '#ff9f0a', long_lease_income: '#64d2ff', meanwhile_use: '#ffd60a',
   energy_generation: '#34c759', carbon_offset_woodland: '#00c7be', housing_partnership: '#ff6482',
   co_locate_consolidate: '#ac8e68', strategic_hold: '#8e8e93', governance_review: '#ff453a',
@@ -1562,7 +1562,7 @@ function DossierProperty({ propertySummary }) {
     <div className="dossier-property">
       <div className="dossier-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '8px', marginBottom: '16px' }}>
         <div className="dossier-stat-card" style={{ padding: '10px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', textAlign: 'center' }}>
-          <div style={{ fontSize: '1.4rem', fontWeight: 600, color: '#0a84ff' }}>{total}</div>
+          <div style={{ fontSize: '1.4rem', fontWeight: 600, color: '#00d4aa' }}>{total}</div>
           <div style={{ fontSize: '0.65rem', color: '#8e8e93' }}>LCC Assets</div>
         </div>
         <div className="dossier-stat-card" style={{ padding: '10px', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', textAlign: 'center' }}>
@@ -1647,7 +1647,7 @@ function DossierProperty({ propertySummary }) {
                 {assets.map(a => (
                   <tr key={a.id} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
                     <td style={{ padding: '4px 6px' }}>
-                      <a href={`#/property/${a.id}`} style={{ color: '#0a84ff', textDecoration: 'none', fontSize: '0.65rem' }}>{a.name}</a>
+                      <a href={`#/property/${a.id}`} style={{ color: '#00d4aa', textDecoration: 'none', fontSize: '0.65rem' }}>{a.name}</a>
                     </td>
                     <td style={{ padding: '4px 6px', textAlign: 'center' }}>
                       <span style={{ color: PATHWAY_COL[a.disposal_pathway] || '#8e8e93', fontSize: '0.6rem' }}>

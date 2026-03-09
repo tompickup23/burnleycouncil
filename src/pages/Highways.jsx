@@ -540,7 +540,7 @@ export default function Highways() {
           <div className="hw-network-summary">
             {junctions.length > 0 && (
               <div className="hw-network-stat">
-                <span className="hw-network-stat-value" style={{ color: '#0a84ff' }}>{junctions.length}</span>
+                <span className="hw-network-stat-value" style={{ color: '#00d4aa' }}>{junctions.length}</span>
                 <span className="hw-network-stat-label">JCI Points</span>
               </div>
             )}
@@ -777,7 +777,7 @@ export default function Highways() {
                 {[
                   { label: 'Active Works', value: strategicSummary.active_works, color: '#ff9f0a' },
                   { label: 'Road Closures', value: strategicSummary.road_closures, color: '#ff453a' },
-                  { label: 'LCC Controlled', value: strategicSummary.lcc_controlled, color: '#0a84ff' },
+                  { label: 'LCC Controlled', value: strategicSummary.lcc_controlled, color: '#00d4aa' },
                   { label: 's59 Breaches', value: strategicSummary.s59_breaches, color: strategicSummary.s59_breaches > 0 ? '#ff453a' : '#30d158' },
                   { label: 'Actionable Deferrals', value: strategicSummary.actionable_deferrals, color: '#ff9f0a' },
                 ].map(({ label, value, color }) => (
@@ -1072,7 +1072,7 @@ export default function Highways() {
               {/* Summary grid */}
               <div className="hw-infra-summary-grid">
                 {[
-                  { label: 'Traffic Signals', value: infrastructure.summary?.traffic_signals, color: '#0a84ff' },
+                  { label: 'Traffic Signals', value: infrastructure.summary?.traffic_signals, color: '#00d4aa' },
                   { label: 'Roundabouts', value: infrastructure.summary?.roundabouts, color: '#bf5af2' },
                   { label: 'Mini Roundabouts', value: infrastructure.summary?.mini_roundabouts, color: '#af52de' },
                   { label: 'Level Crossings', value: infrastructure.summary?.level_crossings, color: '#ff453a' },
@@ -1099,7 +1099,7 @@ export default function Highways() {
                         const count = typeof data === 'number' ? data : data?.count || 0
                         const total = Object.values(infrastructure.speed_zones).reduce((sum, v) => sum + (typeof v === 'number' ? v : v?.count || 0), 0)
                         const pct = total > 0 ? (count / total) * 100 : 0
-                        const colors = { '20': '#30d158', '30': '#0a84ff', '40': '#bf5af2', '50': '#ff9f0a', '60': '#ff6d3b', '70': '#ff453a' }
+                        const colors = { '20': '#30d158', '30': '#00d4aa', '40': '#bf5af2', '50': '#ff9f0a', '60': '#ff6d3b', '70': '#ff453a' }
                         const barColor = colors[limit] || '#8e8e93'
                         return (
                           <div key={limit} className="hw-speed-bar-row">
@@ -1363,7 +1363,7 @@ export default function Highways() {
                       />
                       <Legend formatter={v => ({ dft: 'DfT Grant', lcc: 'LCC Contribution', needed: 'Estimated Need' }[v] || v)} />
                       <Bar dataKey="dft" stackId="a" fill="#ff9f0a" radius={[0, 0, 0, 0]} name="dft" />
-                      <Bar dataKey="lcc" stackId="a" fill="#0a84ff" radius={[2, 2, 0, 0]} name="lcc" />
+                      <Bar dataKey="lcc" stackId="a" fill="#00d4aa" radius={[2, 2, 0, 0]} name="lcc" />
                       <Line type="monotone" dataKey="needed" stroke="#ff453a" strokeWidth={2} dot={{ r: 3, fill: '#ff453a' }} name="needed" />
                     </ComposedChart>
                   </ResponsiveContainer>
@@ -1402,7 +1402,7 @@ export default function Highways() {
                 {assets.historic_investment?.what_it_would_cost?.scenarios && (
                   <div style={{ marginTop: 16 }}>
                     <div className="hw-assets-sub-heading">
-                      <TrendingUp size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#0a84ff' }} />
+                      <TrendingUp size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#00d4aa' }} />
                       {assets.historic_investment?.what_it_would_cost.title}
                     </div>
                     <div className="hw-scenario-grid">
@@ -1443,28 +1443,30 @@ export default function Highways() {
 
             {/* Revenue Expenditure Trend */}
             {budgetTrendData.length > 0 && (
-              <ChartCard title="Highways Revenue & Capital Expenditure (£M)" subtitle="Revenue: confirmed outturn (GOV.UK MHCLG). Capital: from DfT allocations and LCC cabinet reports." style={{ marginTop: 16 }}>
-                <ResponsiveContainer width="100%" height={220}>
-                  <BarChart data={budgetTrendData} margin={{ top: 4, right: 20, left: 0, bottom: 4 }}>
-                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
-                    <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
-                    <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
-                    <RechartsTooltip
-                      {...CHART_TOOLTIP_STYLE}
-                      formatter={(v, n, p) => {
-                        const label = n === 'net' ? 'Net Revenue' : n === 'gross' ? 'Gross Expenditure' : 'Capital Programme'
-                        const suffix = p.payload.isBudget ? ' (budgeted)' : ' (confirmed outturn)'
-                        return [`£${v}M${suffix}`, label]
-                      }}
-                    />
-                    <Legend formatter={v => ({ net: 'Net Revenue', gross: 'Gross Expenditure', capital: 'Capital Programme' }[v] || v)} />
-                    <Bar dataKey="gross" fill="#0a84ff" radius={[2, 2, 0, 0]} name="gross" />
-                    <Bar dataKey="net" fill="#30d158" radius={[2, 2, 0, 0]} name="net" />
-                    <Bar dataKey="capital" fill="#ff9f0a" radius={[2, 2, 0, 0]} name="capital" />
-                  </BarChart>
-                </ResponsiveContainer>
-              </ChartCard>
-              <p className="hw-budget-note">* 2025/26 and 2026/27 figures are budgeted allocations, not confirmed outturn</p>
+              <>
+                <ChartCard title="Highways Revenue & Capital Expenditure (£M)" subtitle="Revenue: confirmed outturn (GOV.UK MHCLG). Capital: from DfT allocations and LCC cabinet reports." style={{ marginTop: 16 }}>
+                  <ResponsiveContainer width="100%" height={220}>
+                    <BarChart data={budgetTrendData} margin={{ top: 4, right: 20, left: 0, bottom: 4 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                      <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                      <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
+                      <RechartsTooltip
+                        {...CHART_TOOLTIP_STYLE}
+                        formatter={(v, n, p) => {
+                          const label = n === 'net' ? 'Net Revenue' : n === 'gross' ? 'Gross Expenditure' : 'Capital Programme'
+                          const suffix = p.payload.isBudget ? ' (budgeted)' : ' (confirmed outturn)'
+                          return [`£${v}M${suffix}`, label]
+                        }}
+                      />
+                      <Legend formatter={v => ({ net: 'Net Revenue', gross: 'Gross Expenditure', capital: 'Capital Programme' }[v] || v)} />
+                      <Bar dataKey="gross" fill="#00d4aa" radius={[2, 2, 0, 0]} name="gross" />
+                      <Bar dataKey="net" fill="#30d158" radius={[2, 2, 0, 0]} name="net" />
+                      <Bar dataKey="capital" fill="#ff9f0a" radius={[2, 2, 0, 0]} name="capital" />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </ChartCard>
+                <p className="hw-budget-note">* 2025/26 and 2026/27 figures are budgeted allocations, not confirmed outturn</p>
+              </>
             )}
 
             {/* Maintenance contract performance */}
@@ -1913,7 +1915,7 @@ export default function Highways() {
 
               {/* LCC exercises table */}
               <div className="hw-assets-sub-heading" style={{ marginTop: 20 }}>
-                <FileText size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#0a84ff' }} />
+                <FileText size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#00d4aa' }} />
                 LCC Highways Exercises (March 2026 Pipeline)
               </div>
               <div className="hw-table-overflow">
@@ -1976,7 +1978,7 @@ export default function Highways() {
                         {hw.unitary_contracts.map((uc, i) => (
                           <tr key={i}>
                             <td><strong>{uc.title}</strong>{uc.note && <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: 2 }}>{uc.note}</div>}</td>
-                            <td style={{ color: '#0a84ff' }}>{uc.authority}</td>
+                            <td style={{ color: '#00d4aa' }}>{uc.authority}</td>
                             <td style={{ fontWeight: 600 }}>{uc.value ? `£${(uc.value / 1e6).toFixed(1)}M` : '—'}</td>
                             <td style={{ fontSize: '0.78rem', color: '#8e8e93' }}>{uc.source}</td>
                           </tr>
@@ -2025,13 +2027,13 @@ export default function Highways() {
               {/* LGR delay impact */}
               {procPipeline.delay_case && (
                 <div style={{ marginTop: 16, padding: '12px 16px', background: 'rgba(10,132,255,0.06)', border: '1px solid rgba(10,132,255,0.2)', borderRadius: 10 }}>
-                  <strong style={{ color: '#0a84ff', fontSize: '0.88rem' }}>LGR Delay Impact on Highways:</strong>
+                  <strong style={{ color: '#00d4aa', fontSize: '0.88rem' }}>LGR Delay Impact on Highways:</strong>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
                     Delaying vesting from April 2028 to April 2029 means 3 of 4 DfT settlement years would be managed by LCC
                     under existing contractual arrangements, with only the final year requiring renegotiation. Under the current
                     timeline, 2 years transfer mid-contract creating funding uncertainty.
                   </p>
-                  <Link to="/lgr" style={{ display: 'inline-block', marginTop: 8, fontSize: '0.78rem', color: '#0a84ff', textDecoration: 'none' }}>
+                  <Link to="/lgr" style={{ display: 'inline-block', marginTop: 8, fontSize: '0.78rem', color: '#00d4aa', textDecoration: 'none' }}>
                     Full delay case analysis on LGR Tracker →
                   </Link>
                 </div>

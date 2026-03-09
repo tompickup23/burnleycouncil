@@ -72,7 +72,7 @@ ${sitemapUrls}
       console.log('✓ Generated sitemap.xml')
 
       // Generate PWA manifest
-      const themeAccent = config.theme_accent || '#0a84ff'
+      const themeAccent = config.theme_accent || '#00d4aa'
       const manifest = {
         name: `${councilName} Council Transparency — AI DOGE`,
         short_name: `${councilName} DOGE`,
@@ -162,17 +162,20 @@ export default defineConfig({
   plugins: [
     react(),
     councilDataPlugin(),
-    // Pre-compress assets with gzip for faster serving
+    // Pre-compress JS/CSS assets with gzip for faster serving
+    // Excludes data/ JSON files (huge spending JSONs would take forever)
     compression({
       algorithm: 'gzip',
       ext: '.gz',
-      threshold: 1024, // Only compress files > 1KB
+      threshold: 1024,
+      filter: (file) => /\.(js|css|html|svg|xml)$/.test(file),
     }),
-    // Also generate brotli-compressed versions
+    // Also generate brotli-compressed versions (JS/CSS only)
     compression({
       algorithm: 'brotliCompress',
       ext: '.br',
       threshold: 1024,
+      filter: (file) => /\.(js|css|html|svg|xml)$/.test(file),
     }),
   ],
   base: process.env.VITE_BASE || '/burnleycouncil/',

@@ -369,9 +369,9 @@
 }
 
 .risk-badge.low {
-  background: rgba(10, 132, 255, 0.18);
-  color: #0a84ff;
-  border-left: 3px solid #0a84ff;
+  background: rgba(0, 212, 170, 0.18);
+  color: #00d4aa;
+  border-left: 3px solid #00d4aa;
 }
 
 .risk-badge.medium {
@@ -478,8 +478,8 @@
   align-items: flex-start;
   gap: var(--space-sm);
   padding: var(--space-md) var(--space-lg);
-  background: rgba(10, 132, 255, 0.08);
-  border: 1px solid rgba(10, 132, 255, 0.2);
+  background: rgba(0, 212, 170, 0.08);
+  border: 1px solid rgba(0, 212, 170, 0.2);
   border-radius: var(--radius-lg);
   margin-bottom: var(--space-lg);
   color: var(--text-secondary);

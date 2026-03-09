@@ -15,7 +15,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  color: #0a84ff;
+  color: #00d4aa;
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 500;
@@ -102,7 +102,7 @@
 }
 
 .cv-section-nav .section-nav-btn.active {
-  background: #0a84ff;
+  background: #00d4aa;
   color: #fff;
   border-color: transparent;
 }
@@ -211,7 +211,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  color: #0a84ff;
+  color: #00d4aa;
   text-decoration: none;
   font-size: 0.85rem;
   font-weight: 500;
@@ -441,7 +441,7 @@
 .cv-activity-count {
   font-size: 2rem;
   font-weight: 700;
-  color: #0a84ff;
+  color: #00d4aa;
 }
 
 .cv-activity-label {
@@ -462,11 +462,11 @@
   align-items: center;
   gap: 0.35rem;
   padding: 0.3rem 0.75rem;
-  background: rgba(10, 132, 255, 0.1);
-  border: 1px solid rgba(10, 132, 255, 0.25);
+  background: rgba(0, 212, 170, 0.1);
+  border: 1px solid rgba(0, 212, 170, 0.25);
   border-radius: 20px;
   font-size: 0.8rem;
-  color: #0a84ff;
+  color: #00d4aa;
   font-weight: 500;
 }
 
@@ -477,11 +477,11 @@
   min-width: 1.2rem;
   height: 1.2rem;
   padding: 0 0.3rem;
-  background: rgba(10, 132, 255, 0.2);
+  background: rgba(0, 212, 170, 0.2);
   border-radius: 10px;
   font-size: 0.7rem;
   font-weight: 600;
-  color: #0a84ff;
+  color: #00d4aa;
 }
 
 .cv-activity-hint {
@@ -565,12 +565,12 @@
 }
 
 .cv-council-card:hover {
-  border-color: #0a84ff;
-  background: rgba(10, 132, 255, 0.05);
+  border-color: #00d4aa;
+  background: rgba(0, 212, 170, 0.05);
 }
 
 .cv-council-card svg:first-child {
-  color: #0a84ff;
+  color: #00d4aa;
   flex-shrink: 0;
 }
 
@@ -669,7 +669,7 @@
   display: inline-flex;
   align-items: center;
   gap: 0.3rem;
-  color: #0a84ff;
+  color: #00d4aa;
   text-decoration: none;
   font-size: 0.8rem;
   margin-top: 0.15rem;

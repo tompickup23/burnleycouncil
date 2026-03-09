@@ -171,7 +171,7 @@ export default function GlobalSearch({ isOpen, onClose, councillors, suppliers, 
                   padding: '10px 16px',
                   border: 'none',
                   background: i === selectedIdx
-                    ? 'rgba(10, 132, 255, 0.15)'
+                    ? 'rgba(0, 212, 170, 0.15)'
                     : 'transparent',
                   color: 'var(--text-primary, #e2e8f0)',
                   fontSize: '0.8rem',

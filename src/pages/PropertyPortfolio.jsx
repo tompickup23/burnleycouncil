@@ -1,13 +1,19 @@
 import { useState, useMemo, useEffect, useCallback, lazy, Suspense } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { Building, Download, Search, ChevronLeft, ChevronRight, ArrowUpDown, Lock, MapPin, Landmark, TreePine, Home, Info, Lightbulb, TrendingUp, Clock, DollarSign, PoundSterling, Gavel, BarChart3, Calendar } from 'lucide-react'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useAuth } from '../context/AuthContext'
 import { isFirebaseEnabled } from '../firebase'
 import { LoadingState } from '../components/ui'
+import ChartCard from '../components/ui/ChartCard'
+import TreemapChart from '../components/ui/TreemapChart'
+import SparkLine from '../components/ui/SparkLine'
 import { formatNumber, formatCurrency } from '../utils/format'
+import { CHART_COLORS, TOOLTIP_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { isQuickWin } from '../utils/strategyEngine'
+import '../components/ui/AdvancedCharts.css'
 
 const WardMap = lazy(() => import('../components/WardMap'))
 
@@ -72,6 +78,7 @@ const CATEGORY_ICONS = {
 }
 
 const EPC_COLORS = { A: '#00c853', B: '#30d158', C: '#ffd60a', D: '#ff9f0a', E: '#ff6d3b', F: '#ff453a', G: '#b71c1c' }
+const EPC_PIE_COLORS = { A: '#30d158', B: '#34c759', C: '#ffd60a', D: '#ff9f0a', E: '#ff6b6b', F: '#ff453a', G: '#ff453a' }
 const BAND_COLORS = { high: '#ff453a', medium: '#ff9f0a', low: '#30d158' }
 const PATHWAY_MAP_COLORS = {
   quick_win_auction: '#00c853', private_treaty_sale: '#30d158',
@@ -812,6 +819,68 @@ export default function PropertyPortfolio() {
   }, [])
 
   const hasActiveFilters = searchTerm || filterCategory || filterDistrict || filterOwnership || filterTier || filterDisposal || filterCED || filterRecommendation || filterOccupancy || filterPathway || filterServiceStatus || quickWinsOnly || sellableOnly
+
+  // --- EPC Rating Distribution (for PieChart) ---
+  const epcDistribution = useMemo(() => {
+    if (!assets.length) return []
+    const counts = {}
+    assets.forEach(a => {
+      const rating = a.epc_rating
+      if (rating && rating >= 'A' && rating <= 'G') {
+        counts[rating] = (counts[rating] || 0) + 1
+      }
+    })
+    return Object.entries(counts)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([rating, count]) => ({
+        name: `EPC ${rating}`,
+        value: count,
+        rating,
+        fill: EPC_PIE_COLORS[rating] || '#8e8e93',
+      }))
+  }, [assets])
+
+  // --- Property Category Treemap data ---
+  const categoryTreemapData = useMemo(() => {
+    if (!assets.length) return []
+    const counts = {}
+    assets.forEach(a => {
+      const cat = a.category || 'unknown'
+      if (!counts[cat]) counts[cat] = 0
+      counts[cat]++
+    })
+    return Object.entries(counts)
+      .map(([cat, count]) => ({
+        name: CATEGORY_LABELS[cat] || cat.replace(/_/g, ' '),
+        value: count,
+        category: cat,
+      }))
+      .sort((a, b) => b.value - a.value)
+  }, [assets])
+
+  // --- CED Valuation BarChart (top 10 by total valuation) ---
+  const cedValuationData = useMemo(() => {
+    if (!assets.length) return []
+    const cedTotals = {}
+    assets.forEach(a => {
+      if (!a.ced) return
+      const val = a.rb_market_value || a.gb_market_value || 0
+      if (val > 0) {
+        if (!cedTotals[a.ced]) cedTotals[a.ced] = { ced: a.ced, total: 0, count: 0 }
+        cedTotals[a.ced].total += val
+        cedTotals[a.ced].count++
+      }
+    })
+    return Object.values(cedTotals)
+      .sort((a, b) => b.total - a.total)
+      .slice(0, 10)
+      .map(d => ({
+        name: d.ced.length > 18 ? d.ced.slice(0, 16) + '...' : d.ced,
+        fullName: d.ced,
+        value: d.total,
+        count: d.count,
+      }))
+  }, [assets])
 
   // --- Access gate ---
   if (!hasAccess) {
@@ -1563,6 +1632,21 @@ export default function PropertyPortfolio() {
             >
               Disposals
             </button>
+            <button
+              onClick={() => setViewMode('analytics')}
+              style={{
+                padding: '6px 14px',
+                border: 'none',
+                borderLeft: '1px solid rgba(255,255,255,0.1)',
+                background: viewMode === 'analytics' ? 'rgba(10,132,255,0.3)' : 'rgba(255,255,255,0.05)',
+                color: viewMode === 'analytics' ? '#0a84ff' : '#aaa',
+                fontSize: '0.8rem',
+                cursor: 'pointer',
+                fontWeight: viewMode === 'analytics' ? 600 : 400,
+              }}
+            >
+              Analytics
+            </button>
           </div>
 
           <button
@@ -1985,6 +2069,165 @@ export default function PropertyPortfolio() {
               ))}
             </div>
           </div>
+        </div>
+      )}
+
+      {/* Analytics View */}
+      {viewMode === 'analytics' && (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+          {/* Analytics header */}
+          <div className="glass-card" style={{ padding: '20px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <BarChart3 size={18} style={{ color: '#00d4aa' }} />
+              <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>Estate Analytics</h3>
+              <span style={{ fontSize: '0.68rem', padding: '2px 8px', borderRadius: '4px', background: 'rgba(0,212,170,0.12)', color: '#00d4aa', fontWeight: 600 }}>
+                {formatNumber(assets.length)} assets
+              </span>
+            </div>
+            <p style={{ color: 'var(--text-secondary, #aaa)', fontSize: '0.8rem', margin: 0 }}>
+              Visual breakdown of the property estate by EPC rating, asset category, and valuation across County Electoral Divisions.
+            </p>
+          </div>
+
+          {/* Charts grid */}
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gap: '16px',
+          }}>
+            {/* EPC Rating Distribution PieChart */}
+            {epcDistribution.length > 0 && (
+              <ChartCard title="EPC Ratings" note={`${epcDistribution.reduce((s, d) => s + d.value, 0)} assets with EPC data of ${formatNumber(assets.length)} total`}>
+                <ResponsiveContainer width="100%" height={280}>
+                  <PieChart>
+                    <Pie
+                      data={epcDistribution}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={55}
+                      outerRadius={100}
+                      paddingAngle={2}
+                      dataKey="value"
+                      nameKey="name"
+                      animationDuration={CHART_ANIMATION.duration}
+                      label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
+                      labelLine={{ stroke: 'rgba(255,255,255,0.3)', strokeWidth: 1 }}
+                    >
+                      {epcDistribution.map((entry, i) => (
+                        <Cell key={`epc-cell-${i}`} fill={entry.fill} stroke="rgba(0,0,0,0.3)" strokeWidth={1} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      contentStyle={TOOLTIP_STYLE}
+                      formatter={(value, name) => [`${formatNumber(value)} assets`, name]}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+                {/* EPC legend */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', justifyContent: 'center', marginTop: '8px' }}>
+                  {epcDistribution.map(d => (
+                    <span key={d.rating} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.72rem', color: '#ccc' }}>
+                      <span style={{ width: '10px', height: '10px', borderRadius: '2px', background: d.fill, flexShrink: 0 }} />
+                      {d.name}: {formatNumber(d.value)}
+                    </span>
+                  ))}
+                </div>
+              </ChartCard>
+            )}
+
+            {/* Property Category TreemapChart */}
+            {categoryTreemapData.length > 0 && (
+              <ChartCard title="Property Categories" note={`${Object.keys(CATEGORY_LABELS).length} categories across ${formatNumber(assets.length)} assets`}>
+                <TreemapChart
+                  data={categoryTreemapData}
+                  colorBy="category"
+                  categoryColors={CATEGORY_COLORS}
+                  height={280}
+                  maxItems={12}
+                  formatValue={(v) => `${formatNumber(v)} assets`}
+                  onItemClick={(item) => {
+                    const cat = categoryTreemapData.find(d => d.name === item.name)?.category
+                    if (cat) {
+                      setFilterCategory(cat)
+                      setViewMode('table')
+                    }
+                  }}
+                />
+                {/* Category legend */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px', marginTop: '8px' }}>
+                  {categoryTreemapData.slice(0, 10).map(d => (
+                    <span key={d.category} style={{ display: 'flex', alignItems: 'center', gap: '4px', fontSize: '0.7rem', color: '#ccc' }}>
+                      <span style={{ width: '8px', height: '8px', borderRadius: '2px', background: CATEGORY_COLORS[d.category] || '#9E9E9E', flexShrink: 0 }} />
+                      {d.name}
+                    </span>
+                  ))}
+                </div>
+              </ChartCard>
+            )}
+          </div>
+
+          {/* CED Valuation BarChart — full width */}
+          {cedValuationData.length > 0 && (
+            <ChartCard title="Property Valuation by CED" wide note="Top 10 County Electoral Divisions by total valuation (Red Book MV or Green Book MV). Click a bar to filter the table.">
+              <ResponsiveContainer width="100%" height={340}>
+                <BarChart
+                  data={cedValuationData}
+                  margin={{ top: 10, right: 20, left: 20, bottom: 60 }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.06)" />
+                  <XAxis
+                    dataKey="name"
+                    tick={{ fill: '#8e8e93', fontSize: 11 }}
+                    angle={-35}
+                    textAnchor="end"
+                    interval={0}
+                    height={80}
+                  />
+                  <YAxis
+                    tick={{ fill: '#8e8e93', fontSize: 11 }}
+                    tickFormatter={(v) => v >= 1e6 ? `${(v / 1e6).toFixed(1)}M` : v >= 1e3 ? `${(v / 1e3).toFixed(0)}K` : v}
+                    width={65}
+                  />
+                  <Tooltip
+                    contentStyle={TOOLTIP_STYLE}
+                    formatter={(value) => [formatCurrency(value), 'Valuation']}
+                    labelFormatter={(label, payload) => {
+                      const item = payload?.[0]?.payload
+                      return item?.fullName ? `${item.fullName} (${item.count} assets)` : label
+                    }}
+                  />
+                  <Bar
+                    dataKey="value"
+                    name="Valuation"
+                    radius={[4, 4, 0, 0]}
+                    animationDuration={CHART_ANIMATION.duration}
+                    cursor="pointer"
+                    onClick={(data) => {
+                      if (data?.fullName) {
+                        setFilterCED(data.fullName)
+                        setViewMode('table')
+                      }
+                    }}
+                  >
+                    {cedValuationData.map((entry, i) => (
+                      <Cell key={`ced-cell-${i}`} fill={CHART_COLORS[i % CHART_COLORS.length]} fillOpacity={0.85} />
+                    ))}
+                  </Bar>
+                </BarChart>
+              </ResponsiveContainer>
+            </ChartCard>
+          )}
+
+          {/* If no data for any charts */}
+          {epcDistribution.length === 0 && categoryTreemapData.length === 0 && cedValuationData.length === 0 && (
+            <div className="glass-card" style={{ padding: '40px 20px', textAlign: 'center' }}>
+              <BarChart3 size={48} style={{ color: '#8e8e93', marginBottom: '16px' }} />
+              <h3 style={{ color: '#fff' }}>No Analytics Data</h3>
+              <p style={{ color: 'var(--text-secondary, #aaa)' }}>
+                Property data does not contain enough detail for analytics visualisations.
+              </p>
+            </div>
+          )}
         </div>
       )}
 

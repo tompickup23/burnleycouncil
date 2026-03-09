@@ -68,12 +68,12 @@
 }
 
 .elec-info-thirds {
-  background: rgba(10, 132, 255, 0.06);
-  border-color: rgba(10, 132, 255, 0.2);
+  background: rgba(0, 212, 170, 0.06);
+  border-color: rgba(0, 212, 170, 0.2);
 }
 
 .elec-info-thirds svg {
-  color: #0a84ff;
+  color: #00d4aa;
 }
 
 /* ===================== Section Navigation ===================== */
@@ -115,7 +115,7 @@
 }
 
 .elec-section-nav .section-nav-btn.active {
-  background: #0a84ff;
+  background: #00d4aa;
   color: #fff;
   border-color: transparent;
 }
@@ -202,8 +202,8 @@
 
 /* ===================== Next Election Card (Overview) ===================== */
 .elec-next-election-card {
-  background: rgba(10, 132, 255, 0.08);
-  border: 1px solid rgba(10, 132, 255, 0.3);
+  background: rgba(0, 212, 170, 0.08);
+  border: 1px solid rgba(0, 212, 170, 0.3);
   border-radius: 12px;
   padding: 1.25rem 1.5rem;
   margin-bottom: 1.5rem;
@@ -217,12 +217,12 @@
 }
 
 .elec-next-election-header svg {
-  color: #0a84ff;
+  color: #00d4aa;
 }
 
 .elec-next-election-header h3 {
   font-size: 1.1rem;
-  color: #0a84ff;
+  color: #00d4aa;
   margin: 0;
 }
 
@@ -279,22 +279,22 @@
 }
 
 .elec-council-chip.current {
-  background: rgba(10, 132, 255, 0.12);
-  border-color: rgba(10, 132, 255, 0.3);
-  color: #0a84ff;
+  background: rgba(0, 212, 170, 0.12);
+  border-color: rgba(0, 212, 170, 0.3);
+  color: #00d4aa;
   font-weight: 600;
 }
 
 .elec-council-link {
-  color: #0a84ff;
+  color: #00d4aa;
   text-decoration: none;
   cursor: pointer;
   transition: background 0.15s, border-color 0.15s;
 }
 
 .elec-council-link:hover {
-  background: rgba(10, 132, 255, 0.12);
-  border-color: rgba(10, 132, 255, 0.4);
+  background: rgba(0, 212, 170, 0.12);
+  border-color: rgba(0, 212, 170, 0.4);
   text-decoration: none;
 }
 
@@ -327,7 +327,7 @@
 }
 
 .elec-timeline-item.highlight {
-  background: rgba(10, 132, 255, 0.06);
+  background: rgba(0, 212, 170, 0.06);
   border-radius: 8px;
   margin-left: -0.5rem;
   padding-left: 1.5rem;
@@ -339,7 +339,7 @@
   top: 0.85rem;
   width: 12px;
   height: 12px;
-  background: #0a84ff;
+  background: #00d4aa;
   border-radius: 50%;
   border: 2px solid #1c1c1e;
 }
@@ -516,7 +516,7 @@
 
 .elec-ward-selector select:focus {
   outline: none;
-  border-color: #0a84ff;
+  border-color: #00d4aa;
 }
 
 .elec-ward-detail {
@@ -612,7 +612,7 @@
 
 .elec-slider-value {
   font-size: 0.85rem;
-  color: #0a84ff;
+  color: #00d4aa;
   font-weight: 600;
   font-variant-numeric: tabular-nums;
 }
@@ -640,7 +640,7 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #0a84ff;
+  background: #00d4aa;
   cursor: pointer;
 }
 
@@ -648,7 +648,7 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: #0a84ff;
+  background: #00d4aa;
   cursor: pointer;
   border: none;
 }
@@ -771,7 +771,7 @@
 .elec-btn-small {
   background: none;
   border: none;
-  color: #0a84ff;
+  color: #00d4aa;
   cursor: pointer;
   padding: 0.2rem;
   display: flex;
@@ -810,7 +810,7 @@
 .elec-step-num {
   display: inline-block;
   background: rgba(44, 44, 46, 0.7);
-  color: #0a84ff;
+  color: #00d4aa;
   padding: 0.15rem 0.5rem;
   border-radius: 4px;
   font-size: 0.7rem;
@@ -1057,14 +1057,14 @@
 }
 
 .elec-coalition-card:hover {
-  border-color: #0a84ff;
+  border-color: #00d4aa;
   transform: translateY(-2px) scale(1.01);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
 }
 
 .elec-coalition-card.selected {
-  border-color: #0a84ff;
-  background: rgba(10, 132, 255, 0.08);
+  border-color: #00d4aa;
+  background: rgba(0, 212, 170, 0.08);
 }
 
 .elec-coalition-header {
@@ -1212,7 +1212,7 @@
 
 /* ===================== Inline link ===================== */
 .elec-link-inline {
-  color: #0a84ff;
+  color: #00d4aa;
   text-decoration: none;
   font-size: 0.85rem;
   margin-left: 0.5rem;
@@ -1313,7 +1313,7 @@
   transition: all 0.2s;
 }
 .elec-constituency-card:hover {
-  border-color: #0a84ff;
+  border-color: #00d4aa;
   transform: translateY(-2px) scale(1.01);
 }
 
@@ -1330,7 +1330,7 @@
   -webkit-appearance: none;
   appearance: none;
   height: 6px;
-  background: linear-gradient(90deg, #30d158 0%, #0a84ff 50%, #bf5af2 100%);
+  background: linear-gradient(90deg, #30d158 0%, #00d4aa 50%, #bf5af2 100%);
   border-radius: 3px;
   outline: none;
   opacity: 0.85;
@@ -1349,13 +1349,13 @@
   border-radius: 50%;
   background: #fff;
   cursor: pointer;
-  box-shadow: 0 0 12px rgba(10, 132, 255, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 12px rgba(0, 212, 170, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
   transition: transform 0.15s, box-shadow 0.15s;
 }
 
 .elec-slider-input::-webkit-slider-thumb:hover {
   transform: scale(1.15);
-  box-shadow: 0 0 16px rgba(10, 132, 255, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 16px rgba(0, 212, 170, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
 }
 
 .elec-slider-input::-moz-range-thumb {
@@ -1365,12 +1365,12 @@
   background: #fff;
   cursor: pointer;
   border: none;
-  box-shadow: 0 0 12px rgba(10, 132, 255, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 12px rgba(0, 212, 170, 0.4), 0 2px 6px rgba(0, 0, 0, 0.3);
 }
 
 .elec-slider-input::-moz-range-track {
   height: 6px;
-  background: linear-gradient(90deg, #30d158 0%, #0a84ff 50%, #bf5af2 100%);
+  background: linear-gradient(90deg, #30d158 0%, #00d4aa 50%, #bf5af2 100%);
   border-radius: 3px;
   border: none;
 }

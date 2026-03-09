@@ -21,7 +21,7 @@ import { COUNCIL_COLORS, PARTY_COLORS } from '../utils/constants'
 const TILE_URL = 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
 const TILE_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>'
 
-const TIER_COLORS = { district: '#0a84ff', county: '#ff9f0a', unitary: '#bf5af2' }
+const TIER_COLORS = { district: '#00d4aa', county: '#ff9f0a', unitary: '#bf5af2' }
 const TIER_LABELS = { district: 'District', county: 'County', unitary: 'Unitary' }
 
 function esc(str) {
@@ -64,7 +64,7 @@ function lerpColor(a, b, t) {
   return `rgb(${r},${g},${bl})`
 }
 
-const LGR_AUTH_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff', '#ffd60a', '#ff375f']
+const LGR_AUTH_COLORS = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff', '#ffd60a', '#ff375f']
 
 function getCouncilColor(feature, councilData, colorMode, allPerCapita, lgrAuthorities) {
   const id = feature.properties?.council_id

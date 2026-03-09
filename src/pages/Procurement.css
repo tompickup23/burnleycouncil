@@ -71,7 +71,7 @@
 }
 
 .procurement-stat-icon.stat-icon-blue {
-  background: rgba(10, 132, 255, 0.15);
+  background: rgba(0, 212, 170, 0.15);
   color: var(--accent-blue);
 }
 
@@ -219,7 +219,7 @@
 
 .procurement-search-bar input:focus {
   border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.15), 0 0 30px rgba(10, 132, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.15), 0 0 30px rgba(0, 212, 170, 0.1);
 }
 
 .procurement-search-clear {
@@ -283,7 +283,7 @@
 
 .procurement-filter-group select:focus {
   border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.15);
 }
 
 .procurement-filter-results {
@@ -364,12 +364,12 @@
 .procurement-supplier-link {
   color: var(--text-primary);
   text-decoration: none;
-  border-bottom: 1px dotted var(--accent, #0a84ff);
+  border-bottom: 1px dotted var(--accent, #00d4aa);
   transition: color 0.15s ease;
 }
 
 .procurement-supplier-link:hover {
-  color: var(--accent, #0a84ff);
+  color: var(--accent, #00d4aa);
   border-bottom-style: solid;
 }
 
@@ -398,7 +398,7 @@
 }
 
 .procurement-external-link:hover {
-  background: rgba(10, 132, 255, 0.15);
+  background: rgba(0, 212, 170, 0.15);
   color: var(--accent-blue);
 }
 
@@ -495,7 +495,7 @@
 
 .procurement-value-input:focus {
   border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.15);
+  box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.15);
   outline: none;
 }
 
@@ -516,7 +516,7 @@
 }
 
 .procurement-row.expanded {
-  background: rgba(10, 132, 255, 0.05);
+  background: rgba(0, 212, 170, 0.05);
 }
 
 .procurement-title-wrap {
@@ -545,7 +545,7 @@
 .contract-detail {
   padding: var(--space-lg) var(--space-xl);
   background: rgba(28, 28, 30, 0.4);
-  border-top: 1px solid rgba(10, 132, 255, 0.15);
+  border-top: 1px solid rgba(0, 212, 170, 0.15);
   animation: detailExpand 0.2s ease-out;
 }
 
@@ -637,8 +637,8 @@
   align-items: center;
   gap: 6px;
   padding: var(--space-sm) var(--space-md);
-  background: rgba(10, 132, 255, 0.1);
-  border: 1px solid rgba(10, 132, 255, 0.2);
+  background: rgba(0, 212, 170, 0.1);
+  border: 1px solid rgba(0, 212, 170, 0.2);
   border-radius: var(--radius-sm);
   color: var(--accent-blue);
   font-size: 0.8125rem;
@@ -649,8 +649,8 @@
 }
 
 .detail-action-btn:hover {
-  background: rgba(10, 132, 255, 0.2);
-  border-color: rgba(10, 132, 255, 0.3);
+  background: rgba(0, 212, 170, 0.2);
+  border-color: rgba(0, 212, 170, 0.3);
 }
 
 .detail-action-spending {
@@ -705,7 +705,7 @@
 
 .procurement-page-btn:hover:not(:disabled) {
   background: rgba(44, 44, 46, 0.8);
-  border-color: rgba(10, 132, 255, 0.3);
+  border-color: rgba(0, 212, 170, 0.3);
 }
 
 .procurement-page-btn:disabled {
@@ -902,8 +902,8 @@
 }
 
 .expiry-upcoming {
-  background: #0a84ff22;
-  color: #0a84ff;
+  background: #00d4aa22;
+  color: #00d4aa;
 }
 
 /* --- CSV Export Button --- */
@@ -914,9 +914,9 @@
   gap: 4px;
   padding: 6px 12px;
   border-radius: 8px;
-  border: 1px solid #0a84ff;
-  background: #0a84ff22;
-  color: #0a84ff;
+  border: 1px solid #00d4aa;
+  background: #00d4aa22;
+  color: #00d4aa;
   font-size: 0.82rem;
   font-weight: 600;
   cursor: pointer;
@@ -925,5 +925,5 @@
 }
 
 .procurement-export-btn:hover {
-  background: #0a84ff33;
+  background: #00d4aa33;
 }

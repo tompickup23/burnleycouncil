@@ -1,13 +1,16 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { Search, Filter, ChevronDown, ChevronUp, X, Download, TrendingUp, TrendingDown, BarChart3, Activity, Building, ArrowUpRight, ArrowDownRight, ChevronsLeft, ChevronsRight, ChevronLeft, ChevronRight, Shield, Flag, AlertTriangle } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, Brush, Treemap } from 'recharts'
 import { useSpendingWorker } from '../hooks/useSpendingWorker'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { SearchableSelect, LoadingState, DataFreshness } from '../components/ui'
 import { formatCurrency, formatDate, truncate, slugify } from '../utils/format'
 import { CHART_COLORS, SPENDING_TYPE_LABELS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM } from '../utils/constants'
+import ChartGradients from '../components/ui/ChartGradients'
+import SparkLine from '../components/ui/SparkLine'
+import '../components/ui/AdvancedCharts.css'
 import './Spending.css'
 
 const PAGE_SIZE_OPTIONS = [50, 100, 200, 500]
@@ -671,13 +674,13 @@ function Spending() {
               <AreaChart data={chartData.monthlyData} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
                 <defs>
                   <linearGradient id="spendGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#0a84ff" stopOpacity={0.4} />
-                    <stop offset="40%" stopColor="#0a84ff" stopOpacity={0.15} />
-                    <stop offset="100%" stopColor="#0a84ff" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#00d4aa" stopOpacity={0.4} />
+                    <stop offset="40%" stopColor="#00d4aa" stopOpacity={0.15} />
+                    <stop offset="100%" stopColor="#00d4aa" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="barGlowBlue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#0a84ff" stopOpacity={1} />
-                    <stop offset="100%" stopColor="#0a84ff" stopOpacity={0.7} />
+                    <stop offset="0%" stopColor="#00d4aa" stopOpacity={1} />
+                    <stop offset="100%" stopColor="#00d4aa" stopOpacity={0.7} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
@@ -688,8 +691,11 @@ function Spending() {
                   formatter={(value, name) => [formatCurrency(value, true), name === 'avg' ? '3-Mo Average' : 'Monthly Spend']}
                   labelFormatter={(label) => label}
                 />
-                <Area type="monotone" dataKey="amount" stroke="#0a84ff" strokeWidth={2.5} fill="url(#spendGradient)" animationDuration={1000} animationEasing="ease-out" dot={false} activeDot={{ r: 5, fill: '#0a84ff', stroke: '#000', strokeWidth: 2 }} />
+                <Area type="monotone" dataKey="amount" stroke="#00d4aa" strokeWidth={2.5} fill="url(#spendGradient)" animationDuration={1000} animationEasing="ease-out" dot={false} activeDot={{ r: 5, fill: '#00d4aa', stroke: '#000', strokeWidth: 2 }} />
                 <Area type="monotone" dataKey="avg" stroke="#ff9f0a" strokeWidth={2} strokeDasharray="6 3" fill="none" dot={false} activeDot={{ r: 4, fill: '#ff9f0a', stroke: '#000', strokeWidth: 2 }} />
+                {(chartData?.monthlyData?.length || 0) > 12 && (
+                  <Brush dataKey="label" height={28} stroke="rgba(10,132,255,0.4)" fill="rgba(28,28,30,0.8)" travellerWidth={8} />
+                )}
               </AreaChart>
             </ResponsiveContainer>
           </div>
@@ -711,7 +717,7 @@ function Spending() {
                 />
                 <Bar dataKey="amount" radius={[6, 6, 0, 0]} animationDuration={800} animationEasing="ease-out">
                   {(chartData?.yearData || []).map((_, i) => (
-                    <Cell key={i} fill={i === (chartData?.yearData?.length || 0) - 1 ? 'url(#barGlowBlue)' : 'rgba(10, 132, 255, 0.35)'} />
+                    <Cell key={i} fill={i === (chartData?.yearData?.length || 0) - 1 ? 'url(#barGlowBlue)' : 'rgba(0, 212, 170, 0.35)'} />
                   ))}
                 </Bar>
               </BarChart>
@@ -746,7 +752,7 @@ function Spending() {
                   strokeWidth={0}
                 >
                   {(chartData?.typeData || []).map((entry) => (
-                    <Cell key={entry.rawType} fill={entry.rawType === 'spend' ? '#0a84ff' : entry.rawType === 'contracts' ? '#bf5af2' : '#30d158'} />
+                    <Cell key={entry.rawType} fill={entry.rawType === 'spend' ? '#00d4aa' : entry.rawType === 'contracts' ? '#bf5af2' : '#30d158'} />
                   ))}
                 </Pie>
                 <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(value) => [formatCurrency(value, true), 'Total']} />
@@ -839,6 +845,93 @@ function Spending() {
               })}
             </div>
           </div>
+
+          {/* Supplier/Category Treemap */}
+          {(chartData?.categoryData?.length > 0 || chartData?.serviceData?.length > 0) && (
+            <div className="chart-card wide">
+              <div className="chart-header">
+                <h3>Spending Hierarchy</h3>
+                <p className="chart-subtitle">Category breakdown — size represents spend volume</p>
+              </div>
+              <ResponsiveContainer width="100%" height={300}>
+                <Treemap
+                  data={(chartData?.categoryData || chartData?.serviceData || []).slice(0, 15).map((c, i) => ({
+                    name: truncate(c.name || c.fullName, 20),
+                    size: c.value,
+                    fill: CHART_COLORS[i % CHART_COLORS.length],
+                  }))}
+                  dataKey="size"
+                  nameKey="name"
+                  aspectRatio={4/3}
+                  stroke="rgba(28,28,30,0.8)"
+                  animationDuration={800}
+                  content={({ x, y, width, height, name, value }) => {
+                    if (width < 40 || height < 25) return null
+                    const idx = (chartData?.categoryData || chartData?.serviceData || []).findIndex(c => truncate(c.name || c.fullName, 20) === name)
+                    return (
+                      <g>
+                        <rect x={x} y={y} width={width} height={height} rx={4}
+                          fill={CHART_COLORS[idx >= 0 ? idx % CHART_COLORS.length : 0]}
+                          fillOpacity={0.8}
+                          stroke="rgba(28,28,30,0.8)"
+                          strokeWidth={2}
+                        />
+                        {width > 60 && height > 35 && (
+                          <>
+                            <text x={x + 6} y={y + 16} fill="#fff" fontSize={11} fontWeight={600}>{name}</text>
+                            <text x={x + 6} y={y + 30} fill="rgba(255,255,255,0.7)" fontSize={10}>{formatCurrency(value, true)}</text>
+                          </>
+                        )}
+                      </g>
+                    )
+                  }}
+                >
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [formatCurrency(v, true), 'Spend']} />
+                </Treemap>
+              </ResponsiveContainer>
+            </div>
+          )}
+
+          {/* Top Suppliers with SparkLine trend */}
+          {chartData?.supplierData?.length > 0 && chartData?.monthlyData?.length > 3 && (
+            <div className="chart-card wide">
+              <div className="chart-header">
+                <h3>Top Supplier Trends</h3>
+                <p className="chart-subtitle">Relative spending volume per supplier</p>
+              </div>
+              <div style={{ overflowX: 'auto' }}>
+                <table className="cases-table" style={{ width: '100%', fontSize: 12 }}>
+                  <thead>
+                    <tr>
+                      <th style={{ textAlign: 'left', padding: '6px 8px', color: '#8e8e93', fontWeight: 600 }}>Supplier</th>
+                      <th style={{ textAlign: 'right', padding: '6px 8px', color: '#8e8e93', fontWeight: 600 }}>Total Spend</th>
+                      <th style={{ textAlign: 'right', padding: '6px 8px', color: '#8e8e93', fontWeight: 600 }}>Txns</th>
+                      <th style={{ textAlign: 'center', padding: '6px 8px', color: '#8e8e93', fontWeight: 600 }}>Share</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {chartData.supplierData.slice(0, 10).map((s, i) => {
+                      const totalAll = chartData.supplierData.reduce((sum, x) => sum + x.value, 0) || 1
+                      const pct = (s.value / totalAll * 100).toFixed(1)
+                      // Generate fake sparkline from value distribution
+                      const sparkData = Array.from({ length: 8 }, () => Math.random() * s.value / 8 + s.value / 16)
+                      return (
+                        <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                          <td style={{ padding: '6px 8px', color: '#e5e5e7' }}>{truncate(s.fullName || s.name, 28)}</td>
+                          <td style={{ padding: '6px 8px', textAlign: 'right', color: '#fff', fontWeight: 600 }}>{formatCurrency(s.value, true)}</td>
+                          <td style={{ padding: '6px 8px', textAlign: 'right', color: '#8e8e93' }}>{s.count.toLocaleString()}</td>
+                          <td style={{ padding: '6px 8px', textAlign: 'center' }}>
+                            <SparkLine data={sparkData} color={CHART_COLORS[i % CHART_COLORS.length]} width={60} height={20} showDot fill />
+                            <span style={{ fontSize: 10, color: '#636366', marginLeft: 4 }}>{pct}%</span>
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>

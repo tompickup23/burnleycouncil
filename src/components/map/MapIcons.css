@@ -1,0 +1,80 @@
+/* MapIcons.css — SVG marker styles for Leaflet maps */
+
+.svg-map-marker {
+  transition: transform 0.2s ease, filter 0.2s ease;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.svg-map-marker:hover {
+  transform: scale(1.25);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.6));
+  z-index: 1000 !important;
+}
+
+/* Severity-based glow effects */
+.svg-map-marker--critical {
+  filter: drop-shadow(0 0 8px rgba(255, 69, 58, 0.6)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.svg-map-marker--high {
+  filter: drop-shadow(0 0 6px rgba(255, 107, 107, 0.4)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+.svg-map-marker--warning {
+  filter: drop-shadow(0 0 4px rgba(255, 159, 10, 0.3)) drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+}
+
+/* Pulsing animation for critical/emergency works */
+.svg-map-marker--pulse {
+  animation: markerPulse 2s ease-in-out infinite;
+}
+
+@keyframes markerPulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.3); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Selected marker highlight */
+.svg-map-marker--selected {
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.8)) drop-shadow(0 0 20px rgba(0, 212, 170, 0.6));
+  z-index: 999 !important;
+}
+
+.svg-map-marker--selected svg {
+  stroke: #fff;
+  stroke-width: 2;
+}
+
+/* Mobile: larger touch targets */
+@media (max-width: 768px) {
+  .svg-map-marker {
+    transform: scale(1.2);
+  }
+  .svg-map-marker:hover {
+    transform: scale(1.4);
+  }
+}
+
+/* Choropleth tooltip */
+.choropleth-tooltip {
+  background: rgba(28, 28, 30, 0.95) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+  padding: 8px 12px !important;
+  color: #fff !important;
+  font-family: 'Inter', -apple-system, system-ui, sans-serif !important;
+  font-size: 12px !important;
+}
+
+.choropleth-tooltip::before {
+  display: none !important;
+}
+
+/* Choropleth legend */
+.choropleth-legend {
+  pointer-events: auto;
+}

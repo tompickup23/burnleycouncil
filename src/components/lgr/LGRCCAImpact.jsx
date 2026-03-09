@@ -15,7 +15,7 @@ import './LGRCCAImpact.css'
  */
 
 const TRANSFER_COLORS = [
-  '#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a',
+  '#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a',
   '#64d2ff', '#ffd60a', '#ff6482',
 ]
 

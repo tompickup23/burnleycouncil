@@ -19,7 +19,10 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import CouncillorLink from '../components/CouncillorLink'
 import IntegrityBadge from '../components/IntegrityBadge'
-import { SEVERITY_COLORS as severityColors, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
+import { SEVERITY_COLORS as severityColors, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_COLORS } from '../utils/constants'
+import GaugeChart from '../components/ui/GaugeChart'
+import SparkLine from '../components/ui/SparkLine'
+import '../components/ui/AdvancedCharts.css'
 import './DogeInvestigation.css'
 
 // Confidence badge
@@ -283,6 +286,40 @@ function DogeInvestigation() {
             <span className="stat-label">Verification Score</span>
           </div>
         </div>
+
+        {/* Gauge overview — fraud triangle + data quality */}
+        {(dogeFindings.fraud_triangle || dataQuality.overall_score != null) && (
+          <div className="gauge-grid" style={{ marginTop: 20 }}>
+            {dogeFindings.fraud_triangle && (
+              <GaugeChart
+                value={dogeFindings.fraud_triangle.overall_score}
+                max={100}
+                label="Fraud Triangle"
+                subtitle={dogeFindings.fraud_triangle.risk_level}
+                size={130}
+              />
+            )}
+            {dataQuality.overall_score != null && (
+              <GaugeChart
+                value={dataQuality.overall_score}
+                max={100}
+                label="Data Quality"
+                subtitle={dataQuality.overall_score >= 70 ? 'Good' : dataQuality.overall_score >= 40 ? 'Fair' : 'Poor'}
+                size={130}
+              />
+            )}
+            {dogeFindings.supplier_concentration?.hhi != null && (
+              <GaugeChart
+                value={Math.min(dogeFindings.supplier_concentration.hhi, 10000)}
+                max={10000}
+                label="HHI Concentration"
+                subtitle={dogeFindings.supplier_concentration.concentration_level || ''}
+                format={(v) => v.toFixed(0)}
+                size={130}
+              />
+            )}
+          </div>
+        )}
       </header>
 
       {/* Methodology note */}
@@ -458,8 +495,8 @@ function DogeInvestigation() {
                         <Radar
                           name="Quality %"
                           dataKey="score"
-                          stroke="#0a84ff"
-                          fill="#0a84ff"
+                          stroke="#00d4aa"
+                          fill="#00d4aa"
                           fillOpacity={0.2}
                         />
                       </RadarChart>
@@ -658,7 +695,7 @@ function DogeInvestigation() {
                           contentStyle={TOOLTIP_STYLE}
                           formatter={(v, name) => [name === 'count' ? formatNumber(v) : formatCurrency(v, true), name === 'count' ? 'Transactions' : 'Total Value']}
                         />
-                        <Bar dataKey="count" fill="#0a84ff" radius={[4, 4, 0, 0]} name="count" />
+                        <Bar dataKey="count" fill="#00d4aa" radius={[4, 4, 0, 0]} name="count" />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>
@@ -698,6 +735,33 @@ function DogeInvestigation() {
                    : dogeFindings.supplier_concentration.concentration_level === 'moderate' ? ' moderate concentration.'
                    : ' a competitive supplier market with spending spread across many providers.'}
                 </p>
+
+                <div className="gauge-grid" style={{ margin: '16px 0' }}>
+                  <GaugeChart
+                    value={Math.min(dogeFindings.supplier_concentration.hhi, 10000)}
+                    max={10000}
+                    label="HHI Score"
+                    subtitle={dogeFindings.supplier_concentration.concentration_level}
+                    format={(v) => v.toFixed(0)}
+                    size={120}
+                  />
+                  <GaugeChart
+                    value={dogeFindings.supplier_concentration.top5?.pct || 0}
+                    max={100}
+                    label="Top 5 Share"
+                    subtitle={`${dogeFindings.supplier_concentration.top5?.pct || 0}% of spend`}
+                    format={(v) => v.toFixed(0) + '%'}
+                    size={120}
+                  />
+                  <GaugeChart
+                    value={dogeFindings.supplier_concentration.top10_pct || 0}
+                    max={100}
+                    label="Top 10 Share"
+                    subtitle={`${dogeFindings.supplier_concentration.top10_pct || 0}% of spend`}
+                    format={(v) => v.toFixed(0) + '%'}
+                    size={120}
+                  />
+                </div>
 
                 {dogeFindings.supplier_concentration.top5?.suppliers?.length > 0 && (
                   <div className="velocity-table-section">
@@ -1030,6 +1094,23 @@ function DogeInvestigation() {
                 and <strong>Rationalization</strong> (cultural tolerance of non-compliance).
                 This is a <em>screening tool</em> — elevated scores warrant investigation, not accusation.
               </p>
+
+              {/* Gauge overview of three dimensions */}
+              <div className="gauge-grid" style={{ marginBottom: 20 }}>
+                {['opportunity', 'pressure', 'rationalization'].map(dim => {
+                  const d = dogeFindings.fraud_triangle.dimensions[dim]
+                  return (
+                    <GaugeChart
+                      key={dim}
+                      value={d.score}
+                      max={100}
+                      label={dim.charAt(0).toUpperCase() + dim.slice(1)}
+                      subtitle={`${d.signals.length} signal${d.signals.length !== 1 ? 's' : ''}`}
+                      size={130}
+                    />
+                  )
+                })}
+              </div>
 
               <div className="fraud-triangle-scores">
                 {['opportunity', 'pressure', 'rationalization'].map(dim => {

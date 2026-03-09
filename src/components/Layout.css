@@ -25,7 +25,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(228, 0, 43, 0.06) 0%, transparent 100%);
+  background: linear-gradient(180deg, rgba(0, 212, 170, 0.05) 0%, rgba(228, 0, 43, 0.03) 50%, transparent 100%);
 }
 
 .sidebar-header::before {
@@ -35,19 +35,20 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, #e4002b, rgba(228, 0, 43, 0.3) 60%, transparent);
+  background: linear-gradient(90deg, #00d4aa, rgba(0, 212, 170, 0.4) 40%, rgba(228, 0, 43, 0.3) 80%, transparent);
 }
 
 .sidebar-header::after {
   content: 'AI DOGE';
   position: absolute;
-  top: 8px;
+  top: 10px;
   right: 12px;
-  font-size: 0.55rem;
-  font-weight: 800;
-  letter-spacing: 0.1em;
-  color: rgba(228, 0, 43, 0.5);
+  font-size: 0.6rem;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  color: #00d4aa;
   text-transform: uppercase;
+  text-shadow: 0 0 12px rgba(0, 212, 170, 0.4);
 }
 
 .site-title {
@@ -55,7 +56,7 @@
   font-weight: 900;
   letter-spacing: -0.03em;
   margin-bottom: 2px;
-  background: linear-gradient(135deg, #ffffff 0%, rgba(228, 0, 43, 0.8) 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #00d4aa 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -63,10 +64,11 @@
 
 .site-subtitle {
   font-size: 0.7rem;
-  color: var(--text-secondary);
+  color: var(--accent-blue);
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: 700;
+  opacity: 0.7;
 }
 
 .sidebar-nav {
@@ -227,6 +229,7 @@
 
 .nav-admin-link {
   color: var(--accent-blue) !important;
+  text-shadow: 0 0 8px rgba(0, 212, 170, 0.3);
 }
 
 .disclaimer-badge {
@@ -306,7 +309,7 @@
   right: -8%;
   width: 55vw;
   height: 55vw;
-  background: radial-gradient(ellipse, rgba(10, 132, 255, 0.06) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(0, 212, 170, 0.06) 0%, transparent 70%);
   animation: gradientShift 14s ease infinite;
 }
 

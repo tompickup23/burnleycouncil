@@ -3,12 +3,12 @@ import { useParams, Link } from 'react-router-dom'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber, formatDate, formatPercent } from '../utils/format'
-import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, COUNCIL_SLUG_MAP, COUNCIL_SHORT_NAMES, PARTY_COLORS as FALLBACK_PARTY_COLORS, getPartyColor as getPartyColorFromConstants } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, COUNCIL_SLUG_MAP, COUNCIL_SHORT_NAMES, PARTY_COLORS as FALLBACK_PARTY_COLORS, getPartyColor as getPartyColorFromConstants, CHART_ANIMATION } from '../utils/constants'
 import { LoadingState } from '../components/ui'
 import CollapsibleSection from '../components/CollapsibleSection'
 import {
   BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  LineChart, Line,
+  LineChart, Line, Brush,
 } from 'recharts'
 import {
   User, Vote, CheckSquare, MessageSquare, PoundSterling,
@@ -114,7 +114,7 @@ function ExpensesTooltip({ active, payload, label }) {
     <div style={TOOLTIP_STYLE}>
       <p style={{ margin: '0 0 6px', fontWeight: 600, color: '#fff' }}>{label}</p>
       {payload.map((p, i) => (
-        <p key={i} style={{ margin: '2px 0', color: p.color || '#0a84ff', fontSize: '13px' }}>
+        <p key={i} style={{ margin: '2px 0', color: p.color || '#00d4aa', fontSize: '13px' }}>
           {formatMoney(p.value)}
         </p>
       ))}
@@ -376,7 +376,7 @@ export default function ConstituencyView() {
                     </div>
                   )
                 }} />
-                <Bar dataKey="votes" radius={[0, 6, 6, 0]}>
+                <Bar dataKey="votes" radius={[0, 6, 6, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {electionChartData.map((entry, idx) => (
                     <Cell key={idx} fill={entry.fill} />
                   ))}
@@ -564,7 +564,7 @@ export default function ConstituencyView() {
                     />
                     <YAxis type="category" dataKey="category" width={120} tick={{ fill: '#e5e5e7', fontSize: 12 }} />
                     <Tooltip content={ExpensesTooltip} />
-                    <Bar dataKey="amount" fill="#0a84ff" radius={[0, 6, 6, 0]} />
+                    <Bar dataKey="amount" fill="#00d4aa" radius={[0, 6, 6, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -618,7 +618,7 @@ export default function ConstituencyView() {
                     return (
                       <div style={TOOLTIP_STYLE}>
                         <p style={{ margin: '0 0 4px', fontWeight: 600, color: '#fff' }}>{d.fullLabel}</p>
-                        <p style={{ margin: '2px 0', color: '#0a84ff', fontSize: '13px' }}>
+                        <p style={{ margin: '2px 0', color: '#00d4aa', fontSize: '13px' }}>
                           Claimants: {formatNumber(d.count)}
                         </p>
                         {d.rate != null && (
@@ -630,9 +630,11 @@ export default function ConstituencyView() {
                     )
                   }} />
                   <Line
-                    type="monotone" dataKey="count" stroke="#0a84ff"
-                    strokeWidth={2} dot={false} activeDot={{ r: 4, fill: '#0a84ff' }}
+                    type="monotone" dataKey="count" stroke="#00d4aa"
+                    strokeWidth={2} dot={false} activeDot={{ r: 4, fill: '#00d4aa' }}
+                    animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}
                   />
+                  {claimantChartData.length > 6 && <Brush dataKey="fullLabel" height={30} stroke="#00d4aa" fill="rgba(0, 212, 170, 0.1)" />}
                 </LineChart>
               </ResponsiveContainer>
             </div>

@@ -1,13 +1,18 @@
 import { useState, useMemo, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Search, Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, AlertTriangle, ExternalLink, ChevronDown, ChevronUp, Eye, Users, Fingerprint, Scale, Info, Network, Heart, Landmark, Banknote, Globe, Home, FileText, PoundSterling, TrendingDown, Vote } from 'lucide-react'
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import CollapsibleSection from '../components/CollapsibleSection'
 import CouncillorLink from '../components/CouncillorLink'
+import ChartCard from '../components/ui/ChartCard'
+import GaugeChart from '../components/ui/GaugeChart'
+import SparkLine from '../components/ui/SparkLine'
 import { formatCurrency, slugify } from '../utils/format'
-import { SEVERITY_COLORS } from '../utils/constants'
+import { SEVERITY_COLORS, CHART_COLORS, TOOLTIP_STYLE, CHART_ANIMATION } from '../utils/constants'
+import '../components/ui/AdvancedCharts.css'
 import './Integrity.css'
 
 const RISK_CONFIG = {
@@ -334,6 +339,73 @@ function Integrity() {
     return crossCouncilIntegrity.investigation_priorities
   }, [crossCouncilIntegrity])
 
+  // ── Chart Data: Risk Distribution PieChart ──
+  const riskPieData = useMemo(() => {
+    const dist = integrity?.summary?.risk_distribution
+    if (!dist) return []
+    const colorMap = {
+      high: '#ff453a',
+      elevated: '#ff9f0a',
+      medium: '#ffd60a',
+      low: '#30d158',
+      not_checked: '#8e8e93',
+    }
+    const labelMap = {
+      high: 'High Risk',
+      elevated: 'Elevated',
+      medium: 'Medium',
+      low: 'Low Risk',
+      not_checked: 'Pending',
+    }
+    return Object.entries(dist)
+      .filter(([, count]) => count > 0)
+      .map(([level, count]) => ({
+        name: labelMap[level] || level,
+        value: count,
+        color: colorMap[level] || '#8e8e93',
+      }))
+  }, [integrity])
+
+  // ── Chart Data: Average Integrity Score (GaugeChart) ──
+  const avgIntegrityScore = useMemo(() => {
+    if (!councillors.length) return 0
+    const scored = councillors.filter(c => c.integrity_score != null && c.integrity_score !== undefined)
+    if (!scored.length) return 0
+    const sum = scored.reduce((acc, c) => acc + c.integrity_score, 0)
+    return Math.round(sum / scored.length)
+  }, [councillors])
+
+  // ── Chart Data: Detection Type Summary with SparkLine trends ──
+  const detectionTypeSummary = useMemo(() => {
+    if (!councillors.length) return []
+    const types = [
+      { key: 'supplier_conflicts', label: 'Supplier Conflicts', icon: 'scale' },
+      { key: 'cross_council_conflicts', label: 'Cross-Council', icon: 'globe' },
+      { key: 'red_flags', label: 'Red Flags', icon: 'alert' },
+      { key: 'misconduct_patterns', label: 'Misconduct', icon: 'shield' },
+      { key: 'shell_company_findings', label: 'Shell Companies', icon: 'building' },
+      { key: 'threshold_manipulation', label: 'Threshold Alerts', icon: 'pound' },
+      { key: 'contract_splitting', label: 'Contract Splitting', icon: 'alert' },
+      { key: 'bid_rigging', label: 'Bid Rigging', icon: 'alert' },
+      { key: 'undeclared_interests', label: 'Undeclared Interests', icon: 'eye' },
+      { key: 'formation_timing', label: 'Formation Timing', icon: 'file' },
+      { key: 'securities_conflicts', label: 'Securities', icon: 'trending' },
+      { key: 'phantom_companies', label: 'Phantom Companies', icon: 'building' },
+    ]
+    return types.map(t => {
+      const counts = councillors.map(c => (c[t.key]?.length || 0))
+      const total = counts.reduce((a, b) => a + b, 0)
+      const affected = counts.filter(c => c > 0).length
+      // Build a distribution for sparkline: group by risk level
+      const riskOrder = ['low', 'medium', 'elevated', 'high']
+      const byRisk = riskOrder.map(rl =>
+        councillors.filter(c => c.risk_level === rl).reduce((sum, c) => sum + (c[t.key]?.length || 0), 0)
+      )
+      return { ...t, total, affected, sparkData: byRisk }
+    }).filter(t => t.total > 0)
+      .sort((a, b) => b.total - a.total)
+  }, [councillors])
+
   // Determine if scan has been run
   const scanComplete = integrity?.councillors_checked > 0
 
@@ -402,6 +474,61 @@ function Integrity() {
       {/* Summary Dashboard */}
       {stats && (
         <section className="integrity-dashboard">
+          {/* ── Visual Charts Row: Gauge + PieChart ── */}
+          <div className="integrity-charts-row" style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '1.5rem', marginBottom: '1.5rem', alignItems: 'center' }}>
+            {/* Council Integrity Gauge */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <GaugeChart
+                value={avgIntegrityScore}
+                max={100}
+                label="Council Integrity"
+                subtitle={`Avg. across ${councillors.filter(c => c.integrity_score != null).length} councillors`}
+                size={180}
+                thickness={14}
+              />
+            </div>
+
+            {/* Risk Distribution PieChart */}
+            {riskPieData.length > 0 && (
+              <ChartCard title="Risk Distribution" description={`${councillors.length} councillors assessed across ${Object.keys(integrity?.summary?.risk_distribution || {}).length} risk categories`}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <PieChart>
+                      <Pie
+                        data={riskPieData}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={50}
+                        outerRadius={80}
+                        paddingAngle={3}
+                        dataKey="value"
+                        animationDuration={CHART_ANIMATION.duration}
+                        animationEasing={CHART_ANIMATION.easing}
+                      >
+                        {riskPieData.map((entry, idx) => (
+                          <Cell key={`cell-${idx}`} fill={entry.color} stroke="none" />
+                        ))}
+                      </Pie>
+                      <Tooltip
+                        contentStyle={TOOLTIP_STYLE}
+                        formatter={(value, name) => [`${value} councillor${value !== 1 ? 's' : ''}`, name]}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <div className="pie-legend" style={{ display: 'flex', flexDirection: 'column', gap: 6, minWidth: 120 }}>
+                    {riskPieData.map((entry, idx) => (
+                      <div key={idx} style={{ display: 'flex', alignItems: 'center', gap: 8, fontSize: 13 }}>
+                        <span style={{ width: 10, height: 10, borderRadius: '50%', background: entry.color, flexShrink: 0 }} />
+                        <span style={{ color: '#ccc' }}>{entry.name}</span>
+                        <span style={{ color: '#fff', fontWeight: 600, marginLeft: 'auto' }}>{entry.value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </ChartCard>
+            )}
+          </div>
+
           <div className="dashboard-grid">
             <div className="dashboard-card">
               <span className="dashboard-number">{integrity.total_councillors}</span>
@@ -622,6 +749,58 @@ function Integrity() {
               })}
             </div>
           </div>
+
+          {/* ── Detection Type Summary with SparkLines ── */}
+          {detectionTypeSummary.length > 0 && (
+            <div className="detection-summary-section" style={{ marginTop: '1.25rem' }}>
+              <h3 style={{ fontSize: '0.9375rem', marginBottom: '0.75rem', color: '#fff' }}>Detection Breakdown</h3>
+              <div style={{
+                background: 'rgba(255,255,255,0.03)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: 12,
+                overflow: 'hidden',
+              }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8125rem' }}>
+                  <thead>
+                    <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                      <th style={{ padding: '10px 14px', textAlign: 'left', color: '#8e8e93', fontWeight: 500 }}>Detection Type</th>
+                      <th style={{ padding: '10px 14px', textAlign: 'right', color: '#8e8e93', fontWeight: 500 }}>Findings</th>
+                      <th style={{ padding: '10px 14px', textAlign: 'right', color: '#8e8e93', fontWeight: 500 }}>Affected</th>
+                      <th style={{ padding: '10px 14px', textAlign: 'center', color: '#8e8e93', fontWeight: 500 }}>
+                        <span title="Distribution across risk levels (Low → Medium → Elevated → High)">Risk Trend</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {detectionTypeSummary.map((det, idx) => (
+                      <tr key={det.key} style={{
+                        borderBottom: idx < detectionTypeSummary.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+                      }}>
+                        <td style={{ padding: '8px 14px', color: '#e5e5ea' }}>{det.label}</td>
+                        <td style={{ padding: '8px 14px', textAlign: 'right', color: '#fff', fontWeight: 600, fontVariantNumeric: 'tabular-nums' }}>{det.total}</td>
+                        <td style={{ padding: '8px 14px', textAlign: 'right', color: '#8e8e93', fontVariantNumeric: 'tabular-nums' }}>
+                          {det.affected} / {councillors.length}
+                        </td>
+                        <td style={{ padding: '8px 14px', textAlign: 'center' }}>
+                          <SparkLine
+                            data={det.sparkData}
+                            color={det.total > 10 ? '#ff453a' : det.total > 3 ? '#ff9f0a' : '#30d158'}
+                            width={72}
+                            height={20}
+                            fill
+                            showDot
+                          />
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <p style={{ fontSize: '0.6875rem', color: '#636366', marginTop: 6 }}>
+                Spark trend shows finding distribution across risk levels (Low, Medium, Elevated, High)
+              </p>
+            </div>
+          )}
 
           {/* Network Investigation Advisory */}
           {stats.networkInvestigationCandidates > 0 && (

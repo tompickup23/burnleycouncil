@@ -30,7 +30,7 @@ export const WARD_CLASSES = {
   hold: { label: 'Hold', color: '#34c759', priority: 5 },
   marginal_hold: { label: 'Marginal Hold', color: '#ffd60a', priority: 3 },
   battleground: { label: 'Battleground', color: '#ff9f0a', priority: 1 },
-  target: { label: 'Target', color: '#0a84ff', priority: 2 },
+  target: { label: 'Target', color: '#00d4aa', priority: 2 },
   stretch: { label: 'Stretch', color: '#5e5ce6', priority: 4 },
   write_off: { label: 'Write-off', color: '#8e8e93', priority: 7 },
 };

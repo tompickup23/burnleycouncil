@@ -1,13 +1,17 @@
 import { useEffect, useMemo, useState, lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import { Building, TrendingUp, Users, PoundSterling, Shield, BarChart3, AlertTriangle, Landmark, Wallet, Building2, Home, MapPin, Construction } from 'lucide-react'
-import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend } from 'recharts'
+import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend, Brush } from 'recharts'
 import { formatCurrency, slugify } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
-import { COUNCIL_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, shortenCouncilName, COUNCIL_SLUG_MAP, PARTY_COLORS } from '../utils/constants'
+import { COUNCIL_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, shortenCouncilName, COUNCIL_SLUG_MAP, PARTY_COLORS, CHART_ANIMATION } from '../utils/constants'
 import CollapsibleSection from '../components/CollapsibleSection'
+import ChartCard from '../components/ui/ChartCard'
+import BumpChart from '../components/ui/BumpChart'
+import SparkLine from '../components/ui/SparkLine'
+import '../components/ui/AdvancedCharts.css'
 import './CrossCouncil.css'
 
 const LancashireMap = lazy(() => import('../components/LancashireMap'))
@@ -378,6 +382,141 @@ function CrossCouncil() {
     }))
     .sort((a, b) => a.rate - b.rate), [councils, councilName])
 
+  // Radar chart — council picker state (up to 3 councils)
+  const [radarSelectedIds, setRadarSelectedIds] = useState([])
+
+  // Initialize radar selection with current council once data loads
+  useEffect(() => {
+    if (radarSelectedIds.length === 0 && councils.length > 0 && current) {
+      const defaultIds = [current.council_id]
+      // Add one peer council for initial comparison
+      const peer = councils.find(c => c.council_id !== current.council_id)
+      if (peer) defaultIds.push(peer.council_id)
+      setRadarSelectedIds(defaultIds)
+    }
+  }, [councils.length, current, radarSelectedIds.length])
+
+  // Radar chart data — normalize multiple metrics to 0-100 scale
+  const radarComparisonData = useMemo(() => {
+    if (!councils.length || radarSelectedIds.length === 0) return []
+
+    const selected = councils.filter(c => radarSelectedIds.includes(c.council_id))
+    if (selected.length === 0) return []
+
+    // Extract raw values for each metric across ALL councils for normalization
+    const allSpendPerHead = councils.map(c => Math.round((c.annual_spend || c.total_spend || 0) / (c.population || 1)))
+    const allReservesPerHead = councils.filter(c => c.budget_summary?.reserves_total).map(c => Math.round((c.budget_summary.reserves_total || 0) / (c.population || 1)))
+    const allCollectionRates = councils.filter(c => c.collection_rate != null).map(c => c.collection_rate)
+    const allHhi = councils.filter(c => c.overall_hhi > 0).map(c => c.overall_hhi)
+    const allFraudTriangle = councils.filter(c => c.fraud_triangle_score > 0).map(c => c.fraud_triangle_score)
+    const allDeprivation = councils.filter(c => c.avg_deprivation_score > 0).map(c => c.avg_deprivation_score)
+
+    const normalize = (val, allVals, invertHighIsBad = false) => {
+      if (!allVals.length || val == null) return 0
+      const min = Math.min(...allVals)
+      const max = Math.max(...allVals)
+      if (max === min) return 50
+      const pct = ((val - min) / (max - min)) * 100
+      return Math.round(invertHighIsBad ? (100 - pct) : pct)
+    }
+
+    const metrics = [
+      { metric: 'Spend/Head', key: 'spendPerHead' },
+      { metric: 'Reserves', key: 'reserves' },
+      { metric: 'Collection Rate', key: 'collectionRate' },
+      { metric: 'Supplier Diversity', key: 'hhiInv' },
+      { metric: 'Integrity Score', key: 'fraudTriangleInv' },
+      { metric: 'Low Deprivation', key: 'deprivationInv' },
+    ]
+
+    return metrics.map(m => {
+      const row = { metric: m.metric }
+      selected.forEach(c => {
+        const spendPH = Math.round((c.annual_spend || c.total_spend || 0) / (c.population || 1))
+        const reservesPH = c.budget_summary?.reserves_total ? Math.round(c.budget_summary.reserves_total / (c.population || 1)) : 0
+        if (m.key === 'spendPerHead') row[c.council_id] = normalize(spendPH, allSpendPerHead)
+        else if (m.key === 'reserves') row[c.council_id] = normalize(reservesPH, allReservesPerHead)
+        else if (m.key === 'collectionRate') row[c.council_id] = normalize(c.collection_rate, allCollectionRates)
+        else if (m.key === 'hhiInv') row[c.council_id] = normalize(c.overall_hhi || 0, allHhi, true) // lower HHI = better
+        else if (m.key === 'fraudTriangleInv') row[c.council_id] = normalize(c.fraud_triangle_score || 0, allFraudTriangle, true) // lower = better
+        else if (m.key === 'deprivationInv') row[c.council_id] = normalize(c.avg_deprivation_score || 0, allDeprivation, true) // lower = better
+      })
+      return row
+    })
+  }, [councils, radarSelectedIds])
+
+  // BumpChart — council rankings across metrics
+  const bumpChartData = useMemo(() => {
+    if (!councils.length) return []
+
+    const metricsToRank = [
+      {
+        period: 'Spend/Head',
+        getValue: c => Math.round((c.annual_spend || c.total_spend || 0) / (c.population || 1)),
+        lowerIsBetter: true,
+      },
+      {
+        period: 'Collection Rate',
+        getValue: c => c.collection_rate || 0,
+        lowerIsBetter: false,
+      },
+      {
+        period: 'Reserves/Head',
+        getValue: c => c.budget_summary?.reserves_total ? Math.round(c.budget_summary.reserves_total / (c.population || 1)) : 0,
+        lowerIsBetter: false,
+      },
+      {
+        period: 'Supplier Diversity',
+        getValue: c => c.overall_hhi || 0,
+        lowerIsBetter: true, // lower HHI = more diverse = better rank
+      },
+      {
+        period: 'Fiscal Resilience',
+        getValue: c => c.fiscal_resilience_score || 0,
+        lowerIsBetter: false,
+      },
+      {
+        period: 'Employment',
+        getValue: c => c.employment_rate_pct || 0,
+        lowerIsBetter: false,
+      },
+    ]
+
+    return metricsToRank.map(({ period, getValue, lowerIsBetter }) => {
+      const vals = councils.map(c => ({ id: c.council_id, name: shortenCouncilName(c.council_name), val: getValue(c) }))
+        .filter(v => v.val > 0)
+        .sort((a, b) => lowerIsBetter ? a.val - b.val : b.val - a.val)
+
+      const rankings = {}
+      vals.forEach((v, i) => { rankings[v.name] = i + 1 })
+      return { period, rankings }
+    })
+  }, [councils])
+
+  // BumpChart entity list — just the short names of councils that appear in ranking data
+  const bumpChartEntities = useMemo(() => {
+    if (!bumpChartData.length) return []
+    const allNames = new Set()
+    bumpChartData.forEach(d => Object.keys(d.rankings).forEach(n => allNames.add(n)))
+    // Put current council first
+    const currentShort = shortenCouncilName(councilName)
+    const sorted = [...allNames].sort((a, b) => {
+      if (a === currentShort) return -1
+      if (b === currentShort) return 1
+      return a.localeCompare(b)
+    })
+    return sorted
+  }, [bumpChartData, councilName])
+
+  // BumpChart colors — map short names to COUNCIL_COLORS
+  const bumpChartColors = useMemo(() => {
+    const colorMap = {}
+    councils.forEach(c => {
+      colorMap[shortenCouncilName(c.council_name)] = COUNCIL_COLORS[c.council_id] || '#48484a'
+    })
+    return colorMap
+  }, [councils])
+
   if (loading) return <LoadingState message="Loading comparison data..." />
   if (error) return (
     <div className="page-error">
@@ -637,11 +776,138 @@ function CrossCouncil() {
                   <span className="ov-value">{c.num_years || '—'}</span>
                   <span className="ov-label">Years of Data</span>
                 </div>
+                {c.collection_rate != null && c.collection_rate_5yr_avg != null && (
+                  <div className="ov-stat">
+                    <span className="ov-value" style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                      {c.collection_rate.toFixed(1)}%
+                      <SparkLine
+                        data={[c.collection_rate_5yr_avg, c.collection_rate]}
+                        color={c.collection_rate >= c.collection_rate_5yr_avg ? '#30d158' : '#ff453a'}
+                        width={40}
+                        height={16}
+                        trend
+                      />
+                    </span>
+                    <span className="ov-label">Collection Rate</span>
+                  </div>
+                )}
               </div>
             </div>
           ))}
         </div>
       </CollapsibleSection>
+
+      {/* ===== COUNCIL COMPARISON RADAR ===== */}
+      {radarComparisonData.length > 0 && (
+        <CollapsibleSection
+          title="Council Comparison Radar"
+          icon={<Shield size={18} />}
+          defaultOpen={true}
+        >
+          <p className="section-intro">
+            Multi-metric comparison across selected councils. All values normalized to 0-100 scale (higher = better relative position among Lancashire councils).
+            Select up to 3 councils to compare.
+          </p>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 16 }}>
+            {councils.map(c => {
+              const isSelected = radarSelectedIds.includes(c.council_id)
+              return (
+                <button
+                  key={c.council_id}
+                  onClick={() => {
+                    if (isSelected) {
+                      setRadarSelectedIds(prev => prev.filter(id => id !== c.council_id))
+                    } else if (radarSelectedIds.length < 3) {
+                      setRadarSelectedIds(prev => [...prev, c.council_id])
+                    }
+                  }}
+                  style={{
+                    padding: '4px 10px',
+                    borderRadius: 16,
+                    border: `1px solid ${isSelected ? COUNCIL_COLORS[c.council_id] || '#00d4aa' : 'rgba(255,255,255,0.12)'}`,
+                    background: isSelected ? `${COUNCIL_COLORS[c.council_id] || '#00d4aa'}22` : 'rgba(255,255,255,0.04)',
+                    color: isSelected ? COUNCIL_COLORS[c.council_id] || '#00d4aa' : '#8e8e93',
+                    fontSize: '0.72rem',
+                    fontWeight: 600,
+                    cursor: isSelected || radarSelectedIds.length < 3 ? 'pointer' : 'not-allowed',
+                    opacity: !isSelected && radarSelectedIds.length >= 3 ? 0.4 : 1,
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  {shortenCouncilName(c.council_name)}
+                  {c.council_name === councilName && ' \u2605'}
+                </button>
+              )
+            })}
+          </div>
+          <ChartCard title="Normalized Performance Metrics" description="Higher values indicate better relative position among all 15 Lancashire councils">
+            <ResponsiveContainer width="100%" height={380}>
+              <RadarChart data={radarComparisonData} cx="50%" cy="50%" outerRadius="75%">
+                <PolarGrid stroke={GRID_STROKE} />
+                <PolarAngleAxis dataKey="metric" tick={{ fill: '#8e8e93', fontSize: 11 }} />
+                <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: '#636366', fontSize: 9 }} />
+                {radarSelectedIds.map(id => {
+                  const c = councils.find(cc => cc.council_id === id)
+                  const color = COUNCIL_COLORS[id] || '#00d4aa'
+                  return (
+                    <Radar
+                      key={id}
+                      name={shortenCouncilName(c?.council_name || id)}
+                      dataKey={id}
+                      stroke={color}
+                      fill={color}
+                      fillOpacity={0.15}
+                      strokeWidth={2}
+                      animationDuration={CHART_ANIMATION.duration}
+                      animationEasing={CHART_ANIMATION.easing}
+                    />
+                  )
+                })}
+                <Legend />
+                <Tooltip
+                  contentStyle={TOOLTIP_STYLE}
+                  formatter={(v, name) => [`${v}/100`, name]}
+                />
+              </RadarChart>
+            </ResponsiveContainer>
+          </ChartCard>
+          <p className="cross-source" style={{ marginTop: 'var(--space-sm)' }}>
+            Metrics normalized relative to all 15 Lancashire councils. Spend/Head, Supplier Diversity, Integrity Score, and Deprivation are inverted
+            (lower raw values = higher normalized scores). Data: GOV.UK outturn, Census 2021, QRC4 collection, AI DOGE analysis.
+          </p>
+        </CollapsibleSection>
+      )}
+
+      {/* ===== COUNCIL RANKING BUMPCHART ===== */}
+      {bumpChartData.length >= 3 && bumpChartEntities.length >= 2 && (
+        <CollapsibleSection
+          title="Council Rankings Across Metrics"
+          icon={<TrendingUp size={18} />}
+          defaultOpen={false}
+        >
+          <p className="section-intro">
+            How each council ranks relative to others across key performance metrics. Rank #1 is best.
+            Lines crossing indicate position swaps — councils strong in one area may underperform in another.
+          </p>
+          <ChartCard
+            title="Ranking Position by Metric"
+            description="Track each council's relative standing. Rank 1 = top performer for that metric."
+          >
+            <BumpChart
+              data={bumpChartData}
+              entities={bumpChartEntities.slice(0, 8)}
+              colors={bumpChartColors}
+              maxRank={councils.length}
+              height={360}
+            />
+          </ChartCard>
+          <p className="cross-source" style={{ marginTop: 'var(--space-sm)' }}>
+            Rankings derived from: spend per head (lower = better), council tax collection rate, reserves per head,
+            supplier HHI (lower = more diverse), fiscal resilience score, and employment rate.
+            Councils with missing data for a metric are excluded from that ranking.
+          </p>
+        </CollapsibleSection>
+      )}
 
       {/* Spend Per Head */}
       <CollapsibleSection
@@ -663,11 +929,14 @@ function CrossCouncil() {
                 formatter={(v) => [`£${v.toLocaleString()}`, 'Annual spend per head']}
                 contentStyle={TOOLTIP_STYLE}
               />
-              <Bar dataKey="spend" radius={[4, 4, 0, 0]}>
+              <Bar dataKey="spend" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                 {spendPerHead.map((entry, i) => (
                   <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
                 ))}
               </Bar>
+              {spendPerHead.length > 6 && (
+                <Brush dataKey="name" height={20} stroke="#00d4aa" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
+              )}
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -699,7 +968,7 @@ function CrossCouncil() {
               />
               <Legend formatter={(value) => councils.find(c => c.council_id === value)?.council_name || value} />
               {councils.map(c => (
-                <Bar key={c.council_id} dataKey={c.council_id} fill={COUNCIL_COLORS[c.council_id]} radius={[2, 2, 0, 0]} />
+                <Bar key={c.council_id} dataKey={c.council_id} fill={COUNCIL_COLORS[c.council_id]} radius={[2, 2, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
               ))}
             </BarChart>
           </ResponsiveContainer>
@@ -736,7 +1005,7 @@ function CrossCouncil() {
                   }}
                   contentStyle={TOOLTIP_STYLE}
                 />
-                <Bar dataKey="appsPerYear" name="Applications/year" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="appsPerYear" name="Applications/year" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {planningData.map((entry, i) => (
                     <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
                   ))}
@@ -759,7 +1028,7 @@ function CrossCouncil() {
                       formatter={(v) => [`£${v.toLocaleString()}`, 'Cost per application']}
                       contentStyle={TOOLTIP_STYLE}
                     />
-                    <Bar dataKey="costPerApp" name="Cost/app" radius={[4, 4, 0, 0]}>
+                    <Bar dataKey="costPerApp" name="Cost/app" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                       {planningData.filter(d => d.costPerApp > 0).sort((a, b) => b.costPerApp - a.costPerApp).map((entry, i) => (
                         <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : entry.costPerApp > 2000 ? '#ff453a' : entry.costPerApp > 1000 ? '#ff9f0a' : '#30d158'} />
                       ))}
@@ -858,12 +1127,12 @@ function CrossCouncil() {
                   }}
                   contentStyle={TOOLTIP_STYLE}
                 />
-                <Bar dataKey="licensed" name="licensed" stackId="hmo" radius={[0, 0, 0, 0]}>
+                <Bar dataKey="licensed" name="licensed" stackId="hmo" radius={[0, 0, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {hmoData.map((entry, i) => (
                     <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
                   ))}
                 </Bar>
-                <Bar dataKey="planningApps" name="planningApps" stackId="hmo" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="planningApps" name="planningApps" stackId="hmo" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {hmoData.map((entry, i) => (
                     <Cell key={i} fill={entry.isCurrent ? 'rgba(10,132,255,0.5)' : 'rgba(72,72,74,0.5)'} />
                   ))}
@@ -886,7 +1155,7 @@ function CrossCouncil() {
                       formatter={(v) => [`${v.toFixed(1)} per 1,000`, 'HMO density']}
                       contentStyle={TOOLTIP_STYLE}
                     />
-                    <Bar dataKey="per1000" name="per 1,000 pop" radius={[4, 4, 0, 0]}>
+                    <Bar dataKey="per1000" name="per 1,000 pop" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                       {hmoData.filter(d => d.per1000 > 0).sort((a, b) => b.per1000 - a.per1000).map((entry, i) => (
                         <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : entry.per1000 > 3 ? '#ff453a' : entry.per1000 > 1 ? '#ff9f0a' : '#30d158'} />
                       ))}
@@ -953,12 +1222,12 @@ function CrossCouncil() {
                   }}
                   contentStyle={TOOLTIP_STYLE}
                 />
-                <Bar dataKey="closures" name="closures" stackId="hw" radius={[0, 0, 0, 0]}>
+                <Bar dataKey="closures" name="closures" stackId="hw" radius={[0, 0, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {highwaysData.map((entry, i) => (
                     <Cell key={i} fill={entry.isCurrent ? '#ff453a' : '#8b2020'} />
                   ))}
                 </Bar>
-                <Bar dataKey="laneRestrictions" name="laneRestrictions" stackId="hw" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="laneRestrictions" name="laneRestrictions" stackId="hw" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {highwaysData.map((entry, i) => (
                     <Cell key={i} fill={entry.isCurrent ? '#ff9f0a' : '#48484a'} />
                   ))}
@@ -1015,7 +1284,7 @@ function CrossCouncil() {
                   formatter={(v) => [`£${v.toLocaleString()}`, 'Band D']}
                   contentStyle={TOOLTIP_STYLE}
                 />
-                <Bar dataKey="bandD" name="Band D" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="bandD" name="Band D" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {councilTaxData.map((entry, i) => (
                     <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
                   ))}
@@ -1059,7 +1328,7 @@ function CrossCouncil() {
                     return entry ? `${label} — 5yr avg: ${entry.avg5yr.toFixed(1)}%, uncollected: £${entry.uncollected}M` : label
                   }}
                 />
-                <Bar dataKey="rate" name="rate" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="rate" name="rate" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {collectionRateData.map((entry, i) => (
                     <Cell
                       key={i}
@@ -1072,6 +1341,9 @@ function CrossCouncil() {
                     />
                   ))}
                 </Bar>
+                {collectionRateData.length > 6 && (
+                  <Brush dataKey="name" height={20} stroke="#00d4aa" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
+                )}
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -1110,7 +1382,7 @@ function CrossCouncil() {
                   formatter={(v, name) => [`£${v.toLocaleString()}`, name === 'nrePerHead' ? 'NRE per head' : 'CT requirement per head']}
                   contentStyle={TOOLTIP_STYLE}
                 />
-                <Bar dataKey="nrePerHead" name="NRE per head" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="nrePerHead" name="NRE per head" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {nreData.map((entry, i) => (
                     <Cell key={i} fill={entry.isCurrent ? '#30d158' : '#48484a'} />
                   ))}
@@ -1142,11 +1414,14 @@ function CrossCouncil() {
                   formatter={(v, name) => [`£${v.toLocaleString()}`, name === 'perHead' ? 'Total per head' : name === 'earmarked' ? 'Earmarked (£M)' : 'Unallocated (£M)']}
                   contentStyle={TOOLTIP_STYLE}
                 />
-                <Bar dataKey="perHead" name="Total per head" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="perHead" name="Total per head" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {reservesData.map((entry, i) => (
                     <Cell key={i} fill={entry.isCurrent ? '#ff9f0a' : '#48484a'} />
                   ))}
                 </Bar>
+                {reservesData.length > 6 && (
+                  <Brush dataKey="name" height={20} stroke="#00d4aa" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
+                )}
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -1196,7 +1471,7 @@ function CrossCouncil() {
                     return entry ? `${label} — Youth: ${entry.youth.toFixed(1)}%, Elderly: ${entry.elderly.toFixed(1)}%` : label
                   }}
                 />
-                <Bar dataKey="ratio" name="Dependency ratio" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="ratio" name="Dependency ratio" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {dependencyData.map((entry, i) => (
                     <Cell
                       key={i}
@@ -1208,6 +1483,9 @@ function CrossCouncil() {
                     />
                   ))}
                 </Bar>
+                {dependencyData.length > 6 && (
+                  <Brush dataKey="name" height={20} stroke="#00d4aa" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
+                )}
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -1241,7 +1519,7 @@ function CrossCouncil() {
                   formatter={(v) => [`${v > 0 ? '+' : ''}${v}%`, 'Projected growth']}
                   contentStyle={TOOLTIP_STYLE}
                 />
-                <Bar dataKey="growth" name="Projected growth" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="growth" name="Projected growth" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {growthData.map((entry, i) => (
                     <Cell
                       key={i}
@@ -1288,7 +1566,7 @@ function CrossCouncil() {
                     return entry ? `${label} — Working age: ${entry.working.toFixed(1)}%` : label
                   }}
                 />
-                <Bar dataKey="ratio" name="Dependency ratio 2032" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="ratio" name="Dependency ratio 2032" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {projDepData.map((entry, i) => (
                     <Cell
                       key={i}
@@ -1337,7 +1615,7 @@ function CrossCouncil() {
                     return entry ? `${label} — ${entry.per1000} per 1,000 pop` : label
                   }}
                 />
-                <Bar dataKey="seekers" name="seekers" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="seekers" name="seekers" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {asylumData.map((entry, i) => (
                     <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : '#48484a'} />
                   ))}
@@ -1380,11 +1658,14 @@ function CrossCouncil() {
                   formatter={(v) => [`${v}/100`, 'Fiscal Resilience']}
                   contentStyle={TOOLTIP_STYLE}
                 />
-                <Bar dataKey="score" name="Fiscal Resilience" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="score" name="Fiscal Resilience" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {fiscalData.map((entry, i) => (
                     <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : entry.score < 30 ? '#ff453a' : entry.score < 50 ? '#ff9f0a' : '#30d158'} />
                   ))}
                 </Bar>
+                {fiscalData.length > 6 && (
+                  <Brush dataKey="name" height={20} stroke="#00d4aa" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
+                )}
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -1401,7 +1682,7 @@ function CrossCouncil() {
                   formatter={(v) => [`${v}/100`, 'Service Demand']}
                   contentStyle={TOOLTIP_STYLE}
                 />
-                <Bar dataKey="demand" name="Service Demand" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="demand" name="Service Demand" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {fiscalData.map((entry, i) => (
                     <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : entry.demand > 70 ? '#ff453a' : entry.demand > 50 ? '#ff9f0a' : '#30d158'} />
                   ))}
@@ -1437,11 +1718,14 @@ function CrossCouncil() {
                   formatter={(v) => [`${v}%`, 'Employment Rate']}
                   contentStyle={TOOLTIP_STYLE}
                 />
-                <Bar dataKey="rate" name="Employment Rate" radius={[4, 4, 0, 0]}>
+                <Bar dataKey="rate" name="Employment Rate" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {employmentData.map((entry, i) => (
                     <Cell key={i} fill={entry.isCurrent ? '#0a84ff' : entry.rate < 50 ? '#ff453a' : entry.rate < 55 ? '#ff9f0a' : '#30d158'} />
                   ))}
                 </Bar>
+                {employmentData.length > 6 && (
+                  <Brush dataKey="name" height={20} stroke="#00d4aa" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
+                )}
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -1585,7 +1869,7 @@ function CrossCouncil() {
                 formatter={(v) => [formatCurrency(v), 'Flagged value']}
                 contentStyle={TOOLTIP_STYLE}
               />
-              <Bar dataKey="value" radius={[4, 4, 0, 0]}>
+              <Bar dataKey="value" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                 {dupeData.map((entry, i) => (
                   <Cell key={i} fill={entry.isCurrent ? '#ff453a' : '#48484a'} />
                 ))}

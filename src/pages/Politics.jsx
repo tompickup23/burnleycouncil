@@ -4,7 +4,7 @@ import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
-import { TOOLTIP_STYLE } from '../utils/constants'
+import { TOOLTIP_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { slugify } from '../utils/format'
 import CouncillorLink from '../components/CouncillorLink'
 import IntegrityBadge from '../components/IntegrityBadge'
@@ -381,7 +381,7 @@ function Politics() {
                     {...TOOLTIP_STYLE}
                     formatter={(value, name, props) => [`${value}% (${props.payload.count} members)`, props.payload.fullParty]}
                   />
-                  <Bar dataKey="rate" radius={[0, 4, 4, 0]}>
+                  <Bar dataKey="rate" radius={[0, 4, 4, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                     {attendanceChartData.map((entry, i) => (
                       <Cell key={i} fill={entry.color} />
                     ))}

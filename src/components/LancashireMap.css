@@ -52,7 +52,7 @@
   font-size: 11px !important;
   text-shadow:
     0 1px 4px rgba(0, 0, 0, 0.9),
-    0 0 8px rgba(10, 132, 255, 0.4) !important;
+    0 0 8px rgba(0, 212, 170, 0.4) !important;
 }
 
 /* Map section wrapper */
@@ -88,16 +88,16 @@
 }
 
 .lancashire-map-controls button:hover {
-  border-color: rgba(10, 132, 255, 0.3);
+  border-color: rgba(0, 212, 170, 0.3);
   color: var(--text-primary, #fafafa);
   background: rgba(255, 255, 255, 0.06);
 }
 
 .lancashire-map-controls button.active {
-  border-color: var(--accent-blue, #0a84ff);
-  color: var(--accent-blue, #0a84ff);
-  background: rgba(10, 132, 255, 0.12);
-  box-shadow: 0 0 12px rgba(10, 132, 255, 0.15);
+  border-color: var(--accent-blue, #00d4aa);
+  color: var(--accent-blue, #00d4aa);
+  background: rgba(0, 212, 170, 0.12);
+  box-shadow: 0 0 12px rgba(0, 212, 170, 0.15);
 }
 
 .lancashire-map-legend {

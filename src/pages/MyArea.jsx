@@ -1,12 +1,18 @@
 import { useState, useEffect, useCallback, useRef, useMemo, lazy, Suspense } from 'react'
-import { MapPin, User, Users, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building, FileText, Home } from 'lucide-react'
+import { MapPin, User, Users, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building, FileText, Home, TrendingUp } from 'lucide-react'
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import CollapsibleSection from '../components/CollapsibleSection'
 import CouncillorLink from '../components/CouncillorLink'
 import IntegrityBadge from '../components/IntegrityBadge'
+import SparkLine from '../components/ui/SparkLine'
+import GaugeChart from '../components/ui/GaugeChart'
+import ChartCard from '../components/ui/ChartCard'
+import { CHART_COLORS, TOOLTIP_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { slugify } from '../utils/format'
+import '../components/ui/AdvancedCharts.css'
 import './MyArea.css'
 
 const WardMap = lazy(() => import('../components/WardMap'))
@@ -49,6 +55,9 @@ function MyArea() {
   const { data: demoFiscalRaw } = useData('/data/demographic_fiscal.json')
   // Ward boundaries for map (optional — not all councils have this)
   const { data: boundariesData } = useData(config.data_sources?.ward_boundaries ? '/data/ward_boundaries.json' : null)
+  // Demographics data (optional — for ethnic composition pie chart)
+  const { data: demographicsRaw } = useData(config.data_sources?.demographics ? '/data/demographics.json' : null)
+  const demographicsWards = demographicsRaw?.wards || {}
 
   const wardMapData = useMemo(() => {
     if (!wards || typeof wards !== 'object') return {}
@@ -139,6 +148,65 @@ function MyArea() {
     document.title = `My Area | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
+
+  // === Advanced Visualization Data (computed before conditional returns) ===
+
+  // Planning applications trend sparkline data — aggregate by year from applications
+  const planningTrendData = useMemo(() => {
+    if (!planningData?.summary?.by_year) return []
+    const byYear = planningData.summary.by_year
+    return Object.entries(byYear)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([, count]) => count)
+  }, [planningData])
+
+  // Ward-level planning trend — count applications per quarter from start_date
+  const wardPlanningTrend = useMemo(() => {
+    if (!selectedWard || !planningData?.applications) return []
+    const wardApps = planningData.applications.filter(a => a.ward === selectedWard && a.start_date)
+    if (wardApps.length < 3) return []
+    // Group by quarter
+    const quarters = {}
+    wardApps.forEach(a => {
+      const d = a.start_date.slice(0, 7) // YYYY-MM
+      const qKey = d.slice(0, 4) + '-Q' + Math.ceil(parseInt(d.slice(5, 7)) / 3)
+      quarters[qKey] = (quarters[qKey] || 0) + 1
+    })
+    return Object.entries(quarters)
+      .sort(([a], [b]) => a.localeCompare(b))
+      .map(([, count]) => count)
+  }, [selectedWard, planningData])
+
+  // HMO density sparkline — per-ward density values across all wards (context line)
+  const hmoWardDensities = useMemo(() => {
+    if (!hmoData?.summary?.by_ward) return []
+    return Object.values(hmoData.summary.by_ward)
+      .map(w => w.density_per_1000 || 0)
+      .filter(d => d > 0)
+      .sort((a, b) => a - b)
+  }, [hmoData])
+
+  // Ethnic composition pie chart data for selected ward
+  const wardEthnicityData = useMemo(() => {
+    if (!selectedWard || !demographicsWards[selectedWard]) return []
+    const eth = demographicsWards[selectedWard].ethnicity || {}
+    return Object.entries(eth)
+      .filter(([k]) => !k.toLowerCase().includes('total') && !k.includes(': '))
+      .map(([k, v]) => ({ name: k.split(',')[0].trim(), value: typeof v === 'object' ? (v.count || 0) : v }))
+      .filter(e => e.value > 0)
+      .sort((a, b) => b.value - a.value)
+      .slice(0, 8)
+  }, [selectedWard, demographicsWards])
+
+  // Deprivation score for gauge chart
+  const wardDeprivationScore = useMemo(() => {
+    if (!selectedWard || !deprivation) return null
+    const dep = deprivation[selectedWard] || Object.entries(deprivation).find(
+      ([k]) => k.toLowerCase() === selectedWard.toLowerCase()
+    )?.[1]
+    if (!dep?.avg_imd_score) return null
+    return dep.avg_imd_score
+  }, [selectedWard, deprivation])
 
   if (loading) {
     return <LoadingState message="Loading ward data..." />
@@ -575,6 +643,191 @@ function MyArea() {
                 </div>
               </div>
             ))}
+          </div>
+        </section>
+      )}
+
+      {/* ===== WARD DASHBOARD VISUALISATIONS ===== */}
+      {selectedWard && (wardPlanningTrend.length > 0 || hmoWardDensities.length > 0 || wardEthnicityData.length > 0 || wardDeprivationScore != null) && (
+        <section className="ward-dashboard animate-fade-in" aria-label="Ward data visualisations">
+          <h2 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: 8, color: '#fff' }}>
+            <TrendingUp size={20} style={{ color: '#00d4aa' }} />
+            {selectedWard} — Data Dashboard
+          </h2>
+
+          <div className="ward-dashboard-grid" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+            gap: '1rem',
+            marginBottom: '1.5rem',
+          }}>
+
+            {/* SparkLine: Planning Applications Trend */}
+            {wardPlanningTrend.length >= 3 && (
+              <div className="ward-dash-card" style={{
+                background: 'rgba(28,28,30,0.7)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255,255,255,0.06)',
+                borderRadius: 12,
+                padding: '1rem 1.25rem',
+              }}>
+                <div style={{ fontSize: '0.75rem', color: '#8e8e93', fontWeight: 600, marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Planning Applications
+                </div>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                  <SparkLine
+                    data={wardPlanningTrend}
+                    color="#00d4aa"
+                    width={120}
+                    height={32}
+                    fill
+                    showDot
+                    trend
+                  />
+                  <div>
+                    <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff' }}>
+                      {wardPlanningTrend[wardPlanningTrend.length - 1]}
+                    </div>
+                    <div style={{ fontSize: '0.65rem', color: '#8e8e93' }}>latest quarter</div>
+                  </div>
+                </div>
+                <div style={{ fontSize: '0.65rem', color: '#636366', marginTop: 6 }}>
+                  {wardPlanningTrend.length} quarters tracked
+                </div>
+              </div>
+            )}
+
+            {/* SparkLine: HMO Density Context */}
+            {hmoWardDensities.length >= 3 && (() => {
+              const wardHmo = hmoData?.summary?.by_ward?.[selectedWard]
+              if (!wardHmo || !wardHmo.density_per_1000) return null
+              const wardDensity = wardHmo.density_per_1000
+              const rank = hmoWardDensities.filter(d => d <= wardDensity).length
+              const pctRank = Math.round((rank / hmoWardDensities.length) * 100)
+              return (
+                <div className="ward-dash-card" style={{
+                  background: 'rgba(28,28,30,0.7)',
+                  backdropFilter: 'blur(20px)',
+                  border: '1px solid rgba(255,255,255,0.06)',
+                  borderRadius: 12,
+                  padding: '1rem 1.25rem',
+                }}>
+                  <div style={{ fontSize: '0.75rem', color: '#8e8e93', fontWeight: 600, marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                    HMO Density
+                  </div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                    <SparkLine
+                      data={hmoWardDensities}
+                      color={wardDensity > 5 ? '#ff453a' : '#ff9f0a'}
+                      width={120}
+                      height={32}
+                      fill
+                      showDot
+                      showMinMax
+                    />
+                    <div>
+                      <div style={{ fontSize: '1.25rem', fontWeight: 700, color: wardDensity > 5 ? '#ff453a' : wardDensity > 2 ? '#ff9f0a' : '#30d158' }}>
+                        {wardDensity}
+                      </div>
+                      <div style={{ fontSize: '0.65rem', color: '#8e8e93' }}>per 1,000 pop</div>
+                    </div>
+                  </div>
+                  <div style={{ fontSize: '0.65rem', color: '#636366', marginTop: 6 }}>
+                    {pctRank}th percentile across {hmoWardDensities.length} wards
+                  </div>
+                </div>
+              )
+            })()}
+
+            {/* GaugeChart: Deprivation Score */}
+            {wardDeprivationScore != null && (
+              <div className="ward-dash-card" style={{
+                background: 'rgba(28,28,30,0.7)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255,255,255,0.06)',
+                borderRadius: 12,
+                padding: '1rem 1.25rem',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}>
+                <div style={{ fontSize: '0.75rem', color: '#8e8e93', fontWeight: 600, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px', alignSelf: 'flex-start' }}>
+                  Deprivation Score
+                </div>
+                <GaugeChart
+                  value={wardDeprivationScore}
+                  max={100}
+                  label="IMD Score"
+                  subtitle={wardDeprivationScore > 30 ? 'Above national threshold' : 'Below national threshold'}
+                  size={150}
+                  thickness={10}
+                />
+              </div>
+            )}
+
+            {/* PieChart: Ethnic Composition */}
+            {wardEthnicityData.length > 0 && (
+              <div className="ward-dash-card" style={{
+                background: 'rgba(28,28,30,0.7)',
+                backdropFilter: 'blur(20px)',
+                border: '1px solid rgba(255,255,255,0.06)',
+                borderRadius: 12,
+                padding: '1rem 1.25rem',
+              }}>
+                <div style={{ fontSize: '0.75rem', color: '#8e8e93', fontWeight: 600, marginBottom: 4, textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                  Ethnic Composition
+                </div>
+                <ResponsiveContainer width="100%" height={160}>
+                  <PieChart>
+                    <Pie
+                      data={wardEthnicityData}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={35}
+                      outerRadius={60}
+                      paddingAngle={2}
+                      animationDuration={CHART_ANIMATION.duration}
+                    >
+                      {wardEthnicityData.map((_, i) => (
+                        <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      contentStyle={TOOLTIP_STYLE}
+                      formatter={(v, name) => {
+                        const total = wardEthnicityData.reduce((s, e) => s + e.value, 0)
+                        const pct = total > 0 ? ((v / total) * 100).toFixed(1) : 0
+                        return [`${v.toLocaleString()} (${pct}%)`, name]
+                      }}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.3rem', marginTop: 4 }}>
+                  {wardEthnicityData.slice(0, 5).map((e, i) => (
+                    <span key={e.name} style={{
+                      fontSize: '0.6rem',
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      gap: 3,
+                      color: '#8e8e93',
+                    }}>
+                      <span style={{
+                        width: 6,
+                        height: 6,
+                        borderRadius: '50%',
+                        background: CHART_COLORS[i % CHART_COLORS.length],
+                        display: 'inline-block',
+                        flexShrink: 0,
+                      }} />
+                      {e.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
+
           </div>
         </section>
       )}

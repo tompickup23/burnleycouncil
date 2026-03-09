@@ -1,9 +1,14 @@
-import { useState, useMemo, Suspense, lazy } from 'react'
+import { useState, useMemo, useCallback, Suspense, lazy } from 'react'
 import { Link } from 'react-router-dom'
 import { useData } from '../hooks/useData'
 import { LoadingState } from '../components/ui'
-import { Users, TrendingUp, TrendingDown, ArrowUpDown, Search, Landmark, ExternalLink, MapPin } from 'lucide-react'
-import { PARTY_COLORS } from '../utils/constants'
+import { Users, TrendingUp, TrendingDown, ArrowUpDown, Search, Landmark, ExternalLink, MapPin, BarChart3, ChevronDown, ChevronUp } from 'lucide-react'
+import { PARTY_COLORS, CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
+import SparkLine from '../components/ui/SparkLine'
+import HeatmapGrid from '../components/ui/HeatmapGrid'
+import ChartCard from '../components/ui/ChartCard'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts'
+import '../components/ui/AdvancedCharts.css'
 import './Constituencies.css'
 
 const LancashireMap = lazy(() => import('../components/LancashireMap'))
@@ -27,6 +32,7 @@ function Constituencies() {
   const [sortBy, setSortBy] = useState('alpha')
   const [filterParty, setFilterParty] = useState('all')
   const [searchTerm, setSearchTerm] = useState('')
+  const [selectedConstituencyId, setSelectedConstituencyId] = useState(null)
 
   // Build filter options dynamically from actual party data
   const filterOptions = useMemo(() => {
@@ -86,6 +92,46 @@ function Constituencies() {
     if (!pollingData?.swing_from_ge2024) return {}
     return pollingData.swing_from_ge2024
   }, [pollingData])
+
+  // Selected constituency for detail panel
+  const selectedConstituency = useMemo(() => {
+    if (!selectedConstituencyId || !constData?.constituencies) return null
+    return constData.constituencies.find(c => c.id === selectedConstituencyId) || null
+  }, [selectedConstituencyId, constData])
+
+  // Toggle constituency detail panel
+  const toggleConstituencyDetail = useCallback((id, e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    setSelectedConstituencyId(prev => prev === id ? null : id)
+  }, [])
+
+  // Build expense breakdown data for selected constituency
+  const expenseBreakdownData = useMemo(() => {
+    if (!selectedConstituency?.mp?.expenses) return []
+    const exp = selectedConstituency.mp.expenses
+    const categories = [
+      { name: 'Staffing', value: exp.staffing || 0, color: CHART_COLORS[0] },
+      { name: 'Office', value: exp.office_costs || 0, color: CHART_COLORS[1] },
+      { name: 'Accommodation', value: exp.accommodation || 0, color: CHART_COLORS[2] },
+      { name: 'Travel', value: exp.travel || 0, color: CHART_COLORS[3] },
+      { name: 'Other', value: exp.other || 0, color: CHART_COLORS[4] },
+    ].filter(d => d.value > 0)
+    return categories
+  }, [selectedConstituency])
+
+  // Build voting heatmap data from notable_votes
+  const votingHeatmapData = useMemo(() => {
+    if (!selectedConstituency?.voting_record?.notable_votes) return []
+    const votes = selectedConstituency.voting_record.notable_votes
+    // Group votes by date: count votes per day
+    const dateMap = {}
+    votes.forEach(v => {
+      if (!v.date) return
+      dateMap[v.date] = (dateMap[v.date] || 0) + 1
+    })
+    return Object.entries(dateMap).map(([date, value]) => ({ date, value }))
+  }, [selectedConstituency])
 
   if (loading) return <LoadingState />
   if (error || !constData?.constituencies) {
@@ -243,9 +289,132 @@ function Constituencies() {
             key={c.id}
             constituency={c}
             swingData={swingData}
+            isSelected={selectedConstituencyId === c.id}
+            onToggleDetail={toggleConstituencyDetail}
           />
         ))}
       </div>
+
+      {/* Constituency Detail Panel — expense charts + voting heatmap */}
+      {selectedConstituency && (
+        <section className="constituency-detail-panel">
+          <div className="constituency-detail-header">
+            <h2>
+              <BarChart3 size={20} />
+              {selectedConstituency.mp?.name || selectedConstituency.name} — Data Deep Dive
+            </h2>
+            <button
+              className="constituency-detail-close"
+              onClick={() => setSelectedConstituencyId(null)}
+              aria-label="Close detail panel"
+            >
+              <ChevronUp size={18} /> Close
+            </button>
+          </div>
+
+          {/* Expense Charts Row */}
+          {expenseBreakdownData.length > 0 && (
+            <div className="constituency-detail-charts">
+              <ChartCard title="Expense Breakdown" description={`IPSA ${selectedConstituency.mp.expenses.year} — £${Math.round(selectedConstituency.mp.expenses.total_claimed / 1000)}k total claimed`}>
+                <ResponsiveContainer width="100%" height={280}>
+                  <BarChart
+                    data={expenseBreakdownData}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 80, bottom: 5 }}
+                  >
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} horizontal={false} />
+                    <XAxis
+                      type="number"
+                      tick={AXIS_TICK_STYLE}
+                      tickFormatter={v => `£${(v / 1000).toFixed(0)}k`}
+                      axisLine={false}
+                      tickLine={false}
+                    />
+                    <YAxis
+                      type="category"
+                      dataKey="name"
+                      tick={AXIS_TICK_STYLE}
+                      axisLine={false}
+                      tickLine={false}
+                      width={70}
+                    />
+                    <Tooltip
+                      contentStyle={TOOLTIP_STYLE}
+                      formatter={(value) => [`£${value.toLocaleString()}`, 'Amount']}
+                      cursor={{ fill: 'rgba(255,255,255,0.04)' }}
+                    />
+                    <Bar
+                      dataKey="value"
+                      radius={[0, 6, 6, 0]}
+                      animationDuration={CHART_ANIMATION.duration}
+                      animationEasing={CHART_ANIMATION.easing}
+                    >
+                      {expenseBreakdownData.map((entry, idx) => (
+                        <Cell key={idx} fill={entry.color} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </ChartCard>
+
+              <ChartCard title="Expense Distribution" description="Proportion of total claimed expenses by category">
+                <ResponsiveContainer width="100%" height={280}>
+                  <PieChart>
+                    <Pie
+                      data={expenseBreakdownData}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={55}
+                      outerRadius={100}
+                      paddingAngle={3}
+                      dataKey="value"
+                      nameKey="name"
+                      animationDuration={CHART_ANIMATION.duration}
+                      animationEasing={CHART_ANIMATION.easing}
+                    >
+                      {expenseBreakdownData.map((entry, idx) => (
+                        <Cell key={idx} fill={entry.color} stroke="rgba(28,28,30,0.8)" strokeWidth={2} />
+                      ))}
+                    </Pie>
+                    <Tooltip
+                      contentStyle={TOOLTIP_STYLE}
+                      formatter={(value, name) => [`£${value.toLocaleString()} (${((value / selectedConstituency.mp.expenses.total_claimed) * 100).toFixed(1)}%)`, name]}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+                <div className="pie-legend">
+                  {expenseBreakdownData.map((entry, idx) => (
+                    <span key={idx} className="pie-legend-item">
+                      <span className="pie-legend-dot" style={{ background: entry.color }} />
+                      {entry.name}: £{Math.round(entry.value / 1000)}k
+                    </span>
+                  ))}
+                </div>
+              </ChartCard>
+            </div>
+          )}
+
+          {/* Voting Heatmap */}
+          {votingHeatmapData.length > 0 && (
+            <ChartCard
+              title="Voting Activity Calendar"
+              description={`${selectedConstituency.voting_record.voted_in} of ${selectedConstituency.voting_record.total_divisions} divisions attended (${(selectedConstituency.voting_record.attendance_pct * 100).toFixed(0)}%) — ${selectedConstituency.voting_record.rebellions || 0} rebellions`}
+            >
+              <HeatmapGrid
+                data={votingHeatmapData}
+                colorScale="intensity"
+                cellSize={16}
+                cellGap={3}
+                formatValue={v => `${v} vote${v !== 1 ? 's' : ''}`}
+              />
+            </ChartCard>
+          )}
+
+          {!expenseBreakdownData.length && !votingHeatmapData.length && (
+            <p className="constituency-detail-empty">No expense or voting data available for this MP.</p>
+          )}
+        </section>
+      )}
 
       {constituencies.length === 0 && (
         <div className="constituencies-empty">
@@ -264,7 +433,7 @@ function Constituencies() {
   )
 }
 
-function ConstituencyCard({ constituency: c, swingData }) {
+function ConstituencyCard({ constituency: c, swingData, isSelected, onToggleDetail }) {
   const mp = c.mp || {}
   const partyColor = PARTY_COLORS[mp.party] || '#888'
   const majorityPct = mp.majority_pct ? (mp.majority_pct * 100).toFixed(1) : '—'
@@ -280,8 +449,17 @@ function ConstituencyCard({ constituency: c, swingData }) {
   const swing = swingData[mpPartyKey]
   const swingPct = swing != null ? (swing * 100).toFixed(1) : null
 
+  // Build mini claimant sparkline data
+  const claimantSparkData = useMemo(() => {
+    if (!Array.isArray(c.claimant_count) || c.claimant_count.length < 2) return []
+    return [...c.claimant_count]
+      .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+      .map(d => d.claimant_rate_pct)
+      .filter(v => v != null)
+  }, [c.claimant_count])
+
   return (
-    <Link to={`/constituency/${c.id}`} className="constituency-card">
+    <Link to={`/constituency/${c.id}`} className={`constituency-card ${isSelected ? 'constituency-card--selected' : ''}`}>
       <div className="constituency-card-accent" style={{ background: partyColor }} />
 
       <div className="constituency-card-header">
@@ -340,9 +518,23 @@ function ConstituencyCard({ constituency: c, swingData }) {
         return latest?.claimant_rate_pct != null ? (
           <div className="constituency-card-claimant">
             <span>Claimant rate: {latest.claimant_rate_pct}%</span>
+            {claimantSparkData.length >= 2 && (
+              <SparkLine data={claimantSparkData} color="#ff9f0a" width={60} height={18} fill trend />
+            )}
           </div>
         ) : null
       })()}
+
+      {(expenses || votingRecord.notable_votes) && (
+        <button
+          className={`constituency-card-expand ${isSelected ? 'constituency-card-expand--active' : ''}`}
+          onClick={(e) => onToggleDetail(c.id, e)}
+          aria-label={isSelected ? 'Hide detail charts' : 'Show detail charts'}
+        >
+          <BarChart3 size={13} />
+          {isSelected ? <ChevronUp size={13} /> : <ChevronDown size={13} />}
+        </button>
+      )}
     </Link>
   )
 }

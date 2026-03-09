@@ -1,0 +1,375 @@
+/* AdvancedCharts.css — Styles for all new visualisation components */
+
+/* ── GaugeChart ── */
+
+.gauge-chart {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  user-select: none;
+}
+
+.gauge-chart svg {
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+}
+
+/* ── TreemapChart ── */
+
+.treemap-chart {
+  width: 100%;
+}
+
+.treemap-chart .recharts-treemap-depth-1 rect {
+  stroke: rgba(28, 28, 30, 0.8);
+  stroke-width: 2;
+  transition: opacity 0.2s ease;
+}
+
+.treemap-chart .recharts-treemap-depth-1:hover rect {
+  opacity: 0.85;
+}
+
+.treemap-cell-label {
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ── WaterfallChart ── */
+
+.waterfall-chart {
+  width: 100%;
+}
+
+.waterfall-chart .recharts-bar-rectangle rect {
+  transition: opacity 0.15s ease;
+}
+
+.waterfall-chart .recharts-bar-rectangle:hover rect {
+  opacity: 0.85;
+}
+
+/* ── HeatmapGrid ── */
+
+.heatmap-grid {
+  display: inline-block;
+  user-select: none;
+}
+
+.heatmap-grid svg {
+  overflow: visible;
+}
+
+.heatmap-grid__tooltip {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+  background: rgba(28, 28, 30, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 6px 10px;
+  color: #fff;
+  font-size: 11px;
+  font-family: 'Inter', -apple-system, system-ui, sans-serif;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  white-space: nowrap;
+  transform: translate(-50%, -100%);
+  margin-top: -8px;
+}
+
+.heatmap-grid__tooltip-value {
+  font-weight: 700;
+  font-size: 13px;
+  color: #fff;
+}
+
+.heatmap-grid__tooltip-date {
+  color: #8e8e93;
+  margin-top: 2px;
+}
+
+/* ── BumpChart ── */
+
+.bump-chart {
+  width: 100%;
+}
+
+.bump-chart__legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.bump-chart__legend-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.04);
+  color: #ccc;
+  font-size: 11px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.bump-chart__legend-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+.bump-chart__legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* ── ChartTooltip ── */
+
+.chart-tooltip {
+  background: rgba(28, 28, 30, 0.95) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 10px !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5) !important;
+  padding: 10px 14px !important;
+  color: #fff !important;
+  font-family: 'Inter', -apple-system, system-ui, sans-serif !important;
+}
+
+.chart-tooltip__label {
+  font-weight: 600;
+  font-size: 13px;
+  color: #fff;
+  margin-bottom: 6px;
+  letter-spacing: -0.3px;
+}
+
+.chart-tooltip__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px 0;
+  font-size: 12px;
+}
+
+.chart-tooltip__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.chart-tooltip__name {
+  color: #8e8e93;
+  min-width: 60px;
+}
+
+.chart-tooltip__value {
+  font-weight: 600;
+  color: #fff;
+}
+
+.chart-tooltip__trend {
+  font-size: 10px;
+  font-weight: 700;
+  margin-left: auto;
+}
+
+.chart-tooltip__trend--up {
+  color: #30d158;
+}
+
+.chart-tooltip__trend--down {
+  color: #ff453a;
+}
+
+.chart-tooltip__avg {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 6px;
+  padding-top: 6px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 10px;
+  color: #636366;
+}
+
+/* ── MapLegend ── */
+
+.map-legend__panel {
+  background: rgba(28, 28, 30, 0.9);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  min-width: 160px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.map-legend__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: #8e8e93;
+  cursor: pointer;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: color 0.15s ease;
+}
+
+.map-legend__header:hover {
+  color: #fff;
+}
+
+.map-legend__title {
+  flex: 1;
+  text-align: left;
+}
+
+.map-legend__toggle {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1;
+  color: #636366;
+}
+
+.map-legend__body {
+  padding: 0 12px 10px;
+}
+
+.map-legend__gradient {
+  height: 10px;
+  border-radius: 5px;
+  margin-bottom: 4px;
+}
+
+.map-legend__labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  color: #636366;
+}
+
+.map-legend__items {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.map-legend__item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 4px;
+  border: none;
+  background: transparent;
+  color: #ccc;
+  font-size: 11px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.15s ease;
+  width: 100%;
+  text-align: left;
+}
+
+.map-legend__item:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.map-legend__item--inactive {
+  opacity: 0.35;
+}
+
+.map-legend__item--inactive .map-legend__swatch {
+  background: #636366 !important;
+}
+
+.map-legend__swatch {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.map-legend__label {
+  flex: 1;
+}
+
+.map-legend__count {
+  font-size: 10px;
+  color: #636366;
+  font-weight: 500;
+}
+
+/* ── SparkLine ── */
+
+.sparkline-container {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+}
+
+.sparkline-container svg {
+  overflow: visible;
+}
+
+/* ── Shared: Gauge grid layout ── */
+
+.gauge-grid {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 768px) {
+  .gauge-grid {
+    gap: 12px;
+  }
+
+  .map-legend__panel {
+    min-width: 140px;
+  }
+
+  .bump-chart__legend {
+    gap: 4px;
+  }
+
+  .bump-chart__legend-btn {
+    font-size: 10px;
+    padding: 2px 6px;
+  }
+
+  .heatmap-grid {
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@media (max-width: 480px) {
+  .gauge-grid {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .map-legend__panel {
+    min-width: 120px;
+  }
+}

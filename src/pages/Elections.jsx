@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo, useCallback } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatNumber } from '../utils/format'
-import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, COUNCIL_SLUG_MAP, COUNCIL_SHORT_NAMES, PARTY_COLORS } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, COUNCIL_SLUG_MAP, COUNCIL_SHORT_NAMES, PARTY_COLORS, CHART_ANIMATION } from '../utils/constants'
 import {
   DEFAULT_ASSUMPTIONS,
   predictWard,
@@ -15,7 +15,7 @@ import {
 import { LoadingState } from '../components/ui'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  PieChart, Pie, Cell, Legend, LineChart, Line, ScatterChart, Scatter, ZAxis,
+  PieChart, Pie, Cell, Legend, LineChart, Line, ScatterChart, Scatter, ZAxis, Brush,
 } from 'recharts'
 import { Link } from 'react-router-dom'
 import {
@@ -27,6 +27,8 @@ import { slugify } from '../utils/format'
 import CouncillorLink from '../components/CouncillorLink'
 import IntegrityBadge from '../components/IntegrityBadge'
 import CollapsibleSection from '../components/CollapsibleSection'
+import SparkLine from '../components/ui/SparkLine'
+import '../components/ui/AdvancedCharts.css'
 import './Elections.css'
 
 const COUNCIL_NAME_MAP = COUNCIL_SHORT_NAMES
@@ -703,6 +705,8 @@ export default function Elections() {
                     outerRadius={100}
                     label={({ party, seats }) => `${party} (${seats})`}
                     labelLine={{ strokeWidth: 1 }}
+                    animationDuration={CHART_ANIMATION.duration}
+                    animationEasing={CHART_ANIMATION.easing}
                   >
                     {currentComposition.map((entry, i) => (
                       <Cell key={i} fill={partyColors[entry.party] || '#888'} />
@@ -727,7 +731,8 @@ export default function Elections() {
                   <XAxis dataKey="year" axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} />
                   <YAxis axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} unit="%" domain={[0, 'auto']} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => `${v}%`} />
-                  <Line type="monotone" dataKey="turnout" stroke="#0a84ff" strokeWidth={2} dot={{ r: 4 }} name="Turnout" />
+                  <Line type="monotone" dataKey="turnout" stroke="#0a84ff" strokeWidth={2} dot={{ r: 4 }} name="Turnout" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                  {turnoutTrend.length > 6 && <Brush dataKey="year" height={30} stroke="#00d4aa" fill="rgba(0, 212, 170, 0.1)" />}
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -854,6 +859,8 @@ export default function Elections() {
                       stackId="seats"
                       fill={partyColors[party] || '#888'}
                       name={party}
+                      animationDuration={CHART_ANIMATION.duration}
+                      animationEasing={CHART_ANIMATION.easing}
                     />
                   ))}
                 </BarChart>
@@ -881,8 +888,11 @@ export default function Elections() {
                         dot={{ r: 3 }}
                         name={party}
                         connectNulls
+                        animationDuration={CHART_ANIMATION.duration}
+                        animationEasing={CHART_ANIMATION.easing}
                       />
                     ))}
+                    {councilHistoryData.voteShare.length > 6 && <Brush dataKey="year" height={30} stroke="#00d4aa" fill="rgba(0, 212, 170, 0.1)" />}
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -1100,7 +1110,8 @@ export default function Elections() {
                       <XAxis dataKey="year" axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} />
                       <YAxis axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} unit="%" />
                       <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => `${v}%`} />
-                      <Line type="monotone" dataKey="majority" stroke="#ff9f0a" strokeWidth={2} dot={{ r: 3 }} name="Majority" />
+                      <Line type="monotone" dataKey="majority" stroke="#ff9f0a" strokeWidth={2} dot={{ r: 3 }} name="Majority" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                      {majorityData.length > 6 && <Brush dataKey="year" height={30} stroke="#00d4aa" fill="rgba(0, 212, 170, 0.1)" />}
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
@@ -1226,6 +1237,7 @@ export default function Elections() {
                     <th>Defending</th>
                     <th>Confidence</th>
                     <th>Majority</th>
+                    <th>Trend</th>
                     <th>Turnout Est.</th>
                     <th>Workings</th>
                   </tr>
@@ -1238,6 +1250,17 @@ export default function Elections() {
                     const defender = electionsData.meta?.next_election?.defenders?.[wardName]
                     const currentHolder = defender?.party || electionsData.wards[wardName]?.current_holders?.[0]?.party || '-'
                     const isChange = result.winner && result.winner !== currentHolder && currentHolder !== '-'
+
+                    // Build sparkline data: winner vote share from each historical election
+                    const wardHistory = electionsData.wards[wardName]?.history || []
+                    const sparkData = [...wardHistory]
+                      .sort((a, b) => (a.date || '').localeCompare(b.date || ''))
+                      .map(e => {
+                        if (!e.candidates?.length) return null
+                        const winner = [...e.candidates].sort((ca, cb) => (cb.votes || 0) - (ca.votes || 0))[0]
+                        return winner?.pct != null ? Math.round(winner.pct * 1000) / 10 : null
+                      })
+                      .filter(v => v != null)
 
                     return [
                       <tr key={wardName} className={isChange ? 'elec-row-change' : ''}>
@@ -1266,6 +1289,19 @@ export default function Elections() {
                             ? `${formatNumber(result.majority)} (${result.majorityPct != null ? (result.majorityPct * 100).toFixed(1) + '%' : '-'})`
                             : '-'}
                         </td>
+                        <td>
+                          {sparkData.length >= 2 ? (
+                            <SparkLine
+                              data={sparkData}
+                              color={partyColors[result.winner] || '#00d4aa'}
+                              width={72}
+                              height={22}
+                              fill
+                              showDot
+                              trend
+                            />
+                          ) : '-'}
+                        </td>
                         <td>{result.estimatedTurnout ? `${(result.estimatedTurnout * 100).toFixed(1)}%` : '-'}</td>
                         <td>
                           <button
@@ -1280,7 +1316,7 @@ export default function Elections() {
                       </tr>,
                       expandedWorkings[wardName] && (
                         <tr key={`${wardName}-workings`} className="elec-workings-row">
-                          <td colSpan={7}>
+                          <td colSpan={8}>
                             <div className="elec-workings">
                               <h4>Methodology for {wardName}</h4>
                               {result.methodology?.map((step, si) => (

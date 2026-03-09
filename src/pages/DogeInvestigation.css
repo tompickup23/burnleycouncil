@@ -102,8 +102,8 @@
 
 /* Methodology banner */
 .methodology-banner {
-  background: rgba(10, 132, 255, 0.08);
-  border: 1px solid rgba(10, 132, 255, 0.2);
+  background: rgba(0, 212, 170, 0.08);
+  border: 1px solid rgba(0, 212, 170, 0.2);
   border-radius: var(--radius-md);
   padding: var(--space-md);
   display: flex;
@@ -207,8 +207,8 @@
   color: var(--text-tertiary);
   line-height: 1.35;
   padding: 8px 10px;
-  background: rgba(10, 132, 255, 0.06);
-  border-left: 2px solid rgba(10, 132, 255, 0.3);
+  background: rgba(0, 212, 170, 0.06);
+  border-left: 2px solid rgba(0, 212, 170, 0.3);
   border-radius: 0 4px 4px 0;
   margin-top: 4px;
 }
@@ -293,7 +293,7 @@
 }
 
 .expandable-section.severity-info {
-  border-left: 3px solid #0a84ff;
+  border-left: 3px solid #00d4aa;
 }
 
 .expandable-header {
@@ -352,7 +352,7 @@
   align-items: flex-start;
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
-  background: rgba(10, 132, 255, 0.08);
+  background: rgba(0, 212, 170, 0.08);
   border-radius: var(--radius-sm);
   font-size: 0.8125rem;
   color: var(--text-secondary);
@@ -406,7 +406,7 @@
 }
 
 .case-name-link {
-  color: #0a84ff;
+  color: #00d4aa;
   text-decoration: none;
   font-weight: 600;
 }
@@ -416,7 +416,7 @@
 }
 
 .case-evidence-link {
-  color: #0a84ff;
+  color: #00d4aa;
   text-decoration: none;
   font-size: 0.75rem;
   white-space: nowrap;
@@ -483,7 +483,7 @@
 .verification-check.pass svg { color: #30d158; }
 .verification-check.fail svg { color: #ff453a; }
 .verification-check.warning svg { color: #ff9f0a; }
-.verification-check.info svg { color: #0a84ff; }
+.verification-check.info svg { color: #00d4aa; }
 
 .verification-check svg {
   flex-shrink: 0;
@@ -570,8 +570,8 @@
 }
 
 .cross-council-insight {
-  background: rgba(10, 132, 255, 0.06);
-  border: 1px solid rgba(10, 132, 255, 0.15);
+  background: rgba(0, 212, 170, 0.06);
+  border: 1px solid rgba(0, 212, 170, 0.15);
   border-radius: var(--radius-md);
   padding: var(--space-md);
 }
@@ -625,7 +625,7 @@
 
 .key-finding-card.alert { border-top: 3px solid #ff453a; }
 .key-finding-card.warning { border-top: 3px solid #ff9f0a; }
-.key-finding-card.info { border-top: 3px solid #0a84ff; }
+.key-finding-card.info { border-top: 3px solid #00d4aa; }
 
 .key-finding-card:hover {
   transform: translateY(-4px) scale(1.01);
@@ -650,7 +650,7 @@
 
 .kf-badge.alert { background: rgba(255, 69, 58, 0.15); color: #ff6b6b; animation: badgePulse 2s ease infinite; }
 .kf-badge.warning { background: rgba(255, 159, 10, 0.15); color: #ff9f0a; }
-.kf-badge.info { background: rgba(10, 132, 255, 0.15); color: #0a84ff; }
+.kf-badge.info { background: rgba(0, 212, 170, 0.15); color: #00d4aa; }
 
 .key-finding-card h3 {
   font-size: 1rem;
@@ -673,8 +673,8 @@
   color: var(--text-tertiary);
   line-height: 1.35;
   padding: 8px 10px;
-  background: rgba(10, 132, 255, 0.06);
-  border-left: 2px solid rgba(10, 132, 255, 0.3);
+  background: rgba(0, 212, 170, 0.06);
+  border-left: 2px solid rgba(0, 212, 170, 0.3);
   border-radius: 0 4px 4px 0;
 }
 
@@ -819,7 +819,7 @@
   letter-spacing: 0.04em;
 }
 
-.legal-category-badge.transparency { background: rgba(10, 132, 255, 0.15); color: #0a84ff; }
+.legal-category-badge.transparency { background: rgba(0, 212, 170, 0.15); color: #00d4aa; }
 .legal-category-badge.governance { background: rgba(48, 209, 88, 0.15); color: #30d158; }
 .legal-category-badge.procurement { background: rgba(255, 159, 10, 0.15); color: #ff9f0a; }
 .legal-category-badge.financial { background: rgba(255, 204, 2, 0.15); color: #ffcc02; }
@@ -878,7 +878,7 @@
 }
 
 /* Legal card category border accents */
-.legal-card.legal-transparency { border-left: 3px solid rgba(10, 132, 255, 0.4); }
+.legal-card.legal-transparency { border-left: 3px solid rgba(0, 212, 170, 0.4); }
 .legal-card.legal-governance { border-left: 3px solid rgba(48, 209, 88, 0.4); }
 .legal-card.legal-procurement { border-left: 3px solid rgba(255, 159, 10, 0.4); }
 .legal-card.legal-financial { border-left: 3px solid rgba(255, 204, 2, 0.4); }
@@ -915,8 +915,8 @@
 
 .action-card:hover {
   transform: translateY(-4px) scale(1.01);
-  border-color: rgba(10, 132, 255, 0.3);
-  box-shadow: 0 12px 40px rgba(10, 132, 255, 0.15);
+  border-color: rgba(0, 212, 170, 0.3);
+  box-shadow: 0 12px 40px rgba(0, 212, 170, 0.15);
 }
 
 .action-card svg {
@@ -1146,7 +1146,7 @@
 
 .outcome-card.status-resolved { border-left: 3px solid #30d158; }
 .outcome-card.status-monitoring { border-left: 3px solid #ff9f0a; }
-.outcome-card.status-published { border-left: 3px solid #0a84ff; }
+.outcome-card.status-published { border-left: 3px solid #00d4aa; }
 
 .outcome-header {
   display: flex;
@@ -1169,7 +1169,7 @@
 
 .outcome-status.resolved { color: #30d158; background: rgba(48, 209, 88, 0.1); }
 .outcome-status.monitoring { color: #ff9f0a; background: rgba(255, 159, 10, 0.1); }
-.outcome-status.published { color: #0a84ff; background: rgba(10, 132, 255, 0.1); }
+.outcome-status.published { color: #00d4aa; background: rgba(0, 212, 170, 0.1); }
 
 .outcome-date {
   font-size: 0.8rem;
@@ -1425,8 +1425,8 @@
 }
 
 .stat-pill.info {
-  background: rgba(10, 132, 255, 0.08);
-  border-color: rgba(10, 132, 255, 0.2);
+  background: rgba(0, 212, 170, 0.08);
+  border-color: rgba(0, 212, 170, 0.2);
   color: var(--accent-blue);
 }
 
@@ -1724,8 +1724,8 @@ td.conformity-close_conformity { color: #30d158; }
   display: flex;
   flex-direction: column;
   padding: var(--space-md);
-  background: rgba(10, 132, 255, 0.06);
-  border: 1px solid rgba(10, 132, 255, 0.15);
+  background: rgba(0, 212, 170, 0.06);
+  border: 1px solid rgba(0, 212, 170, 0.15);
   border-radius: var(--radius-md);
   flex: 1;
 }
@@ -1910,8 +1910,8 @@ td.conformity-close_conformity { color: #30d158; }
 .technique-badge {
   display: inline-flex;
   padding: 3px 8px;
-  background: rgba(10, 132, 255, 0.08);
-  border: 1px solid rgba(10, 132, 255, 0.15);
+  background: rgba(0, 212, 170, 0.08);
+  border: 1px solid rgba(0, 212, 170, 0.15);
   border-radius: 9999px;
   font-size: 0.6875rem;
   color: var(--accent-blue);
@@ -1920,7 +1920,7 @@ td.conformity-close_conformity { color: #30d158; }
 
 /* ===== SUPPLIER EVIDENCE LINKS ===== */
 .supplier-evidence-link {
-  color: #0a84ff !important;
+  color: #00d4aa !important;
   text-decoration: none;
   background-image: none !important;
   cursor: pointer;
@@ -1945,12 +1945,12 @@ td.conformity-close_conformity { color: #30d158; }
 .spc-card .supplier-evidence-link {
   color: inherit !important;
   text-decoration: underline;
-  text-decoration-color: rgba(10, 132, 255, 0.4);
+  text-decoration-color: rgba(0, 212, 170, 0.4);
   text-underline-offset: 2px;
 }
 .spc-card .supplier-evidence-link:hover {
-  text-decoration-color: #0a84ff;
-  color: #0a84ff !important;
+  text-decoration-color: #00d4aa;
+  color: #00d4aa !important;
 }
 
 /* ===== RESPONSIVE — ADVANCED SECTIONS ===== */

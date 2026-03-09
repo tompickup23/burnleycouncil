@@ -2,7 +2,7 @@
 
 /* ─── Focus indicators for accessibility ─── */
 :focus-visible {
-  outline: 2px solid var(--accent-blue, #0a84ff);
+  outline: 2px solid var(--accent-blue, #00d4aa);
   outline-offset: 2px;
   border-radius: 4px;
 }
@@ -26,7 +26,7 @@
   top: 0;
   z-index: 9999;
   padding: 12px 24px;
-  background: var(--accent-blue, #0a84ff);
+  background: var(--accent-blue, #00d4aa);
   color: #fff;
   font-weight: 600;
   font-size: 0.9rem;

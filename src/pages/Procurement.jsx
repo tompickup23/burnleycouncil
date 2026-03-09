@@ -23,7 +23,7 @@ const STATUS_LABELS = {
 
 const STATUS_COLORS = {
   awarded: '#30d158',
-  open: '#0a84ff',
+  open: '#00d4aa',
   closed: '#8e8e93',
   withdrawn: '#ff9f0a',
   cancelled: '#ff453a',
@@ -510,7 +510,7 @@ function Procurement() {
                 <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
                 <YAxis tick={AXIS_TICK_STYLE} allowDecimals={false} />
                 <Tooltip contentStyle={TOOLTIP_STYLE} />
-                <Bar dataKey="count" fill="#0a84ff" radius={[4, 4, 0, 0]} name="Contracts" />
+                <Bar dataKey="count" fill="#00d4aa" radius={[4, 4, 0, 0]} name="Contracts" />
               </BarChart>
             </ResponsiveContainer>
           </ChartCard>
@@ -603,7 +603,7 @@ function Procurement() {
                   <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
                   <YAxis tick={AXIS_TICK_STYLE} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, name) => [name === 'avgBids' ? `${v} bids` : `${v}%`, name === 'avgBids' ? 'Avg Bids' : 'Single Bid %']} />
-                  <Bar dataKey="avgBids" fill="#0a84ff" radius={[4, 4, 0, 0]} name="Avg Bids" />
+                  <Bar dataKey="avgBids" fill="#00d4aa" radius={[4, 4, 0, 0]} name="Avg Bids" />
                 </BarChart>
               </ResponsiveContainer>
             </ChartCard>

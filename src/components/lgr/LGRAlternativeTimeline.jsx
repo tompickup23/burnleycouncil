@@ -37,7 +37,7 @@ function LGRAlternativeTimeline({ alternativeTimeline, serviceRisks }) {
     return [
       { name: 'Govt Plan', months: government.months, fill: '#ff453a' },
       { name: 'AI DOGE', months: alternative.months, fill: '#30d158' },
-      { name: 'Precedent Avg', months: Math.round(precedentAvgMonths), fill: '#0a84ff' },
+      { name: 'Precedent Avg', months: Math.round(precedentAvgMonths), fill: '#00d4aa' },
       { name: 'Critical Path', months: criticalPath, fill: '#ff9f0a' },
     ]
   }, [alternativeTimeline])
@@ -134,8 +134,8 @@ function LGRAlternativeTimeline({ alternativeTimeline, serviceRisks }) {
                 }}
               />
               <ReferenceLine x={government.months} stroke="#ff453a" strokeDasharray="5 3" label={{ value: 'Govt deadline', fill: '#ff453a', fontSize: 11 }} />
-              <Bar dataKey="minMonths" stackId="a" fill="#0a84ff" radius={[0, 0, 0, 0]} />
-              <Bar dataKey="gap" stackId="a" fill="rgba(10, 132, 255, 0.3)" radius={[0, 4, 4, 0]} />
+              <Bar dataKey="minMonths" stackId="a" fill="#00d4aa" radius={[0, 0, 0, 0]} />
+              <Bar dataKey="gap" stackId="a" fill="rgba(0, 212, 170, 0.3)" radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -214,7 +214,7 @@ function LGRAlternativeTimeline({ alternativeTimeline, serviceRisks }) {
             <span className="lgr-alt-lga-stat-label">residents affected</span>
           </div>
           <div className="lgr-alt-lga-stat">
-            <span className="lgr-alt-lga-stat-value" style={{ color: '#0a84ff' }}>~{LGA_SEQUENCING_LETTER.keyStats.safeReorgPerYear}/yr</span>
+            <span className="lgr-alt-lga-stat-value" style={{ color: '#00d4aa' }}>~{LGA_SEQUENCING_LETTER.keyStats.safeReorgPerYear}/yr</span>
             <span className="lgr-alt-lga-stat-label">safe maximum (Rowsell)</span>
           </div>
           <div className="lgr-alt-lga-stat">

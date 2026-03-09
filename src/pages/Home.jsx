@@ -11,7 +11,7 @@ import {
   PieChart, Pie, Cell
 } from 'recharts'
 import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
-import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, PARTY_COLORS } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, PARTY_COLORS, CHART_ANIMATION } from '../utils/constants'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState, DataFreshness } from '../components/ui'
@@ -552,7 +552,7 @@ function Home() {
                     contentStyle={TOOLTIP_STYLE}
                     formatter={(value, name, props) => [`\u00A3${value.toFixed(2)}M`, props.payload.fullName]}
                   />
-                  <Bar dataKey="amount" fill="var(--accent-orange)" radius={[0, 4, 4, 0]} />
+                  <Bar dataKey="amount" fill="var(--accent-orange)" radius={[0, 4, 4, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 </BarChart>
               </ResponsiveContainer>
             </div>
@@ -580,7 +580,7 @@ function Home() {
                       contentStyle={TOOLTIP_STYLE}
                       formatter={(value) => [`\u00A3${value.toFixed(2)}M`, 'External Payments']}
                     />
-                    <Bar dataKey="amount" fill="var(--accent-blue)" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="amount" fill="var(--accent-blue)" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -655,6 +655,8 @@ function Home() {
                       dataKey="value"
                       label={({ value }) => `${value}`}
                       labelLine={false}
+                      animationDuration={CHART_ANIMATION.duration}
+                      animationEasing={CHART_ANIMATION.easing}
                     >
                       {partyData.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />

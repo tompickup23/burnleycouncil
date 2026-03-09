@@ -12,7 +12,7 @@
   --text-tertiary: #636366;
 
   /* Accent colors */
-  --accent-blue: #0a84ff;
+  --accent-blue: #00d4aa;
   --accent-green: #30d158;
   --accent-red: #ff453a;
   --accent-orange: #ff9f0a;
@@ -20,6 +20,8 @@
   --accent-purple: #bf5af2;
   --accent-pink: #ff375f;
   --accent-teal: #64d2ff;
+  --accent-turquoise: #00d4aa;
+  --accent-turquoise-glow: rgba(0, 212, 170, 0.15);
 
   /* Broadcast accent (Sky News / Sky Sports inspired) */
   --broadcast-red: #e4002b;
@@ -28,7 +30,7 @@
   /* Category label colors */
   --label-breaking: #e4002b;
   --label-investigation: #ff6b00;
-  --label-analysis: #0a84ff;
+  --label-analysis: #00d4aa;
   --label-democracy: #22c55e;
   --label-exclusive: #a855f7;
   --label-governance: #f59e0b;
@@ -53,7 +55,7 @@
   --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
   --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.5);
   --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.6);
-  --shadow-glow-blue: 0 0 20px rgba(10, 132, 255, 0.15);
+  --shadow-glow-blue: 0 0 20px rgba(0, 212, 170, 0.15);
   --shadow-glow-green: 0 0 20px rgba(48, 209, 88, 0.15);
   --shadow-glow-purple: 0 0 20px rgba(191, 90, 242, 0.15);
   --shadow-glow-orange: 0 0 20px rgba(255, 159, 10, 0.15);
@@ -285,7 +287,7 @@ input:focus-visible,
   font-weight: 500;
 }
 
-.badge-blue { background: rgba(10, 132, 255, 0.2); color: var(--accent-blue); }
+.badge-blue { background: rgba(0, 212, 170, 0.2); color: var(--accent-blue); }
 .badge-green { background: rgba(48, 209, 88, 0.2); color: var(--accent-green); }
 .badge-red { background: rgba(255, 69, 58, 0.2); color: var(--accent-red); }
 .badge-orange { background: rgba(255, 159, 10, 0.2); color: var(--accent-orange); }
@@ -316,7 +318,7 @@ input, select {
 
 input:focus, select:focus {
   border-color: var(--accent-blue);
-  box-shadow: 0 0 0 3px rgba(10, 132, 255, 0.2), 0 0 20px rgba(10, 132, 255, 0.1);
+  box-shadow: 0 0 0 3px rgba(0, 212, 170, 0.2), 0 0 20px rgba(0, 212, 170, 0.1);
 }
 
 input::placeholder {
@@ -379,7 +381,7 @@ tr:hover td {
 
 /* Selection */
 ::selection {
-  background: rgba(10, 132, 255, 0.3);
+  background: rgba(0, 212, 170, 0.3);
   color: var(--text-primary);
 }
 
@@ -524,8 +526,8 @@ tr:hover td {
 
 /* Chart card hover glow */
 @keyframes chartGlow {
-  0%, 100% { box-shadow: 0 0 0 rgba(10, 132, 255, 0); }
-  50% { box-shadow: 0 0 30px rgba(10, 132, 255, 0.08); }
+  0%, 100% { box-shadow: 0 0 0 rgba(0, 212, 170, 0); }
+  50% { box-shadow: 0 0 30px rgba(0, 212, 170, 0.08); }
 }
 
 /* Loading skeleton shimmer */
@@ -797,7 +799,7 @@ tr:hover td {
 .premium-map-orb--blue {
   width: 220px;
   height: 220px;
-  background: rgba(10, 132, 255, 0.07);
+  background: rgba(0, 212, 170, 0.07);
   bottom: -40px;
   right: -60px;
   animation-delay: -4s;
@@ -815,7 +817,7 @@ tr:hover td {
 .premium-map-section--hero .premium-map-orb--blue {
   width: 250px;
   height: 250px;
-  background: rgba(10, 132, 255, 0.08);
+  background: rgba(0, 212, 170, 0.08);
   bottom: -50px;
   right: -80px;
 }
@@ -1293,7 +1295,7 @@ button:focus-visible {
   border-left: 3px solid #ff9f0a;
 }
 .cs-info {
-  border-left: 3px solid var(--accent-blue, #0a84ff);
+  border-left: 3px solid var(--accent-blue, #00d4aa);
 }
 .cs-neutral {
   /* No left border accent */
@@ -1328,7 +1330,7 @@ button:focus-visible {
 }
 
 .cs-icon {
-  color: var(--accent-blue, #0a84ff);
+  color: var(--accent-blue, #00d4aa);
   display: flex;
   align-items: center;
   flex-shrink: 0;

@@ -34,7 +34,7 @@ export default function Breadcrumb({ items = [] }) {
             <Link
               to={item.path}
               style={{
-                color: 'var(--accent, #0a84ff)',
+                color: 'var(--accent, #00d4aa)',
                 textDecoration: 'none',
                 backgroundImage: 'none',
               }}

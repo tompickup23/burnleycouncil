@@ -13,7 +13,7 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--accent, #0a84ff);
+  color: var(--accent, #00d4aa);
   font-size: 0.85rem;
   font-weight: 500;
   text-decoration: none;
@@ -82,8 +82,8 @@
 }
 
 .property-tab.active {
-  color: var(--accent, #0a84ff);
-  border-bottom-color: var(--accent, #0a84ff);
+  color: var(--accent, #00d4aa);
+  border-bottom-color: var(--accent, #00d4aa);
   font-weight: 600;
 }
 
@@ -135,12 +135,12 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--accent, #0a84ff);
+  color: var(--accent, #00d4aa);
   font-size: 0.8rem;
   font-weight: 500;
   text-decoration: none;
   padding: var(--space-sm) var(--space-md);
-  background: rgba(10, 132, 255, 0.08);
+  background: rgba(0, 212, 170, 0.08);
   border-radius: var(--radius-md, 8px);
   margin-top: var(--space-md);
   transition: background 0.2s ease;
@@ -148,7 +148,7 @@
 }
 
 .property-external-link:hover {
-  background: rgba(10, 132, 255, 0.15);
+  background: rgba(0, 212, 170, 0.15);
   background-image: none;
 }
 
@@ -156,19 +156,19 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--accent, #0a84ff);
+  color: var(--accent, #00d4aa);
   font-size: 0.85rem;
   font-weight: 500;
   text-decoration: none;
   padding: var(--space-sm) var(--space-md);
-  background: rgba(10, 132, 255, 0.08);
+  background: rgba(0, 212, 170, 0.08);
   border-radius: var(--radius-md, 8px);
   transition: background 0.2s ease;
   background-image: none;
 }
 
 .property-internal-link:hover {
-  background: rgba(10, 132, 255, 0.15);
+  background: rgba(0, 212, 170, 0.15);
   background-image: none;
 }
 

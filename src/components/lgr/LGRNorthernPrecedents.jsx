@@ -20,7 +20,7 @@ const TOWN_COLORS = {
   Bradford: '#ff453a',
   Oldham: '#ff9f0a',
   Rochdale: '#ffd60a',
-  Bolton: '#0a84ff',
+  Bolton: '#00d4aa',
   Bury: '#30d158',
   Kirklees: '#bf5af2',
   Calderdale: '#64d2ff',

@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatCurrency, formatNumber } from '../utils/format'
-import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM, PARTY_COLORS } from '../utils/constants'
+import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM, PARTY_COLORS, CHART_ANIMATION } from '../utils/constants'
+import ChartGradient from '../components/ui/ChartGradient'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine, LineChart, Line, ComposedChart, Area } from 'recharts'
 import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw, Briefcase, FileWarning } from 'lucide-react'
 
@@ -27,7 +28,7 @@ import CollapsibleSection from '../components/CollapsibleSection'
 import './LGRTracker.css'
 
 const SEVERITY_COLORS = { critical: '#ff453a', high: '#ff9f0a', medium: '#ffd60a', low: '#30d158' }
-const MODEL_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a']
+const MODEL_COLORS = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a']
 const SCORE_COLORS = { 10: '#30d158', 9: '#30d158', 8: '#30d158', 7: '#30d158', 6: '#ffd60a', 5: '#ff9f0a', 4: '#ff9f0a', 3: '#ff453a', 2: '#ff453a', 1: '#ff453a' }
 
 function ScoreBar({ score, max = 10, label }) {
@@ -666,9 +667,9 @@ function LGRTracker() {
                   <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
                   <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(1)}M`, 'Funding']} />
-                  <Bar dataKey="amount" radius={[6, 6, 0, 0]}>
+                  <Bar dataKey="amount" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                     {[0, 1, 2, 3].map(i => (
-                      <Cell key={i} fill={['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2'][i]} />
+                      <Cell key={i} fill={['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2'][i]} />
                     ))}
                   </Bar>
                 </BarChart>
@@ -735,8 +736,8 @@ function LGRTracker() {
                   <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.5rem 0', borderBottom: '1px solid #2c2c2e' }}>
                     <span style={{
                       padding: '2px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 700,
-                      background: pos.stance === 'Oppose' ? '#ff453a22' : pos.stance === 'Favour' ? '#30d15822' : '#0a84ff22',
-                      color: pos.stance === 'Oppose' ? '#ff453a' : pos.stance === 'Favour' ? '#30d158' : '#0a84ff',
+                      background: pos.stance === 'Oppose' ? '#ff453a22' : pos.stance === 'Favour' ? '#30d15822' : '#00d4aa22',
+                      color: pos.stance === 'Oppose' ? '#ff453a' : pos.stance === 'Favour' ? '#30d158' : '#00d4aa',
                       flexShrink: 0
                     }}>{pos.stance}</span>
                     <div>
@@ -772,7 +773,7 @@ function LGRTracker() {
 
           {/* CCA Impact on this council */}
           {ccaData.impact_by_council?.[councilId] && (
-            <div className="lgr-chart-card" style={{ marginTop: '1rem', borderLeft: '3px solid #0a84ff' }}>
+            <div className="lgr-chart-card" style={{ marginTop: '1rem', borderLeft: '3px solid #00d4aa' }}>
               <h3><MapPin size={16} /> Impact on {councilName}</h3>
               <p style={{ color: '#aeaeb2' }}>{ccaData.impact_by_council[councilId].impact}</p>
               <span className="tier-badge" style={{ marginTop: '0.5rem', display: 'inline-block' }}>
@@ -801,7 +802,7 @@ function LGRTracker() {
           )}
 
           <div style={{ marginTop: '1rem', fontSize: '0.8rem', color: '#636366' }}>
-            Source: <a href={ccaData.meta?.website} target="_blank" rel="noopener noreferrer" style={{ color: '#0a84ff' }}>lancashire-cca.gov.uk</a>
+            Source: <a href={ccaData.meta?.website} target="_blank" rel="noopener noreferrer" style={{ color: '#00d4aa' }}>lancashire-cca.gov.uk</a>
             {' · '}Last updated: {ccaData.meta?.last_updated}
           </div>
         </section>
@@ -838,8 +839,8 @@ function LGRTracker() {
                       return [`£${v.toFixed(1)}M/year`, label]
                     }} />
                     <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
-                    <Bar dataKey="dogeSavingsGross" name="Gross" fill="#48484a" radius={[6, 6, 0, 0]} opacity={0.4} />
-                    <Bar dataKey="dogeSavings" name="Realistic" radius={[6, 6, 0, 0]}>
+                    <Bar dataKey="dogeSavingsGross" name="Gross" fill="#48484a" radius={[6, 6, 0, 0]} opacity={0.4} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                    <Bar dataKey="dogeSavings" name="Realistic" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                       {dogeComparisonData.map((entry, i) => (
                         <Cell key={i} fill={entry.dogeSavings >= 0 ? '#30d158' : '#ff453a'} />
                       ))}
@@ -858,9 +859,9 @@ function LGRTracker() {
                     <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
                     <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(0)}M`, v >= 0 ? '10yr Net Saving' : '10yr Net Cost']} />
                     <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
-                    <Bar dataKey="tenYearNet" radius={[6, 6, 0, 0]}>
+                    <Bar dataKey="tenYearNet" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                       {dogeComparisonData.map((entry, i) => (
-                        <Cell key={i} fill={entry.tenYearNet >= 0 ? '#0a84ff' : '#ff453a'} />
+                        <Cell key={i} fill={entry.tenYearNet >= 0 ? '#00d4aa' : '#ff453a'} />
                       ))}
                     </Bar>
                   </BarChart>
@@ -882,7 +883,7 @@ function LGRTracker() {
                 <YAxis type="category" dataKey="category" tick={AXIS_TICK_STYLE_SM} width={130} />
                 <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(1)}M`, '']} />
                 <ReferenceLine x={0} stroke="#636366" />
-                <Bar dataKey="two_ua" name="2 UAs" fill="#0a84ff" radius={[0, 4, 4, 0]} />
+                <Bar dataKey="two_ua" name="2 UAs" fill="#00d4aa" radius={[0, 4, 4, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -938,8 +939,8 @@ function LGRTracker() {
                   name === 'newton' ? 'Newton Europe (consultants)' : 'AI DOGE (independent)'
                 ]} />
                 <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
-                <Bar dataKey="newton" name="Newton Europe (consultants)" fill="#636366" radius={[6, 6, 0, 0]} />
-                <Bar dataKey="doge" name="AI DOGE (independent)" fill="#0a84ff" radius={[6, 6, 0, 0]} />
+                <Bar dataKey="newton" name="Newton Europe (consultants)" fill="#636366" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Bar dataKey="doge" name="AI DOGE (independent)" fill="#00d4aa" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Legend />
               </BarChart>
             </ResponsiveContainer>
@@ -1077,7 +1078,7 @@ function LGRTracker() {
               <span className="cashflow-stat-label">Net Present Value</span>
             </div>
             <div className="cashflow-stat">
-              <span className="cashflow-stat-value" style={{ color: '#0a84ff' }}>
+              <span className="cashflow-stat-value" style={{ color: '#00d4aa' }}>
                 {findBreakevenYear(cashflowData) || 'Never'}
               </span>
               <span className="cashflow-stat-label">Breakeven Year</span>
@@ -1097,11 +1098,14 @@ function LGRTracker() {
                   formatter={(v) => [`£${(v / 1e6).toFixed(1)}M`]}
                 />
                 <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
-                <Area dataKey="cumulative" name="Cumulative" fill="rgba(10, 132, 255, 0.08)" stroke="none" />
-                <Bar dataKey="costs" name="Costs" fill="#ff453a" radius={[2, 2, 0, 0]} barSize={20} />
-                <Bar dataKey="savings" name="Savings" fill="#30d158" radius={[2, 2, 0, 0]} barSize={20} />
-                <Line dataKey="cumulative" name="Cumulative" stroke="#0a84ff" strokeWidth={2} dot={{ fill: '#0a84ff', r: 3 }} />
-                <Line dataKey="npv" name="NPV" stroke="#bf5af2" strokeWidth={1.5} strokeDasharray="5 5" dot={false} />
+                <defs>
+                  <ChartGradient id="cashflowGrad" color="#00d4aa" topOpacity={0.15} bottomOpacity={0.02} />
+                </defs>
+                <Area dataKey="cumulative" name="Cumulative" fill="url(#cashflowGrad)" stroke="none" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Bar dataKey="costs" name="Costs" fill="#ff453a" radius={[2, 2, 0, 0]} barSize={20} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Bar dataKey="savings" name="Savings" fill="#30d158" radius={[2, 2, 0, 0]} barSize={20} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Line dataKey="cumulative" name="Cumulative" stroke="#00d4aa" strokeWidth={2} dot={{ fill: '#00d4aa', r: 3 }} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Line dataKey="npv" name="NPV" stroke="#bf5af2" strokeWidth={1.5} strokeDasharray="5 5" dot={false} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Legend />
               </ComposedChart>
             </ResponsiveContainer>
@@ -1249,11 +1253,14 @@ function LGRTracker() {
                   formatter={(v) => [`£${(v / 1e6).toFixed(1)}M`]}
                 />
                 <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
-                <Area dataKey="bandBase" stackId="band" fill="transparent" stroke="none" />
-                <Area dataKey="bandWidth" stackId="band" fill="rgba(10, 132, 255, 0.1)" stroke="none" />
-                <Line dataKey="best" name="Best case" stroke="#30d158" strokeWidth={1.5} strokeDasharray="5 5" dot={false} />
-                <Line dataKey="central" name="Central case" stroke="#0a84ff" strokeWidth={2} dot={{ fill: '#0a84ff', r: 3 }} />
-                <Line dataKey="worst" name="Worst case" stroke="#ff453a" strokeWidth={1.5} strokeDasharray="5 5" dot={false} />
+                <defs>
+                  <ChartGradient id="sensitivityBand" color="#00d4aa" topOpacity={0.15} bottomOpacity={0.02} />
+                </defs>
+                <Area dataKey="bandBase" stackId="band" fill="transparent" stroke="none" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Area dataKey="bandWidth" stackId="band" fill="url(#sensitivityBand)" stroke="none" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Line dataKey="best" name="Best case" stroke="#30d158" strokeWidth={1.5} strokeDasharray="5 5" dot={false} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Line dataKey="central" name="Central case" stroke="#00d4aa" strokeWidth={2} dot={{ fill: '#00d4aa', r: 3 }} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Line dataKey="worst" name="Worst case" stroke="#ff453a" strokeWidth={1.5} strokeDasharray="5 5" dot={false} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Legend />
               </ComposedChart>
             </ResponsiveContainer>
@@ -1292,8 +1299,8 @@ function LGRTracker() {
                       formatter={(v) => [`${v >= 0 ? '+' : ''}£${v.toFixed(0)}M`]}
                     />
                     <ReferenceLine x={0} stroke="#636366" strokeDasharray="3 3" />
-                    <Bar dataKey="downside" name="Downside" fill="#ff453a" stackId="tornado" />
-                    <Bar dataKey="upside" name="Upside" fill="#30d158" stackId="tornado" />
+                    <Bar dataKey="downside" name="Downside" fill="#ff453a" stackId="tornado" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                    <Bar dataKey="upside" name="Upside" fill="#30d158" stackId="tornado" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -1629,7 +1636,7 @@ function LGRTracker() {
                             'Central services': 'Central services',
                             'Other services': 'Other',
                           }
-                          const SVC_COLORS = ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#5ac8fa', '#ffd60a', '#ff6482', '#64d2ff', '#ac8e68', '#636366']
+                          const SVC_COLORS = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#5ac8fa', '#ffd60a', '#ff6482', '#64d2ff', '#ac8e68', '#636366']
                           const svcEntries = Object.entries(authComp.services)
                             .map(([name, data]) => ({ name: SERVICE_SHORT[name] || name, ...data }))
                             .filter(s => s.net > 0)
@@ -1687,7 +1694,7 @@ function LGRTracker() {
                         <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}`} />
                         <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={130} />
                         <Tooltip formatter={(v) => [formatCurrency(v), 'Spend per head']} contentStyle={TOOLTIP_STYLE} />
-                        <Bar dataKey="spendPerHead" radius={[0, 6, 6, 0]}>
+                        <Bar dataKey="spendPerHead" radius={[0, 6, 6, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                           {authorities.map((_, i) => (
                             <Cell key={i} fill={MODEL_COLORS[i % MODEL_COLORS.length]} />
                           ))}
@@ -1743,8 +1750,8 @@ function LGRTracker() {
                       name === 'ccnSavings' ? 'CCN/PwC estimate' : 'AI DOGE realistic'
                     ]} />
                     <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
-                    <Bar dataKey="ccnSavings" name="CCN/PwC" fill="#636366" radius={[6, 6, 0, 0]} />
-                    <Bar dataKey="dogeSavings" name="AI DOGE (realistic)" fill="#0a84ff" radius={[6, 6, 0, 0]} />
+                    <Bar dataKey="ccnSavings" name="CCN/PwC" fill="#636366" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                    <Bar dataKey="dogeSavings" name="AI DOGE (realistic)" fill="#00d4aa" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                     <Legend />
                   </BarChart>
                 </ResponsiveContainer>
@@ -1980,7 +1987,7 @@ function LGRTracker() {
                   <XAxis dataKey="name" tick={AXIS_TICK_STYLE_SM} angle={-15} textAnchor="end" height={60} />
                   <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [formatCurrency(v, true), 'Annual Spend']} />
-                  <Bar dataKey="annualSpend" radius={[6, 6, 0, 0]}>
+                  <Bar dataKey="annualSpend" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                     {activeFinancials.filter(f => f.annualSpend > 0).map((_, i) => <Cell key={i} fill={MODEL_COLORS[i % MODEL_COLORS.length]} />)}
                   </Bar>
                 </BarChart>
@@ -1991,7 +1998,8 @@ function LGRTracker() {
               <ResponsiveContainer width="100%" height={300}>
                 <PieChart>
                   <Pie data={activeFinancials} cx="50%" cy="50%" outerRadius={100} dataKey="population" nameKey="name"
-                    label={({ name, percent }) => `${name.split(' ')[0]} (${(percent * 100).toFixed(0)}%)`} labelLine={false}>
+                    label={({ name, percent }) => `${name.split(' ')[0]} (${(percent * 100).toFixed(0)}%)`} labelLine={false}
+                    animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                     {activeFinancials.map((_, i) => <Cell key={i} fill={MODEL_COLORS[i % MODEL_COLORS.length]} />)}
                   </Pie>
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [formatNumber(v), 'Population']} />
@@ -2009,8 +2017,8 @@ function LGRTracker() {
                   <XAxis dataKey="name" tick={AXIS_TICK_STYLE_SM} angle={-15} textAnchor="end" height={60} />
                   <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [formatCurrency(v, true), '']} />
-                  <Bar dataKey="earmarkedReserves" name="Earmarked" stackId="reserves" fill="#ff9f0a" />
-                  <Bar dataKey="unallocatedReserves" name="Unallocated" stackId="reserves" fill="#30d158" radius={[6, 6, 0, 0]} />
+                  <Bar dataKey="earmarkedReserves" name="Earmarked" stackId="reserves" fill="#ff9f0a" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                  <Bar dataKey="unallocatedReserves" name="Unallocated" stackId="reserves" fill="#30d158" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                   <Legend />
                 </BarChart>
               </ResponsiveContainer>
@@ -2408,7 +2416,7 @@ function LGRTracker() {
                   </span>
                   {activeModelData.authorities.map((auth, i) => (
                     <span key={auth.name} className="premium-map-legend-item">
-                      <span className="premium-map-legend-dot" style={{ background: ['#0a84ff', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff', '#ffd60a', '#ff375f'][i % 8] }} />
+                      <span className="premium-map-legend-dot" style={{ background: ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff', '#ffd60a', '#ff375f'][i % 8] }} />
                       <span style={{ flex: 1 }}>{auth.name}</span>
                       <span style={{ color: '#8e8e93', fontSize: '0.75rem' }}>{auth.councils?.length || 0} councils · {formatNumber(auth.population || 0)} pop</span>
                     </span>
@@ -2519,7 +2527,7 @@ function LGRTracker() {
               name: cat.label,
               value: cat.total_value / 1e6,
               count: cat.exercises?.length || 0,
-              fill: key === 'education_send' ? '#ff453a' : key === 'social_care' ? '#ff9f0a' : key === 'highways' ? '#0a84ff' : key === 'corporate' ? '#bf5af2' : key === 'construction' ? '#30d158' : '#ffd60a'
+              fill: key === 'education_send' ? '#ff453a' : key === 'social_care' ? '#ff9f0a' : key === 'highways' ? '#00d4aa' : key === 'corporate' ? '#bf5af2' : key === 'construction' ? '#30d158' : '#ffd60a'
             }))
             return (
               <>
@@ -2534,7 +2542,7 @@ function LGRTracker() {
                       <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v >= 1000 ? (v / 1000).toFixed(1) + 'B' : v + 'M'}`} />
                       <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={160} />
                       <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v >= 1000 ? (v / 1000).toFixed(1) + 'B' : v.toFixed(0) + 'M'}`, 'Total value']} />
-                      <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                      <Bar dataKey="value" radius={[0, 4, 4, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                         {cats.map((c, i) => (
                           <Cell key={i} fill={c.fill} />
                         ))}
@@ -2569,7 +2577,7 @@ function LGRTracker() {
                         <td>
                           <strong>{ex.title}</strong>
                           {ex.note && <div style={{ fontSize: '0.75rem', color: '#8e8e93', marginTop: 2 }}>{ex.note}</div>}
-                          {ex.geographic_lots && <div style={{ fontSize: '0.72rem', color: '#0a84ff', marginTop: 2 }}>Lots: {ex.geographic_lots}</div>}
+                          {ex.geographic_lots && <div style={{ fontSize: '0.72rem', color: '#00d4aa', marginTop: 2 }}>Lots: {ex.geographic_lots}</div>}
                         </td>
                         <td style={{ fontWeight: 600 }}>£{(ex.value / 1e6).toFixed(0)}M</td>
                         <td>{ex.term}</td>
@@ -2588,7 +2596,7 @@ function LGRTracker() {
                     {(cat.unitary_contracts || []).map((uc, i) => (
                       <tr key={`u${i}`} style={{ opacity: 0.85 }}>
                         <td>
-                          <span style={{ fontSize: '0.72rem', color: '#0a84ff', marginRight: 6 }}>{uc.authority}</span>
+                          <span style={{ fontSize: '0.72rem', color: '#00d4aa', marginRight: 6 }}>{uc.authority}</span>
                           {uc.title}
                           {uc.note && <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: 2 }}>{uc.note}</div>}
                         </td>
@@ -2623,7 +2631,7 @@ function LGRTracker() {
                       <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
                       <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v}M`} />
                       <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(1)}M`, 'Settlement']} />
-                      <Bar dataKey="amount" radius={[4, 4, 0, 0]}>
+                      <Bar dataKey="amount" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                         {dft.years.map((y, i) => (
                           <Cell key={i} fill={y.year <= '2027/28' ? '#30d158' : '#ff9f0a'} />
                         ))}
@@ -2673,7 +2681,7 @@ function LGRTracker() {
                 })}
                 <div className="lgr-gantt-legend">
                   <span><span className="lgr-gantt-legend-dot" style={{ background: '#ff453a' }} /> Critical path</span>
-                  <span><span className="lgr-gantt-legend-dot" style={{ background: '#0a84ff' }} /> Standard</span>
+                  <span><span className="lgr-gantt-legend-dot" style={{ background: '#00d4aa' }} /> Standard</span>
                   <span className="lgr-gantt-legend-vesting"><span className="lgr-gantt-legend-line" style={{ borderColor: '#ff453a' }} /> Apr 2028 (current)</span>
                   <span className="lgr-gantt-legend-vesting"><span className="lgr-gantt-legend-line" style={{ borderColor: '#30d158' }} /> Apr 2029 (recommended)</span>
                 </div>

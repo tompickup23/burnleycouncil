@@ -7,13 +7,13 @@
 
 /** Primary chart palette (10 colours). Use for pie charts, bar charts, etc. */
 export const CHART_COLORS = [
-  '#0a84ff', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2',
+  '#00d4aa', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2',
   '#64d2ff', '#ff375f', '#ffd60a', '#ac8e68', '#8e8e93',
 ]
 
 /** Extended palette (15 colours) for charts with more categories */
 export const CHART_COLORS_EXTENDED = [
-  '#0a84ff', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2',
+  '#00d4aa', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2',
   '#64d2ff', '#ffd60a', '#ff6482', '#ac8e68', '#8e8e93',
   '#ff375f', '#34c759', '#007aff', '#5856d6', '#af52de',
 ]
@@ -101,7 +101,7 @@ export const SEVERITY_COLORS = {
   high: '#ff6b6b',
   warning: '#ff9f0a',
   medium: '#ffcc02',
-  info: '#0a84ff',
+  info: '#00d4aa',
   low: '#30d158',
 }
 
@@ -234,3 +234,59 @@ export function shortenCouncilName(name) {
     .replace(/Lancashire County Council/gi, 'Lancashire CC')
     .replace(/Lancashire CC/gi, 'Lancashire CC')
 }
+
+// ── Continuous Color Scales (Choropleth / Heatmap) ──
+
+/** Preset multi-stop color scales for geographic & heatmap visualisations */
+export const COLOR_SCALES = {
+  deprivation: { stops: [[0, [48, 209, 88]], [0.3, [255, 214, 10]], [0.6, [255, 159, 10]], [1, [255, 69, 58]]] },
+  spend:       { stops: [[0, [48, 209, 88]], [0.33, [255, 214, 10]], [0.66, [255, 159, 10]], [1, [255, 69, 58]]] },
+  risk:        { stops: [[0, [48, 209, 88]], [0.5, [255, 159, 10]], [1, [255, 69, 58]]] },
+  demographic: { stops: [[0, [10, 132, 255]], [0.5, [191, 90, 242]], [1, [255, 69, 58]]] },
+  intensity:   { stops: [[0, [28, 28, 30]], [0.25, [10, 132, 255]], [0.5, [48, 209, 88]], [0.75, [255, 214, 10]], [1, [255, 69, 58]]] },
+  diverging:   { stops: [[0, [10, 132, 255]], [0.5, [142, 142, 147]], [1, [255, 69, 58]]] },
+}
+
+/** Linear interpolation between two RGB arrays */
+export function lerpColor(a, b, t) {
+  const r = Math.round(a[0] + (b[0] - a[0]) * t)
+  const g = Math.round(a[1] + (b[1] - a[1]) * t)
+  const bl = Math.round(a[2] + (b[2] - a[2]) * t)
+  return `rgb(${r},${g},${bl})`
+}
+
+/** Map a value to a color using a multi-stop scale */
+export function scaleColor(value, min, max, scaleName = 'deprivation') {
+  const scale = COLOR_SCALES[scaleName]
+  if (!scale) return '#666'
+  const ratio = Math.min(1, Math.max(0, (value - min) / (max - min || 1)))
+  const { stops } = scale
+  for (let i = 0; i < stops.length - 1; i++) {
+    const [t0, c0] = stops[i]
+    const [t1, c1] = stops[i + 1]
+    if (ratio >= t0 && ratio <= t1) {
+      const localT = (ratio - t0) / (t1 - t0)
+      return lerpColor(c0, c1, localT)
+    }
+  }
+  return lerpColor(stops[stops.length - 1][1], stops[stops.length - 1][1], 0)
+}
+
+// ── Chart Animation Constants ──
+
+/** Default animation config for Recharts — respects reduced motion */
+export const CHART_ANIMATION = { duration: 800, easing: 'ease-out' }
+
+// ── Accessibility ──
+
+/** Hook: returns true if user prefers reduced motion (accessibility) */
+export function useReducedMotion() {
+  // Lazy import to avoid React dependency in pure JS file
+  // Consumers should import from constants.js or use their own check
+  if (typeof window === 'undefined') return false
+  return window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches || false
+}
+
+// ── ChartGradient ──
+// NOTE: ChartGradient JSX component moved to src/components/ui/ChartGradients.jsx
+// Import from there instead: import ChartGradients from '../components/ui/ChartGradients'

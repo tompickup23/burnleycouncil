@@ -1,13 +1,17 @@
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, lazy, Suspense } from 'react'
 import { Link } from 'react-router-dom'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, Legend } from 'recharts'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
-import { Users, MapPin, Globe, Briefcase, Church, Info, TrendingUp, Shield, Home, AlertTriangle, Activity, Layers } from 'lucide-react'
+import { Users, MapPin, Globe, Briefcase, Church, Info, TrendingUp, Shield, Home, AlertTriangle, Activity, Layers, Map as MapIcon } from 'lucide-react'
 import CollapsibleSection from '../components/CollapsibleSection'
+import SparkLine from '../components/ui/SparkLine'
+import GaugeChart from '../components/ui/GaugeChart'
 import './Demographics.css'
+
+const ChoroplethMap = lazy(() => import('../components/ChoroplethMap'))
 
 const fmt = (n) => typeof n === 'number' ? n.toLocaleString('en-GB') : '—'
 const pct = (n) => typeof n === 'number' ? `${n}%` : '—'
@@ -20,8 +24,11 @@ function Demographics() {
   const { data: projections } = useData('/data/demographic_projections.json')
   const { data: demoFiscalData } = useData('/data/demographic_fiscal.json')
   const { data: compositionProj } = useData('/data/composition_projections.json')
+  const { data: deprivation } = useData('/data/deprivation.json')
+  const { data: wardBoundaries } = useData('/data/ward_boundaries.json')
   const [selectedWard, setSelectedWard] = useState('')
   const [activeTab, setActiveTab] = useState('census')
+  const [mapMetric, setMapMetric] = useState('deprivation')
 
   useEffect(() => {
     document.title = `Demographics | ${councilName} Council Transparency`
@@ -190,6 +197,61 @@ function Demographics() {
     return Object.entries(dr).map(([year, ratio]) => ({ year, ratio }))
   }, [projections])
 
+  // Ward Map — choropleth values per metric
+  const choroplethValues = useMemo(() => {
+    const vals = {}
+    if (mapMetric === 'deprivation') {
+      const dw = deprivation?.wards || {}
+      Object.entries(dw).forEach(([name, w]) => { vals[name] = w.avg_imd_score })
+    } else if (mapMetric === 'diversity') {
+      Object.entries(wards).forEach(([, w]) => {
+        const eth = w.ethnicity || {}
+        const total = Object.entries(eth).find(([k]) => k.toLowerCase().includes('total'))
+        const whiteKey = Object.keys(eth).find(k => k.startsWith('White') && !k.includes(':'))
+        if (total && whiteKey) {
+          const pop = total[1]
+          vals[w.name] = pop > 0 ? Math.round((pop - eth[whiteKey]) / pop * 1000) / 10 : 0
+        }
+      })
+    } else if (mapMetric === 'youth') {
+      Object.entries(wards).forEach(([, w]) => {
+        const age = w.age || {}
+        const totalKey = Object.keys(age).find(k => k.toLowerCase().includes('total'))
+        const pop = totalKey ? age[totalKey] : 0
+        const u16 = (age['Aged 4 years and under'] || 0) + (age['Aged 5 to 9 years'] || 0) + (age['Aged 10 to 15 years'] || 0)
+        if (pop > 0) vals[w.name] = Math.round(u16 / pop * 1000) / 10
+      })
+    } else if (mapMetric === 'elderly') {
+      Object.entries(wards).forEach(([, w]) => {
+        const age = w.age || {}
+        const totalKey = Object.keys(age).find(k => k.toLowerCase().includes('total'))
+        const pop = totalKey ? age[totalKey] : 0
+        const o65 = (age['Aged 65 to 74 years'] || 0) + (age['Aged 75 to 84 years'] || 0) + (age['Aged 85 years and over'] || 0)
+        if (pop > 0) vals[w.name] = Math.round(o65 / pop * 1000) / 10
+      })
+    } else if (mapMetric === 'economic') {
+      Object.entries(wards).forEach(([, w]) => {
+        const econ = w.economic_activity || {}
+        const totalKey = Object.keys(econ).find(k => k.toLowerCase().includes('total'))
+        const pop = totalKey ? econ[totalKey] : 0
+        const inactive = Object.entries(econ)
+          .filter(([k]) => k.toLowerCase().includes('inactive'))
+          .reduce((s, [, v]) => s + v, 0)
+        if (pop > 0) vals[w.name] = Math.round(inactive / pop * 1000) / 10
+      })
+    }
+    return vals
+  }, [mapMetric, deprivation, wards])
+
+  const MAP_METRICS = [
+    { id: 'deprivation', label: 'Deprivation (IMD)', scale: 'deprivation', unit: '', format: v => v.toFixed(1), title: 'IMD Score' },
+    { id: 'diversity', label: 'Ethnic Diversity', scale: 'demographic', unit: '%', format: v => v.toFixed(1) + '%', title: '% Non-White British' },
+    { id: 'youth', label: 'Youth Population', scale: 'intensity', unit: '%', format: v => v.toFixed(1) + '%', title: '% Under 16' },
+    { id: 'elderly', label: 'Elderly Population', scale: 'risk', unit: '%', format: v => v.toFixed(1) + '%', title: '% Over 65' },
+    { id: 'economic', label: 'Economic Inactivity', scale: 'spend', unit: '%', format: v => v.toFixed(1) + '%', title: '% Inactive' },
+  ]
+  const currentMetric = MAP_METRICS.find(m => m.id === mapMetric) || MAP_METRICS[0]
+
   const asylumData = projections?.asylum || {}
   const asylumTrend = asylumData.trend || []
   const asylumAccommodation = useMemo(() => {
@@ -220,6 +282,7 @@ function Demographics() {
       <div className="demo-tabs" role="tablist">
         {[
           { id: 'census', label: 'Census 2021' },
+          ...(wardBoundaries?.features?.length ? [{ id: 'wardmap', label: 'Ward Map' }] : []),
           ...(projections ? [{ id: 'projections', label: 'Population' }] : []),
           ...(compositionProj ? [{ id: 'composition', label: 'Ethnic & Religion' }] : []),
           ...(asylumData.seekers_supported > 0 ? [{ id: 'asylum', label: 'Asylum & Migration' }] : []),
@@ -236,6 +299,160 @@ function Demographics() {
           </button>
         ))}
       </div>
+
+      {/* ===== WARD MAP TAB ===== */}
+      {activeTab === 'wardmap' && wardBoundaries && <>
+        <div className="demo-map-controls" style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
+          {MAP_METRICS.map(m => (
+            <button
+              key={m.id}
+              className={`demo-tab demo-tab--sm ${mapMetric === m.id ? 'active' : ''}`}
+              onClick={() => setMapMetric(m.id)}
+              style={{ fontSize: 12, padding: '4px 10px' }}
+            >
+              {m.label}
+            </button>
+          ))}
+        </div>
+
+        <Suspense fallback={<LoadingState />}>
+          <ChoroplethMap
+            boundaries={wardBoundaries}
+            values={choroplethValues}
+            colorScale={currentMetric.scale}
+            legend={{ title: currentMetric.title, format: currentMetric.format, unit: currentMetric.unit }}
+            selectedWard={selectedWard}
+            onWardClick={(name) => setSelectedWard(name === selectedWard ? '' : name)}
+            height="500px"
+          />
+        </Suspense>
+
+        {/* Ward detail panel on click */}
+        {selectedWard && (() => {
+          const w = wards[Object.keys(wards).find(k => wards[k]?.name === selectedWard)] || {}
+          const dep = deprivation?.wards?.[selectedWard]
+          const age = w.age || {}
+          const totalKey = Object.keys(age).find(k => k.toLowerCase().includes('total'))
+          const pop = totalKey ? age[totalKey] : 0
+          const eth = w.ethnicity || {}
+          const whiteKey = Object.keys(eth).find(k => k.startsWith('White') && !k.includes(':'))
+          const ethTotal = Object.entries(eth).find(([k]) => k.toLowerCase().includes('total'))
+          const ethPop = ethTotal ? ethTotal[1] : 0
+          const nonWhitePct = ethPop > 0 && whiteKey ? Math.round((ethPop - eth[whiteKey]) / ethPop * 1000) / 10 : 0
+
+          const u16 = (age['Aged 4 years and under'] || 0) + (age['Aged 5 to 9 years'] || 0) + (age['Aged 10 to 15 years'] || 0)
+          const o65 = (age['Aged 65 to 74 years'] || 0) + (age['Aged 75 to 84 years'] || 0) + (age['Aged 85 years and over'] || 0)
+
+          // Age pyramid data
+          const ageBands = [
+            { label: '0-4', key: 'Aged 4 years and under' },
+            { label: '5-9', key: 'Aged 5 to 9 years' },
+            { label: '10-15', key: 'Aged 10 to 15 years' },
+            { label: '16-19', key: 'Aged 16 to 19 years' },
+            { label: '20-24', key: 'Aged 20 to 24 years' },
+            { label: '25-34', key: 'Aged 25 to 34 years' },
+            { label: '35-49', key: 'Aged 35 to 49 years' },
+            { label: '50-64', key: 'Aged 50 to 64 years' },
+            { label: '65-74', key: 'Aged 65 to 74 years' },
+            { label: '75-84', key: 'Aged 75 to 84 years' },
+            { label: '85+', key: 'Aged 85 years and over' },
+          ].map(b => ({ name: b.label, count: age[b.key] || 0 }))
+
+          // Ethnicity pie
+          const ethGroups = Object.entries(eth)
+            .filter(([k]) => !k.toLowerCase().includes('total') && !k.includes(': '))
+            .map(([k, v]) => ({ name: k.split(',')[0], value: v }))
+            .sort((a, b) => b.value - a.value)
+            .slice(0, 6)
+
+          return (
+            <div className="demo-ward-detail" style={{
+              background: 'rgba(28,28,30,0.7)',
+              backdropFilter: 'blur(20px)',
+              border: '1px solid rgba(255,255,255,0.06)',
+              borderRadius: 12,
+              padding: 20,
+              marginTop: 16,
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700 }}>{selectedWard}</h3>
+                <button onClick={() => setSelectedWard('')} style={{ background: 'rgba(255,255,255,0.06)', border: 'none', color: '#8e8e93', borderRadius: 6, padding: '4px 10px', cursor: 'pointer', fontSize: 12 }}>Close</button>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: 12, marginBottom: 16 }}>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: '#fff' }}>{fmt(pop)}</div>
+                  <div style={{ fontSize: 11, color: '#8e8e93' }}>Population</div>
+                </div>
+                {dep && <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: dep.avg_imd_score > 40 ? '#ff453a' : dep.avg_imd_score > 25 ? '#ff9f0a' : '#30d158' }}>{dep.avg_imd_score.toFixed(1)}</div>
+                  <div style={{ fontSize: 11, color: '#8e8e93' }}>IMD Score</div>
+                </div>}
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: '#bf5af2' }}>{nonWhitePct}%</div>
+                  <div style={{ fontSize: 11, color: '#8e8e93' }}>Non-White</div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: '#00d4aa' }}>{pop > 0 ? Math.round(u16 / pop * 1000) / 10 : 0}%</div>
+                  <div style={{ fontSize: 11, color: '#8e8e93' }}>Under 16</div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: '#ff9f0a' }}>{pop > 0 ? Math.round(o65 / pop * 1000) / 10 : 0}%</div>
+                  <div style={{ fontSize: 11, color: '#8e8e93' }}>Over 65</div>
+                </div>
+              </div>
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+                {/* Age pyramid */}
+                <div>
+                  <h4 style={{ fontSize: 13, fontWeight: 600, color: '#8e8e93', marginBottom: 8 }}>Age Distribution</h4>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <BarChart data={ageBands} layout="vertical" margin={{ left: 0, right: 8 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} horizontal={false} />
+                      <XAxis type="number" tick={AXIS_TICK_STYLE} />
+                      <YAxis type="category" dataKey="name" tick={{ fill: '#8e8e93', fontSize: 10 }} width={40} />
+                      <Tooltip contentStyle={TOOLTIP_STYLE} />
+                      <Bar dataKey="count" fill="#00d4aa" radius={[0, 4, 4, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+
+                {/* Ethnicity pie */}
+                <div>
+                  <h4 style={{ fontSize: 13, fontWeight: 600, color: '#8e8e93', marginBottom: 8 }}>Ethnicity</h4>
+                  <ResponsiveContainer width="100%" height={200}>
+                    <PieChart>
+                      <Pie data={ethGroups} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={40} outerRadius={70} paddingAngle={2}>
+                        {ethGroups.map((_, i) => <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />)}
+                      </Pie>
+                      <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => fmt(v)} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+
+              {dep && (
+                <div style={{ marginTop: 12, display: 'flex', gap: 16, flexWrap: 'wrap', fontSize: 11, color: '#636366' }}>
+                  <span>IMD Decile: <strong style={{ color: '#fff' }}>{dep.avg_imd_decile}</strong></span>
+                  <span>National Percentile: <strong style={{ color: '#fff' }}>{dep.national_percentile?.toFixed(0)}%</strong></span>
+                  <span>Level: <strong style={{ color: '#fff' }}>{dep.deprivation_level}</strong></span>
+                </div>
+              )}
+            </div>
+          )
+        })()}
+
+        <div className="demo-source" style={{ marginTop: 16 }}>
+          <Info size={16} />
+          <div>
+            <p>
+              Map data: <strong>ONS Census 2021</strong> + <strong>MHCLG IMD 2019</strong>.
+              Ward boundaries from <strong>ONS ArcGIS</strong>.
+              Click a ward for detailed breakdown.
+            </p>
+          </div>
+        </div>
+      </>}
 
       {/* ===== CENSUS 2021 TAB ===== */}
       {activeTab === 'census' && <>
@@ -370,7 +587,7 @@ function Demographics() {
                 contentStyle={TOOLTIP_STYLE}
                 formatter={(val) => [fmt(val), 'Population']}
               />
-              <Bar dataKey="count" fill="#0a84ff" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="count" fill="#00d4aa" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -540,7 +757,7 @@ function Demographics() {
                   <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `${(v / 1000).toFixed(0)}k`} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), '']} />
                   <Legend wrapperStyle={{ color: '#e5e5e7', fontSize: '0.8rem' }} />
-                  <Area type="monotone" dataKey="0-15" stackId="1" stroke="#0a84ff" fill="rgba(10,132,255,0.3)" name="Youth (0-15)" />
+                  <Area type="monotone" dataKey="0-15" stackId="1" stroke="#00d4aa" fill="rgba(10,132,255,0.3)" name="Youth (0-15)" />
                   <Area type="monotone" dataKey="16-64" stackId="1" stroke="#30d158" fill="rgba(48,209,88,0.3)" name="Working (16-64)" />
                   <Area type="monotone" dataKey="65+" stackId="1" stroke="#ff9f0a" fill="rgba(255,159,10,0.3)" name="Elderly (65+)" />
                 </AreaChart>
@@ -916,9 +1133,9 @@ function Demographics() {
             <span className="demo-stat-desc">Higher = more costly services</span>
           </div>
           {demoFiscalData.demographic_change_velocity != null && (
-            <div className="demo-stat-card" style={{ borderLeft: '3px solid #0a84ff' }}>
+            <div className="demo-stat-card" style={{ borderLeft: '3px solid #00d4aa' }}>
               <span className="demo-stat-label">Demographic Change</span>
-              <span className="demo-stat-value" style={{ color: '#0a84ff' }}>
+              <span className="demo-stat-value" style={{ color: '#00d4aa' }}>
                 {demoFiscalData.demographic_change_velocity.toFixed(1)}
               </span>
               <span className="demo-stat-desc">Velocity of composition shift</span>

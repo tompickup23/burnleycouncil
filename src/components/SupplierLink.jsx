@@ -48,7 +48,7 @@ export default function SupplierLink({
           style={{
             color: 'var(--text-primary, #e2e8f0)',
             textDecoration: 'none',
-            borderBottom: '1px dotted var(--accent, #0a84ff)',
+            borderBottom: '1px dotted var(--accent, #00d4aa)',
             fontWeight: 500,
           }}
         >
