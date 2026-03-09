@@ -2,7 +2,7 @@
 
 > Auto-maintained by `scripts/suggest_improvements.py`.
 > Manual entries are preserved; automated entries are marked `[auto]`.
-> Last updated: 2026-03-08
+> Last updated: 2026-03-09
 
 **Summary**: 9 open issues | Critical: 0 | High: 5 | Medium: 4 | Low: 0
 
@@ -32,10 +32,10 @@
 |----|----------|-------|--------|--------|
 | A1 | High | 1 pages have no `useData` error handling [auto] | Pages: SupplierView. Add error fallback UI. | open |
 | A2 | High | 1 pages have zero tests [auto] | Untested: MPComparison (602L). | open |
-| A17 | Medium | Unguarded chained property access (185 instances) [auto] | At Budgets:452, Budgets:647, Budgets:1485, Budgets:1513, Budgets:1626.... Use optional chaining or `|| {}` defaults. | open |
+| A17 | Medium | Unguarded chained property access (196 instances) [auto] | At Budgets:459, Budgets:679, Budgets:707, Budgets:1545, Budgets:1573.... Use optional chaining or `|| {}` defaults. | open |
 | A3 | Medium | Missing `useMemo` on data transforms [auto] | Pages with unmemoized data processing: PropertyDetail (7 data transforms, 2 useMemo). | open |
-| A4 | Medium | Accessibility gaps in 6 pages [auto] | Pages with no ARIA attributes: Constituencies, ConstituencyView, CouncillorDossier, MPComparison, PropertyDetail, PropertyPortfolio. | open |
-| A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Strategy.jsx:400`, `src/pages/Strategy.jsx:412`. Add clearTimeout in useEffect cleanup. | open |
+| A4 | Medium | Accessibility gaps in 5 pages [auto] | Pages with no ARIA attributes: ConstituencyView, CouncillorDossier, MPComparison, PropertyDetail, PropertyPortfolio. | open |
+| A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Strategy.jsx:415`, `src/pages/Strategy.jsx:427`. Add clearTimeout in useEffect cleanup. | open |
 
 ---
 
@@ -68,3 +68,4 @@
 - **2026-03-06** — Auto-scan: 9 issues found
 - **2026-03-07** — Auto-scan: 9 issues found
 - **2026-03-08** — Auto-scan: 9 issues found
+- **2026-03-09** — Auto-scan: 9 issues found
