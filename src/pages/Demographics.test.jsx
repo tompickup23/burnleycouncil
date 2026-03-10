@@ -41,6 +41,26 @@ const mockDemographics = {
       'Muslim': { count: 7761, pct: 8.2 },
       'No religion': { count: 36440, pct: 38.5 },
     },
+    // Phase E new stats
+    no_car_pct: 29.3,
+    wfh_pct: 16.8,
+    car_commute_pct: 56.0,
+    lone_parent_households_pct: 13.2,
+    single_person_households_pct: 32.9,
+    highly_deprived_pct: 6.5,
+    no_car: 11667,
+    english_main_language_pct: 91.0,
+    cannot_speak_english: 486,
+    cannot_speak_english_pct: 0.5,
+    higher_managerial_pct: 7.2,
+    routine_occupations_pct: 17.5,
+    married_pct: 42.1,
+    single_never_married_pct: 38.3,
+    recent_arrivals_pct: 6.5,
+    no_central_heating_pct: 1.7,
+    gas_heating_pct: 81.8,
+    communal_residents: 897,
+    total_households: 39868,
   },
   council_totals: {
     age: {
@@ -48,12 +68,75 @@ const mockDemographics = {
       'Aged 5 to 9 years': 5600,
       'Aged 65 to 74 years': 10500,
     },
+    car_availability: {
+      'Total: All households': 39872,
+      'No cars or vans in household': 11667,
+      '1 car or van in household': 16992,
+      '2 cars or vans in household': 8730,
+      '3 or more cars or vans in household': 2483,
+    },
+    travel_to_work: {
+      'Total: All usual residents aged 16 years and over in employment': 40032,
+      'Work mainly at or from home': 6738,
+      'Driving a car or van': 22418,
+      'Train': 193,
+      'Bus, minibus or coach': 1631,
+      'On foot': 4434,
+      'Bicycle': 403,
+    },
+    household_composition: {
+      'Total: All households': 39868,
+      'One-person household': 13125,
+      'Single family household': 24408,
+      'Other household types': 2335,
+    },
+    household_deprivation: {
+      'Total: All households': 39872,
+      'Household is not deprived in any dimension': 16305,
+      'Household is deprived in one dimension': 13669,
+      'Household is deprived in two dimensions': 7316,
+      'Household is deprived in three dimensions': 2440,
+      'Household is deprived in four dimensions': 142,
+    },
+    central_heating: {
+      'Total: All households': 39872,
+      'No central heating': 686,
+      'Mains gas only': 32630,
+      'Electric only': 1746,
+    },
+    english_proficiency: {
+      'Total: All usual residents aged 3 years and over': 91239,
+      'Main language is English (English or Welsh in Wales)': 83069,
+      'Main language is not English (English or Welsh in Wales)': 8170,
+    },
+    ns_sec: {
+      'Total: All usual residents aged 16 years and over': 75199,
+      'L1, L2 and L3 Higher managerial, administrative and professional occupations': 5388,
+      'L13 Routine occupations': 13157,
+    },
+    partnership_status: {
+      'Total: All usual residents aged 16 and over': 75200,
+      'Never married and never registered a civil partnership': 28778,
+      'Married or in a registered civil partnership': 31625,
+      'Divorced or civil partnership dissolved': 7700,
+      'Widowed or surviving civil partnership partner': 5032,
+    },
+    year_of_arrival: {
+      'Total: All usual residents': 94646,
+      'Born in the UK': 82579,
+      'Arrived 2001 to 2010': 2468,
+      'Arrived 2011 to 2013': 978,
+      'Arrived 2017 to 2019': 2541,
+      'Arrived 2020 to 2021': 1239,
+    },
   },
   wards: {
     'E05001450': {
       name: 'Burnley Wood',
       ethnicity: { 'White': 5214, 'Total': 7234 },
       age: { 'Total': 7234 },
+      car_availability: { 'Total: All households': 2800, 'No cars or vans in household': 1100 },
+      english_proficiency: { 'Total: All usual residents aged 3 years and over': 6800, 'Main language is English (English or Welsh in Wales)': 5100 },
     },
   },
 }
@@ -179,5 +262,189 @@ describe('Demographics', () => {
     fireEvent.click(screen.getByRole('tab', { name: 'Asylum & Migration' }))
     expect(screen.getByText('Asylum Seekers Supported')).toBeInTheDocument()
     expect(screen.getByText('464')).toBeInTheDocument()
+  })
+
+  // Phase E: Households & Transport tab
+  describe('Households & Transport tab', () => {
+    it('shows tab when car_availability data exists', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.getByRole('tab', { name: 'Households & Transport' })).toBeInTheDocument()
+    })
+
+    it('does not show tab without car_availability data', () => {
+      const noCarData = {
+        ...mockDemographics,
+        wards: {
+          'E05001450': {
+            name: 'Burnley Wood',
+            ethnicity: { 'White': 5214, 'Total': 7234 },
+            age: { 'Total': 7234 },
+          },
+        },
+      }
+      setupMocks({ demographics: noCarData })
+      renderComponent()
+      expect(screen.queryByRole('tab', { name: 'Households & Transport' })).not.toBeInTheDocument()
+    })
+
+    it('shows car availability chart on tab click', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Households & Transport' }))
+      expect(screen.getByText('Car/Van Availability')).toBeInTheDocument()
+    })
+
+    it('shows travel to work chart on tab click', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Households & Transport' }))
+      expect(screen.getByText('Travel to Work')).toBeInTheDocument()
+    })
+
+    it('shows household composition chart on tab click', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Households & Transport' }))
+      expect(screen.getByText('Household Composition')).toBeInTheDocument()
+    })
+
+    it('shows household deprivation chart on tab click', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Households & Transport' }))
+      expect(screen.getByText('Household Deprivation')).toBeInTheDocument()
+    })
+
+    it('shows central heating chart on tab click', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Households & Transport' }))
+      expect(screen.getByText('Central Heating Type')).toBeInTheDocument()
+    })
+
+    it('shows no car hero card with correct value', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Households & Transport' }))
+      expect(screen.getByText('29.3%')).toBeInTheDocument()
+      expect(screen.getByText('No Car/Van')).toBeInTheDocument()
+    })
+
+    it('shows WFH hero card value', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Households & Transport' }))
+      expect(screen.getByText('16.8%')).toBeInTheDocument()
+      expect(screen.getByText('Work From Home')).toBeInTheDocument()
+    })
+
+    it('shows highly deprived hero card', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Households & Transport' }))
+      expect(screen.getByText('6.5%')).toBeInTheDocument()
+      expect(screen.getByText('Highly Deprived')).toBeInTheDocument()
+    })
+  })
+
+  // Phase E: Language & Society tab
+  describe('Language & Society tab', () => {
+    it('shows tab when english_proficiency data exists', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.getByRole('tab', { name: 'Language & Society' })).toBeInTheDocument()
+    })
+
+    it('does not show tab without english_proficiency data', () => {
+      const noLangData = {
+        ...mockDemographics,
+        wards: {
+          'E05001450': {
+            name: 'Burnley Wood',
+            ethnicity: { 'White': 5214, 'Total': 7234 },
+            age: { 'Total': 7234 },
+            car_availability: { 'Total': 2800 },
+          },
+        },
+      }
+      setupMocks({ demographics: noLangData })
+      renderComponent()
+      expect(screen.queryByRole('tab', { name: 'Language & Society' })).not.toBeInTheDocument()
+    })
+
+    it('shows English proficiency chart on tab click', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Language & Society' }))
+      expect(screen.getByText('English Proficiency')).toBeInTheDocument()
+    })
+
+    it('shows NS-SeC chart on tab click', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Language & Society' }))
+      expect(screen.getByText(/Socioeconomic Classification/)).toBeInTheDocument()
+    })
+
+    it('shows partnership status chart on tab click', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Language & Society' }))
+      expect(screen.getByText('Partnership Status')).toBeInTheDocument()
+    })
+
+    it('shows year of arrival chart on tab click', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Language & Society' }))
+      expect(screen.getByText('Year of Arrival in UK')).toBeInTheDocument()
+    })
+
+    it('shows English main language hero card', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Language & Society' }))
+      expect(screen.getByText('91%')).toBeInTheDocument()
+      expect(screen.getByText('English Main Language')).toBeInTheDocument()
+    })
+
+    it('shows higher managerial hero card', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Language & Society' }))
+      expect(screen.getByText('7.2%')).toBeInTheDocument()
+      expect(screen.getByText('Higher Managerial')).toBeInTheDocument()
+    })
+
+    it('shows married pct hero card', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Language & Society' }))
+      expect(screen.getByText('42.1%')).toBeInTheDocument()
+    })
+
+    it('shows recent arrivals hero card', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByRole('tab', { name: 'Language & Society' }))
+      expect(screen.getByText('Arrived 2011-2021')).toBeInTheDocument()
+    })
+  })
+
+  // Phase E: Census tab hero cards for new stats
+  describe('Census tab new hero cards', () => {
+    it('shows no car hero card on census tab', () => {
+      setupMocks()
+      renderComponent()
+      // Census tab is default
+      expect(screen.getAllByText('No Car/Van').length).toBeGreaterThanOrEqual(1)
+    })
+
+    it('shows lone parent hero card on census tab', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.getAllByText('Lone Parent').length).toBeGreaterThanOrEqual(1)
+    })
   })
 })

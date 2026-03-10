@@ -102,6 +102,51 @@ DATASETS = {
         "id": "NM_2072_1",
         "cat_col": "C2021_TENURE_9_NAME",
     },
+    # Phase E: 11 new Census 2021 topics
+    "household_composition": {
+        "id": "NM_2023_1",
+        "cat_col": "C2021_HHCOMP_15_NAME",
+    },
+    "household_deprivation": {
+        "id": "NM_2031_1",
+        "cat_col": "C2021_DEP_6_NAME",
+    },
+    "car_availability": {
+        "id": "NM_2063_1",
+        "cat_col": "C2021_CARS_5_NAME",
+    },
+    "travel_to_work": {
+        "id": "NM_2078_1",
+        "cat_col": "C2021_TTWMETH_12_NAME",
+    },
+    "distance_to_work": {
+        "id": "NM_2075_1",
+        "cat_col": "C2021_TTWDIST_11_NAME",
+    },
+    "ns_sec": {
+        "id": "NM_2079_1",
+        "cat_col": "C2021_NSSEC_10_NAME",
+    },
+    "english_proficiency": {
+        "id": "NM_2048_1",
+        "cat_col": "C2021_ENGPRF_6_NAME",
+    },
+    "year_of_arrival": {
+        "id": "NM_2035_1",
+        "cat_col": "C2021_ARRUK_13_NAME",
+    },
+    "partnership_status": {
+        "id": "NM_2022_1",
+        "cat_col": "C2021_LPSTAT_12_NAME",
+    },
+    "central_heating": {
+        "id": "NM_2064_1",
+        "cat_col": "C2021_HEATING_13_NAME",
+    },
+    "communal_establishments": {
+        "id": "NM_2066_1",
+        "cat_col": "C2021_COMEST_26_NAME",
+    },
 }
 
 
@@ -397,6 +442,216 @@ def compute_summary(totals):
         summary["social_rented_pct"] = round(social_rent / ten_total * 100, 1)
         summary["private_rented"] = private_rent
         summary["private_rented_pct"] = round(private_rent / ten_total * 100, 1)
+
+    # --- Phase E: 11 new topic summaries ---
+
+    # Household composition — lone parent, single person, couples
+    # Categories: "One-person household", "Single family household: Lone parent family", etc.
+    hhcomp = totals.get("household_composition", {})
+    hh_total = 0
+    lone_parent = 0
+    single_person = 0
+    for k, v in hhcomp.items():
+        if not isinstance(v, int):
+            continue
+        kl = k.lower()
+        if kl.startswith("total"):
+            hh_total = v
+        elif k == "Single family household: Lone parent family":
+            lone_parent = v
+        elif k == "One-person household":
+            single_person = v
+    if hh_total:
+        summary["lone_parent_households"] = lone_parent
+        summary["lone_parent_households_pct"] = round(lone_parent / hh_total * 100, 1)
+        summary["single_person_households"] = single_person
+        summary["single_person_households_pct"] = round(single_person / hh_total * 100, 1)
+        summary["total_households"] = hh_total
+
+    # Household deprivation — dimensions of deprivation (0-4)
+    # Categories: "Household is not deprived in any dimension", "...deprived in one/two/three/four dimension"
+    dep = totals.get("household_deprivation", {})
+    dep_total = 0
+    not_deprived = 0
+    highly_deprived = 0  # 3 or 4 dimensions
+    for k, v in dep.items():
+        if not isinstance(v, int):
+            continue
+        kl = k.lower()
+        if kl.startswith("total"):
+            dep_total = v
+        elif "not deprived" in kl:
+            not_deprived = v
+        elif "three dimensions" in kl or "four dimensions" in kl:
+            highly_deprived += v
+    if dep_total:
+        summary["not_deprived_pct"] = round(not_deprived / dep_total * 100, 1)
+        summary["highly_deprived_pct"] = round(highly_deprived / dep_total * 100, 1)
+
+    # Car/van availability
+    cars = totals.get("car_availability", {})
+    cars_total = 0
+    no_car = 0
+    for k, v in cars.items():
+        if not isinstance(v, int):
+            continue
+        kl = k.lower()
+        if kl.startswith("total"):
+            cars_total = v
+        elif "no cars" in kl or "0 cars" in kl:
+            no_car = v
+    if cars_total:
+        summary["no_car"] = no_car
+        summary["no_car_pct"] = round(no_car / cars_total * 100, 1)
+
+    # Travel to work method
+    ttw = totals.get("travel_to_work", {})
+    ttw_total = 0
+    wfh = 0
+    car_commute = 0
+    public_transport = 0
+    active_travel = 0  # cycle + walk
+    for k, v in ttw.items():
+        if not isinstance(v, int):
+            continue
+        kl = k.lower()
+        if kl.startswith("total"):
+            ttw_total = v
+        elif "work mainly at or from home" in kl:
+            wfh = v
+        elif "driving a car or van" in kl:
+            car_commute = v
+        elif any(x in kl for x in ["bus", "train", "underground", "light rail", "tram"]):
+            public_transport += v
+        elif "bicycle" in kl or "on foot" in kl:
+            active_travel += v
+    if ttw_total:
+        summary["wfh"] = wfh
+        summary["wfh_pct"] = round(wfh / ttw_total * 100, 1)
+        summary["car_commute_pct"] = round(car_commute / ttw_total * 100, 1)
+        summary["public_transport_pct"] = round(public_transport / ttw_total * 100, 1)
+        summary["active_travel_pct"] = round(active_travel / ttw_total * 100, 1)
+
+    # Distance to work
+    dtw = totals.get("distance_to_work", {})
+    dtw_total = 0
+    short_commute = 0  # <5km
+    for k, v in dtw.items():
+        if not isinstance(v, int):
+            continue
+        kl = k.lower()
+        if kl.startswith("total"):
+            dtw_total = v
+        elif "less than 2km" in kl or "2km to less than 5km" in kl:
+            short_commute += v
+    if dtw_total:
+        summary["short_commute_pct"] = round(short_commute / dtw_total * 100, 1)
+
+    # NS-SeC (socioeconomic classification)
+    # Categories: "L1, L2 and L3 Higher managerial...", "L13 Routine occupations", etc.
+    nssec = totals.get("ns_sec", {})
+    nssec_total = 0
+    higher_managerial = 0
+    routine = 0
+    for k, v in nssec.items():
+        if not isinstance(v, int):
+            continue
+        kl = k.lower()
+        if kl.startswith("total"):
+            nssec_total = v
+        elif "higher managerial" in kl:
+            higher_managerial = v
+        elif k.startswith("L13 "):
+            routine = v
+    if nssec_total:
+        summary["higher_managerial_pct"] = round(higher_managerial / nssec_total * 100, 1)
+        summary["routine_occupations_pct"] = round(routine / nssec_total * 100, 1)
+
+    # English proficiency
+    eng = totals.get("english_proficiency", {})
+    eng_total = 0
+    english_main = 0
+    cannot_english = 0
+    for k, v in eng.items():
+        if not isinstance(v, int):
+            continue
+        kl = k.lower()
+        if kl.startswith("total"):
+            eng_total = v
+        elif "main language is english" in kl:
+            english_main = v
+        elif "cannot speak english" in kl:
+            cannot_english = v
+    if eng_total:
+        summary["english_main_language_pct"] = round(english_main / eng_total * 100, 1)
+        summary["cannot_speak_english"] = cannot_english
+        summary["cannot_speak_english_pct"] = round(cannot_english / eng_total * 100, 1) if eng_total else 0
+
+    # Year of arrival in UK
+    arrival = totals.get("year_of_arrival", {})
+    arr_total = 0
+    recent_arrivals = 0  # 2011-2021
+    for k, v in arrival.items():
+        if not isinstance(v, int):
+            continue
+        kl = k.lower()
+        if kl.startswith("total"):
+            arr_total = v
+        elif "2011" in kl or "2012" in kl or "2013" in kl or "2014" in kl or "2015" in kl or "2016" in kl or "2017" in kl or "2018" in kl or "2019" in kl or "2020" in kl or "2021" in kl:
+            recent_arrivals += v
+    if arr_total:
+        summary["recent_arrivals_pct"] = round(recent_arrivals / arr_total * 100, 1)
+
+    # Legal partnership status
+    # Categories: "Married or in a registered civil partnership", "Never married and never registered..."
+    partner = totals.get("partnership_status", {})
+    ps_total = 0
+    married = 0
+    single_never = 0
+    for k, v in partner.items():
+        if not isinstance(v, int):
+            continue
+        if k.startswith("Total"):
+            ps_total = v
+        elif k == "Married or in a registered civil partnership":
+            married = v
+        elif k.startswith("Never married"):
+            single_never = v
+    if ps_total:
+        summary["married_pct"] = round(married / ps_total * 100, 1)
+        summary["single_never_married_pct"] = round(single_never / ps_total * 100, 1)
+
+    # Central heating type
+    # Categories: "No central heating", "Mains gas only", etc.
+    heat = totals.get("central_heating", {})
+    heat_total = 0
+    no_heating = 0
+    gas_heating = 0
+    for k, v in heat.items():
+        if not isinstance(v, int):
+            continue
+        kl = k.lower()
+        if kl.startswith("total"):
+            heat_total = v
+        elif k == "No central heating":
+            no_heating = v
+        elif "mains gas" in kl:
+            gas_heating += v  # "Mains gas only" + any combo with mains gas
+    if heat_total:
+        summary["no_central_heating_pct"] = round(no_heating / heat_total * 100, 1)
+        summary["gas_heating_pct"] = round(gas_heating / heat_total * 100, 1)
+
+    # Communal establishments (care homes, student halls, etc.)
+    comm = totals.get("communal_establishments", {})
+    comm_total = 0
+    for k, v in comm.items():
+        if not isinstance(v, int):
+            continue
+        kl = k.lower()
+        if kl.startswith("total") or kl.startswith("all"):
+            comm_total = max(comm_total, v)
+    if comm_total:
+        summary["communal_residents"] = comm_total
 
     return summary
 

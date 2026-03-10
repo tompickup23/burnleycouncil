@@ -5,7 +5,7 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, Legend } from 'recharts'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
-import { Users, MapPin, Globe, Briefcase, Church, Info, TrendingUp, Shield, Home, AlertTriangle, Activity, Layers } from 'lucide-react'
+import { Users, MapPin, Globe, Briefcase, Church, Info, TrendingUp, Shield, Home, AlertTriangle, Activity, Layers, Car, Train, Heart, Languages } from 'lucide-react'
 import CollapsibleSection from '../components/CollapsibleSection'
 import SparkLine from '../components/ui/SparkLine'
 import GaugeChart from '../components/ui/GaugeChart'
@@ -239,6 +239,38 @@ function Demographics() {
           .reduce((s, [, v]) => s + v, 0)
         if (pop > 0) vals[w.name] = Math.round(inactive / pop * 1000) / 10
       })
+    } else if (mapMetric === 'no_car') {
+      Object.entries(wards).forEach(([, w]) => {
+        const cars = w.car_availability || {}
+        const totalKey = Object.keys(cars).find(k => k.toLowerCase().includes('total'))
+        const pop = totalKey ? cars[totalKey] : 0
+        const noCar = cars['No cars or vans in household'] || 0
+        if (pop > 0) vals[w.name] = Math.round(noCar / pop * 1000) / 10
+      })
+    } else if (mapMetric === 'wfh') {
+      Object.entries(wards).forEach(([, w]) => {
+        const ttw = w.travel_to_work || {}
+        const totalKey = Object.keys(ttw).find(k => k.toLowerCase().includes('total'))
+        const pop = totalKey ? ttw[totalKey] : 0
+        const wfh = ttw['Work mainly at or from home'] || 0
+        if (pop > 0) vals[w.name] = Math.round(wfh / pop * 1000) / 10
+      })
+    } else if (mapMetric === 'lone_parent') {
+      Object.entries(wards).forEach(([, w]) => {
+        const hh = w.household_composition || {}
+        const totalKey = Object.keys(hh).find(k => k.toLowerCase().includes('total'))
+        const pop = totalKey ? hh[totalKey] : 0
+        const lp = hh['Single family household: Lone parent family'] || 0
+        if (pop > 0) vals[w.name] = Math.round(lp / pop * 1000) / 10
+      })
+    } else if (mapMetric === 'deprivation_dims') {
+      Object.entries(wards).forEach(([, w]) => {
+        const dep = w.household_deprivation || {}
+        const totalKey = Object.keys(dep).find(k => k.toLowerCase().includes('total'))
+        const pop = totalKey ? dep[totalKey] : 0
+        const high = (dep['Household is deprived in three dimensions'] || 0) + (dep['Household is deprived in four dimensions'] || 0)
+        if (pop > 0) vals[w.name] = Math.round(high / pop * 1000) / 10
+      })
     }
     return vals
   }, [mapMetric, deprivation, wards])
@@ -249,6 +281,12 @@ function Demographics() {
     { id: 'youth', label: 'Youth Population', scale: 'intensity', unit: '%', format: v => v.toFixed(1) + '%', title: '% Under 16' },
     { id: 'elderly', label: 'Elderly Population', scale: 'risk', unit: '%', format: v => v.toFixed(1) + '%', title: '% Over 65' },
     { id: 'economic', label: 'Economic Inactivity', scale: 'spend', unit: '%', format: v => v.toFixed(1) + '%', title: '% Inactive' },
+    ...(Object.values(wards).some(w => w.car_availability) ? [
+      { id: 'no_car', label: 'No Car', scale: 'risk', unit: '%', format: v => v.toFixed(1) + '%', title: '% No Car' },
+      { id: 'wfh', label: 'Work From Home', scale: 'demographic', unit: '%', format: v => v.toFixed(1) + '%', title: '% WFH' },
+      { id: 'lone_parent', label: 'Lone Parent', scale: 'risk', unit: '%', format: v => v.toFixed(1) + '%', title: '% Lone Parent' },
+      { id: 'deprivation_dims', label: 'High Deprivation', scale: 'deprivation', unit: '%', format: v => v.toFixed(1) + '%', title: '% 3-4 Dims Deprived' },
+    ] : []),
   ]
   const currentMetric = MAP_METRICS.find(m => m.id === mapMetric) || MAP_METRICS[0]
 
@@ -282,6 +320,8 @@ function Demographics() {
       <div className="demo-tabs" role="tablist">
         {[
           { id: 'census', label: 'Census 2021' },
+          ...(Object.values(wards).some(w => w.car_availability) ? [{ id: 'households', label: 'Households & Transport' }] : []),
+          ...(Object.values(wards).some(w => w.english_proficiency) ? [{ id: 'language', label: 'Language & Society' }] : []),
           ...(wardBoundaries?.features?.length ? [{ id: 'wardmap', label: 'Ward Map' }] : []),
           ...(projections ? [{ id: 'projections', label: 'Population' }] : []),
           ...(compositionProj ? [{ id: 'composition', label: 'Ethnic & Religion' }] : []),
@@ -503,6 +543,26 @@ function Demographics() {
             Census 2021 boundaries
           </div>
         </div>
+        {summary.no_car_pct != null && (
+          <div className="demo-card">
+            <div className="demo-card-icon"><Car size={20} /></div>
+            <div className="demo-card-value">{pct(summary.no_car_pct)}</div>
+            <div className="demo-card-label">No Car/Van</div>
+            <div className="demo-card-detail">
+              {pct(summary.wfh_pct)} work from home
+            </div>
+          </div>
+        )}
+        {summary.lone_parent_households_pct != null && (
+          <div className="demo-card">
+            <div className="demo-card-icon"><Home size={20} /></div>
+            <div className="demo-card-value">{pct(summary.lone_parent_households_pct)}</div>
+            <div className="demo-card-label">Lone Parent</div>
+            <div className="demo-card-detail">
+              {pct(summary.single_person_households_pct)} single person
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Ethnicity Section */}
@@ -1250,6 +1310,304 @@ function Demographics() {
               and <strong>MHCLG IMD 2019</strong>. Academic sources: Casey Review (2016), Cantle Report (2001).
             </p>
           </div>
+        </div>
+      </>}
+
+      {/* ===== HOUSEHOLDS & TRANSPORT TAB ===== */}
+      {activeTab === 'households' && <>
+        {/* Hero cards */}
+        <div className="demo-summary-grid" role="region" aria-label="Household and transport summary">
+          <div className="demo-card">
+            <div className="demo-card-icon"><Car size={20} /></div>
+            <div className="demo-card-value">{pct(summary.no_car_pct)}</div>
+            <div className="demo-card-label">No Car/Van</div>
+            <div className="demo-card-detail">{fmt(summary.no_car)} households</div>
+          </div>
+          <div className="demo-card">
+            <div className="demo-card-icon"><Home size={20} /></div>
+            <div className="demo-card-value">{pct(summary.wfh_pct)}</div>
+            <div className="demo-card-label">Work From Home</div>
+            <div className="demo-card-detail">{pct(summary.car_commute_pct)} drive</div>
+          </div>
+          <div className="demo-card">
+            <div className="demo-card-icon"><Users size={20} /></div>
+            <div className="demo-card-value">{pct(summary.lone_parent_households_pct)}</div>
+            <div className="demo-card-label">Lone Parent</div>
+            <div className="demo-card-detail">{pct(summary.single_person_households_pct)} single person</div>
+          </div>
+          <div className="demo-card">
+            <div className="demo-card-icon"><AlertTriangle size={20} /></div>
+            <div className="demo-card-value">{pct(summary.highly_deprived_pct)}</div>
+            <div className="demo-card-label">Highly Deprived</div>
+            <div className="demo-card-detail">3-4 dimensions of deprivation</div>
+          </div>
+        </div>
+
+        {/* Car/Van Availability */}
+        {demographics?.council_totals?.car_availability && (
+          <section className="demo-section">
+            <h2><Car size={22} /> Car/Van Availability</h2>
+            <p className="section-intro">Household car ownership in {councilName}.</p>
+            <div className="demo-chart-container">
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart data={Object.entries(demographics.council_totals.car_availability)
+                  .filter(([k]) => !k.toLowerCase().includes('total'))
+                  .map(([k, v]) => ({ name: k.replace(' in household', ''), count: v }))}
+                  layout="vertical" margin={{ left: 180, right: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={fmt} />
+                  <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={170} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), 'Households']} />
+                  <Bar dataKey="count" fill="#12B6CF" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        )}
+
+        {/* Travel to Work */}
+        {demographics?.council_totals?.travel_to_work && (() => {
+          const ttwData = Object.entries(demographics.council_totals.travel_to_work)
+            .filter(([k]) => !k.toLowerCase().includes('total'))
+            .map(([k, v]) => ({ name: k, count: v }))
+            .sort((a, b) => b.count - a.count)
+          return (
+            <section className="demo-section">
+              <h2><Train size={22} /> Travel to Work</h2>
+              <p className="section-intro">Method of travel for employed residents in {councilName}.</p>
+              <div className="demo-chart-container">
+                <ResponsiveContainer width="100%" height={Math.max(300, ttwData.length * 32)}>
+                  <BarChart data={ttwData} layout="vertical" margin={{ left: 220, right: 20 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={fmt} />
+                    <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={210} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), 'Workers']} />
+                    <Bar dataKey="count" fill="#ff9f0a" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </section>
+          )
+        })()}
+
+        {/* Household Composition */}
+        {demographics?.council_totals?.household_composition && (() => {
+          const hhData = Object.entries(demographics.council_totals.household_composition)
+            .filter(([k]) => !k.toLowerCase().includes('total') && !k.includes(': '))
+            .map(([k, v]) => ({ name: k, count: v }))
+            .sort((a, b) => b.count - a.count)
+          return (
+            <section className="demo-section">
+              <h2><Home size={22} /> Household Composition</h2>
+              <p className="section-intro">Household types in {councilName}.</p>
+              <div className="demo-chart-container">
+                <ResponsiveContainer width="100%" height={250}>
+                  <BarChart data={hhData} layout="vertical" margin={{ left: 200, right: 20 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={fmt} />
+                    <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={190} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), 'Households']} />
+                    <Bar dataKey="count" fill="#30d158" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </section>
+          )
+        })()}
+
+        {/* Household Deprivation */}
+        {demographics?.council_totals?.household_deprivation && (
+          <section className="demo-section">
+            <h2><AlertTriangle size={22} /> Household Deprivation</h2>
+            <p className="section-intro">Dimensions of deprivation across households in {councilName}.</p>
+            <div className="demo-chart-container">
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart data={Object.entries(demographics.council_totals.household_deprivation)
+                  .filter(([k]) => !k.toLowerCase().includes('total'))
+                  .map(([k, v]) => ({ name: k.replace('Household is ', '').replace(' in ', '\n'), count: v }))}
+                  layout="vertical" margin={{ left: 220, right: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={fmt} />
+                  <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={210} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), 'Households']} />
+                  <Bar dataKey="count" fill="#ff453a" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        )}
+
+        {/* Central Heating */}
+        {demographics?.council_totals?.central_heating && (() => {
+          const heatData = Object.entries(demographics.council_totals.central_heating)
+            .filter(([k]) => !k.toLowerCase().includes('total'))
+            .map(([k, v]) => ({ name: k, count: v }))
+            .sort((a, b) => b.count - a.count)
+          return (
+            <section className="demo-section">
+              <h2><Activity size={22} /> Central Heating Type</h2>
+              <p className="section-intro">Types of central heating in {councilName} households.</p>
+              <div className="demo-chart-container">
+                <ResponsiveContainer width="100%" height={Math.max(300, heatData.length * 32)}>
+                  <BarChart data={heatData} layout="vertical" margin={{ left: 280, right: 20 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={fmt} />
+                    <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={270} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), 'Households']} />
+                    <Bar dataKey="count" fill="#bf5af2" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </section>
+          )
+        })()}
+
+        <div className="demo-source">
+          <Info size={16} />
+          <div><p>Data from <strong>ONS Census 2021</strong> via Nomis API. Census date: 21 March 2021.</p></div>
+        </div>
+      </>}
+
+      {/* ===== LANGUAGE & SOCIETY TAB ===== */}
+      {activeTab === 'language' && <>
+        {/* Hero cards */}
+        <div className="demo-summary-grid" role="region" aria-label="Language and society summary">
+          <div className="demo-card">
+            <div className="demo-card-icon"><Languages size={20} /></div>
+            <div className="demo-card-value">{pct(summary.english_main_language_pct)}</div>
+            <div className="demo-card-label">English Main Language</div>
+            <div className="demo-card-detail">{fmt(summary.cannot_speak_english)} cannot speak English</div>
+          </div>
+          <div className="demo-card">
+            <div className="demo-card-icon"><Briefcase size={20} /></div>
+            <div className="demo-card-value">{pct(summary.higher_managerial_pct)}</div>
+            <div className="demo-card-label">Higher Managerial</div>
+            <div className="demo-card-detail">{pct(summary.routine_occupations_pct)} routine occupations</div>
+          </div>
+          <div className="demo-card">
+            <div className="demo-card-icon"><Heart size={20} /></div>
+            <div className="demo-card-value">{pct(summary.married_pct)}</div>
+            <div className="demo-card-label">Married/Civil Partnership</div>
+            <div className="demo-card-detail">{pct(summary.single_never_married_pct)} never married</div>
+          </div>
+          <div className="demo-card">
+            <div className="demo-card-icon"><Globe size={20} /></div>
+            <div className="demo-card-value">{pct(summary.recent_arrivals_pct)}</div>
+            <div className="demo-card-label">Arrived 2011-2021</div>
+            <div className="demo-card-detail">Of all residents (inc. UK-born)</div>
+          </div>
+        </div>
+
+        {/* English Proficiency */}
+        {demographics?.council_totals?.english_proficiency && (
+          <section className="demo-section">
+            <h2><Languages size={22} /> English Proficiency</h2>
+            <p className="section-intro">Main language and English speaking ability in {councilName}.</p>
+            <div className="demo-chart-container">
+              <ResponsiveContainer width="100%" height={250}>
+                <BarChart data={Object.entries(demographics.council_totals.english_proficiency)
+                  .filter(([k]) => !k.toLowerCase().includes('total'))
+                  .map(([k, v]) => ({ name: k.replace('Main language is not English (English or Welsh in Wales): ', '').replace('Main language is ', ''), count: v }))}
+                  layout="vertical" margin={{ left: 230, right: 20 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                  <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={fmt} />
+                  <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={220} />
+                  <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), 'Residents']} />
+                  <Bar dataKey="count" fill="#12B6CF" radius={[0, 4, 4, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </div>
+          </section>
+        )}
+
+        {/* NS-SeC */}
+        {demographics?.council_totals?.ns_sec && (() => {
+          const nssecData = Object.entries(demographics.council_totals.ns_sec)
+            .filter(([k]) => !k.toLowerCase().includes('total'))
+            .map(([k, v]) => ({ name: k, count: v }))
+          return (
+            <section className="demo-section">
+              <h2><Briefcase size={22} /> Socioeconomic Classification (NS-SeC)</h2>
+              <p className="section-intro">Eight-class socioeconomic grouping of residents in {councilName}.</p>
+              <div className="demo-chart-container">
+                <ResponsiveContainer width="100%" height={Math.max(300, nssecData.length * 36)}>
+                  <BarChart data={nssecData} layout="vertical" margin={{ left: 380, right: 20 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={fmt} />
+                    <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={370} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), 'Residents']} />
+                    <Bar dataKey="count" fill="#ff9f0a" radius={[0, 4, 4, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </section>
+          )
+        })()}
+
+        {/* Partnership Status */}
+        {demographics?.council_totals?.partnership_status && (() => {
+          const psData = Object.entries(demographics.council_totals.partnership_status)
+            .filter(([k]) => !k.toLowerCase().includes('total') && !k.includes(': '))
+            .map(([k, v]) => ({ name: k, count: v }))
+            .sort((a, b) => b.count - a.count)
+          return (
+            <section className="demo-section">
+              <h2><Heart size={22} /> Partnership Status</h2>
+              <p className="section-intro">Legal partnership status of residents aged 16+ in {councilName}.</p>
+              <div className="demo-chart-row">
+                <div className="demo-chart-half">
+                  <ResponsiveContainer width="100%" height={300}>
+                    <PieChart>
+                      <Pie data={psData} dataKey="count" nameKey="name" cx="50%" cy="50%" outerRadius={100} label={({ name, percent }) => `${name.split(' ')[0]} ${(percent * 100).toFixed(0)}%`}>
+                        {psData.map((_, i) => <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />)}
+                      </Pie>
+                      <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), 'Residents']} />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <div className="demo-chart-half">
+                  <ResponsiveContainer width="100%" height={300}>
+                    <BarChart data={psData} layout="vertical" margin={{ left: 260, right: 20 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                      <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={fmt} />
+                      <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={250} />
+                      <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), 'Residents']} />
+                      <Bar dataKey="count" fill="#30d158" radius={[0, 4, 4, 0]} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </section>
+          )
+        })()}
+
+        {/* Year of Arrival */}
+        {demographics?.council_totals?.year_of_arrival && (() => {
+          const arrData = Object.entries(demographics.council_totals.year_of_arrival)
+            .filter(([k]) => !k.toLowerCase().includes('total') && !k.toLowerCase().includes('born in'))
+            .map(([k, v]) => ({ name: k.replace('Arrived ', ''), count: v }))
+          return (
+            <section className="demo-section">
+              <h2><Globe size={22} /> Year of Arrival in UK</h2>
+              <p className="section-intro">When non-UK-born residents arrived, from Census 2021.</p>
+              <div className="demo-chart-container">
+                <ResponsiveContainer width="100%" height={300}>
+                  <BarChart data={arrData} margin={{ left: 20, right: 20, bottom: 40 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="name" tick={AXIS_TICK_STYLE} angle={-30} textAnchor="end" />
+                    <YAxis tick={AXIS_TICK_STYLE} tickFormatter={fmt} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), 'Residents']} />
+                    <Bar dataKey="count" fill="#bf5af2" radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </section>
+          )
+        })()}
+
+        <div className="demo-source">
+          <Info size={16} />
+          <div><p>Data from <strong>ONS Census 2021</strong> via Nomis API. Census date: 21 March 2021.</p></div>
         </div>
       </>}
 
