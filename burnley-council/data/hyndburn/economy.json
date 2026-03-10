@@ -1,0 +1,863 @@
+{
+  "meta": {
+    "source": "Nomis (Claimant Count + ASHE + GDHI + Census 2021)",
+    "council_id": "hyndburn",
+    "council_name": "Hyndburn",
+    "ons_code": "E07000120",
+    "census_date": "2021-03-21",
+    "generated": "2026-03-09T23:30:46"
+  },
+  "claimant_count": {
+    "latest": {
+      "date": "2026-01",
+      "month": "January 2026",
+      "count": 2855,
+      "rate_pct": 5.4
+    },
+    "history": [
+      {
+        "date": "2025-04",
+        "month": "April 2025",
+        "count": 2915,
+        "rate_pct": 5.5
+      },
+      {
+        "date": "2025-05",
+        "month": "May 2025",
+        "count": 2830,
+        "rate_pct": 5.3
+      },
+      {
+        "date": "2025-06",
+        "month": "June 2025",
+        "count": 2865,
+        "rate_pct": 5.4
+      },
+      {
+        "date": "2025-07",
+        "month": "July 2025",
+        "count": 2830,
+        "rate_pct": 5.3
+      },
+      {
+        "date": "2025-08",
+        "month": "August 2025",
+        "count": 2770,
+        "rate_pct": 5.2
+      },
+      {
+        "date": "2025-09",
+        "month": "September 2025",
+        "count": 2790,
+        "rate_pct": 5.2
+      },
+      {
+        "date": "2025-10",
+        "month": "October 2025",
+        "count": 2765,
+        "rate_pct": 5.2
+      },
+      {
+        "date": "2025-11",
+        "month": "November 2025",
+        "count": 2785,
+        "rate_pct": 5.2
+      },
+      {
+        "date": "2025-12",
+        "month": "December 2025",
+        "count": 2775,
+        "rate_pct": 5.2
+      },
+      {
+        "date": "2026-01",
+        "month": "January 2026",
+        "count": 2855,
+        "rate_pct": 5.4
+      }
+    ],
+    "wards": {
+      "E05005206": {
+        "name": "Altham",
+        "count": 135,
+        "rate_pct": 3.9
+      },
+      "E05005207": {
+        "name": "Barnfield (Hyndburn)",
+        "count": 220,
+        "rate_pct": 7.0
+      },
+      "E05005208": {
+        "name": "Baxenden",
+        "count": 50,
+        "rate_pct": 2.0
+      },
+      "E05005209": {
+        "name": "Central (Hyndburn)",
+        "count": 385,
+        "rate_pct": 9.4
+      },
+      "E05005210": {
+        "name": "Church (Hyndburn)",
+        "count": 260,
+        "rate_pct": 7.0
+      },
+      "E05005211": {
+        "name": "Clayton-le-Moors",
+        "count": 135,
+        "rate_pct": 4.9
+      },
+      "E05005212": {
+        "name": "Huncoat",
+        "count": 95,
+        "rate_pct": 3.1
+      },
+      "E05005213": {
+        "name": "Immanuel",
+        "count": 120,
+        "rate_pct": 4.3
+      },
+      "E05005214": {
+        "name": "Milnshaw",
+        "count": 155,
+        "rate_pct": 5.0
+      },
+      "E05005215": {
+        "name": "Netherton",
+        "count": 165,
+        "rate_pct": 5.3
+      },
+      "E05005216": {
+        "name": "Overton (Hyndburn)",
+        "count": 120,
+        "rate_pct": 3.1
+      },
+      "E05005217": {
+        "name": "Peel",
+        "count": 260,
+        "rate_pct": 8.3
+      },
+      "E05005218": {
+        "name": "Rishton",
+        "count": 180,
+        "rate_pct": 4.2
+      },
+      "E05005219": {
+        "name": "St Andrew's (Hyndburn)",
+        "count": 125,
+        "rate_pct": 4.3
+      },
+      "E05005220": {
+        "name": "St Oswald's",
+        "count": 80,
+        "rate_pct": 2.1
+      },
+      "E05005221": {
+        "name": "Spring Hill",
+        "count": 375,
+        "rate_pct": 9.9
+      }
+    }
+  },
+  "earnings": {
+    "median_weekly_pay": 678.3,
+    "year": "2025",
+    "median_annual_pay": 34987.0,
+    "england_median_weekly": 769.5
+  },
+  "gdhi": null,
+  "census": {
+    "council_totals": {
+      "industry": {
+        "Agriculture, forestry & fishing": 123,
+        "Mining & quarrying": 15,
+        "Manufacturing": 4702,
+        "Electricity & gas supply": 170,
+        "Water supply & waste": 244,
+        "Construction": 3085,
+        "Wholesale & retail trade": 6542,
+        "Transport & storage": 1829,
+        "Accommodation & food": 1377,
+        "Information & communication": 942,
+        "Financial & insurance": 494,
+        "Real estate": 411,
+        "Professional & scientific": 1334,
+        "Administrative & support": 1518,
+        "Public administration & defence": 1941,
+        "Education": 3364,
+        "Health & social work": 6097,
+        "Arts, entertainment & recreation": 515,
+        "Other services": 775,
+        "Household activities": 5
+      },
+      "occupation": {
+        "1. Managers, directors and senior officials": 3346,
+        "2. Professional occupations": 4984,
+        "3. Associate professional and technical occupations": 3955,
+        "4. Administrative and secretarial occupations": 3297,
+        "5. Skilled trades occupations": 4671,
+        "6. Caring, leisure and other service occupations": 4414,
+        "7. Sales and customer service occupations": 3263,
+        "8. Process, plant and machine operatives": 3847,
+        "9. Elementary occupations": 3850
+      },
+      "hours_worked": {
+        "Part-time": 9997,
+        "Full-time": 25632
+      }
+    },
+    "wards": {
+      "E05005206": {
+        "name": "Altham",
+        "industry": {
+          "Agriculture, forestry & fishing": 17,
+          "Mining & quarrying": 0,
+          "Manufacturing": 341,
+          "Electricity & gas supply": 11,
+          "Water supply & waste": 11,
+          "Construction": 240,
+          "Wholesale & retail trade": 468,
+          "Transport & storage": 119,
+          "Accommodation & food": 80,
+          "Information & communication": 76,
+          "Financial & insurance": 31,
+          "Real estate": 28,
+          "Professional & scientific": 100,
+          "Administrative & support": 94,
+          "Public administration & defence": 169,
+          "Education": 262,
+          "Health & social work": 469,
+          "Arts, entertainment & recreation": 59,
+          "Other services": 60,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 282,
+          "2. Professional occupations": 383,
+          "3. Associate professional and technical occupations": 338,
+          "4. Administrative and secretarial occupations": 269,
+          "5. Skilled trades occupations": 366,
+          "6. Caring, leisure and other service occupations": 336,
+          "7. Sales and customer service occupations": 212,
+          "8. Process, plant and machine operatives": 226,
+          "9. Elementary occupations": 240
+        },
+        "hours_worked": {
+          "Part-time": 691,
+          "Full-time": 1963
+        }
+      },
+      "E05005207": {
+        "name": "Barnfield (Hyndburn)",
+        "industry": {
+          "Agriculture, forestry & fishing": 1,
+          "Mining & quarrying": 1,
+          "Manufacturing": 288,
+          "Electricity & gas supply": 7,
+          "Water supply & waste": 11,
+          "Construction": 147,
+          "Wholesale & retail trade": 381,
+          "Transport & storage": 78,
+          "Accommodation & food": 84,
+          "Information & communication": 84,
+          "Financial & insurance": 31,
+          "Real estate": 39,
+          "Professional & scientific": 88,
+          "Administrative & support": 99,
+          "Public administration & defence": 92,
+          "Education": 197,
+          "Health & social work": 337,
+          "Arts, entertainment & recreation": 30,
+          "Other services": 45,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 188,
+          "2. Professional occupations": 303,
+          "3. Associate professional and technical occupations": 240,
+          "4. Administrative and secretarial occupations": 191,
+          "5. Skilled trades occupations": 226,
+          "6. Caring, leisure and other service occupations": 237,
+          "7. Sales and customer service occupations": 219,
+          "8. Process, plant and machine operatives": 194,
+          "9. Elementary occupations": 249
+        },
+        "hours_worked": {
+          "Part-time": 578,
+          "Full-time": 1472
+        }
+      },
+      "E05005208": {
+        "name": "Baxenden",
+        "industry": {
+          "Agriculture, forestry & fishing": 15,
+          "Mining & quarrying": 0,
+          "Manufacturing": 238,
+          "Electricity & gas supply": 13,
+          "Water supply & waste": 14,
+          "Construction": 197,
+          "Wholesale & retail trade": 319,
+          "Transport & storage": 76,
+          "Accommodation & food": 64,
+          "Information & communication": 46,
+          "Financial & insurance": 44,
+          "Real estate": 26,
+          "Professional & scientific": 136,
+          "Administrative & support": 78,
+          "Public administration & defence": 135,
+          "Education": 247,
+          "Health & social work": 295,
+          "Arts, entertainment & recreation": 28,
+          "Other services": 44,
+          "Household activities": 2
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 249,
+          "2. Professional occupations": 423,
+          "3. Associate professional and technical occupations": 272,
+          "4. Administrative and secretarial occupations": 198,
+          "5. Skilled trades occupations": 265,
+          "6. Caring, leisure and other service occupations": 191,
+          "7. Sales and customer service occupations": 148,
+          "8. Process, plant and machine operatives": 147,
+          "9. Elementary occupations": 134
+        },
+        "hours_worked": {
+          "Part-time": 494,
+          "Full-time": 1531
+        }
+      },
+      "E05005209": {
+        "name": "Central (Hyndburn)",
+        "industry": {
+          "Agriculture, forestry & fishing": 0,
+          "Mining & quarrying": 0,
+          "Manufacturing": 194,
+          "Electricity & gas supply": 2,
+          "Water supply & waste": 8,
+          "Construction": 93,
+          "Wholesale & retail trade": 422,
+          "Transport & storage": 232,
+          "Accommodation & food": 114,
+          "Information & communication": 54,
+          "Financial & insurance": 27,
+          "Real estate": 8,
+          "Professional & scientific": 61,
+          "Administrative & support": 88,
+          "Public administration & defence": 56,
+          "Education": 134,
+          "Health & social work": 295,
+          "Arts, entertainment & recreation": 7,
+          "Other services": 31,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 92,
+          "2. Professional occupations": 162,
+          "3. Associate professional and technical occupations": 102,
+          "4. Administrative and secretarial occupations": 122,
+          "5. Skilled trades occupations": 157,
+          "6. Caring, leisure and other service occupations": 269,
+          "7. Sales and customer service occupations": 282,
+          "8. Process, plant and machine operatives": 374,
+          "9. Elementary occupations": 278
+        },
+        "hours_worked": {
+          "Part-time": 756,
+          "Full-time": 1082
+        }
+      },
+      "E05005210": {
+        "name": "Church (Hyndburn)",
+        "industry": {
+          "Agriculture, forestry & fishing": 0,
+          "Mining & quarrying": 2,
+          "Manufacturing": 311,
+          "Electricity & gas supply": 5,
+          "Water supply & waste": 10,
+          "Construction": 151,
+          "Wholesale & retail trade": 485,
+          "Transport & storage": 143,
+          "Accommodation & food": 91,
+          "Information & communication": 60,
+          "Financial & insurance": 19,
+          "Real estate": 15,
+          "Professional & scientific": 56,
+          "Administrative & support": 101,
+          "Public administration & defence": 72,
+          "Education": 131,
+          "Health & social work": 374,
+          "Arts, entertainment & recreation": 16,
+          "Other services": 27,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 140,
+          "2. Professional occupations": 188,
+          "3. Associate professional and technical occupations": 171,
+          "4. Administrative and secretarial occupations": 142,
+          "5. Skilled trades occupations": 246,
+          "6. Caring, leisure and other service occupations": 273,
+          "7. Sales and customer service occupations": 269,
+          "8. Process, plant and machine operatives": 311,
+          "9. Elementary occupations": 333
+        },
+        "hours_worked": {
+          "Part-time": 655,
+          "Full-time": 1419
+        }
+      },
+      "E05005211": {
+        "name": "Clayton-le-Moors",
+        "industry": {
+          "Agriculture, forestry & fishing": 2,
+          "Mining & quarrying": 0,
+          "Manufacturing": 245,
+          "Electricity & gas supply": 9,
+          "Water supply & waste": 18,
+          "Construction": 180,
+          "Wholesale & retail trade": 364,
+          "Transport & storage": 80,
+          "Accommodation & food": 91,
+          "Information & communication": 48,
+          "Financial & insurance": 24,
+          "Real estate": 16,
+          "Professional & scientific": 80,
+          "Administrative & support": 83,
+          "Public administration & defence": 117,
+          "Education": 180,
+          "Health & social work": 362,
+          "Arts, entertainment & recreation": 38,
+          "Other services": 45,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 209,
+          "2. Professional occupations": 315,
+          "3. Associate professional and technical occupations": 238,
+          "4. Administrative and secretarial occupations": 187,
+          "5. Skilled trades occupations": 286,
+          "6. Caring, leisure and other service occupations": 224,
+          "7. Sales and customer service occupations": 169,
+          "8. Process, plant and machine operatives": 183,
+          "9. Elementary occupations": 184
+        },
+        "hours_worked": {
+          "Part-time": 525,
+          "Full-time": 1471
+        }
+      },
+      "E05005212": {
+        "name": "Huncoat",
+        "industry": {
+          "Agriculture, forestry & fishing": 4,
+          "Mining & quarrying": 0,
+          "Manufacturing": 341,
+          "Electricity & gas supply": 9,
+          "Water supply & waste": 14,
+          "Construction": 205,
+          "Wholesale & retail trade": 388,
+          "Transport & storage": 94,
+          "Accommodation & food": 92,
+          "Information & communication": 65,
+          "Financial & insurance": 44,
+          "Real estate": 25,
+          "Professional & scientific": 68,
+          "Administrative & support": 94,
+          "Public administration & defence": 130,
+          "Education": 221,
+          "Health & social work": 370,
+          "Arts, entertainment & recreation": 40,
+          "Other services": 58,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 259,
+          "2. Professional occupations": 356,
+          "3. Associate professional and technical occupations": 277,
+          "4. Administrative and secretarial occupations": 212,
+          "5. Skilled trades occupations": 305,
+          "6. Caring, leisure and other service occupations": 261,
+          "7. Sales and customer service occupations": 166,
+          "8. Process, plant and machine operatives": 194,
+          "9. Elementary occupations": 226
+        },
+        "hours_worked": {
+          "Part-time": 560,
+          "Full-time": 1697
+        }
+      },
+      "E05005213": {
+        "name": "Immanuel",
+        "industry": {
+          "Agriculture, forestry & fishing": 11,
+          "Mining & quarrying": 2,
+          "Manufacturing": 242,
+          "Electricity & gas supply": 12,
+          "Water supply & waste": 14,
+          "Construction": 230,
+          "Wholesale & retail trade": 310,
+          "Transport & storage": 69,
+          "Accommodation & food": 59,
+          "Information & communication": 47,
+          "Financial & insurance": 40,
+          "Real estate": 31,
+          "Professional & scientific": 84,
+          "Administrative & support": 80,
+          "Public administration & defence": 102,
+          "Education": 188,
+          "Health & social work": 334,
+          "Arts, entertainment & recreation": 49,
+          "Other services": 43,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 238,
+          "2. Professional occupations": 294,
+          "3. Associate professional and technical occupations": 229,
+          "4. Administrative and secretarial occupations": 207,
+          "5. Skilled trades occupations": 286,
+          "6. Caring, leisure and other service occupations": 228,
+          "7. Sales and customer service occupations": 140,
+          "8. Process, plant and machine operatives": 153,
+          "9. Elementary occupations": 184
+        },
+        "hours_worked": {
+          "Part-time": 495,
+          "Full-time": 1463
+        }
+      },
+      "E05005214": {
+        "name": "Milnshaw",
+        "industry": {
+          "Agriculture, forestry & fishing": 1,
+          "Mining & quarrying": 0,
+          "Manufacturing": 262,
+          "Electricity & gas supply": 6,
+          "Water supply & waste": 10,
+          "Construction": 185,
+          "Wholesale & retail trade": 374,
+          "Transport & storage": 101,
+          "Accommodation & food": 64,
+          "Information & communication": 48,
+          "Financial & insurance": 23,
+          "Real estate": 20,
+          "Professional & scientific": 81,
+          "Administrative & support": 84,
+          "Public administration & defence": 117,
+          "Education": 176,
+          "Health & social work": 353,
+          "Arts, entertainment & recreation": 29,
+          "Other services": 47,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 164,
+          "2. Professional occupations": 227,
+          "3. Associate professional and technical occupations": 229,
+          "4. Administrative and secretarial occupations": 204,
+          "5. Skilled trades occupations": 271,
+          "6. Caring, leisure and other service occupations": 249,
+          "7. Sales and customer service occupations": 204,
+          "8. Process, plant and machine operatives": 212,
+          "9. Elementary occupations": 229
+        },
+        "hours_worked": {
+          "Part-time": 583,
+          "Full-time": 1406
+        }
+      },
+      "E05005215": {
+        "name": "Netherton",
+        "industry": {
+          "Agriculture, forestry & fishing": 14,
+          "Mining & quarrying": 2,
+          "Manufacturing": 231,
+          "Electricity & gas supply": 9,
+          "Water supply & waste": 23,
+          "Construction": 138,
+          "Wholesale & retail trade": 373,
+          "Transport & storage": 135,
+          "Accommodation & food": 79,
+          "Information & communication": 41,
+          "Financial & insurance": 26,
+          "Real estate": 24,
+          "Professional & scientific": 65,
+          "Administrative & support": 76,
+          "Public administration & defence": 93,
+          "Education": 192,
+          "Health & social work": 316,
+          "Arts, entertainment & recreation": 26,
+          "Other services": 46,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 167,
+          "2. Professional occupations": 267,
+          "3. Associate professional and technical occupations": 186,
+          "4. Administrative and secretarial occupations": 166,
+          "5. Skilled trades occupations": 233,
+          "6. Caring, leisure and other service occupations": 243,
+          "7. Sales and customer service occupations": 190,
+          "8. Process, plant and machine operatives": 239,
+          "9. Elementary occupations": 235
+        },
+        "hours_worked": {
+          "Part-time": 565,
+          "Full-time": 1360
+        }
+      },
+      "E05005216": {
+        "name": "Overton (Hyndburn)",
+        "industry": {
+          "Agriculture, forestry & fishing": 11,
+          "Mining & quarrying": 2,
+          "Manufacturing": 363,
+          "Electricity & gas supply": 11,
+          "Water supply & waste": 19,
+          "Construction": 263,
+          "Wholesale & retail trade": 487,
+          "Transport & storage": 115,
+          "Accommodation & food": 101,
+          "Information & communication": 68,
+          "Financial & insurance": 48,
+          "Real estate": 42,
+          "Professional & scientific": 116,
+          "Administrative & support": 149,
+          "Public administration & defence": 205,
+          "Education": 280,
+          "Health & social work": 552,
+          "Arts, entertainment & recreation": 42,
+          "Other services": 57,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 334,
+          "2. Professional occupations": 509,
+          "3. Associate professional and technical occupations": 351,
+          "4. Administrative and secretarial occupations": 281,
+          "5. Skilled trades occupations": 382,
+          "6. Caring, leisure and other service occupations": 369,
+          "7. Sales and customer service occupations": 225,
+          "8. Process, plant and machine operatives": 233,
+          "9. Elementary occupations": 258
+        },
+        "hours_worked": {
+          "Part-time": 832,
+          "Full-time": 2109
+        }
+      },
+      "E05005217": {
+        "name": "Peel",
+        "industry": {
+          "Agriculture, forestry & fishing": 4,
+          "Mining & quarrying": 0,
+          "Manufacturing": 290,
+          "Electricity & gas supply": 6,
+          "Water supply & waste": 12,
+          "Construction": 148,
+          "Wholesale & retail trade": 390,
+          "Transport & storage": 108,
+          "Accommodation & food": 80,
+          "Information & communication": 37,
+          "Financial & insurance": 15,
+          "Real estate": 13,
+          "Professional & scientific": 61,
+          "Administrative & support": 89,
+          "Public administration & defence": 95,
+          "Education": 153,
+          "Health & social work": 330,
+          "Arts, entertainment & recreation": 24,
+          "Other services": 38,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 123,
+          "2. Professional occupations": 169,
+          "3. Associate professional and technical occupations": 182,
+          "4. Administrative and secretarial occupations": 156,
+          "5. Skilled trades occupations": 235,
+          "6. Caring, leisure and other service occupations": 291,
+          "7. Sales and customer service occupations": 198,
+          "8. Process, plant and machine operatives": 277,
+          "9. Elementary occupations": 275
+        },
+        "hours_worked": {
+          "Part-time": 526,
+          "Full-time": 1380
+        }
+      },
+      "E05005218": {
+        "name": "Rishton",
+        "industry": {
+          "Agriculture, forestry & fishing": 22,
+          "Mining & quarrying": 4,
+          "Manufacturing": 415,
+          "Electricity & gas supply": 24,
+          "Water supply & waste": 32,
+          "Construction": 313,
+          "Wholesale & retail trade": 531,
+          "Transport & storage": 105,
+          "Accommodation & food": 99,
+          "Information & communication": 81,
+          "Financial & insurance": 38,
+          "Real estate": 37,
+          "Professional & scientific": 114,
+          "Administrative & support": 122,
+          "Public administration & defence": 177,
+          "Education": 270,
+          "Health & social work": 539,
+          "Arts, entertainment & recreation": 42,
+          "Other services": 76,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 292,
+          "2. Professional occupations": 457,
+          "3. Associate professional and technical occupations": 371,
+          "4. Administrative and secretarial occupations": 328,
+          "5. Skilled trades occupations": 459,
+          "6. Caring, leisure and other service occupations": 372,
+          "7. Sales and customer service occupations": 237,
+          "8. Process, plant and machine operatives": 264,
+          "9. Elementary occupations": 275
+        },
+        "hours_worked": {
+          "Part-time": 782,
+          "Full-time": 2270
+        }
+      },
+      "E05005219": {
+        "name": "St Andrew's (Hyndburn)",
+        "industry": {
+          "Agriculture, forestry & fishing": 9,
+          "Mining & quarrying": 0,
+          "Manufacturing": 219,
+          "Electricity & gas supply": 13,
+          "Water supply & waste": 20,
+          "Construction": 192,
+          "Wholesale & retail trade": 377,
+          "Transport & storage": 81,
+          "Accommodation & food": 82,
+          "Information & communication": 59,
+          "Financial & insurance": 23,
+          "Real estate": 32,
+          "Professional & scientific": 50,
+          "Administrative & support": 76,
+          "Public administration & defence": 114,
+          "Education": 204,
+          "Health & social work": 353,
+          "Arts, entertainment & recreation": 27,
+          "Other services": 52,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 172,
+          "2. Professional occupations": 250,
+          "3. Associate professional and technical occupations": 227,
+          "4. Administrative and secretarial occupations": 184,
+          "5. Skilled trades occupations": 282,
+          "6. Caring, leisure and other service occupations": 286,
+          "7. Sales and customer service occupations": 179,
+          "8. Process, plant and machine operatives": 221,
+          "9. Elementary occupations": 204
+        },
+        "hours_worked": {
+          "Part-time": 539,
+          "Full-time": 1465
+        }
+      },
+      "E05005220": {
+        "name": "St Oswald's (Hyndburn)",
+        "industry": {
+          "Agriculture, forestry & fishing": 16,
+          "Mining & quarrying": 1,
+          "Manufacturing": 396,
+          "Electricity & gas supply": 25,
+          "Water supply & waste": 23,
+          "Construction": 302,
+          "Wholesale & retail trade": 471,
+          "Transport & storage": 115,
+          "Accommodation & food": 103,
+          "Information & communication": 72,
+          "Financial & insurance": 36,
+          "Real estate": 42,
+          "Professional & scientific": 114,
+          "Administrative & support": 112,
+          "Public administration & defence": 210,
+          "Education": 370,
+          "Health & social work": 510,
+          "Arts, entertainment & recreation": 44,
+          "Other services": 73,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 331,
+          "2. Professional occupations": 503,
+          "3. Associate professional and technical occupations": 392,
+          "4. Administrative and secretarial occupations": 330,
+          "5. Skilled trades occupations": 448,
+          "6. Caring, leisure and other service occupations": 324,
+          "7. Sales and customer service occupations": 211,
+          "8. Process, plant and machine operatives": 258,
+          "9. Elementary occupations": 252
+        },
+        "hours_worked": {
+          "Part-time": 767,
+          "Full-time": 2283
+        }
+      },
+      "E05005221": {
+        "name": "Spring Hill",
+        "industry": {
+          "Agriculture, forestry & fishing": 2,
+          "Mining & quarrying": 0,
+          "Manufacturing": 316,
+          "Electricity & gas supply": 9,
+          "Water supply & waste": 10,
+          "Construction": 105,
+          "Wholesale & retail trade": 406,
+          "Transport & storage": 177,
+          "Accommodation & food": 89,
+          "Information & communication": 44,
+          "Financial & insurance": 22,
+          "Real estate": 12,
+          "Professional & scientific": 50,
+          "Administrative & support": 92,
+          "Public administration & defence": 59,
+          "Education": 160,
+          "Health & social work": 306,
+          "Arts, entertainment & recreation": 24,
+          "Other services": 25,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 106,
+          "2. Professional occupations": 175,
+          "3. Associate professional and technical occupations": 148,
+          "4. Administrative and secretarial occupations": 119,
+          "5. Skilled trades occupations": 225,
+          "6. Caring, leisure and other service occupations": 261,
+          "7. Sales and customer service occupations": 216,
+          "8. Process, plant and machine operatives": 360,
+          "9. Elementary occupations": 293
+        },
+        "hours_worked": {
+          "Part-time": 646,
+          "Full-time": 1258
+        }
+      }
+    }
+  },
+  "summary": {
+    "claimant_count": 2855,
+    "claimant_rate_pct": 5.4,
+    "claimant_trend": "rising",
+    "median_weekly_pay": 678.3,
+    "median_annual_pay": 34987.0,
+    "top_industry": "Wholesale & retail trade",
+    "top_industry_pct": 18.4,
+    "professional_pct": 34.5,
+    "part_time_pct": 28.1
+  }
+}

@@ -1,0 +1,398 @@
+.economy-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem 2rem;
+}
+
+/* Hero */
+.economy-hero {
+  background: linear-gradient(135deg, rgba(0, 212, 170, 0.12) 0%, rgba(0, 212, 170, 0.04) 100%);
+  border: 1px solid rgba(0, 212, 170, 0.15);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.economy-hero h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-primary, #e4e4e7);
+  margin: 0 0 0.5rem;
+}
+
+.economy-hero-subtitle {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Summary grid */
+.economy-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Sparkline row */
+.economy-sparkline-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+
+.sparkline-label {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.sparkline-value {
+  color: var(--text-primary, #e4e4e7);
+  font-weight: 600;
+  font-size: 0.95rem;
+  font-variant-numeric: tabular-nums;
+  margin-left: auto;
+}
+
+/* Tabs */
+.economy-tabs {
+  display: flex;
+  gap: 0.25rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 1.5rem;
+  overflow-x: auto;
+}
+
+.economy-tab {
+  padding: 0.625rem 1.25rem;
+  border: none;
+  background: none;
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.economy-tab:hover {
+  color: var(--text-primary, #e4e4e7);
+}
+
+.economy-tab.active {
+  color: #00d4aa;
+  border-bottom-color: #00d4aa;
+}
+
+.economy-tab-content {
+  animation: economyFadeIn 0.2s ease;
+}
+
+@keyframes economyFadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Chart grid */
+.economy-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Gauge pair */
+.economy-gauge-pair {
+  text-align: center;
+}
+
+.economy-gauge-pair .gauge-compare {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.8rem;
+  margin: 0.25rem 0 0;
+}
+
+/* Ward controls */
+.economy-ward-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.economy-ward-controls label {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.875rem;
+}
+
+.economy-ward-controls select {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  color: var(--text-primary, #e4e4e7);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  min-width: 220px;
+}
+
+/* Map section */
+.economy-map-section {
+  margin-bottom: 1.5rem;
+}
+
+.economy-map-section p {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+}
+
+.economy-map-section select {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  color: var(--text-primary, #e4e4e7);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+}
+
+/* Ward detail card */
+.economy-ward-detail {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.economy-ward-detail h3 {
+  color: var(--text-primary, #e4e4e7);
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 1rem;
+}
+
+.ward-economy-breakdown {
+  margin-bottom: 1rem;
+}
+
+.ward-economy-breakdown h4 {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ward-economy-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.ward-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ward-bar-label {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.8rem;
+  width: 180px;
+  flex-shrink: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ward-bar-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.06);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ward-bar-fill {
+  height: 100%;
+  background: #00d4aa;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+
+.ward-bar-value {
+  color: var(--text-primary, #e4e4e7);
+  font-size: 0.8rem;
+  width: 48px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Ward table */
+.economy-ward-table-wrap {
+  overflow-x: auto;
+  margin-bottom: 1.5rem;
+}
+
+.economy-ward-table-wrap h3 {
+  color: var(--text-primary, #e4e4e7);
+  font-size: 1rem;
+  font-weight: 600;
+  margin: 0 0 0.25rem;
+}
+
+.economy-table-subtitle {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.82rem;
+  margin: 0 0 0.75rem;
+}
+
+.economy-ward-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.economy-ward-table th {
+  text-align: left;
+  padding: 0.625rem 0.75rem;
+  color: var(--text-secondary, #a1a1aa);
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.economy-ward-table td {
+  padding: 0.5rem 0.75rem;
+  color: var(--text-primary, #e4e4e7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.economy-ward-table tr:hover {
+  background: rgba(0, 212, 170, 0.04);
+}
+
+.economy-ward-table tr.selected {
+  background: rgba(0, 212, 170, 0.08);
+}
+
+.economy-ward-table tr.high-rate {
+  border-left: 3px solid #f87171;
+}
+
+.rate-cell {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Explainer */
+.economy-explainer {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+}
+
+.economy-explainer .explainer-item {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+.economy-explainer .explainer-item strong {
+  color: var(--text-primary, #e4e4e7);
+  font-size: 0.9rem;
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.economy-explainer .explainer-item p {
+  color: var(--text-secondary, #a1a1aa);
+  font-size: 0.82rem;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Empty state */
+.economy-empty {
+  color: var(--text-secondary, #a1a1aa);
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.9rem;
+}
+
+/* Source */
+.economy-source {
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  padding-top: 1rem;
+  margin-top: 2rem;
+}
+
+.economy-source p {
+  color: var(--text-secondary, #71717a);
+  font-size: 0.78rem;
+  margin: 0;
+}
+
+.economy-source a {
+  color: #00d4aa;
+  text-decoration: none;
+}
+
+.economy-source a:hover {
+  text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .economy-hero {
+    padding: 1.25rem;
+  }
+
+  .economy-hero h1 {
+    font-size: 1.35rem;
+  }
+
+  .economy-summary-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .economy-chart-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .ward-bar-label {
+    width: 120px;
+    font-size: 0.75rem;
+  }
+
+  .economy-sparkline-row {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 480px) {
+  .economy-summary-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+  }
+
+  .economy-tabs {
+    gap: 0;
+  }
+
+  .economy-tab {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8rem;
+  }
+}

@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Building2, Shield, Heart, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair, ChevronDown, ChevronUp, Search, Construction, Route } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Building2, Shield, Heart, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair, ChevronDown, ChevronUp, Search, Construction, Route, Briefcase } from 'lucide-react'
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { isFirebaseEnabled } from '../firebase'
@@ -58,6 +58,7 @@ const navSections = [
       { path: '/housing', icon: Building2, label: 'Housing', requires: 'housing' },
       { path: '/crime', icon: Shield, label: 'Crime & Safety', requires: 'crime_stats' },
       { path: '/health', icon: Heart, label: 'Health', requires: 'health' },
+      { path: '/economy', icon: Briefcase, label: 'Economy & Work', requires: 'economy' },
       { path: '/compare', icon: GitCompareArrows, label: 'Cross-Council' },
     ],
   },

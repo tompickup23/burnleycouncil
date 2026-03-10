@@ -1,0 +1,1088 @@
+{
+  "meta": {
+    "source": "Nomis (Claimant Count + ASHE + GDHI + Census 2021)",
+    "council_id": "blackpool",
+    "council_name": "Blackpool",
+    "ons_code": "E06000009",
+    "census_date": "2021-03-21",
+    "generated": "2026-03-09T23:31:32"
+  },
+  "claimant_count": {
+    "latest": {
+      "date": "2026-01",
+      "month": "January 2026",
+      "count": 5170,
+      "rate_pct": 5.8
+    },
+    "history": [
+      {
+        "date": "2025-04",
+        "month": "April 2025",
+        "count": 5410,
+        "rate_pct": 6.1
+      },
+      {
+        "date": "2025-05",
+        "month": "May 2025",
+        "count": 5125,
+        "rate_pct": 5.8
+      },
+      {
+        "date": "2025-06",
+        "month": "June 2025",
+        "count": 4910,
+        "rate_pct": 5.5
+      },
+      {
+        "date": "2025-07",
+        "month": "July 2025",
+        "count": 4905,
+        "rate_pct": 5.5
+      },
+      {
+        "date": "2025-08",
+        "month": "August 2025",
+        "count": 4810,
+        "rate_pct": 5.4
+      },
+      {
+        "date": "2025-09",
+        "month": "September 2025",
+        "count": 4725,
+        "rate_pct": 5.3
+      },
+      {
+        "date": "2025-10",
+        "month": "October 2025",
+        "count": 4695,
+        "rate_pct": 5.3
+      },
+      {
+        "date": "2025-11",
+        "month": "November 2025",
+        "count": 4845,
+        "rate_pct": 5.5
+      },
+      {
+        "date": "2025-12",
+        "month": "December 2025",
+        "count": 4835,
+        "rate_pct": 5.5
+      },
+      {
+        "date": "2026-01",
+        "month": "January 2026",
+        "count": 5170,
+        "rate_pct": 5.8
+      }
+    ],
+    "wards": {
+      "E05015186": {
+        "name": "Anchorsholme",
+        "count": 100,
+        "rate_pct": 3.1
+      },
+      "E05015187": {
+        "name": "Bispham",
+        "count": 105,
+        "rate_pct": 3.2
+      },
+      "E05015188": {
+        "name": "Bloomfield",
+        "count": 655,
+        "rate_pct": 12.8
+      },
+      "E05015189": {
+        "name": "Brunswick",
+        "count": 365,
+        "rate_pct": 7.2
+      },
+      "E05015190": {
+        "name": "Claremont (Blackpool)",
+        "count": 560,
+        "rate_pct": 10.9
+      },
+      "E05015191": {
+        "name": "Clifton (Blackpool)",
+        "count": 215,
+        "rate_pct": 5.2
+      },
+      "E05015192": {
+        "name": "Greenlands",
+        "count": 165,
+        "rate_pct": 4.0
+      },
+      "E05015193": {
+        "name": "Hawes Side",
+        "count": 245,
+        "rate_pct": 5.6
+      },
+      "E05015194": {
+        "name": "Highfield (Blackpool)",
+        "count": 135,
+        "rate_pct": 3.2
+      },
+      "E05015195": {
+        "name": "Ingthorpe",
+        "count": 150,
+        "rate_pct": 3.8
+      },
+      "E05015196": {
+        "name": "Layton",
+        "count": 180,
+        "rate_pct": 3.9
+      },
+      "E05015197": {
+        "name": "Marton",
+        "count": 120,
+        "rate_pct": 2.8
+      },
+      "E05015198": {
+        "name": "Norbreck",
+        "count": 90,
+        "rate_pct": 2.7
+      },
+      "E05015199": {
+        "name": "Park (Blackpool)",
+        "count": 310,
+        "rate_pct": 6.8
+      },
+      "E05015200": {
+        "name": "Squires Gate",
+        "count": 115,
+        "rate_pct": 3.0
+      },
+      "E05015201": {
+        "name": "Stanley (Blackpool)",
+        "count": 80,
+        "rate_pct": 2.7
+      },
+      "E05015202": {
+        "name": "Talbot",
+        "count": 565,
+        "rate_pct": 12.2
+      },
+      "E05015203": {
+        "name": "Tyldesley",
+        "count": 235,
+        "rate_pct": 5.2
+      },
+      "E05015204": {
+        "name": "Victoria (Blackpool)",
+        "count": 255,
+        "rate_pct": 6.1
+      },
+      "E05015205": {
+        "name": "Warbreck",
+        "count": 200,
+        "rate_pct": 4.6
+      },
+      "E05015206": {
+        "name": "Waterloo (Blackpool)",
+        "count": 330,
+        "rate_pct": 7.0
+      }
+    }
+  },
+  "earnings": {
+    "median_weekly_pay": 647.9,
+    "year": "2025",
+    "median_annual_pay": 31858.0,
+    "england_median_weekly": 769.5
+  },
+  "gdhi": null,
+  "census": {
+    "council_totals": {
+      "industry": {
+        "Agriculture, forestry & fishing": 105,
+        "Mining & quarrying": 53,
+        "Manufacturing": 4004,
+        "Electricity & gas supply": 350,
+        "Water supply & waste": 286,
+        "Construction": 4683,
+        "Wholesale & retail trade": 9028,
+        "Transport & storage": 2580,
+        "Accommodation & food": 5946,
+        "Information & communication": 1019,
+        "Financial & insurance": 1077,
+        "Real estate": 642,
+        "Professional & scientific": 1984,
+        "Administrative & support": 2787,
+        "Public administration & defence": 5545,
+        "Education": 3920,
+        "Health & social work": 12140,
+        "Arts, entertainment & recreation": 1540,
+        "Other services": 1402,
+        "Household activities": 28
+      },
+      "occupation": {
+        "1. Managers, directors and senior officials": 6200,
+        "2. Professional occupations": 7502,
+        "3. Associate professional and technical occupations": 6001,
+        "4. Administrative and secretarial occupations": 6631,
+        "5. Skilled trades occupations": 6480,
+        "6. Caring, leisure and other service occupations": 8632,
+        "7. Sales and customer service occupations": 5743,
+        "8. Process, plant and machine operatives": 4715,
+        "9. Elementary occupations": 7458
+      },
+      "hours_worked": {
+        "Part-time": 19645,
+        "Full-time": 39717
+      }
+    },
+    "wards": {
+      "E05001643": {
+        "name": "Anchorsholme",
+        "industry": {
+          "Agriculture, forestry & fishing": 8,
+          "Mining & quarrying": 4,
+          "Manufacturing": 134,
+          "Electricity & gas supply": 9,
+          "Water supply & waste": 19,
+          "Construction": 207,
+          "Wholesale & retail trade": 342,
+          "Transport & storage": 118,
+          "Accommodation & food": 183,
+          "Information & communication": 35,
+          "Financial & insurance": 47,
+          "Real estate": 39,
+          "Professional & scientific": 91,
+          "Administrative & support": 88,
+          "Public administration & defence": 284,
+          "Education": 218,
+          "Health & social work": 441,
+          "Arts, entertainment & recreation": 61,
+          "Other services": 56,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 215,
+          "2. Professional occupations": 317,
+          "3. Associate professional and technical occupations": 262,
+          "4. Administrative and secretarial occupations": 341,
+          "5. Skilled trades occupations": 291,
+          "6. Caring, leisure and other service occupations": 314,
+          "7. Sales and customer service occupations": 216,
+          "8. Process, plant and machine operatives": 183,
+          "9. Elementary occupations": 255
+        },
+        "hours_worked": {
+          "Part-time": 858,
+          "Full-time": 1533
+        }
+      },
+      "E05001644": {
+        "name": "Bispham",
+        "industry": {
+          "Agriculture, forestry & fishing": 8,
+          "Mining & quarrying": 7,
+          "Manufacturing": 177,
+          "Electricity & gas supply": 14,
+          "Water supply & waste": 16,
+          "Construction": 216,
+          "Wholesale & retail trade": 367,
+          "Transport & storage": 114,
+          "Accommodation & food": 200,
+          "Information & communication": 51,
+          "Financial & insurance": 52,
+          "Real estate": 31,
+          "Professional & scientific": 97,
+          "Administrative & support": 125,
+          "Public administration & defence": 362,
+          "Education": 231,
+          "Health & social work": 486,
+          "Arts, entertainment & recreation": 74,
+          "Other services": 50,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 284,
+          "2. Professional occupations": 398,
+          "3. Associate professional and technical occupations": 342,
+          "4. Administrative and secretarial occupations": 351,
+          "5. Skilled trades occupations": 289,
+          "6. Caring, leisure and other service occupations": 334,
+          "7. Sales and customer service occupations": 230,
+          "8. Process, plant and machine operatives": 210,
+          "9. Elementary occupations": 251
+        },
+        "hours_worked": {
+          "Part-time": 838,
+          "Full-time": 1852
+        }
+      },
+      "E05001645": {
+        "name": "Bloomfield",
+        "industry": {
+          "Agriculture, forestry & fishing": 6,
+          "Mining & quarrying": 0,
+          "Manufacturing": 211,
+          "Electricity & gas supply": 13,
+          "Water supply & waste": 11,
+          "Construction": 142,
+          "Wholesale & retail trade": 413,
+          "Transport & storage": 119,
+          "Accommodation & food": 614,
+          "Information & communication": 36,
+          "Financial & insurance": 26,
+          "Real estate": 17,
+          "Professional & scientific": 47,
+          "Administrative & support": 153,
+          "Public administration & defence": 121,
+          "Education": 94,
+          "Health & social work": 452,
+          "Arts, entertainment & recreation": 77,
+          "Other services": 68,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 424,
+          "2. Professional occupations": 181,
+          "3. Associate professional and technical occupations": 152,
+          "4. Administrative and secretarial occupations": 178,
+          "5. Skilled trades occupations": 251,
+          "6. Caring, leisure and other service occupations": 421,
+          "7. Sales and customer service occupations": 253,
+          "8. Process, plant and machine operatives": 266,
+          "9. Elementary occupations": 494
+        },
+        "hours_worked": {
+          "Part-time": 983,
+          "Full-time": 1635
+        }
+      },
+      "E05001646": {
+        "name": "Brunswick",
+        "industry": {
+          "Agriculture, forestry & fishing": 4,
+          "Mining & quarrying": 4,
+          "Manufacturing": 173,
+          "Electricity & gas supply": 13,
+          "Water supply & waste": 5,
+          "Construction": 198,
+          "Wholesale & retail trade": 413,
+          "Transport & storage": 104,
+          "Accommodation & food": 270,
+          "Information & communication": 36,
+          "Financial & insurance": 39,
+          "Real estate": 26,
+          "Professional & scientific": 85,
+          "Administrative & support": 135,
+          "Public administration & defence": 182,
+          "Education": 145,
+          "Health & social work": 747,
+          "Arts, entertainment & recreation": 66,
+          "Other services": 56,
+          "Household activities": 2
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 208,
+          "2. Professional occupations": 427,
+          "3. Associate professional and technical occupations": 221,
+          "4. Administrative and secretarial occupations": 246,
+          "5. Skilled trades occupations": 279,
+          "6. Caring, leisure and other service occupations": 451,
+          "7. Sales and customer service occupations": 260,
+          "8. Process, plant and machine operatives": 208,
+          "9. Elementary occupations": 404
+        },
+        "hours_worked": {
+          "Part-time": 916,
+          "Full-time": 1786
+        }
+      },
+      "E05001647": {
+        "name": "Claremont (Blackpool)",
+        "industry": {
+          "Agriculture, forestry & fishing": 4,
+          "Mining & quarrying": 1,
+          "Manufacturing": 210,
+          "Electricity & gas supply": 9,
+          "Water supply & waste": 10,
+          "Construction": 165,
+          "Wholesale & retail trade": 412,
+          "Transport & storage": 120,
+          "Accommodation & food": 497,
+          "Information & communication": 34,
+          "Financial & insurance": 22,
+          "Real estate": 24,
+          "Professional & scientific": 55,
+          "Administrative & support": 153,
+          "Public administration & defence": 176,
+          "Education": 136,
+          "Health & social work": 633,
+          "Arts, entertainment & recreation": 76,
+          "Other services": 38,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 297,
+          "2. Professional occupations": 218,
+          "3. Associate professional and technical occupations": 191,
+          "4. Administrative and secretarial occupations": 197,
+          "5. Skilled trades occupations": 267,
+          "6. Caring, leisure and other service occupations": 536,
+          "7. Sales and customer service occupations": 274,
+          "8. Process, plant and machine operatives": 259,
+          "9. Elementary occupations": 540
+        },
+        "hours_worked": {
+          "Part-time": 974,
+          "Full-time": 1808
+        }
+      },
+      "E05001648": {
+        "name": "Clifton (Blackpool)",
+        "industry": {
+          "Agriculture, forestry & fishing": 4,
+          "Mining & quarrying": 2,
+          "Manufacturing": 203,
+          "Electricity & gas supply": 15,
+          "Water supply & waste": 20,
+          "Construction": 216,
+          "Wholesale & retail trade": 470,
+          "Transport & storage": 102,
+          "Accommodation & food": 203,
+          "Information & communication": 35,
+          "Financial & insurance": 44,
+          "Real estate": 34,
+          "Professional & scientific": 94,
+          "Administrative & support": 146,
+          "Public administration & defence": 220,
+          "Education": 144,
+          "Health & social work": 532,
+          "Arts, entertainment & recreation": 88,
+          "Other services": 64,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 200,
+          "2. Professional occupations": 232,
+          "3. Associate professional and technical occupations": 285,
+          "4. Administrative and secretarial occupations": 284,
+          "5. Skilled trades occupations": 290,
+          "6. Caring, leisure and other service occupations": 418,
+          "7. Sales and customer service occupations": 302,
+          "8. Process, plant and machine operatives": 271,
+          "9. Elementary occupations": 369
+        },
+        "hours_worked": {
+          "Part-time": 912,
+          "Full-time": 1740
+        }
+      },
+      "E05001649": {
+        "name": "Greenlands (Blackpool)",
+        "industry": {
+          "Agriculture, forestry & fishing": 3,
+          "Mining & quarrying": 0,
+          "Manufacturing": 215,
+          "Electricity & gas supply": 32,
+          "Water supply & waste": 14,
+          "Construction": 270,
+          "Wholesale & retail trade": 437,
+          "Transport & storage": 150,
+          "Accommodation & food": 224,
+          "Information & communication": 48,
+          "Financial & insurance": 64,
+          "Real estate": 41,
+          "Professional & scientific": 119,
+          "Administrative & support": 138,
+          "Public administration & defence": 409,
+          "Education": 210,
+          "Health & social work": 599,
+          "Arts, entertainment & recreation": 53,
+          "Other services": 66,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 266,
+          "2. Professional occupations": 382,
+          "3. Associate professional and technical occupations": 360,
+          "4. Administrative and secretarial occupations": 479,
+          "5. Skilled trades occupations": 317,
+          "6. Caring, leisure and other service occupations": 410,
+          "7. Sales and customer service occupations": 284,
+          "8. Process, plant and machine operatives": 251,
+          "9. Elementary occupations": 358
+        },
+        "hours_worked": {
+          "Part-time": 1007,
+          "Full-time": 2100
+        }
+      },
+      "E05001650": {
+        "name": "Hawes Side",
+        "industry": {
+          "Agriculture, forestry & fishing": 6,
+          "Mining & quarrying": 0,
+          "Manufacturing": 229,
+          "Electricity & gas supply": 19,
+          "Water supply & waste": 17,
+          "Construction": 217,
+          "Wholesale & retail trade": 522,
+          "Transport & storage": 154,
+          "Accommodation & food": 277,
+          "Information & communication": 47,
+          "Financial & insurance": 64,
+          "Real estate": 24,
+          "Professional & scientific": 85,
+          "Administrative & support": 143,
+          "Public administration & defence": 195,
+          "Education": 182,
+          "Health & social work": 641,
+          "Arts, entertainment & recreation": 73,
+          "Other services": 76,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 213,
+          "2. Professional occupations": 271,
+          "3. Associate professional and technical occupations": 270,
+          "4. Administrative and secretarial occupations": 304,
+          "5. Skilled trades occupations": 326,
+          "6. Caring, leisure and other service occupations": 548,
+          "7. Sales and customer service occupations": 333,
+          "8. Process, plant and machine operatives": 299,
+          "9. Elementary occupations": 414
+        },
+        "hours_worked": {
+          "Part-time": 1033,
+          "Full-time": 1945
+        }
+      },
+      "E05001651": {
+        "name": "Highfield (Blackpool)",
+        "industry": {
+          "Agriculture, forestry & fishing": 2,
+          "Mining & quarrying": 1,
+          "Manufacturing": 205,
+          "Electricity & gas supply": 11,
+          "Water supply & waste": 9,
+          "Construction": 208,
+          "Wholesale & retail trade": 419,
+          "Transport & storage": 144,
+          "Accommodation & food": 170,
+          "Information & communication": 49,
+          "Financial & insurance": 69,
+          "Real estate": 28,
+          "Professional & scientific": 96,
+          "Administrative & support": 145,
+          "Public administration & defence": 275,
+          "Education": 196,
+          "Health & social work": 510,
+          "Arts, entertainment & recreation": 76,
+          "Other services": 80,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 233,
+          "2. Professional occupations": 328,
+          "3. Associate professional and technical occupations": 311,
+          "4. Administrative and secretarial occupations": 342,
+          "5. Skilled trades occupations": 326,
+          "6. Caring, leisure and other service occupations": 406,
+          "7. Sales and customer service occupations": 273,
+          "8. Process, plant and machine operatives": 206,
+          "9. Elementary occupations": 280
+        },
+        "hours_worked": {
+          "Part-time": 881,
+          "Full-time": 1827
+        }
+      },
+      "E05001652": {
+        "name": "Ingthorpe",
+        "industry": {
+          "Agriculture, forestry & fishing": 6,
+          "Mining & quarrying": 2,
+          "Manufacturing": 173,
+          "Electricity & gas supply": 21,
+          "Water supply & waste": 12,
+          "Construction": 217,
+          "Wholesale & retail trade": 384,
+          "Transport & storage": 118,
+          "Accommodation & food": 222,
+          "Information & communication": 51,
+          "Financial & insurance": 50,
+          "Real estate": 26,
+          "Professional & scientific": 102,
+          "Administrative & support": 138,
+          "Public administration & defence": 334,
+          "Education": 245,
+          "Health & social work": 493,
+          "Arts, entertainment & recreation": 48,
+          "Other services": 62,
+          "Household activities": 2
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 215,
+          "2. Professional occupations": 347,
+          "3. Associate professional and technical occupations": 296,
+          "4. Administrative and secretarial occupations": 353,
+          "5. Skilled trades occupations": 339,
+          "6. Caring, leisure and other service occupations": 382,
+          "7. Sales and customer service occupations": 274,
+          "8. Process, plant and machine operatives": 186,
+          "9. Elementary occupations": 326
+        },
+        "hours_worked": {
+          "Part-time": 885,
+          "Full-time": 1833
+        }
+      },
+      "E05001653": {
+        "name": "Layton",
+        "industry": {
+          "Agriculture, forestry & fishing": 5,
+          "Mining & quarrying": 5,
+          "Manufacturing": 185,
+          "Electricity & gas supply": 13,
+          "Water supply & waste": 16,
+          "Construction": 231,
+          "Wholesale & retail trade": 460,
+          "Transport & storage": 142,
+          "Accommodation & food": 216,
+          "Information & communication": 47,
+          "Financial & insurance": 47,
+          "Real estate": 34,
+          "Professional & scientific": 95,
+          "Administrative & support": 138,
+          "Public administration & defence": 298,
+          "Education": 156,
+          "Health & social work": 800,
+          "Arts, entertainment & recreation": 76,
+          "Other services": 46,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 279,
+          "2. Professional occupations": 492,
+          "3. Associate professional and technical occupations": 247,
+          "4. Administrative and secretarial occupations": 372,
+          "5. Skilled trades occupations": 299,
+          "6. Caring, leisure and other service occupations": 423,
+          "7. Sales and customer service occupations": 293,
+          "8. Process, plant and machine operatives": 252,
+          "9. Elementary occupations": 360
+        },
+        "hours_worked": {
+          "Part-time": 925,
+          "Full-time": 2092
+        }
+      },
+      "E05001654": {
+        "name": "Marton",
+        "industry": {
+          "Agriculture, forestry & fishing": 2,
+          "Mining & quarrying": 6,
+          "Manufacturing": 207,
+          "Electricity & gas supply": 19,
+          "Water supply & waste": 20,
+          "Construction": 321,
+          "Wholesale & retail trade": 501,
+          "Transport & storage": 121,
+          "Accommodation & food": 194,
+          "Information & communication": 75,
+          "Financial & insurance": 101,
+          "Real estate": 39,
+          "Professional & scientific": 155,
+          "Administrative & support": 155,
+          "Public administration & defence": 323,
+          "Education": 258,
+          "Health & social work": 727,
+          "Arts, entertainment & recreation": 87,
+          "Other services": 69,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 369,
+          "2. Professional occupations": 493,
+          "3. Associate professional and technical occupations": 448,
+          "4. Administrative and secretarial occupations": 452,
+          "5. Skilled trades occupations": 368,
+          "6. Caring, leisure and other service occupations": 428,
+          "7. Sales and customer service occupations": 295,
+          "8. Process, plant and machine operatives": 223,
+          "9. Elementary occupations": 325
+        },
+        "hours_worked": {
+          "Part-time": 986,
+          "Full-time": 2417
+        }
+      },
+      "E05001655": {
+        "name": "Norbreck",
+        "industry": {
+          "Agriculture, forestry & fishing": 6,
+          "Mining & quarrying": 4,
+          "Manufacturing": 194,
+          "Electricity & gas supply": 17,
+          "Water supply & waste": 18,
+          "Construction": 253,
+          "Wholesale & retail trade": 376,
+          "Transport & storage": 106,
+          "Accommodation & food": 139,
+          "Information & communication": 57,
+          "Financial & insurance": 48,
+          "Real estate": 43,
+          "Professional & scientific": 104,
+          "Administrative & support": 93,
+          "Public administration & defence": 372,
+          "Education": 230,
+          "Health & social work": 415,
+          "Arts, entertainment & recreation": 56,
+          "Other services": 62,
+          "Household activities": 2
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 310,
+          "2. Professional occupations": 388,
+          "3. Associate professional and technical occupations": 317,
+          "4. Administrative and secretarial occupations": 392,
+          "5. Skilled trades occupations": 322,
+          "6. Caring, leisure and other service occupations": 246,
+          "7. Sales and customer service occupations": 202,
+          "8. Process, plant and machine operatives": 183,
+          "9. Elementary occupations": 239
+        },
+        "hours_worked": {
+          "Part-time": 845,
+          "Full-time": 1754
+        }
+      },
+      "E05001656": {
+        "name": "Park (Blackpool)",
+        "industry": {
+          "Agriculture, forestry & fishing": 8,
+          "Mining & quarrying": 3,
+          "Manufacturing": 200,
+          "Electricity & gas supply": 10,
+          "Water supply & waste": 12,
+          "Construction": 198,
+          "Wholesale & retail trade": 466,
+          "Transport & storage": 105,
+          "Accommodation & food": 222,
+          "Information & communication": 45,
+          "Financial & insurance": 43,
+          "Real estate": 31,
+          "Professional & scientific": 92,
+          "Administrative & support": 165,
+          "Public administration & defence": 257,
+          "Education": 194,
+          "Health & social work": 729,
+          "Arts, entertainment & recreation": 66,
+          "Other services": 67,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 214,
+          "2. Professional occupations": 430,
+          "3. Associate professional and technical occupations": 248,
+          "4. Administrative and secretarial occupations": 290,
+          "5. Skilled trades occupations": 306,
+          "6. Caring, leisure and other service occupations": 444,
+          "7. Sales and customer service occupations": 299,
+          "8. Process, plant and machine operatives": 248,
+          "9. Elementary occupations": 448
+        },
+        "hours_worked": {
+          "Part-time": 991,
+          "Full-time": 1936
+        }
+      },
+      "E05001657": {
+        "name": "Squires Gate",
+        "industry": {
+          "Agriculture, forestry & fishing": 4,
+          "Mining & quarrying": 5,
+          "Manufacturing": 173,
+          "Electricity & gas supply": 24,
+          "Water supply & waste": 8,
+          "Construction": 280,
+          "Wholesale & retail trade": 428,
+          "Transport & storage": 122,
+          "Accommodation & food": 223,
+          "Information & communication": 69,
+          "Financial & insurance": 69,
+          "Real estate": 22,
+          "Professional & scientific": 114,
+          "Administrative & support": 118,
+          "Public administration & defence": 279,
+          "Education": 207,
+          "Health & social work": 472,
+          "Arts, entertainment & recreation": 63,
+          "Other services": 78,
+          "Household activities": 4
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 321,
+          "2. Professional occupations": 402,
+          "3. Associate professional and technical occupations": 318,
+          "4. Administrative and secretarial occupations": 324,
+          "5. Skilled trades occupations": 351,
+          "6. Caring, leisure and other service occupations": 339,
+          "7. Sales and customer service occupations": 273,
+          "8. Process, plant and machine operatives": 184,
+          "9. Elementary occupations": 275
+        },
+        "hours_worked": {
+          "Part-time": 904,
+          "Full-time": 1884
+        }
+      },
+      "E05001658": {
+        "name": "Stanley (Blackpool)",
+        "industry": {
+          "Agriculture, forestry & fishing": 11,
+          "Mining & quarrying": 0,
+          "Manufacturing": 213,
+          "Electricity & gas supply": 36,
+          "Water supply & waste": 11,
+          "Construction": 283,
+          "Wholesale & retail trade": 505,
+          "Transport & storage": 123,
+          "Accommodation & food": 198,
+          "Information & communication": 59,
+          "Financial & insurance": 66,
+          "Real estate": 35,
+          "Professional & scientific": 118,
+          "Administrative & support": 122,
+          "Public administration & defence": 315,
+          "Education": 198,
+          "Health & social work": 581,
+          "Arts, entertainment & recreation": 57,
+          "Other services": 104,
+          "Household activities": 4
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 375,
+          "2. Professional occupations": 407,
+          "3. Associate professional and technical occupations": 348,
+          "4. Administrative and secretarial occupations": 364,
+          "5. Skilled trades occupations": 379,
+          "6. Caring, leisure and other service occupations": 413,
+          "7. Sales and customer service occupations": 301,
+          "8. Process, plant and machine operatives": 202,
+          "9. Elementary occupations": 259
+        },
+        "hours_worked": {
+          "Part-time": 961,
+          "Full-time": 2084
+        }
+      },
+      "E05001659": {
+        "name": "Talbot",
+        "industry": {
+          "Agriculture, forestry & fishing": 4,
+          "Mining & quarrying": 2,
+          "Manufacturing": 161,
+          "Electricity & gas supply": 13,
+          "Water supply & waste": 16,
+          "Construction": 139,
+          "Wholesale & retail trade": 395,
+          "Transport & storage": 105,
+          "Accommodation & food": 584,
+          "Information & communication": 37,
+          "Financial & insurance": 33,
+          "Real estate": 30,
+          "Professional & scientific": 77,
+          "Administrative & support": 115,
+          "Public administration & defence": 168,
+          "Education": 129,
+          "Health & social work": 598,
+          "Arts, entertainment & recreation": 93,
+          "Other services": 73,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 457,
+          "2. Professional occupations": 401,
+          "3. Associate professional and technical occupations": 213,
+          "4. Administrative and secretarial occupations": 223,
+          "5. Skilled trades occupations": 230,
+          "6. Caring, leisure and other service occupations": 416,
+          "7. Sales and customer service occupations": 244,
+          "8. Process, plant and machine operatives": 194,
+          "9. Elementary occupations": 401
+        },
+        "hours_worked": {
+          "Part-time": 924,
+          "Full-time": 1856
+        }
+      },
+      "E05001660": {
+        "name": "Tyldesley (Blackpool)",
+        "industry": {
+          "Agriculture, forestry & fishing": 3,
+          "Mining & quarrying": 1,
+          "Manufacturing": 193,
+          "Electricity & gas supply": 18,
+          "Water supply & waste": 13,
+          "Construction": 258,
+          "Wholesale & retail trade": 413,
+          "Transport & storage": 125,
+          "Accommodation & food": 241,
+          "Information & communication": 62,
+          "Financial & insurance": 53,
+          "Real estate": 33,
+          "Professional & scientific": 98,
+          "Administrative & support": 151,
+          "Public administration & defence": 255,
+          "Education": 195,
+          "Health & social work": 614,
+          "Arts, entertainment & recreation": 90,
+          "Other services": 68,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 269,
+          "2. Professional occupations": 366,
+          "3. Associate professional and technical occupations": 329,
+          "4. Administrative and secretarial occupations": 269,
+          "5. Skilled trades occupations": 322,
+          "6. Caring, leisure and other service occupations": 430,
+          "7. Sales and customer service occupations": 299,
+          "8. Process, plant and machine operatives": 243,
+          "9. Elementary occupations": 374
+        },
+        "hours_worked": {
+          "Part-time": 1006,
+          "Full-time": 1891
+        }
+      },
+      "E05001661": {
+        "name": "Victoria (Blackpool)",
+        "industry": {
+          "Agriculture, forestry & fishing": 2,
+          "Mining & quarrying": 1,
+          "Manufacturing": 196,
+          "Electricity & gas supply": 8,
+          "Water supply & waste": 12,
+          "Construction": 239,
+          "Wholesale & retail trade": 482,
+          "Transport & storage": 135,
+          "Accommodation & food": 260,
+          "Information & communication": 27,
+          "Financial & insurance": 43,
+          "Real estate": 23,
+          "Professional & scientific": 77,
+          "Administrative & support": 123,
+          "Public administration & defence": 178,
+          "Education": 149,
+          "Health & social work": 583,
+          "Arts, entertainment & recreation": 89,
+          "Other services": 81,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 204,
+          "2. Professional occupations": 246,
+          "3. Associate professional and technical occupations": 229,
+          "4. Administrative and secretarial occupations": 277,
+          "5. Skilled trades occupations": 317,
+          "6. Caring, leisure and other service occupations": 469,
+          "7. Sales and customer service occupations": 333,
+          "8. Process, plant and machine operatives": 240,
+          "9. Elementary occupations": 407
+        },
+        "hours_worked": {
+          "Part-time": 940,
+          "Full-time": 1783
+        }
+      },
+      "E05001662": {
+        "name": "Warbreck (Blackpool)",
+        "industry": {
+          "Agriculture, forestry & fishing": 4,
+          "Mining & quarrying": 0,
+          "Manufacturing": 173,
+          "Electricity & gas supply": 18,
+          "Water supply & waste": 16,
+          "Construction": 196,
+          "Wholesale & retail trade": 371,
+          "Transport & storage": 125,
+          "Accommodation & food": 377,
+          "Information & communication": 70,
+          "Financial & insurance": 50,
+          "Real estate": 29,
+          "Professional & scientific": 106,
+          "Administrative & support": 122,
+          "Public administration & defence": 313,
+          "Education": 227,
+          "Health & social work": 570,
+          "Arts, entertainment & recreation": 61,
+          "Other services": 69,
+          "Household activities": 2
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 385,
+          "2. Professional occupations": 410,
+          "3. Associate professional and technical occupations": 321,
+          "4. Administrative and secretarial occupations": 329,
+          "5. Skilled trades occupations": 308,
+          "6. Caring, leisure and other service occupations": 399,
+          "7. Sales and customer service occupations": 232,
+          "8. Process, plant and machine operatives": 192,
+          "9. Elementary occupations": 326
+        },
+        "hours_worked": {
+          "Part-time": 886,
+          "Full-time": 2017
+        }
+      },
+      "E05001663": {
+        "name": "Waterloo (Blackpool)",
+        "industry": {
+          "Agriculture, forestry & fishing": 3,
+          "Mining & quarrying": 1,
+          "Manufacturing": 185,
+          "Electricity & gas supply": 18,
+          "Water supply & waste": 14,
+          "Construction": 235,
+          "Wholesale & retail trade": 460,
+          "Transport & storage": 122,
+          "Accommodation & food": 435,
+          "Information & communication": 50,
+          "Financial & insurance": 48,
+          "Real estate": 34,
+          "Professional & scientific": 85,
+          "Administrative & support": 119,
+          "Public administration & defence": 234,
+          "Education": 184,
+          "Health & social work": 511,
+          "Arts, entertainment & recreation": 108,
+          "Other services": 67,
+          "Household activities": 2
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 459,
+          "2. Professional occupations": 367,
+          "3. Associate professional and technical occupations": 292,
+          "4. Administrative and secretarial occupations": 265,
+          "5. Skilled trades occupations": 303,
+          "6. Caring, leisure and other service occupations": 405,
+          "7. Sales and customer service occupations": 274,
+          "8. Process, plant and machine operatives": 216,
+          "9. Elementary occupations": 354
+        },
+        "hours_worked": {
+          "Part-time": 991,
+          "Full-time": 1944
+        }
+      }
+    }
+  },
+  "summary": {
+    "claimant_count": 5170,
+    "claimant_rate_pct": 5.8,
+    "claimant_trend": "rising",
+    "median_weekly_pay": 647.9,
+    "median_annual_pay": 31858.0,
+    "top_industry": "Health & social work",
+    "top_industry_pct": 20.5,
+    "professional_pct": 33.2,
+    "part_time_pct": 33.1
+  }
+}

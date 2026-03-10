@@ -1,0 +1,773 @@
+{
+  "meta": {
+    "source": "Nomis (Claimant Count + ASHE + GDHI + Census 2021)",
+    "council_id": "chorley",
+    "council_name": "Chorley",
+    "ons_code": "E07000118",
+    "census_date": "2021-03-21",
+    "generated": "2026-03-09T23:31:19"
+  },
+  "claimant_count": {
+    "latest": {
+      "date": "2026-01",
+      "month": "January 2026",
+      "count": 1715,
+      "rate_pct": 2.3
+    },
+    "history": [
+      {
+        "date": "2025-04",
+        "month": "April 2025",
+        "count": 1785,
+        "rate_pct": 2.4
+      },
+      {
+        "date": "2025-05",
+        "month": "May 2025",
+        "count": 1740,
+        "rate_pct": 2.3
+      },
+      {
+        "date": "2025-06",
+        "month": "June 2025",
+        "count": 1765,
+        "rate_pct": 2.4
+      },
+      {
+        "date": "2025-07",
+        "month": "July 2025",
+        "count": 1735,
+        "rate_pct": 2.3
+      },
+      {
+        "date": "2025-08",
+        "month": "August 2025",
+        "count": 1760,
+        "rate_pct": 2.4
+      },
+      {
+        "date": "2025-09",
+        "month": "September 2025",
+        "count": 1770,
+        "rate_pct": 2.4
+      },
+      {
+        "date": "2025-10",
+        "month": "October 2025",
+        "count": 1760,
+        "rate_pct": 2.4
+      },
+      {
+        "date": "2025-11",
+        "month": "November 2025",
+        "count": 1655,
+        "rate_pct": 2.2
+      },
+      {
+        "date": "2025-12",
+        "month": "December 2025",
+        "count": 1645,
+        "rate_pct": 2.2
+      },
+      {
+        "date": "2026-01",
+        "month": "January 2026",
+        "count": 1715,
+        "rate_pct": 2.3
+      }
+    ],
+    "wards": {
+      "E05013064": {
+        "name": "Adlington & Anderton",
+        "count": 100,
+        "rate_pct": 2.1
+      },
+      "E05013065": {
+        "name": "Buckshaw & Whittle",
+        "count": 100,
+        "rate_pct": 1.4
+      },
+      "E05013066": {
+        "name": "Chorley East",
+        "count": 245,
+        "rate_pct": 4.4
+      },
+      "E05013067": {
+        "name": "Chorley North East",
+        "count": 50,
+        "rate_pct": 1.1
+      },
+      "E05013068": {
+        "name": "Chorley North West",
+        "count": 190,
+        "rate_pct": 3.8
+      },
+      "E05013069": {
+        "name": "Chorley North & Astley",
+        "count": 150,
+        "rate_pct": 3.2
+      },
+      "E05013070": {
+        "name": "Chorley South East & Heath Charnock",
+        "count": 160,
+        "rate_pct": 2.8
+      },
+      "E05013071": {
+        "name": "Chorley South West",
+        "count": 165,
+        "rate_pct": 2.9
+      },
+      "E05013072": {
+        "name": "Clayton East, Brindle & Hoghton",
+        "count": 175,
+        "rate_pct": 3.2
+      },
+      "E05013073": {
+        "name": "Clayton West & Cuerden",
+        "count": 75,
+        "rate_pct": 1.3
+      },
+      "E05013074": {
+        "name": "Coppull",
+        "count": 135,
+        "rate_pct": 2.7
+      },
+      "E05013075": {
+        "name": "Croston, Mawdesley & Euxton South",
+        "count": 55,
+        "rate_pct": 0.9
+      },
+      "E05013076": {
+        "name": "Eccleston, Heskin & Charnock Richard",
+        "count": 55,
+        "rate_pct": 1.3
+      },
+      "E05013077": {
+        "name": "Euxton",
+        "count": 55,
+        "rate_pct": 1.2
+      }
+    }
+  },
+  "earnings": {
+    "median_weekly_pay": 764.8,
+    "year": "2025",
+    "median_annual_pay": 39350.0,
+    "england_median_weekly": 769.5
+  },
+  "gdhi": null,
+  "census": {
+    "council_totals": {
+      "industry": {
+        "Agriculture, forestry & fishing": 478,
+        "Mining & quarrying": 44,
+        "Manufacturing": 4948,
+        "Electricity & gas supply": 353,
+        "Water supply & waste": 475,
+        "Construction": 5494,
+        "Wholesale & retail trade": 8775,
+        "Transport & storage": 2364,
+        "Accommodation & food": 2137,
+        "Information & communication": 1955,
+        "Financial & insurance": 1374,
+        "Real estate": 897,
+        "Professional & scientific": 3422,
+        "Administrative & support": 2714,
+        "Public administration & defence": 4344,
+        "Education": 5778,
+        "Health & social work": 9021,
+        "Arts, entertainment & recreation": 1058,
+        "Other services": 1376,
+        "Household activities": 22
+      },
+      "occupation": {
+        "1. Managers, directors and senior officials": 8036,
+        "2. Professional occupations": 11870,
+        "3. Associate professional and technical occupations": 7928,
+        "4. Administrative and secretarial occupations": 5443,
+        "5. Skilled trades occupations": 5815,
+        "6. Caring, leisure and other service occupations": 5299,
+        "7. Sales and customer service occupations": 3877,
+        "8. Process, plant and machine operatives": 3793,
+        "9. Elementary occupations": 5183
+      },
+      "hours_worked": {
+        "Part-time": 15744,
+        "Full-time": 41500
+      }
+    },
+    "wards": {
+      "E05013064": {
+        "name": "Adlington & Anderton",
+        "industry": {
+          "Agriculture, forestry & fishing": 34,
+          "Mining & quarrying": 5,
+          "Manufacturing": 375,
+          "Electricity & gas supply": 27,
+          "Water supply & waste": 43,
+          "Construction": 465,
+          "Wholesale & retail trade": 551,
+          "Transport & storage": 159,
+          "Accommodation & food": 135,
+          "Information & communication": 111,
+          "Financial & insurance": 119,
+          "Real estate": 55,
+          "Professional & scientific": 250,
+          "Administrative & support": 171,
+          "Public administration & defence": 249,
+          "Education": 385,
+          "Health & social work": 591,
+          "Arts, entertainment & recreation": 80,
+          "Other services": 90,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 532,
+          "2. Professional occupations": 808,
+          "3. Associate professional and technical occupations": 544,
+          "4. Administrative and secretarial occupations": 428,
+          "5. Skilled trades occupations": 456,
+          "6. Caring, leisure and other service occupations": 335,
+          "7. Sales and customer service occupations": 250,
+          "8. Process, plant and machine operatives": 260,
+          "9. Elementary occupations": 299
+        },
+        "hours_worked": {
+          "Part-time": 1063,
+          "Full-time": 2848
+        }
+      },
+      "E05013065": {
+        "name": "Buckshaw & Whittle",
+        "industry": {
+          "Agriculture, forestry & fishing": 15,
+          "Mining & quarrying": 8,
+          "Manufacturing": 484,
+          "Electricity & gas supply": 35,
+          "Water supply & waste": 40,
+          "Construction": 422,
+          "Wholesale & retail trade": 813,
+          "Transport & storage": 216,
+          "Accommodation & food": 161,
+          "Information & communication": 267,
+          "Financial & insurance": 161,
+          "Real estate": 86,
+          "Professional & scientific": 385,
+          "Administrative & support": 227,
+          "Public administration & defence": 488,
+          "Education": 619,
+          "Health & social work": 847,
+          "Arts, entertainment & recreation": 108,
+          "Other services": 121,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 879,
+          "2. Professional occupations": 1532,
+          "3. Associate professional and technical occupations": 899,
+          "4. Administrative and secretarial occupations": 477,
+          "5. Skilled trades occupations": 395,
+          "6. Caring, leisure and other service occupations": 390,
+          "7. Sales and customer service occupations": 323,
+          "8. Process, plant and machine operatives": 297,
+          "9. Elementary occupations": 330
+        },
+        "hours_worked": {
+          "Part-time": 1210,
+          "Full-time": 4310
+        }
+      },
+      "E05013066": {
+        "name": "Chorley East",
+        "industry": {
+          "Agriculture, forestry & fishing": 12,
+          "Mining & quarrying": 1,
+          "Manufacturing": 309,
+          "Electricity & gas supply": 25,
+          "Water supply & waste": 26,
+          "Construction": 424,
+          "Wholesale & retail trade": 668,
+          "Transport & storage": 225,
+          "Accommodation & food": 209,
+          "Information & communication": 123,
+          "Financial & insurance": 73,
+          "Real estate": 40,
+          "Professional & scientific": 204,
+          "Administrative & support": 206,
+          "Public administration & defence": 217,
+          "Education": 311,
+          "Health & social work": 718,
+          "Arts, entertainment & recreation": 62,
+          "Other services": 132,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 375,
+          "2. Professional occupations": 584,
+          "3. Associate professional and technical occupations": 427,
+          "4. Administrative and secretarial occupations": 373,
+          "5. Skilled trades occupations": 477,
+          "6. Caring, leisure and other service occupations": 516,
+          "7. Sales and customer service occupations": 357,
+          "8. Process, plant and machine operatives": 372,
+          "9. Elementary occupations": 528
+        },
+        "hours_worked": {
+          "Part-time": 1194,
+          "Full-time": 2814
+        }
+      },
+      "E05013067": {
+        "name": "Chorley North East",
+        "industry": {
+          "Agriculture, forestry & fishing": 62,
+          "Mining & quarrying": 2,
+          "Manufacturing": 325,
+          "Electricity & gas supply": 18,
+          "Water supply & waste": 18,
+          "Construction": 300,
+          "Wholesale & retail trade": 518,
+          "Transport & storage": 91,
+          "Accommodation & food": 113,
+          "Information & communication": 145,
+          "Financial & insurance": 105,
+          "Real estate": 77,
+          "Professional & scientific": 323,
+          "Administrative & support": 123,
+          "Public administration & defence": 297,
+          "Education": 413,
+          "Health & social work": 539,
+          "Arts, entertainment & recreation": 96,
+          "Other services": 90,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 727,
+          "2. Professional occupations": 969,
+          "3. Associate professional and technical occupations": 568,
+          "4. Administrative and secretarial occupations": 334,
+          "5. Skilled trades occupations": 286,
+          "6. Caring, leisure and other service occupations": 248,
+          "7. Sales and customer service occupations": 186,
+          "8. Process, plant and machine operatives": 160,
+          "9. Elementary occupations": 191
+        },
+        "hours_worked": {
+          "Part-time": 1101,
+          "Full-time": 2568
+        }
+      },
+      "E05013068": {
+        "name": "Chorley North West",
+        "industry": {
+          "Agriculture, forestry & fishing": 8,
+          "Mining & quarrying": 1,
+          "Manufacturing": 289,
+          "Electricity & gas supply": 13,
+          "Water supply & waste": 11,
+          "Construction": 353,
+          "Wholesale & retail trade": 636,
+          "Transport & storage": 156,
+          "Accommodation & food": 152,
+          "Information & communication": 141,
+          "Financial & insurance": 55,
+          "Real estate": 52,
+          "Professional & scientific": 193,
+          "Administrative & support": 178,
+          "Public administration & defence": 262,
+          "Education": 386,
+          "Health & social work": 641,
+          "Arts, entertainment & recreation": 64,
+          "Other services": 93,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 404,
+          "2. Professional occupations": 714,
+          "3. Associate professional and technical occupations": 491,
+          "4. Administrative and secretarial occupations": 343,
+          "5. Skilled trades occupations": 364,
+          "6. Caring, leisure and other service occupations": 398,
+          "7. Sales and customer service occupations": 285,
+          "8. Process, plant and machine operatives": 258,
+          "9. Elementary occupations": 433
+        },
+        "hours_worked": {
+          "Part-time": 1074,
+          "Full-time": 2617
+        }
+      },
+      "E05013069": {
+        "name": "Chorley North & Astley",
+        "industry": {
+          "Agriculture, forestry & fishing": 28,
+          "Mining & quarrying": 8,
+          "Manufacturing": 280,
+          "Electricity & gas supply": 15,
+          "Water supply & waste": 40,
+          "Construction": 302,
+          "Wholesale & retail trade": 578,
+          "Transport & storage": 156,
+          "Accommodation & food": 165,
+          "Information & communication": 106,
+          "Financial & insurance": 61,
+          "Real estate": 44,
+          "Professional & scientific": 168,
+          "Administrative & support": 192,
+          "Public administration & defence": 208,
+          "Education": 343,
+          "Health & social work": 651,
+          "Arts, entertainment & recreation": 58,
+          "Other services": 91,
+          "Household activities": 4
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 391,
+          "2. Professional occupations": 605,
+          "3. Associate professional and technical occupations": 445,
+          "4. Administrative and secretarial occupations": 329,
+          "5. Skilled trades occupations": 373,
+          "6. Caring, leisure and other service occupations": 408,
+          "7. Sales and customer service occupations": 256,
+          "8. Process, plant and machine operatives": 285,
+          "9. Elementary occupations": 422
+        },
+        "hours_worked": {
+          "Part-time": 1021,
+          "Full-time": 2492
+        }
+      },
+      "E05013070": {
+        "name": "Chorley South East & Heath Charnock",
+        "industry": {
+          "Agriculture, forestry & fishing": 26,
+          "Mining & quarrying": 1,
+          "Manufacturing": 360,
+          "Electricity & gas supply": 31,
+          "Water supply & waste": 44,
+          "Construction": 434,
+          "Wholesale & retail trade": 707,
+          "Transport & storage": 202,
+          "Accommodation & food": 166,
+          "Information & communication": 156,
+          "Financial & insurance": 126,
+          "Real estate": 74,
+          "Professional & scientific": 296,
+          "Administrative & support": 229,
+          "Public administration & defence": 321,
+          "Education": 448,
+          "Health & social work": 732,
+          "Arts, entertainment & recreation": 75,
+          "Other services": 118,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 618,
+          "2. Professional occupations": 929,
+          "3. Associate professional and technical occupations": 680,
+          "4. Administrative and secretarial occupations": 433,
+          "5. Skilled trades occupations": 446,
+          "6. Caring, leisure and other service occupations": 400,
+          "7. Sales and customer service occupations": 332,
+          "8. Process, plant and machine operatives": 284,
+          "9. Elementary occupations": 437
+        },
+        "hours_worked": {
+          "Part-time": 1237,
+          "Full-time": 3325
+        }
+      },
+      "E05013071": {
+        "name": "Chorley South West",
+        "industry": {
+          "Agriculture, forestry & fishing": 21,
+          "Mining & quarrying": 2,
+          "Manufacturing": 339,
+          "Electricity & gas supply": 27,
+          "Water supply & waste": 38,
+          "Construction": 448,
+          "Wholesale & retail trade": 664,
+          "Transport & storage": 167,
+          "Accommodation & food": 202,
+          "Information & communication": 130,
+          "Financial & insurance": 104,
+          "Real estate": 49,
+          "Professional & scientific": 202,
+          "Administrative & support": 238,
+          "Public administration & defence": 286,
+          "Education": 416,
+          "Health & social work": 704,
+          "Arts, entertainment & recreation": 77,
+          "Other services": 94,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 493,
+          "2. Professional occupations": 721,
+          "3. Associate professional and technical occupations": 593,
+          "4. Administrative and secretarial occupations": 373,
+          "5. Skilled trades occupations": 456,
+          "6. Caring, leisure and other service occupations": 485,
+          "7. Sales and customer service occupations": 320,
+          "8. Process, plant and machine operatives": 310,
+          "9. Elementary occupations": 477
+        },
+        "hours_worked": {
+          "Part-time": 1092,
+          "Full-time": 3135
+        }
+      },
+      "E05013072": {
+        "name": "Clayton East, Brindle & Hoghton",
+        "industry": {
+          "Agriculture, forestry & fishing": 58,
+          "Mining & quarrying": 1,
+          "Manufacturing": 507,
+          "Electricity & gas supply": 23,
+          "Water supply & waste": 41,
+          "Construction": 374,
+          "Wholesale & retail trade": 685,
+          "Transport & storage": 231,
+          "Accommodation & food": 144,
+          "Information & communication": 125,
+          "Financial & insurance": 101,
+          "Real estate": 73,
+          "Professional & scientific": 236,
+          "Administrative & support": 220,
+          "Public administration & defence": 329,
+          "Education": 404,
+          "Health & social work": 697,
+          "Arts, entertainment & recreation": 77,
+          "Other services": 87,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 592,
+          "2. Professional occupations": 866,
+          "3. Associate professional and technical occupations": 514,
+          "4. Administrative and secretarial occupations": 414,
+          "5. Skilled trades occupations": 429,
+          "6. Caring, leisure and other service occupations": 416,
+          "7. Sales and customer service occupations": 316,
+          "8. Process, plant and machine operatives": 413,
+          "9. Elementary occupations": 459
+        },
+        "hours_worked": {
+          "Part-time": 1207,
+          "Full-time": 3213
+        }
+      },
+      "E05013073": {
+        "name": "Clayton West & Cuerden",
+        "industry": {
+          "Agriculture, forestry & fishing": 19,
+          "Mining & quarrying": 4,
+          "Manufacturing": 386,
+          "Electricity & gas supply": 41,
+          "Water supply & waste": 44,
+          "Construction": 336,
+          "Wholesale & retail trade": 629,
+          "Transport & storage": 173,
+          "Accommodation & food": 152,
+          "Information & communication": 186,
+          "Financial & insurance": 99,
+          "Real estate": 69,
+          "Professional & scientific": 224,
+          "Administrative & support": 189,
+          "Public administration & defence": 410,
+          "Education": 500,
+          "Health & social work": 647,
+          "Arts, entertainment & recreation": 78,
+          "Other services": 81,
+          "Household activities": 2
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 624,
+          "2. Professional occupations": 1020,
+          "3. Associate professional and technical occupations": 648,
+          "4. Administrative and secretarial occupations": 420,
+          "5. Skilled trades occupations": 371,
+          "6. Caring, leisure and other service occupations": 350,
+          "7. Sales and customer service occupations": 287,
+          "8. Process, plant and machine operatives": 251,
+          "9. Elementary occupations": 315
+        },
+        "hours_worked": {
+          "Part-time": 1115,
+          "Full-time": 3170
+        }
+      },
+      "E05013074": {
+        "name": "Coppull",
+        "industry": {
+          "Agriculture, forestry & fishing": 30,
+          "Mining & quarrying": 1,
+          "Manufacturing": 395,
+          "Electricity & gas supply": 21,
+          "Water supply & waste": 30,
+          "Construction": 437,
+          "Wholesale & retail trade": 713,
+          "Transport & storage": 190,
+          "Accommodation & food": 160,
+          "Information & communication": 87,
+          "Financial & insurance": 86,
+          "Real estate": 63,
+          "Professional & scientific": 172,
+          "Administrative & support": 199,
+          "Public administration & defence": 250,
+          "Education": 361,
+          "Health & social work": 664,
+          "Arts, entertainment & recreation": 70,
+          "Other services": 100,
+          "Household activities": 3
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 484,
+          "2. Professional occupations": 621,
+          "3. Associate professional and technical occupations": 520,
+          "4. Administrative and secretarial occupations": 376,
+          "5. Skilled trades occupations": 530,
+          "6. Caring, leisure and other service occupations": 477,
+          "7. Sales and customer service occupations": 312,
+          "8. Process, plant and machine operatives": 307,
+          "9. Elementary occupations": 432
+        },
+        "hours_worked": {
+          "Part-time": 1073,
+          "Full-time": 2984
+        }
+      },
+      "E05013075": {
+        "name": "Croston, Mawdesley & Euxton South",
+        "industry": {
+          "Agriculture, forestry & fishing": 99,
+          "Mining & quarrying": 1,
+          "Manufacturing": 299,
+          "Electricity & gas supply": 26,
+          "Water supply & waste": 32,
+          "Construction": 439,
+          "Wholesale & retail trade": 519,
+          "Transport & storage": 137,
+          "Accommodation & food": 134,
+          "Information & communication": 126,
+          "Financial & insurance": 92,
+          "Real estate": 89,
+          "Professional & scientific": 303,
+          "Administrative & support": 193,
+          "Public administration & defence": 409,
+          "Education": 410,
+          "Health & social work": 520,
+          "Arts, entertainment & recreation": 90,
+          "Other services": 94,
+          "Household activities": 8
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 755,
+          "2. Professional occupations": 912,
+          "3. Associate professional and technical occupations": 506,
+          "4. Administrative and secretarial occupations": 353,
+          "5. Skilled trades occupations": 470,
+          "6. Caring, leisure and other service occupations": 275,
+          "7. Sales and customer service occupations": 220,
+          "8. Process, plant and machine operatives": 201,
+          "9. Elementary occupations": 348
+        },
+        "hours_worked": {
+          "Part-time": 1294,
+          "Full-time": 2748
+        }
+      },
+      "E05013076": {
+        "name": "Eccleston, Heskin & Charnock Richard",
+        "industry": {
+          "Agriculture, forestry & fishing": 43,
+          "Mining & quarrying": 7,
+          "Manufacturing": 285,
+          "Electricity & gas supply": 19,
+          "Water supply & waste": 30,
+          "Construction": 415,
+          "Wholesale & retail trade": 507,
+          "Transport & storage": 124,
+          "Accommodation & food": 129,
+          "Information & communication": 118,
+          "Financial & insurance": 98,
+          "Real estate": 66,
+          "Professional & scientific": 209,
+          "Administrative & support": 183,
+          "Public administration & defence": 275,
+          "Education": 356,
+          "Health & social work": 490,
+          "Arts, entertainment & recreation": 65,
+          "Other services": 104,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 632,
+          "2. Professional occupations": 739,
+          "3. Associate professional and technical occupations": 483,
+          "4. Administrative and secretarial occupations": 356,
+          "5. Skilled trades occupations": 410,
+          "6. Caring, leisure and other service occupations": 286,
+          "7. Sales and customer service occupations": 196,
+          "8. Process, plant and machine operatives": 184,
+          "9. Elementary occupations": 243
+        },
+        "hours_worked": {
+          "Part-time": 1018,
+          "Full-time": 2513
+        }
+      },
+      "E05013077": {
+        "name": "Euxton",
+        "industry": {
+          "Agriculture, forestry & fishing": 23,
+          "Mining & quarrying": 6,
+          "Manufacturing": 315,
+          "Electricity & gas supply": 30,
+          "Water supply & waste": 32,
+          "Construction": 344,
+          "Wholesale & retail trade": 588,
+          "Transport & storage": 136,
+          "Accommodation & food": 117,
+          "Information & communication": 142,
+          "Financial & insurance": 94,
+          "Real estate": 61,
+          "Professional & scientific": 250,
+          "Administrative & support": 165,
+          "Public administration & defence": 335,
+          "Education": 423,
+          "Health & social work": 577,
+          "Arts, entertainment & recreation": 56,
+          "Other services": 88,
+          "Household activities": 2
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 530,
+          "2. Professional occupations": 850,
+          "3. Associate professional and technical occupations": 613,
+          "4. Administrative and secretarial occupations": 432,
+          "5. Skilled trades occupations": 353,
+          "6. Caring, leisure and other service occupations": 316,
+          "7. Sales and customer service occupations": 237,
+          "8. Process, plant and machine operatives": 211,
+          "9. Elementary occupations": 266
+        },
+        "hours_worked": {
+          "Part-time": 1048,
+          "Full-time": 2764
+        }
+      }
+    }
+  },
+  "summary": {
+    "claimant_count": 1715,
+    "claimant_rate_pct": 2.3,
+    "claimant_trend": "rising",
+    "median_weekly_pay": 764.8,
+    "median_annual_pay": 39350.0,
+    "top_industry": "Health & social work",
+    "top_industry_pct": 15.8,
+    "professional_pct": 48.6,
+    "part_time_pct": 27.5
+  }
+}

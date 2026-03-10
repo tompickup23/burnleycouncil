@@ -1,0 +1,1223 @@
+{
+  "meta": {
+    "source": "Nomis (Claimant Count + ASHE + GDHI + Census 2021)",
+    "council_id": "wyre",
+    "council_name": "Wyre",
+    "ons_code": "E07000128",
+    "census_date": "2021-03-21",
+    "generated": "2026-03-09T23:31:52"
+  },
+  "claimant_count": {
+    "latest": {
+      "date": "2026-01",
+      "month": "January 2026",
+      "count": 1915,
+      "rate_pct": 2.9
+    },
+    "history": [
+      {
+        "date": "2025-04",
+        "month": "April 2025",
+        "count": 1890,
+        "rate_pct": 2.8
+      },
+      {
+        "date": "2025-05",
+        "month": "May 2025",
+        "count": 1820,
+        "rate_pct": 2.7
+      },
+      {
+        "date": "2025-06",
+        "month": "June 2025",
+        "count": 1850,
+        "rate_pct": 2.8
+      },
+      {
+        "date": "2025-07",
+        "month": "July 2025",
+        "count": 1810,
+        "rate_pct": 2.7
+      },
+      {
+        "date": "2025-08",
+        "month": "August 2025",
+        "count": 1790,
+        "rate_pct": 2.7
+      },
+      {
+        "date": "2025-09",
+        "month": "September 2025",
+        "count": 1780,
+        "rate_pct": 2.7
+      },
+      {
+        "date": "2025-10",
+        "month": "October 2025",
+        "count": 1750,
+        "rate_pct": 2.6
+      },
+      {
+        "date": "2025-11",
+        "month": "November 2025",
+        "count": 1770,
+        "rate_pct": 2.6
+      },
+      {
+        "date": "2025-12",
+        "month": "December 2025",
+        "count": 1760,
+        "rate_pct": 2.6
+      },
+      {
+        "date": "2026-01",
+        "month": "January 2026",
+        "count": 1915,
+        "rate_pct": 2.9
+      }
+    ],
+    "wards": {
+      "E05009932": {
+        "name": "Bourne (Wyre)",
+        "count": 140,
+        "rate_pct": 3.1
+      },
+      "E05009933": {
+        "name": "Breck",
+        "count": 65,
+        "rate_pct": 2.2
+      },
+      "E05009934": {
+        "name": "Brock with Catterall",
+        "count": 60,
+        "rate_pct": 1.6
+      },
+      "E05009935": {
+        "name": "Calder (Wyre)",
+        "count": 25,
+        "rate_pct": 1.5
+      },
+      "E05009936": {
+        "name": "Carleton",
+        "count": 30,
+        "rate_pct": 1.1
+      },
+      "E05009937": {
+        "name": "Cleveleys Park",
+        "count": 50,
+        "rate_pct": 2.1
+      },
+      "E05009938": {
+        "name": "Garstang",
+        "count": 55,
+        "rate_pct": 1.8
+      },
+      "E05009939": {
+        "name": "Great Eccleston",
+        "count": 35,
+        "rate_pct": 1.3
+      },
+      "E05009940": {
+        "name": "Hambleton & Stalmine",
+        "count": 50,
+        "rate_pct": 1.8
+      },
+      "E05009941": {
+        "name": "Hardhorn with High Cross",
+        "count": 65,
+        "rate_pct": 1.9
+      },
+      "E05009942": {
+        "name": "Jubilee (Wyre)",
+        "count": 105,
+        "rate_pct": 4.1
+      },
+      "E05009943": {
+        "name": "Marsh Mill",
+        "count": 65,
+        "rate_pct": 2.0
+      },
+      "E05009944": {
+        "name": "Mount",
+        "count": 140,
+        "rate_pct": 4.5
+      },
+      "E05009945": {
+        "name": "Park (Wyre)",
+        "count": 175,
+        "rate_pct": 5.7
+      },
+      "E05009946": {
+        "name": "Pharos",
+        "count": 290,
+        "rate_pct": 8.2
+      },
+      "E05009947": {
+        "name": "Pheasant's Wood",
+        "count": 20,
+        "rate_pct": 1.8
+      },
+      "E05009948": {
+        "name": "Pilling",
+        "count": 35,
+        "rate_pct": 2.4
+      },
+      "E05009949": {
+        "name": "Preesall",
+        "count": 80,
+        "rate_pct": 2.7
+      },
+      "E05009950": {
+        "name": "Rossall",
+        "count": 140,
+        "rate_pct": 4.2
+      },
+      "E05009951": {
+        "name": "Stanah",
+        "count": 50,
+        "rate_pct": 1.7
+      },
+      "E05009952": {
+        "name": "Tithebarn",
+        "count": 50,
+        "rate_pct": 2.0
+      },
+      "E05009953": {
+        "name": "Victoria & Norcross",
+        "count": 60,
+        "rate_pct": 2.0
+      },
+      "E05009954": {
+        "name": "Warren",
+        "count": 105,
+        "rate_pct": 3.7
+      },
+      "E05009955": {
+        "name": "Wyresdale",
+        "count": 25,
+        "rate_pct": 1.5
+      }
+    }
+  },
+  "earnings": {
+    "median_weekly_pay": 709.1,
+    "year": "2025",
+    "median_annual_pay": 38048.0,
+    "england_median_weekly": 769.5
+  },
+  "gdhi": null,
+  "census": {
+    "council_totals": {
+      "industry": {
+        "Agriculture, forestry & fishing": 902,
+        "Mining & quarrying": 124,
+        "Manufacturing": 3643,
+        "Electricity & gas supply": 380,
+        "Water supply & waste": 281,
+        "Construction": 4536,
+        "Wholesale & retail trade": 6580,
+        "Transport & storage": 1753,
+        "Accommodation & food": 2700,
+        "Information & communication": 1030,
+        "Financial & insurance": 974,
+        "Real estate": 576,
+        "Professional & scientific": 2401,
+        "Administrative & support": 1888,
+        "Public administration & defence": 5090,
+        "Education": 4777,
+        "Health & social work": 7848,
+        "Arts, entertainment & recreation": 978,
+        "Other services": 1193,
+        "Household activities": 12
+      },
+      "occupation": {
+        "1. Managers, directors and senior officials": 5996,
+        "2. Professional occupations": 8584,
+        "3. Associate professional and technical occupations": 5679,
+        "4. Administrative and secretarial occupations": 5727,
+        "5. Skilled trades occupations": 5959,
+        "6. Caring, leisure and other service occupations": 5089,
+        "7. Sales and customer service occupations": 3469,
+        "8. Process, plant and machine operatives": 3136,
+        "9. Elementary occupations": 4196
+      },
+      "hours_worked": {
+        "Part-time": 15404,
+        "Full-time": 32431
+      }
+    },
+    "wards": {
+      "E05009932": {
+        "name": "Bourne",
+        "industry": {
+          "Agriculture, forestry & fishing": 6,
+          "Mining & quarrying": 10,
+          "Manufacturing": 234,
+          "Electricity & gas supply": 19,
+          "Water supply & waste": 23,
+          "Construction": 266,
+          "Wholesale & retail trade": 423,
+          "Transport & storage": 105,
+          "Accommodation & food": 192,
+          "Information & communication": 57,
+          "Financial & insurance": 54,
+          "Real estate": 24,
+          "Professional & scientific": 123,
+          "Administrative & support": 138,
+          "Public administration & defence": 454,
+          "Education": 292,
+          "Health & social work": 506,
+          "Arts, entertainment & recreation": 57,
+          "Other services": 107,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 316,
+          "2. Professional occupations": 488,
+          "3. Associate professional and technical occupations": 391,
+          "4. Administrative and secretarial occupations": 406,
+          "5. Skilled trades occupations": 358,
+          "6. Caring, leisure and other service occupations": 392,
+          "7. Sales and customer service occupations": 258,
+          "8. Process, plant and machine operatives": 207,
+          "9. Elementary occupations": 286
+        },
+        "hours_worked": {
+          "Part-time": 963,
+          "Full-time": 2139
+        }
+      },
+      "E05009933": {
+        "name": "Breck",
+        "industry": {
+          "Agriculture, forestry & fishing": 4,
+          "Mining & quarrying": 6,
+          "Manufacturing": 141,
+          "Electricity & gas supply": 15,
+          "Water supply & waste": 7,
+          "Construction": 178,
+          "Wholesale & retail trade": 233,
+          "Transport & storage": 44,
+          "Accommodation & food": 109,
+          "Information & communication": 69,
+          "Financial & insurance": 82,
+          "Real estate": 35,
+          "Professional & scientific": 132,
+          "Administrative & support": 75,
+          "Public administration & defence": 254,
+          "Education": 233,
+          "Health & social work": 337,
+          "Arts, entertainment & recreation": 48,
+          "Other services": 50,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 332,
+          "2. Professional occupations": 550,
+          "3. Associate professional and technical occupations": 255,
+          "4. Administrative and secretarial occupations": 254,
+          "5. Skilled trades occupations": 208,
+          "6. Caring, leisure and other service occupations": 164,
+          "7. Sales and customer service occupations": 110,
+          "8. Process, plant and machine operatives": 73,
+          "9. Elementary occupations": 112
+        },
+        "hours_worked": {
+          "Part-time": 608,
+          "Full-time": 1451
+        }
+      },
+      "E05009934": {
+        "name": "Brock with Catterall",
+        "industry": {
+          "Agriculture, forestry & fishing": 141,
+          "Mining & quarrying": 3,
+          "Manufacturing": 216,
+          "Electricity & gas supply": 20,
+          "Water supply & waste": 12,
+          "Construction": 196,
+          "Wholesale & retail trade": 345,
+          "Transport & storage": 104,
+          "Accommodation & food": 126,
+          "Information & communication": 47,
+          "Financial & insurance": 50,
+          "Real estate": 22,
+          "Professional & scientific": 107,
+          "Administrative & support": 96,
+          "Public administration & defence": 182,
+          "Education": 285,
+          "Health & social work": 386,
+          "Arts, entertainment & recreation": 62,
+          "Other services": 68,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 329,
+          "2. Professional occupations": 512,
+          "3. Associate professional and technical occupations": 294,
+          "4. Administrative and secretarial occupations": 227,
+          "5. Skilled trades occupations": 360,
+          "6. Caring, leisure and other service occupations": 236,
+          "7. Sales and customer service occupations": 149,
+          "8. Process, plant and machine operatives": 141,
+          "9. Elementary occupations": 224
+        },
+        "hours_worked": {
+          "Part-time": 753,
+          "Full-time": 1721
+        }
+      },
+      "E05009935": {
+        "name": "Calder (Wyre)",
+        "industry": {
+          "Agriculture, forestry & fishing": 62,
+          "Mining & quarrying": 0,
+          "Manufacturing": 102,
+          "Electricity & gas supply": 11,
+          "Water supply & waste": 5,
+          "Construction": 89,
+          "Wholesale & retail trade": 157,
+          "Transport & storage": 35,
+          "Accommodation & food": 54,
+          "Information & communication": 28,
+          "Financial & insurance": 23,
+          "Real estate": 10,
+          "Professional & scientific": 71,
+          "Administrative & support": 40,
+          "Public administration & defence": 87,
+          "Education": 153,
+          "Health & social work": 153,
+          "Arts, entertainment & recreation": 24,
+          "Other services": 18,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 189,
+          "2. Professional occupations": 276,
+          "3. Associate professional and technical occupations": 149,
+          "4. Administrative and secretarial occupations": 81,
+          "5. Skilled trades occupations": 122,
+          "6. Caring, leisure and other service occupations": 90,
+          "7. Sales and customer service occupations": 68,
+          "8. Process, plant and machine operatives": 56,
+          "9. Elementary occupations": 103
+        },
+        "hours_worked": {
+          "Part-time": 335,
+          "Full-time": 800
+        }
+      },
+      "E05009936": {
+        "name": "Carleton",
+        "industry": {
+          "Agriculture, forestry & fishing": 16,
+          "Mining & quarrying": 5,
+          "Manufacturing": 154,
+          "Electricity & gas supply": 12,
+          "Water supply & waste": 11,
+          "Construction": 182,
+          "Wholesale & retail trade": 208,
+          "Transport & storage": 75,
+          "Accommodation & food": 103,
+          "Information & communication": 51,
+          "Financial & insurance": 42,
+          "Real estate": 32,
+          "Professional & scientific": 119,
+          "Administrative & support": 75,
+          "Public administration & defence": 285,
+          "Education": 255,
+          "Health & social work": 304,
+          "Arts, entertainment & recreation": 37,
+          "Other services": 51,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 265,
+          "2. Professional occupations": 480,
+          "3. Associate professional and technical occupations": 293,
+          "4. Administrative and secretarial occupations": 270,
+          "5. Skilled trades occupations": 196,
+          "6. Caring, leisure and other service occupations": 173,
+          "7. Sales and customer service occupations": 103,
+          "8. Process, plant and machine operatives": 94,
+          "9. Elementary occupations": 146
+        },
+        "hours_worked": {
+          "Part-time": 614,
+          "Full-time": 1406
+        }
+      },
+      "E05009937": {
+        "name": "Cleveleys Park",
+        "industry": {
+          "Agriculture, forestry & fishing": 17,
+          "Mining & quarrying": 4,
+          "Manufacturing": 120,
+          "Electricity & gas supply": 14,
+          "Water supply & waste": 12,
+          "Construction": 142,
+          "Wholesale & retail trade": 258,
+          "Transport & storage": 76,
+          "Accommodation & food": 91,
+          "Information & communication": 40,
+          "Financial & insurance": 35,
+          "Real estate": 28,
+          "Professional & scientific": 82,
+          "Administrative & support": 73,
+          "Public administration & defence": 209,
+          "Education": 155,
+          "Health & social work": 272,
+          "Arts, entertainment & recreation": 36,
+          "Other services": 36,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 162,
+          "2. Professional occupations": 261,
+          "3. Associate professional and technical occupations": 197,
+          "4. Administrative and secretarial occupations": 255,
+          "5. Skilled trades occupations": 194,
+          "6. Caring, leisure and other service occupations": 195,
+          "7. Sales and customer service occupations": 160,
+          "8. Process, plant and machine operatives": 117,
+          "9. Elementary occupations": 157
+        },
+        "hours_worked": {
+          "Part-time": 576,
+          "Full-time": 1122
+        }
+      },
+      "E05009938": {
+        "name": "Garstang",
+        "industry": {
+          "Agriculture, forestry & fishing": 84,
+          "Mining & quarrying": 6,
+          "Manufacturing": 192,
+          "Electricity & gas supply": 18,
+          "Water supply & waste": 10,
+          "Construction": 286,
+          "Wholesale & retail trade": 377,
+          "Transport & storage": 108,
+          "Accommodation & food": 154,
+          "Information & communication": 54,
+          "Financial & insurance": 33,
+          "Real estate": 26,
+          "Professional & scientific": 139,
+          "Administrative & support": 120,
+          "Public administration & defence": 180,
+          "Education": 281,
+          "Health & social work": 429,
+          "Arts, entertainment & recreation": 44,
+          "Other services": 83,
+          "Household activities": 2
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 355,
+          "2. Professional occupations": 513,
+          "3. Associate professional and technical occupations": 284,
+          "4. Administrative and secretarial occupations": 244,
+          "5. Skilled trades occupations": 350,
+          "6. Caring, leisure and other service occupations": 252,
+          "7. Sales and customer service occupations": 189,
+          "8. Process, plant and machine operatives": 185,
+          "9. Elementary occupations": 260
+        },
+        "hours_worked": {
+          "Part-time": 889,
+          "Full-time": 1740
+        }
+      },
+      "E05009939": {
+        "name": "Great Eccleston",
+        "industry": {
+          "Agriculture, forestry & fishing": 170,
+          "Mining & quarrying": 4,
+          "Manufacturing": 159,
+          "Electricity & gas supply": 19,
+          "Water supply & waste": 18,
+          "Construction": 231,
+          "Wholesale & retail trade": 255,
+          "Transport & storage": 73,
+          "Accommodation & food": 106,
+          "Information & communication": 52,
+          "Financial & insurance": 46,
+          "Real estate": 31,
+          "Professional & scientific": 147,
+          "Administrative & support": 76,
+          "Public administration & defence": 164,
+          "Education": 235,
+          "Health & social work": 296,
+          "Arts, entertainment & recreation": 40,
+          "Other services": 39,
+          "Household activities": 2
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 391,
+          "2. Professional occupations": 475,
+          "3. Associate professional and technical occupations": 257,
+          "4. Administrative and secretarial occupations": 216,
+          "5. Skilled trades occupations": 317,
+          "6. Caring, leisure and other service occupations": 136,
+          "7. Sales and customer service occupations": 105,
+          "8. Process, plant and machine operatives": 120,
+          "9. Elementary occupations": 165
+        },
+        "hours_worked": {
+          "Part-time": 629,
+          "Full-time": 1556
+        }
+      },
+      "E05009940": {
+        "name": "Hambleton & Stalmine",
+        "industry": {
+          "Agriculture, forestry & fishing": 59,
+          "Mining & quarrying": 7,
+          "Manufacturing": 143,
+          "Electricity & gas supply": 21,
+          "Water supply & waste": 19,
+          "Construction": 215,
+          "Wholesale & retail trade": 248,
+          "Transport & storage": 59,
+          "Accommodation & food": 90,
+          "Information & communication": 44,
+          "Financial & insurance": 37,
+          "Real estate": 29,
+          "Professional & scientific": 121,
+          "Administrative & support": 95,
+          "Public administration & defence": 174,
+          "Education": 201,
+          "Health & social work": 298,
+          "Arts, entertainment & recreation": 39,
+          "Other services": 69,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 309,
+          "2. Professional occupations": 376,
+          "3. Associate professional and technical occupations": 221,
+          "4. Administrative and secretarial occupations": 219,
+          "5. Skilled trades occupations": 294,
+          "6. Caring, leisure and other service occupations": 188,
+          "7. Sales and customer service occupations": 114,
+          "8. Process, plant and machine operatives": 113,
+          "9. Elementary occupations": 139
+        },
+        "hours_worked": {
+          "Part-time": 641,
+          "Full-time": 1332
+        }
+      },
+      "E05009941": {
+        "name": "Hardhorn with High Cross",
+        "industry": {
+          "Agriculture, forestry & fishing": 21,
+          "Mining & quarrying": 5,
+          "Manufacturing": 177,
+          "Electricity & gas supply": 21,
+          "Water supply & waste": 9,
+          "Construction": 253,
+          "Wholesale & retail trade": 333,
+          "Transport & storage": 69,
+          "Accommodation & food": 142,
+          "Information & communication": 80,
+          "Financial & insurance": 77,
+          "Real estate": 52,
+          "Professional & scientific": 202,
+          "Administrative & support": 92,
+          "Public administration & defence": 306,
+          "Education": 275,
+          "Health & social work": 505,
+          "Arts, entertainment & recreation": 58,
+          "Other services": 60,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 412,
+          "2. Professional occupations": 641,
+          "3. Associate professional and technical occupations": 374,
+          "4. Administrative and secretarial occupations": 348,
+          "5. Skilled trades occupations": 270,
+          "6. Caring, leisure and other service occupations": 237,
+          "7. Sales and customer service occupations": 161,
+          "8. Process, plant and machine operatives": 126,
+          "9. Elementary occupations": 180
+        },
+        "hours_worked": {
+          "Part-time": 866,
+          "Full-time": 1882
+        }
+      },
+      "E05009942": {
+        "name": "Jubilee (Wyre)",
+        "industry": {
+          "Agriculture, forestry & fishing": 6,
+          "Mining & quarrying": 3,
+          "Manufacturing": 106,
+          "Electricity & gas supply": 13,
+          "Water supply & waste": 17,
+          "Construction": 170,
+          "Wholesale & retail trade": 237,
+          "Transport & storage": 87,
+          "Accommodation & food": 128,
+          "Information & communication": 41,
+          "Financial & insurance": 27,
+          "Real estate": 16,
+          "Professional & scientific": 56,
+          "Administrative & support": 74,
+          "Public administration & defence": 176,
+          "Education": 129,
+          "Health & social work": 299,
+          "Arts, entertainment & recreation": 42,
+          "Other services": 50,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 172,
+          "2. Professional occupations": 213,
+          "3. Associate professional and technical occupations": 188,
+          "4. Administrative and secretarial occupations": 201,
+          "5. Skilled trades occupations": 212,
+          "6. Caring, leisure and other service occupations": 242,
+          "7. Sales and customer service occupations": 144,
+          "8. Process, plant and machine operatives": 159,
+          "9. Elementary occupations": 152
+        },
+        "hours_worked": {
+          "Part-time": 573,
+          "Full-time": 1109
+        }
+      },
+      "E05009943": {
+        "name": "Marsh Mill",
+        "industry": {
+          "Agriculture, forestry & fishing": 11,
+          "Mining & quarrying": 4,
+          "Manufacturing": 202,
+          "Electricity & gas supply": 20,
+          "Water supply & waste": 11,
+          "Construction": 239,
+          "Wholesale & retail trade": 379,
+          "Transport & storage": 95,
+          "Accommodation & food": 155,
+          "Information & communication": 76,
+          "Financial & insurance": 56,
+          "Real estate": 30,
+          "Professional & scientific": 106,
+          "Administrative & support": 96,
+          "Public administration & defence": 335,
+          "Education": 238,
+          "Health & social work": 435,
+          "Arts, entertainment & recreation": 60,
+          "Other services": 76,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 268,
+          "2. Professional occupations": 446,
+          "3. Associate professional and technical occupations": 330,
+          "4. Administrative and secretarial occupations": 370,
+          "5. Skilled trades occupations": 311,
+          "6. Caring, leisure and other service occupations": 299,
+          "7. Sales and customer service occupations": 203,
+          "8. Process, plant and machine operatives": 170,
+          "9. Elementary occupations": 236
+        },
+        "hours_worked": {
+          "Part-time": 834,
+          "Full-time": 1799
+        }
+      },
+      "E05009944": {
+        "name": "Mount",
+        "industry": {
+          "Agriculture, forestry & fishing": 16,
+          "Mining & quarrying": 6,
+          "Manufacturing": 206,
+          "Electricity & gas supply": 19,
+          "Water supply & waste": 14,
+          "Construction": 191,
+          "Wholesale & retail trade": 301,
+          "Transport & storage": 100,
+          "Accommodation & food": 152,
+          "Information & communication": 38,
+          "Financial & insurance": 47,
+          "Real estate": 16,
+          "Professional & scientific": 94,
+          "Administrative & support": 95,
+          "Public administration & defence": 228,
+          "Education": 193,
+          "Health & social work": 401,
+          "Arts, entertainment & recreation": 43,
+          "Other services": 56,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 190,
+          "2. Professional occupations": 263,
+          "3. Associate professional and technical occupations": 251,
+          "4. Administrative and secretarial occupations": 303,
+          "5. Skilled trades occupations": 257,
+          "6. Caring, leisure and other service occupations": 320,
+          "7. Sales and customer service occupations": 179,
+          "8. Process, plant and machine operatives": 222,
+          "9. Elementary occupations": 234
+        },
+        "hours_worked": {
+          "Part-time": 729,
+          "Full-time": 1491
+        }
+      },
+      "E05009945": {
+        "name": "Park (Wyre)",
+        "industry": {
+          "Agriculture, forestry & fishing": 11,
+          "Mining & quarrying": 7,
+          "Manufacturing": 178,
+          "Electricity & gas supply": 17,
+          "Water supply & waste": 16,
+          "Construction": 176,
+          "Wholesale & retail trade": 299,
+          "Transport & storage": 80,
+          "Accommodation & food": 129,
+          "Information & communication": 17,
+          "Financial & insurance": 27,
+          "Real estate": 18,
+          "Professional & scientific": 66,
+          "Administrative & support": 91,
+          "Public administration & defence": 197,
+          "Education": 136,
+          "Health & social work": 321,
+          "Arts, entertainment & recreation": 55,
+          "Other services": 42,
+          "Household activities": 2
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 160,
+          "2. Professional occupations": 175,
+          "3. Associate professional and technical occupations": 164,
+          "4. Administrative and secretarial occupations": 225,
+          "5. Skilled trades occupations": 238,
+          "6. Caring, leisure and other service occupations": 281,
+          "7. Sales and customer service occupations": 196,
+          "8. Process, plant and machine operatives": 182,
+          "9. Elementary occupations": 265
+        },
+        "hours_worked": {
+          "Part-time": 665,
+          "Full-time": 1222
+        }
+      },
+      "E05009946": {
+        "name": "Pharos",
+        "industry": {
+          "Agriculture, forestry & fishing": 5,
+          "Mining & quarrying": 4,
+          "Manufacturing": 170,
+          "Electricity & gas supply": 8,
+          "Water supply & waste": 8,
+          "Construction": 198,
+          "Wholesale & retail trade": 347,
+          "Transport & storage": 89,
+          "Accommodation & food": 176,
+          "Information & communication": 27,
+          "Financial & insurance": 23,
+          "Real estate": 17,
+          "Professional & scientific": 59,
+          "Administrative & support": 87,
+          "Public administration & defence": 156,
+          "Education": 143,
+          "Health & social work": 381,
+          "Arts, entertainment & recreation": 32,
+          "Other services": 31,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 174,
+          "2. Professional occupations": 181,
+          "3. Associate professional and technical occupations": 183,
+          "4. Administrative and secretarial occupations": 194,
+          "5. Skilled trades occupations": 264,
+          "6. Caring, leisure and other service occupations": 292,
+          "7. Sales and customer service occupations": 204,
+          "8. Process, plant and machine operatives": 200,
+          "9. Elementary occupations": 279
+        },
+        "hours_worked": {
+          "Part-time": 664,
+          "Full-time": 1307
+        }
+      },
+      "E05009947": {
+        "name": "Pheasant's Wood",
+        "industry": {
+          "Agriculture, forestry & fishing": 5,
+          "Mining & quarrying": 1,
+          "Manufacturing": 66,
+          "Electricity & gas supply": 8,
+          "Water supply & waste": 5,
+          "Construction": 82,
+          "Wholesale & retail trade": 139,
+          "Transport & storage": 37,
+          "Accommodation & food": 52,
+          "Information & communication": 22,
+          "Financial & insurance": 18,
+          "Real estate": 11,
+          "Professional & scientific": 48,
+          "Administrative & support": 33,
+          "Public administration & defence": 132,
+          "Education": 89,
+          "Health & social work": 148,
+          "Arts, entertainment & recreation": 28,
+          "Other services": 14,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 110,
+          "2. Professional occupations": 176,
+          "3. Associate professional and technical occupations": 142,
+          "4. Administrative and secretarial occupations": 144,
+          "5. Skilled trades occupations": 91,
+          "6. Caring, leisure and other service occupations": 85,
+          "7. Sales and customer service occupations": 80,
+          "8. Process, plant and machine operatives": 46,
+          "9. Elementary occupations": 60
+        },
+        "hours_worked": {
+          "Part-time": 278,
+          "Full-time": 659
+        }
+      },
+      "E05009948": {
+        "name": "Pilling",
+        "industry": {
+          "Agriculture, forestry & fishing": 98,
+          "Mining & quarrying": 4,
+          "Manufacturing": 84,
+          "Electricity & gas supply": 9,
+          "Water supply & waste": 8,
+          "Construction": 138,
+          "Wholesale & retail trade": 186,
+          "Transport & storage": 37,
+          "Accommodation & food": 61,
+          "Information & communication": 22,
+          "Financial & insurance": 9,
+          "Real estate": 9,
+          "Professional & scientific": 53,
+          "Administrative & support": 50,
+          "Public administration & defence": 77,
+          "Education": 119,
+          "Health & social work": 176,
+          "Arts, entertainment & recreation": 26,
+          "Other services": 30,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 201,
+          "2. Professional occupations": 196,
+          "3. Associate professional and technical occupations": 123,
+          "4. Administrative and secretarial occupations": 107,
+          "5. Skilled trades occupations": 228,
+          "6. Caring, leisure and other service occupations": 110,
+          "7. Sales and customer service occupations": 77,
+          "8. Process, plant and machine operatives": 66,
+          "9. Elementary occupations": 89
+        },
+        "hours_worked": {
+          "Part-time": 374,
+          "Full-time": 821
+        }
+      },
+      "E05009949": {
+        "name": "Preesall",
+        "industry": {
+          "Agriculture, forestry & fishing": 48,
+          "Mining & quarrying": 5,
+          "Manufacturing": 161,
+          "Electricity & gas supply": 13,
+          "Water supply & waste": 19,
+          "Construction": 232,
+          "Wholesale & retail trade": 286,
+          "Transport & storage": 86,
+          "Accommodation & food": 112,
+          "Information & communication": 41,
+          "Financial & insurance": 34,
+          "Real estate": 25,
+          "Professional & scientific": 88,
+          "Administrative & support": 88,
+          "Public administration & defence": 158,
+          "Education": 194,
+          "Health & social work": 413,
+          "Arts, entertainment & recreation": 45,
+          "Other services": 65,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 286,
+          "2. Professional occupations": 331,
+          "3. Associate professional and technical occupations": 235,
+          "4. Administrative and secretarial occupations": 193,
+          "5. Skilled trades occupations": 311,
+          "6. Caring, leisure and other service occupations": 271,
+          "7. Sales and customer service occupations": 150,
+          "8. Process, plant and machine operatives": 146,
+          "9. Elementary occupations": 202
+        },
+        "hours_worked": {
+          "Part-time": 737,
+          "Full-time": 1385
+        }
+      },
+      "E05009950": {
+        "name": "Rossall",
+        "industry": {
+          "Agriculture, forestry & fishing": 14,
+          "Mining & quarrying": 5,
+          "Manufacturing": 177,
+          "Electricity & gas supply": 16,
+          "Water supply & waste": 16,
+          "Construction": 200,
+          "Wholesale & retail trade": 344,
+          "Transport & storage": 86,
+          "Accommodation & food": 104,
+          "Information & communication": 34,
+          "Financial & insurance": 38,
+          "Real estate": 16,
+          "Professional & scientific": 68,
+          "Administrative & support": 73,
+          "Public administration & defence": 195,
+          "Education": 190,
+          "Health & social work": 344,
+          "Arts, entertainment & recreation": 38,
+          "Other services": 41,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 189,
+          "2. Professional occupations": 235,
+          "3. Associate professional and technical occupations": 192,
+          "4. Administrative and secretarial occupations": 250,
+          "5. Skilled trades occupations": 272,
+          "6. Caring, leisure and other service occupations": 269,
+          "7. Sales and customer service occupations": 188,
+          "8. Process, plant and machine operatives": 176,
+          "9. Elementary occupations": 232
+        },
+        "hours_worked": {
+          "Part-time": 692,
+          "Full-time": 1311
+        }
+      },
+      "E05009951": {
+        "name": "Stanah",
+        "industry": {
+          "Agriculture, forestry & fishing": 12,
+          "Mining & quarrying": 4,
+          "Manufacturing": 127,
+          "Electricity & gas supply": 12,
+          "Water supply & waste": 4,
+          "Construction": 198,
+          "Wholesale & retail trade": 262,
+          "Transport & storage": 68,
+          "Accommodation & food": 85,
+          "Information & communication": 66,
+          "Financial & insurance": 52,
+          "Real estate": 24,
+          "Professional & scientific": 96,
+          "Administrative & support": 69,
+          "Public administration & defence": 291,
+          "Education": 225,
+          "Health & social work": 322,
+          "Arts, entertainment & recreation": 40,
+          "Other services": 49,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 270,
+          "2. Professional occupations": 405,
+          "3. Associate professional and technical occupations": 269,
+          "4. Administrative and secretarial occupations": 304,
+          "5. Skilled trades occupations": 228,
+          "6. Caring, leisure and other service occupations": 190,
+          "7. Sales and customer service occupations": 124,
+          "8. Process, plant and machine operatives": 104,
+          "9. Elementary occupations": 118
+        },
+        "hours_worked": {
+          "Part-time": 658,
+          "Full-time": 1355
+        }
+      },
+      "E05009952": {
+        "name": "Tithebarn",
+        "industry": {
+          "Agriculture, forestry & fishing": 4,
+          "Mining & quarrying": 4,
+          "Manufacturing": 146,
+          "Electricity & gas supply": 17,
+          "Water supply & waste": 7,
+          "Construction": 164,
+          "Wholesale & retail trade": 250,
+          "Transport & storage": 56,
+          "Accommodation & food": 110,
+          "Information & communication": 38,
+          "Financial & insurance": 56,
+          "Real estate": 31,
+          "Professional & scientific": 118,
+          "Administrative & support": 68,
+          "Public administration & defence": 273,
+          "Education": 234,
+          "Health & social work": 341,
+          "Arts, entertainment & recreation": 29,
+          "Other services": 53,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 278,
+          "2. Professional occupations": 474,
+          "3. Associate professional and technical occupations": 269,
+          "4. Administrative and secretarial occupations": 285,
+          "5. Skilled trades occupations": 214,
+          "6. Caring, leisure and other service occupations": 156,
+          "7. Sales and customer service occupations": 130,
+          "8. Process, plant and machine operatives": 84,
+          "9. Elementary occupations": 112
+        },
+        "hours_worked": {
+          "Part-time": 617,
+          "Full-time": 1384
+        }
+      },
+      "E05009953": {
+        "name": "Victoria & Norcross",
+        "industry": {
+          "Agriculture, forestry & fishing": 3,
+          "Mining & quarrying": 5,
+          "Manufacturing": 137,
+          "Electricity & gas supply": 21,
+          "Water supply & waste": 8,
+          "Construction": 168,
+          "Wholesale & retail trade": 279,
+          "Transport & storage": 76,
+          "Accommodation & food": 102,
+          "Information & communication": 44,
+          "Financial & insurance": 58,
+          "Real estate": 38,
+          "Professional & scientific": 100,
+          "Administrative & support": 65,
+          "Public administration & defence": 307,
+          "Education": 197,
+          "Health & social work": 341,
+          "Arts, entertainment & recreation": 40,
+          "Other services": 58,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 260,
+          "2. Professional occupations": 431,
+          "3. Associate professional and technical occupations": 259,
+          "4. Administrative and secretarial occupations": 303,
+          "5. Skilled trades occupations": 197,
+          "6. Caring, leisure and other service occupations": 201,
+          "7. Sales and customer service occupations": 160,
+          "8. Process, plant and machine operatives": 108,
+          "9. Elementary occupations": 137
+        },
+        "hours_worked": {
+          "Part-time": 681,
+          "Full-time": 1376
+        }
+      },
+      "E05009954": {
+        "name": "Warren",
+        "industry": {
+          "Agriculture, forestry & fishing": 11,
+          "Mining & quarrying": 19,
+          "Manufacturing": 175,
+          "Electricity & gas supply": 18,
+          "Water supply & waste": 15,
+          "Construction": 230,
+          "Wholesale & retail trade": 297,
+          "Transport & storage": 85,
+          "Accommodation & food": 90,
+          "Information & communication": 24,
+          "Financial & insurance": 33,
+          "Real estate": 20,
+          "Professional & scientific": 105,
+          "Administrative & support": 82,
+          "Public administration & defence": 210,
+          "Education": 173,
+          "Health & social work": 292,
+          "Arts, entertainment & recreation": 33,
+          "Other services": 38,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 165,
+          "2. Professional occupations": 209,
+          "3. Associate professional and technical occupations": 236,
+          "4. Administrative and secretarial occupations": 233,
+          "5. Skilled trades occupations": 276,
+          "6. Caring, leisure and other service occupations": 246,
+          "7. Sales and customer service occupations": 164,
+          "8. Process, plant and machine operatives": 194,
+          "9. Elementary occupations": 225
+        },
+        "hours_worked": {
+          "Part-time": 665,
+          "Full-time": 1283
+        }
+      },
+      "E05009955": {
+        "name": "Wyresdale",
+        "industry": {
+          "Agriculture, forestry & fishing": 74,
+          "Mining & quarrying": 5,
+          "Manufacturing": 75,
+          "Electricity & gas supply": 19,
+          "Water supply & waste": 10,
+          "Construction": 110,
+          "Wholesale & retail trade": 141,
+          "Transport & storage": 30,
+          "Accommodation & food": 81,
+          "Information & communication": 25,
+          "Financial & insurance": 21,
+          "Real estate": 18,
+          "Professional & scientific": 94,
+          "Administrative & support": 37,
+          "Public administration & defence": 63,
+          "Education": 152,
+          "Health & social work": 150,
+          "Arts, entertainment & recreation": 19,
+          "Other services": 16,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 212,
+          "2. Professional occupations": 274,
+          "3. Associate professional and technical occupations": 123,
+          "4. Administrative and secretarial occupations": 99,
+          "5. Skilled trades occupations": 185,
+          "6. Caring, leisure and other service occupations": 67,
+          "7. Sales and customer service occupations": 54,
+          "8. Process, plant and machine operatives": 44,
+          "9. Elementary occupations": 84
+        },
+        "hours_worked": {
+          "Part-time": 361,
+          "Full-time": 778
+        }
+      }
+    }
+  },
+  "summary": {
+    "claimant_count": 1915,
+    "claimant_rate_pct": 2.9,
+    "claimant_trend": "rising",
+    "median_weekly_pay": 709.1,
+    "median_annual_pay": 38048.0,
+    "top_industry": "Health & social work",
+    "top_industry_pct": 16.5,
+    "professional_pct": 42.4,
+    "part_time_pct": 32.2
+  }
+}

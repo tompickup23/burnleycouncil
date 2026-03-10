@@ -1,0 +1,753 @@
+{
+  "meta": {
+    "source": "Nomis (Claimant Count + ASHE + GDHI + Census 2021)",
+    "council_id": "rossendale",
+    "council_name": "Rossendale",
+    "ons_code": "E07000125",
+    "census_date": "2021-03-21",
+    "generated": "2026-03-09T23:30:59"
+  },
+  "claimant_count": {
+    "latest": {
+      "date": "2026-01",
+      "month": "January 2026",
+      "count": 1710,
+      "rate_pct": 3.8
+    },
+    "history": [
+      {
+        "date": "2025-04",
+        "month": "April 2025",
+        "count": 1670,
+        "rate_pct": 3.7
+      },
+      {
+        "date": "2025-05",
+        "month": "May 2025",
+        "count": 1650,
+        "rate_pct": 3.7
+      },
+      {
+        "date": "2025-06",
+        "month": "June 2025",
+        "count": 1650,
+        "rate_pct": 3.7
+      },
+      {
+        "date": "2025-07",
+        "month": "July 2025",
+        "count": 1655,
+        "rate_pct": 3.7
+      },
+      {
+        "date": "2025-08",
+        "month": "August 2025",
+        "count": 1690,
+        "rate_pct": 3.7
+      },
+      {
+        "date": "2025-09",
+        "month": "September 2025",
+        "count": 1685,
+        "rate_pct": 3.7
+      },
+      {
+        "date": "2025-10",
+        "month": "October 2025",
+        "count": 1665,
+        "rate_pct": 3.7
+      },
+      {
+        "date": "2025-11",
+        "month": "November 2025",
+        "count": 1580,
+        "rate_pct": 3.5
+      },
+      {
+        "date": "2025-12",
+        "month": "December 2025",
+        "count": 1640,
+        "rate_pct": 3.6
+      },
+      {
+        "date": "2026-01",
+        "month": "January 2026",
+        "count": 1710,
+        "rate_pct": 3.8
+      }
+    ],
+    "wards": {
+      "E05015817": {
+        "name": "Bacup",
+        "count": 225,
+        "rate_pct": 5.1
+      },
+      "E05015818": {
+        "name": "Britannia & Lee Mill",
+        "count": 140,
+        "rate_pct": 3.4
+      },
+      "E05015819": {
+        "name": "Goodshaw & Cribden",
+        "count": 95,
+        "rate_pct": 2.2
+      },
+      "E05015820": {
+        "name": "Greenfield & Eden",
+        "count": 100,
+        "rate_pct": 2.3
+      },
+      "E05015821": {
+        "name": "Hareholme & Waterfoot",
+        "count": 195,
+        "rate_pct": 4.1
+      },
+      "E05015822": {
+        "name": "Haslingden",
+        "count": 305,
+        "rate_pct": 5.9
+      },
+      "E05015823": {
+        "name": "Helmshore",
+        "count": 75,
+        "rate_pct": 1.9
+      },
+      "E05015824": {
+        "name": "Longholme",
+        "count": 190,
+        "rate_pct": 4.3
+      },
+      "E05015825": {
+        "name": "Whitewell & Stacksteads",
+        "count": 215,
+        "rate_pct": 4.3
+      },
+      "E05015826": {
+        "name": "Whitworth",
+        "count": 175,
+        "rate_pct": 3.5
+      }
+    }
+  },
+  "earnings": {
+    "median_weekly_pay": 726.0,
+    "year": "2025",
+    "median_annual_pay": 35273.0,
+    "england_median_weekly": 769.5
+  },
+  "gdhi": null,
+  "census": {
+    "council_totals": {
+      "industry": {
+        "Agriculture, forestry & fishing": 164,
+        "Mining & quarrying": 48,
+        "Manufacturing": 3447,
+        "Electricity & gas supply": 121,
+        "Water supply & waste": 233,
+        "Construction": 3173,
+        "Wholesale & retail trade": 5302,
+        "Transport & storage": 1301,
+        "Accommodation & food": 1217,
+        "Information & communication": 1156,
+        "Financial & insurance": 618,
+        "Real estate": 495,
+        "Professional & scientific": 1664,
+        "Administrative & support": 1528,
+        "Public administration & defence": 1947,
+        "Education": 3667,
+        "Health & social work": 5540,
+        "Arts, entertainment & recreation": 578,
+        "Other services": 753,
+        "Household activities": 8
+      },
+      "occupation": {
+        "1. Managers, directors and senior officials": 4316,
+        "2. Professional occupations": 6256,
+        "3. Associate professional and technical occupations": 4366,
+        "4. Administrative and secretarial occupations": 2762,
+        "5. Skilled trades occupations": 3993,
+        "6. Caring, leisure and other service occupations": 3508,
+        "7. Sales and customer service occupations": 2598,
+        "8. Process, plant and machine operatives": 2448,
+        "9. Elementary occupations": 2869
+      },
+      "hours_worked": {
+        "Part-time": 9371,
+        "Full-time": 23745
+      }
+    },
+    "wards": {
+      "E05005316": {
+        "name": "Cribden",
+        "industry": {
+          "Agriculture, forestry & fishing": 6,
+          "Mining & quarrying": 3,
+          "Manufacturing": 137,
+          "Electricity & gas supply": 9,
+          "Water supply & waste": 13,
+          "Construction": 142,
+          "Wholesale & retail trade": 287,
+          "Transport & storage": 55,
+          "Accommodation & food": 74,
+          "Information & communication": 75,
+          "Financial & insurance": 33,
+          "Real estate": 26,
+          "Professional & scientific": 96,
+          "Administrative & support": 89,
+          "Public administration & defence": 130,
+          "Education": 227,
+          "Health & social work": 356,
+          "Arts, entertainment & recreation": 21,
+          "Other services": 26,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 271,
+          "2. Professional occupations": 444,
+          "3. Associate professional and technical occupations": 249,
+          "4. Administrative and secretarial occupations": 149,
+          "5. Skilled trades occupations": 178,
+          "6. Caring, leisure and other service occupations": 148,
+          "7. Sales and customer service occupations": 139,
+          "8. Process, plant and machine operatives": 82,
+          "9. Elementary occupations": 141
+        },
+        "hours_worked": {
+          "Part-time": 532,
+          "Full-time": 1271
+        }
+      },
+      "E05005317": {
+        "name": "Eden",
+        "industry": {
+          "Agriculture, forestry & fishing": 8,
+          "Mining & quarrying": 2,
+          "Manufacturing": 163,
+          "Electricity & gas supply": 11,
+          "Water supply & waste": 10,
+          "Construction": 169,
+          "Wholesale & retail trade": 257,
+          "Transport & storage": 74,
+          "Accommodation & food": 77,
+          "Information & communication": 87,
+          "Financial & insurance": 34,
+          "Real estate": 36,
+          "Professional & scientific": 132,
+          "Administrative & support": 71,
+          "Public administration & defence": 131,
+          "Education": 218,
+          "Health & social work": 291,
+          "Arts, entertainment & recreation": 32,
+          "Other services": 37,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 343,
+          "2. Professional occupations": 447,
+          "3. Associate professional and technical occupations": 282,
+          "4. Administrative and secretarial occupations": 144,
+          "5. Skilled trades occupations": 188,
+          "6. Caring, leisure and other service occupations": 142,
+          "7. Sales and customer service occupations": 99,
+          "8. Process, plant and machine operatives": 86,
+          "9. Elementary occupations": 116
+        },
+        "hours_worked": {
+          "Part-time": 486,
+          "Full-time": 1361
+        }
+      },
+      "E05005318": {
+        "name": "Facit and Shawforth",
+        "industry": {
+          "Agriculture, forestry & fishing": 11,
+          "Mining & quarrying": 1,
+          "Manufacturing": 175,
+          "Electricity & gas supply": 7,
+          "Water supply & waste": 10,
+          "Construction": 204,
+          "Wholesale & retail trade": 255,
+          "Transport & storage": 75,
+          "Accommodation & food": 54,
+          "Information & communication": 52,
+          "Financial & insurance": 26,
+          "Real estate": 32,
+          "Professional & scientific": 78,
+          "Administrative & support": 66,
+          "Public administration & defence": 103,
+          "Education": 175,
+          "Health & social work": 324,
+          "Arts, entertainment & recreation": 32,
+          "Other services": 36,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 190,
+          "2. Professional occupations": 289,
+          "3. Associate professional and technical occupations": 217,
+          "4. Administrative and secretarial occupations": 163,
+          "5. Skilled trades occupations": 249,
+          "6. Caring, leisure and other service occupations": 224,
+          "7. Sales and customer service occupations": 102,
+          "8. Process, plant and machine operatives": 137,
+          "9. Elementary occupations": 150
+        },
+        "hours_worked": {
+          "Part-time": 461,
+          "Full-time": 1261
+        }
+      },
+      "E05005319": {
+        "name": "Goodshaw",
+        "industry": {
+          "Agriculture, forestry & fishing": 12,
+          "Mining & quarrying": 2,
+          "Manufacturing": 206,
+          "Electricity & gas supply": 11,
+          "Water supply & waste": 13,
+          "Construction": 197,
+          "Wholesale & retail trade": 323,
+          "Transport & storage": 68,
+          "Accommodation & food": 80,
+          "Information & communication": 89,
+          "Financial & insurance": 45,
+          "Real estate": 34,
+          "Professional & scientific": 123,
+          "Administrative & support": 109,
+          "Public administration & defence": 145,
+          "Education": 274,
+          "Health & social work": 314,
+          "Arts, entertainment & recreation": 41,
+          "Other services": 59,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 320,
+          "2. Professional occupations": 497,
+          "3. Associate professional and technical occupations": 304,
+          "4. Administrative and secretarial occupations": 193,
+          "5. Skilled trades occupations": 220,
+          "6. Caring, leisure and other service occupations": 173,
+          "7. Sales and customer service occupations": 168,
+          "8. Process, plant and machine operatives": 148,
+          "9. Elementary occupations": 139
+        },
+        "hours_worked": {
+          "Part-time": 596,
+          "Full-time": 1563
+        }
+      },
+      "E05005320": {
+        "name": "Greenfield (Rossendale)",
+        "industry": {
+          "Agriculture, forestry & fishing": 7,
+          "Mining & quarrying": 0,
+          "Manufacturing": 304,
+          "Electricity & gas supply": 11,
+          "Water supply & waste": 18,
+          "Construction": 236,
+          "Wholesale & retail trade": 392,
+          "Transport & storage": 101,
+          "Accommodation & food": 110,
+          "Information & communication": 95,
+          "Financial & insurance": 50,
+          "Real estate": 41,
+          "Professional & scientific": 135,
+          "Administrative & support": 134,
+          "Public administration & defence": 173,
+          "Education": 310,
+          "Health & social work": 425,
+          "Arts, entertainment & recreation": 41,
+          "Other services": 61,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 343,
+          "2. Professional occupations": 510,
+          "3. Associate professional and technical occupations": 387,
+          "4. Administrative and secretarial occupations": 259,
+          "5. Skilled trades occupations": 292,
+          "6. Caring, leisure and other service occupations": 258,
+          "7. Sales and customer service occupations": 234,
+          "8. Process, plant and machine operatives": 179,
+          "9. Elementary occupations": 201
+        },
+        "hours_worked": {
+          "Part-time": 789,
+          "Full-time": 1875
+        }
+      },
+      "E05005321": {
+        "name": "Greensclough",
+        "industry": {
+          "Agriculture, forestry & fishing": 11,
+          "Mining & quarrying": 4,
+          "Manufacturing": 327,
+          "Electricity & gas supply": 5,
+          "Water supply & waste": 13,
+          "Construction": 323,
+          "Wholesale & retail trade": 477,
+          "Transport & storage": 116,
+          "Accommodation & food": 106,
+          "Information & communication": 87,
+          "Financial & insurance": 36,
+          "Real estate": 34,
+          "Professional & scientific": 118,
+          "Administrative & support": 118,
+          "Public administration & defence": 158,
+          "Education": 308,
+          "Health & social work": 484,
+          "Arts, entertainment & recreation": 61,
+          "Other services": 77,
+          "Household activities": 1
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 342,
+          "2. Professional occupations": 461,
+          "3. Associate professional and technical occupations": 418,
+          "4. Administrative and secretarial occupations": 235,
+          "5. Skilled trades occupations": 407,
+          "6. Caring, leisure and other service occupations": 325,
+          "7. Sales and customer service occupations": 201,
+          "8. Process, plant and machine operatives": 200,
+          "9. Elementary occupations": 289
+        },
+        "hours_worked": {
+          "Part-time": 854,
+          "Full-time": 2027
+        }
+      },
+      "E05005322": {
+        "name": "Hareholme",
+        "industry": {
+          "Agriculture, forestry & fishing": 7,
+          "Mining & quarrying": 3,
+          "Manufacturing": 244,
+          "Electricity & gas supply": 2,
+          "Water supply & waste": 13,
+          "Construction": 238,
+          "Wholesale & retail trade": 438,
+          "Transport & storage": 84,
+          "Accommodation & food": 105,
+          "Information & communication": 81,
+          "Financial & insurance": 51,
+          "Real estate": 46,
+          "Professional & scientific": 141,
+          "Administrative & support": 120,
+          "Public administration & defence": 157,
+          "Education": 280,
+          "Health & social work": 427,
+          "Arts, entertainment & recreation": 47,
+          "Other services": 59,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 330,
+          "2. Professional occupations": 478,
+          "3. Associate professional and technical occupations": 318,
+          "4. Administrative and secretarial occupations": 211,
+          "5. Skilled trades occupations": 327,
+          "6. Caring, leisure and other service occupations": 269,
+          "7. Sales and customer service occupations": 229,
+          "8. Process, plant and machine operatives": 160,
+          "9. Elementary occupations": 231
+        },
+        "hours_worked": {
+          "Part-time": 726,
+          "Full-time": 1827
+        }
+      },
+      "E05005323": {
+        "name": "Healey and Whitworth",
+        "industry": {
+          "Agriculture, forestry & fishing": 7,
+          "Mining & quarrying": 3,
+          "Manufacturing": 195,
+          "Electricity & gas supply": 5,
+          "Water supply & waste": 16,
+          "Construction": 210,
+          "Wholesale & retail trade": 353,
+          "Transport & storage": 81,
+          "Accommodation & food": 53,
+          "Information & communication": 60,
+          "Financial & insurance": 41,
+          "Real estate": 30,
+          "Professional & scientific": 83,
+          "Administrative & support": 90,
+          "Public administration & defence": 109,
+          "Education": 218,
+          "Health & social work": 318,
+          "Arts, entertainment & recreation": 41,
+          "Other services": 34,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 245,
+          "2. Professional occupations": 339,
+          "3. Associate professional and technical occupations": 235,
+          "4. Administrative and secretarial occupations": 153,
+          "5. Skilled trades occupations": 260,
+          "6. Caring, leisure and other service occupations": 211,
+          "7. Sales and customer service occupations": 156,
+          "8. Process, plant and machine operatives": 175,
+          "9. Elementary occupations": 175
+        },
+        "hours_worked": {
+          "Part-time": 526,
+          "Full-time": 1423
+        }
+      },
+      "E05005324": {
+        "name": "Helmshore",
+        "industry": {
+          "Agriculture, forestry & fishing": 21,
+          "Mining & quarrying": 6,
+          "Manufacturing": 267,
+          "Electricity & gas supply": 13,
+          "Water supply & waste": 20,
+          "Construction": 256,
+          "Wholesale & retail trade": 424,
+          "Transport & storage": 102,
+          "Accommodation & food": 77,
+          "Information & communication": 118,
+          "Financial & insurance": 67,
+          "Real estate": 50,
+          "Professional & scientific": 174,
+          "Administrative & support": 115,
+          "Public administration & defence": 187,
+          "Education": 405,
+          "Health & social work": 476,
+          "Arts, entertainment & recreation": 44,
+          "Other services": 53,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 425,
+          "2. Professional occupations": 699,
+          "3. Associate professional and technical occupations": 426,
+          "4. Administrative and secretarial occupations": 258,
+          "5. Skilled trades occupations": 281,
+          "6. Caring, leisure and other service occupations": 262,
+          "7. Sales and customer service occupations": 191,
+          "8. Process, plant and machine operatives": 161,
+          "9. Elementary occupations": 187
+        },
+        "hours_worked": {
+          "Part-time": 804,
+          "Full-time": 2088
+        }
+      },
+      "E05005325": {
+        "name": "Irwell",
+        "industry": {
+          "Agriculture, forestry & fishing": 12,
+          "Mining & quarrying": 8,
+          "Manufacturing": 354,
+          "Electricity & gas supply": 10,
+          "Water supply & waste": 35,
+          "Construction": 256,
+          "Wholesale & retail trade": 491,
+          "Transport & storage": 125,
+          "Accommodation & food": 74,
+          "Information & communication": 94,
+          "Financial & insurance": 51,
+          "Real estate": 42,
+          "Professional & scientific": 93,
+          "Administrative & support": 137,
+          "Public administration & defence": 156,
+          "Education": 267,
+          "Health & social work": 493,
+          "Arts, entertainment & recreation": 41,
+          "Other services": 66,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 335,
+          "2. Professional occupations": 431,
+          "3. Associate professional and technical occupations": 330,
+          "4. Administrative and secretarial occupations": 248,
+          "5. Skilled trades occupations": 357,
+          "6. Caring, leisure and other service occupations": 353,
+          "7. Sales and customer service occupations": 236,
+          "8. Process, plant and machine operatives": 259,
+          "9. Elementary occupations": 271
+        },
+        "hours_worked": {
+          "Part-time": 740,
+          "Full-time": 2082
+        }
+      },
+      "E05005326": {
+        "name": "Longholme",
+        "industry": {
+          "Agriculture, forestry & fishing": 9,
+          "Mining & quarrying": 3,
+          "Manufacturing": 248,
+          "Electricity & gas supply": 3,
+          "Water supply & waste": 22,
+          "Construction": 243,
+          "Wholesale & retail trade": 418,
+          "Transport & storage": 92,
+          "Accommodation & food": 103,
+          "Information & communication": 124,
+          "Financial & insurance": 61,
+          "Real estate": 34,
+          "Professional & scientific": 157,
+          "Administrative & support": 151,
+          "Public administration & defence": 150,
+          "Education": 334,
+          "Health & social work": 468,
+          "Arts, entertainment & recreation": 49,
+          "Other services": 77,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 403,
+          "2. Professional occupations": 619,
+          "3. Associate professional and technical occupations": 371,
+          "4. Administrative and secretarial occupations": 176,
+          "5. Skilled trades occupations": 297,
+          "6. Caring, leisure and other service occupations": 278,
+          "7. Sales and customer service occupations": 223,
+          "8. Process, plant and machine operatives": 160,
+          "9. Elementary occupations": 232
+        },
+        "hours_worked": {
+          "Part-time": 790,
+          "Full-time": 1969
+        }
+      },
+      "E05005327": {
+        "name": "Stacksteads",
+        "industry": {
+          "Agriculture, forestry & fishing": 14,
+          "Mining & quarrying": 1,
+          "Manufacturing": 187,
+          "Electricity & gas supply": 6,
+          "Water supply & waste": 12,
+          "Construction": 176,
+          "Wholesale & retail trade": 331,
+          "Transport & storage": 75,
+          "Accommodation & food": 63,
+          "Information & communication": 47,
+          "Financial & insurance": 25,
+          "Real estate": 20,
+          "Professional & scientific": 66,
+          "Administrative & support": 71,
+          "Public administration & defence": 85,
+          "Education": 162,
+          "Health & social work": 314,
+          "Arts, entertainment & recreation": 22,
+          "Other services": 27,
+          "Household activities": 3
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 164,
+          "2. Professional occupations": 212,
+          "3. Associate professional and technical occupations": 193,
+          "4. Administrative and secretarial occupations": 122,
+          "5. Skilled trades occupations": 242,
+          "6. Caring, leisure and other service occupations": 254,
+          "7. Sales and customer service occupations": 163,
+          "8. Process, plant and machine operatives": 158,
+          "9. Elementary occupations": 217
+        },
+        "hours_worked": {
+          "Part-time": 506,
+          "Full-time": 1217
+        }
+      },
+      "E05005328": {
+        "name": "Whitewell",
+        "industry": {
+          "Agriculture, forestry & fishing": 24,
+          "Mining & quarrying": 9,
+          "Manufacturing": 311,
+          "Electricity & gas supply": 19,
+          "Water supply & waste": 21,
+          "Construction": 282,
+          "Wholesale & retail trade": 404,
+          "Transport & storage": 123,
+          "Accommodation & food": 88,
+          "Information & communication": 79,
+          "Financial & insurance": 37,
+          "Real estate": 30,
+          "Professional & scientific": 150,
+          "Administrative & support": 137,
+          "Public administration & defence": 151,
+          "Education": 274,
+          "Health & social work": 453,
+          "Arts, entertainment & recreation": 54,
+          "Other services": 85,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 345,
+          "2. Professional occupations": 489,
+          "3. Associate professional and technical occupations": 307,
+          "4. Administrative and secretarial occupations": 221,
+          "5. Skilled trades occupations": 366,
+          "6. Caring, leisure and other service occupations": 344,
+          "7. Sales and customer service occupations": 187,
+          "8. Process, plant and machine operatives": 248,
+          "9. Elementary occupations": 235
+        },
+        "hours_worked": {
+          "Part-time": 764,
+          "Full-time": 1978
+        }
+      },
+      "E05005329": {
+        "name": "Worsley",
+        "industry": {
+          "Agriculture, forestry & fishing": 11,
+          "Mining & quarrying": 1,
+          "Manufacturing": 314,
+          "Electricity & gas supply": 7,
+          "Water supply & waste": 21,
+          "Construction": 243,
+          "Wholesale & retail trade": 453,
+          "Transport & storage": 127,
+          "Accommodation & food": 152,
+          "Information & communication": 72,
+          "Financial & insurance": 61,
+          "Real estate": 40,
+          "Professional & scientific": 119,
+          "Administrative & support": 125,
+          "Public administration & defence": 114,
+          "Education": 217,
+          "Health & social work": 397,
+          "Arts, entertainment & recreation": 50,
+          "Other services": 55,
+          "Household activities": 0
+        },
+        "occupation": {
+          "1. Managers, directors and senior officials": 256,
+          "2. Professional occupations": 338,
+          "3. Associate professional and technical occupations": 325,
+          "4. Administrative and secretarial occupations": 233,
+          "5. Skilled trades occupations": 329,
+          "6. Caring, leisure and other service occupations": 264,
+          "7. Sales and customer service occupations": 270,
+          "8. Process, plant and machine operatives": 294,
+          "9. Elementary occupations": 288
+        },
+        "hours_worked": {
+          "Part-time": 797,
+          "Full-time": 1800
+        }
+      }
+    }
+  },
+  "summary": {
+    "claimant_count": 1710,
+    "claimant_rate_pct": 3.8,
+    "claimant_trend": "rising",
+    "median_weekly_pay": 726.0,
+    "median_annual_pay": 35273.0,
+    "top_industry": "Health & social work",
+    "top_industry_pct": 16.8,
+    "professional_pct": 45.1,
+    "part_time_pct": 28.3
+  }
+}
