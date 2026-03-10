@@ -127,7 +127,7 @@ const mockAssetsData = {
   },
   asset_categories: [
     { category: 'Carriageways', grc_estimate: 7500000000, grc_pct: 75, fill: '#ff9f0a' },
-    { category: 'Footways & Cycleways', grc_estimate: 1200000000, grc_pct: 12, fill: '#00d4aa' },
+    { category: 'Footways & Cycleways', grc_estimate: 1200000000, grc_pct: 12, fill: '#12B6CF' },
     { category: 'Structures (Bridges & Retaining Walls)', grc_estimate: 800000000, grc_pct: 8, fill: '#bf5af2' },
   ],
   road_condition: {

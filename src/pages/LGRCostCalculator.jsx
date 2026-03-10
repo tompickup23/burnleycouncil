@@ -9,7 +9,7 @@ import { Search, Loader2, AlertCircle, PoundSterling, Home, TrendingDown, Trendi
 import { LoadingState } from '../components/ui'
 import './LGRCostCalculator.css'
 
-const PROPOSAL_COLORS = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a']
+const PROPOSAL_COLORS = ['#12B6CF', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a']
 
 // Council tax annual increase assumptions — based on recent Lancashire trends
 // Most districts+LCC have been raising 4-5% p.a. (max district 3% + LCC ~5%)
@@ -346,7 +346,7 @@ function LGRCostCalculator() {
       }))
   }, [currentCosts])
 
-  const PIE_COLORS = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#5ac8fa', '#ff6b6b', '#ffd60a', '#64d2ff']
+  const PIE_COLORS = ['#12B6CF', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#5ac8fa', '#ff6b6b', '#ffd60a', '#64d2ff']
 
   // --- Loading / Error states ---
   if (loading) return <LoadingState message="Loading cost data..." />

@@ -13,7 +13,7 @@ import './SupplierView.css'
 
 const RISK_COLORS = {
   clean: '#30d158',
-  low: '#00d4aa',
+  low: '#12B6CF',
   medium: '#ffd60a',
   high: '#ff9f0a',
   critical: '#ff453a',
@@ -329,7 +329,7 @@ function SupplierView() {
                     formatter={(value) => [formatCurrency(value), 'Spend']}
                     labelFormatter={(l) => `FY ${l}`}
                   />
-                  <Bar dataKey="amount" fill="#00d4aa" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                  <Bar dataKey="amount" fill="#12B6CF" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

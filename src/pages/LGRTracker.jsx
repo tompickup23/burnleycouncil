@@ -28,7 +28,7 @@ import CollapsibleSection from '../components/CollapsibleSection'
 import './LGRTracker.css'
 
 const SEVERITY_COLORS = { critical: '#ff453a', high: '#ff9f0a', medium: '#ffd60a', low: '#30d158' }
-const MODEL_COLORS = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a']
+const MODEL_COLORS = ['#12B6CF', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a']
 const SCORE_COLORS = { 10: '#30d158', 9: '#30d158', 8: '#30d158', 7: '#30d158', 6: '#ffd60a', 5: '#ff9f0a', 4: '#ff9f0a', 3: '#ff453a', 2: '#ff453a', 1: '#ff453a' }
 
 function ScoreBar({ score, max = 10, label }) {
@@ -669,7 +669,7 @@ function LGRTracker() {
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(1)}M`, 'Funding']} />
                   <Bar dataKey="amount" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                     {[0, 1, 2, 3].map(i => (
-                      <Cell key={i} fill={['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2'][i]} />
+                      <Cell key={i} fill={['#12B6CF', '#30d158', '#ff9f0a', '#bf5af2'][i]} />
                     ))}
                   </Bar>
                 </BarChart>
@@ -736,8 +736,8 @@ function LGRTracker() {
                   <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', padding: '0.5rem 0', borderBottom: '1px solid #2c2c2e' }}>
                     <span style={{
                       padding: '2px 10px', borderRadius: '4px', fontSize: '11px', fontWeight: 700,
-                      background: pos.stance === 'Oppose' ? '#ff453a22' : pos.stance === 'Favour' ? '#30d15822' : '#00d4aa22',
-                      color: pos.stance === 'Oppose' ? '#ff453a' : pos.stance === 'Favour' ? '#30d158' : '#00d4aa',
+                      background: pos.stance === 'Oppose' ? '#ff453a22' : pos.stance === 'Favour' ? '#30d15822' : '#12B6CF22',
+                      color: pos.stance === 'Oppose' ? '#ff453a' : pos.stance === 'Favour' ? '#30d158' : '#12B6CF',
                       flexShrink: 0
                     }}>{pos.stance}</span>
                     <div>
@@ -773,7 +773,7 @@ function LGRTracker() {
 
           {/* CCA Impact on this council */}
           {ccaData.impact_by_council?.[councilId] && (
-            <div className="lgr-chart-card" style={{ marginTop: '1rem', borderLeft: '3px solid #00d4aa' }}>
+            <div className="lgr-chart-card" style={{ marginTop: '1rem', borderLeft: '3px solid #12B6CF' }}>
               <h3><MapPin size={16} /> Impact on {councilName}</h3>
               <p style={{ color: '#aeaeb2' }}>{ccaData.impact_by_council[councilId].impact}</p>
               <span className="tier-badge" style={{ marginTop: '0.5rem', display: 'inline-block' }}>
@@ -802,7 +802,7 @@ function LGRTracker() {
           )}
 
           <div style={{ marginTop: '1rem', fontSize: '0.8rem', color: '#636366' }}>
-            Source: <a href={ccaData.meta?.website} target="_blank" rel="noopener noreferrer" style={{ color: '#00d4aa' }}>lancashire-cca.gov.uk</a>
+            Source: <a href={ccaData.meta?.website} target="_blank" rel="noopener noreferrer" style={{ color: '#12B6CF' }}>lancashire-cca.gov.uk</a>
             {' · '}Last updated: {ccaData.meta?.last_updated}
           </div>
         </section>
@@ -861,7 +861,7 @@ function LGRTracker() {
                     <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
                     <Bar dataKey="tenYearNet" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                       {dogeComparisonData.map((entry, i) => (
-                        <Cell key={i} fill={entry.tenYearNet >= 0 ? '#00d4aa' : '#ff453a'} />
+                        <Cell key={i} fill={entry.tenYearNet >= 0 ? '#12B6CF' : '#ff453a'} />
                       ))}
                     </Bar>
                   </BarChart>
@@ -883,7 +883,7 @@ function LGRTracker() {
                 <YAxis type="category" dataKey="category" tick={AXIS_TICK_STYLE_SM} width={130} />
                 <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v.toFixed(1)}M`, '']} />
                 <ReferenceLine x={0} stroke="#636366" />
-                <Bar dataKey="two_ua" name="2 UAs" fill="#00d4aa" radius={[0, 4, 4, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Bar dataKey="two_ua" name="2 UAs" fill="#12B6CF" radius={[0, 4, 4, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -940,7 +940,7 @@ function LGRTracker() {
                 ]} />
                 <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
                 <Bar dataKey="newton" name="Newton Europe (consultants)" fill="#636366" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
-                <Bar dataKey="doge" name="AI DOGE (this site)" fill="#00d4aa" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Bar dataKey="doge" name="AI DOGE (this site)" fill="#12B6CF" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Legend />
               </BarChart>
             </ResponsiveContainer>
@@ -1078,7 +1078,7 @@ function LGRTracker() {
               <span className="cashflow-stat-label">Net Present Value</span>
             </div>
             <div className="cashflow-stat">
-              <span className="cashflow-stat-value" style={{ color: '#00d4aa' }}>
+              <span className="cashflow-stat-value" style={{ color: '#12B6CF' }}>
                 {findBreakevenYear(cashflowData) || 'Never'}
               </span>
               <span className="cashflow-stat-label">Breakeven Year</span>
@@ -1099,12 +1099,12 @@ function LGRTracker() {
                 />
                 <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
                 <defs>
-                  <ChartGradient id="cashflowGrad" color="#00d4aa" topOpacity={0.15} bottomOpacity={0.02} />
+                  <ChartGradient id="cashflowGrad" color="#12B6CF" topOpacity={0.15} bottomOpacity={0.02} />
                 </defs>
                 <Area dataKey="cumulative" name="Cumulative" fill="url(#cashflowGrad)" stroke="none" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Bar dataKey="costs" name="Costs" fill="#ff453a" radius={[2, 2, 0, 0]} barSize={20} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Bar dataKey="savings" name="Savings" fill="#30d158" radius={[2, 2, 0, 0]} barSize={20} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
-                <Line dataKey="cumulative" name="Cumulative" stroke="#00d4aa" strokeWidth={2} dot={{ fill: '#00d4aa', r: 3 }} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Line dataKey="cumulative" name="Cumulative" stroke="#12B6CF" strokeWidth={2} dot={{ fill: '#12B6CF', r: 3 }} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Line dataKey="npv" name="NPV" stroke="#bf5af2" strokeWidth={1.5} strokeDasharray="5 5" dot={false} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Legend />
               </ComposedChart>
@@ -1254,12 +1254,12 @@ function LGRTracker() {
                 />
                 <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
                 <defs>
-                  <ChartGradient id="sensitivityBand" color="#00d4aa" topOpacity={0.15} bottomOpacity={0.02} />
+                  <ChartGradient id="sensitivityBand" color="#12B6CF" topOpacity={0.15} bottomOpacity={0.02} />
                 </defs>
                 <Area dataKey="bandBase" stackId="band" fill="transparent" stroke="none" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Area dataKey="bandWidth" stackId="band" fill="url(#sensitivityBand)" stroke="none" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Line dataKey="best" name="Best case" stroke="#30d158" strokeWidth={1.5} strokeDasharray="5 5" dot={false} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
-                <Line dataKey="central" name="Central case" stroke="#00d4aa" strokeWidth={2} dot={{ fill: '#00d4aa', r: 3 }} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Line dataKey="central" name="Central case" stroke="#12B6CF" strokeWidth={2} dot={{ fill: '#12B6CF', r: 3 }} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Line dataKey="worst" name="Worst case" stroke="#ff453a" strokeWidth={1.5} strokeDasharray="5 5" dot={false} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Legend />
               </ComposedChart>
@@ -1636,7 +1636,7 @@ function LGRTracker() {
                             'Central services': 'Central services',
                             'Other services': 'Other',
                           }
-                          const SVC_COLORS = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#5ac8fa', '#ffd60a', '#ff6482', '#64d2ff', '#ac8e68', '#636366']
+                          const SVC_COLORS = ['#12B6CF', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#5ac8fa', '#ffd60a', '#ff6482', '#64d2ff', '#ac8e68', '#636366']
                           const svcEntries = Object.entries(authComp.services)
                             .map(([name, data]) => ({ name: SERVICE_SHORT[name] || name, ...data }))
                             .filter(s => s.net > 0)
@@ -1751,7 +1751,7 @@ function LGRTracker() {
                     ]} />
                     <ReferenceLine y={0} stroke="#636366" strokeDasharray="3 3" />
                     <Bar dataKey="ccnSavings" name="CCN/PwC" fill="#636366" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
-                    <Bar dataKey="dogeSavings" name="AI DOGE (realistic)" fill="#00d4aa" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                    <Bar dataKey="dogeSavings" name="AI DOGE (realistic)" fill="#12B6CF" radius={[6, 6, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                     <Legend />
                   </BarChart>
                 </ResponsiveContainer>
@@ -2416,7 +2416,7 @@ function LGRTracker() {
                   </span>
                   {activeModelData.authorities.map((auth, i) => (
                     <span key={auth.name} className="premium-map-legend-item">
-                      <span className="premium-map-legend-dot" style={{ background: ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff', '#ffd60a', '#ff375f'][i % 8] }} />
+                      <span className="premium-map-legend-dot" style={{ background: ['#12B6CF', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff', '#ffd60a', '#ff375f'][i % 8] }} />
                       <span style={{ flex: 1 }}>{auth.name}</span>
                       <span style={{ color: '#8e8e93', fontSize: '0.75rem' }}>{auth.councils?.length || 0} councils · {formatNumber(auth.population || 0)} pop</span>
                     </span>
@@ -2527,7 +2527,7 @@ function LGRTracker() {
               name: cat.label,
               value: cat.total_value / 1e6,
               count: cat.exercises?.length || 0,
-              fill: key === 'education_send' ? '#ff453a' : key === 'social_care' ? '#ff9f0a' : key === 'highways' ? '#00d4aa' : key === 'corporate' ? '#bf5af2' : key === 'construction' ? '#30d158' : '#ffd60a'
+              fill: key === 'education_send' ? '#ff453a' : key === 'social_care' ? '#ff9f0a' : key === 'highways' ? '#12B6CF' : key === 'corporate' ? '#bf5af2' : key === 'construction' ? '#30d158' : '#ffd60a'
             }))
             return (
               <>
@@ -2577,7 +2577,7 @@ function LGRTracker() {
                         <td>
                           <strong>{ex.title}</strong>
                           {ex.note && <div style={{ fontSize: '0.75rem', color: '#8e8e93', marginTop: 2 }}>{ex.note}</div>}
-                          {ex.geographic_lots && <div style={{ fontSize: '0.72rem', color: '#00d4aa', marginTop: 2 }}>Lots: {ex.geographic_lots}</div>}
+                          {ex.geographic_lots && <div style={{ fontSize: '0.72rem', color: '#12B6CF', marginTop: 2 }}>Lots: {ex.geographic_lots}</div>}
                         </td>
                         <td style={{ fontWeight: 600 }}>£{(ex.value / 1e6).toFixed(0)}M</td>
                         <td>{ex.term}</td>
@@ -2596,7 +2596,7 @@ function LGRTracker() {
                     {(cat.unitary_contracts || []).map((uc, i) => (
                       <tr key={`u${i}`} style={{ opacity: 0.85 }}>
                         <td>
-                          <span style={{ fontSize: '0.72rem', color: '#00d4aa', marginRight: 6 }}>{uc.authority}</span>
+                          <span style={{ fontSize: '0.72rem', color: '#12B6CF', marginRight: 6 }}>{uc.authority}</span>
                           {uc.title}
                           {uc.note && <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: 2 }}>{uc.note}</div>}
                         </td>
@@ -2681,7 +2681,7 @@ function LGRTracker() {
                 })}
                 <div className="lgr-gantt-legend">
                   <span><span className="lgr-gantt-legend-dot" style={{ background: '#ff453a' }} /> Critical path</span>
-                  <span><span className="lgr-gantt-legend-dot" style={{ background: '#00d4aa' }} /> Standard</span>
+                  <span><span className="lgr-gantt-legend-dot" style={{ background: '#12B6CF' }} /> Standard</span>
                   <span className="lgr-gantt-legend-vesting"><span className="lgr-gantt-legend-line" style={{ borderColor: '#ff453a' }} /> Apr 2028 (current)</span>
                   <span className="lgr-gantt-legend-vesting"><span className="lgr-gantt-legend-line" style={{ borderColor: '#30d158' }} /> Apr 2029 (recommended)</span>
                 </div>

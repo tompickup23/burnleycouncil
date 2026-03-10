@@ -14,7 +14,7 @@ import { TOOLTIP_STYLE, CHART_COLORS, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_ST
 import './MPComparison.css'
 
 const EXPENSE_CATEGORIES = [
-  { key: 'staffing', label: 'Staffing', color: '#00d4aa' },
+  { key: 'staffing', label: 'Staffing', color: '#12B6CF' },
   { key: 'office_costs', label: 'Office', color: '#30d158' },
   { key: 'accommodation', label: 'Accommodation', color: '#ff9f0a' },
   { key: 'travel', label: 'Travel', color: '#bf5af2' },
@@ -362,7 +362,7 @@ function MPComparison() {
                   labelFormatter={(_, payload) => payload?.[0]?.payload?.fullName ? `${payload[0].payload.fullName} (${payload[0].payload.constituency})` : ''}
                 />
                 <Bar dataKey="salary" stackId="cost" fill="#555" name="Salary" />
-                <Bar dataKey="expenses" stackId="cost" fill="#00d4aa" name="Expenses" />
+                <Bar dataKey="expenses" stackId="cost" fill="#12B6CF" name="Expenses" />
               </BarChart>
             </ResponsiveContainer>
           </div>
@@ -433,7 +433,7 @@ function MPComparison() {
                     return p ? `${p.fullName} (${p.constituency}) — ${p.party}` : ''
                   }}
                 />
-                <Bar dataKey="attendance" fill="#00d4aa" name="Attendance %" />
+                <Bar dataKey="attendance" fill="#12B6CF" name="Attendance %" />
               </BarChart>
             </ResponsiveContainer>
           </div>

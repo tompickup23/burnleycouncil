@@ -257,8 +257,8 @@
 }
 
 .meeting-card.today {
-  border-color: rgba(0, 212, 170, 0.4);
-  box-shadow: 0 0 20px rgba(0, 212, 170, 0.1);
+  border-color: rgba(18, 182, 207, 0.4);
+  box-shadow: 0 0 20px rgba(18, 182, 207, 0.1);
 }
 
 .meeting-card.expanded {
@@ -362,8 +362,8 @@
 }
 
 .countdown-badge.today {
-  background: rgba(0, 212, 170, 0.15);
-  color: #00d4aa;
+  background: rgba(18, 182, 207, 0.15);
+  color: #12B6CF;
 }
 
 .countdown-badge.soon {
@@ -523,13 +523,13 @@
   color: var(--accent-blue);
   text-decoration: none;
   padding: var(--space-sm) var(--space-md);
-  background: rgba(0, 212, 170, 0.1);
+  background: rgba(18, 182, 207, 0.1);
   border-radius: var(--radius-md);
   transition: all 0.2s;
 }
 
 .meeting-link:hover {
-  background: rgba(0, 212, 170, 0.2);
+  background: rgba(18, 182, 207, 0.2);
 }
 
 /* Source Note */

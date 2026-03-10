@@ -241,7 +241,7 @@ function Meetings() {
                     />
                     <Bar
                       dataKey="count"
-                      fill="#00d4aa"
+                      fill="#12B6CF"
                       radius={[4, 4, 0, 0]}
                       animationDuration={CHART_ANIMATION.duration}
                       animationEasing={CHART_ANIMATION.easing}

@@ -11,7 +11,7 @@
 
 .cross-hero .hero-content h1 {
   margin-bottom: var(--space-sm);
-  background: linear-gradient(135deg, #ffffff 0%, #00d4aa 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #12B6CF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -30,8 +30,8 @@
   gap: var(--space-sm);
   padding: var(--space-sm) var(--space-md);
   margin-bottom: var(--space-md);
-  background: rgba(0, 212, 170, 0.06);
-  border: 1px solid rgba(0, 212, 170, 0.15);
+  background: rgba(18, 182, 207, 0.06);
+  border: 1px solid rgba(18, 182, 207, 0.15);
   border-radius: var(--radius-md);
   font-size: 0.875rem;
   color: var(--text-secondary);
@@ -39,7 +39,7 @@
 }
 
 .cross-tier-banner svg {
-  color: #00d4aa;
+  color: #12B6CF;
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -47,7 +47,7 @@
 .tier-toggle-btn {
   background: none;
   border: none;
-  color: #00d4aa;
+  color: #12B6CF;
   cursor: pointer;
   text-decoration: underline;
   font-size: 0.9em;
@@ -95,8 +95,8 @@
   gap: var(--space-sm);
   padding: var(--space-md);
   margin-bottom: var(--space-lg);
-  background: linear-gradient(135deg, rgba(0, 212, 170, 0.08), rgba(191, 90, 242, 0.06));
-  border: 1px solid rgba(0, 212, 170, 0.2);
+  background: linear-gradient(135deg, rgba(18, 182, 207, 0.08), rgba(191, 90, 242, 0.06));
+  border: 1px solid rgba(18, 182, 207, 0.2);
   border-radius: var(--radius-md);
   font-size: 0.875rem;
   color: var(--text-secondary);
@@ -155,8 +155,8 @@
 }
 
 .overview-card.current {
-  border-color: rgba(0, 212, 170, 0.3);
-  box-shadow: 0 0 0 1px rgba(0, 212, 170, 0.15);
+  border-color: rgba(18, 182, 207, 0.3);
+  box-shadow: 0 0 0 1px rgba(18, 182, 207, 0.15);
 }
 
 .overview-header {
@@ -175,8 +175,8 @@
   font-size: 0.6875rem;
   padding: 3px 8px;
   border-radius: 9999px;
-  background: rgba(0, 212, 170, 0.15);
-  color: #00d4aa;
+  background: rgba(18, 182, 207, 0.15);
+  color: #12B6CF;
   font-weight: 600;
 }
 
@@ -262,7 +262,7 @@
 }
 
 .scorecard-card.current {
-  border-color: rgba(0, 212, 170, 0.2);
+  border-color: rgba(18, 182, 207, 0.2);
 }
 
 .scorecard-card h3 {
@@ -358,7 +358,7 @@
 }
 
 .cross-table tr.highlight-row {
-  background: rgba(0, 212, 170, 0.08);
+  background: rgba(18, 182, 207, 0.08);
 }
 
 /* HHI Heatmap */
@@ -423,7 +423,7 @@
 }
 
 .hhi-heatmap tr.highlight-row {
-  background: rgba(0, 212, 170, 0.08);
+  background: rgba(18, 182, 207, 0.08);
 }
 
 .hhi-cell {
@@ -591,12 +591,12 @@
 .shared-supplier-link {
   color: var(--text-primary);
   text-decoration: none;
-  border-bottom: 1px dotted var(--accent, #00d4aa);
+  border-bottom: 1px dotted var(--accent, #12B6CF);
   transition: color 0.15s ease;
 }
 
 .shared-supplier-link:hover {
-  color: var(--accent, #00d4aa);
+  color: var(--accent, #12B6CF);
   border-bottom-style: solid;
 }
 
@@ -633,8 +633,8 @@
   display: flex;
   gap: var(--space-md);
   padding: var(--space-lg);
-  background: rgba(0, 212, 170, 0.06);
-  border: 1px solid rgba(0, 212, 170, 0.15);
+  background: rgba(18, 182, 207, 0.06);
+  border: 1px solid rgba(18, 182, 207, 0.15);
   border-radius: var(--radius-lg);
 }
 

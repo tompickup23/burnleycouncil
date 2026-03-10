@@ -16,7 +16,7 @@ import './Economy.css'
 const ChoroplethMap = lazy(() => import('../components/ChoroplethMap'))
 
 const INDUSTRY_COLORS = [
-  '#00d4aa', '#0ea5e9', '#8b5cf6', '#f59e0b', '#ef4444',
+  '#12B6CF', '#0ea5e9', '#8b5cf6', '#f59e0b', '#ef4444',
   '#22c55e', '#ec4899', '#6366f1', '#14b8a6', '#f97316',
   '#a855f7', '#06b6d4', '#84cc16', '#e11d48', '#3b82f6',
   '#d946ef', '#10b981', '#f43f5e', '#0891b2', '#7c3aed',

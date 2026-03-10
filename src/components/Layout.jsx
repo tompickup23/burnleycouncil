@@ -214,7 +214,7 @@ function Layout({ children }) {
                       background: 'none', border: 'none', width: '100%',
                       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                       padding: '8px 16px 3px', cursor: section.collapsible ? 'pointer' : 'default',
-                      color: 'rgba(0, 212, 170, 0.6)', fontSize: '0.55rem',
+                      color: 'rgba(18, 182, 207, 0.6)', fontSize: '0.55rem',
                       fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em',
                     }}
                   >

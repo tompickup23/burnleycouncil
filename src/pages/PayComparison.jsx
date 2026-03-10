@@ -169,7 +169,7 @@ function PayComparison() {
                 <Line type="monotone" dataKey="total" name="CEO Total Remuneration" stroke="#ff453a" strokeWidth={2} dot={{ r: 4 }} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Line type="monotone" dataKey="salary" name="CEO Base Salary" stroke="#ff9f0a" strokeWidth={2} dot={{ r: 4 }} strokeDasharray="5 5" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Line type="monotone" dataKey="median" name="Median Employee" stroke="#30d158" strokeWidth={2} dot={{ r: 4 }} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
-                {salaryTrendData.length > 6 && <Brush dataKey="year" height={30} stroke="#00d4aa" fill="rgba(0, 212, 170, 0.1)" />}
+                {salaryTrendData.length > 6 && <Brush dataKey="year" height={30} stroke="#12B6CF" fill="rgba(18, 182, 207, 0.1)" />}
               </LineChart>
             </ResponsiveContainer>
           </div>
@@ -194,7 +194,7 @@ function PayComparison() {
                   contentStyle={TOOLTIP_STYLE}
                 />
                 <Legend />
-                <Bar dataKey="medianRatio" name="CEO:Median" fill="#00d4aa" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                <Bar dataKey="medianRatio" name="CEO:Median" fill="#12B6CF" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                 <Bar dataKey="lowestRatio" name="CEO:Lowest Paid" fill="#ff9f0a" radius={[4, 4, 0, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
               </BarChart>
             </ResponsiveContainer>
@@ -221,7 +221,7 @@ function PayComparison() {
                 />
                 <Bar dataKey="salary" radius={[0, 4, 4, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}>
                   {comparisonData.map((entry, i) => (
-                    <Cell key={i} fill={entry.isCurrent ? '#00d4aa' : '#48484a'} />
+                    <Cell key={i} fill={entry.isCurrent ? '#12B6CF' : '#48484a'} />
                   ))}
                 </Bar>
               </BarChart>

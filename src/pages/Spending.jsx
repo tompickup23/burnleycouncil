@@ -674,13 +674,13 @@ function Spending() {
               <AreaChart data={chartData.monthlyData} margin={{ top: 10, right: 30, left: 20, bottom: 5 }}>
                 <defs>
                   <linearGradient id="spendGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#00d4aa" stopOpacity={0.4} />
-                    <stop offset="40%" stopColor="#00d4aa" stopOpacity={0.15} />
-                    <stop offset="100%" stopColor="#00d4aa" stopOpacity={0} />
+                    <stop offset="0%" stopColor="#12B6CF" stopOpacity={0.4} />
+                    <stop offset="40%" stopColor="#12B6CF" stopOpacity={0.15} />
+                    <stop offset="100%" stopColor="#12B6CF" stopOpacity={0} />
                   </linearGradient>
                   <linearGradient id="barGlowBlue" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#00d4aa" stopOpacity={1} />
-                    <stop offset="100%" stopColor="#00d4aa" stopOpacity={0.7} />
+                    <stop offset="0%" stopColor="#12B6CF" stopOpacity={1} />
+                    <stop offset="100%" stopColor="#12B6CF" stopOpacity={0.7} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
@@ -691,7 +691,7 @@ function Spending() {
                   formatter={(value, name) => [formatCurrency(value, true), name === 'avg' ? '3-Mo Average' : 'Monthly Spend']}
                   labelFormatter={(label) => label}
                 />
-                <Area type="monotone" dataKey="amount" stroke="#00d4aa" strokeWidth={2.5} fill="url(#spendGradient)" animationDuration={1000} animationEasing="ease-out" dot={false} activeDot={{ r: 5, fill: '#00d4aa', stroke: '#000', strokeWidth: 2 }} />
+                <Area type="monotone" dataKey="amount" stroke="#12B6CF" strokeWidth={2.5} fill="url(#spendGradient)" animationDuration={1000} animationEasing="ease-out" dot={false} activeDot={{ r: 5, fill: '#12B6CF', stroke: '#000', strokeWidth: 2 }} />
                 <Area type="monotone" dataKey="avg" stroke="#ff9f0a" strokeWidth={2} strokeDasharray="6 3" fill="none" dot={false} activeDot={{ r: 4, fill: '#ff9f0a', stroke: '#000', strokeWidth: 2 }} />
                 {(chartData?.monthlyData?.length || 0) > 12 && (
                   <Brush dataKey="label" height={28} stroke="rgba(10,132,255,0.4)" fill="rgba(28,28,30,0.8)" travellerWidth={8} />
@@ -717,7 +717,7 @@ function Spending() {
                 />
                 <Bar dataKey="amount" radius={[6, 6, 0, 0]} animationDuration={800} animationEasing="ease-out">
                   {(chartData?.yearData || []).map((_, i) => (
-                    <Cell key={i} fill={i === (chartData?.yearData?.length || 0) - 1 ? 'url(#barGlowBlue)' : 'rgba(0, 212, 170, 0.35)'} />
+                    <Cell key={i} fill={i === (chartData?.yearData?.length || 0) - 1 ? 'url(#barGlowBlue)' : 'rgba(18, 182, 207, 0.35)'} />
                   ))}
                 </Bar>
               </BarChart>
@@ -752,7 +752,7 @@ function Spending() {
                   strokeWidth={0}
                 >
                   {(chartData?.typeData || []).map((entry) => (
-                    <Cell key={entry.rawType} fill={entry.rawType === 'spend' ? '#00d4aa' : entry.rawType === 'contracts' ? '#bf5af2' : '#30d158'} />
+                    <Cell key={entry.rawType} fill={entry.rawType === 'spend' ? '#12B6CF' : entry.rawType === 'contracts' ? '#bf5af2' : '#30d158'} />
                   ))}
                 </Pie>
                 <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(value) => [formatCurrency(value, true), 'Total']} />

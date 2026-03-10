@@ -2078,9 +2078,9 @@ export default function PropertyPortfolio() {
           {/* Analytics header */}
           <div className="glass-card" style={{ padding: '20px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
-              <BarChart3 size={18} style={{ color: '#00d4aa' }} />
+              <BarChart3 size={18} style={{ color: '#12B6CF' }} />
               <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>Estate Analytics</h3>
-              <span style={{ fontSize: '0.68rem', padding: '2px 8px', borderRadius: '4px', background: 'rgba(0,212,170,0.12)', color: '#00d4aa', fontWeight: 600 }}>
+              <span style={{ fontSize: '0.68rem', padding: '2px 8px', borderRadius: '4px', background: 'rgba(0,212,170,0.12)', color: '#12B6CF', fontWeight: 600 }}>
                 {formatNumber(assets.length)} assets
               </span>
             </div>

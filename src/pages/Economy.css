@@ -6,8 +6,8 @@
 
 /* Hero */
 .economy-hero {
-  background: linear-gradient(135deg, rgba(0, 212, 170, 0.12) 0%, rgba(0, 212, 170, 0.04) 100%);
-  border: 1px solid rgba(0, 212, 170, 0.15);
+  background: linear-gradient(135deg, rgba(18, 182, 207, 0.12) 0%, rgba(18, 182, 207, 0.04) 100%);
+  border: 1px solid rgba(18, 182, 207, 0.15);
   border-radius: 12px;
   padding: 2rem;
   margin-bottom: 1.5rem;
@@ -87,8 +87,8 @@
 }
 
 .economy-tab.active {
-  color: #00d4aa;
-  border-bottom-color: #00d4aa;
+  color: #12B6CF;
+  border-bottom-color: #12B6CF;
 }
 
 .economy-tab-content {
@@ -223,7 +223,7 @@
 
 .ward-bar-fill {
   height: 100%;
-  background: #00d4aa;
+  background: #12B6CF;
   border-radius: 4px;
   transition: width 0.4s ease;
 }
@@ -279,11 +279,11 @@
 }
 
 .economy-ward-table tr:hover {
-  background: rgba(0, 212, 170, 0.04);
+  background: rgba(18, 182, 207, 0.04);
 }
 
 .economy-ward-table tr.selected {
-  background: rgba(0, 212, 170, 0.08);
+  background: rgba(18, 182, 207, 0.08);
 }
 
 .economy-ward-table tr.high-rate {
@@ -345,7 +345,7 @@
 }
 
 .economy-source a {
-  color: #00d4aa;
+  color: #12B6CF;
   text-decoration: none;
 }
 

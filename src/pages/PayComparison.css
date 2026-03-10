@@ -179,15 +179,15 @@
 }
 
 .comparison-table tr.highlight-row {
-  background: rgba(0, 212, 170, 0.08);
+  background: rgba(18, 182, 207, 0.08);
 }
 
 .comparison-table tr.highlight-row:hover {
-  background: rgba(0, 212, 170, 0.12);
+  background: rgba(18, 182, 207, 0.12);
 }
 
 .comparison-table tr.highlight-row td.council-name {
-  color: #00d4aa;
+  color: #12B6CF;
   font-weight: 600;
 }
 
@@ -205,12 +205,12 @@
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-left: 3px solid rgba(0, 212, 170, 0.3);
+  border-left: 3px solid rgba(18, 182, 207, 0.3);
   transition: all 0.2s ease;
 }
 
 .officer-card:hover {
-  border-color: rgba(0, 212, 170, 0.2);
+  border-color: rgba(18, 182, 207, 0.2);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
 }
@@ -240,8 +240,8 @@
   display: flex;
   gap: var(--space-md);
   padding: var(--space-lg);
-  background: rgba(0, 212, 170, 0.06);
-  border: 1px solid rgba(0, 212, 170, 0.15);
+  background: rgba(18, 182, 207, 0.06);
+  border: 1px solid rgba(18, 182, 207, 0.15);
   border-radius: var(--radius-lg);
 }
 

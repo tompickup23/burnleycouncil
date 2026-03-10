@@ -11,9 +11,9 @@ const ChartGradients = memo(function ChartGradients() {
     <defs>
       {/* Area/fill gradients — fade to transparent */}
       <linearGradient id="chartGradientBlue" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#00d4aa" stopOpacity={0.4} />
-        <stop offset="40%" stopColor="#00d4aa" stopOpacity={0.15} />
-        <stop offset="100%" stopColor="#00d4aa" stopOpacity={0} />
+        <stop offset="0%" stopColor="#12B6CF" stopOpacity={0.4} />
+        <stop offset="40%" stopColor="#12B6CF" stopOpacity={0.15} />
+        <stop offset="100%" stopColor="#12B6CF" stopOpacity={0} />
       </linearGradient>
       <linearGradient id="chartGradientGreen" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor="#30d158" stopOpacity={0.4} />
@@ -42,8 +42,8 @@ const ChartGradients = memo(function ChartGradients() {
       </linearGradient>
       {/* Bar glow gradients — solid top to slightly dim bottom */}
       <linearGradient id="barGlowBlue" x1="0" y1="0" x2="0" y2="1">
-        <stop offset="0%" stopColor="#00d4aa" stopOpacity={1} />
-        <stop offset="100%" stopColor="#00d4aa" stopOpacity={0.7} />
+        <stop offset="0%" stopColor="#12B6CF" stopOpacity={1} />
+        <stop offset="100%" stopColor="#12B6CF" stopOpacity={0.7} />
       </linearGradient>
       <linearGradient id="barGlowGreen" x1="0" y1="0" x2="0" y2="1">
         <stop offset="0%" stopColor="#30d158" stopOpacity={1} />

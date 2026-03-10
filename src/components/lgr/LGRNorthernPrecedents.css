@@ -409,7 +409,7 @@
 
 .lgr-np-factor::before {
   content: '\2022 ';
-  color: #00d4aa;
+  color: #12B6CF;
 }
 
 /* Town type badge */
@@ -442,8 +442,8 @@
 
 /* Control case callout */
 .lgr-np-control-callout {
-  background: rgba(0, 212, 170, 0.06);
-  border: 1px solid rgba(0, 212, 170, 0.15);
+  background: rgba(18, 182, 207, 0.06);
+  border: 1px solid rgba(18, 182, 207, 0.15);
   border-radius: 12px;
   padding: 1rem 1.25rem;
   margin-bottom: 2rem;
@@ -452,7 +452,7 @@
 .lgr-np-control-callout strong {
   display: block;
   font-size: 0.92rem;
-  color: #00d4aa;
+  color: #12B6CF;
   margin-bottom: 0.4rem;
 }
 
@@ -547,7 +547,7 @@
   align-items: center;
   gap: 0.2rem;
   font-size: 0.72rem;
-  color: #00d4aa;
+  color: #12B6CF;
   font-weight: 600;
 }
 
@@ -630,7 +630,7 @@
   padding: 0.6rem 0.85rem;
   background: rgba(255, 255, 255, 0.02);
   border-radius: 8px;
-  border-left: 2px solid rgba(0, 212, 170, 0.4);
+  border-left: 2px solid rgba(18, 182, 207, 0.4);
 }
 
 .lgr-np-prec-source {
@@ -642,8 +642,8 @@
 .lgr-np-prec-experience {
   margin-top: 0.75rem;
   padding: 0.85rem 1rem;
-  background: rgba(0, 212, 170, 0.04);
-  border: 1px solid rgba(0, 212, 170, 0.1);
+  background: rgba(18, 182, 207, 0.04);
+  border: 1px solid rgba(18, 182, 207, 0.1);
   border-radius: 10px;
 }
 
@@ -668,7 +668,7 @@
 
 .lgr-np-prec-relevance {
   font-size: 0.82rem;
-  color: #00d4aa;
+  color: #12B6CF;
   line-height: 1.5;
   margin: 0.25rem 0 0;
   font-style: italic;

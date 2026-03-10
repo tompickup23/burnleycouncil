@@ -651,7 +651,7 @@ function MyArea() {
       {selectedWard && (wardPlanningTrend.length > 0 || hmoWardDensities.length > 0 || wardEthnicityData.length > 0 || wardDeprivationScore != null) && (
         <section className="ward-dashboard animate-fade-in" aria-label="Ward data visualisations">
           <h2 style={{ fontSize: '1.1rem', fontWeight: 700, marginBottom: '1rem', display: 'flex', alignItems: 'center', gap: 8, color: '#fff' }}>
-            <TrendingUp size={20} style={{ color: '#00d4aa' }} />
+            <TrendingUp size={20} style={{ color: '#12B6CF' }} />
             {selectedWard} — Data Dashboard
           </h2>
 
@@ -677,7 +677,7 @@ function MyArea() {
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
                   <SparkLine
                     data={wardPlanningTrend}
-                    color="#00d4aa"
+                    color="#12B6CF"
                     width={120}
                     height={32}
                     fill

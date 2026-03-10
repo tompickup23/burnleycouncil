@@ -285,7 +285,7 @@ function Housing() {
                   label="Overcrowded"
                   suffix="%"
                   thresholds={[3, 6, 10]}
-                  colors={['#00d4aa', '#ffd60a', '#ff9500', '#ff453a']}
+                  colors={['#12B6CF', '#ffd60a', '#ff9500', '#ff453a']}
                 />
                 <p className="gauge-note">
                   {fmt(summary.overcrowded)} households need more bedrooms

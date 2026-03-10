@@ -28,7 +28,7 @@
 }
 
 .constituencies-icon {
-  color: #00d4aa;
+  color: #12B6CF;
   flex-shrink: 0;
 }
 
@@ -79,18 +79,18 @@
   align-items: center;
   gap: 8px;
   padding: 10px 20px;
-  background: rgba(0, 212, 170, 0.08);
-  border: 1px solid rgba(0, 212, 170, 0.25);
+  background: rgba(18, 182, 207, 0.08);
+  border: 1px solid rgba(18, 182, 207, 0.25);
   border-radius: 10px;
-  color: #00d4aa;
+  color: #12B6CF;
   text-decoration: none;
   font-size: 0.88rem;
   font-weight: 500;
   transition: all 0.15s;
 }
 .compare-mps-btn:hover {
-  background: rgba(0, 212, 170, 0.14);
-  border-color: rgba(0, 212, 170, 0.4);
+  background: rgba(18, 182, 207, 0.14);
+  border-color: rgba(18, 182, 207, 0.4);
 }
 
 /* Controls */
@@ -168,9 +168,9 @@
 }
 
 .constituency-card:hover {
-  border-color: #00d4aa;
+  border-color: #12B6CF;
   transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 212, 170, 0.1);
+  box-shadow: 0 4px 12px rgba(18, 182, 207, 0.1);
 }
 
 .constituency-card-accent {
@@ -315,8 +315,8 @@
 
 /* Selected card highlight */
 .constituency-card--selected {
-  border-color: #00d4aa;
-  box-shadow: 0 0 0 1px #00d4aa33, 0 4px 16px rgba(0, 212, 170, 0.12);
+  border-color: #12B6CF;
+  box-shadow: 0 0 0 1px #12B6CF33, 0 4px 16px rgba(18, 182, 207, 0.12);
 }
 
 /* Expand/collapse detail button */
@@ -336,15 +336,15 @@
 }
 
 .constituency-card-expand:hover {
-  background: rgba(0, 212, 170, 0.1);
-  border-color: #00d4aa44;
-  color: #00d4aa;
+  background: rgba(18, 182, 207, 0.1);
+  border-color: #12B6CF44;
+  color: #12B6CF;
 }
 
 .constituency-card-expand--active {
-  background: rgba(0, 212, 170, 0.12);
-  border-color: #00d4aa55;
-  color: #00d4aa;
+  background: rgba(18, 182, 207, 0.12);
+  border-color: #12B6CF55;
+  color: #12B6CF;
 }
 
 /* Claimant row with sparkline */
@@ -363,7 +363,7 @@
   background: rgba(28, 28, 30, 0.7);
   backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
   -webkit-backdrop-filter: blur(20px) saturate(1.2) brightness(1.02);
-  border: 1px solid rgba(0, 212, 170, 0.2);
+  border: 1px solid rgba(18, 182, 207, 0.2);
   border-radius: 16px;
   padding: 1.5rem;
   animation: detailPanelIn 0.3s ease-out;
@@ -400,7 +400,7 @@
 }
 
 .constituency-detail-header h2 svg {
-  color: #00d4aa;
+  color: #12B6CF;
 }
 
 .constituency-detail-close {

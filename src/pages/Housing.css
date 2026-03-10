@@ -11,7 +11,7 @@
 
 .housing-hero .hero-content h1 {
   margin-bottom: var(--space-sm);
-  background: linear-gradient(135deg, #ffffff 0%, #00d4aa 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #12B6CF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -23,7 +23,7 @@
 }
 .housing-hero .hero-content h1 svg {
   -webkit-text-fill-color: initial;
-  color: #00d4aa;
+  color: #12B6CF;
   flex-shrink: 0;
 }
 
@@ -64,19 +64,19 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: #00d4aa;
+  background: #12B6CF;
   opacity: 0.3;
 }
 .housing-card.highlight::before {
   opacity: 0.8;
 }
 .housing-card:hover {
-  border-color: rgba(0, 212, 170, 0.25);
-  box-shadow: 0 4px 20px rgba(0, 212, 170, 0.06);
+  border-color: rgba(18, 182, 207, 0.25);
+  box-shadow: 0 4px 20px rgba(18, 182, 207, 0.06);
 }
 
 .housing-card .card-icon {
-  color: #00d4aa;
+  color: #12B6CF;
   margin-bottom: var(--space-sm);
 }
 .housing-card .card-value {
@@ -115,8 +115,8 @@
   color: var(--text-primary);
 }
 .tab-button.active {
-  color: #00d4aa;
-  border-bottom-color: #00d4aa;
+  color: #12B6CF;
+  border-bottom-color: #12B6CF;
 }
 
 /* Chart Grid */
@@ -154,7 +154,7 @@
   border: 1px solid rgba(255, 255, 255, 0.06);
 }
 .policy-card.active {
-  border-color: rgba(0, 212, 170, 0.2);
+  border-color: rgba(18, 182, 207, 0.2);
 }
 .policy-card.inactive {
   border-color: rgba(255, 255, 255, 0.04);
@@ -174,8 +174,8 @@
   margin-bottom: var(--space-sm);
 }
 .policy-status.yes {
-  background: rgba(0, 212, 170, 0.15);
-  color: #00d4aa;
+  background: rgba(18, 182, 207, 0.15);
+  color: #12B6CF;
 }
 .policy-status.no {
   background: rgba(255, 255, 255, 0.06);
@@ -244,15 +244,15 @@
 
 /* Ward Detail */
 .ward-detail {
-  background: rgba(0, 212, 170, 0.06);
-  border: 1px solid rgba(0, 212, 170, 0.15);
+  background: rgba(18, 182, 207, 0.06);
+  border: 1px solid rgba(18, 182, 207, 0.15);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   margin-bottom: var(--space-xl);
 }
 .ward-detail h3 {
   margin-bottom: var(--space-sm);
-  color: #00d4aa;
+  color: #12B6CF;
 }
 .ward-stats {
   display: flex;
@@ -298,11 +298,11 @@
   transition: background 0.15s ease;
 }
 .ward-table tbody tr:hover {
-  background: rgba(0, 212, 170, 0.04);
+  background: rgba(18, 182, 207, 0.04);
 }
 .ward-table tbody tr.selected {
-  background: rgba(0, 212, 170, 0.08);
-  border-left: 3px solid #00d4aa;
+  background: rgba(18, 182, 207, 0.08);
+  border-left: 3px solid #12B6CF;
 }
 .ward-table .ward-name {
   font-weight: 500;
@@ -346,8 +346,8 @@
   color: var(--text-secondary);
 }
 .policy-badge.active {
-  background: rgba(0, 212, 170, 0.12);
-  color: #00d4aa;
+  background: rgba(18, 182, 207, 0.12);
+  color: #12B6CF;
 }
 
 /* Source */

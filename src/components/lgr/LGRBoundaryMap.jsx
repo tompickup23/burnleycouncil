@@ -19,7 +19,7 @@ import './LGRBoundaryMap.css'
 
 const WardMap = lazy(() => import('../WardMap'))
 
-const AUTH_COLORS = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff', '#ffd60a', '#ff6482']
+const AUTH_COLORS = ['#12B6CF', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff', '#ffd60a', '#ff6482']
 
 const OVERLAY_MODES = [
   { id: 'authority', label: 'LGR Authority', icon: Layers },
@@ -230,7 +230,7 @@ export default function LGRBoundaryMap({ boundaries, authorities, fiscalProfile,
     }
     if (overlayMode === 'property') {
       return [
-        { label: 'Property asset', color: '#00d4aa' },
+        { label: 'Property asset', color: '#12B6CF' },
       ]
     }
     return []

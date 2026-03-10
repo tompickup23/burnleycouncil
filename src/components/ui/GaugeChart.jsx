@@ -39,7 +39,7 @@ const GaugeChart = memo(function GaugeChart({
 }) {
   const ratio = Math.min(1, Math.max(0, value / (max || 1)))
   const effectiveSeverity = severity || autoSeverity(ratio)
-  const color = SEVERITY_COLORS[effectiveSeverity] || '#00d4aa'
+  const color = SEVERITY_COLORS[effectiveSeverity] || '#12B6CF'
 
   const { bgArc, fgArc, cx, cy, r } = useMemo(() => {
     const cx = size / 2

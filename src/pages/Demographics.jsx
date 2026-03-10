@@ -393,7 +393,7 @@ function Demographics() {
                   <div style={{ fontSize: 11, color: '#8e8e93' }}>Non-White</div>
                 </div>
                 <div style={{ textAlign: 'center' }}>
-                  <div style={{ fontSize: 22, fontWeight: 700, color: '#00d4aa' }}>{pop > 0 ? Math.round(u16 / pop * 1000) / 10 : 0}%</div>
+                  <div style={{ fontSize: 22, fontWeight: 700, color: '#12B6CF' }}>{pop > 0 ? Math.round(u16 / pop * 1000) / 10 : 0}%</div>
                   <div style={{ fontSize: 11, color: '#8e8e93' }}>Under 16</div>
                 </div>
                 <div style={{ textAlign: 'center' }}>
@@ -412,7 +412,7 @@ function Demographics() {
                       <XAxis type="number" tick={AXIS_TICK_STYLE} />
                       <YAxis type="category" dataKey="name" tick={{ fill: '#8e8e93', fontSize: 10 }} width={40} />
                       <Tooltip contentStyle={TOOLTIP_STYLE} />
-                      <Bar dataKey="count" fill="#00d4aa" radius={[0, 4, 4, 0]} />
+                      <Bar dataKey="count" fill="#12B6CF" radius={[0, 4, 4, 0]} />
                     </BarChart>
                   </ResponsiveContainer>
                 </div>
@@ -587,7 +587,7 @@ function Demographics() {
                 contentStyle={TOOLTIP_STYLE}
                 formatter={(val) => [fmt(val), 'Population']}
               />
-              <Bar dataKey="count" fill="#00d4aa" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="count" fill="#12B6CF" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -757,7 +757,7 @@ function Demographics() {
                   <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `${(v / 1000).toFixed(0)}k`} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [fmt(v), '']} />
                   <Legend wrapperStyle={{ color: '#e5e5e7', fontSize: '0.8rem' }} />
-                  <Area type="monotone" dataKey="0-15" stackId="1" stroke="#00d4aa" fill="rgba(10,132,255,0.3)" name="Youth (0-15)" />
+                  <Area type="monotone" dataKey="0-15" stackId="1" stroke="#12B6CF" fill="rgba(10,132,255,0.3)" name="Youth (0-15)" />
                   <Area type="monotone" dataKey="16-64" stackId="1" stroke="#30d158" fill="rgba(48,209,88,0.3)" name="Working (16-64)" />
                   <Area type="monotone" dataKey="65+" stackId="1" stroke="#ff9f0a" fill="rgba(255,159,10,0.3)" name="Elderly (65+)" />
                 </AreaChart>
@@ -1133,9 +1133,9 @@ function Demographics() {
             <span className="demo-stat-desc">Higher = more costly services</span>
           </div>
           {demoFiscalData.demographic_change_velocity != null && (
-            <div className="demo-stat-card" style={{ borderLeft: '3px solid #00d4aa' }}>
+            <div className="demo-stat-card" style={{ borderLeft: '3px solid #12B6CF' }}>
               <span className="demo-stat-label">Demographic Change</span>
-              <span className="demo-stat-value" style={{ color: '#00d4aa' }}>
+              <span className="demo-stat-value" style={{ color: '#12B6CF' }}>
                 {demoFiscalData.demographic_change_velocity.toFixed(1)}
               </span>
               <span className="demo-stat-desc">Velocity of composition shift</span>

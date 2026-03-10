@@ -284,7 +284,7 @@ function Crime() {
                   label="Resolved"
                   suffix="%"
                   thresholds={[10, 20, 35]}
-                  colors={['#ff453a', '#ff9500', '#ffd60a', '#00d4aa']}
+                  colors={['#ff453a', '#ff9500', '#ffd60a', '#12B6CF']}
                 />
                 <p className="gauge-note">
                   Includes cautions, charges, penalty notices, and local resolutions
@@ -483,7 +483,7 @@ function Crime() {
                   label="Resolved"
                   suffix="%"
                   thresholds={[10, 20, 35]}
-                  colors={['#ff453a', '#ff9500', '#ffd60a', '#00d4aa']}
+                  colors={['#ff453a', '#ff9500', '#ffd60a', '#12B6CF']}
                 />
               </div>
             </ChartCard>

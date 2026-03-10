@@ -11,7 +11,7 @@ const SEVERITY_COLORS = { critical: '#ff453a', high: '#ff9f0a', medium: '#ffd60a
 const WORKSTREAMS = [
   { name: 'IT Migration', months: 24, color: '#ff453a', start: 0 },
   { name: 'Staff TUPE', months: 18, color: '#ff9f0a', start: 2 },
-  { name: 'Shadow Authorities', months: 6, color: '#00d4aa', start: 10 },
+  { name: 'Shadow Authorities', months: 6, color: '#12B6CF', start: 10 },
   { name: 'Service Continuity', months: 12, color: '#bf5af2', start: 6 },
   { name: 'Democratic Elections', months: 6, color: '#30d158', start: 16 },
 ]

@@ -228,7 +228,7 @@
 }
 
 .demo-table tr.selected {
-  background: rgba(0, 212, 170, 0.1);
+  background: rgba(18, 182, 207, 0.1);
 }
 
 /* Diversity Bar */
@@ -248,8 +248,8 @@
 
 /* Ward Detail Panel */
 .demo-ward-detail {
-  background: rgba(0, 212, 170, 0.04);
-  border: 1px solid rgba(0, 212, 170, 0.15);
+  background: rgba(18, 182, 207, 0.04);
+  border: 1px solid rgba(18, 182, 207, 0.15);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
 }
@@ -312,8 +312,8 @@
   display: flex;
   gap: var(--space-md);
   padding: var(--space-lg);
-  background: rgba(0, 212, 170, 0.06);
-  border: 1px solid rgba(0, 212, 170, 0.15);
+  background: rgba(18, 182, 207, 0.06);
+  border: 1px solid rgba(18, 182, 207, 0.15);
   border-radius: var(--radius-lg);
 }
 

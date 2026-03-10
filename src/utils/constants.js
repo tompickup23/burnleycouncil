@@ -7,13 +7,13 @@
 
 /** Primary chart palette (10 colours). Use for pie charts, bar charts, etc. */
 export const CHART_COLORS = [
-  '#00d4aa', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2',
+  '#12B6CF', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2',
   '#64d2ff', '#ff375f', '#ffd60a', '#ac8e68', '#8e8e93',
 ]
 
 /** Extended palette (15 colours) for charts with more categories */
 export const CHART_COLORS_EXTENDED = [
-  '#00d4aa', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2',
+  '#12B6CF', '#30d158', '#ff9f0a', '#ff453a', '#bf5af2',
   '#64d2ff', '#ffd60a', '#ff6482', '#ac8e68', '#8e8e93',
   '#ff375f', '#34c759', '#007aff', '#5856d6', '#af52de',
 ]
@@ -101,7 +101,7 @@ export const SEVERITY_COLORS = {
   high: '#ff6b6b',
   warning: '#ff9f0a',
   medium: '#ffcc02',
-  info: '#00d4aa',
+  info: '#12B6CF',
   low: '#30d158',
 }
 

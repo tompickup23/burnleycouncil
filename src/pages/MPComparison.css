@@ -31,15 +31,15 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #00d4aa;
+  color: #12B6CF;
   text-decoration: none;
   font-size: 0.82rem;
   padding: 6px 12px;
   border-radius: 8px;
-  border: 1px solid #00d4aa44;
+  border: 1px solid #12B6CF44;
   white-space: nowrap;
 }
-.mp-comparison-back:hover { background: #00d4aa15; }
+.mp-comparison-back:hover { background: #12B6CF15; }
 
 /* Stats */
 .mp-comparison-stats {
@@ -103,8 +103,8 @@
 .mp-comparison-tab:hover { color: #fff; background: #ffffff08; }
 .mp-comparison-tab.active {
   color: #fff;
-  background: #00d4aa22;
-  border-bottom: 2px solid #00d4aa;
+  background: #12B6CF22;
+  border-bottom: 2px solid #12B6CF;
 }
 
 /* Controls */
@@ -221,7 +221,7 @@
 .mp-comparison-table tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
 .mp-comparison-table tr:hover td { background: rgba(255, 255, 255, 0.04); }
 .mp-table-name {
-  color: #00d4aa;
+  color: #12B6CF;
   text-decoration: none;
   font-weight: 500;
 }
@@ -309,7 +309,7 @@
   font-size: 0.82rem;
 }
 .mp-connected-name { color: #fff; font-weight: 500; }
-.mp-connected-party { color: #00d4aa; }
+.mp-connected-party { color: #12B6CF; }
 .mp-connected-job { color: #888; font-size: 0.78rem; }
 
 /* Rank grid */
@@ -328,7 +328,7 @@
 .mp-rank-card.below-median { border-color: #30d15844; }
 .mp-rank-name { display: block; font-weight: 600; font-size: 0.82rem; color: #fff; }
 .mp-rank-number { display: block; font-size: 0.78rem; color: #888; margin-top: 2px; }
-.mp-rank-cost { display: block; font-size: 0.85rem; color: #00d4aa; margin-top: 2px; }
+.mp-rank-cost { display: block; font-size: 0.85rem; color: #12B6CF; margin-top: 2px; }
 
 /* Rebel section */
 .mp-rebel-list { display: flex; flex-direction: column; gap: 10px; }

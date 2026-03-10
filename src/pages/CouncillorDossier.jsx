@@ -44,7 +44,7 @@ const SEVERITY_STYLES = {
   elevated: { bg: 'rgba(255, 159, 10, 0.12)', color: '#ff9f0a' },
   warning: { bg: 'rgba(255, 159, 10, 0.1)', color: '#ff9f0a' },
   medium: { bg: 'rgba(255, 204, 2, 0.1)', color: '#ffcc02' },
-  info: { bg: 'rgba(0, 212, 170, 0.1)', color: '#00d4aa' },
+  info: { bg: 'rgba(18, 182, 207, 0.1)', color: '#12B6CF' },
   low: { bg: 'rgba(34, 197, 94, 0.1)', color: '#22c55e' },
 }
 
@@ -226,7 +226,7 @@ export default function CouncillorDossier() {
             type: 'election',
             title: candidate.elected ? 'Elected' : 'Stood for election',
             detail: `${electoralData.ward || electoralData.ward_name} — ${candidate.votes} votes (${candidate.pct || '?'}%)`,
-            color: '#00d4aa',
+            color: '#12B6CF',
             sortDate: new Date(election.date || `${election.year}-05-01`),
           })
         }
@@ -317,7 +317,7 @@ export default function CouncillorDossier() {
     return (
       <div className="dossier-page" style={{ padding: 'var(--space-2xl)' }}>
         <p style={{ color: '#ef4444' }}>Failed to load councillor data: {error.message}</p>
-        <Link to="/integrity" style={{ color: 'var(--accent, #00d4aa)' }}>← Back to Integrity</Link>
+        <Link to="/integrity" style={{ color: 'var(--accent, #12B6CF)' }}>← Back to Integrity</Link>
       </div>
     )
   }
@@ -327,7 +327,7 @@ export default function CouncillorDossier() {
       <div className="dossier-page" style={{ padding: 'var(--space-2xl)', textAlign: 'center' }}>
         <h2>Councillor Not Found</h2>
         <p style={{ color: 'var(--text-secondary)' }}>No councillor found with ID "{councillorId}".</p>
-        <Link to="/integrity" style={{ color: 'var(--accent, #00d4aa)', display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: 'var(--space-md)' }}>
+        <Link to="/integrity" style={{ color: 'var(--accent, #12B6CF)', display: 'inline-flex', alignItems: 'center', gap: '4px', marginTop: 'var(--space-md)' }}>
           <ChevronLeft size={16} /> Back to Integrity
         </Link>
       </div>
@@ -347,7 +347,7 @@ export default function CouncillorDossier() {
           display: 'inline-flex',
           alignItems: 'center',
           gap: '4px',
-          color: 'var(--accent, #00d4aa)',
+          color: 'var(--accent, #12B6CF)',
           fontSize: '0.8rem',
           marginBottom: 'var(--space-lg)',
           textDecoration: 'none',
@@ -573,12 +573,12 @@ function IntegrityTab({ redFlags, integrityData, councillor, legalFramework }) {
             )}
             {relatedLaw && (
               <div style={{ marginTop: 'var(--space-sm)', fontSize: '0.7rem' }}>
-                <Scale size={10} style={{ verticalAlign: 'middle', marginRight: '3px', color: '#00d4aa' }} />
+                <Scale size={10} style={{ verticalAlign: 'middle', marginRight: '3px', color: '#12B6CF' }} />
                 <a
                   href={relatedLaw.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  style={{ color: '#00d4aa', textDecoration: 'none' }}
+                  style={{ color: '#12B6CF', textDecoration: 'none' }}
                 >
                   {relatedLaw.law}
                 </a>

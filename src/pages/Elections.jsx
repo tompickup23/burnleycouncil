@@ -732,7 +732,7 @@ export default function Elections() {
                   <YAxis axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} unit="%" domain={[0, 'auto']} />
                   <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => `${v}%`} />
                   <Line type="monotone" dataKey="turnout" stroke="#0a84ff" strokeWidth={2} dot={{ r: 4 }} name="Turnout" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
-                  {turnoutTrend.length > 6 && <Brush dataKey="year" height={30} stroke="#00d4aa" fill="rgba(0, 212, 170, 0.1)" />}
+                  {turnoutTrend.length > 6 && <Brush dataKey="year" height={30} stroke="#12B6CF" fill="rgba(18, 182, 207, 0.1)" />}
                 </LineChart>
               </ResponsiveContainer>
             </div>
@@ -892,7 +892,7 @@ export default function Elections() {
                         animationEasing={CHART_ANIMATION.easing}
                       />
                     ))}
-                    {councilHistoryData.voteShare.length > 6 && <Brush dataKey="year" height={30} stroke="#00d4aa" fill="rgba(0, 212, 170, 0.1)" />}
+                    {councilHistoryData.voteShare.length > 6 && <Brush dataKey="year" height={30} stroke="#12B6CF" fill="rgba(18, 182, 207, 0.1)" />}
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -1111,7 +1111,7 @@ export default function Elections() {
                       <YAxis axisLine={false} tickLine={false} tick={AXIS_TICK_STYLE} unit="%" />
                       <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => `${v}%`} />
                       <Line type="monotone" dataKey="majority" stroke="#ff9f0a" strokeWidth={2} dot={{ r: 3 }} name="Majority" animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
-                      {majorityData.length > 6 && <Brush dataKey="year" height={30} stroke="#00d4aa" fill="rgba(0, 212, 170, 0.1)" />}
+                      {majorityData.length > 6 && <Brush dataKey="year" height={30} stroke="#12B6CF" fill="rgba(18, 182, 207, 0.1)" />}
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
@@ -1293,7 +1293,7 @@ export default function Elections() {
                           {sparkData.length >= 2 ? (
                             <SparkLine
                               data={sparkData}
-                              color={partyColors[result.winner] || '#00d4aa'}
+                              color={partyColors[result.winner] || '#12B6CF'}
                               width={72}
                               height={22}
                               fill

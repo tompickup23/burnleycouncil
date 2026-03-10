@@ -11,7 +11,7 @@
 
 .crime-hero .hero-content h1 {
   margin-bottom: var(--space-sm);
-  background: linear-gradient(135deg, #ffffff 0%, #00d4aa 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #12B6CF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -23,7 +23,7 @@
 }
 .crime-hero .hero-content h1 svg {
   -webkit-text-fill-color: initial;
-  color: #00d4aa;
+  color: #12B6CF;
   flex-shrink: 0;
 }
 
@@ -60,19 +60,19 @@
   left: 0;
   right: 0;
   height: 3px;
-  background: #00d4aa;
+  background: #12B6CF;
   opacity: 0.3;
 }
 .crime-card.highlight::before {
   opacity: 0.8;
 }
 .crime-card:hover {
-  border-color: rgba(0, 212, 170, 0.25);
-  box-shadow: 0 4px 20px rgba(0, 212, 170, 0.06);
+  border-color: rgba(18, 182, 207, 0.25);
+  box-shadow: 0 4px 20px rgba(18, 182, 207, 0.06);
 }
 
 .crime-card .card-icon {
-  color: #00d4aa;
+  color: #12B6CF;
   margin-bottom: var(--space-sm);
 }
 .crime-card .card-value {
@@ -175,15 +175,15 @@
 
 /* Ward Detail — reuse Housing pattern */
 .crime-page .ward-detail {
-  background: rgba(0, 212, 170, 0.06);
-  border: 1px solid rgba(0, 212, 170, 0.15);
+  background: rgba(18, 182, 207, 0.06);
+  border: 1px solid rgba(18, 182, 207, 0.15);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   margin-bottom: var(--space-xl);
 }
 .crime-page .ward-detail h3 {
   margin-bottom: var(--space-sm);
-  color: #00d4aa;
+  color: #12B6CF;
 }
 .crime-page .ward-stats {
   display: flex;
@@ -228,11 +228,11 @@
   transition: background 0.15s ease;
 }
 .crime-page .ward-table tbody tr:hover {
-  background: rgba(0, 212, 170, 0.04);
+  background: rgba(18, 182, 207, 0.04);
 }
 .crime-page .ward-table tbody tr.selected {
-  background: rgba(0, 212, 170, 0.08);
-  border-left: 3px solid #00d4aa;
+  background: rgba(18, 182, 207, 0.08);
+  border-left: 3px solid #12B6CF;
 }
 .crime-page .ward-table .ward-name {
   font-weight: 500;
@@ -263,7 +263,7 @@
   transform: rotate(180deg);
 }
 .mom-value.down {
-  color: #00d4aa;
+  color: #12B6CF;
 }
 .mom-breakdown {
   display: flex;

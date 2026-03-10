@@ -114,7 +114,7 @@ function ExpensesTooltip({ active, payload, label }) {
     <div style={TOOLTIP_STYLE}>
       <p style={{ margin: '0 0 6px', fontWeight: 600, color: '#fff' }}>{label}</p>
       {payload.map((p, i) => (
-        <p key={i} style={{ margin: '2px 0', color: p.color || '#00d4aa', fontSize: '13px' }}>
+        <p key={i} style={{ margin: '2px 0', color: p.color || '#12B6CF', fontSize: '13px' }}>
           {formatMoney(p.value)}
         </p>
       ))}
@@ -564,7 +564,7 @@ export default function ConstituencyView() {
                     />
                     <YAxis type="category" dataKey="category" width={120} tick={{ fill: '#e5e5e7', fontSize: 12 }} />
                     <Tooltip content={ExpensesTooltip} />
-                    <Bar dataKey="amount" fill="#00d4aa" radius={[0, 6, 6, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
+                    <Bar dataKey="amount" fill="#12B6CF" radius={[0, 6, 6, 0]} animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing} />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
@@ -618,7 +618,7 @@ export default function ConstituencyView() {
                     return (
                       <div style={TOOLTIP_STYLE}>
                         <p style={{ margin: '0 0 4px', fontWeight: 600, color: '#fff' }}>{d.fullLabel}</p>
-                        <p style={{ margin: '2px 0', color: '#00d4aa', fontSize: '13px' }}>
+                        <p style={{ margin: '2px 0', color: '#12B6CF', fontSize: '13px' }}>
                           Claimants: {formatNumber(d.count)}
                         </p>
                         {d.rate != null && (
@@ -630,11 +630,11 @@ export default function ConstituencyView() {
                     )
                   }} />
                   <Line
-                    type="monotone" dataKey="count" stroke="#00d4aa"
-                    strokeWidth={2} dot={false} activeDot={{ r: 4, fill: '#00d4aa' }}
+                    type="monotone" dataKey="count" stroke="#12B6CF"
+                    strokeWidth={2} dot={false} activeDot={{ r: 4, fill: '#12B6CF' }}
                     animationDuration={CHART_ANIMATION.duration} animationEasing={CHART_ANIMATION.easing}
                   />
-                  {claimantChartData.length > 6 && <Brush dataKey="fullLabel" height={30} stroke="#00d4aa" fill="rgba(0, 212, 170, 0.1)" />}
+                  {claimantChartData.length > 6 && <Brush dataKey="fullLabel" height={30} stroke="#12B6CF" fill="rgba(18, 182, 207, 0.1)" />}
                 </LineChart>
               </ResponsiveContainer>
             </div>

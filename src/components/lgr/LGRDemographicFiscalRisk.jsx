@@ -7,7 +7,7 @@ import { computeDemographicFiscalProfile, computeEducationSENDExposure, computeA
 import './LGRDemographicFiscalRisk.css'
 
 const RISK_COLORS = { 'Structurally Deficit': '#ff453a', 'At Risk': '#ff9f0a', 'Viable': '#30d158', Unknown: '#636366' }
-const AUTH_COLORS = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff']
+const AUTH_COLORS = ['#12B6CF', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff']
 
 function ScoreGauge({ score, label, size = 80 }) {
   const color = score < 30 ? '#ff453a' : score < 50 ? '#ff9f0a' : '#30d158'
@@ -246,7 +246,7 @@ export default function LGRDemographicFiscalRisk({ fiscalProfile, sendExposure, 
                 <XAxis dataKey="authority" tick={AXIS_TICK_STYLE} interval={0} angle={-20} textAnchor="end" height={50} />
                 <YAxis tick={AXIS_TICK_STYLE} unit="%" domain={[90, 100]} />
                 <Tooltip {...TOOLTIP_STYLE} formatter={(v) => `${v.toFixed(1)}%`} />
-                <Bar dataKey="Collection Rate" fill="#00d4aa">
+                <Bar dataKey="Collection Rate" fill="#12B6CF">
                   {collectionData.map((d, i) => (
                     <Cell key={i} fill={d['Collection Rate'] < 94 ? '#ff453a' : d['Collection Rate'] < 96 ? '#ff9f0a' : '#30d158'} />
                   ))}
@@ -268,7 +268,7 @@ export default function LGRDemographicFiscalRisk({ fiscalProfile, sendExposure, 
               <XAxis dataKey="authority" tick={AXIS_TICK_STYLE} interval={0} angle={-20} textAnchor="end" height={50} />
               <YAxis tick={AXIS_TICK_STYLE} />
               <Tooltip {...TOOLTIP_STYLE} />
-              <Bar dataKey="Current" fill="#00d4aa" />
+              <Bar dataKey="Current" fill="#12B6CF" />
               <Bar dataKey="2028 (Central)" fill="#ff9f0a" />
               <Bar dataKey="2032 (Central)" fill="#ff453a" />
               <Legend />

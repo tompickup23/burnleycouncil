@@ -475,7 +475,7 @@ export default function Roadworks() {
           <div className="hw-network-summary">
             {junctions.length > 0 && (
               <div className="hw-network-stat">
-                <span className="hw-network-stat-value" style={{ color: '#00d4aa' }}>{junctions.length}</span>
+                <span className="hw-network-stat-value" style={{ color: '#12B6CF' }}>{junctions.length}</span>
                 <span className="hw-network-stat-label">JCI Points</span>
               </div>
             )}
@@ -711,7 +711,7 @@ export default function Roadworks() {
                 {[
                   { label: 'Active Works', value: strategicSummary.active_works, color: '#ff9f0a' },
                   { label: 'Road Closures', value: strategicSummary.road_closures, color: '#ff453a' },
-                  { label: 'LCC Controlled', value: strategicSummary.lcc_controlled, color: '#00d4aa' },
+                  { label: 'LCC Controlled', value: strategicSummary.lcc_controlled, color: '#12B6CF' },
                   { label: 's59 Breaches', value: strategicSummary.s59_breaches, color: strategicSummary.s59_breaches > 0 ? '#ff453a' : '#30d158' },
                   { label: 'Actionable Deferrals', value: strategicSummary.actionable_deferrals, color: '#ff9f0a' },
                 ].map(({ label, value, color }) => (
@@ -1207,10 +1207,10 @@ export default function Roadworks() {
             style={{
               display: 'inline-block',
               padding: '10px 24px',
-              background: 'rgba(0, 212, 170, 0.1)',
-              border: '1px solid rgba(0, 212, 170, 0.3)',
+              background: 'rgba(18, 182, 207, 0.1)',
+              border: '1px solid rgba(18, 182, 207, 0.3)',
               borderRadius: 10,
-              color: '#00d4aa',
+              color: '#12B6CF',
               textDecoration: 'none',
               fontSize: '0.88rem',
               fontWeight: 600,

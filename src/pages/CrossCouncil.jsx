@@ -824,9 +824,9 @@ function CrossCouncil() {
                   style={{
                     padding: '4px 10px',
                     borderRadius: 16,
-                    border: `1px solid ${isSelected ? COUNCIL_COLORS[c.council_id] || '#00d4aa' : 'rgba(255,255,255,0.12)'}`,
-                    background: isSelected ? `${COUNCIL_COLORS[c.council_id] || '#00d4aa'}22` : 'rgba(255,255,255,0.04)',
-                    color: isSelected ? COUNCIL_COLORS[c.council_id] || '#00d4aa' : '#8e8e93',
+                    border: `1px solid ${isSelected ? COUNCIL_COLORS[c.council_id] || '#12B6CF' : 'rgba(255,255,255,0.12)'}`,
+                    background: isSelected ? `${COUNCIL_COLORS[c.council_id] || '#12B6CF'}22` : 'rgba(255,255,255,0.04)',
+                    color: isSelected ? COUNCIL_COLORS[c.council_id] || '#12B6CF' : '#8e8e93',
                     fontSize: '0.72rem',
                     fontWeight: 600,
                     cursor: isSelected || radarSelectedIds.length < 3 ? 'pointer' : 'not-allowed',
@@ -848,7 +848,7 @@ function CrossCouncil() {
                 <PolarRadiusAxis angle={30} domain={[0, 100]} tick={{ fill: '#636366', fontSize: 9 }} />
                 {radarSelectedIds.map(id => {
                   const c = councils.find(cc => cc.council_id === id)
-                  const color = COUNCIL_COLORS[id] || '#00d4aa'
+                  const color = COUNCIL_COLORS[id] || '#12B6CF'
                   return (
                     <Radar
                       key={id}
@@ -935,7 +935,7 @@ function CrossCouncil() {
                 ))}
               </Bar>
               {spendPerHead.length > 6 && (
-                <Brush dataKey="name" height={20} stroke="#00d4aa" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
+                <Brush dataKey="name" height={20} stroke="#12B6CF" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
               )}
             </BarChart>
           </ResponsiveContainer>
@@ -1342,7 +1342,7 @@ function CrossCouncil() {
                   ))}
                 </Bar>
                 {collectionRateData.length > 6 && (
-                  <Brush dataKey="name" height={20} stroke="#00d4aa" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
+                  <Brush dataKey="name" height={20} stroke="#12B6CF" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
                 )}
               </BarChart>
             </ResponsiveContainer>
@@ -1420,7 +1420,7 @@ function CrossCouncil() {
                   ))}
                 </Bar>
                 {reservesData.length > 6 && (
-                  <Brush dataKey="name" height={20} stroke="#00d4aa" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
+                  <Brush dataKey="name" height={20} stroke="#12B6CF" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
                 )}
               </BarChart>
             </ResponsiveContainer>
@@ -1484,7 +1484,7 @@ function CrossCouncil() {
                   ))}
                 </Bar>
                 {dependencyData.length > 6 && (
-                  <Brush dataKey="name" height={20} stroke="#00d4aa" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
+                  <Brush dataKey="name" height={20} stroke="#12B6CF" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
                 )}
               </BarChart>
             </ResponsiveContainer>
@@ -1664,7 +1664,7 @@ function CrossCouncil() {
                   ))}
                 </Bar>
                 {fiscalData.length > 6 && (
-                  <Brush dataKey="name" height={20} stroke="#00d4aa" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
+                  <Brush dataKey="name" height={20} stroke="#12B6CF" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
                 )}
               </BarChart>
             </ResponsiveContainer>
@@ -1724,7 +1724,7 @@ function CrossCouncil() {
                   ))}
                 </Bar>
                 {employmentData.length > 6 && (
-                  <Brush dataKey="name" height={20} stroke="#00d4aa" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
+                  <Brush dataKey="name" height={20} stroke="#12B6CF" fill="rgba(255,255,255,0.04)" travellerWidth={8} />
                 )}
               </BarChart>
             </ResponsiveContainer>

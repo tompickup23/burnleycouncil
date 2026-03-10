@@ -21,7 +21,7 @@ export function CouncilConfigProvider({ children }) {
       publisher: 'AI DOGE',
       disclaimer_entity: 'the council',
       spending_data_period: '',
-      theme_accent: '#00d4aa',
+      theme_accent: '#12B6CF',
       data_sources: {},
       doge_context: {},
     }

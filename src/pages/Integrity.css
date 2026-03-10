@@ -28,8 +28,8 @@
 .methodology-banner {
   display: flex;
   gap: var(--space-md);
-  background: rgba(0, 212, 170, 0.08);
-  border: 1px solid rgba(0, 212, 170, 0.2);
+  background: rgba(18, 182, 207, 0.08);
+  border: 1px solid rgba(18, 182, 207, 0.2);
   border-radius: var(--radius-lg);
   padding: var(--space-lg);
   margin-bottom: var(--space-2xl);
@@ -401,8 +401,8 @@
 }
 
 .badge-directorships {
-  background: rgba(0, 212, 170, 0.15);
-  color: #00d4aa;
+  background: rgba(18, 182, 207, 0.15);
+  color: #12B6CF;
 }
 
 .badge-conflict {
@@ -694,13 +694,13 @@
   padding: 2px 8px;
   border-radius: 9999px;
   font-size: 0.6875rem;
-  background: rgba(0, 212, 170, 0.15);
-  color: #00d4aa;
+  background: rgba(18, 182, 207, 0.15);
+  color: #12B6CF;
   text-decoration: none;
 }
 
 .ch-link:hover {
-  background: rgba(0, 212, 170, 0.25);
+  background: rgba(18, 182, 207, 0.25);
 }
 
 /* Red Flags */
@@ -1059,7 +1059,7 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
 .data-sources-count {
   font-size: 0.6875rem;
   color: var(--text-tertiary);
-  background: rgba(0, 212, 170, 0.1);
+  background: rgba(18, 182, 207, 0.1);
   padding: 2px 8px;
   border-radius: 9999px;
   margin-right: var(--space-md);
@@ -1079,9 +1079,9 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
   padding: 3px 10px;
   border-radius: 9999px;
   font-size: 0.6875rem;
-  background: rgba(0, 212, 170, 0.1);
+  background: rgba(18, 182, 207, 0.1);
   color: var(--accent-blue);
-  border: 1px solid rgba(0, 212, 170, 0.2);
+  border: 1px solid rgba(18, 182, 207, 0.2);
 }
 
 /* Familial Connection Overview */
@@ -1127,7 +1127,7 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
 }
 
 .familial-card.info {
-  border-color: rgba(0, 212, 170, 0.2);
+  border-color: rgba(18, 182, 207, 0.2);
 }
 
 .familial-card-header {
@@ -1193,8 +1193,8 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
 }
 
 .familial-flag.info {
-  background: rgba(0, 212, 170, 0.15);
-  color: #00d4aa;
+  background: rgba(18, 182, 207, 0.15);
+  color: #12B6CF;
 }
 
 .familial-note {
@@ -1376,12 +1376,12 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
   gap: 4px;
   color: var(--text-primary);
   text-decoration: none;
-  border-bottom: 1px dotted var(--accent, #00d4aa);
+  border-bottom: 1px dotted var(--accent, #12B6CF);
   transition: color 0.15s ease;
 }
 
 .crossover-supplier-link:hover {
-  color: var(--accent, #00d4aa);
+  color: var(--accent, #12B6CF);
   border-bottom-style: solid;
 }
 
@@ -1421,14 +1421,14 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
   font-size: 0.75rem;
   padding: 2px 8px;
   border-radius: 10px;
-  background: rgba(0, 212, 170, 0.1);
-  color: #00d4aa;
+  background: rgba(18, 182, 207, 0.1);
+  color: #12B6CF;
 }
 
 .crossover-ch-link {
-  color: #00d4aa !important;
+  color: #12B6CF !important;
   text-decoration: none;
-  border-bottom: 1px dotted #00d4aa;
+  border-bottom: 1px dotted #12B6CF;
 }
 
 .crossover-ch-link:hover {
@@ -1692,7 +1692,7 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
   align-items: center;
   gap: 4px;
   font-size: 0.75rem;
-  color: var(--accent, #00d4aa);
+  color: var(--accent, #12B6CF);
   text-decoration: none;
   margin-top: var(--space-xs);
 }
@@ -1747,11 +1747,11 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
 .supplier-investigation-link {
   color: var(--text-primary);
   text-decoration: none;
-  border-bottom: 1px dotted var(--accent, #00d4aa);
+  border-bottom: 1px dotted var(--accent, #12B6CF);
 }
 
 .supplier-investigation-link:hover {
-  color: var(--accent, #00d4aa);
+  color: var(--accent, #12B6CF);
 }
 
 .supplier-investigation-spend {
@@ -1789,7 +1789,7 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
 }
 
 .connection-card.cross_council {
-  border-left-color: #00d4aa;
+  border-left-color: #12B6CF;
 }
 
 .connection-header {
@@ -1823,7 +1823,7 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
 }
 
 .connection-card.cross_council .connection-type-badge {
-  color: #00d4aa;
+  color: #12B6CF;
 }
 
 .connection-councillor {
@@ -1888,7 +1888,7 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
   align-items: center;
   gap: var(--space-sm);
   margin-bottom: var(--space-sm);
-  color: #00d4aa;
+  color: #12B6CF;
 }
 
 .cross-council-summary-stats {
@@ -2620,16 +2620,16 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
   border-radius: 9999px;
   font-size: 0.625rem;
   font-weight: 500;
-  background: rgba(0, 212, 170, 0.12);
-  color: #00d4aa;
-  border: 1px solid rgba(0, 212, 170, 0.25);
+  background: rgba(18, 182, 207, 0.12);
+  color: #12B6CF;
+  border: 1px solid rgba(18, 182, 207, 0.25);
   text-decoration: none;
   transition: all 0.15s ease;
   white-space: nowrap;
 }
 
 .flag-link:hover {
-  background: rgba(0, 212, 170, 0.25);
+  background: rgba(18, 182, 207, 0.25);
   transform: scale(1.05);
 }
 
@@ -2667,6 +2667,6 @@ details[open].data-sources-collapsible > .data-sources-summary::after {
 }
 
 .badge-centrality-connector {
-  background: rgba(0, 212, 170, 0.15);
-  color: #00d4aa;
+  background: rgba(18, 182, 207, 0.15);
+  color: #12B6CF;
 }

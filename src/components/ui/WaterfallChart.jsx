@@ -16,7 +16,7 @@ import { formatCurrency } from '../../utils/format'
 const WATERFALL_COLORS = {
   income: '#30d158',
   expense: '#ff453a',
-  total: '#00d4aa',
+  total: '#12B6CF',
 }
 
 const WaterfallChart = memo(function WaterfallChart({

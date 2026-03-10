@@ -137,7 +137,7 @@ function buildPopupHTML(rw) {
 
   // Status + severity badges
   lines.push(`<div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">`)
-  const statusColor = rw.status === 'Works started' ? '#ff9f0a' : '#00d4aa'
+  const statusColor = rw.status === 'Works started' ? '#ff9f0a' : '#12B6CF'
   lines.push(`<span style="background:${statusColor}20;color:${statusColor};padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600;border:1px solid ${statusColor}30">${esc(rw.status || 'Unknown')}</span>`)
   if (rw.severity) {
     const sevColor = SEVERITY_MARKER_COLORS[rw.severity] || '#8e8e93'
@@ -337,9 +337,9 @@ export default function HighwaysMap({
 
     const geoLayer = L.geoJSON(boundaries, {
       style: () => ({
-        color: 'rgba(0, 212, 170, 0.2)',
+        color: 'rgba(18, 182, 207, 0.2)',
         weight: 1.5,
-        fillColor: 'rgba(0, 212, 170, 0.03)',
+        fillColor: 'rgba(18, 182, 207, 0.03)',
         fillOpacity: 1,
         dashArray: '4 3',
       }),
@@ -353,16 +353,16 @@ export default function HighwaysMap({
           })
           layer.on('mouseover', () => {
             layer.setStyle({
-              color: 'rgba(0, 212, 170, 0.5)',
+              color: 'rgba(18, 182, 207, 0.5)',
               weight: 2.5,
-              fillColor: 'rgba(0, 212, 170, 0.08)',
+              fillColor: 'rgba(18, 182, 207, 0.08)',
             })
           })
           layer.on('mouseout', () => {
             layer.setStyle({
-              color: 'rgba(0, 212, 170, 0.2)',
+              color: 'rgba(18, 182, 207, 0.2)',
               weight: 1.5,
-              fillColor: 'rgba(0, 212, 170, 0.03)',
+              fillColor: 'rgba(18, 182, 207, 0.03)',
             })
           })
         }

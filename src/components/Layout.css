@@ -25,7 +25,7 @@
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(0, 212, 170, 0.05) 0%, rgba(228, 0, 43, 0.03) 50%, transparent 100%);
+  background: linear-gradient(180deg, rgba(18, 182, 207, 0.05) 0%, rgba(228, 0, 43, 0.03) 50%, transparent 100%);
 }
 
 .sidebar-header::before {
@@ -35,7 +35,7 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, #00d4aa, rgba(0, 212, 170, 0.4) 40%, rgba(228, 0, 43, 0.3) 80%, transparent);
+  background: linear-gradient(90deg, #12B6CF, rgba(18, 182, 207, 0.4) 40%, rgba(228, 0, 43, 0.3) 80%, transparent);
 }
 
 .sidebar-header::after {
@@ -46,9 +46,9 @@
   font-size: 0.6rem;
   font-weight: 900;
   letter-spacing: 0.12em;
-  color: #00d4aa;
+  color: #12B6CF;
   text-transform: uppercase;
-  text-shadow: 0 0 12px rgba(0, 212, 170, 0.4);
+  text-shadow: 0 0 12px rgba(18, 182, 207, 0.4);
 }
 
 .site-title {
@@ -56,7 +56,7 @@
   font-weight: 900;
   letter-spacing: -0.03em;
   margin-bottom: 2px;
-  background: linear-gradient(135deg, #ffffff 0%, #00d4aa 100%);
+  background: linear-gradient(135deg, #ffffff 0%, #12B6CF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -229,7 +229,7 @@
 
 .nav-admin-link {
   color: var(--accent-blue) !important;
-  text-shadow: 0 0 8px rgba(0, 212, 170, 0.3);
+  text-shadow: 0 0 8px rgba(18, 182, 207, 0.3);
 }
 
 .disclaimer-badge {
@@ -309,7 +309,7 @@
   right: -8%;
   width: 55vw;
   height: 55vw;
-  background: radial-gradient(ellipse, rgba(0, 212, 170, 0.06) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(18, 182, 207, 0.06) 0%, transparent 70%);
   animation: gradientShift 14s ease infinite;
 }
 

@@ -5,7 +5,7 @@
  *
  * Props:
  *   data {number[]}      — Array of values to plot
- *   color {string}        — Line color (default '#00d4aa')
+ *   color {string}        — Line color (default '#12B6CF')
  *   width {number}        — SVG width in px (default 80)
  *   height {number}       — SVG height in px (default 24)
  *   fill {boolean}        — Show gradient area fill below line (default false)
@@ -18,7 +18,7 @@ import { memo, useMemo } from 'react'
 
 const SparkLine = memo(function SparkLine({
   data = [],
-  color = '#00d4aa',
+  color = '#12B6CF',
   width = 80,
   height = 24,
   fill = false,

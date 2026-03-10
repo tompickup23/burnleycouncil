@@ -16,7 +16,7 @@ const SEVERITY_FILLS = {
   warning: '#ff9f0a',
   medium: '#ffcc02',
   low: '#30d158',
-  info: '#00d4aa',
+  info: '#12B6CF',
   default: '#8e8e93',
 }
 

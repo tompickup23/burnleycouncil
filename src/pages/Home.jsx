@@ -833,7 +833,7 @@ function Home() {
                   )}
                   {recordTrend.length > 2 && (
                     <div className="pipeline-stat">
-                      <SparkLine data={recordTrend} color="#00d4aa" width={80} height={24} />
+                      <SparkLine data={recordTrend} color="#12B6CF" width={80} height={24} />
                       <span className="pipeline-stat-label">Data Volume</span>
                     </div>
                   )}

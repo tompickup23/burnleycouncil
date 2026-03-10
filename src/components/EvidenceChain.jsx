@@ -54,7 +54,7 @@ export default function EvidenceChain({
           border: '1px solid var(--border-color, #334155)',
           borderRadius: '6px',
           padding: '4px 10px',
-          color: 'var(--accent, #00d4aa)',
+          color: 'var(--accent, #12B6CF)',
           fontSize: '0.7rem',
           cursor: 'pointer',
           display: 'inline-flex',

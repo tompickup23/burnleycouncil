@@ -190,7 +190,7 @@ function Budgets() {
       }
     }
     return [
-      { name: 'Council Tax', value: ctTotal / 1_000_000, color: '#00d4aa' },
+      { name: 'Council Tax', value: ctTotal / 1_000_000, color: '#12B6CF' },
       { name: 'Business Rates', value: brTotal / 1_000_000, color: '#30d158' },
       { name: 'Government Grants', value: grantTotal / 1_000_000, color: '#ff9f0a' },
       { name: 'Other', value: otherTotal / 1_000_000, color: '#8e8e93' },
@@ -1326,7 +1326,7 @@ function CollectionRatesSection({ collectionRates, councilName }) {
       <div className="stats-grid" style={{ marginBottom: 'var(--space-lg)' }}>
         <div className="stat-card">
           <div className="stat-label">Latest Rate ({latestYear})</div>
-          <div className="stat-value" style={{ color: latestRate >= 97 ? '#30d158' : latestRate >= 95 ? '#00d4aa' : latestRate >= 93 ? '#ff9f0a' : '#ff453a' }}>
+          <div className="stat-value" style={{ color: latestRate >= 97 ? '#30d158' : latestRate >= 95 ? '#12B6CF' : latestRate >= 93 ? '#ff9f0a' : '#ff453a' }}>
             {latestRate?.toFixed(1)}%
           </div>
           <div className="stat-sublabel">
@@ -1601,7 +1601,7 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
   }
   const serviceColors = {
     environmental: '#30d158',
-    central: '#00d4aa',
+    central: '#12B6CF',
     cultural: '#ff9f0a',
     housing: '#bf5af2',
     planning: '#64d2ff',
@@ -1999,13 +1999,13 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
                   contentStyle={TOOLTIP_STYLE}
                   formatter={(value) => [`£${value.toFixed(1)}M`]}
                 />
-                <Bar dataKey="earmarked" stackId="reserves" fill="#00d4aa" name="Earmarked Reserves" radius={[0, 0, 0, 0]} />
+                <Bar dataKey="earmarked" stackId="reserves" fill="#12B6CF" name="Earmarked Reserves" radius={[0, 0, 0, 0]} />
                 <Bar dataKey="unallocated" stackId="reserves" fill="#30d158" name="Unallocated Reserves" radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
             <div className="funding-breakdown" style={{ marginTop: 'var(--space-md)' }}>
               <div className="funding-item">
-                <span className="funding-dot" style={{ background: '#00d4aa' }} />
+                <span className="funding-dot" style={{ background: '#12B6CF' }} />
                 <span className="funding-name">Earmarked Reserves</span>
               </div>
               <div className="funding-item">
@@ -2079,7 +2079,7 @@ function BudgetTrendsView({ councilName, councilFullName, govukData, trendsData,
           .map(([name, val]) => ({ name: name.replace(/_/g, ' '), value: Math.abs(val) }))
           .sort((a, b) => b.value - a.value)
         if (fundingData.length === 0) return null
-        const fundingColors = ['#00d4aa', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff']
+        const fundingColors = ['#12B6CF', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#64d2ff']
         return (
           <section className="chart-section">
             <h2><Landmark size={20} style={{ marginRight: 8, verticalAlign: 'text-bottom' }} />Funding Sources ({latestYear?.replace('-', '/')})</h2>

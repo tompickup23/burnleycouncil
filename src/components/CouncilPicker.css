@@ -153,20 +153,20 @@
 
 .council-picker-card:hover {
   background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(0, 212, 170, 0.3);
+  border-color: rgba(18, 182, 207, 0.3);
   color: var(--text-primary, #ffffff);
 }
 
 .council-picker-card--current {
-  background: rgba(0, 212, 170, 0.1);
-  border-color: rgba(0, 212, 170, 0.4);
+  background: rgba(18, 182, 207, 0.1);
+  border-color: rgba(18, 182, 207, 0.4);
   color: var(--text-primary, #ffffff);
-  box-shadow: 0 0 12px rgba(0, 212, 170, 0.08);
+  box-shadow: 0 0 12px rgba(18, 182, 207, 0.08);
 }
 
 .council-picker-card--current:hover {
-  background: rgba(0, 212, 170, 0.15);
-  border-color: rgba(0, 212, 170, 0.5);
+  background: rgba(18, 182, 207, 0.15);
+  border-color: rgba(18, 182, 207, 0.5);
 }
 
 /* ── Color Dot ── */
@@ -188,7 +188,7 @@
 /* ── Check Icon ── */
 
 .council-picker-check {
-  color: var(--accent-blue, #00d4aa);
+  color: var(--accent-blue, #12B6CF);
   flex-shrink: 0;
 }
 

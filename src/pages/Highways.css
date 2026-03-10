@@ -213,9 +213,9 @@
 }
 
 .hw-toggle.active {
-  border-color: var(--accent-blue, #00d4aa);
-  color: var(--accent-blue, #00d4aa);
-  background: rgba(0, 212, 170, 0.08);
+  border-color: var(--accent-blue, #12B6CF);
+  color: var(--accent-blue, #12B6CF);
+  background: rgba(18, 182, 207, 0.08);
 }
 
 .hw-toggle:hover {
@@ -297,7 +297,7 @@
 
 .hw-priority-heading--critical { color: #ff453a; }
 .hw-priority-heading--high { color: #ff9f0a; }
-.hw-priority-heading--match { color: #00d4aa; }
+.hw-priority-heading--match { color: #12B6CF; }
 .hw-priority-heading--event { color: #bf5af2; }
 
 .hw-priority-group {
@@ -382,7 +382,7 @@
 
 .hw-s59-heading--breach { color: #ff453a; }
 .hw-s59-heading--coordination { color: #ff9f0a; }
-.hw-s59-heading--monitor { color: #00d4aa; }
+.hw-s59-heading--monitor { color: #12B6CF; }
 
 .hw-s59-group {
   margin-bottom: 12px;
@@ -438,7 +438,7 @@
 
 .hw-search-input:focus {
   outline: none;
-  border-color: var(--accent-blue, #00d4aa);
+  border-color: var(--accent-blue, #12B6CF);
 }
 
 .hw-search-input::placeholder {
@@ -472,8 +472,8 @@
 }
 
 .hw-card.selected {
-  border-color: var(--accent-blue, #00d4aa);
-  box-shadow: 0 0 0 1px var(--accent-blue, #00d4aa), 0 4px 20px rgba(0, 212, 170, 0.15);
+  border-color: var(--accent-blue, #12B6CF);
+  box-shadow: 0 0 0 1px var(--accent-blue, #12B6CF), 0 4px 20px rgba(18, 182, 207, 0.15);
 }
 
 .hw-card-severity {
@@ -614,8 +614,8 @@
 }
 
 .hw-badge-planned {
-  background: rgba(0, 212, 170, 0.15);
-  color: #00d4aa;
+  background: rgba(18, 182, 207, 0.15);
+  color: #12B6CF;
 }
 
 .hw-badge-urgent {
@@ -670,9 +670,9 @@
 }
 
 .hw-page-btn.active {
-  background: rgba(0, 212, 170, 0.15) !important;
-  border-color: var(--accent-blue, #00d4aa) !important;
-  color: var(--accent-blue, #00d4aa) !important;
+  background: rgba(18, 182, 207, 0.15) !important;
+  border-color: var(--accent-blue, #12B6CF) !important;
+  color: var(--accent-blue, #12B6CF) !important;
 }
 
 .hw-page-ellipsis {
@@ -822,8 +822,8 @@
 }
 
 .hw-clash-card.monitor {
-  background: rgba(0, 212, 170, 0.06);
-  border-color: rgba(0, 212, 170, 0.15);
+  background: rgba(18, 182, 207, 0.06);
+  border-color: rgba(18, 182, 207, 0.15);
 }
 
 .hw-clash-road {
@@ -901,7 +901,7 @@
   background: rgba(255, 255, 255, 0.03);
   border: 1px dashed rgba(255, 255, 255, 0.1);
   border-radius: 8px;
-  color: var(--accent-blue, #00d4aa);
+  color: var(--accent-blue, #12B6CF);
   padding: 8px 14px;
   font-size: 0.8rem;
   cursor: pointer;
@@ -911,8 +911,8 @@
 }
 
 .hw-show-all-btn:hover {
-  background: rgba(0, 212, 170, 0.06);
-  border-color: rgba(0, 212, 170, 0.2);
+  background: rgba(18, 182, 207, 0.06);
+  border-color: rgba(18, 182, 207, 0.2);
 }
 
 /* ── Legal framework thresholds grid ── */
@@ -1047,7 +1047,7 @@
 
 .hw-ward-tooltip {
   background: rgba(20, 20, 22, 0.92) !important;
-  border: 1px solid rgba(0, 212, 170, 0.2) !important;
+  border: 1px solid rgba(18, 182, 207, 0.2) !important;
   border-radius: 8px !important;
   color: #fff !important;
   font-size: 0.78rem !important;
@@ -1317,7 +1317,7 @@
 
 .hw-td-blue {
   font-weight: 500;
-  color: #00d4aa;
+  color: #12B6CF;
 }
 
 .hw-jci-score {
@@ -1419,9 +1419,9 @@
 }
 
 .hw-timeline-action-btn.active {
-  border-color: var(--accent-blue, #00d4aa);
-  color: var(--accent-blue, #00d4aa);
-  background: rgba(0, 212, 170, 0.08);
+  border-color: var(--accent-blue, #12B6CF);
+  color: var(--accent-blue, #12B6CF);
+  background: rgba(18, 182, 207, 0.08);
 }
 
 .hw-timeline-track {
@@ -1466,10 +1466,10 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: var(--accent-blue, #00d4aa);
+  background: var(--accent-blue, #12B6CF);
   border: 2px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 212, 170, 0.4);
+  box-shadow: 0 2px 8px rgba(18, 182, 207, 0.4);
   transition: transform 0.15s;
 }
 
@@ -1481,10 +1481,10 @@
   width: 16px;
   height: 16px;
   border-radius: 50%;
-  background: var(--accent-blue, #00d4aa);
+  background: var(--accent-blue, #12B6CF);
   border: 2px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
-  box-shadow: 0 2px 8px rgba(0, 212, 170, 0.4);
+  box-shadow: 0 2px 8px rgba(18, 182, 207, 0.4);
 }
 
 .hw-play-row {
@@ -1495,10 +1495,10 @@
 }
 
 .hw-play-btn {
-  background: rgba(0, 212, 170, 0.1);
-  border: 1px solid rgba(0, 212, 170, 0.3);
+  background: rgba(18, 182, 207, 0.1);
+  border: 1px solid rgba(18, 182, 207, 0.3);
   border-radius: 8px;
-  color: var(--accent-blue, #00d4aa);
+  color: var(--accent-blue, #12B6CF);
   padding: 5px 14px;
   font-size: 0.8rem;
   font-weight: 600;
@@ -1510,8 +1510,8 @@
 }
 
 .hw-play-btn:hover {
-  background: rgba(0, 212, 170, 0.18);
-  border-color: rgba(0, 212, 170, 0.5);
+  background: rgba(18, 182, 207, 0.18);
+  border-color: rgba(18, 182, 207, 0.5);
 }
 
 .hw-play-btn.playing {
@@ -1542,9 +1542,9 @@
 }
 
 .hw-speed-btn.active {
-  border-color: var(--accent-blue, #00d4aa);
-  color: var(--accent-blue, #00d4aa);
-  background: rgba(0, 212, 170, 0.08);
+  border-color: var(--accent-blue, #12B6CF);
+  color: var(--accent-blue, #12B6CF);
+  background: rgba(18, 182, 207, 0.08);
 }
 
 .hw-timeline-status {
@@ -1990,10 +1990,10 @@
 }
 
 .hw-region-pill.active {
-  background: rgba(0, 212, 170, 0.15);
-  color: #00d4aa;
-  border-color: rgba(0, 212, 170, 0.4);
-  box-shadow: 0 0 12px rgba(0, 212, 170, 0.1);
+  background: rgba(18, 182, 207, 0.15);
+  color: #12B6CF;
+  border-color: rgba(18, 182, 207, 0.4);
+  box-shadow: 0 0 12px rgba(18, 182, 207, 0.1);
 }
 
 .hw-region-pill:first-child.active {
@@ -2384,9 +2384,9 @@
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
-  background: rgba(0, 212, 170, 0.15);
-  color: #00d4aa;
-  border: 1px solid rgba(0, 212, 170, 0.25);
+  background: rgba(18, 182, 207, 0.15);
+  color: #12B6CF;
+  border: 1px solid rgba(18, 182, 207, 0.25);
   border-radius: 4px;
   padding: 2px 6px;
   white-space: nowrap;
@@ -2503,8 +2503,8 @@
 }
 
 .hw-scenario-card--info {
-  border-left-color: #00d4aa;
-  background: rgba(0, 212, 170, 0.04);
+  border-left-color: #12B6CF;
+  background: rgba(18, 182, 207, 0.04);
 }
 
 .hw-scenario-name {
@@ -2548,8 +2548,8 @@
 
 /* LCC statement */
 .hw-lcc-statement {
-  background: rgba(0, 212, 170, 0.06);
-  border-left: 3px solid #00d4aa;
+  background: rgba(18, 182, 207, 0.06);
+  border-left: 3px solid #12B6CF;
   border-radius: 0 6px 6px 0;
   padding: 10px 12px;
   font-size: 0.8rem;
@@ -2560,7 +2560,7 @@
 
 .hw-lcc-statement-label {
   font-weight: 700;
-  color: #00d4aa;
+  color: #12B6CF;
 }
 
 /* Budget note */

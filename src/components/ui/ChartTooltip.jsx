@@ -54,7 +54,7 @@ const ChartTooltip = memo(function ChartTooltip({
         if (entry.dataKey === 'base') return null // skip waterfall invisible bar
 
         const value = entry.value
-        const color = entry.color || entry.stroke || '#00d4aa'
+        const color = entry.color || entry.stroke || '#12B6CF'
         const name = entry.name || entry.dataKey
 
         // Calculate trend if previous value provided

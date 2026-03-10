@@ -499,8 +499,8 @@ function DogeInvestigation() {
                         <Radar
                           name="Quality %"
                           dataKey="score"
-                          stroke="#00d4aa"
-                          fill="#00d4aa"
+                          stroke="#12B6CF"
+                          fill="#12B6CF"
                           fillOpacity={0.2}
                         />
                       </RadarChart>
@@ -700,7 +700,7 @@ function DogeInvestigation() {
                           contentStyle={TOOLTIP_STYLE}
                           formatter={(v, name) => [name === 'count' ? formatNumber(v) : formatCurrency(v, true), name === 'count' ? 'Transactions' : 'Total Value']}
                         />
-                        <Bar dataKey="count" fill="#00d4aa" radius={[4, 4, 0, 0]} name="count" />
+                        <Bar dataKey="count" fill="#12B6CF" radius={[4, 4, 0, 0]} name="count" />
                       </BarChart>
                     </ResponsiveContainer>
                   </div>

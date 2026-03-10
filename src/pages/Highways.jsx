@@ -133,12 +133,12 @@ export default function Highways() {
 
       {/* CTA — View Live Roadworks Map */}
       <Link to="/roadworks" className="hw-cta-card" style={{ display: 'flex', alignItems: 'center', gap: 16, padding: '16px 24px', margin: '0 0 24px', background: 'rgba(0,212,170,0.06)', border: '1px solid rgba(0,212,170,0.25)', borderRadius: 12, textDecoration: 'none', color: 'inherit', transition: 'border-color 0.2s, background 0.2s' }}>
-        <MapPin size={28} style={{ color: '#00d4aa', flexShrink: 0 }} />
+        <MapPin size={28} style={{ color: '#12B6CF', flexShrink: 0 }} />
         <div>
-          <div style={{ fontWeight: 700, fontSize: '1rem', color: '#00d4aa' }}>View Live Roadworks Map</div>
+          <div style={{ fontWeight: 700, fontSize: '1rem', color: '#12B6CF' }}>View Live Roadworks Map</div>
           <div style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', marginTop: 2 }}>View live roadworks, traffic intelligence and corridor analysis</div>
         </div>
-        <span style={{ marginLeft: 'auto', color: '#00d4aa', fontSize: '1.2rem', fontWeight: 700 }}>&rarr;</span>
+        <span style={{ marginLeft: 'auto', color: '#12B6CF', fontSize: '1.2rem', fontWeight: 700 }}>&rarr;</span>
       </Link>
 
       {/* Collapsible sections */}
@@ -158,7 +158,7 @@ export default function Highways() {
               {/* Summary grid */}
               <div className="hw-infra-summary-grid">
                 {[
-                  { label: 'Traffic Signals', value: infrastructure.summary?.traffic_signals, color: '#00d4aa' },
+                  { label: 'Traffic Signals', value: infrastructure.summary?.traffic_signals, color: '#12B6CF' },
                   { label: 'Roundabouts', value: infrastructure.summary?.roundabouts, color: '#bf5af2' },
                   { label: 'Mini Roundabouts', value: infrastructure.summary?.mini_roundabouts, color: '#af52de' },
                   { label: 'Level Crossings', value: infrastructure.summary?.level_crossings, color: '#ff453a' },
@@ -185,7 +185,7 @@ export default function Highways() {
                         const count = typeof data === 'number' ? data : data?.count || 0
                         const total = Object.values(infrastructure.speed_zones).reduce((sum, v) => sum + (typeof v === 'number' ? v : v?.count || 0), 0)
                         const pct = total > 0 ? (count / total) * 100 : 0
-                        const colors = { '20': '#30d158', '30': '#00d4aa', '40': '#bf5af2', '50': '#ff9f0a', '60': '#ff6d3b', '70': '#ff453a' }
+                        const colors = { '20': '#30d158', '30': '#12B6CF', '40': '#bf5af2', '50': '#ff9f0a', '60': '#ff6d3b', '70': '#ff453a' }
                         const barColor = colors[limit] || '#8e8e93'
                         return (
                           <div key={limit} className="hw-speed-bar-row">
@@ -448,7 +448,7 @@ export default function Highways() {
                       />
                       <Legend formatter={v => ({ dft: 'DfT Grant', lcc: 'LCC Contribution', needed: 'Estimated Need' }[v] || v)} />
                       <Bar dataKey="dft" stackId="a" fill="#ff9f0a" radius={[0, 0, 0, 0]} name="dft" />
-                      <Bar dataKey="lcc" stackId="a" fill="#00d4aa" radius={[2, 2, 0, 0]} name="lcc" />
+                      <Bar dataKey="lcc" stackId="a" fill="#12B6CF" radius={[2, 2, 0, 0]} name="lcc" />
                       <Line type="monotone" dataKey="needed" stroke="#ff453a" strokeWidth={2} dot={{ r: 3, fill: '#ff453a' }} name="needed" />
                     </ComposedChart>
                   </ResponsiveContainer>
@@ -487,7 +487,7 @@ export default function Highways() {
                 {assets.historic_investment?.what_it_would_cost?.scenarios && (
                   <div style={{ marginTop: 16 }}>
                     <div className="hw-assets-sub-heading">
-                      <TrendingUp size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#00d4aa' }} />
+                      <TrendingUp size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#12B6CF' }} />
                       {assets.historic_investment?.what_it_would_cost.title}
                     </div>
                     <div className="hw-scenario-grid">
@@ -590,7 +590,7 @@ export default function Highways() {
                         }}
                       />
                       <Legend formatter={v => ({ net: 'Net Revenue', gross: 'Gross Expenditure', capital: 'Capital Programme' }[v] || v)} />
-                      <Bar dataKey="gross" fill="#00d4aa" radius={[2, 2, 0, 0]} name="gross" />
+                      <Bar dataKey="gross" fill="#12B6CF" radius={[2, 2, 0, 0]} name="gross" />
                       <Bar dataKey="net" fill="#30d158" radius={[2, 2, 0, 0]} name="net" />
                       <Bar dataKey="capital" fill="#ff9f0a" radius={[2, 2, 0, 0]} name="capital" />
                     </BarChart>
@@ -1000,7 +1000,7 @@ export default function Highways() {
 
               {/* LCC exercises table */}
               <div className="hw-assets-sub-heading" style={{ marginTop: 20 }}>
-                <FileText size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#00d4aa' }} />
+                <FileText size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#12B6CF' }} />
                 LCC Highways Exercises (March 2026 Pipeline)
               </div>
               <div className="hw-table-overflow">
@@ -1063,7 +1063,7 @@ export default function Highways() {
                         {hw.unitary_contracts.map((uc, i) => (
                           <tr key={i}>
                             <td><strong>{uc.title}</strong>{uc.note && <div style={{ fontSize: '0.72rem', color: '#8e8e93', marginTop: 2 }}>{uc.note}</div>}</td>
-                            <td style={{ color: '#00d4aa' }}>{uc.authority}</td>
+                            <td style={{ color: '#12B6CF' }}>{uc.authority}</td>
                             <td style={{ fontWeight: 600 }}>{uc.value ? `£${(uc.value / 1e6).toFixed(1)}M` : '\u2014'}</td>
                             <td style={{ fontSize: '0.78rem', color: '#8e8e93' }}>{uc.source}</td>
                           </tr>
@@ -1112,13 +1112,13 @@ export default function Highways() {
               {/* LGR delay impact */}
               {procPipeline.delay_case && (
                 <div style={{ marginTop: 16, padding: '12px 16px', background: 'rgba(10,132,255,0.06)', border: '1px solid rgba(10,132,255,0.2)', borderRadius: 10 }}>
-                  <strong style={{ color: '#00d4aa', fontSize: '0.88rem' }}>LGR Delay Impact on Highways:</strong>
+                  <strong style={{ color: '#12B6CF', fontSize: '0.88rem' }}>LGR Delay Impact on Highways:</strong>
                   <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: '6px 0 0' }}>
                     Delaying vesting from April 2028 to April 2029 means 3 of 4 DfT settlement years would be managed by LCC
                     under existing contractual arrangements, with only the final year requiring renegotiation. Under the current
                     timeline, 2 years transfer mid-contract creating funding uncertainty.
                   </p>
-                  <Link to="/lgr" style={{ display: 'inline-block', marginTop: 8, fontSize: '0.78rem', color: '#00d4aa', textDecoration: 'none' }}>
+                  <Link to="/lgr" style={{ display: 'inline-block', marginTop: 8, fontSize: '0.78rem', color: '#12B6CF', textDecoration: 'none' }}>
                     Full delay case analysis on LGR Tracker &rarr;
                   </Link>
                 </div>
