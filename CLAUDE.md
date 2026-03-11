@@ -120,7 +120,11 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/councillor_research_etl.py` | Councillor profiling ETL → councillor_profiles.json (DOB, occupation, committees, employment, electoral history) — NOT YET RUN |
 | `burnley-council/scripts/foi_generator.py` | Auto-generate FOI requests from DOGE anomalies + integrity findings → foi_templates.json — NOT YET RUN |
 | `burnley-council/scripts/register_of_interests_etl.py` | ModernGov register of interests scraper → register_of_interests.json per council |
-| `burnley-council/scripts/meetings_etl.py` | ModernGov meetings scraper → meetings.json per council (11 councils, 280 meetings) |
+| `burnley-council/scripts/meetings_etl.py` | ModernGov meetings scraper → meetings.json per council (11 councils, 280 meetings). Enhanced: document URLs, classification, minutes detection |
+| `burnley-council/scripts/council_documents_etl.py` | ModernGov PDF download → text extraction → LLM analysis → SQLite → council_documents.json (11 councils, 392 decisions) |
+| `burnley-council/scripts/votes_attendance_etl.py` | ModernGov recorded votes scraper → voting.json per council (11 councils). LLM enrichment: political summaries, council tax impact, key facts |
+| `burnley-council/scripts/political_history_etl.py` | Generate ward-level political history from elections.json → political_history.json (15 councils) |
+| `burnley-council/scripts/wargame_pipeline.py` | Meeting briefing generation from ModernGov documents + LLM analysis → meeting_briefings.json |
 | `burnley-council/scripts/generate_budgets_from_govuk.py` | Auto-generate budgets.json from GOV.UK outturn data (13 councils, skips hand-curated Burnley/Hyndburn) |
 | `burnley-council/scripts/budget_mapper.py` | Map AI DOGE spending departments → GOV.UK SeRCOP categories → budget_mapping.json |
 | `burnley-council/scripts/collection_rates_etl.py` | GOV.UK QRC4 council tax collection rates → collection_rates.json (14 billing authorities) |
@@ -140,7 +144,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/lgr_financial_model.py` | LGR financial modelling + savings calculations |
 | `burnley-council/scripts/lgr_budget_model.py` | LGR budget model: council tax harmonisation per LGR proposal |
 | `scripts/generate_lgr_enhanced.py` | LGR demographic fiscal intelligence: lgr_enhanced.json + 15× demographic_fiscal.json |
-| `burnley-council/scripts/llm_router.py` | Multi-LLM router: Mistral → Cerebras → Groq → Ollama failover |
+| `burnley-council/scripts/llm_router.py` | Multi-LLM router: Gemini Flash → Mistral Small → Cerebras → Groq failover. API keys via env vars only |
 | `scripts/generate_cross_council.py` | Cross-council comparison data (collection rates, dependency ratio, reserves, HHI) |
 | `scripts/generate_service_gaps.py` | Service gap analysis for LGR |
 | `scripts/academic_export.py` | Academic export: panel dataset, LGR model inputs, cross-council efficiency CSVs |
@@ -198,7 +202,10 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `integrity.json` | councillor_integrity_etl.py | 28-detection councillor integrity scoring (CH, EC, FCA, co-directors, familial + v6 detections) |
 | `councillor_profiles.json` | councillor_research_etl.py | Councillor profiling data (DOB, occupation, committees, employment, electoral history) — NOT YET GENERATED |
 | `register_of_interests.json` | register_of_interests_etl.py | ModernGov register data (companies, employment, securities, land) |
-| `meetings.json` | meetings_etl.py | Council meetings (title, date, committee, venue, agenda/minutes links) |
+| `meetings.json` | meetings_etl.py | Council meetings (title, date, committee, venue, agenda/minutes + document URLs) |
+| `council_documents.json` | council_documents_etl.py | LLM-analysed council decisions from PDF minutes/reports (11 councils, 392 decisions) |
+| `voting.json` | votes_attendance_etl.py | Recorded votes per councillor + LLM-enriched political summaries (11 councils) |
+| `political_history.json` | political_history_etl.py | Ward-level political history for strategy engine (15 councils) |
 | `elections.json` | elections_etl.py / manual | Ward-level election history, current holders, upcoming elections |
 | `constituencies.json` | constituency_etl.py | Parliamentary constituency data: GE2024, MP expenses, votes, activity |
 | `ward_boundaries.json` | ward_boundaries_etl.py | Ward/division boundary GeoJSON (ONS ArcGIS BSC polygons + centroids) |
