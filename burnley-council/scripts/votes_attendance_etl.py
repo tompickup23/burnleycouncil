@@ -347,6 +347,15 @@ def scrape_recorded_votes(base_url, start_date='01/01/2015', end_date=None):
 
         log.info(f"  Vote: {title[:60]} ({meeting_date}) — {outcome} ({for_count}F/{against_count}A/{abstain_count}Ab)")
 
+    # Deduplicate vote IDs — append counter suffix when multiple votes share the same ID
+    # (e.g. same meeting/item title truncated to 60 chars)
+    seen_ids = Counter()
+    for vote in votes:
+        vid = vote['id']
+        seen_ids[vid] += 1
+        if seen_ids[vid] > 1:
+            vote['id'] = f"{vid}-{seen_ids[vid]}"
+
     log.info(f"Found {len(votes)} recorded votes")
     return votes
 
@@ -677,6 +686,357 @@ def compute_attendance_by_party(attendance_records, councillors):
     return result
 
 
+# ── LLM Enrichment ──────────────────────────────────────────────────
+
+POLICY_AREAS = [
+    'budget_finance', 'transport_highways', 'social_care', 'education_send',
+    'housing', 'planning', 'environment_waste', 'health',
+    'economic_development', 'devolution_lgr', 'democratic_governance',
+    'public_safety', 'leisure_culture', 'licensing', 'regeneration',
+]
+
+ENRICHMENT_SYSTEM_PROMPT = """You are enriching council voting records for a UK public transparency tool.
+Your audience is ordinary voters who want to understand what their councillors voted on and why it matters.
+
+CRITICAL RULES:
+- Include specific £ amounts, % changes, and vote counts
+- State who voted which way using party names
+- For budget votes, ALWAYS include Band D council tax impact if determinable
+- Be factual, not opinionated — let the numbers speak
+- key_facts should be headline numbers/facts a voter would find striking
+- policy_area must be from this list: """ + ', '.join(POLICY_AREAS) + """
+- significance: "high" for budgets, major policy, LGR. "medium" for service changes. "low" for procedural
+- Return ONLY valid JSON, no markdown code fences"""
+
+
+def enrich_votes_with_llm(votes, council_id, out_dir):
+    """Enrich votes with LLM-generated descriptions, key facts, and policy context.
+
+    Adds to each vote:
+      - description: 1-2 sentence political summary a voter understands
+      - council_tax_change: Band D impact if budget/precept vote (null otherwise)
+      - key_facts: array of 3-5 headline facts/numbers
+      - proposer: who moved the motion (null if unknown)
+      - seconder: who seconded (null if unknown)
+      - policy_area: array of 1-3 topic tags
+      - significance: high/medium/low
+    """
+    try:
+        from llm_router import generate
+    except ImportError:
+        # Try relative import
+        sys.path.insert(0, str(Path(__file__).parent))
+        from llm_router import generate
+
+    # Load meetings.json for agenda context
+    meetings_path = out_dir / 'meetings.json'
+    meetings_by_date = {}
+    if meetings_path.exists():
+        with open(meetings_path) as f:
+            mdata = json.load(f)
+        meeting_list = mdata if isinstance(mdata, list) else mdata.get('meetings', [])
+        for m in meeting_list:
+            date_key = m.get('date', '')
+            if date_key:
+                if date_key not in meetings_by_date:
+                    meetings_by_date[date_key] = []
+                meetings_by_date[date_key].append(m)
+        log.info(f"Loaded {len(meeting_list)} meetings for context")
+
+    # Load budgets.json for Band D cross-reference
+    budgets_path = out_dir / 'budgets.json'
+    budgets_data = None
+    if budgets_path.exists():
+        with open(budgets_path) as f:
+            budgets_data = json.load(f)
+        log.info("Loaded budgets.json for cross-reference")
+
+    # Load collection_rates.json for Band D history
+    rates_path = out_dir / 'collection_rates.json'
+    rates_data = None
+    if rates_path.exists():
+        with open(rates_path) as f:
+            rates_data = json.load(f)
+        log.info("Loaded collection_rates.json for Band D cross-reference")
+
+    # Check which votes already have enrichment (skip re-enriching)
+    # A vote is "unenriched" if it has no description OR description == title (fallback from failed LLM)
+    unenriched = [v for v in votes if not v.get('description') or v.get('description') == v.get('title')]
+    if not unenriched:
+        log.info("All votes already enriched — skipping LLM")
+        return votes
+
+    log.info(f"Enriching {len(unenriched)} votes (of {len(votes)} total) with LLM...")
+
+    # Process in batches of 3
+    BATCH_SIZE = 3
+    enriched_count = 0
+    for i in range(0, len(unenriched), BATCH_SIZE):
+        batch = unenriched[i:i + BATCH_SIZE]
+
+        # Build context for this batch
+        batch_prompts = []
+        for v in batch:
+            # Find matching meeting for agenda context
+            meeting_context = ""
+            vdate = v.get('meeting_date', '')
+            if vdate and vdate in meetings_by_date:
+                for m in meetings_by_date[vdate]:
+                    agenda = m.get('agenda_items', [])
+                    if agenda:
+                        items_text = '\n'.join(f"  - {item}" if isinstance(item, str) else f"  - {item.get('title', '')}" for item in agenda[:15])
+                        meeting_context = f"\nMeeting agenda items:\n{items_text}"
+                    docs = m.get('documents', [])
+                    if docs:
+                        doc_names = [d if isinstance(d, str) else d.get('title', '') for d in docs[:10]]
+                        meeting_context += f"\nDocuments: {', '.join(doc_names)}"
+
+            # Band D context from budgets
+            band_d_context = ""
+            if budgets_data and v.get('type') == 'budget':
+                # Try to find Band D rates from budgets
+                council_tax = budgets_data.get('council_tax', {})
+                if council_tax:
+                    band_d_context = f"\nBand D council tax data: {json.dumps(council_tax)}"
+                # Also check revenue section for budget totals
+                revenue = budgets_data.get('revenue', {})
+                if revenue and isinstance(revenue, dict):
+                    total = revenue.get('net_expenditure') or revenue.get('total_net')
+                    if total:
+                        band_d_context += f"\nNet revenue budget: £{total:,.0f}" if isinstance(total, (int, float)) else ""
+
+            # Party breakdown summary
+            party_summary = ""
+            bp = v.get('votes_by_party', {})
+            if bp:
+                parts = []
+                for party, counts in sorted(bp.items(), key=lambda x: x[1].get('for', 0) + x[1].get('against', 0), reverse=True):
+                    if party == 'Unknown':
+                        continue
+                    f = counts.get('for', 0)
+                    a = counts.get('against', 0)
+                    ab = counts.get('abstain', 0)
+                    parts.append(f"{party}: {f}F/{a}A/{ab}Ab")
+                if parts:
+                    party_summary = f"\nParty breakdown: {'; '.join(parts)}"
+
+            batch_prompts.append(
+                f"VOTE {len(batch_prompts) + 1}:\n"
+                f"Title: {v['title']}\n"
+                f"Meeting: {v['meeting']}\n"
+                f"Date: {v['meeting_date']}\n"
+                f"Type: {v['type']} | Amendment: {v['is_amendment']} | Amendment by: {v.get('amendment_by', 'N/A')}\n"
+                f"Outcome: {v['outcome']} ({v['for_count']} for, {v['against_count']} against, {v['abstain_count']} abstain)"
+                f"{party_summary}"
+                f"{meeting_context}"
+                f"{band_d_context}"
+            )
+
+        prompt = (
+            f"Enrich these {len(batch)} council voting records. For EACH vote, generate JSON with these fields:\n"
+            f"- description (string): 1-2 sentences a voter understands. Include £ amounts, vote splits, who won.\n"
+            f"- council_tax_change (string or null): Band D impact if budget/precept vote. Format: 'Band D: £X → £Y (+Z%, +£W/year)'. null if not applicable.\n"
+            f"- key_facts (array of strings): 3-5 headline facts/numbers from context\n"
+            f"- proposer (string or null): Who moved this motion/amendment (name + party if known)\n"
+            f"- seconder (string or null): Who seconded (null if unknown)\n"
+            f"- policy_area (array of strings): 1-3 tags from: {', '.join(POLICY_AREAS)}\n"
+            f"- significance (string): 'high', 'medium', or 'low'\n\n"
+            f"Return a JSON array of {len(batch)} objects, one per vote, in the same order.\n\n"
+            + '\n---\n'.join(batch_prompts)
+        )
+
+        try:
+            response_text, provider = generate(prompt, system_prompt=ENRICHMENT_SYSTEM_PROMPT, max_tokens=4000)
+            log.info(f"  LLM response via {provider} ({len(response_text)} chars)")
+
+            # Parse JSON from response (handle markdown code fences)
+            clean = response_text.strip()
+            if clean.startswith('```'):
+                clean = re.sub(r'^```(?:json)?\s*\n?', '', clean)
+                clean = re.sub(r'\n?```\s*$', '', clean)
+
+            enrichments = json.loads(clean)
+            if not isinstance(enrichments, list):
+                enrichments = [enrichments]
+
+            for j, enrichment in enumerate(enrichments):
+                if j >= len(batch):
+                    break
+                vote = batch[j]
+                vote['description'] = enrichment.get('description', '')
+                vote['council_tax_change'] = enrichment.get('council_tax_change')
+                vote['key_facts'] = enrichment.get('key_facts', [])
+                vote['proposer'] = enrichment.get('proposer')
+                vote['seconder'] = enrichment.get('seconder')
+                vote['policy_area'] = enrichment.get('policy_area', [])
+                vote['significance'] = enrichment.get('significance', 'medium')
+                enriched_count += 1
+
+            log.info(f"  Enriched batch {i // BATCH_SIZE + 1}: {len(enrichments)} votes")
+
+        except json.JSONDecodeError as e:
+            log.warning(f"  Failed to parse LLM JSON response: {e}")
+            log.warning(f"  Raw response: {response_text[:500]}")
+            # Set defaults so we don't re-try on next run
+            for vote in batch:
+                if not vote.get('description'):
+                    vote['description'] = vote['title']
+                    vote['significance'] = 'high' if vote.get('type') == 'budget' else 'medium'
+                    vote['policy_area'] = ['budget_finance'] if vote.get('type') == 'budget' else ['democratic_governance']
+                    vote['key_facts'] = []
+                    enriched_count += 1
+        except Exception as e:
+            log.warning(f"  LLM enrichment failed for batch: {e}")
+            # Set fallback defaults
+            for vote in batch:
+                if not vote.get('description'):
+                    vote['description'] = vote['title']
+                    vote['significance'] = 'high' if vote.get('type') == 'budget' else 'medium'
+                    vote['policy_area'] = ['budget_finance'] if vote.get('type') == 'budget' else ['democratic_governance']
+                    vote['key_facts'] = []
+                    enriched_count += 1
+
+        # Rate limit between batches — Gemini free tier is 15 RPM
+        if i + BATCH_SIZE < len(unenriched):
+            time.sleep(5)
+
+    log.info(f"LLM enrichment complete: {enriched_count}/{len(unenriched)} votes enriched")
+    return votes
+
+
+def cross_reference_budget_votes(votes, council_id, out_dir):
+    """Post-process budget votes: replace LLM-hallucinated Band D figures with real data from budgets.json.
+
+    For each budget vote, maps the vote date to the budget year and looks up
+    real Band D council tax figures. Overwrites hallucinated council_tax_change
+    and adds budget_link cross-reference data.
+    """
+    budgets_path = out_dir / 'budgets.json'
+    if not budgets_path.exists():
+        log.info("No budgets.json — skipping budget cross-reference")
+        return votes
+
+    with open(budgets_path) as f:
+        budgets_data = json.load(f)
+
+    # Build year→Band D lookup from revenue_budgets
+    band_d_by_year = {}  # "2024/25" → { element: 1653.29, total: 2447.50, increase_pct: 4.99 }
+    for rb in budgets_data.get('revenue_budgets', []):
+        fy = rb.get('financial_year', '')
+        ct = rb.get('council_tax', {})
+        if not ct:
+            continue
+
+        entry = {'net_revenue_budget': rb.get('net_revenue_budget')}
+        # Different councils use different field names
+        for key in ['lancashire_cc_element', 'burnley_element', 'hyndburn_element',
+                     'pendle_element', 'rossendale_element', 'lancaster_element',
+                     'ribble_valley_element', 'chorley_element', 'south_ribble_element',
+                     'west_lancashire_element', 'wyre_element', 'preston_element',
+                     'fylde_element', 'blackpool_element', 'blackburn_element']:
+            if ct.get(key):
+                entry['element'] = ct[key]
+                break
+        if ct.get('band_d_total'):
+            entry['total'] = ct['band_d_total']
+
+        # Get increase percentage — try various field names
+        for pct_key in [f'{council_id}_increase_pct', 'burnley_increase_pct', 'increase_pct']:
+            if ct.get(pct_key) is not None:
+                entry['increase_pct'] = ct[pct_key]
+                break
+
+        if entry.get('element') or entry.get('total'):
+            band_d_by_year[fy] = entry
+
+    if not band_d_by_year:
+        log.info("No Band D data found in budgets.json — skipping cross-reference")
+        return votes
+
+    log.info(f"Band D data for {len(band_d_by_year)} years: {sorted(band_d_by_year.keys())}")
+
+    fixed_count = 0
+    for vote in votes:
+        if vote.get('type') != 'budget' and 'budget' not in vote.get('title', '').lower():
+            continue
+
+        # Map vote title to budget year — "Budget 2024/25" or "Budget 2024-25"
+        title = vote.get('title', '')
+        date = vote.get('meeting_date', '')
+
+        # Try to extract financial year from title
+        fy_match = re.search(r'(\d{4})[/-](\d{2,4})', title)
+        budget_fy = None
+        if fy_match:
+            start_year = fy_match.group(1)
+            end_part = fy_match.group(2)
+            if len(end_part) == 2:
+                budget_fy = f"{start_year}/{end_part}"
+            else:
+                budget_fy = f"{start_year}/{end_part[2:]}"
+        elif date:
+            # Infer from meeting date: Feb 2024 meeting → 2024/25 budget
+            year = int(date[:4])
+            month = int(date[5:7])
+            if month >= 10:  # Oct+ = next year's budget
+                budget_fy = f"{year + 1}/{str(year + 2)[2:]}"
+            elif month <= 4:  # Jan-Apr = this year's budget
+                budget_fy = f"{year}/{str(year + 1)[2:]}"
+
+        if not budget_fy or budget_fy not in band_d_by_year:
+            continue
+
+        current = band_d_by_year[budget_fy]
+        # Find previous year for comparison
+        parts = budget_fy.split('/')
+        if len(parts) == 2:
+            prev_start = int(parts[0]) - 1
+            prev_end = int(parts[1]) - 1
+            if prev_end < 0:
+                prev_end = 99
+            prev_fy = f"{prev_start}/{prev_end:02d}"
+        else:
+            prev_fy = None
+
+        prev = band_d_by_year.get(prev_fy, {}) if prev_fy else {}
+
+        # Build real council_tax_change string
+        if current.get('element') and prev.get('element'):
+            old_val = prev['element']
+            new_val = current['element']
+            change = new_val - old_val
+            pct = (change / old_val * 100) if old_val else 0
+            council_name = council_id.replace('_', ' ').title()
+            if council_id == 'lancashire_cc':
+                council_name = 'LCC'
+            vote['council_tax_change'] = f"Band D ({council_name} element): £{old_val:,.2f} → £{new_val:,.2f} ({'+' if pct >= 0 else ''}{pct:.2f}%, {'+' if change >= 0 else ''}£{change:,.2f}/year)"
+            fixed_count += 1
+        elif current.get('total') and prev.get('total'):
+            old_val = prev['total']
+            new_val = current['total']
+            change = new_val - old_val
+            pct = (change / old_val * 100) if old_val else 0
+            vote['council_tax_change'] = f"Band D (total): £{old_val:,.2f} → £{new_val:,.2f} ({'+' if pct >= 0 else ''}{pct:.2f}%, {'+' if change >= 0 else ''}£{change:,.2f}/year)"
+            fixed_count += 1
+        elif current.get('element'):
+            # Only have current year
+            vote['council_tax_change'] = f"Band D element: £{current['element']:,.2f}"
+            fixed_count += 1
+
+        # Add budget_link cross-reference
+        vote['budget_link'] = {
+            'financial_year': budget_fy,
+            'net_revenue_budget': current.get('net_revenue_budget'),
+        }
+        if current.get('element'):
+            vote['budget_link']['band_d_element'] = current['element']
+        if current.get('total'):
+            vote['budget_link']['band_d_total'] = current['total']
+
+    log.info(f"Budget cross-reference: {fixed_count} votes corrected with real Band D data")
+    return votes
+
+
 # ── Committee Membership Scraping ────────────────────────────────────
 
 COMMITTEE_TYPE_MAP = {
@@ -865,6 +1225,55 @@ def run_council(council_id, args):
     out_dir = DATA_DIR / council_id
     out_dir.mkdir(parents=True, exist_ok=True)
 
+    # ── Cross-ref-only mode: fix Band D figures in existing voting.json ──
+    if args.cross_ref_only:
+        voting_path = out_dir / 'voting.json'
+        if not voting_path.exists():
+            log.error(f"No voting.json found at {voting_path} — run scrape first")
+            return
+        with open(voting_path) as f:
+            voting_data = json.load(f)
+        votes = voting_data.get('votes', [])
+        log.info(f"Loaded {len(votes)} votes from {voting_path}")
+
+        votes = cross_reference_budget_votes(votes, council_id, out_dir)
+        voting_data['votes'] = votes
+        voting_data['last_updated'] = datetime.now().isoformat()
+
+        with open(voting_path, 'w') as f:
+            json.dump(voting_data, f, indent=2, ensure_ascii=False)
+        log.info(f"Updated {voting_path} with budget cross-references")
+        return
+
+    # ── Enrich-only mode: load existing voting.json, run LLM, save ──
+    if args.enrich_only:
+        voting_path = out_dir / 'voting.json'
+        if not voting_path.exists():
+            log.error(f"No voting.json found at {voting_path} — run scrape first")
+            return
+        with open(voting_path) as f:
+            voting_data = json.load(f)
+        votes = voting_data.get('votes', [])
+        log.info(f"Loaded {len(votes)} votes from {voting_path}")
+
+        # Sort by date descending
+        votes.sort(key=lambda v: v.get('meeting_date', '') or '0000-00-00', reverse=True)
+
+        votes = enrich_votes_with_llm(votes, council_id, out_dir)
+        votes = cross_reference_budget_votes(votes, council_id, out_dir)
+        voting_data['votes'] = votes
+        voting_data['last_updated'] = datetime.now().isoformat()
+
+        if args.dry_run:
+            enriched = sum(1 for v in votes if v.get('description') and v['description'] != v['title'])
+            log.info(f"[DRY RUN] Would update voting.json: {enriched}/{len(votes)} enriched")
+            return
+
+        with open(voting_path, 'w') as f:
+            json.dump(voting_data, f, indent=2, ensure_ascii=False)
+        log.info(f"Updated {voting_path} with LLM enrichment")
+        return
+
     # Load existing councillors
     councillors_path = out_dir / 'councillors.json'
     councillors = []
@@ -936,11 +1345,16 @@ def run_council(council_id, args):
     if councillors:
         councillors = enrich_councillors(councillors, attendance_records, council_id)
 
-    # ── Sort votes by date descending, budget votes first ──
-    votes.sort(key=lambda v: (
-        0 if v.get('type') == 'budget' else 1,
-        v.get('meeting_date', '') or '0000-00-00',
-    ), reverse=True)
+    # ── Sort votes by date descending (newest first) ──
+    votes.sort(key=lambda v: v.get('meeting_date', '') or '0000-00-00', reverse=True)
+
+    # ── LLM Enrichment ──
+    if args.enrich and votes:
+        votes = enrich_votes_with_llm(votes, council_id, out_dir)
+
+    # ── Budget Cross-Reference (always runs — corrects LLM hallucinations) ──
+    if votes:
+        votes = cross_reference_budget_votes(votes, council_id, out_dir)
 
     # ── Build voting.json ──
     voting_data = {
@@ -1001,6 +1415,9 @@ def main():
     parser.add_argument('--attendance-only', action='store_true', help='Only scrape attendance')
     parser.add_argument('--enrich-details', action='store_true', help='Only enrich councillor email/phone/roles')
     parser.add_argument('--committees', action='store_true', help='Scrape committee memberships only')
+    parser.add_argument('--enrich', action='store_true', help='Run LLM enrichment on votes (adds description, key_facts, etc.)')
+    parser.add_argument('--enrich-only', action='store_true', help='Only run LLM enrichment on existing voting.json (skip scraping)')
+    parser.add_argument('--cross-ref-only', action='store_true', help='Only run budget cross-reference on existing voting.json (fix Band D figures)')
     parser.add_argument('--dry-run', action='store_true', help='Show what would be generated')
     args = parser.parse_args()
 

@@ -155,6 +155,11 @@ export default function Strategy() {
     '/data/hmo.json',
     '/data/demographic_fiscal.json',
     '/data/meetings.json',
+    '/data/housing.json',
+    '/data/economy.json',
+    '/data/health.json',
+    '/data/voting.json',
+    '/data/political_history.json',
   ])
   const [
     councillorsData, integrityData, interestsData,
@@ -162,7 +167,9 @@ export default function Strategy() {
     constituenciesData, wardConstituencyMap,
     propertyAssetsRaw, planningData,
     hmoData, fiscalData, meetingsData,
-  ] = dossierData || [null, null, null, null, null, null, null, null, null, null, null, null, null]
+    housingData, economyData, healthData,
+    votingData, politicalHistoryData,
+  ] = dossierData || [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
   const propertyAssets = propertyAssetsRaw?.assets || []
 
   // --- State ---
@@ -172,7 +179,7 @@ export default function Strategy() {
   const [totalHours, setTotalHours] = useState(1000)
   const [wardHourOverrides, setWardHourOverrides] = useState({}) // { wardName: hours }
   const [selectedDossierWard, setSelectedDossierWard] = useState(null)
-  const [dossierTab, setDossierTab] = useState('profile')
+  const [dossierTab, setDossierTab] = useState('strategyPlaybook')
   const [mapOverlay, setMapOverlay] = useState('classification')
 
   // --- Page title ---
@@ -369,12 +376,14 @@ export default function Strategy() {
       councilPrediction, rankedWard: rankedWards.find(w => w.ward === selectedDossierWard),
       meetingsData, hmoData, fiscalData, pollingData,
       propertyAssets, planningData,
+      housingData, economyData, healthData, votingData, politicalHistoryData,
     }, ourParty)
   }, [selectedDossierWard, electionsData, referenceData, politicsSummary,
       demographicsData, deprivationData, councillorsData, integrityData,
       interestsData, dogeFindings, budgetSummary, collectionRates,
       constituenciesData, wardConstituencyMap, councilPrediction, rankedWards,
-      ourParty, propertyAssets, planningData, hmoData, fiscalData, meetingsData, pollingData])
+      ourParty, propertyAssets, planningData, hmoData, fiscalData, meetingsData, pollingData,
+      housingData, economyData, healthData, votingData, politicalHistoryData])
 
   // --- Handlers ---
   const toggleWard = (wardName) => {
@@ -383,7 +392,7 @@ export default function Strategy() {
 
   const openDossier = (wardName) => {
     setSelectedDossierWard(wardName)
-    setDossierTab('profile')
+    setDossierTab('strategyPlaybook')
     setActiveSection('dossiers')
   }
 
@@ -1281,6 +1290,7 @@ function WardRow({ rank, ward, ourParty, expanded, onToggle, onDossier }) {
 // --- Ward Dossier View Sub-Component ---
 
 const DOSSIER_TABS = [
+  { id: 'strategyPlaybook', label: 'Strategy', icon: Swords },
   { id: 'profile', label: 'Profile', icon: Users },
   { id: 'election', label: 'Election', icon: Target },
   { id: 'councillors', label: 'Councillors', icon: Eye },
@@ -1333,6 +1343,7 @@ function WardDossierView({ dossier, ourParty, wardLabel, activeTab, onTabChange,
 
       {/* Tab content */}
       <div className="dossier-content">
+        {activeTab === 'strategyPlaybook' && <DossierStrategyPlaybook wardStrategy={dossier.wardStrategy} entrenchment={dossier.entrenchment} />}
         {activeTab === 'profile' && <DossierProfile profile={dossier.profile} />}
         {activeTab === 'election' && <DossierElection election={dossier.election} ourParty={ourParty} />}
         {activeTab === 'councillors' && <DossierCouncillors councillors={dossier.councillors} />}
@@ -1749,6 +1760,121 @@ function DossierTalkingPoints({ talkingPoints }) {
           </div>
         )
       })}
+    </div>
+  )
+}
+
+function DossierStrategyPlaybook({ wardStrategy, entrenchment }) {
+  if (!wardStrategy) return <p className="dossier-empty">No strategy data — requires election and demographic data.</p>
+
+  const ENTRENCHMENT_COLORS = {
+    deeply_entrenched: '#ff453a',
+    entrenched: '#ff9f0a',
+    moderate: '#30d158',
+    weak: '#8e8e93',
+  }
+
+  return (
+    <div className="dossier-panel strategy-playbook-panel">
+      {/* Strategy headline */}
+      <div className="playbook-headline">
+        <h3>{wardStrategy.headline}</h3>
+        <div className="playbook-meta">
+          <span className="playbook-archetype">{wardStrategy.archetype?.replace(/_/g, ' ')}</span>
+          <span className="playbook-approach">{wardStrategy.approach}</span>
+        </div>
+      </div>
+
+      {/* Entrenchment score */}
+      {entrenchment && (
+        <div className="playbook-section entrenchment-section">
+          <h4><Lock size={14} /> Incumbent Entrenchment</h4>
+          <div className="entrenchment-meter">
+            <div className="entrenchment-bar-track">
+              <div
+                className="entrenchment-bar-fill"
+                style={{
+                  width: `${entrenchment.score}%`,
+                  background: ENTRENCHMENT_COLORS[entrenchment.level] || '#8e8e93',
+                }}
+              />
+            </div>
+            <span className="entrenchment-score">{entrenchment.score}/100</span>
+            <span className="entrenchment-level" style={{ color: ENTRENCHMENT_COLORS[entrenchment.level] }}>
+              {entrenchment.level?.replace(/_/g, ' ')}
+            </span>
+          </div>
+          {entrenchment.factors?.length > 0 && (
+            <ul className="entrenchment-factors">
+              {entrenchment.factors.map((f, i) => <li key={i}>{typeof f === 'object' ? <><strong>{f.factor}:</strong> {f.detail || `${f.value}`}</> : f}</li>)}
+            </ul>
+          )}
+        </div>
+      )}
+
+      {/* Messaging pillars */}
+      {wardStrategy.messagingPillars?.length > 0 && (
+        <div className="playbook-section">
+          <h4><Briefcase size={14} /> Messaging Pillars</h4>
+          <div className="messaging-pillars">
+            {wardStrategy.messagingPillars.map((p, i) => (
+              <div key={i} className="pillar-card">
+                <span className="pillar-num">{i + 1}</span>
+                <div className="pillar-content">
+                  <strong className="pillar-title">{p.pillar || p}</strong>
+                  {p.detail && <span className="pillar-detail">{p.detail}</span>}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Attack vectors */}
+      {wardStrategy.attackVectors?.length > 0 && (
+        <div className="playbook-section">
+          <h4><Crosshair size={14} /> Attack Vectors</h4>
+          <ul className="attack-vectors">
+            {wardStrategy.attackVectors.map((a, i) => (
+              <li key={i} className="attack-vector-item">
+                {a.vector ? <><strong>{a.vector}:</strong> {a.detail}</> : a}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* GOTV approach */}
+      {wardStrategy.gotvApproach && (
+        <div className="playbook-section">
+          <h4><TrendingUp size={14} /> Get Out The Vote</h4>
+          <p className="gotv-text">{wardStrategy.gotvApproach}</p>
+        </div>
+      )}
+
+      {/* Canvassing guidance */}
+      {wardStrategy.canvassingGuidance?.length > 0 && (
+        <div className="playbook-section">
+          <h4><Navigation size={14} /> Canvassing Guidance</h4>
+          <ul className="canvassing-guidance">
+            {wardStrategy.canvassingGuidance.map((g, i) => (
+              <li key={i}>{g}</li>
+            ))}
+          </ul>
+        </div>
+      )}
+
+      {/* Warnings */}
+      {wardStrategy.warnings?.length > 0 && (
+        <div className="playbook-section warnings-section">
+          <h4><AlertTriangle size={14} /> Warnings</h4>
+          <ul className="playbook-warnings">
+            {wardStrategy.warnings.map((w, i) => (
+              <li key={i}>{w}</li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   )
 }

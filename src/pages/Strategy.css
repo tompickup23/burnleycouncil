@@ -2154,3 +2154,259 @@
     min-height: 200px;
   }
 }
+
+/* ===== Strategy Playbook Tab ===== */
+
+.strategy-playbook-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.playbook-headline h3 {
+  font-size: 1.25rem;
+  color: #fff;
+  margin: 0 0 8px;
+}
+
+.playbook-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.playbook-archetype {
+  background: rgba(18, 182, 207, 0.15);
+  color: #12B6CF;
+  padding: 3px 10px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  text-transform: capitalize;
+}
+
+.playbook-approach {
+  color: #aaa;
+  font-size: 0.85rem;
+  font-style: italic;
+}
+
+.playbook-section {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+
+.playbook-section h4 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.85rem;
+  color: #ccc;
+  margin: 0 0 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Entrenchment meter */
+.entrenchment-section {
+  border-color: rgba(255, 69, 58, 0.15);
+}
+
+.entrenchment-meter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.entrenchment-bar-track {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.entrenchment-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.6s ease;
+}
+
+.entrenchment-score {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: #fff;
+  min-width: 50px;
+}
+
+.entrenchment-level {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.entrenchment-factors {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.entrenchment-factors li {
+  font-size: 0.8rem;
+  color: #999;
+  padding-left: 14px;
+  position: relative;
+}
+
+.entrenchment-factors li::before {
+  content: '•';
+  position: absolute;
+  left: 0;
+  color: #666;
+}
+
+/* Messaging pillars */
+.messaging-pillars {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pillar-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 12px;
+  background: rgba(18, 182, 207, 0.06);
+  border-left: 3px solid #12B6CF;
+  border-radius: 0 6px 6px 0;
+}
+
+.pillar-num {
+  background: #12B6CF;
+  color: #000;
+  font-weight: 700;
+  font-size: 0.75rem;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.pillar-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.pillar-title {
+  font-size: 0.85rem;
+  color: #fff;
+}
+
+.pillar-detail {
+  font-size: 0.8rem;
+  color: #aaa;
+  line-height: 1.4;
+}
+
+.pillar-text {
+  font-size: 0.85rem;
+  color: #ddd;
+  line-height: 1.4;
+}
+
+/* Attack vectors */
+.attack-vectors {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.attack-vector-item {
+  font-size: 0.85rem;
+  color: #ddd;
+  padding: 6px 10px 6px 28px;
+  position: relative;
+  background: rgba(255, 69, 58, 0.04);
+  border-radius: 4px;
+}
+
+.attack-vector-item::before {
+  content: '⚡';
+  position: absolute;
+  left: 8px;
+  top: 6px;
+}
+
+/* GOTV */
+.gotv-text {
+  font-size: 0.85rem;
+  color: #ccc;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Canvassing guidance */
+.canvassing-guidance {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.canvassing-guidance li {
+  font-size: 0.85rem;
+  color: #ccc;
+  padding-left: 20px;
+  position: relative;
+}
+
+.canvassing-guidance li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: #12B6CF;
+}
+
+/* Warnings */
+.warnings-section {
+  border-color: rgba(255, 159, 10, 0.2);
+  background: rgba(255, 159, 10, 0.04);
+}
+
+.playbook-warnings {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.playbook-warnings li {
+  font-size: 0.85rem;
+  color: #ff9f0a;
+  padding-left: 20px;
+  position: relative;
+}
+
+.playbook-warnings li::before {
+  content: '⚠';
+  position: absolute;
+  left: 0;
+  top: 0;
+}

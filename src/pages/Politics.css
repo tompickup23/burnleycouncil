@@ -1020,3 +1020,246 @@
     gap: var(--space-sm);
   }
 }
+
+/* ── Political History Section ── */
+.history-summary-stats {
+  display: flex;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-md);
+}
+.history-stat {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 0.5rem;
+  padding: var(--space-sm) var(--space-md);
+  text-align: center;
+  min-width: 100px;
+}
+.history-stat .stat-value {
+  display: block;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+.history-stat .stat-label {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.history-filters {
+  display: flex;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+  margin-bottom: var(--space-sm);
+}
+.history-filters .search-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.4rem;
+  padding: 0.35rem 0.6rem;
+  flex: 1;
+  min-width: 180px;
+}
+.history-filters .search-wrapper input {
+  background: transparent;
+  border: none;
+  color: var(--text-primary);
+  font-size: 0.85rem;
+  width: 100%;
+  outline: none;
+}
+.history-filters select {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.4rem;
+  color: var(--text-primary);
+  padding: 0.35rem 0.6rem;
+  font-size: 0.85rem;
+}
+.history-results-count {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-sm);
+}
+.history-people-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.history-person-card {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+.history-person-card:hover,
+.history-person-card.expanded {
+  border-color: rgba(255,255,255,0.15);
+}
+.history-person-header {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.3rem 0.5rem;
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+  user-select: none;
+  align-items: center;
+}
+.person-name-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  grid-column: 1;
+}
+.person-name-row strong {
+  font-size: 0.9rem;
+}
+.history-person-header > svg {
+  grid-column: 2;
+  grid-row: 1 / -1;
+  opacity: 0.5;
+}
+.status-badge {
+  font-size: 0.65rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+.status-serving { background: rgba(48,209,88,0.15); color: #30d158; }
+.status-former { background: rgba(255,159,10,0.15); color: #ff9f0a; }
+.status-candidate { background: rgba(255,255,255,0.08); color: var(--text-secondary); }
+.status-mp { background: rgba(100,120,255,0.15); color: #6478ff; }
+.party-switch-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.65rem;
+  padding: 0.15rem 0.4rem;
+  border-radius: 0.25rem;
+  background: rgba(255,69,58,0.12);
+  color: #ff453a;
+  font-weight: 600;
+}
+.person-meta {
+  display: flex;
+  gap: 0.4rem 0.8rem;
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  grid-column: 1;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.person-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+.person-meta span + span::before {
+  content: '·';
+  margin-right: 0.3rem;
+  opacity: 0.4;
+}
+.history-person-detail {
+  padding: 0.8rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+.party-changes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: 0.85rem;
+}
+.party-change-tag {
+  background: rgba(255,69,58,0.1);
+  border: 1px solid rgba(255,69,58,0.2);
+  border-radius: 0.3rem;
+  padding: 0.15rem 0.5rem;
+  font-size: 0.75rem;
+  color: #ff8a80;
+}
+.mp-info {
+  background: rgba(100,120,255,0.08);
+  border: 1px solid rgba(100,120,255,0.15);
+  border-radius: 0.4rem;
+  padding: 0.5rem 0.7rem;
+  font-size: 0.85rem;
+}
+.person-occupation,
+.person-integrity,
+.person-voting-summary {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+}
+.integrity-flags {
+  color: #ff9f0a;
+  font-size: 0.8rem;
+}
+.election-history-table {
+  font-size: 0.8rem;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.election-history-table table {
+  width: 100%;
+  min-width: 420px;
+  border-collapse: collapse;
+  margin-top: 0.3rem;
+}
+.election-history-table th {
+  text-align: left;
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.election-history-table td {
+  padding: 0.3rem 0.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+.election-history-table .elected-row {
+  color: #30d158;
+}
+.show-more-btn {
+  display: block;
+  width: 100%;
+  margin-top: var(--space-sm);
+  padding: 0.6rem;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 0.4rem;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+.show-more-btn:hover {
+  background: rgba(255,255,255,0.08);
+}
+
+@media (max-width: 768px) {
+  .history-summary-stats {
+    gap: var(--space-sm);
+  }
+  .history-stat {
+    min-width: 80px;
+    padding: var(--space-xs) var(--space-sm);
+  }
+  .history-stat .stat-value { font-size: 1.2rem; }
+  .person-meta { font-size: 0.7rem; }
+  .history-person-header { padding: 0.5rem; }
+}

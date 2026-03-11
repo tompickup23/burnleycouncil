@@ -65,8 +65,8 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 ### Frontend (React SPA)
 | File | Purpose |
 |------|---------|
-| `src/App.jsx` | Router with 34 lazy-loaded routes, 37 routes total |
-| `src/pages/` | 32 page components + 44 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, MPComparison, Integrity, Intelligence, Strategy, CouncillorDossier, PropertyPortfolio, PropertyDetail, LGRTracker, Demographics, Highways, etc.) |
+| `src/App.jsx` | Router with 38 lazy-loaded routes, 41 routes total |
+| `src/pages/` | 36 page components + 49 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, MPComparison, Integrity, Intelligence, Strategy, CouncillorDossier, PropertyPortfolio, PropertyDetail, LGRTracker, Demographics, Highways, Housing, Crime, Health, Economy, etc.) |
 | `src/components/` | Shared UI components (Layout, ChartCard, StatCard, CouncillorLink, SupplierLink, EvidenceChain, IntegrityBadge, NetworkGraph, WardMap, HighwaysMap, GlobalSearch, Breadcrumb, DataFreshnessStamp, etc.) |
 | `src/context/CouncilConfig.jsx` | Council-specific config context provider |
 | `src/context/AuthContext.jsx` | Firebase auth state, Firestore RBAC, permission checks |
@@ -100,7 +100,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
 | `src/components/lgr/` | LGR sub-components: LGRDemographicFiscalRisk, LGRTimelineChaos, LGRBoundaryMap, LGRDeprivationMap, LGRPropertyDivision, LGRCCAImpact (6 components + 6 test files) |
 | `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation, elections (49 tests, 6 files) |
-| `src/**/*.test.{js,jsx}` | Unit tests: 2,200 tests across 45 files (vitest) |
+| `src/**/*.test.{js,jsx}` | Unit tests: 2,353 tests across 49 files (vitest) |
 
 ### Data Pipeline (Python)
 | File | Purpose |
@@ -131,6 +131,9 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `burnley-council/scripts/property_assets_etl.py` | Codex CSV enrichment → property_assets.json + property_assets_detail.json (CED mapping via shapely) |
 | `burnley-council/scripts/hmo_etl.py` | HMO register scraper → hmo.json per council (multi-source: ASP.NET, XLSX, PDF, planning extraction) |
 | `burnley-council/scripts/planning_etl.py` | PlanIt API scraper → planning.json per council (applications, decisions, ward mapping) |
+| `burnley-council/scripts/housing_etl.py` | Census 2021 housing data (tenure, accommodation, overcrowding, bedrooms, household size) → housing.json per council |
+| `burnley-council/scripts/health_etl.py` | Fingertips API + Census 2021 (health, disability, unpaid care) → health.json per council |
+| `burnley-council/scripts/economy_etl.py` | Nomis Claimant Count + ASHE earnings + Census 2021 (industry, occupation, hours) → economy.json per council |
 | `burnley-council/scripts/ward_boundaries_etl.py` | ONS ArcGIS ward boundary GeoJSON → ward_boundaries.json per council |
 | `burnley-council/scripts/ward_constituency_map.py` | ONS ward-to-constituency lookup → ward_constituency_map.json |
 | `burnley-council/scripts/calibrate_model.py` | Election model calibration using LCC 2025 results |
@@ -208,6 +211,9 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `demographic_fiscal.json` | generate_lgr_enhanced.py | Per-council fiscal resilience score, service demand, SEND risk, asylum impact, threats, pressure zones |
 | `roadworks.json` | roadworks_etl.py | Lancashire-wide roadworks (used by AI DOGE Highways page when highways:true in config) |
 | `traffic.json` | traffic_etl.py | Traffic intelligence: JCI model, deferrals, s59 clashes (used by AI DOGE Highways page) |
+| `housing.json` | housing_etl.py | Census 2021 housing data: tenure, accommodation type, overcrowding, bedrooms, household size — ward-level |
+| `health.json` | health_etl.py | Fingertips indicators (life expectancy, mortality, obesity) + Census health/disability/unpaid care — ward-level |
+| `economy.json` | economy_etl.py | Claimant count (LA history + ward latest), ASHE earnings, Census industry/occupation/hours — ward-level |
 | `standing_orders.json` | Manual | Full Council procedural rules: time limits, motions, amendments, debate rules, voting, chair powers, tactical summaries — LCC only |
 
 ### Highways Data (on tompickup.co.uk: `public/data/`)
@@ -386,6 +392,7 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 - **Planning + HMO Data** (done, 2 Mar): PlanIt planning applications for 12 councils (14,000+ apps), HMO register data for 7 councils (830 licensed, 17,260 bed spaces). planning_etl.py + hmo_etl.py (multi-source: ASP.NET, XLSX, PDF, planning extraction). MyArea/CrossCouncil integration. 1,955 tests (39 files).
 - **LGR Demographic Fiscal Intelligence** (done, 2 Mar): Comprehensive demographic fiscal risk layer across entire platform. generate_lgr_enhanced.py ETL → lgr_enhanced.json + 15× demographic_fiscal.json. 11 new lgrModel.js functions. 6 new LGR sub-components (DemographicFiscalRisk, TimelineChaos, BoundaryMap, DeprivationMap, PropertyDivision, CCAImpact). Integrated into LGRTracker (6 new sections), DOGE (fiscal risk section), Demographics (fiscal outlook tab), MyArea (ward pressure), CrossCouncil (fiscal comparison), Home (fiscal banner), PropertyDetail (LGR tab). useData null URL safety fix. 2,102 tests (43 files).
 - **Highways Feature** (done, 5 Mar): Lancashire-wide roadworks map + analytics system. Phases A-C: config-driven ETL refactoring (highways_config.json, 12 districts), roadworks_etl.py Lancashire-wide (1,722 works), traffic_etl.py (1,011 DfT count points, 2,001 junctions, JCI model with data_quality + confidence scoring + data freshness + s59 monitoring tier), lcc_highways_etl.py Lancashire-wide bbox. Visual: Leaflet.markercluster (severity-coloured), capacity bar popups, district filter + flyTo, speed controls, keyboard shortcuts, loading skeleton, mobile responsive. Phase D: AI DOGE React integration — HighwaysMap.jsx (direct Leaflet, severity markers, ward boundaries, JCI junctions, corridor overlays), Highways.jsx page (hero→map→analytics, s59 clashes, deferrals, traffic intelligence, legal framework from highways_legal.json), 51 new tests. 2,200 tests (45 files).
-- **Advanced Visualisation Overhaul** (done, 8 Mar): 14 new reusable components (SparkLine, GaugeChart, TreemapChart, WaterfallChart, HeatmapGrid, BumpChart, ChartTooltip, ChartGradient, ChartGradients, ChoroplethMap, MapLegend, MapIcons, AdvancedCharts.css). 12 page upgrades: Demographics (choropleth), DOGE (gauges+treemap+heatmap), Spending (treemap+calendar+sparklines), Budgets (waterfall+stacked area), Elections (sparklines+brush), Integrity (gauge+pie), CrossCouncil (radar+bump), Constituencies (expenses+voting heatmap), PropertyPortfolio (EPC+treemap), MyArea (sparklines+gauge), Meetings (bar+pie+calendar), Highways (SVG icon markers). Full turquoise (#00d4aa) sweep across 77+ files. CHART_ANIMATION on all Recharts charts. Brush zoom on 8+ time-series. Gzip/Brotli filter fix. 105 files changed, 4,829 insertions, 825 deletions. Build: 2,535 modules, 14.54s.
+- **Advanced Visualisation Overhaul** (done, 8 Mar): 14 new reusable components (SparkLine, GaugeChart, TreemapChart, WaterfallChart, HeatmapGrid, BumpChart, ChartTooltip, ChartGradient, ChartGradients, ChoroplethMap, MapLegend, MapIcons, AdvancedCharts.css). 12 page upgrades: Demographics (choropleth), DOGE (gauges+treemap+heatmap), Spending (treemap+calendar+sparklines), Budgets (waterfall+stacked area), Elections (sparklines+brush), Integrity (gauge+pie), CrossCouncil (radar+bump), Constituencies (expenses+voting heatmap), PropertyPortfolio (EPC+treemap), MyArea (sparklines+gauge), Meetings (bar+pie+calendar), Highways (SVG icon markers). Full Reform UK turquoise (#12B6CF) sweep across 77+ files. CHART_ANIMATION on all Recharts charts. Brush zoom on 8+ time-series. Gzip/Brotli filter fix. 105 files changed, 4,829 insertions, 825 deletions. Build: 2,535 modules, 14.54s.
+- **Data Enhancement Phases A-D** (done, 9 Mar): 4 new domain pages with dedicated ETLs. Housing (housing_etl.py, Census 2021 tenure/overcrowding/accommodation, 3 tabs, 31 tests). Crime (Crime.jsx using existing police_etl data, 4 tabs, 30 tests). Health (health_etl.py, Fingertips API + Census health/disability/care, 3 tabs, 31 tests). Economy (economy_etl.py, Nomis Claimant Count + ASHE + Census industry/occupation/hours, 4 tabs, 35 tests). 60× new data files (15 councils × 4 domains, minus LCC crime). 2,353 tests (49 files).
 
 ## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Mistral/Gemini/Groq/Nvidia free tiers). 2x AWS free trial ends Jul 2026.

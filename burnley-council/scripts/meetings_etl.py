@@ -428,6 +428,34 @@ def _looks_like_report_title(text):
     return False
 
 
+def _classify_document_type(title, href=''):
+    """Classify a document into a type based on title and URL patterns."""
+    lower = title.lower()
+    href_lower = href.lower()
+    # Minutes (including draft minutes)
+    if re.search(r'\bminutes?\b', lower) and not re.search(r'\bprevious\b', lower):
+        return 'minutes'
+    # Agenda (frontsheet, pack)
+    if re.search(r'\bagenda\b', lower):
+        return 'agenda'
+    # Motion text
+    if re.search(r'\bmotion\b|\bamendment\b|\bresolution\b', lower):
+        return 'motion_text'
+    # Decision notice
+    if re.search(r'\bdecision\s*notice\b|\bdecision\s*record\b', lower):
+        return 'decision_notice'
+    # Officer/committee report
+    if re.search(r'\breport\b|\bofficer\b|\brecommendation\b', lower):
+        return 'officer_report'
+    # Appendix / supplementary
+    if re.search(r'\bappendix\b|\bappendices\b|\bannex\b|\bsupplement', lower):
+        return 'appendix'
+    # Presentation
+    if re.search(r'\bpresentation\b|\bslides?\b', lower):
+        return 'appendix'
+    return 'other'
+
+
 def scrape_meeting_detail(url):
     """Scrape a meeting detail page for venue and agenda items."""
     soup = fetch_page(url)
@@ -510,9 +538,10 @@ def scrape_meeting_detail(url):
                 agenda_items.append(text)
                 seen_items.add(text)
 
-    # Extract documents — links with PDF/document hrefs
+    # Extract documents — links with PDF/document hrefs → [{title, url, type}]
     documents = []
-    seen_docs = set()
+    seen_urls = set()
+    minutes_url = None
     for link in soup.find_all('a', href=True):
         href = link['href']
         text = link.get_text(strip=True)
@@ -521,15 +550,31 @@ def scrape_meeting_detail(url):
         if any(kw in href.lower() for kw in ['.pdf', '/documents/', 'mgdocument', 'mgconvert']):
             doc_text = clean_pdf_suffix(text)
             # Skip bare labels like "PDF 403 KB" or "Open Document"
-            if doc_text and doc_text not in seen_docs and len(doc_text) > 5:
-                if not re.match(r'^(PDF|DOC|XLS|Open)\s', doc_text):
-                    documents.append(doc_text)
-                    seen_docs.add(doc_text)
+            if not doc_text or len(doc_text) <= 5:
+                continue
+            if re.match(r'^(PDF|DOC|XLS|Open)\s', doc_text):
+                continue
+            # Build full URL
+            full_url = urljoin(url + '/', href) if not href.startswith('http') else href
+            if full_url in seen_urls:
+                continue
+            seen_urls.add(full_url)
+            # Classify document type
+            doc_type = _classify_document_type(doc_text, href)
+            documents.append({
+                'title': doc_text,
+                'url': full_url,
+                'type': doc_type,
+            })
+            # Track minutes URL
+            if doc_type == 'minutes' and not minutes_url:
+                minutes_url = full_url
 
     return {
         'venue': venue,
         'agenda_items': agenda_items,
         'documents': documents,
+        'minutes_url': minutes_url,
     }
 
 
@@ -600,6 +645,7 @@ def scrape_council_meetings(council_id, config, months_ahead=2, fetch_detail=Tru
             meeting['venue'] = detail['venue'] or config.get('venue_default')
             meeting['agenda_items'] = detail['agenda_items']
             meeting['documents'] = detail['documents']
+            meeting['minutes_url'] = detail.get('minutes_url')
             if (i + 1) % 10 == 0:
                 log.info(f"    {i + 1}/{len(filtered)} detail pages fetched")
     else:
@@ -647,6 +693,7 @@ def format_meetings_json(council_id, config, meetings, committees=None):
             'doge_relevance': None,
             'speak_deadline': None,
             'documents': m.get('documents', []),
+            'minutes_url': m.get('minutes_url'),
         })
 
     # Format committees with membership data

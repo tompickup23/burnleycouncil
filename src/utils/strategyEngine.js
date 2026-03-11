@@ -815,6 +815,584 @@ export function generatePropertySummary(wardName, propertyAssets) {
   };
 }
 
+// ---------------------------------------------------------------------------
+// Housing Talking Points (from housing.json)
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate housing-specific talking points from housing.json ward data.
+ */
+export function generateHousingTalkingPoints(wardName, housingData) {
+  const points = []
+  if (!housingData?.wards) return points
+  const ward = housingData.wards[wardName] || Object.values(housingData.wards).find(w => w?.name === wardName)
+  if (!ward) return points
+
+  const tenure = ward.tenure || {}
+  const totalHouseholds = tenure['Total: All households'] || tenure['Total'] || 0
+  if (totalHouseholds === 0) return points
+
+  const socialRented = (tenure['Social rented: Rents from council (Local Authority)'] || 0) +
+    (tenure['Social rented: Other social rented'] || 0)
+  const privateRented = tenure['Private rented: Private landlord or letting agency'] || 0
+  const owned = (tenure['Owned: Owns outright'] || 0) + (tenure['Owned: Owns with a mortgage or loan'] || 0)
+  const socialPct = socialRented / totalHouseholds
+  const privatePct = privateRented / totalHouseholds
+  const ownedPct = owned / totalHouseholds
+
+  if (socialPct > 0.25) {
+    points.push({
+      category: 'Housing', icon: 'Building', priority: 1,
+      text: `${Math.round(socialPct * 100)}% social housing. High dependency on council provision — pitch maintenance, allocations fairness, Right to Buy reform.`,
+    })
+  } else if (socialPct > 0.15) {
+    points.push({
+      category: 'Housing', icon: 'Building', priority: 2,
+      text: `${Math.round(socialPct * 100)}% social housing. Waiting lists, repairs, and estate management resonate here.`,
+    })
+  }
+
+  if (privatePct > 0.25) {
+    points.push({
+      category: 'Housing', icon: 'Home', priority: 2,
+      text: `${Math.round(privatePct * 100)}% private rented. Renters concerned about costs, security, landlord standards. HMO enforcement relevant.`,
+    })
+  }
+
+  if (ownedPct > 0.75) {
+    points.push({
+      category: 'Housing', icon: 'Home', priority: 3,
+      text: `${Math.round(ownedPct * 100)}% homeowners. Property values, planning decisions, neighbourhood character matter most.`,
+    })
+  }
+
+  // Overcrowding
+  const overcrowded = ward.overcrowding || {}
+  const totalOccupancy = overcrowded['Total: All household spaces with at least one usual resident'] || 0
+  const overcrowdedCount = (overcrowded['Occupancy rating of rooms: -1'] || 0) + (overcrowded['Occupancy rating of rooms: -2 or less'] || 0)
+  if (totalOccupancy > 0 && overcrowdedCount / totalOccupancy > 0.08) {
+    points.push({
+      category: 'Housing', icon: 'AlertTriangle', priority: 1,
+      text: `${Math.round(overcrowdedCount / totalOccupancy * 100)}% overcrowded. Housing crisis visible on doorsteps — new builds, conversions, and allocation policy key.`,
+    })
+  }
+
+  return points.sort((a, b) => a.priority - b.priority)
+}
+
+// ---------------------------------------------------------------------------
+// Economy & Work Talking Points (from economy.json)
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate economy-specific talking points from economy.json ward data.
+ */
+export function generateEconomyTalkingPoints(wardName, economyData) {
+  const points = []
+  if (!economyData) return points
+
+  // Ward-level claimant count
+  const wardClaimants = economyData.ward_claimants?.find(w => w.ward_name === wardName || w.name === wardName)
+  if (wardClaimants) {
+    const rate = wardClaimants.claimant_rate || (wardClaimants.claimant_count / (wardClaimants.population_16_64 || 1))
+    if (rate > 0.06) {
+      points.push({
+        category: 'Economy', icon: 'TrendingDown', priority: 1,
+        text: `${wardClaimants.claimant_count?.toLocaleString() || '?'} benefit claimants (${(rate * 100).toFixed(1)}%). Jobs, skills, and welfare reform are urgent doorstep issues.`,
+      })
+    } else if (rate > 0.03) {
+      points.push({
+        category: 'Economy', icon: 'Briefcase', priority: 2,
+        text: `${wardClaimants.claimant_count?.toLocaleString() || '?'} benefit claimants (${(rate * 100).toFixed(1)}%). Employment opportunities and apprenticeships resonate.`,
+      })
+    }
+  }
+
+  // LA-level earnings data
+  const earnings = economyData.earnings
+  if (earnings?.median_annual) {
+    const englandMedian = 34963 // ONS ASHE 2024
+    if (earnings.median_annual < englandMedian * 0.85) {
+      points.push({
+        category: 'Economy', icon: 'PoundSterling', priority: 2,
+        text: `Local median earnings £${earnings.median_annual?.toLocaleString()}/yr — ${Math.round((1 - earnings.median_annual / englandMedian) * 100)}% below national average. Cost of living hits harder here.`,
+      })
+    }
+  }
+
+  // Census industry/occupation data (ward-level)
+  const wards = economyData.wards || {}
+  const ward = wards[wardName] || Object.values(wards).find(w => w?.name === wardName)
+  if (ward?.industry) {
+    // Find top industry
+    const industries = Object.entries(ward.industry)
+      .filter(([k]) => !k.includes('Total'))
+      .sort((a, b) => b[1] - a[1])
+    if (industries.length > 0) {
+      const [topInd, topCount] = industries[0]
+      const total = ward.industry['Total: All usual residents aged 16 years and over in employment'] || 1
+      const pct = Math.round(topCount / total * 100)
+      if (pct > 20) {
+        const shortName = topInd.replace(/^[A-Z]\s+/, '').replace(/\s*\(.*\)/, '')
+        points.push({
+          category: 'Economy', icon: 'Factory', priority: 3,
+          text: `${pct}% work in ${shortName}. Sector-specific concerns (automation, contracts, conditions) may resonate.`,
+        })
+      }
+    }
+  }
+
+  return points.sort((a, b) => a.priority - b.priority)
+}
+
+// ---------------------------------------------------------------------------
+// Health Talking Points (from health.json)
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate health-specific talking points from health.json ward data.
+ */
+export function generateHealthTalkingPoints(wardName, healthData) {
+  const points = []
+  if (!healthData) return points
+
+  // LA-level indicators
+  const indicators = healthData.indicators || {}
+
+  // Life expectancy
+  const leMale = indicators['Life expectancy at birth']?.male?.value
+  const leFemale = indicators['Life expectancy at birth']?.female?.value
+  if (leMale && leMale < 77) {
+    points.push({
+      category: 'Health', icon: 'Heart', priority: 1,
+      text: `Male life expectancy ${leMale.toFixed(1)} years — below England average (79.3). Healthcare access, prevention, and healthy living are critical.`,
+    })
+  }
+
+  // Under-75 mortality
+  const u75Mortality = indicators['Under 75 mortality rate from all causes']?.persons?.value
+  if (u75Mortality && u75Mortality > 400) {
+    points.push({
+      category: 'Health', icon: 'Activity', priority: 1,
+      text: `Premature death rate ${Math.round(u75Mortality)} per 100K (England avg ~340). NHS investment, mental health, substance misuse services needed.`,
+    })
+  }
+
+  // Ward-level health data (Census)
+  const wards = healthData.wards || {}
+  const ward = wards[wardName] || Object.values(wards).find(w => w?.name === wardName)
+  if (ward?.general_health) {
+    const total = ward.general_health['Total: All usual residents'] || 1
+    const badHealth = (ward.general_health['Bad health'] || 0) + (ward.general_health['Very bad health'] || 0)
+    const badPct = badHealth / total
+    if (badPct > 0.08) {
+      points.push({
+        category: 'Health', icon: 'Heart', priority: 1,
+        text: `${Math.round(badPct * 100)}% report bad/very bad health. GP access, hospital waiting times, and social care are doorstep priorities.`,
+      })
+    }
+  }
+
+  // Disability
+  if (ward?.disability) {
+    const total = ward.disability['Total: All usual residents'] || 1
+    const limitedALot = ward.disability['Disabled under the Equality Act: Day-to-day activities limited a lot'] || 0
+    if (limitedALot / total > 0.10) {
+      points.push({
+        category: 'Health', icon: 'Accessibility', priority: 2,
+        text: `${Math.round(limitedALot / total * 100)}% severely disabled. Accessible services, blue badge, Motability, and care support matter.`,
+      })
+    }
+  }
+
+  return points.sort((a, b) => a.priority - b.priority)
+}
+
+// ---------------------------------------------------------------------------
+// Crime Talking Points (uses demographics crime_stats or standalone)
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate crime-specific talking points from available crime data.
+ */
+export function generateCrimeTalkingPoints(wardName, demographicsData, deprivation) {
+  const points = []
+
+  // Use deprivation crime domain if available
+  if (deprivation?.crime_decile != null && deprivation.crime_decile <= 2) {
+    points.push({
+      category: 'Crime', icon: 'Shield', priority: 1,
+      text: `Top 20% worst for crime (crime domain decile ${deprivation.crime_decile}). Anti-social behaviour, visible policing, and community safety are vote-winners.`,
+    })
+  } else if (deprivation?.crime_decile != null && deprivation.crime_decile <= 4) {
+    points.push({
+      category: 'Crime', icon: 'Shield', priority: 2,
+      text: `Above-average crime levels (crime domain decile ${deprivation.crime_decile}). Drug dealing, burglary, and night-time safety concerns likely.`,
+    })
+  }
+
+  return points.sort((a, b) => a.priority - b.priority)
+}
+
+// ---------------------------------------------------------------------------
+// Incumbent Entrenchment Analysis
+// ---------------------------------------------------------------------------
+
+/**
+ * Calculate incumbent entrenchment score (0-100).
+ * Higher = more entrenched, harder to unseat.
+ *
+ * Theory: Long-serving councillors build patronage networks, local name
+ * recognition, and institutional advantages. The longer they serve, the
+ * harder they are to defeat through conventional campaigning.
+ *
+ * Counter-strategy: hyper-local community organising, bypass party machines,
+ * direct constituent engagement, expose complacency.
+ */
+export function scoreIncumbentEntrenchment(wardElection, wardCouncillors, integrityData) {
+  let entrenchment = 0
+  const factors = []
+
+  if (!wardElection?.history?.length) return { score: 0, factors: [], level: 'unknown' }
+
+  // Factor 1: Same-party tenure (max 30 points)
+  // How many consecutive elections has the same party won?
+  const history = wardElection.history || []
+  let partyStreak = 0
+  const currentParty = history[0]?.winner_party
+  for (const h of history) {
+    if (h.winner_party === currentParty) partyStreak++
+    else break
+  }
+  const tenurePoints = Math.min(30, partyStreak * 6) // 5 consecutive = max 30
+  entrenchment += tenurePoints
+  if (partyStreak >= 3) {
+    factors.push({ factor: 'Party tenure', value: tenurePoints, detail: `${partyStreak} consecutive wins for ${currentParty}` })
+  }
+
+  // Factor 2: Individual councillor tenure (max 20 points)
+  const incumbentName = history[0]?.winner
+  const sameName = history.filter(h => h.winner === incumbentName).length
+  const personalPoints = Math.min(20, sameName * 5) // 4 personal wins = max 20
+  entrenchment += personalPoints
+  if (sameName >= 2) {
+    factors.push({ factor: 'Personal incumbency', value: personalPoints, detail: `${incumbentName} won ${sameName} times` })
+  }
+
+  // Factor 3: Margin of victory (max 15 points)
+  const lastMargin = history[0]?.margin || 0
+  const marginPoints = Math.min(15, Math.round(lastMargin * 30)) // 50% margin = max 15
+  entrenchment += marginPoints
+  if (marginPoints > 5) {
+    factors.push({ factor: 'Victory margin', value: marginPoints, detail: `Last won by ${Math.round(lastMargin * 100)}pp` })
+  }
+
+  // Factor 4: Executive/cabinet roles (max 15 points)
+  const incumbent = wardCouncillors?.find(c => c.name === incumbentName)
+  const hasRoles = incumbent?.roles?.length > 0
+  const rolePoints = hasRoles ? 15 : 0
+  entrenchment += rolePoints
+  if (hasRoles) {
+    factors.push({ factor: 'Executive roles', value: 15, detail: `Holds: ${incumbent.roles.slice(0, 2).join(', ')}` })
+  }
+
+  // Factor 5: Low opposition presence (max 10 points)
+  // If our party has never stood or always gets <15%, area is unfamiliar territory
+  const ourResults = history.filter(h => h.results?.some(r => /reform/i.test(r.party || '')))
+  const noPresencePoints = ourResults.length === 0 ? 10 : ourResults.length < history.length / 2 ? 5 : 0
+  entrenchment += noPresencePoints
+  if (noPresencePoints > 0) {
+    factors.push({ factor: 'Reform presence', value: noPresencePoints, detail: ourResults.length === 0 ? 'Never stood' : `Stood in ${ourResults.length}/${history.length} elections` })
+  }
+
+  // Factor 6: High turnout (max 10 points) — entrenched wards often have loyal high-turnout base
+  const turnout = history[0]?.turnout || 0
+  const turnoutPoints = turnout > 0.45 ? 10 : turnout > 0.35 ? 5 : 0
+  entrenchment += turnoutPoints
+  if (turnoutPoints > 0) {
+    factors.push({ factor: 'Loyal turnout base', value: turnoutPoints, detail: `${Math.round(turnout * 100)}% turnout` })
+  }
+
+  const level = entrenchment >= 60 ? 'deeply_entrenched' :
+                entrenchment >= 40 ? 'entrenched' :
+                entrenchment >= 20 ? 'moderate' : 'weak'
+
+  return { score: Math.min(100, entrenchment), factors, level }
+}
+
+// ---------------------------------------------------------------------------
+// Ward-Level Strategic Playbook (Bannon-inspired populist framework)
+// ---------------------------------------------------------------------------
+
+/**
+ * Generate a differentiated ward-level strategy combining:
+ * - Demographic archetype (left-behind / affluent / diverse / retirement)
+ * - Incumbent entrenchment level (how hard to unseat)
+ * - Socioeconomic conditions (housing, economy, health, crime)
+ * - Populist strategy principles (flood the zone, institutional distrust)
+ *
+ * Returns a structured playbook: headline strategy, messaging pillars,
+ * attack vectors, GOTV approach, and canvassing script guidance.
+ */
+export function generateWardStrategy(wardName, allData, ourParty = 'Reform UK') {
+  const { demographicsData, deprivationData, housingData, economyData, healthData,
+    electionsData, councillorsData, integrityData, votingData, politicalHistoryData } = allData
+
+  // Lookup ward data
+  const demoByName = {}
+  if (demographicsData?.wards) {
+    for (const [, val] of Object.entries(demographicsData.wards)) {
+      if (val?.name) demoByName[val.name] = val
+    }
+  }
+  const demo = demoByName[wardName] || null
+  const deprivation = deprivationData?.wards?.[wardName] || null
+  const wardElection = electionsData?.wards?.[wardName] || null
+  const archetype = classifyWardArchetype(demo, deprivation)
+
+  // Housing profile
+  const wardHousing = housingData?.wards?.[wardName] || Object.values(housingData?.wards || {}).find(w => w?.name === wardName)
+  const tenure = wardHousing?.tenure || {}
+  const totalHH = tenure['Total: All households'] || tenure['Total'] || 1
+  const socialPct = ((tenure['Social rented: Rents from council (Local Authority)'] || 0) +
+    (tenure['Social rented: Other social rented'] || 0)) / totalHH
+  const privatePct = (tenure['Private rented: Private landlord or letting agency'] || 0) / totalHH
+  const ownedPct = ((tenure['Owned: Owns outright'] || 0) + (tenure['Owned: Owns with a mortgage or loan'] || 0)) / totalHH
+
+  // Economy profile
+  const wardClaimant = economyData?.ward_claimants?.find(w => w.ward_name === wardName || w.name === wardName)
+  const claimantRate = wardClaimant?.claimant_rate || 0
+
+  // Health profile
+  const wardHealth = healthData?.wards?.[wardName] || Object.values(healthData?.wards || {}).find(w => w?.name === wardName)
+  const badHealthPct = (() => {
+    if (!wardHealth?.general_health) return 0
+    const total = wardHealth.general_health['Total: All usual residents'] || 1
+    return ((wardHealth.general_health['Bad health'] || 0) + (wardHealth.general_health['Very bad health'] || 0)) / total
+  })()
+
+  // Entrenchment
+  const allCouncillors = councillorsData || []
+  const cList = Array.isArray(allCouncillors) ? allCouncillors : allCouncillors.councillors || []
+  const wardCouncillors = cList.filter(c => c.ward === wardName)
+  const entrenchment = scoreIncumbentEntrenchment(wardElection, wardCouncillors, integrityData)
+
+  // Political history (party switchers, long-serving)
+  const historyPeople = politicalHistoryData?.people || []
+  const wardPeople = historyPeople.filter(p =>
+    (p.wards || []).some(w => w === wardName) ||
+    (p.current_ward === wardName)
+  )
+  const partySwitchers = wardPeople.filter(p => p.party_changes?.length > 0)
+
+  // Voting record of incumbent
+  const defenderName = wardElection?.history?.[0]?.winner
+  const defenderVotes = votingData?.votes?.filter(v =>
+    v.votes_by_councillor?.some(vc => vc.name === defenderName || vc.name?.includes(defenderName?.split(' ').pop() || ''))
+  ) || []
+
+  // --- Determine strategy type ---
+  const isMostDeprived = (deprivation?.avg_imd_decile || 5) <= 3
+  const isHighSocialHousing = socialPct > 0.20
+  const isHighClaimant = claimantRate > 0.04
+  const isHighCrime = (deprivation?.crime_decile || 5) <= 3
+  const isPoorHealth = badHealthPct > 0.06
+  const isAffluent = (deprivation?.avg_imd_decile || 5) >= 7
+  const isHighOwnership = ownedPct > 0.70
+  const isDeeplyEntrenched = entrenchment.level === 'deeply_entrenched'
+  const isEntrenched = entrenchment.level === 'entrenched' || isDeeplyEntrenched
+  const isWorkingClassPopulist = (isMostDeprived || isHighClaimant) && !isAffluent
+
+  // --- Build strategy ---
+  const strategy = {
+    archetype: archetype.archetype,
+    headline: '',
+    approach: '',
+    messagingPillars: [],
+    attackVectors: [],
+    gotvApproach: '',
+    canvassingGuidance: [],
+    entrenchment,
+    warnings: [],
+  }
+
+  // --- HEADLINE STRATEGY by archetype + conditions ---
+  if (archetype.archetype === 'deprived_white' || (isWorkingClassPopulist && archetype.archetype !== 'deprived_diverse')) {
+    strategy.headline = 'Populist Insurgency — The Forgotten Ward'
+    strategy.approach = 'This ward has been taken for granted. The establishment parties promised change and delivered decline. ' +
+      'Run as the insurgent — the only party willing to say what locals already know. ' +
+      'Flood the zone: council waste, immigration pressure, failing services. Every conversation is about institutional failure.'
+    strategy.messagingPillars = [
+      { pillar: 'Institutional Betrayal', detail: 'The council has failed this ward for decades. Same faces, same excuses, same decline.' },
+      { pillar: 'Cost of Living', detail: `${isHighClaimant ? `${Math.round(claimantRate * 100)}% on benefits. ` : ''}Council tax rises while services cut. Who\'s getting rich?` },
+      { pillar: 'Local Accountability', detail: 'Your councillor voted for [X] while this ward got nothing. Time for someone who actually lives the experience.' },
+    ]
+    if (isHighSocialHousing) {
+      strategy.messagingPillars.push({ pillar: 'Housing Justice', detail: `${Math.round(socialPct * 100)}% social housing — repairs taking months, waiting lists growing, while council builds vanity projects.` })
+    }
+    if (isHighCrime) {
+      strategy.messagingPillars.push({ pillar: 'Community Safety', detail: 'Drug dealing on street corners, anti-social behaviour ignored. The council cut community safety while spending on consultants.' })
+    }
+    if (isPoorHealth) {
+      strategy.messagingPillars.push({ pillar: 'Health Inequality', detail: `${Math.round(badHealthPct * 100)}% in poor health. GP access collapsing, ambulance waits growing. This ward deserves better.` })
+    }
+    strategy.gotvApproach = 'Target non-voters and angry lapsed voters. These people haven\'t voted because no one spoke to them. ' +
+      'Postal vote registration is critical. Knock every door twice minimum — once to listen, once to confirm. ' +
+      'Election day: lifts to polling station, morning knock-up of confirmed supporters.'
+    strategy.canvassingGuidance = [
+      'Lead with: "Can I ask you honestly — do you think this area is getting better or worse?"',
+      'Listen first, validate frustration. Never defend the status quo.',
+      'Use specific local examples: "The council spent £X on [waste] while your [street/service] was cut."',
+      'Close with: "We\'re the only party that will actually say what you\'re telling me on the doorstep."',
+    ]
+  } else if (archetype.archetype === 'deprived_diverse') {
+    strategy.headline = 'Community Coalition — Earned Trust'
+    strategy.approach = 'Diverse, deprived ward. Trust must be earned through community presence, not parachuted messaging. ' +
+      'Focus on shared economic concerns that cross ethnic lines — housing, jobs, cost of living, public services. ' +
+      'Avoid immigration as a lead topic. Partner with local community leaders, attend events, be visible.'
+    strategy.messagingPillars = [
+      { pillar: 'Community Investment', detail: 'This ward contributes to the borough but gets crumbs back. Where does the council tax go?' },
+      { pillar: 'Jobs & Opportunity', detail: 'Local businesses struggling, high street declining. The council should support entrepreneurs, not consultants.' },
+      { pillar: 'Housing Standards', detail: `${privatePct > 0.25 ? Math.round(privatePct * 100) + '% renting privately. ' : ''}Rogue landlords, overcrowding, and HMO proliferation affecting quality of life.` },
+    ]
+    strategy.gotvApproach = 'Engage through community hubs — mosques, temples, community centres, local shops. ' +
+      'Multi-language literature where appropriate. Peer-to-peer endorsement more effective than cold canvassing.'
+    strategy.canvassingGuidance = [
+      'Lead with: "What\'s the single biggest issue facing your family right now?"',
+      'Emphasise local service delivery, not national culture wars.',
+      'Show knowledge of specific local businesses and community institutions.',
+      'Avoid: immigration rhetoric, national identity framing. Focus: economic fairness, service delivery.',
+    ]
+  } else if (archetype.archetype === 'affluent_retired' || archetype.archetype === 'retirement') {
+    strategy.headline = 'Stewardship & Value — Protect What Matters'
+    strategy.approach = 'Older, comfortable ward. These voters want competence, not revolution. ' +
+      'Pitch: the council is wasting your money on ideology while your local area is quietly declining. ' +
+      'Planning applications threatening character. Council tax rising faster than services improve.'
+    strategy.messagingPillars = [
+      { pillar: 'Value for Money', detail: 'Band D up again. Where does it go? Not your roads, not your bins, not your parks.' },
+      { pillar: 'Local Character', detail: 'Inappropriate development, green belt pressure, conservation area neglect. Protect what makes this area special.' },
+      { pillar: 'Council Tax Accountability', detail: 'Your council tax statement vs. what you actually see. The gap is the story.' },
+    ]
+    if (isPoorHealth) {
+      strategy.messagingPillars.push({ pillar: 'Health & Social Care', detail: 'NHS waiting lists, social care crisis. Your generation built this country — it should look after you.' })
+    }
+    strategy.gotvApproach = 'Traditional canvassing works well — these voters engage. ' +
+      'Postal vote push (many already have). Targeted leaflets through letterboxes, local newspaper ads. ' +
+      'Personal touch: handwritten notes, local surgery invitations.'
+    strategy.canvassingGuidance = [
+      'Lead with: "How do you feel the council is spending your council tax?"',
+      'Be respectful, knowledgeable about local planning issues.',
+      'Reference specific council spending figures — these voters appreciate facts.',
+      'Avoid: inflammatory language, anti-establishment rhetoric. Use: accountability, value, stewardship.',
+    ]
+  } else if (archetype.archetype === 'affluent_family') {
+    strategy.headline = 'Aspiration & Accountability — Working Hard, Getting Less'
+    strategy.approach = 'Working families paying high taxes and seeing diminishing returns. ' +
+      'These voters are time-poor — messaging must be sharp and fact-based. ' +
+      'Schools, roads, and planning are the trinity. Council waste enrages this demographic.'
+    strategy.messagingPillars = [
+      { pillar: 'Tax Burden', detail: 'Working families taxed to the hilt — council tax, national insurance, childcare costs. What do you get for it?' },
+      { pillar: 'Schools & Childcare', detail: 'SEND waiting times, school place shortages, breakfast club cuts. Your children deserve better.' },
+      { pillar: 'Roads & Infrastructure', detail: 'Potholes, traffic congestion, inadequate parking. The basics aren\'t being delivered.' },
+    ]
+    strategy.gotvApproach = 'Digital-first: targeted social media, email, local WhatsApp groups. ' +
+      'These voters research online before deciding. Leaflet with QR code to website with detailed local data.'
+    strategy.canvassingGuidance = [
+      'Lead with: "Between council tax and everything else — do you feel you\'re getting value?"',
+      'Be data-driven: specific figures, local examples, comparative data.',
+      'These voters respond to competence and specificity, not anger.',
+      'Avoid: emotional populism, inflammatory language. Use: evidence, efficiency, accountability.',
+    ]
+  } else {
+    strategy.headline = 'Broad Appeal — Common Sense Local Politics'
+    strategy.approach = 'Middle-ground ward. Standard broad messaging — bins, roads, council tax, planning. ' +
+      'Identify the 2-3 most pressing local issues and hammer them relentlessly.'
+    strategy.messagingPillars = [
+      { pillar: 'Local Services', detail: 'Bins, roads, streetlights, parks — the basics the council should deliver but doesn\'t.' },
+      { pillar: 'Value for Money', detail: 'Council tax rises year after year. Services get cut. Someone isn\'t telling the truth.' },
+      { pillar: 'Fresh Voice', detail: 'Time for a councillor who listens, acts, and reports back. Not a party machine placeholder.' },
+    ]
+    strategy.gotvApproach = 'Balanced approach: leaflets + social media + door-knocking. ' +
+      'Focus on identified supporters and persuadables from canvass returns.'
+    strategy.canvassingGuidance = [
+      'Lead with: "What one thing would you change about this area?"',
+      'Note specific issues for follow-up leaflet/letter.',
+      'Adaptable — match your pitch to the voter\'s concern.',
+    ]
+  }
+
+  // --- ATTACK VECTORS (Bannon principle: flood the zone) ---
+  // Generate multiple simultaneous attack lines to overwhelm incumbent defences
+
+  if (isEntrenched) {
+    strategy.attackVectors.push({
+      vector: 'Complacency',
+      detail: `${entrenchment.score >= 60 ? 'Deeply entrenched' : 'Entrenched'} incumbent (score: ${entrenchment.score}/100). Attack: "They take your vote for granted. When did they last knock your door?"`,
+    })
+  }
+
+  // Voting record attacks
+  if (defenderVotes.length > 0) {
+    const againstVotes = defenderVotes.filter(v =>
+      v.votes_by_councillor?.find(vc => vc.name === defenderName)?.vote === 'against'
+    )
+    if (againstVotes.length > 0) {
+      strategy.attackVectors.push({
+        vector: 'Voting Record',
+        detail: `Your councillor voted against ${againstVotes.length} measure${againstVotes.length > 1 ? 's' : ''} including: ${againstVotes.slice(0, 2).map(v => v.title).join(', ')}`,
+      })
+    }
+    const budgetVotes = defenderVotes.filter(v => v.type === 'budget')
+    if (budgetVotes.length > 0) {
+      const forBudget = budgetVotes.some(v =>
+        v.votes_by_councillor?.find(vc => vc.name === defenderName)?.vote === 'for'
+      )
+      if (forBudget) {
+        strategy.attackVectors.push({
+          vector: 'Budget Vote',
+          detail: 'Your councillor voted FOR the council tax rise. They chose to take more of your money.',
+        })
+      }
+    }
+  }
+
+  // Party switchers in the ward
+  if (partySwitchers.length > 0) {
+    strategy.attackVectors.push({
+      vector: 'Party Loyalty',
+      detail: `${partySwitchers.length} politician${partySwitchers.length > 1 ? 's' : ''} in this ward changed party. Loyalty to party, not to you.`,
+    })
+  }
+
+  // Council performance attacks
+  if (isHighSocialHousing && isEntrenched) {
+    strategy.attackVectors.push({
+      vector: 'Housing Neglect',
+      detail: 'Social housing dominant — but repairs take months, waiting lists grow, and the council builds elsewhere. This ward is an afterthought.',
+    })
+  }
+
+  if (isHighCrime) {
+    strategy.attackVectors.push({
+      vector: 'Community Safety Failure',
+      detail: 'One of the highest crime wards in the borough. What has your councillor done about it? Nothing. They don\'t live here.',
+    })
+  }
+
+  // --- WARNINGS ---
+  if (isDeeplyEntrenched && !isWorkingClassPopulist) {
+    strategy.warnings.push('Deeply entrenched incumbent with strong local base. This requires sustained long-term effort — don\'t expect quick wins.')
+  }
+  if (archetype.archetype === 'deprived_diverse') {
+    strategy.warnings.push('Diverse ward — cultural sensitivity required. Immigration-focused messaging will backfire. Lead with economic issues.')
+  }
+  if (entrenchment.score >= 70) {
+    strategy.warnings.push('Entrenchment score >70: Consider whether resources are better deployed elsewhere unless strategic reasons (neighbouring seat, profile) justify.')
+  }
+
+  return strategy
+}
+
 /**
  * Generate auto-talking-points for a ward based on demographics, deprivation, turnout, and spending.
  * @param {Object} wardElection - Ward data from elections.json
@@ -2115,6 +2693,8 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
     councilPrediction, rankedWard, meetingsData,
     propertyAssets,
     hmoData, fiscalData, pollingData,
+    housingData, economyData, healthData,
+    votingData, politicalHistoryData,
   } = allData;
 
   const wardElection = electionsData?.wards?.[wardName] || null;
@@ -2246,6 +2826,10 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
   const fiscalPoints = generateFiscalTalkingPoints(fiscalData, deprivation);
   const meetingsPoints = generateMeetingsTalkingPoints(wardName, meetingsData, wardCouncillors);
   const pollingPoints = generatePollingTalkingPoints(pollingData, ourParty);
+  const housingPoints = generateHousingTalkingPoints(wardName, housingData);
+  const economyPoints = generateEconomyTalkingPoints(wardName, economyData);
+  const healthPoints = generateHealthTalkingPoints(wardName, healthData);
+  const crimePoints = generateCrimeTalkingPoints(wardName, demographicsData, deprivation);
   const councilAttack = councilPerformance.attackLines.map(a => ({
     priority: a.severity === 'high' ? 1 : a.severity === 'medium' ? 2 : 3,
     category: a.category || 'Council',
@@ -2257,11 +2841,33 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
   const pureNational = nationalPoints.filter(p => p.category === 'National');
 
   const talkingPoints = {
-    local: [...localPoints, ...assetPoints, ...planningPoints, ...hmoPoints, ...meetingsPoints],
+    local: [...localPoints, ...assetPoints, ...planningPoints, ...hmoPoints, ...meetingsPoints,
+            ...housingPoints, ...economyPoints, ...healthPoints, ...crimePoints],
     council: [...councilAttack, ...fiscalPoints],
     national: [...pureNational, ...pollingPoints],
     constituency: constituencyPoints,
   };
+
+  // Incumbent entrenchment scoring
+  let entrenchment = { score: 0, factors: [], level: 'unknown' };
+  let wardStrategy = null;
+  try {
+    entrenchment = scoreIncumbentEntrenchment(wardElection, wardCouncillors, integrityData);
+  } catch (e) {
+    console.error('[DOSSIER] entrenchment error:', e);
+  }
+
+  // Full ward strategy playbook (Bannon-style differentiated messaging)
+  try {
+    wardStrategy = generateWardStrategy(wardName, {
+      ...allData,
+      wardElection, demo, deprivation, wardCouncillors, constituency,
+      entrenchment, swingRequired: swingReq, winProbability: winProb,
+      politicalHistoryData, votingData,
+    }, ourParty);
+  } catch (e) {
+    console.error('[DOSSIER] wardStrategy error:', e);
+  }
 
   // Reform GE2024 constituency %
   const reformGE = constituency?.ge2024?.results?.find(r => /reform/i.test(r.party || ''));
@@ -2305,6 +2911,8 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
     constituency: constituencyContext,
     talkingPoints,
     propertySummary,
+    entrenchment,
+    wardStrategy,
   };
 
   // Add cheat sheet

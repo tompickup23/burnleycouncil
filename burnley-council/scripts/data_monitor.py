@@ -749,7 +749,6 @@ def main():
             gen_date = polling_meta.get('generated')
             if gen_date:
                 try:
-                    from datetime import datetime
                     gen_dt = datetime.strptime(gen_date[:10], '%Y-%m-%d')
                     polling_age = (datetime.utcnow() - gen_dt).days
                     if polling_age > POLLING_MAX_AGE_DAYS:

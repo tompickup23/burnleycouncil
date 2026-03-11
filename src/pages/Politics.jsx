@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Search, User, Mail, Phone, MapPin, ChevronDown, ChevronUp, ExternalLink, FileText, Building2, LayoutGrid, Crown, Users, ClipboardCheck, Vote } from 'lucide-react'
+import { Search, User, Mail, Phone, MapPin, ChevronDown, ChevronUp, ExternalLink, FileText, Building2, LayoutGrid, Crown, Users, ClipboardCheck, Vote, History, ArrowRightLeft } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -36,10 +36,18 @@ function Politics() {
   const votingUrl = hasVotingConfig ? '/data/voting.json' : '/data/__noop__.json'
   const { data: votingData } = useData(votingUrl)
 
+  // Political history (past councillors, candidates, party switches)
+  const { data: historyData } = useData('/data/political_history.json')
+
   const [search, setSearch] = useState('')
   const [partyFilter, setPartyFilter] = useState('')
   const [selectedCouncillor, setSelectedCouncillor] = useState(null)
   const [expandedVote, setExpandedVote] = useState(null)
+  const [historySearch, setHistorySearch] = useState('')
+  const [historyStatusFilter, setHistoryStatusFilter] = useState('')
+  const [historyPartyFilter, setHistoryPartyFilter] = useState('')
+  const [expandedPerson, setExpandedPerson] = useState(null)
+  const [historyLimit, setHistoryLimit] = useState(50)
 
   useEffect(() => {
     document.title = `Council Politics | ${councilName} Council Transparency`
@@ -108,12 +116,35 @@ function Politics() {
   // Sorted votes: budget first, then by date
   const sortedVotes = useMemo(() => {
     if (!votingData?.votes?.length) return []
-    return [...votingData.votes].sort((a, b) => {
-      if (a.type === 'budget' && b.type !== 'budget') return -1
-      if (b.type === 'budget' && a.type !== 'budget') return 1
-      return (b.meeting_date || '').localeCompare(a.meeting_date || '')
-    })
+    return [...votingData.votes].sort((a, b) =>
+      (b.meeting_date || '').localeCompare(a.meeting_date || '')
+    )
   }, [votingData])
+
+  // Filtered political history
+  const filteredHistory = useMemo(() => {
+    if (!historyData?.people?.length) return []
+    let people = historyData.people
+    if (historyStatusFilter) {
+      people = people.filter(p => p.status === historyStatusFilter)
+    }
+    if (historyPartyFilter) {
+      people = people.filter(p => p.current_party === historyPartyFilter)
+    }
+    if (historySearch) {
+      const q = historySearch.toLowerCase()
+      people = people.filter(p =>
+        p.name?.toLowerCase().includes(q) ||
+        p.wards_contested?.some(w => w.toLowerCase().includes(q))
+      )
+    }
+    return people
+  }, [historyData, historySearch, historyStatusFilter, historyPartyFilter])
+
+  const historyParties = useMemo(() => {
+    if (!historyData?.summary?.by_party) return []
+    return Object.entries(historyData.summary.by_party).sort((a, b) => b[1] - a[1])
+  }, [historyData])
 
   // Section nav items
   const navSections = useMemo(() => {
@@ -129,9 +160,12 @@ function Politics() {
     if (votingData?.votes?.length) {
       items.push({ id: 'votes', label: 'Recorded Votes', always: false })
     }
+    if (historyData?.people?.length) {
+      items.push({ id: 'political-history', label: 'Political History', always: false })
+    }
     items.push({ id: 'councillors', label: 'Councillors', always: true })
     return items
-  }, [summary, votingData])
+  }, [summary, votingData, historyData])
 
   if (loading) {
     return <LoadingState message="Loading councillor data..." />
@@ -531,6 +565,187 @@ function Politics() {
       )}
 
       {/* Councillor Directory */}
+      {historyData?.people?.length > 0 && (
+        <CollapsibleSection
+          title="Political History"
+          icon={<History size={18} />}
+          id="political-history"
+          count={historyData.summary?.total_people}
+          countLabel="people"
+          subtitle={historyData.summary?.date_range}
+        >
+          <div className="history-summary-stats">
+            <div className="history-stat">
+              <span className="stat-value">{historyData.summary?.serving || 0}</span>
+              <span className="stat-label">Serving</span>
+            </div>
+            <div className="history-stat">
+              <span className="stat-value">{historyData.summary?.former || 0}</span>
+              <span className="stat-label">Former Councillors</span>
+            </div>
+            <div className="history-stat">
+              <span className="stat-value">{historyData.summary?.candidates_only || 0}</span>
+              <span className="stat-label">Past Candidates</span>
+            </div>
+            <div className="history-stat">
+              <span className="stat-value">{historyData.summary?.party_switchers || 0}</span>
+              <span className="stat-label">Party Switchers</span>
+            </div>
+            {historyData.summary?.now_mp > 0 && (
+              <div className="history-stat">
+                <span className="stat-value">{historyData.summary.now_mp}</span>
+                <span className="stat-label">Now MPs</span>
+              </div>
+            )}
+          </div>
+
+          <div className="history-filters">
+            <div className="search-wrapper">
+              <Search size={14} />
+              <input
+                type="text"
+                placeholder="Search by name or ward..."
+                value={historySearch}
+                onChange={e => { setHistorySearch(e.target.value); setHistoryLimit(50) }}
+              />
+            </div>
+            <select value={historyStatusFilter} onChange={e => { setHistoryStatusFilter(e.target.value); setHistoryLimit(50) }}>
+              <option value="">All statuses</option>
+              <option value="serving">Serving</option>
+              <option value="former">Former Councillors</option>
+              <option value="candidate">Past Candidates</option>
+              <option value="now_mp">Now MPs</option>
+            </select>
+            <select value={historyPartyFilter} onChange={e => { setHistoryPartyFilter(e.target.value); setHistoryLimit(50) }}>
+              <option value="">All parties</option>
+              {historyParties.map(([party, count]) => (
+                <option key={party} value={party}>{party} ({count})</option>
+              ))}
+            </select>
+          </div>
+
+          <p className="history-results-count">{filteredHistory.length} of {historyData.people.length} people</p>
+
+          <div className="history-people-grid">
+            {filteredHistory.slice(0, historyLimit).map(person => {
+              const isExpanded = expandedPerson === person.normalised_name
+              const statusBadge = {
+                serving: { label: 'Serving', cls: 'status-serving' },
+                former: { label: 'Former', cls: 'status-former' },
+                candidate: { label: 'Candidate', cls: 'status-candidate' },
+                now_mp: { label: 'Now MP', cls: 'status-mp' },
+              }[person.status] || { label: person.status, cls: '' }
+
+              return (
+                <div key={person.normalised_name} className={`history-person-card ${isExpanded ? 'expanded' : ''}`}>
+                  <div
+                    className="history-person-header"
+                    onClick={() => setExpandedPerson(isExpanded ? null : person.normalised_name)}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={e => e.key === 'Enter' && setExpandedPerson(isExpanded ? null : person.normalised_name)}
+                  >
+                    <div className="person-name-row">
+                      <strong>{person.name}</strong>
+                      <span className={`status-badge ${statusBadge.cls}`}>{statusBadge.label}</span>
+                      {person.party_switched && (
+                        <span className="party-switch-badge" title="Changed party">
+                          <ArrowRightLeft size={12} /> Switched
+                        </span>
+                      )}
+                    </div>
+                    <div className="person-meta">
+                      <span>{person.current_party}</span>
+                      <span>{person.elections_won}W/{person.elections_fought - person.elections_won}L</span>
+                      <span>{person.total_votes_received?.toLocaleString()} total votes</span>
+                      {person.wards_contested?.length === 1 && <span><MapPin size={12} /> {person.wards_contested[0]}</span>}
+                      {person.wards_contested?.length > 1 && <span><MapPin size={12} /> {person.wards_contested.length} wards</span>}
+                    </div>
+                    {isExpanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+                  </div>
+
+                  {isExpanded && (
+                    <div className="history-person-detail">
+                      {person.party_switched && person.party_changes?.length > 0 && (
+                        <div className="party-changes">
+                          <strong>Party changes:</strong>
+                          {person.party_changes.map((change, i) => (
+                            <span key={i} className="party-change-tag">{change}</span>
+                          ))}
+                        </div>
+                      )}
+
+                      {person.mp_info && (
+                        <div className="mp-info">
+                          <strong>Now MP for {person.mp_info.constituency}</strong>
+                          {person.mp_info.party && ` (${person.mp_info.party})`}
+                          {person.mp_info.mp_since && ` since ${person.mp_info.mp_since}`}
+                        </div>
+                      )}
+
+                      {person.occupation && (
+                        <p className="person-occupation"><strong>Occupation:</strong> {person.occupation}</p>
+                      )}
+
+                      {person.integrity_flags > 0 && (
+                        <div className="person-integrity">
+                          <strong>Integrity:</strong> Score {person.integrity_score}/100
+                          {person.integrity_detections?.length > 0 && (
+                            <span className="integrity-flags"> ({person.integrity_detections.join(', ')})</span>
+                          )}
+                        </div>
+                      )}
+
+                      {person.voting_record && (
+                        <div className="person-voting-summary">
+                          <strong>Voting record:</strong>{' '}
+                          {person.voting_record.total_recorded_votes} recorded votes
+                          ({person.voting_record.votes_for} for, {person.voting_record.votes_against} against, {person.voting_record.votes_abstain} abstain)
+                        </div>
+                      )}
+
+                      <div className="election-history-table">
+                        <strong>Election history ({person.elections_fought} elections):</strong>
+                        <table>
+                          <thead>
+                            <tr>
+                              <th>Year</th>
+                              <th>Ward</th>
+                              <th>Party</th>
+                              <th>Votes</th>
+                              <th>%</th>
+                              <th>Result</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {person.electoral_history?.map((e, i) => (
+                              <tr key={i} className={e.elected ? 'elected-row' : ''}>
+                                <td>{e.year}</td>
+                                <td>{e.ward}</td>
+                                <td>{e.party}</td>
+                                <td>{e.votes?.toLocaleString()}</td>
+                                <td>{e.pct ? (e.pct * 100).toFixed(1) + '%' : '—'}</td>
+                                <td>{e.elected ? 'Elected' : 'Defeated'}</td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )
+            })}
+          </div>
+
+          {filteredHistory.length > historyLimit && (
+            <button className="show-more-btn" onClick={() => setHistoryLimit(l => l + 50)}>
+              Show more ({filteredHistory.length - historyLimit} remaining)
+            </button>
+          )}
+        </CollapsibleSection>
+      )}
+
       <CollapsibleSection title="All Councillors" icon={<User size={18} />} id="councillors" count={councillors.length} countLabel="councillors">
         <div className="directory-filters">
           <div className="search-bar">
