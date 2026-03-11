@@ -710,7 +710,7 @@ export default function Intelligence() {
                 These are data-informed projections, not certainties.
               </p>
               {meetingBriefing.warGame.map((wg, i) => (
-                <WarGameCard key={i} warGame={wg} />
+                <WarGameCard key={i} warGame={wg} integrityData={integrityData} />
               ))}
             </div>
           )}
@@ -1021,7 +1021,7 @@ export default function Intelligence() {
 // Agenda Intelligence Card
 // ============================================================================
 
-function WarGameCard({ warGame }) {
+function WarGameCard({ warGame, integrityData }) {
   const [expanded, setExpanded] = useState(false)
   if (!warGame) return null
 
