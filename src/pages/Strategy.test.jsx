@@ -924,12 +924,15 @@ describe('Strategy', () => {
       expect(within(tabBar).getByText('Briefing Sheet')).toBeInTheDocument()
     })
 
-    it('shows profile tab by default with ward stats', () => {
+    it('shows strategy tab by default and can switch to profile', () => {
       setupMocks()
       renderComponent()
       fireEvent.click(screen.getByText('Ward Dossiers'))
       const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
       fireEvent.click(bankHallCard)
+      // Strategy tab is now default — switch to Profile to check ward stats
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Profile'))
       expect(screen.getByText('Ward Profile')).toBeInTheDocument()
       expect(screen.getByText('Population')).toBeInTheDocument()
       expect(screen.getByText('Electorate')).toBeInTheDocument()
