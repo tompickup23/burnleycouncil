@@ -20,7 +20,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import {
   Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, Users, Vote,
   Clock, Briefcase, MapPin, FileText, ExternalLink, ChevronLeft,
-  AlertTriangle, TrendingUp, Calendar, Award, Scale, Globe,
+  AlertTriangle, TrendingUp, Calendar, Award, Scale, Globe, BarChart3,
 } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -52,6 +52,7 @@ const TABS = [
   { id: 'integrity', label: 'Integrity', icon: Shield },
   { id: 'companies', label: 'Companies', icon: Building2 },
   { id: 'register', label: 'Register', icon: FileText },
+  { id: 'voting', label: 'Votes', icon: BarChart3 },
   { id: 'electoral', label: 'Electoral', icon: Vote },
   { id: 'timeline', label: 'Timeline', icon: Clock },
 ]
@@ -119,9 +120,11 @@ export default function CouncillorDossier() {
     '/data/meetings.json',
     '/data/doge_findings.json',
     '/data/shared/legal_framework.json',
+    '/data/voting.json',
+    '/data/council_documents.json',
   ])
 
-  const [councillorsRaw, integrity, register, elections, meetings, dogeFindings, legalFramework] = data || [null, null, null, null, null, null, null]
+  const [councillorsRaw, integrity, register, elections, meetings, dogeFindings, legalFramework, votingData, documentsData] = data || [null, null, null, null, null, null, null, null, null]
 
   // Find the councillor across all data sources
   const councillor = useMemo(() => {
@@ -274,6 +277,35 @@ export default function CouncillorDossier() {
     return integrityData.ch.network_crossovers
   }, [integrityData])
 
+  // Voting record for this councillor
+  const councillorVotes = useMemo(() => {
+    if (!votingData?.votes || !councillor) return []
+    return votingData.votes.filter(v =>
+      v.individual_votes?.some(iv => {
+        const ivName = (iv.name || '').toLowerCase()
+        const cName = councillor.name.toLowerCase()
+        return ivName.includes(cName.split(' ').pop()) && ivName.includes(cName.split(' ')[0])
+      })
+    ).map(v => {
+      const myVote = v.individual_votes.find(iv => {
+        const ivName = (iv.name || '').toLowerCase()
+        const cName = councillor.name.toLowerCase()
+        return ivName.includes(cName.split(' ').pop()) && ivName.includes(cName.split(' ')[0])
+      })
+      return { ...v, myVote: myVote?.vote || 'unknown' }
+    }).sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0))
+  }, [votingData, councillor])
+
+  // Council documents mentioning this councillor (proposer/seconder)
+  const councillorDecisions = useMemo(() => {
+    if (!documentsData?.decisions || !councillor) return []
+    const cName = councillor.name.toLowerCase()
+    return documentsData.decisions.filter(d =>
+      (d.proposer || '').toLowerCase().includes(cName.split(' ').pop()) ||
+      (d.seconder || '').toLowerCase().includes(cName.split(' ').pop())
+    )
+  }, [documentsData, councillor])
+
   // Quick stats
   const stats = useMemo(() => {
     const activeCompanies = companies.filter(c => !c.resigned_on).length
@@ -299,9 +331,10 @@ export default function CouncillorDossier() {
     integrity: redFlags.length,
     companies: companies.length,
     register: registerData ? Object.keys(registerData.sections || registerData).filter(k => k !== 'name' && k !== 'id').length : 0,
+    voting: councillorVotes.length,
     electoral: electoralData?.history?.length || 0,
     timeline: timelineEvents.length,
-  }), [redFlags, companies, registerData, electoralData, timelineEvents])
+  }), [redFlags, companies, registerData, councillorVotes, electoralData, timelineEvents])
 
   // Page title
   useEffect(() => {
@@ -495,6 +528,13 @@ export default function CouncillorDossier() {
             registerData={registerData}
             councillor={councillor}
             supplierConflicts={supplierConflicts}
+          />
+        )}
+        {activeTab === 'voting' && (
+          <VotingTab
+            votes={councillorVotes}
+            decisions={councillorDecisions}
+            councillor={councillor}
           />
         )}
         {activeTab === 'electoral' && (
@@ -841,6 +881,135 @@ function RegisterSection({ title, icon, items, supplierConflicts = [] }) {
           )
         })}
       </div>
+    </div>
+  )
+}
+
+/** Voting Tab — Recorded votes and council decisions */
+function VotingTab({ votes, decisions, councillor }) {
+  const VOTE_COLORS = { for: '#30d158', against: '#ff453a', abstain: '#ff9f0a' }
+
+  // Voting stats
+  const stats = useMemo(() => {
+    const forCount = votes.filter(v => v.myVote === 'For').length
+    const againstCount = votes.filter(v => v.myVote === 'Against').length
+    const abstainCount = votes.filter(v => ['Abstain', 'Did not vote'].includes(v.myVote)).length
+    const rebellions = votes.filter(v => {
+      if (!v.enrichment?.significance) return false
+      return v.enrichment?.significance === 'high' && v.myVote === 'Against'
+    }).length
+    return { forCount, againstCount, abstainCount, rebellions, total: votes.length }
+  }, [votes])
+
+  if (votes.length === 0 && decisions.length === 0) {
+    return (
+      <div className="dossier-empty">
+        <BarChart3 size={40} style={{ color: 'var(--text-secondary)', marginBottom: 'var(--space-md)' }} />
+        <p>No recorded votes found for Cllr {councillor.name}.</p>
+        <p style={{ fontSize: '0.75rem', marginTop: 'var(--space-sm)', color: 'var(--text-secondary)' }}>
+          Voting data is only available for councils with recorded vote data.
+        </p>
+      </div>
+    )
+  }
+
+  return (
+    <div>
+      {/* Vote summary */}
+      {votes.length > 0 && (
+        <div style={{ display: 'flex', gap: 'var(--space-md)', marginBottom: 'var(--space-lg)', flexWrap: 'wrap' }}>
+          <div className="dossier-stat-card">
+            <div className="dossier-stat-value" style={{ color: '#30d158' }}>{stats.forCount}</div>
+            <div className="dossier-stat-label">For</div>
+          </div>
+          <div className="dossier-stat-card">
+            <div className="dossier-stat-value" style={{ color: '#ff453a' }}>{stats.againstCount}</div>
+            <div className="dossier-stat-label">Against</div>
+          </div>
+          <div className="dossier-stat-card">
+            <div className="dossier-stat-value" style={{ color: '#ff9f0a' }}>{stats.abstainCount}</div>
+            <div className="dossier-stat-label">Abstain/DNV</div>
+          </div>
+          <div className="dossier-stat-card">
+            <div className="dossier-stat-value">{stats.total}</div>
+            <div className="dossier-stat-label">Total Votes</div>
+          </div>
+        </div>
+      )}
+
+      {/* Vote list */}
+      {votes.length > 0 && (
+        <>
+          <h3 style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px', marginBottom: 'var(--space-md)' }}>
+            <BarChart3 size={15} /> Recorded Votes ({votes.length})
+          </h3>
+          {votes.map((v, i) => (
+            <div key={i} className="company-card" style={{ marginBottom: 'var(--space-sm)' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '0.82rem', color: 'var(--text-primary)', fontWeight: 500, flex: 1 }}>
+                  {v.title || v.motion || 'Vote'}
+                </span>
+                <span style={{
+                  fontSize: '0.72rem',
+                  fontWeight: 700,
+                  padding: '2px 8px',
+                  borderRadius: '4px',
+                  background: (VOTE_COLORS[v.myVote?.toLowerCase()] || '#888') + '22',
+                  color: VOTE_COLORS[v.myVote?.toLowerCase()] || '#888',
+                }}>
+                  {v.myVote}
+                </span>
+              </div>
+              <div style={{ display: 'flex', gap: 'var(--space-md)', fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                {v.date && <span>{formatDate(v.date)}</span>}
+                {v.committee && <span>{v.committee}</span>}
+                {v.result && <span>Result: {v.result}</span>}
+              </div>
+              {v.enrichment?.description && (
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '4px', lineHeight: 1.5 }}>
+                  {v.enrichment.description}
+                </div>
+              )}
+            </div>
+          ))}
+        </>
+      )}
+
+      {/* Council decisions */}
+      {decisions.length > 0 && (
+        <>
+          <h3 style={{ fontSize: '0.85rem', display: 'flex', alignItems: 'center', gap: '6px', marginTop: 'var(--space-xl)', marginBottom: 'var(--space-md)' }}>
+            <FileText size={15} /> Council Decisions ({decisions.length})
+          </h3>
+          {decisions.map((d, i) => (
+            <div key={i} className="company-card" style={{ marginBottom: 'var(--space-sm)' }}>
+              <div style={{ fontSize: '0.82rem', color: 'var(--text-primary)', fontWeight: 500 }}>
+                {d.title}
+              </div>
+              <div style={{ display: 'flex', gap: 'var(--space-md)', fontSize: '0.72rem', color: 'var(--text-secondary)', marginTop: '4px' }}>
+                {d.date && <span>{formatDate(d.date)}</span>}
+                {d.committee && <span>{d.committee}</span>}
+                {d.outcome && (
+                  <span style={{
+                    padding: '1px 6px',
+                    borderRadius: '4px',
+                    background: d.outcome.toLowerCase().includes('carried') ? 'rgba(48, 209, 88, 0.1)' : 'rgba(255, 69, 58, 0.1)',
+                    color: d.outcome.toLowerCase().includes('carried') ? '#30d158' : '#ff453a',
+                    fontWeight: 600,
+                  }}>
+                    {d.outcome}
+                  </span>
+                )}
+              </div>
+              {d.political_summary && (
+                <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginTop: '4px', lineHeight: 1.5 }}>
+                  {d.political_summary}
+                </div>
+              )}
+            </div>
+          ))}
+        </>
+      )}
     </div>
   )
 }

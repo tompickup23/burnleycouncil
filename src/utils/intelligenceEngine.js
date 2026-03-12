@@ -49,6 +49,209 @@ const AGENDA_POLICY_MAP = [
 ]
 
 // ---------------------------------------------------------------------------
+// Committee-to-Policy Mapping (for speaker allocation at Full Council)
+// ---------------------------------------------------------------------------
+
+const COMMITTEE_POLICY_MAP = {
+  'cabinet': ['budget_finance', 'council_tax', 'governance_constitution', 'devolution_lgr'],
+  'budget and finance scrutiny committee': ['budget_finance', 'council_tax'],
+  'children, families and skills scrutiny committee': ['education_schools', 'social_care'],
+  'community, cultural, and corporate services scrutiny committee': ['governance_constitution', 'equalities_diversity', 'community_safety'],
+  'environment, economic growth and transport scrutiny committee': ['environment_climate', 'transport_highways', 'housing'],
+  'health and adult services scrutiny committee': ['health_wellbeing', 'social_care'],
+  'lancashire health and wellbeing board': ['health_wellbeing'],
+  'audit, risk and governance committee': ['governance_constitution', 'budget_finance'],
+  'development control committee': ['housing', 'environment_climate'],
+  'regulatory committee': ['governance_constitution'],
+  'pension fund committee': ['budget_finance'],
+  'corporate parenting board': ['education_schools', 'social_care'],
+}
+
+// Agenda item keywords that indicate the item originates from a specific committee
+const AGENDA_COMMITTEE_KEYWORDS = [
+  { keywords: /audit|risk.and.governance|annual.governance|internal.audit/i, committee: 'audit, risk and governance committee' },
+  { keywords: /budget|financ|revenue|capital|precept|treasury|reserves|outturn|accounts/i, committee: 'budget and finance scrutiny committee' },
+  { keywords: /children|families|skills|schools|send|education|ofsted|academy|pupil/i, committee: 'children, families and skills scrutiny committee' },
+  { keywords: /health|wellbeing.board|nhs|icb|integrated.care|adult.services|care.home/i, committee: 'health and adult services scrutiny committee' },
+  { keywords: /environment|economic.growth|transport|highway|road|climate|waste/i, committee: 'environment, economic growth and transport scrutiny committee' },
+  { keywords: /community|cultural|corporate.services|equali|divers/i, committee: 'community, cultural, and corporate services scrutiny committee' },
+  { keywords: /development.control|planning.application/i, committee: 'development control committee' },
+  { keywords: /pension/i, committee: 'pension fund committee' },
+  { keywords: /cabinet/i, committee: 'cabinet' },
+]
+
+/**
+ * Build speaker suggestions for an agenda item at Full Council.
+ * Maps committee chairs/deputies to their relevant agenda items.
+ * Includes procedural notes (mover, seconder, speaking times).
+ *
+ * @param {string} agendaItem — text of agenda item
+ * @param {string[]} policyAreas — mapped policy areas
+ * @param {Object[]} reformMembers — Reform UK members on this committee
+ * @param {Object} allData — contains committeesData
+ * @param {Object} standingOrders — standing orders data
+ * @param {boolean} isReformMotion — whether this is a Reform-submitted motion
+ * @returns {Object} { speakers: [{name, role, reason}], procedural: {notes: string[], timeLimits: Object} }
+ */
+export function buildSpeakerSuggestions(agendaItem, policyAreas, reformMembers, allData, standingOrders, isReformMotion) {
+  const { committeesData } = allData || {}
+  const committees = committeesData?.committees || (Array.isArray(committeesData) ? committeesData : [])
+  const speakers = []
+  const proceduralNotes = []
+  const itemLower = (agendaItem || '').toLowerCase()
+
+  // Full Council Chair is impartial — must never appear as a speaker/mover
+  const fullCouncilComm = committees.find(c => c.name?.toLowerCase() === 'full council')
+  const fullCouncilChairName = fullCouncilComm?.members?.find(m => m.role === 'Chair')?.name?.toLowerCase() || ''
+
+  // 1. Identify which committee this agenda item relates to
+  let matchedCommittee = null
+  let matchedCommitteeData = null
+  for (const ack of AGENDA_COMMITTEE_KEYWORDS) {
+    if (ack.keywords.test(agendaItem || '')) {
+      matchedCommittee = ack.committee
+      break
+    }
+  }
+
+  // 2. Find the committee chair from committees.json
+  if (matchedCommittee) {
+    const commLower = matchedCommittee.toLowerCase()
+    matchedCommitteeData = committees.find(c =>
+      c.name?.toLowerCase() === commLower ||
+      c.name?.toLowerCase().includes(commLower.split(' ')[0])
+    )
+    if (matchedCommitteeData) {
+      const chair = matchedCommitteeData.members?.find(m =>
+        m.role === 'Chair' && m.party === 'Reform UK' &&
+        m.name?.toLowerCase() !== fullCouncilChairName  // Full Council Chair is impartial
+      )
+      const deputy = matchedCommitteeData.members?.find(m =>
+        m.role === 'Deputy Chair' && m.party === 'Reform UK' &&
+        m.name?.toLowerCase() !== fullCouncilChairName
+      )
+      if (chair) {
+        speakers.push({
+          name: chair.name,
+          role: 'Mover',
+          reason: `${matchedCommitteeData.name} Chair — moves this item per constitution`,
+          priority: 1,
+        })
+      }
+      if (deputy) {
+        speakers.push({
+          name: deputy.name,
+          role: 'Seconder',
+          reason: `${matchedCommitteeData.name} Deputy Chair`,
+          priority: 2,
+        })
+      }
+    }
+  }
+
+  // 3. If this is a motion (SO 37), identify mover + required seconder
+  const isMotion = /motion|notice.of.motion/i.test(agendaItem || '')
+  if (isMotion || isReformMotion) {
+    if (speakers.length === 0) {
+      // No committee match — motion needs a designated mover
+      speakers.push({ name: '(Designated mover)', role: 'Mover', reason: 'Motion requires mover (SO 32)', priority: 1 })
+    }
+    if (!speakers.find(s => s.role === 'Seconder')) {
+      speakers.push({ name: '(Needs seconder)', role: 'Seconder', reason: 'Every motion must be seconded before debate (SO 38)', priority: 2 })
+    }
+    const tl = standingOrders?.time_limits?.motion_debate
+    proceduralNotes.push(`Mover: ${tl?.mover_speech_minutes || 5} min speech (SO 39)`)
+    proceduralNotes.push(`Other speakers: ${tl?.other_speech_minutes || 3} min each (SO 39)`)
+    proceduralNotes.push(`Amendment movers: ${tl?.amendment_mover_minutes || 3} min (SO 39)`)
+    proceduralNotes.push('Mover has right of reply at end of debate (SO 44)')
+    proceduralNotes.push('Amendment movers have NO right of reply (SO 44)')
+    if (isReformMotion) {
+      proceduralNotes.push('Max 250 words (SO 37). Must require Council to take action.')
+    }
+  }
+
+  // 4. For reports/recommendations items — Cabinet member or committee chair presents
+  const isReport = /report|recommendation|cabinet.member/i.test(agendaItem || '')
+  if (isReport && speakers.length === 0) {
+    // Find Cabinet chair as fallback
+    const cabinet = committees.find(c => c.name?.toLowerCase() === 'cabinet')
+    if (cabinet) {
+      const leader = cabinet.members?.find(m => m.role === 'Chair' && m.party === 'Reform UK')
+      if (leader) {
+        speakers.push({
+          name: leader.name,
+          role: 'Presenter',
+          reason: 'Council Leader presents Cabinet reports',
+          priority: 1,
+        })
+      }
+    }
+  }
+
+  // 5. For questions items — Chair moderates, no specific mover
+  const isQuestions = /question.time|public.question|member.question/i.test(agendaItem || '')
+  if (isQuestions) {
+    const tl = /public/i.test(agendaItem || '') ? standingOrders?.time_limits?.public_question_time : standingOrders?.time_limits?.member_question_time
+    if (tl) {
+      if (tl.total_minutes) proceduralNotes.push(`Hard ${tl.total_minutes} min cap (${tl.so})`)
+      if (tl.per_answer_minutes) proceduralNotes.push(`${tl.per_answer_minutes} min per answer`)
+      if (tl.supplementary_allowed) proceduralNotes.push('1 supplementary allowed')
+      if (tl.max_questions_per_meeting) proceduralNotes.push(`Max ${tl.max_questions_per_meeting} questions`)
+    }
+  }
+
+  // 6. Add tactical procedural notes based on item context
+  if (policyAreas?.includes('budget_finance')) {
+    proceduralNotes.push('Budget speeches by Finance Member and opposition budget spokespersons have NO time limit (SO 39)')
+    proceduralNotes.push('Budget/precept votes MUST be recorded votes (2014 Regulations)')
+  }
+
+  // 7. Standing order tactics applicable to any debate
+  if (policyAreas?.length > 0 && !isQuestions) {
+    const so = standingOrders
+    if (so?.voting?.recorded_vote) {
+      proceduralNotes.push(`Force recorded vote: ${so.voting.recorded_vote.trigger} (${so.voting.so}) — puts opposition on record`)
+    }
+    if (so?.amendments?.friendly) {
+      proceduralNotes.push('Friendly amendment: mover can accept changes without debate/vote (SO 43) — bypasses opposition')
+    }
+    if (so?.debate_rules?.closure_motions) {
+      proceduralNotes.push('"That the question be now put" forces immediate vote (SO 45) — must be moved by non-speaker')
+    }
+    if (so?.suspension) {
+      proceduralNotes.push('Reform (53/84 seats) can suspend any non-voting standing order (SO 25)')
+    }
+  }
+
+  // 8. Add policy-relevant Reform members as backup speakers
+  if (matchedCommitteeData) {
+    const existingNames = new Set(speakers.map(s => s.name))
+    const committeeReformMembers = matchedCommitteeData.members?.filter(m =>
+      m.party === 'Reform UK' && m.role === 'Member' && !existingNames.has(m.name) &&
+      m.name?.toLowerCase() !== fullCouncilChairName
+    ) || []
+    for (const m of committeeReformMembers.slice(0, 2)) {
+      speakers.push({
+        name: m.name,
+        role: 'Backup',
+        reason: `${matchedCommitteeData.name} member`,
+        priority: 3,
+      })
+    }
+  }
+
+  return {
+    speakers: speakers.sort((a, b) => a.priority - b.priority),
+    procedural: {
+      notes: proceduralNotes,
+      isMotion,
+      isQuestions,
+      timeLimits: isMotion ? standingOrders?.time_limits?.motion_debate : null,
+    },
+  }
+}
+
+// ---------------------------------------------------------------------------
 // Curated Party Attack Database
 // ---------------------------------------------------------------------------
 
@@ -510,6 +713,165 @@ export function findCommitteeForMeeting(meetingCommittee, committeesData) {
   }) || null
 }
 
+// ---------------------------------------------------------------------------
+// Per-Councillor Counter-Arguments
+// ---------------------------------------------------------------------------
+
+/**
+ * Build specific counter-arguments for a councillor on an agenda item.
+ * Generates "If [Name] says X, respond Y" using their record, ward data, and party history.
+ *
+ * @param {Object} dossier - From buildCouncillorDossier()
+ * @param {string[]} policyAreas - Policy areas for the agenda item
+ * @param {Object} allData - Full data bundle including ward-level data
+ * @returns {Array<{ attack: string, counter: string, source: string, type: string }>}
+ */
+export function buildCouncillorCounterArguments(dossier, policyAreas, allData) {
+  if (!dossier || !policyAreas?.length) return []
+  const counters = []
+  const name = cleanCouncillorName(dossier.name)
+  const firstName = name.split(/\s+/)[0] || name
+  const { votingData, demographicsData, deprivationData, economyData, healthData, housingData, councillors } = allData || {}
+
+  // 1. Hypocrisy detection — did they vote FOR something they're likely to attack?
+  if (dossier.votingRecord?.length) {
+    for (const vote of dossier.votingRecord) {
+      const voteAreas = vote.policyAreas || []
+      const overlaps = voteAreas.some(a => policyAreas.includes(a))
+      if (!overlaps) continue
+      if (vote.position === 'for') {
+        counters.push({
+          attack: `${firstName} may criticize ${(POLICY_AREAS[policyAreas[0]] || policyAreas[0]).toLowerCase()} policy`,
+          counter: `${name} voted FOR "${vote.title}" on ${vote.date}. They endorsed this approach — they cannot now oppose it without contradicting their own record.`,
+          source: 'voting_record',
+          type: 'hypocrisy',
+        })
+      }
+      if (vote.isRebel) {
+        counters.push({
+          attack: `${firstName} rebels on ${(POLICY_AREAS[voteAreas[0]] || voteAreas[0]).toLowerCase()}`,
+          counter: `${name} voted against their own party on "${vote.title}" — even their colleagues disagreed with this position.`,
+          source: 'voting_record',
+          type: 'rebel',
+        })
+      }
+    }
+  }
+
+  // 2. Party-specific attacks — formatted as personal counters
+  const party = dossier.party || ''
+  const partyDb = PARTY_ATTACK_DATABASE[party] || PARTY_ATTACK_DATABASE[party.replace(' & Co-operative', '')] || {}
+  for (const category of ['lcc_record', 'local', 'national']) {
+    for (const line of partyDb[category] || []) {
+      const lineAreas = mapAgendaToPolicyAreas(line.text)
+      if (lineAreas.some(a => policyAreas.includes(a))) {
+        counters.push({
+          attack: `${firstName} raises ${(POLICY_AREAS[policyAreas[0]] || policyAreas[0]).toLowerCase()} concerns`,
+          counter: `${party} record: ${line.text}`,
+          source: `party_${category}`,
+          type: 'party_record',
+        })
+      }
+    }
+  }
+
+  // 3. Integrity-based counters — DISABLED pending integrity data accuracy upgrade.
+  // Will be re-enabled once councillor_integrity_etl.py v7 is validated.
+  // Integrity allegations in live meetings carry reputational risk and must be verified.
+
+  // 4. Register of interests overlap
+  if (dossier.interestsProfile) {
+    if (policyAreas.includes('housing') && dossier.interestsProfile.land?.length > 0) {
+      counters.push({
+        attack: `${firstName} speaks on housing policy`,
+        counter: `${name} has ${dossier.interestsProfile.land.length} declared property interest(s) — they have a personal stake in housing policy.`,
+        source: 'register',
+        type: 'interest',
+      })
+    }
+    if ((policyAreas.includes('budget_finance') || policyAreas.includes('governance_constitution')) && dossier.interestsProfile.companies?.length > 0) {
+      counters.push({
+        attack: `${firstName} questions financial management`,
+        counter: `${name} has ${dossier.interestsProfile.companies.length} declared company interest(s): ${dossier.interestsProfile.companies.slice(0, 2).join(', ')}`,
+        source: 'register',
+        type: 'interest',
+      })
+    }
+  }
+
+  // 5. Ward demographics contradiction — their ward's data contradicts their position
+  const ward = dossier.ward || dossier.division
+  if (ward) {
+    // Deprivation data
+    const depWards = deprivationData?.wards || deprivationData?.by_ward || {}
+    const wardDep = depWards[ward] || Object.values(depWards).find(w => w.ward_name === ward || w.name === ward)
+    const imdDecile = wardDep?.avg_imd_decile || wardDep?.imd_decile
+
+    if (imdDecile && imdDecile <= 3) {
+      if (policyAreas.includes('social_care') || policyAreas.includes('health_wellbeing') || policyAreas.includes('budget_finance')) {
+        counters.push({
+          attack: `${firstName} opposes social spending or budget priorities`,
+          counter: `${ward} is in IMD decile ${imdDecile} — among the most deprived areas in Lancashire. ${firstName}'s own constituents are the primary beneficiaries of this investment.`,
+          source: 'ward_demographics',
+          type: 'ward_contradiction',
+        })
+      }
+    }
+
+    // Economy data — claimant rate
+    const econWards = economyData?.claimant_count?.by_ward || economyData?.wards || {}
+    const wardEcon = econWards[ward] || Object.values(econWards).find(w => w.ward_name === ward || w.name === ward)
+    const claimantRate = wardEcon?.rate || wardEcon?.claimant_rate
+    if (claimantRate && claimantRate > 0.04 && (policyAreas.includes('budget_finance') || policyAreas.includes('housing'))) {
+      counters.push({
+        attack: `${firstName} argues against investment or economic support`,
+        counter: `${ward} has a ${(claimantRate * 100).toFixed(1)}% claimant rate — well above the national average. ${firstName}'s own residents need this support.`,
+        source: 'ward_demographics',
+        type: 'ward_contradiction',
+      })
+    }
+
+    // Health data
+    const healthWards = healthData?.census?.by_ward || healthData?.wards || {}
+    const wardHealth = healthWards[ward] || Object.values(healthWards).find(w => w.ward_name === ward || w.name === ward)
+    const badHealth = wardHealth?.bad_health_pct || wardHealth?.bad_very_bad_pct
+    if (badHealth && badHealth > 0.06 && policyAreas.includes('health_wellbeing')) {
+      counters.push({
+        attack: `${firstName} opposes health spending`,
+        counter: `${(badHealth * 100).toFixed(1)}% of ${ward} residents report bad or very bad health — above the Lancashire average. ${firstName}'s own ward needs this investment.`,
+        source: 'ward_demographics',
+        type: 'ward_contradiction',
+      })
+    }
+
+    // Housing data — social housing
+    const housingWards = housingData?.tenure?.by_ward || housingData?.wards || {}
+    const wardHousing = housingWards[ward] || Object.values(housingWards).find(w => w.ward_name === ward || w.name === ward)
+    const socialPct = wardHousing?.social_rented_pct || wardHousing?.social_pct
+    if (socialPct && socialPct > 0.20 && policyAreas.includes('housing')) {
+      counters.push({
+        attack: `${firstName} argues against housing investment`,
+        counter: `${(socialPct * 100).toFixed(0)}% of ${ward} is social housing — ${firstName}'s own tenants are directly affected by this policy.`,
+        source: 'ward_demographics',
+        type: 'ward_contradiction',
+      })
+    }
+  }
+
+  // Deduplicate — keep max 2 per type, max 8 total
+  const byType = {}
+  const deduped = []
+  for (const c of counters) {
+    if (!byType[c.type]) byType[c.type] = 0
+    if (byType[c.type] >= 2) continue
+    byType[c.type]++
+    deduped.push(c)
+    if (deduped.length >= 8) break
+  }
+
+  return deduped
+}
+
 /**
  * Build a comprehensive meeting briefing.
  * @param {Object} meeting - From meetings.json
@@ -517,7 +879,7 @@ export function findCommitteeForMeeting(meetingCommittee, committeesData) {
  * @returns {Object} Meeting briefing
  */
 export function buildMeetingBriefing(meeting, allData) {
-  const { committeesData, councillors, votingData, dogeFindings, reformTransformation, politicsSummary } = allData || {}
+  const { committeesData, councillors, votingData, dogeFindings, reformTransformation, politicsSummary, documentsData } = allData || {}
 
   if (!meeting) return null
 
@@ -640,8 +1002,18 @@ export function buildMeetingBriefing(meeting, allData) {
     .filter(a => a.policyAreas.length > 0)
     .map(a => {
       // Collect predicted attacks from all opposition members for this agenda item
-      const attackPredictions = oppositionMembers
+      // Pre-filter to likely challengers, cap at 10 per item to avoid DOM explosion
+      const likelyCandidates = oppositionMembers
         .filter(m => m.prediction?.likelyPosition === 'oppose' || m.prediction?.likelyToSpeak)
+        // Sort: opposers first, then by role importance (leaders, chairs > members)
+        .sort((x, y) => {
+          const xScore = (x.prediction?.likelyPosition === 'oppose' ? 2 : 0) + (x.prediction?.likelyToSpeak ? 1 : 0) + (/leader|chair/i.test(x.role || '') ? 1 : 0)
+          const yScore = (y.prediction?.likelyPosition === 'oppose' ? 2 : 0) + (y.prediction?.likelyToSpeak ? 1 : 0) + (/leader|chair/i.test(y.role || '') ? 1 : 0)
+          return yScore - xScore
+        })
+        .slice(0, 10)
+
+      const attackPredictions = likelyCandidates
         .map(m => {
           // Find attacks relevant to this agenda item's policy areas
           const relevantAttacks = (m.topAttackLines || [])
@@ -655,15 +1027,22 @@ export function buildMeetingBriefing(meeting, allData) {
           // Predicted arguments from their behaviour prediction
           const relevantArgs = (m.prediction?.predictedArguments || []).slice(0, 3)
 
-          if (relevantAttacks.length === 0 && relevantArgs.length === 0) return null
+          // Per-councillor specific counters using their record + ward data
+          const specificCounters = m.dossier
+            ? buildCouncillorCounterArguments(m.dossier, a.policyAreas, allData)
+            : []
+
+          if (relevantAttacks.length === 0 && relevantArgs.length === 0 && specificCounters.length === 0) return null
 
           return {
             name: m.name,
             party: m.party,
+            ward: m.dossier?.ward || m.dossier?.division || '',
             role: m.role,
             likelyToSpeak: m.prediction?.likelyToSpeak,
             attackLines: relevantAttacks,
             predictedArguments: relevantArgs,
+            specificCounters,
           }
         })
         .filter(Boolean)
@@ -692,6 +1071,18 @@ export function buildMeetingBriefing(meeting, allData) {
         severity: f.severity,
       }))
 
+      // Related council decisions from documents
+      const relatedDecisions = (documentsData?.decisions || []).filter(d => {
+        const decisionAreas = d.policy_areas || []
+        return a.policyAreas.some(pa => decisionAreas.includes(pa))
+      }).slice(0, 3).map(d => ({
+        title: d.title,
+        date: d.date,
+        outcome: d.outcome,
+        committee: d.committee,
+        political_summary: d.political_summary,
+      }))
+
       return {
         agendaItem: a.text,
         policyAreas: a.policyAreas,
@@ -699,6 +1090,7 @@ export function buildMeetingBriefing(meeting, allData) {
         attackPredictions,
         counters,
         supportingData,
+        relatedDecisions,
         pastVoteContext: a.matchingVotes.map(v => ({
           title: v.title,
           date: v.date,

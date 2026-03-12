@@ -2168,7 +2168,7 @@ export function generateAttackLines(councillor, integrity, interests) {
     if (redFlags.length > 0) {
       lines.push({
         severity: 'high',
-        text: `${redFlags.length} integrity red flag${redFlags.length > 1 ? 's' : ''} identified: ${redFlags.slice(0, 2).map(f => f.description || f.flag || f).join('; ')}`,
+        text: `${redFlags.length} integrity red flag${redFlags.length > 1 ? 's' : ''} identified: ${redFlags.slice(0, 2).map(f => f.description || f.detail || f.flag || f.type || (typeof f === 'string' ? f : 'undisclosed')).join('; ')}`,
       });
     }
     if ((integrity.total_directorships || 0) > 2) {
@@ -2691,7 +2691,7 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
     dogeFindings, budgetSummary, collectionRates,
     constituenciesData, wardConstituencyMap,
     councilPrediction, rankedWard, meetingsData,
-    propertyAssets,
+    propertyAssets, planningData,
     hmoData, fiscalData, pollingData,
     housingData, economyData, healthData,
     votingData, politicalHistoryData,
@@ -2821,7 +2821,7 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
   // Talking points — categorised (all ward-level data sources)
   const localPoints = generateTalkingPoints(wardElection, demo, deprivation, pred);
   const assetPoints = generateAssetTalkingPoints(wardName, propertyAssets);
-  const planningPoints = generatePlanningTalkingPoints(wardName, allData.planningData);
+  const planningPoints = generatePlanningTalkingPoints(wardName, planningData);
   const hmoPoints = generateHMOTalkingPoints(wardName, hmoData);
   const fiscalPoints = generateFiscalTalkingPoints(fiscalData, deprivation);
   const meetingsPoints = generateMeetingsTalkingPoints(wardName, meetingsData, wardCouncillors);

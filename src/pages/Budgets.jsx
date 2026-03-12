@@ -87,6 +87,10 @@ function Budgets() {
   // Property assets (optional — for estate overview)
   const { data: propertyAssetsRaw } = useData('/data/property_assets.json')
 
+  // Council documents (optional — for budget decisions cross-reference)
+  const hasDocuments = config.data_sources?.council_documents
+  const { data: documentsData } = useData(hasDocuments ? '/data/council_documents.json' : null)
+
   const [activeTab, setActiveTab] = useState('revenue')
   const [expandedDept, setExpandedDept] = useState(null)
   const [selectedYear, setSelectedYear] = useState(() => {
@@ -1264,7 +1268,88 @@ function Budgets() {
           </section>
         </div>
       )}
+
+      {/* Budget Decisions from council documents */}
+      {documentsData?.decisions?.length > 0 && (
+        <BudgetDecisionsSection decisions={documentsData.decisions} />
+      )}
     </div>
+  )
+}
+
+/** Budget Decisions — filtered council decisions related to budget/finance */
+function BudgetDecisionsSection({ decisions }) {
+  const [expanded, setExpanded] = useState(false)
+  const budgetDecisions = useMemo(() => {
+    return decisions.filter(d => {
+      const areas = d.policy_areas || []
+      const title = (d.title || '').toLowerCase()
+      return areas.includes('budget_finance') ||
+        areas.includes('council_tax') ||
+        title.includes('budget') ||
+        title.includes('revenue') ||
+        title.includes('capital') ||
+        title.includes('council tax') ||
+        title.includes('financial') ||
+        title.includes('treasury')
+    }).sort((a, b) => new Date(b.date || 0) - new Date(a.date || 0))
+  }, [decisions])
+
+  if (budgetDecisions.length === 0) return null
+
+  return (
+    <section className="budget-decisions-section" style={{ marginTop: '32px' }}>
+      <button
+        className="budget-decisions-toggle"
+        onClick={() => setExpanded(!expanded)}
+        style={{
+          display: 'flex', alignItems: 'center', gap: '8px',
+          background: 'transparent', border: 'none', cursor: 'pointer',
+          color: '#ccc', fontSize: '1rem', fontWeight: 600, padding: '8px 0',
+          width: '100%', textAlign: 'left',
+        }}
+      >
+        {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
+        <Landmark size={16} /> Budget Decisions ({budgetDecisions.length})
+      </button>
+      {expanded && (
+        <div style={{ paddingTop: '8px' }}>
+          <p style={{ fontSize: '0.78rem', color: '#888', marginBottom: '12px' }}>
+            Council decisions related to budgets, finance, and council tax extracted from meeting minutes.
+          </p>
+          {budgetDecisions.map((d, i) => (
+            <div key={i} style={{
+              padding: '10px 14px', marginBottom: '8px',
+              background: 'rgba(255,255,255,0.02)', border: '1px solid #222',
+              borderRadius: '8px',
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '8px', flexWrap: 'wrap' }}>
+                <span style={{ fontSize: '0.85rem', color: '#ccc', fontWeight: 500, flex: 1 }}>{d.title}</span>
+                {d.outcome && (
+                  <span style={{
+                    fontSize: '0.72rem', fontWeight: 700, padding: '2px 8px', borderRadius: '4px',
+                    background: d.outcome.toLowerCase().includes('carried') ? 'rgba(48, 209, 88, 0.1)' : 'rgba(255, 69, 58, 0.1)',
+                    color: d.outcome.toLowerCase().includes('carried') ? '#30d158' : '#ff453a',
+                  }}>
+                    {d.outcome}
+                  </span>
+                )}
+              </div>
+              <div style={{ display: 'flex', gap: '12px', fontSize: '0.72rem', color: '#666', marginTop: '4px' }}>
+                {d.date && <span>{new Date(d.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}</span>}
+                {d.committee && <span>{d.committee}</span>}
+                {d.vote_split && <span>Vote: {d.vote_split}</span>}
+              </div>
+              {d.political_summary && (
+                <div style={{ fontSize: '0.75rem', color: '#888', marginTop: '6px', lineHeight: 1.5 }}>
+                  {d.political_summary}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+      )}
+    </section>
   )
 }
 

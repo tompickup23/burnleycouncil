@@ -1,0 +1,802 @@
+/* ========================================================================
+   MeetingMode — Split-panel meeting briefing interface
+   ======================================================================== */
+
+.meeting-mode {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 60px);
+  max-height: calc(100vh - 60px);
+  background: #0a0a0f;
+  border: 1px solid #222;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* --- Sticky Header --- */
+
+.meeting-mode-header {
+  flex-shrink: 0;
+  padding: 12px 20px 8px;
+  background: rgba(18, 182, 207, 0.04);
+  border-bottom: 1px solid #222;
+}
+
+.meeting-mode-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.meeting-mode-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.meeting-mode-title h2 {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 0;
+}
+
+.meeting-risk-badge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 6px;
+  letter-spacing: 0.5px;
+}
+.meeting-risk-badge.risk-high { background: rgba(255, 69, 58, 0.15); color: #ff453a; }
+.meeting-risk-badge.risk-medium { background: rgba(255, 159, 10, 0.15); color: #ff9f0a; }
+.meeting-risk-badge.risk-low { background: rgba(48, 209, 88, 0.15); color: #30d158; }
+
+.meeting-mode-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.meeting-mode-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 10px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: transparent;
+  color: #999;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.meeting-mode-btn:hover { border-color: #12B6CF; color: #12B6CF; }
+.meeting-mode-btn.exit:hover { border-color: #ff453a; color: #ff453a; }
+
+.meeting-mode-meta {
+  display: flex;
+  gap: 12px;
+  color: #666;
+  font-size: 0.75rem;
+  padding-top: 6px;
+  flex-wrap: wrap;
+}
+
+.meeting-mode-kbd-hint {
+  color: #444;
+  margin-left: auto;
+}
+
+/* --- Split Panels --- */
+
+.meeting-mode-panels {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* --- Sidebar --- */
+
+.meeting-mode-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-right: 1px solid #222;
+  overflow-y: auto;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+/* Search */
+.meeting-search {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-bottom: 1px solid #1a1a1a;
+  color: #666;
+}
+
+.meeting-search-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: #ccc;
+  font-size: 0.82rem;
+  outline: none;
+}
+.meeting-search-input::placeholder { color: #444; }
+
+.meeting-search-results {
+  max-height: 150px;
+  overflow-y: auto;
+  border-bottom: 1px solid #1a1a1a;
+  padding: 4px 0;
+}
+
+.meeting-search-result {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px 12px;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.meeting-search-result:hover { background: rgba(18, 182, 207, 0.08); }
+.search-result-name { color: #ccc; }
+.search-result-party { font-size: 0.72rem; }
+.meeting-search-empty { color: #555; font-size: 0.78rem; padding: 6px 12px; margin: 0; }
+
+/* Agenda Stepper */
+.meeting-agenda-stepper {
+  padding: 8px 0;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.stepper-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 4px 12px;
+  margin: 0;
+}
+
+.stepper-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 12px;
+  border: none;
+  background: transparent;
+  color: #999;
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.15s;
+  border-left: 3px solid transparent;
+}
+.stepper-item:hover { background: rgba(255, 255, 255, 0.03); color: #ccc; }
+.stepper-item.active {
+  background: rgba(18, 182, 207, 0.06);
+  color: #fff;
+  border-left-color: #12B6CF;
+}
+
+.stepper-number {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: #1a1a1a;
+  color: #666;
+}
+.stepper-item.active .stepper-number {
+  background: rgba(18, 182, 207, 0.2);
+  color: #12B6CF;
+}
+
+.stepper-text {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.stepper-challengers {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 8px;
+  background: rgba(255, 159, 10, 0.15);
+  color: #ff9f0a;
+}
+.stepper-challengers.risk-high { background: rgba(255, 69, 58, 0.15); color: #ff453a; }
+.stepper-challengers.risk-low { background: rgba(48, 209, 88, 0.15); color: #30d158; }
+
+/* Timer */
+.meeting-timer {
+  padding: 10px 12px;
+  border-top: 1px solid #1a1a1a;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.timer-display {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #999;
+  font-size: 0.82rem;
+}
+.timer-time { font-family: monospace; font-weight: 700; color: #ccc; font-size: 1rem; }
+.timer-label { color: #555; font-size: 0.75rem; }
+
+.meeting-timer.warning .timer-time { color: #ff9f0a; }
+.meeting-timer.critical .timer-time { color: #ff453a; animation: timer-pulse 1s infinite; }
+
+@keyframes timer-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.timer-bar {
+  height: 3px;
+  background: #1a1a1a;
+  border-radius: 2px;
+  margin: 6px 0;
+  overflow: hidden;
+}
+.timer-bar-fill {
+  height: 100%;
+  background: #12B6CF;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+.meeting-timer.warning .timer-bar-fill { background: #ff9f0a; }
+.meeting-timer.critical .timer-bar-fill { background: #ff453a; }
+
+.timer-controls {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+.timer-controls button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: transparent;
+  color: #999;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.timer-controls button:hover { border-color: #12B6CF; color: #12B6CF; }
+
+.timer-limit-select {
+  flex: 1;
+  margin-left: 4px;
+  background: #111;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #999;
+  font-size: 0.72rem;
+  padding: 3px 4px;
+  outline: none;
+}
+
+/* Our Speakers */
+.meeting-our-speakers {
+  padding: 10px 12px;
+  border-bottom: 1px solid #1a1a1a;
+}
+.meeting-our-speakers h4 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: #666;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.our-speaker-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 0;
+  font-size: 0.78rem;
+}
+.our-speaker-name { color: #ccc; font-weight: 500; }
+.our-speaker-reason { color: #12B6CF; font-size: 0.72rem; }
+.our-speaker-role {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 4px;
+  background: rgba(18, 182, 207, 0.15);
+  color: #12B6CF;
+}
+.our-speaker-role.role-mover { background: rgba(48, 209, 88, 0.15); color: #30d158; }
+.our-speaker-role.role-seconder { background: rgba(255, 159, 10, 0.15); color: #ff9f0a; }
+.our-speaker-role.role-backup { background: rgba(142, 142, 147, 0.15); color: #8e8e93; }
+
+/* Procedural tactics */
+.meeting-procedural {
+  padding: 8px 12px;
+  border-bottom: 1px solid #1a1a1a;
+}
+.meeting-procedural h4 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  color: #666;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.procedural-note {
+  font-size: 0.72rem;
+  color: #888;
+  padding: 2px 0;
+  padding-left: 8px;
+  border-left: 2px solid #333;
+  margin-bottom: 3px;
+  line-height: 1.4;
+}
+
+/* Standing Orders Mini */
+.so-mini {
+  padding: 8px 12px;
+}
+.so-mini-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 0;
+  width: 100%;
+}
+.so-mini-toggle:hover { color: #999; }
+
+.so-mini-content {
+  padding: 6px 0 0 18px;
+}
+.so-mini-item {
+  display: flex;
+  gap: 8px;
+  font-size: 0.72rem;
+  padding: 2px 0;
+  color: #888;
+}
+.so-mini-label { color: #555; font-weight: 600; min-width: 80px; }
+
+/* --- Main Content Panel --- */
+
+.meeting-mode-content {
+  overflow-y: auto;
+  padding: 20px 24px;
+}
+
+.meeting-item-header {
+  margin-bottom: 20px;
+}
+.meeting-item-number {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #12B6CF;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+.meeting-item-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 4px 0 8px;
+}
+
+.meeting-item-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+
+.policy-area-tag {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(18, 182, 207, 0.1);
+  color: #12B6CF;
+}
+
+.meeting-item-risk {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.meeting-item-risk.risk-high { background: rgba(255, 69, 58, 0.1); color: #ff453a; }
+.meeting-item-risk.risk-medium { background: rgba(255, 159, 10, 0.1); color: #ff9f0a; }
+.meeting-item-risk.risk-low { background: rgba(48, 209, 88, 0.1); color: #30d158; }
+
+/* Challengers section */
+.meeting-challengers h4, .meeting-generic-rebuttals h4,
+.meeting-past-votes h4, .meeting-supporting-data h4 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #ccc;
+  margin: 0 0 12px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1a1a1a;
+}
+
+.meeting-no-challengers {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 40px 20px;
+  color: #555;
+  text-align: center;
+}
+.meeting-no-challengers p { margin: 0; }
+
+.meeting-no-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 200px;
+  color: #555;
+}
+
+/* --- CouncillorChallengeCard styles --- */
+
+.challenge-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid #222;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  overflow: hidden;
+}
+
+.challenge-card-header {
+  padding: 10px 14px;
+  border-bottom: 1px solid #1a1a1a;
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.challenge-name-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.challenge-party-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 4px;
+  color: #fff;
+}
+
+.challenge-meta {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  font-size: 0.72rem;
+  color: #666;
+}
+.challenge-role { color: #999; }
+.challenge-ward { color: #888; }
+.challenge-speaker-badge {
+  background: rgba(255, 159, 10, 0.15);
+  color: #ff9f0a;
+  padding: 1px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.68rem;
+}
+
+/* Counter pairs — the main event */
+.challenge-counters {
+  padding: 6px 0;
+}
+
+.challenge-counter-pair {
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+.challenge-counter-pair:last-child { border-bottom: none; }
+
+.challenge-if-they-say {
+  background: rgba(255, 69, 58, 0.04);
+  border-left: 3px solid #ff453a;
+  padding: 6px 10px;
+  border-radius: 0 6px 6px 0;
+  margin-bottom: 4px;
+}
+
+.challenge-label {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #666;
+  letter-spacing: 0.5px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.challenge-attack-text {
+  font-size: 0.82rem;
+  color: #ff9f8a;
+  font-style: italic;
+  line-height: 1.4;
+}
+
+.challenge-respond-with {
+  background: rgba(48, 209, 88, 0.04);
+  border-left: 3px solid #30d158;
+  padding: 6px 10px;
+  border-radius: 0 6px 6px 0;
+  position: relative;
+}
+
+.challenge-response-text {
+  font-size: 0.82rem;
+  color: #a0e8b0;
+  line-height: 1.4;
+}
+
+.challenge-copy-btn {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.3);
+  color: #666;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.challenge-copy-btn:hover { border-color: #12B6CF; color: #12B6CF; }
+
+/* Predicted arguments */
+.challenge-predicted-args {
+  padding: 8px 14px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+}
+.challenge-args-label {
+  font-size: 0.72rem;
+  color: #555;
+  font-weight: 600;
+}
+.challenge-arg-chip {
+  font-size: 0.72rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #888;
+  border: 1px solid #222;
+}
+
+/* Party attack lines */
+.challenge-party-lines {
+  border-top: 1px solid #1a1a1a;
+}
+
+.challenge-party-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  width: 100%;
+  padding: 8px 14px;
+  background: transparent;
+  border: none;
+  color: #666;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.challenge-party-toggle:hover { color: #999; }
+
+.challenge-party-lines-list {
+  padding: 0 14px 8px;
+}
+.challenge-attack-line {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 4px 8px;
+  margin-bottom: 4px;
+  font-size: 0.78rem;
+  color: #999;
+  border-left: 2px solid #888;
+  border-radius: 0 4px 4px 0;
+  position: relative;
+}
+
+.challenge-empty {
+  padding: 20px 14px;
+  color: #555;
+  font-size: 0.82rem;
+  text-align: center;
+}
+
+/* --- Generic Rebuttals --- */
+
+.meeting-generic-rebuttals {
+  margin-top: 24px;
+}
+
+.meeting-rebuttal {
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  border-radius: 6px;
+  font-size: 0.82rem;
+  line-height: 1.4;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid #1a1a1a;
+}
+
+.rebuttal-trigger {
+  font-style: italic;
+  color: #ff9f8a;
+  font-size: 0.78rem;
+  margin-bottom: 4px;
+}
+
+.rebuttal-response {
+  color: #ccc;
+}
+
+.rebuttal-detail {
+  color: #666;
+  font-size: 0.78rem;
+}
+
+/* --- Past Votes --- */
+
+.meeting-past-votes {
+  margin-top: 24px;
+}
+
+.meeting-past-vote {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 0;
+  font-size: 0.82rem;
+  border-bottom: 1px solid #111;
+}
+.past-vote-title { flex: 1; color: #ccc; }
+.past-vote-date { color: #666; font-size: 0.75rem; }
+.past-vote-outcome {
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+.past-vote-outcome.carried { background: rgba(48, 209, 88, 0.1); color: #30d158; }
+.past-vote-outcome.defeated { background: rgba(255, 69, 58, 0.1); color: #ff453a; }
+
+/* --- Supporting Data --- */
+
+.meeting-supporting-data {
+  margin-top: 24px;
+}
+
+.meeting-data-point {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 0.82rem;
+  border-bottom: 1px solid #111;
+}
+.data-label { color: #888; }
+.data-value { color: #ccc; font-weight: 500; }
+
+/* --- Mobile Responsive --- */
+
+@media (max-width: 768px) {
+  .meeting-mode {
+    height: auto;
+    max-height: none;
+    border-radius: 0;
+  }
+
+  .meeting-mode-panels {
+    grid-template-columns: 1fr;
+  }
+
+  .meeting-mode-sidebar {
+    border-right: none;
+    border-bottom: 1px solid #222;
+    max-height: none;
+    overflow: visible;
+  }
+
+  .meeting-agenda-stepper {
+    display: flex;
+    overflow-x: auto;
+    padding: 4px 8px;
+    gap: 4px;
+    flex: initial;
+  }
+
+  .stepper-label { display: none; }
+
+  .stepper-item {
+    flex-shrink: 0;
+    padding: 6px 10px;
+    border-left: none;
+    border-bottom: 2px solid transparent;
+    border-radius: 6px;
+    white-space: nowrap;
+    font-size: 0.75rem;
+  }
+  .stepper-item.active {
+    border-bottom-color: #12B6CF;
+    border-left-color: transparent;
+  }
+
+  .stepper-text {
+    max-width: 120px;
+  }
+
+  .meeting-mode-content {
+    padding: 16px;
+  }
+
+  .meeting-mode-meta {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .meeting-mode-kbd-hint { display: none; }
+
+  .meeting-our-speakers,
+  .so-mini {
+    display: none;
+  }
+}
+
+/* --- Highlight pulse for search-jump --- */
+
+.challenge-card.highlight-pulse {
+  animation: card-highlight 2s ease-out;
+}
+
+@keyframes card-highlight {
+  0% { box-shadow: 0 0 0 2px #12B6CF, 0 0 16px rgba(18, 182, 207, 0.3); }
+  100% { box-shadow: none; }
+}

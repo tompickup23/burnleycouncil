@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo, lazy, Suspense } from 'react'
+import { useState, useEffect, useMemo, useRef, useCallback, forwardRef, lazy, Suspense } from 'react'
 
 const WardMap = lazy(() => import('../components/WardMap'))
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -181,6 +181,14 @@ export default function Strategy() {
   const [selectedDossierWard, setSelectedDossierWard] = useState(null)
   const [dossierTab, setDossierTab] = useState('strategyPlaybook')
   const [mapOverlay, setMapOverlay] = useState('classification')
+  const dossierRef = useRef(null)
+
+  const handleDossierTabChange = useCallback((tab) => {
+    setDossierTab(tab)
+    if (typeof dossierRef.current?.scrollIntoView === 'function') {
+      dossierRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }
+  }, [])
 
   // --- Page title ---
   useEffect(() => {
@@ -394,6 +402,7 @@ export default function Strategy() {
     setSelectedDossierWard(wardName)
     setDossierTab('strategyPlaybook')
     setActiveSection('dossiers')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   const handleWardHoursChange = (wardName, hours) => {
@@ -654,11 +663,12 @@ export default function Strategy() {
         <section className="strategy-section">
           {selectedDossierWard && activeDossier ? (
             <WardDossierView
+              ref={dossierRef}
               dossier={activeDossier}
               ourParty={ourParty}
               wardLabel={wardLabel}
               activeTab={dossierTab}
-              onTabChange={setDossierTab}
+              onTabChange={handleDossierTabChange}
               onBack={() => setSelectedDossierWard(null)}
             />
           ) : (
@@ -1301,12 +1311,12 @@ const DOSSIER_TABS = [
   { id: 'cheatSheet', label: 'Briefing Sheet', icon: Printer },
 ]
 
-function WardDossierView({ dossier, ourParty, wardLabel, activeTab, onTabChange, onBack }) {
+const WardDossierView = forwardRef(function WardDossierView({ dossier, ourParty, wardLabel, activeTab, onTabChange, onBack }, ref) {
   if (!dossier) return null
   const cls = dossier.election?.classification || {}
 
   return (
-    <div className="ward-dossier">
+    <div className="ward-dossier" ref={ref}>
       {/* Header */}
       <div className="dossier-header">
         <button className="dossier-back-btn" onClick={onBack}>
@@ -1355,7 +1365,7 @@ function WardDossierView({ dossier, ourParty, wardLabel, activeTab, onTabChange,
       </div>
     </div>
   )
-}
+})
 
 function DossierProfile({ profile }) {
   if (!profile) return <p className="dossier-empty">No profile data available.</p>

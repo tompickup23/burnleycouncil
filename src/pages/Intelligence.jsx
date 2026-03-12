@@ -25,6 +25,7 @@ import {
 } from 'lucide-react'
 import { PARTY_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, Cell } from 'recharts'
+import MeetingMode from '../components/intelligence/MeetingMode'
 import './Intelligence.css'
 
 const SEVERITY_COLORS = { high: '#ff453a', medium: '#ff9f0a', low: '#8e8e93' }
@@ -298,6 +299,13 @@ export default function Intelligence() {
     standingOrdersData,
   ] = intelData || [null, null, null, null, null, null, null]
 
+  // --- Ward-level data (for per-councillor counter-arguments) ---
+  const { data: wardData } = useData([
+    '/data/demographics.json', '/data/deprivation.json',
+    '/data/economy.json', '/data/health.json', '/data/housing.json',
+  ])
+  const [demographicsData, deprivationData, economyData, healthData, housingData] = wardData || [null, null, null, null, null]
+
   // --- Council documents (LLM-extracted decisions) ---
   const { data: documentsData } = useData(
     dataSources.council_documents ? '/data/council_documents.json' : null
@@ -314,6 +322,7 @@ export default function Intelligence() {
   const [decisionsCommitteeFilter, setDecisionsCommitteeFilter] = useState('all')
   const [decisionsTopicFilter, setDecisionsTopicFilter] = useState('all')
   const [expandedDecisions, setExpandedDecisions] = useState({})
+  const [meetingMode, setMeetingMode] = useState(false)
 
   // --- Page title ---
   useEffect(() => {
@@ -331,20 +340,29 @@ export default function Intelligence() {
     politicsSummary,
     dogeFindings,
     reformTransformation,
-  }), [councillorsData, votingData, integrityData, interestsData, committeesData, politicsSummary, dogeFindings, reformTransformation])
+    demographicsData,
+    deprivationData,
+    economyData,
+    healthData,
+    housingData,
+    documentsData,
+  }), [councillorsData, votingData, integrityData, interestsData, committeesData, politicsSummary, dogeFindings, reformTransformation, demographicsData, deprivationData, economyData, healthData, housingData, documentsData])
 
   // --- Derived: sorted meetings ---
   const sortedMeetings = useMemo(() => {
     const meetings = meetingsData?.meetings || []
+    // Use start of today so meetings remain at the top until end of day
+    // (e.g. Full Council at 2pm stays available even at 5pm)
     const now = new Date()
+    const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     return [...meetings].sort((a, b) => {
       const da = new Date(a.date)
       const db = new Date(b.date)
-      const aFuture = da >= now
-      const bFuture = db >= now
-      if (aFuture && !bFuture) return -1
-      if (!aFuture && bFuture) return 1
-      if (aFuture && bFuture) return da - db
+      const aCurrentOrFuture = da >= todayStart
+      const bCurrentOrFuture = db >= todayStart
+      if (aCurrentOrFuture && !bCurrentOrFuture) return -1
+      if (!aCurrentOrFuture && bCurrentOrFuture) return 1
+      if (aCurrentOrFuture && bCurrentOrFuture) return da - db
       return db - da
     })
   }, [meetingsData])
@@ -441,6 +459,7 @@ export default function Intelligence() {
     setSelectedCouncillor(councillorName)
     setDossierTab('profile')
     setActiveSection('dossier')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }, [])
 
   const handlePrintBriefing = useCallback(() => {
@@ -491,9 +510,20 @@ export default function Intelligence() {
       <SectionNav activeSection={activeSection} onSelect={setActiveSection} sections={SECTIONS} />
 
       {/* ================================================================ */}
-      {/* SECTION A: MEETING BRIEFING ROOM */}
+      {/* SECTION A: MEETING BRIEFING ROOM / MEETING MODE */}
       {/* ================================================================ */}
-      {activeSection === 'warRoom' && (
+      {activeSection === 'warRoom' && meetingMode && meetingBriefing && (
+        <MeetingMode
+          meetingBriefing={meetingBriefing}
+          allData={allData}
+          integrityData={integrityData}
+          standingOrdersData={standingOrdersData}
+          rulingParty={rulingParty}
+          onExit={() => setMeetingMode(false)}
+          onPrint={handlePrintBriefing}
+        />
+      )}
+      {activeSection === 'warRoom' && !meetingMode && (
         <section className="intel-section">
           <h2><Swords size={20} /> Meeting Briefing Room</h2>
           <p className="intel-section-desc">
@@ -513,17 +543,24 @@ export default function Intelligence() {
             >
               {sortedMeetings.map((m, i) => {
                 const d = new Date(m.date)
-                const isPast = d < new Date()
+                const now = new Date()
+                const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+                const tomorrowStart = new Date(todayStart.getTime() + 86400000)
+                const isToday = d >= todayStart && d < tomorrowStart
+                const isPast = d < todayStart
                 const dateStr = d.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
                 return (
                   <option key={i} value={i}>
-                    {isPast ? '⏮ ' : '📅 '}{dateStr} — {m.committee || m.title}
+                    {isToday ? '🔴 TODAY — ' : isPast ? '⏮ ' : '📅 '}{!isToday ? dateStr + ' — ' : ''}{m.committee || m.title}
                   </option>
                 )
               })}
             </select>
             <button className="intel-print-btn" onClick={handlePrintBriefing} disabled={!meetingBriefing}>
               <Printer size={14} /> Print Briefing
+            </button>
+            <button className="intel-meeting-mode-btn" onClick={() => setMeetingMode(true)} disabled={!meetingBriefing}>
+              <Swords size={14} /> Meeting Mode
             </button>
           </div>
 
@@ -1210,7 +1247,13 @@ export default function Intelligence() {
 
 function WarGameCard({ warGame, integrityData }) {
   const [expanded, setExpanded] = useState(false)
+  const [showAllAttackers, setShowAllAttackers] = useState(false)
   if (!warGame) return null
+  const ATTACKER_LIMIT = 5
+  const visibleAttackers = showAllAttackers
+    ? warGame.attackPredictions
+    : warGame.attackPredictions.slice(0, ATTACKER_LIMIT)
+  const hiddenCount = warGame.attackPredictions.length - ATTACKER_LIMIT
 
   return (
     <div className={`wargame-card risk-${warGame.riskLevel} ${expanded ? 'expanded' : ''}`}>
@@ -1240,7 +1283,7 @@ function WarGameCard({ warGame, integrityData }) {
           {warGame.attackPredictions.length > 0 && (
             <div className="wargame-subsection attacks">
               <h5><AlertTriangle size={12} /> Projected Challenges</h5>
-              {warGame.attackPredictions.map((att, i) => (
+              {visibleAttackers.map((att, i) => (
                 <div key={i} className="wargame-attacker">
                   <div className="wargame-attacker-header">
                     <span className="wargame-attacker-name">
@@ -1261,12 +1304,17 @@ function WarGameCard({ warGame, integrityData }) {
                   {att.predictedArguments.length > 0 && (
                     <div className="wargame-predicted-args">
                       {att.predictedArguments.map((arg, j) => (
-                        <span key={j} className="wargame-arg-chip">{arg}</span>
+                        <span key={j} className="wargame-arg-chip">{typeof arg === 'string' ? arg : arg.text || arg.argument || JSON.stringify(arg)}</span>
                       ))}
                     </div>
                   )}
                 </div>
               ))}
+              {!showAllAttackers && hiddenCount > 0 && (
+                <button className="wargame-show-more" onClick={() => setShowAllAttackers(true)}>
+                  Show {hiddenCount} more challenger{hiddenCount !== 1 ? 's' : ''}
+                </button>
+              )}
             </div>
           )}
 

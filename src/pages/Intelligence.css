@@ -60,6 +60,10 @@
   padding: 8px 0;
   margin-bottom: 20px;
   border-bottom: 1px solid #222;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: #0a0a0f;
 }
 
 .intel-nav-btn {
@@ -241,6 +245,28 @@
 }
 
 .intel-print-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.intel-meeting-mode-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #ff9f0a;
+  background: rgba(255, 159, 10, 0.1);
+  color: #ff9f0a;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.intel-meeting-mode-btn:hover {
+  background: rgba(255, 159, 10, 0.2);
+}
+.intel-meeting-mode-btn:disabled {
   opacity: 0.4;
   cursor: not-allowed;
 }
@@ -894,6 +920,20 @@
   background: #ffffff10;
   color: #aaa;
 }
+
+.wargame-show-more {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  background: #ffffff08;
+  border: 1px dashed #ffffff20;
+  border-radius: 8px;
+  color: #12B6CF;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.wargame-show-more:hover { background: #ffffff14; }
 
 /* Counter-arguments */
 .wargame-counter {
