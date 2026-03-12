@@ -1595,6 +1595,74 @@ function DossierVotingTab({ dossier }) {
         )}
       </div>
 
+      {/* Vote timeline dot grid — month × policy area */}
+      {dossier.votingRecord.length >= 3 && (() => {
+        // Build month × policy area matrix
+        const grid = {}
+        const months = new Set()
+        const areas = new Set()
+        for (const v of dossier.votingRecord) {
+          const mo = v.date ? v.date.slice(0, 7) : 'unknown' // YYYY-MM
+          months.add(mo)
+          const pa = v.policyAreas?.[0] || 'other'
+          areas.add(pa)
+          const key = `${mo}|${pa}`
+          if (!grid[key]) grid[key] = []
+          grid[key].push(v.position || 'abstain')
+        }
+        const sortedMonths = [...months].sort()
+        const sortedAreas = [...areas]
+        if (sortedMonths.length < 2 && sortedAreas.length < 2) return null
+        const posColor = { for: '#30d158', against: '#ff453a', abstain: '#ff9f0a' }
+
+        return (
+          <div className="dossier-subsection">
+            <h4>Vote Pattern</h4>
+            <div style={{ overflowX: 'auto' }}>
+              <table style={{ borderCollapse: 'collapse', fontSize: '0.7rem', width: '100%' }}>
+                <thead>
+                  <tr>
+                    <th style={{ textAlign: 'left', padding: '4px 8px', color: 'var(--text-secondary)', fontWeight: 500 }}></th>
+                    {sortedMonths.map(mo => (
+                      <th key={mo} style={{ padding: '4px 6px', color: 'var(--text-secondary)', fontWeight: 500, textAlign: 'center' }}>
+                        {mo.slice(5)}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {sortedAreas.map(area => (
+                    <tr key={area}>
+                      <td style={{ padding: '3px 8px', color: 'var(--text-secondary)', whiteSpace: 'nowrap', maxWidth: 100, overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                        {(POLICY_AREAS[area] || area).slice(0, 14)}
+                      </td>
+                      {sortedMonths.map(mo => {
+                        const votes = grid[`${mo}|${area}`] || []
+                        return (
+                          <td key={mo} style={{ textAlign: 'center', padding: '3px' }}>
+                            {votes.map((pos, i) => (
+                              <span key={i} title={pos} style={{
+                                display: 'inline-block', width: 10, height: 10, borderRadius: '50%', margin: 1,
+                                background: posColor[pos] || '#666',
+                              }} />
+                            ))}
+                          </td>
+                        )
+                      })}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div style={{ display: 'flex', gap: 12, marginTop: 6, fontSize: '0.65rem', color: 'var(--text-secondary)' }}>
+              <span><span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#30d158', marginRight: 3 }} />For</span>
+              <span><span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#ff453a', marginRight: 3 }} />Against</span>
+              <span><span style={{ display: 'inline-block', width: 8, height: 8, borderRadius: '50%', background: '#ff9f0a', marginRight: 3 }} />Abstain</span>
+            </div>
+          </div>
+        )
+      })()}
+
       {/* Policy positions chart */}
       {dossier.policyPositions && Object.keys(dossier.policyPositions).length > 0 && (() => {
         const chartData = Object.entries(dossier.policyPositions).map(([area, counts]) => ({

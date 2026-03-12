@@ -33,13 +33,17 @@ export const POLICY_AREAS = {
 // Agenda-to-Policy Keyword Map
 // ---------------------------------------------------------------------------
 
+// Policy areas that are always politically salient — even without matching votes/rebuttals
+const HIGH_SALIENCE_AREAS = ['budget_finance', 'council_tax', 'councillor_allowances', 'social_care', 'transport_highways']
+
 const AGENDA_POLICY_MAP = [
   { keywords: /budget|financ|revenue|capital|precept|medium.term|treasury|reserves|savings|efficiency/i, area: 'budget_finance' },
   { keywords: /council.tax|band.d|precept|collection.rate/i, area: 'council_tax' },
   { keywords: /devolution|combined.county|lcca|local.government.reorganis/i, area: 'devolution_lgr' },
   { keywords: /environment|climate|carbon|net.zero|flood|renewable|waste|recycl/i, area: 'environment_climate' },
   { keywords: /health|nhs|wellbeing|hospital|a.?&.?e|mental.health|icb|integrated.care/i, area: 'health_wellbeing' },
-  { keywords: /governance|constitution|standing.order|member.allowance|conduct|standards/i, area: 'governance_constitution' },
+  { keywords: /governance|constitution|standing.order|conduct|standards/i, area: 'governance_constitution' },
+  { keywords: /allowance|remunerat|member.pay|councillor.pay|councillor.allowance|special.responsibility/i, area: 'councillor_allowances' },
   { keywords: /equali|divers|inclusion|communit.cohes|hate.crime|modern.slavery/i, area: 'equalities_diversity' },
   { keywords: /social.care|adult.care|care.home|domiciliary|safeguard|cqc|living.better/i, area: 'social_care' },
   { keywords: /education|school|send|ehcp|pupil|academy|ofsted|children|young.people/i, area: 'education_schools' },
@@ -911,9 +915,58 @@ export function buildMeetingBriefing(meeting, allData) {
     }
   }
 
+  // Expand agenda items: if motions exist, replace the "Notices of Motion" item with individual motions
+  const expandedAgendaItems = [...(meeting.agenda_items || [])]
+  if (meeting.motions?.length > 0) {
+    const motionIdx = expandedAgendaItems.findIndex(item =>
+      /notices?\s+of\s+motion|standing.?order.?b37/i.test(item)
+    )
+    if (motionIdx >= 0) {
+      const motionItems = meeting.motions.map(mo => `Motion ${mo.number}: ${mo.title}`)
+      expandedAgendaItems.splice(motionIdx, 1, ...motionItems)
+    }
+  }
+  // If member/public questions are enriched, keep the aggregate items but also add question-level intelligence
+
+  // Build a lookup of enriched content for better policy area detection
+  const motionsByTitle = {}
+  for (const mo of meeting.motions || []) {
+    motionsByTitle[(mo.title || '').toLowerCase()] = mo
+  }
+  const questionsByText = [...(meeting.member_questions || []), ...(meeting.public_questions || [])]
+  const enrichedByItem = {}
+  for (const ea of meeting.enriched_agenda || []) {
+    enrichedByItem[(ea.item || '').toLowerCase()] = ea
+  }
+
   // Map agenda items to intelligence
-  const agendaIntel = (meeting.agenda_items || []).map(item => {
-    const policyAreas = mapAgendaToPolicyAreas(item)
+  const agendaIntel = expandedAgendaItems.map(item => {
+    // Use enriched content for better policy area detection
+    let textForMapping = item
+    // Check if this item matches a motion — use full motion text for mapping
+    const matchMotion = (meeting.motions || []).find(mo =>
+      item.toLowerCase().includes((mo.title || '').toLowerCase().slice(0, 15)) ||
+      (mo.number && item.toLowerCase().includes(`motion ${mo.number}`))
+    )
+    if (matchMotion) {
+      textForMapping = `${item} ${matchMotion.text || ''} ${(matchMotion.resolves || []).join(' ')}`
+    }
+    // Check if this matches a question item — use all question text
+    if (/question time/i.test(item)) {
+      const qs = item.toLowerCase().includes('public')
+        ? (meeting.public_questions || [])
+        : (meeting.member_questions || [])
+      textForMapping = `${item} ${qs.map(q => q.question).join(' ')}`
+    }
+    // Check for enriched agenda description
+    const enriched = enrichedByItem[item.toLowerCase()]
+    if (enriched?.description) {
+      textForMapping = `${textForMapping} ${enriched.description}`
+    }
+    // Use pre-set policy areas from enriched data if available, else compute
+    const enrichedAreas = matchMotion?.policy_areas || enriched?.policy_areas || null
+    const computedAreas = mapAgendaToPolicyAreas(textForMapping)
+    const policyAreas = enrichedAreas ? [...new Set([...enrichedAreas, ...computedAreas])] : computedAreas
 
     // Find matching past votes
     const matchingVotes = (votingData?.votes || []).filter(v =>
@@ -972,13 +1025,16 @@ export function buildMeetingBriefing(meeting, allData) {
   // Key battlegrounds — agenda items where opposition likely to challenge
   const keyBattlegrounds = agendaIntel
     .filter(a =>
-      a.policyAreas.length > 0 && (a.matchingVotes.length > 0 || a.matchingRebuttals.length > 0 || a.policyAreas.includes('budget_finance'))
+      a.policyAreas.length > 0 && (a.matchingVotes.length > 0 || a.matchingRebuttals.length > 0 || HIGH_SALIENCE_AREAS.some(ha => a.policyAreas.includes(ha)))
     )
     .map(a => {
       const reasons = []
       if (a.matchingVotes.length > 0) reasons.push(`${a.matchingVotes.length} related past vote(s)`)
       if (a.matchingRebuttals.length > 0) reasons.push(`${a.matchingRebuttals.length} known opposition attack line(s)`)
       if (a.policyAreas.includes('budget_finance')) reasons.push('Budget/finance topic — high political salience')
+      if (a.policyAreas.includes('councillor_allowances')) reasons.push('Councillor pay/allowances — high public sensitivity')
+      if (a.policyAreas.includes('social_care')) reasons.push('Social care — emotive topic, media interest')
+      if (a.policyAreas.includes('transport_highways')) reasons.push('Highways — high public visibility')
       if (a.matchingFindings.length > 0) reasons.push(`${a.matchingFindings.length} DOGE finding(s) linked`)
       return {
         item: a.text,
@@ -1020,7 +1076,7 @@ export function buildMeetingBriefing(meeting, allData) {
             .filter(al => {
               // Check if attack line's text relates to any policy area
               const attackAreas = mapAgendaToPolicyAreas(al.text)
-              return attackAreas.some(area => a.policyAreas.includes(area)) || a.policyAreas.includes('budget_finance')
+              return attackAreas.some(area => a.policyAreas.includes(area)) || HIGH_SALIENCE_AREAS.some(ha => a.policyAreas.includes(ha))
             })
             .slice(0, 2)
 
@@ -1083,14 +1139,33 @@ export function buildMeetingBriefing(meeting, allData) {
         political_summary: d.political_summary,
       }))
 
+      // Check for enriched risk level override from meeting data
+      const enrichedItem = (meeting.enriched_agenda || []).find(ea =>
+        a.text.toLowerCase().includes((ea.item || '').toLowerCase().slice(0, 20)) ||
+        (ea.item || '').toLowerCase().includes(a.text.toLowerCase().slice(0, 20))
+      )
+      const motionMatch = (meeting.motions || []).find(mo =>
+        a.text.toLowerCase().includes((mo.title || '').toLowerCase().slice(0, 15)) ||
+        a.text.toLowerCase().includes('motion')
+      )
+      // Use enriched/motion risk if available, otherwise compute from predictions
+      const computedRisk = attackPredictions.length >= 2 ? 'high' : attackPredictions.length >= 1 ? 'medium' : 'low'
+      const riskPriority = { critical: 4, high: 3, medium: 2, low: 1 }
+      const enrichedRisk = enrichedItem?.risk_level || motionMatch?.risk_level || null
+      const finalRisk = enrichedRisk && riskPriority[enrichedRisk] > riskPriority[computedRisk] ? enrichedRisk : computedRisk
+
       return {
         agendaItem: a.text,
         policyAreas: a.policyAreas,
-        riskLevel: attackPredictions.length >= 2 ? 'high' : attackPredictions.length >= 1 ? 'medium' : 'low',
+        riskLevel: finalRisk,
         attackPredictions,
         counters,
         supportingData,
         relatedDecisions,
+        // Attach enriched content for MeetingMode display
+        enrichedDescription: enrichedItem?.description || null,
+        motionData: motionMatch || null,
+        standingOrderNote: enrichedItem?.standing_order || null,
         pastVoteContext: a.matchingVotes.map(v => ({
           title: v.title,
           date: v.date,
@@ -1098,7 +1173,7 @@ export function buildMeetingBriefing(meeting, allData) {
         })),
       }
     })
-    .filter(w => w.attackPredictions.length > 0 || w.counters.length > 0)
+    .filter(w => w.attackPredictions.length > 0 || w.counters.length > 0 || w.enrichedDescription || w.motionData || w.riskLevel === 'critical' || w.riskLevel === 'high')
 
   // Meeting documents
   const documents = (meeting.documents || []).map(doc => ({
@@ -1115,8 +1190,13 @@ export function buildMeetingBriefing(meeting, allData) {
       type: meeting.type,
       venue: meeting.venue,
       link: meeting.link,
-      agendaItems: meeting.agenda_items || [],
+      agendaItems: expandedAgendaItems,
       documents,
+      // Pass through enriched meeting data if available
+      motions: meeting.motions || null,
+      member_questions: meeting.member_questions || null,
+      public_questions: meeting.public_questions || null,
+      enriched_agenda: meeting.enriched_agenda || null,
     },
     committee: committee ? {
       name: committee.name,

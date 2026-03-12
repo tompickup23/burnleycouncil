@@ -182,6 +182,22 @@ export default defineConfig({
   resolve: {
     dedupe: ['react', 'react-dom'],
   },
+  server: {
+    // Prevent browser caching of pre-bundled deps in dev mode.
+    // Without this, when Vite re-optimizes dependencies (new hash), browsers
+    // that can't connect to the HMR WebSocket (headless browsers, preview tools)
+    // keep serving stale React chunks, causing "Invalid hook call" crashes
+    // from React version mismatches between cached and fresh modules.
+    headers: {
+      'Cache-Control': 'no-store',
+    },
+    // Disable HMR overlay (blocks interaction in headless/preview browsers).
+    // The WebSocket connection may fail in headless environments, but the
+    // no-cache headers above ensure stale module chunks are never served.
+    hmr: {
+      overlay: false,
+    },
+  },
   optimizeDeps: {
     // Pre-bundle all major deps upfront to prevent Vite re-optimization mid-session
     // which causes React chunk hash mismatches and "invalid hook call" errors
@@ -196,6 +212,9 @@ export default defineConfig({
       'lucide-react',
       '@tanstack/react-virtual',
     ],
+    // Hold optimization until full dependency crawl is complete, preventing
+    // mid-session re-bundles that invalidate module hashes
+    holdUntilCrawlEnd: true,
   },
   build: {
     // Enable source maps for debugging in production

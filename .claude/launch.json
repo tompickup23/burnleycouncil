@@ -1,0 +1,28 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "aidoge-dev",
+      "runtimeExecutable": "/opt/homebrew/bin/npx",
+      "runtimeArgs": ["vite", "--host", "--port", "5174"],
+      "env": {
+        "VITE_COUNCIL": "lancashire_cc",
+        "VITE_BASE": "/",
+        "PATH": "/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin"
+      },
+      "port": 5174
+    },
+    {
+      "name": "aidoge-preview",
+      "runtimeExecutable": "/bin/bash",
+      "runtimeArgs": ["-c", "cd /Users/tompickup/clawd && PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin VITE_COUNCIL=burnley VITE_BASE=/ npx vite build && npx vite preview --host --port 5175"],
+      "port": 5175
+    },
+    {
+      "name": "tompickup-site",
+      "runtimeExecutable": "/bin/bash",
+      "runtimeArgs": ["-c", "cd /Users/tompickup/tompickup.co.uk && PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin exec npx astro dev --host --port 4322"],
+      "port": 4322
+    }
+  ]
+}

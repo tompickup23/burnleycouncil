@@ -16,7 +16,7 @@ import { PARTY_COLORS } from '../../utils/constants'
 import { POLICY_AREAS, cleanCouncillorName, buildSpeakerSuggestions } from '../../utils/intelligenceEngine'
 import './MeetingMode.css'
 
-const RISK_EMOJI = { high: '🔴', medium: '🟡', low: '🟢' }
+const RISK_EMOJI = { critical: '🔴', high: '🔴', medium: '🟡', low: '🟢' }
 
 // ---------------------------------------------------------------------------
 // Meeting Timer — tracks standing order time limits
@@ -164,6 +164,15 @@ export default function MeetingMode({
   // Current agenda item's war game data
   const currentItem = agendaItems[activeAgendaIdx]
   const currentWarGame = currentItem ? agendaWarGameMap[currentItem] || agendaWarGameMap[typeof currentItem === 'string' ? currentItem : currentItem?.title] : null
+
+  // Find matching questions for the current agenda item
+  const matchingQuestions = useMemo(() => {
+    const itemText = (typeof currentItem === 'string' ? currentItem : currentItem?.title || '').toLowerCase()
+    if (!itemText) return []
+    if (itemText.includes('public question')) return meeting?.public_questions || []
+    if (itemText.includes('question time') && !itemText.includes('public')) return meeting?.member_questions || []
+    return []
+  }, [currentItem, meeting])
 
   // Speaker suggestions + procedural notes per agenda item
   const speakerSuggestion = useMemo(() => {
@@ -417,6 +426,72 @@ export default function MeetingMode({
                   </div>
                 )}
               </div>
+
+              {/* Enriched description */}
+              {currentWarGame?.enrichedDescription && (
+                <div className="meeting-enriched-desc">{currentWarGame.enrichedDescription}</div>
+              )}
+
+              {/* Standing order note */}
+              {currentWarGame?.standingOrderNote && (
+                <div className="meeting-so-note">
+                  <BookOpen size={12} /> {currentWarGame.standingOrderNote}
+                </div>
+              )}
+
+              {/* Motion detail — full text, resolves, recommended action */}
+              {currentWarGame?.motionData && (
+                <div className="meeting-motion-detail">
+                  <div className="motion-header-row">
+                    <span className="motion-mover">Moved by: {currentWarGame.motionData.mover}</span>
+                    <span className="motion-party" style={{ color: PARTY_COLORS[currentWarGame.motionData.mover_party] || '#888' }}>
+                      {currentWarGame.motionData.mover_party}
+                    </span>
+                    {currentWarGame.motionData.time_allocation_mins && (
+                      <span className="motion-time"><Clock size={11} /> {currentWarGame.motionData.time_allocation_mins}m</span>
+                    )}
+                  </div>
+                  <div className="motion-text">{currentWarGame.motionData.text}</div>
+                  {currentWarGame.motionData.resolves?.length > 0 && (
+                    <div className="motion-resolves">
+                      <strong>Resolves:</strong>
+                      <ol>
+                        {currentWarGame.motionData.resolves.map((r, i) => (
+                          <li key={i}>{r}</li>
+                        ))}
+                      </ol>
+                    </div>
+                  )}
+                  {currentWarGame.motionData.recommended_action && (
+                    <div className="motion-recommended-action">
+                      <strong>Recommended Action:</strong> {currentWarGame.motionData.recommended_action}
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* Member/public questions detail */}
+              {!currentWarGame?.motionData && matchingQuestions.length > 0 && (
+                <div className="meeting-questions-detail">
+                  {matchingQuestions.map((q, i) => (
+                    <div key={i} className="meeting-question-card">
+                      <div className="question-header-row">
+                        <span className="question-number">Q{q.number}</span>
+                        <span className="question-asker">{q.asked_by}</span>
+                        {q.asked_by_party && (
+                          <span className="question-party" style={{ color: PARTY_COLORS[q.asked_by_party] || '#888' }}>{q.asked_by_party}</span>
+                        )}
+                        <span className="question-arrow">→</span>
+                        <span className="question-answerer">{q.answerer} ({q.answerer_role})</span>
+                        {q.risk_level && (
+                          <span className={`question-risk risk-${q.risk_level}`}>{RISK_EMOJI[q.risk_level]}</span>
+                        )}
+                      </div>
+                      <div className="question-text">{q.question}</div>
+                    </div>
+                  ))}
+                </div>
+              )}
 
               {/* Per-councillor challenge cards — the main content */}
               {currentWarGame?.attackPredictions?.length > 0 ? (
