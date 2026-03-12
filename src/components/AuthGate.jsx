@@ -16,15 +16,14 @@ import {
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
-  signInWithRedirect,
-  getRedirectResult,
+  signInWithPopup,
   GoogleAuthProvider,
   OAuthProvider,
   FacebookAuthProvider,
   sendPasswordResetEmail,
   updateProfile,
 } from 'firebase/auth'
-import { doc, setDoc, getDoc, updateDoc } from 'firebase/firestore'
+import { doc, setDoc, getDoc } from 'firebase/firestore'
 import { auth, db } from '../firebase'
 import { useAuth } from '../context/AuthContext'
 import AIDogeLogo from './AIDogeLogo'
@@ -117,23 +116,11 @@ export default function AuthGate() {
     emailRef.current?.focus()
   }, [mode])
 
-  // Handle redirect result after social sign-in returns
+  // Ensure user doc exists when auth state loads (covers all sign-in methods)
   useEffect(() => {
-    let cancelled = false
-    getRedirectResult(auth)
-      .then(async (result) => {
-        if (cancelled || !result?.user) return
-        try { await ensureUserDoc(result.user) } catch (err) { console.error('Firestore error:', err) }
-      })
-      .catch((err) => {
-        if (cancelled) return
-        console.error('Redirect result error:', err.code, err.message)
-        if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
-          setError(friendlyError(err.code))
-        }
-      })
-    return () => { cancelled = true }
-  }, [])
+    if (!user || !db) return
+    ensureUserDoc(user).catch(err => console.error('Firestore doc init error:', err))
+  }, [user])
 
   // Check if profile is already complete when user is unassigned
   useEffect(() => {
@@ -205,16 +192,19 @@ export default function AuthGate() {
     }
   }
 
-  // Social sign-in — uses redirect (not popup) for custom domain compatibility
+  // Social sign-in — uses popup (redirect is unreliable on custom domains in Firebase v9+)
   const handleSocial = async (provider) => {
     clearMessages()
     setLoading(true)
     try {
-      await signInWithRedirect(auth, provider)
-      // Page will redirect to provider — loading state stays until redirect
+      const result = await signInWithPopup(auth, provider)
+      try { await ensureUserDoc(result.user) } catch (err) { console.error('Firestore error:', err) }
     } catch (err) {
       console.error('Social sign-in error:', err.code, err.message, err)
-      setError(friendlyError(err.code))
+      if (err.code !== 'auth/popup-closed-by-user' && err.code !== 'auth/cancelled-popup-request') {
+        setError(friendlyError(err.code))
+      }
+    } finally {
       setLoading(false)
     }
   }
@@ -251,14 +241,16 @@ export default function AuthGate() {
     setProfileSaving(true)
     setError('')
     try {
+      // Guarantee user doc exists first (may have been missed during sign-up)
+      await ensureUserDoc(user)
       const userRef = doc(db, 'users', user.uid)
-      await updateDoc(userRef, {
+      await setDoc(userRef, {
         user_type: userType,
         party: userType === 'councillor' ? party : '',
         constituency: constituency || '',
         profile_complete: true,
         profile_updated_at: new Date().toISOString(),
-      })
+      }, { merge: true })
       setProfileComplete(true)
     } catch (err) {
       console.error('Profile save error:', err)
@@ -578,9 +570,12 @@ function friendlyError(code) {
     'auth/weak-password': 'Password must be at least 8 characters',
     'auth/too-many-requests': 'Too many attempts. Please try again later.',
     'auth/network-request-failed': 'Network error. Check your connection.',
-    'auth/popup-blocked': 'Popup blocked. Please allow popups for this site.',
+    'auth/popup-blocked': 'Popup was blocked by your browser. Please allow popups for this site and try again.',
     'auth/account-exists-with-different-credential': 'An account already exists with this email using a different sign-in method',
     'auth/operation-not-allowed': 'This sign-in method is not enabled. Contact the administrator.',
+    'auth/internal-error': 'An internal error occurred. Please try again.',
+    'auth/user-disabled': 'This account has been disabled. Contact the administrator.',
+    'auth/popup-closed-by-user': 'Sign-in popup was closed. Please try again.',
   }
   if (map[code]) return map[code]
   console.error('Firebase auth error code:', code)
