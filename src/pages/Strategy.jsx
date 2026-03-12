@@ -1469,15 +1469,15 @@ function DossierCouncillors({ councillors }) {
   return (
     <div className="dossier-panel">
       <h3>Councillor Profiles</h3>
-      {councillors.map((c, i) => (
-        <div key={i} className={`councillor-card ${c.isDefender ? 'defender' : ''}`}>
+      {councillors.map((c) => (
+        <div key={c.name || c.id} className={`councillor-card ${c.isDefender ? 'defender' : ''}`}>
           <div className="councillor-card-header">
             <span className="councillor-name">{c.name}</span>
             <PartyBadge party={c.party} />
             {c.isDefender && <span className="defender-badge">DEFENDER</span>}
           </div>
           {c.roles?.length > 0 && (
-            <p className="councillor-roles">Roles: {c.roles.map(r => typeof r === 'string' ? r : r.role).join(', ')}</p>
+            <p className="councillor-roles">Roles: {(c.roles || []).map(r => typeof r === 'string' ? r : r?.role || '').filter(Boolean).join(', ')}</p>
           )}
           {c.integrity && (
             <div className="councillor-integrity">
@@ -1816,7 +1816,7 @@ function DossierStrategyPlaybook({ wardStrategy, entrenchment }) {
           </div>
           {entrenchment.factors?.length > 0 && (
             <ul className="entrenchment-factors">
-              {entrenchment.factors.map((f, i) => <li key={i}>{typeof f === 'object' ? <><strong>{f.factor}:</strong> {f.detail || `${f.value}`}</> : f}</li>)}
+              {entrenchment.factors.map((f, i) => <li key={i}>{typeof f === 'object' && f !== null ? <><strong>{String(f.factor || '')}:</strong> {String(f.detail || f.value || '')}</> : String(f)}</li>)}
             </ul>
           )}
         </div>
@@ -1831,8 +1831,8 @@ function DossierStrategyPlaybook({ wardStrategy, entrenchment }) {
               <div key={i} className="pillar-card">
                 <span className="pillar-num">{i + 1}</span>
                 <div className="pillar-content">
-                  <strong className="pillar-title">{p.pillar || p}</strong>
-                  {p.detail && <span className="pillar-detail">{p.detail}</span>}
+                  <strong className="pillar-title">{typeof p === 'object' ? String(p.pillar || p.text || '') : String(p)}</strong>
+                  {p?.detail && <span className="pillar-detail">{String(p.detail)}</span>}
                 </div>
               </div>
             ))}
@@ -1847,7 +1847,7 @@ function DossierStrategyPlaybook({ wardStrategy, entrenchment }) {
           <ul className="attack-vectors">
             {wardStrategy.attackVectors.map((a, i) => (
               <li key={i} className="attack-vector-item">
-                {a.vector ? <><strong>{a.vector}:</strong> {a.detail}</> : a}
+                {typeof a === 'object' && a?.vector ? <><strong>{String(a.vector)}:</strong> {String(a.detail || '')}</> : String(a)}
               </li>
             ))}
           </ul>
@@ -1868,7 +1868,7 @@ function DossierStrategyPlaybook({ wardStrategy, entrenchment }) {
           <h4><Navigation size={14} /> Canvassing Guidance</h4>
           <ul className="canvassing-guidance">
             {wardStrategy.canvassingGuidance.map((g, i) => (
-              <li key={i}>{g}</li>
+              <li key={i}>{typeof g === 'string' ? g : String(g?.text || g?.guidance || JSON.stringify(g))}</li>
             ))}
           </ul>
         </div>

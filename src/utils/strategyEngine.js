@@ -2850,7 +2850,7 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
 
   // Incumbent entrenchment scoring
   let entrenchment = { score: 0, factors: [], level: 'unknown' };
-  let wardStrategy = null;
+  let wardStrategy = { headline: 'Insufficient data', archetype: 'broad_appeal', approach: '', messagingPillars: [], attackVectors: [], gotvApproach: '', canvassingGuidance: [], warnings: [] };
   try {
     entrenchment = scoreIncumbentEntrenchment(wardElection, wardCouncillors, integrityData);
   } catch (e) {
