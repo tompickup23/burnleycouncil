@@ -1,12 +1,346 @@
 {
   "meta": {
     "council": "lancashire_cc",
-    "generated": "2026-03-12T07:04:13.398985",
+    "generated": "2026-03-13T07:02:22.318246",
     "pipeline_version": "1.0",
-    "meetings_count": 3,
-    "archived_count": 0
+    "meetings_count": 2,
+    "archived_count": 1
   },
   "meetings": [
+    {
+      "meeting_id": "development-control-committee-2026-03-18-15432",
+      "date": "2026-03-18",
+      "time": "10:30",
+      "committee": "Development Control Committee",
+      "type": "planning",
+      "venue": "County Hall, Preston",
+      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=118&MId=15432&Ver=4",
+      "summary": null,
+      "agenda_items": [],
+      "agenda_intel": [],
+      "politics": {
+        "ruling_group": "",
+        "seats": [],
+        "majority_threshold": 43
+      },
+      "documents_extracted": 8,
+      "documents_available": 8,
+      "extracted_documents": [
+        {
+          "title": "Minutes",
+          "url": "https://council.lancashire.gov.uk/documents/s274231/Minutes.pdf",
+          "extracted": true,
+          "chars": 12374
+        },
+        {
+          "title": "Report",
+          "url": "https://council.lancashire.gov.uk/documents/s274279/Report.pdf",
+          "extracted": true,
+          "chars": 29317
+        },
+        {
+          "title": "Appendix A",
+          "url": "https://council.lancashire.gov.uk/documents/s274280/Appendix A.pdf",
+          "extracted": true,
+          "chars": 7030
+        },
+        {
+          "title": "Appendix B",
+          "url": "https://council.lancashire.gov.uk/documents/s274281/Appendix B.pdf",
+          "extracted": true,
+          "chars": 1280
+        },
+        {
+          "title": "Report",
+          "url": "https://council.lancashire.gov.uk/documents/s274276/Report.pdf",
+          "extracted": true,
+          "chars": 29317
+        },
+        {
+          "title": "Appendix A",
+          "url": "https://council.lancashire.gov.uk/documents/s274277/Appendix A.pdf",
+          "extracted": true,
+          "chars": 7030
+        },
+        {
+          "title": "Appendix B",
+          "url": "https://council.lancashire.gov.uk/documents/s274278/Appendix B.pdf",
+          "extracted": true,
+          "chars": 1280
+        },
+        {
+          "title": "Report",
+          "url": "https://council.lancashire.gov.uk/documents/s274065/Report.pdf",
+          "extracted": true,
+          "chars": 29317
+        }
+      ],
+      "motions": [
+        {
+          "order": 1,
+          "title": "Change of use of land at Tarnbrick Farm, Kirkham",
+          "proposer": "Simon Gummer (Chair)",
+          "full_text": "To consider and determine the planning application: Fylde Borough: Planning Application ref LCC/2025/0021 Change of use of land from agriculture to green waste composting (part retrospective) together with construction of new internal access road, construction of new building for a workshop and processing and extension of new building for storage of finished product - Tarnbrick Farm, Blackpool Road, Kirkham, PR4 2RE.",
+          "policy_areas": [
+            "environment",
+            "planning"
+          ],
+          "risk_level": "medium",
+          "opposition_strategy": "Opposition may argue about environmental impact and noise pollution from the composting facility.",
+          "ruling_group_response": "Highlight the economic benefits and job creation. Emphasise the existing use and the need for improved facilities.",
+          "amendment_predictions": [
+            {
+              "likely_proposer": "Ashley Joynes (Reform UK)",
+              "amendment_angle": "To add stricter conditions on noise and dust control.",
+              "counter": "Accept a friendly amendment to include additional noise monitoring and dust suppression measures."
+            }
+          ],
+          "key_data_points": [
+            "Existing facility operating for many years",
+            "New buildings designed to fit existing agricultural style"
+          ],
+          "time_estimate_minutes": 25
+        },
+        {
+          "order": 2,
+          "title": "Change of use from class C3 to Class C2 at 9 Harwood Lane, Great Harwood",
+          "proposer": "Simon Gummer (Chair)",
+          "full_text": "To consider and determine the planning application: Hyndburn Borough: Application ref LCC/2025/0024 A change of use from class C3 (dwelling house) to Class C2 (residential institutions) to enable the property to be used as a home for up to two young persons between the ages of 11 and 17 years with no more than two carers staying in the property overnight providing care as required - 9 Harwood Lane, Great Harwood.",
+          "policy_areas": [
+            "housing",
+            "social care"
+          ],
+          "risk_level": "low",
+          "opposition_strategy": "Opposition may argue about the impact on the residential area and potential traffic increase.",
+          "ruling_group_response": "Emphasise the need for care homes and the low impact of the proposal.",
+          "amendment_predictions": [
+            {
+              "likely_proposer": "Kim Snape (Labour & Co-operative)",
+              "amendment_angle": "To add conditions on parking and access.",
+              "counter": "Accept a friendly amendment to include additional parking conditions."
+            }
+          ],
+          "key_data_points": [
+            "Property has off-street parking for 6 vehicles",
+            "No relevant planning history"
+          ],
+          "time_estimate_minutes": 20
+        }
+      ],
+      "questions": [
+        {
+          "type": "public",
+          "questioner": "Resident of Royds Street",
+          "topic": "Change of use of greenspace in Accrington",
+          "question_text": "What measures will be taken to ensure the new outdoor classroom does not negatively impact the wider open space?",
+          "recommended_answer_points": [
+            "Improvements to wider open space",
+            "Better facilities for residents"
+          ],
+          "trap_risk": "medium",
+          "trap_explanation": "Could be a trap to highlight lack of improvements to wider open space."
+        },
+        {
+          "type": "member",
+          "questioner": "Rick Edwards (Reform UK)",
+          "topic": "Change of use at Tarnbrick Farm",
+          "question_text": "What measures will be taken to ensure that the composting facility does not cause noise and dust pollution to nearby residents?",
+          "recommended_answer_points": [
+            "Conditions on noise and dust control",
+            "Existing facility has been operating for many years without issues"
+          ],
+          "trap_risk": "high",
+          "trap_explanation": "Could be a trap to highlight potential environmental impact."
+        }
+      ],
+      "tactical_scenarios": [
+        {
+          "scenario": "Opposition proposes a recorded vote on the Tarnbrick Farm motion.",
+          "likelihood": "medium",
+          "counter": "Prepare a strong argument in favour of the motion and ensure all members are present.",
+          "standing_order": "SO 4.2 (Recorded Votes)",
+          "time_impact_minutes": 15
+        },
+        {
+          "scenario": "Public questions overrun the allocated time.",
+          "likelihood": "high",
+          "counter": "Strictly enforce time limits and move to the next agenda item.",
+          "standing_order": "SO 3.1 (Time Limits)",
+          "time_impact_minutes": 10
+        }
+      ],
+      "time_management": {
+        "public_questions_estimate": 30,
+        "member_questions_estimate": 40,
+        "motions_total_estimate": 100,
+        "risk_of_overrun": true,
+        "recommended_time_saving": "Use friendly amendments on motions 1 and 2"
+      },
+      "speaker_allocation": [
+        {
+          "agenda_item": "Change of use at Tarnbrick Farm",
+          "speakers": [
+            {
+              "name": "Simon Gummer",
+              "party": "Chair",
+              "role": "Proposer",
+              "allocated_minutes": 5,
+              "key_points": [
+                "Economic benefits",
+                "Existing use",
+                "Improved facilities"
+              ]
+            },
+            {
+              "name": "Ashley Joynes",
+              "party": "Reform UK",
+              "role": "Opposition",
+              "allocated_minutes": 3,
+              "key_points": [
+                "Environmental impact",
+                "Noise pollution"
+              ]
+            },
+            {
+              "name": "L Hutchinson",
+              "party": "Reform UK",
+              "role": "Seconder",
+              "allocated_minutes": 3,
+              "key_points": [
+                "Support for the motion"
+              ]
+            }
+          ]
+        },
+        {
+          "agenda_item": "Change of use at 9 Harwood Lane",
+          "speakers": [
+            {
+              "name": "Simon Gummer",
+              "party": "Chair",
+              "role": "Proposer",
+              "allocated_minutes": 5,
+              "key_points": [
+                "Need for care homes",
+                "Low impact of the proposal"
+              ]
+            },
+            {
+              "name": "Kim Snape",
+              "party": "Labour & Co-operative",
+              "role": "Opposition",
+              "allocated_minutes": 3,
+              "key_points": [
+                "Impact on residential area",
+                "Potential traffic increase"
+              ]
+            },
+            {
+              "name": "A Owens",
+              "party": "Labour & Co-operative",
+              "role": "Seconder",
+              "allocated_minutes": 3,
+              "key_points": [
+                "Support for the motion"
+              ]
+            }
+          ]
+        }
+      ],
+      "risk_assessment": {
+        "overall_risk": "medium",
+        "battleground_items": 2,
+        "predicted_opposition_speakers": 5,
+        "recorded_vote_risk": true,
+        "media_risk_items": [
+          "Change of use at Tarnbrick Farm could generate press coverage"
+        ]
+      },
+      "standing_orders_summary": {
+        "motion_time_limit": 120,
+        "per_motion_limit": 30,
+        "max_motions": 4,
+        "public_question_limit": 30,
+        "friendly_amendment_rule": "Motion mover may amend their own motion or accept an amendment without debate or vote",
+        "motions_that_fall_rule": "Any motion not disposed of at Full Council falls. Does not carry forward to next meeting."
+      }
+    },
+    {
+      "meeting_id": "environment-economic-growth-and-transport-scrutiny-committee-2026-03-19-15434",
+      "date": "2026-03-19",
+      "time": "10:00",
+      "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
+      "type": "scrutiny",
+      "venue": "County Hall, Preston",
+      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=1812&MId=15434&Ver=4",
+      "summary": null,
+      "agenda_items": [],
+      "agenda_intel": [],
+      "politics": {
+        "ruling_group": "",
+        "seats": [],
+        "majority_threshold": 43
+      },
+      "documents_extracted": 6,
+      "documents_available": 6,
+      "extracted_documents": [
+        {
+          "title": "Minutes of Previous Meeting",
+          "url": "https://council.lancashire.gov.uk/documents/s274069/Minutes of Previous Meeting.pdf",
+          "extracted": true,
+          "chars": 12234
+        },
+        {
+          "title": "Local Electric Vehicle Infrastructure",
+          "url": "https://council.lancashire.gov.uk/documents/s274291/Local Electric Vehicle Infrastructure.pdf",
+          "extracted": true,
+          "chars": 12284
+        },
+        {
+          "title": "Public Rights of Way - Processes",
+          "url": "https://council.lancashire.gov.uk/documents/s274426/Public Rights of Way - Processes.pdf",
+          "extracted": true,
+          "chars": 10030
+        },
+        {
+          "title": "Report",
+          "url": "https://council.lancashire.gov.uk/documents/s274416/Report.pdf",
+          "extracted": true,
+          "chars": 8268
+        },
+        {
+          "title": "Appendix A",
+          "url": "https://council.lancashire.gov.uk/documents/s274418/Appendix A.pdf",
+          "extracted": true,
+          "chars": 6924
+        },
+        {
+          "title": "Appendix B",
+          "url": "https://council.lancashire.gov.uk/documents/s274419/Appendix B.pdf",
+          "extracted": true,
+          "chars": 7893
+        }
+      ],
+      "motions": [],
+      "questions": [],
+      "tactical_scenarios": [],
+      "time_management": {},
+      "speaker_allocation": [],
+      "risk_assessment": {
+        "overall_risk": "unknown",
+        "note": "LLM analysis unavailable"
+      },
+      "standing_orders_summary": {
+        "motion_time_limit": 120,
+        "per_motion_limit": 30,
+        "max_motions": 4,
+        "public_question_limit": 30,
+        "friendly_amendment_rule": "Motion mover may amend their own motion or accept an amendment without debate or vote",
+        "motions_that_fall_rule": "Any motion not disposed of at Full Council falls. Does not carry forward to next meeting."
+      }
+    }
+  ],
+  "archived": [
     {
       "meeting_id": "full-council-2026-03-12-15435",
       "date": "2026-03-12",
@@ -373,386 +707,8 @@
         "public_question_limit": 30,
         "friendly_amendment_rule": "Motion mover may amend their own motion or accept an amendment without debate or vote",
         "motions_that_fall_rule": "Any motion not disposed of at Full Council falls. Does not carry forward to next meeting."
-      }
-    },
-    {
-      "meeting_id": "development-control-committee-2026-03-18-15432",
-      "date": "2026-03-18",
-      "time": "10:30",
-      "committee": "Development Control Committee",
-      "type": "planning",
-      "venue": "County Hall, Preston",
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=118&MId=15432&Ver=4",
-      "summary": null,
-      "agenda_items": [],
-      "agenda_intel": [],
-      "politics": {
-        "ruling_group": "",
-        "seats": [],
-        "majority_threshold": 43
       },
-      "documents_extracted": 8,
-      "documents_available": 8,
-      "extracted_documents": [
-        {
-          "title": "Minutes",
-          "url": "https://council.lancashire.gov.uk/documents/s274231/Minutes.pdf",
-          "extracted": true,
-          "chars": 12374
-        },
-        {
-          "title": "Report",
-          "url": "https://council.lancashire.gov.uk/documents/s274279/Report.pdf",
-          "extracted": true,
-          "chars": 29317
-        },
-        {
-          "title": "Appendix A",
-          "url": "https://council.lancashire.gov.uk/documents/s274280/Appendix A.pdf",
-          "extracted": true,
-          "chars": 7030
-        },
-        {
-          "title": "Appendix B",
-          "url": "https://council.lancashire.gov.uk/documents/s274281/Appendix B.pdf",
-          "extracted": true,
-          "chars": 1280
-        },
-        {
-          "title": "Report",
-          "url": "https://council.lancashire.gov.uk/documents/s274276/Report.pdf",
-          "extracted": true,
-          "chars": 29317
-        },
-        {
-          "title": "Appendix A",
-          "url": "https://council.lancashire.gov.uk/documents/s274277/Appendix A.pdf",
-          "extracted": true,
-          "chars": 7030
-        },
-        {
-          "title": "Appendix B",
-          "url": "https://council.lancashire.gov.uk/documents/s274278/Appendix B.pdf",
-          "extracted": true,
-          "chars": 1280
-        },
-        {
-          "title": "Report",
-          "url": "https://council.lancashire.gov.uk/documents/s274065/Report.pdf",
-          "extracted": true,
-          "chars": 29317
-        }
-      ],
-      "motions": [
-        {
-          "order": 1,
-          "title": "Fylde Borough: Tarnbrick Farm Green Waste Composting",
-          "proposer": "Officer Recommendation (Committee)",
-          "full_text": "The Development Control Committee is asked that planning permission be granted subject to the conditions set out in Appendix 'A'.",
-          "policy_areas": [
-            "Environment",
-            "Waste Management",
-            "Economic Development",
-            "Rural Development",
-            "Planning Law"
-          ],
-          "risk_level": "medium",
-          "opposition_strategy": "Opposition will likely focus on the retrospective nature of part of the application, potential negative impacts on rural character, and amenity concerns for nearby residents (noise, dust, traffic, visual impact). They may question the effectiveness of proposed conditions to mitigate these impacts or advocate for refusal/deferral.",
-          "ruling_group_response": "Highlight that the site is well-established, the proposal aims to improve efficiency rather than intensify operations. Emphasise the robust conditions in Appendix 'A' designed to mitigate impacts, such as secure sheeting for vehicles, mud/dust control, stockpile height limits, specific operating hours, white noise reversing alarms, and a Habitat Management and Monitoring Plan. Stress the economic benefits and compliance with planning policy.",
-          "amendment_predictions": [],
-          "key_data_points": [
-            "Change of use of 1.8 hectares of agricultural land to green waste composting, partly retrospective",
-            "New portal-frame building (60.9m x 24.3m x 10m) for processing/storage and workshop",
-            "Extension to existing storage building (18.2m x 12.4m x 9.6m)",
-            "New concrete internal access road (150m x 4m)",
-            "Nearest residential properties (Parkinson Lane) approximately 150 metres away",
-            "Conditions include: secure sheeting, mud/dust control, 3m stockpile height limit, matching building materials, restricted operating hours (Mon-Fri 0800-1800, Sat/Sun/PH 0800-1200), white noise reversing alarms, dust control, Habitat Management and Monitoring Plan (30 years), landscaping scheme."
-          ],
-          "time_estimate_minutes": 25
-        },
-        {
-          "order": 2,
-          "title": "Hyndburn Borough: 9 Harwood Lane Children's Care Home",
-          "proposer": "Officer Recommendation (Committee)",
-          "full_text": "That planning permission be granted subject to the conditions set out in appendix A relating to the following matters: time limits; approved plans and documents; use limited to a children's care home as proposed and no other use within Use Class C2.",
-          "policy_areas": [
-            "Children's Services",
-            "Housing",
-            "Social Care",
-            "Planning Law"
-          ],
-          "risk_level": "medium",
-          "opposition_strategy": "Opposition may raise 'Not In My Backyard' (NIMBY) concerns, citing the three letters of objection received. They will likely focus on potential impacts on residential amenity, such as increased traffic, noise, and the perceived change in character of the area. They might argue that the location is inappropriate for a care home.",
-          "ruling_group_response": "Emphasise the critical need for accommodation for looked after children, aligning with national planning policy and the 'Planning for accommodation for looked after children' statement. Highlight the property's suitability as a detached house with a private garden and ample off-street parking (6 vehicles). Stress the robust conditions limiting the use to only two children and prohibiting any other Use Class C2 purpose, ensuring minimal impact on the local area. Frame the decision as supporting 'Better lives for all' and 'stronger communities'.",
-          "amendment_predictions": [],
-          "key_data_points": [
-            "Change of use from C3 dwelling house to C2 residential institution",
-            "Home for up to two young persons (11-17 years old)",
-            "No more than two carers staying overnight, up to four staff during the day on a rota system",
-            "Minor internal layout change to create an additional office space",
-            "Detached house with three to four bedrooms, private enclosed garden, and off-street parking for 6 vehicles",
-            "Three letters of objection received."
-          ],
-          "time_estimate_minutes": 25
-        },
-        {
-          "order": 3,
-          "title": "Delegated Development Control Decisions",
-          "proposer": "Officer Recommendation (Committee)",
-          "full_text": "The Development Control Committee is asked to note to the report.",
-          "policy_areas": [
-            "Governance",
-            "Transparency"
-          ],
-          "risk_level": "low",
-          "opposition_strategy": "This is a noting item, so direct opposition is unlikely. However, opposition members may use this as an opportunity to ask questions about specific delegated decisions, particularly the retrospective planning application for Clayton Hall Sand Quarry, or to generally question the scope and transparency of delegated powers.",
-          "ruling_group_response": "Reiterate that the report is for noting only and that all decisions were taken in accordance with the County Council's Scheme of Delegation. Offer to provide detailed information on any specific application offline if members have further queries. Keep responses concise and factual.",
-          "amendment_predictions": [],
-          "key_data_points": [
-            "Prior approval for demolition of caretaker's house at Ryelands Community Primary School, Lancaster",
-            "EIA Screening Opinion for Wigan and Skelmersdale Waste Water Treatment Works upgrade",
-            "EIA Screening Opinion for retrospective amendment of conditions at Clayton Hall Sand Quarry, Chorley",
-            "Installation of additional boundary security fence at Ightenhill Primary School, Burnley."
-          ],
-          "time_estimate_minutes": 10
-        }
-      ],
-      "questions": [
-        {
-          "type": "public",
-          "questioner": "N/A",
-          "topic": "General planning matters or specific agenda items",
-          "question_text": "No specific public questions provided in documents. Anticipate questions related to the Tarnbrick Farm composting site (noise, traffic, environmental impact) or the Harwood Lane children's home (local amenity, traffic, suitability of location).",
-          "recommended_answer_points": [
-            "For Tarnbrick Farm: Refer to the robust conditions in place to mitigate impacts. Emphasise the existing nature of the site and the efficiency improvements.",
-            "For Harwood Lane: Highlight the need for children's homes, national policy support, and specific conditions limiting use and impact. Stress the property's suitability and parking provisions.",
-            "For general questions: Provide factual, concise answers. Offer to follow up with detailed information if required."
-          ],
-          "trap_risk": "medium",
-          "trap_explanation": "Public questions can be used to amplify local concerns or to introduce contentious issues not directly on the agenda. Be prepared for emotional appeals or attempts to draw committee members into detailed debate outside of the formal motion structure."
-        }
-      ],
-      "tactical_scenarios": [
-        {
-          "scenario": "Opposition member attempts to defer a planning application decision (e.g., Tarnbrick Farm or Harwood Lane) for further information or site visit.",
-          "likelihood": "medium",
-          "counter": "The Chair should remind the committee that all necessary information is before them and that officers have provided comprehensive reports. Stress the importance of making a decision based on the presented evidence. If a deferral motion is formally moved, ensure the ruling group votes against it, unless there is a clear, evidenced deficiency in the report that genuinely warrants deferral.",
-          "standing_order": "Motion debate rules apply. Mover 5 min, Others 3 min.",
-          "time_impact_minutes": 10
-        },
-        {
-          "scenario": "Call for a recorded vote on a contentious planning application (e.g., Tarnbrick Farm or Harwood Lane).",
-          "likelihood": "medium",
-          "counter": "Be prepared for a recorded vote. Ensure all ruling group members are present and understand the rationale for supporting the officer recommendation. A recorded vote will consume additional time but is a legitimate procedural tool. The Chair should manage the process efficiently.",
-          "standing_order": "N/A (specific SO for recorded votes not provided, but it's a standard council procedure).",
-          "time_impact_minutes": 5
-        },
-        {
-          "scenario": "Opposition members use their 3-minute speaking slots to make lengthy, repetitive, or irrelevant points, attempting to delay proceedings or exhaust debate time.",
-          "likelihood": "high",
-          "counter": "The Chair must strictly enforce the 3-minute time limit for speakers. Remind members to stick to the specific item under debate. If a member is repetitive, the Chair can intervene and ask them to conclude their remarks. Do not allow 'points of order' to be used as a means to extend debate.",
-          "standing_order": "Mover: 5 min, Others: 3 min.",
-          "time_impact_minutes": 10
-        }
-      ],
-      "time_management": {
-        "public_questions_estimate": 30,
-        "member_questions_estimate": 0,
-        "motions_total_estimate": 60,
-        "risk_of_overrun": false,
-        "recommended_time_saving": "The Chair should strictly enforce speaking time limits (3 min for members) for each agenda item. Officer presentations should be concise and focus on key points. Avoid allowing repetitive questions or comments."
-      },
-      "speaker_allocation": [
-        {
-          "agenda_item": "Fylde Borough: Tarnbrick Farm Green Waste Composting (LCC/2025/0021)",
-          "speakers": [
-            {
-              "name": "Peter Gittins",
-              "party": "N/A",
-              "role": "Senior Planning Officer (Presenter)",
-              "allocated_minutes": 5,
-              "key_points": [
-                "Summarise application, site background, officer recommendation, key conditions, and policy compliance. Emphasise mitigation measures and efficiency improvements."
-              ]
-            },
-            {
-              "name": "County Councillor Simon Gummer",
-              "party": "N/A",
-              "role": "Chair",
-              "allocated_minutes": 0,
-              "key_points": [
-                "Manage debate, ensure time limits are adhered to, call for vote."
-              ]
-            },
-            {
-              "name": "County Councillor Rick Edwards",
-              "party": "Reform UK",
-              "role": "Potential Opposition",
-              "allocated_minutes": 3,
-              "key_points": [
-                "May raise concerns about rural impact, retrospective element, or amenity for nearby residents."
-              ]
-            }
-          ]
-        },
-        {
-          "agenda_item": "Hyndburn Borough: 9 Harwood Lane Children's Care Home (LCC/2025/0024)",
-          "speakers": [
-            {
-              "name": "Peter Gittins",
-              "party": "N/A",
-              "role": "Senior Planning Officer (Presenter)",
-              "allocated_minutes": 5,
-              "key_points": [
-                "Summarise application, site background, officer recommendation, key conditions, and policy compliance. Emphasise need for children's homes and suitability of location."
-              ]
-            },
-            {
-              "name": "County Councillor Simon Gummer",
-              "party": "N/A",
-              "role": "Chair",
-              "allocated_minutes": 0,
-              "key_points": [
-                "Manage debate, ensure time limits are adhered to, call for vote."
-              ]
-            },
-            {
-              "name": "County Councillor Ashley Joynes",
-              "party": "Reform UK",
-              "role": "Potential Opposition",
-              "allocated_minutes": 3,
-              "key_points": [
-                "May raise local resident objections, concerns about traffic or character of the area."
-              ]
-            },
-            {
-              "name": "County Councillor Liam Thomson",
-              "party": "Reform UK",
-              "role": "Potential Opposition",
-              "allocated_minutes": 3,
-              "key_points": [
-                "May raise local resident objections, concerns about traffic or character of the area."
-              ]
-            }
-          ]
-        },
-        {
-          "agenda_item": "Delegated Development Control Decisions (Report 8)",
-          "speakers": [
-            {
-              "name": "Susan Hurst",
-              "party": "N/A",
-              "role": "Planning Technician (Presenter)",
-              "allocated_minutes": 3,
-              "key_points": [
-                "Briefly present the report for noting, highlighting the types of decisions made."
-              ]
-            },
-            {
-              "name": "County Councillor Simon Gummer",
-              "party": "N/A",
-              "role": "Chair",
-              "allocated_minutes": 0,
-              "key_points": [
-                "Manage any questions, ensure item is noted efficiently."
-              ]
-            }
-          ]
-        }
-      ],
-      "risk_assessment": {
-        "overall_risk": "medium",
-        "battleground_items": 2,
-        "predicted_opposition_speakers": 3,
-        "recorded_vote_risk": true,
-        "media_risk_items": [
-          "Fylde Borough: Tarnbrick Farm Green Waste Composting (potential for local environmental/amenity groups)",
-          "Hyndburn Borough: 9 Harwood Lane Children's Care Home (potential for local resident groups/NIMBYism)"
-        ]
-      },
-      "standing_orders_summary": {
-        "motion_time_limit": 120,
-        "per_motion_limit": 30,
-        "max_motions": 4,
-        "public_question_limit": 30,
-        "friendly_amendment_rule": "Motion mover may amend their own motion or accept an amendment without debate or vote",
-        "motions_that_fall_rule": "Any motion not disposed of at Full Council falls. Does not carry forward to next meeting."
-      }
-    },
-    {
-      "meeting_id": "environment-economic-growth-and-transport-scrutiny-committee-2026-03-19-15434",
-      "date": "2026-03-19",
-      "time": "10:00",
-      "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
-      "type": "scrutiny",
-      "venue": "County Hall, Preston",
-      "link": "https://council.lancashire.gov.uk/ieListDocuments.aspx?CId=1812&MId=15434&Ver=4",
-      "summary": null,
-      "agenda_items": [],
-      "agenda_intel": [],
-      "politics": {
-        "ruling_group": "",
-        "seats": [],
-        "majority_threshold": 43
-      },
-      "documents_extracted": 6,
-      "documents_available": 6,
-      "extracted_documents": [
-        {
-          "title": "Minutes of Previous Meeting",
-          "url": "https://council.lancashire.gov.uk/documents/s274069/Minutes of Previous Meeting.pdf",
-          "extracted": true,
-          "chars": 12234
-        },
-        {
-          "title": "Local Electric Vehicle Infrastructure",
-          "url": "https://council.lancashire.gov.uk/documents/s274291/Local Electric Vehicle Infrastructure.pdf",
-          "extracted": true,
-          "chars": 12284
-        },
-        {
-          "title": "Public Rights of Way - Processes",
-          "url": "https://council.lancashire.gov.uk/documents/s274426/Public Rights of Way - Processes.pdf",
-          "extracted": true,
-          "chars": 10030
-        },
-        {
-          "title": "Report",
-          "url": "https://council.lancashire.gov.uk/documents/s274416/Report.pdf",
-          "extracted": true,
-          "chars": 8268
-        },
-        {
-          "title": "Appendix A",
-          "url": "https://council.lancashire.gov.uk/documents/s274418/Appendix A.pdf",
-          "extracted": true,
-          "chars": 6924
-        },
-        {
-          "title": "Appendix B",
-          "url": "https://council.lancashire.gov.uk/documents/s274419/Appendix B.pdf",
-          "extracted": true,
-          "chars": 7893
-        }
-      ],
-      "motions": [],
-      "questions": [],
-      "tactical_scenarios": [],
-      "time_management": {},
-      "speaker_allocation": [],
-      "risk_assessment": {
-        "overall_risk": "unknown",
-        "note": "LLM analysis unavailable"
-      },
-      "standing_orders_summary": {
-        "motion_time_limit": 120,
-        "per_motion_limit": 30,
-        "max_motions": 4,
-        "public_question_limit": 30,
-        "friendly_amendment_rule": "Motion mover may amend their own motion or accept an amendment without debate or vote",
-        "motions_that_fall_rule": "Any motion not disposed of at Full Council falls. Does not carry forward to next meeting."
-      }
+      "archived_at": "2026-03-13T07:02:22.318205"
     }
-  ],
-  "archived": []
+  ]
 }
