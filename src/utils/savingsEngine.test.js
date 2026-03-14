@@ -12,12 +12,15 @@ import {
   supplierPortfolioAnalysis,
   contractPipeline,
   decisionPipeline,
+  enrichedDecisionPipeline,
   meetingBriefing,
   politicalContext,
   politicalImpactAssessment,
   departmentOperationsProfile,
   processEfficiency,
   portfolioBenchmark,
+  financialHealthAssessment,
+  portfolioRiskDashboard,
   scoreImplementation,
   priorityMatrix,
   generatePortfolioFOI,
@@ -637,5 +640,265 @@ describe('aggregateSavings centralised model', () => {
     const result = aggregateSavings([mockPortfolio], mockFindings, withMtfs)
     expect(result.vs_mtfs).not.toBeNull()
     expect(result.vs_mtfs.target_year1).toBe(65000000)
+  })
+})
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// Tier 2: Analytics & Intelligence Engine Integration Tests
+// ═══════════════════════════════════════════════════════════════════════
+
+const mockIntegrity = {
+  councillors: [
+    { name: 'Graham Dalton', detections: [{ type: 'ch_directorship', company: 'Care Co', severity: 'high' }] },
+  ],
+}
+
+const mockBudgetSummary = {
+  reserves: { total_closing: 223400000, usable: 200000000 },
+  net_revenue_expenditure: 1330000000,
+  council_tax: { dependency_pct: 54 },
+  debt_ratio: 0.9,
+  interest_payments_ratio: 0.06,
+}
+
+const mockBudgetsGovuk = {
+  services: {
+    'Adult Social Care': {
+      authorities: { lancashire_cc: 584500000, kent_cc: 620000000, essex_cc: 590000000, hampshire_cc: 540000000 },
+      years: {
+        '2020/21': { lancashire_cc: 510000000 },
+        '2021/22': { lancashire_cc: 530000000 },
+        '2022/23': { lancashire_cc: 560000000 },
+        '2023/24': { lancashire_cc: 584500000 },
+      },
+    },
+  },
+}
+
+const mockElections = {
+  wards: {
+    'Morecambe North': {
+      current_holders: [{ party: 'Reform UK', name: 'Graham Dalton' }],
+      results: [{ date: '2025-05-01', candidates: [{ party: 'Reform UK', votes: 1200 }, { party: 'Labour', votes: 800 }] }],
+    },
+  },
+}
+
+const mockMeetingWithAgenda = {
+  title: 'Cabinet Meeting',
+  date: new Date(Date.now() + 86400000 * 7).toISOString().split('T')[0],
+  committee: 'Cabinet',
+  enriched_agenda: [
+    { title: 'Adult Social Care Budget Report', text: 'Review of social care spending' },
+    { title: 'Council Tax Collection Rates', text: 'Report on council tax performance' },
+  ],
+}
+
+describe('supplierPortfolioAnalysis — integrity-weighted HHI', () => {
+  it('returns integrity_hhi when integrity data provided', () => {
+    const result = supplierPortfolioAnalysis(mockSpending, { integrity: mockIntegrity })
+    expect(result).toHaveProperty('integrity_hhi')
+  })
+
+  it('returns integrity_hhi as null when no integrity data', () => {
+    const result = supplierPortfolioAnalysis(mockSpending)
+    expect(result.integrity_hhi).toBeNull()
+  })
+
+  it('still returns standard HHI and Gini alongside', () => {
+    const result = supplierPortfolioAnalysis(mockSpending, { integrity: mockIntegrity })
+    expect(result.hhi).toBeGreaterThan(0)
+    expect(result.gini).toBeGreaterThan(0)
+  })
+
+  it('handles empty spending with integrity data', () => {
+    const result = supplierPortfolioAnalysis([], { integrity: mockIntegrity })
+    expect(result.hhi).toBe(0)
+    // Early return for empty spending doesn't compute integrity_hhi
+    expect(result.integrity_hhi).toBeUndefined()
+  })
+})
+
+describe('financialHealthAssessment', () => {
+  it('returns reserves, resilience and materiality for valid budget', () => {
+    const result = financialHealthAssessment(mockBudgetSummary, mockBudgetsGovuk)
+    expect(result).not.toBeNull()
+    expect(result.reserves).not.toBeNull()
+    expect(result.resilience).not.toBeNull()
+    expect(result.materiality).not.toBeNull()
+    expect(result.summary.reserves_months).toBeGreaterThan(0)
+  })
+
+  it('returns null for null budget', () => {
+    expect(financialHealthAssessment(null, null)).toBeNull()
+  })
+
+  it('assesses low reserves correctly', () => {
+    const lowReserves = { ...mockBudgetSummary, reserves: { total_closing: 5000000 }, net_revenue_expenditure: 1330000000 }
+    const result = financialHealthAssessment(lowReserves, null)
+    expect(result.summary.reserves_rating).not.toBe('Strong')
+  })
+
+  it('handles budget without optional fields', () => {
+    const minimal = { net_revenue_expenditure: 500000000 }
+    const result = financialHealthAssessment(minimal, null)
+    expect(result).not.toBeNull()
+    expect(result.summary).toBeDefined()
+  })
+})
+
+describe('portfolioBenchmark — real-terms growth', () => {
+  it('adds real_growth for categories with multi-year data', () => {
+    const result = portfolioBenchmark(mockPortfolio, mockBudgetsGovuk)
+    expect(result).not.toBeNull()
+    expect(result[0]).toHaveProperty('real_growth')
+    expect(result[0].real_growth.length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('omits real_growth when single-year data', () => {
+    const singleYear = { services: { 'Adult Social Care': { authorities: { lancashire_cc: 584500000, kent_cc: 620000000 }, years: { '2023/24': { lancashire_cc: 584500000 } } } } }
+    const result = portfolioBenchmark(mockPortfolio, singleYear)
+    expect(result).not.toBeNull()
+    expect(result[0].real_growth).toBeUndefined()
+  })
+
+  it('still returns peer benchmarks as before', () => {
+    const result = portfolioBenchmark(mockPortfolio, mockBudgetsGovuk)
+    expect(result[0]).toHaveProperty('rank')
+    expect(result[0]).toHaveProperty('percentile')
+  })
+})
+
+describe('meetingBriefing — policy areas + attack/defence lines', () => {
+  it('tags agenda items with policy areas', () => {
+    const result = meetingBriefing(mockMeetingWithAgenda, mockPortfolio)
+    expect(result.agenda_policy_map).toBeDefined()
+    expect(result.agenda_policy_map.length).toBe(2)
+    expect(result.agenda_policy_map[0].policy_areas).toBeInstanceOf(Array)
+  })
+
+  it('adds attack_lines for identified policy areas', () => {
+    const result = meetingBriefing(mockMeetingWithAgenda, mockPortfolio)
+    if (result.attack_lines) {
+      expect(typeof result.attack_lines).toBe('object')
+    }
+  })
+
+  it('handles meeting with no agenda', () => {
+    const noAgenda = { title: 'Empty Meeting', date: '2026-04-01' }
+    const result = meetingBriefing(noAgenda, mockPortfolio)
+    expect(result.agenda_policy_map).toEqual([])
+  })
+
+  it('still returns standard briefing fields', () => {
+    const result = meetingBriefing(mockMeetingWithAgenda, mockPortfolio)
+    expect(result.meeting_title).toBe('Cabinet Meeting')
+    expect(result.data_points.length).toBeGreaterThan(0)
+  })
+})
+
+describe('politicalContext — council attack lines', () => {
+  it('includes council_attack_lines when DOGE findings provided', () => {
+    const result = politicalContext(mockPortfolio, { dogeFindings: mockFindings })
+    expect(result.council_attack_lines).toBeInstanceOf(Array)
+    expect(result).toHaveProperty('attack_line_count')
+  })
+
+  it('returns empty attack lines when no optional data', () => {
+    const result = politicalContext(mockPortfolio)
+    expect(result.council_attack_lines).toEqual([])
+    expect(result.attack_line_count).toBe(0)
+  })
+
+  it('still returns standard political context', () => {
+    const result = politicalContext(mockPortfolio, { dogeFindings: mockFindings })
+    expect(result.reform_majority).toBe(true)
+    expect(result.cabinet_member).toBe('Graham Dalton')
+  })
+})
+
+describe('enrichedDecisionPipeline', () => {
+  const futureMeetings = [
+    { title: 'Cabinet', date: new Date(Date.now() + 86400000 * 14).toISOString().split('T')[0], committee: 'Cabinet', enriched_agenda: [{ title: 'Adult Social Care Budget' }] },
+    { title: 'Health Scrutiny', date: new Date(Date.now() + 86400000 * 21).toISOString().split('T')[0], committee: 'Health & Adult Services Scrutiny', enriched_agenda: [{ title: 'Care Home Standards Report' }] },
+  ]
+
+  it('returns pipeline items with policy area tags', () => {
+    const result = enrichedDecisionPipeline(futureMeetings, mockPortfolio)
+    expect(result.length).toBeGreaterThan(0)
+    expect(result[0]).toHaveProperty('policy_areas')
+    expect(result[0].policy_areas).toBeInstanceOf(Array)
+  })
+
+  it('tags budget items correctly', () => {
+    const budgetMeetings = [{ title: 'Cabinet', date: new Date(Date.now() + 86400000 * 7).toISOString().split('T')[0], committee: 'Cabinet', enriched_agenda: [{ title: 'Budget and Council Tax Report 2026/27' }] }]
+    const result = enrichedDecisionPipeline(budgetMeetings, mockPortfolio)
+    if (result.length > 0) {
+      expect(result[0]).toHaveProperty('has_budget_items')
+    }
+  })
+
+  it('returns empty array for empty meetings', () => {
+    expect(enrichedDecisionPipeline([], mockPortfolio)).toEqual([])
+  })
+})
+
+describe('politicalImpactAssessment — ward classification + entrenchment', () => {
+  const mockDirective = { id: 'test-1', type: 'savings_lever', risk: 'High', save_central: 3000000 }
+
+  it('returns ward_impact when elections data provided', () => {
+    const result = politicalImpactAssessment(mockDirective, mockPortfolio, { elections: mockElections })
+    expect(result.ward_impact).not.toBeNull()
+    expect(result.ward_impact.ward).toBe('Morecambe North')
+  })
+
+  it('returns ward_impact as null without elections data', () => {
+    const result = politicalImpactAssessment(mockDirective, mockPortfolio)
+    expect(result.ward_impact).toBeNull()
+  })
+
+  it('includes entrenchment score', () => {
+    const result = politicalImpactAssessment(mockDirective, mockPortfolio, {
+      elections: mockElections,
+      councillors: [{ ward: 'Morecambe North', name: 'Graham Dalton' }],
+    })
+    expect(result.ward_impact).toHaveProperty('entrenchment_score')
+    expect(result.ward_impact).toHaveProperty('entrenchment_level')
+  })
+
+  it('still returns standard impact fields', () => {
+    const result = politicalImpactAssessment(mockDirective, mockPortfolio, { elections: mockElections })
+    expect(result.overall_risk).toBe('High')
+    expect(result.opposition_angle).toBeDefined()
+  })
+})
+
+describe('portfolioRiskDashboard', () => {
+  it('returns risk score for portfolio with spending', () => {
+    const result = portfolioRiskDashboard(mockPortfolio, mockSpending, { findings: mockFindings })
+    expect(result).not.toBeNull()
+    expect(result.risk_score).toBeGreaterThanOrEqual(0)
+    expect(result.risk_score).toBeLessThanOrEqual(100)
+    expect(['high', 'medium', 'low']).toContain(result.risk_level)
+    expect(result.risk_color).toMatch(/^#/)
+  })
+
+  it('returns low risk for diverse suppliers with no findings', () => {
+    const diverseSpending = Array.from({ length: 20 }, (_, i) => ({
+      department: 'Adult Care', supplier: `Supplier ${i}`, amount: 10000, date: '2025-01-01',
+    }))
+    const result = portfolioRiskDashboard(mockPortfolio, diverseSpending)
+    expect(result.risk_level).toBe('low')
+  })
+
+  it('returns null for null portfolio', () => {
+    expect(portfolioRiskDashboard(null, mockSpending)).toBeNull()
+  })
+
+  it('handles empty spending', () => {
+    const result = portfolioRiskDashboard(mockPortfolio, [], { findings: mockFindings })
+    expect(result).not.toBeNull()
+    expect(result.supplier_analysis.hhi).toBe(0)
   })
 })

@@ -2,8 +2,12 @@
  * Savings Engine — prescriptive directives for Reform operations.
  *
  * Pure functions that power the Cabinet Command tier. No React dependencies.
- * Reuses analytics.js (deflate, giniCoefficient, peerBenchmark, computeDistributionStats),
- * and connects portfolio data to spending, DOGE findings, meetings, and governance.
+ * Reuses analytics.js (deflate, giniCoefficient, peerBenchmark, computeDistributionStats,
+ * integrityWeightedHHI, reservesAdequacy, cipfaResilience, realGrowthRate, benfordSecondDigit,
+ * materialityThreshold), intelligenceEngine.js (mapAgendaToPolicyAreas, getTopicAttackLines,
+ * buildReformDefenceLines), strategyEngine.js (generateCouncilAttackLines, classifyWard,
+ * scoreIncumbentEntrenchment), and electionModel.js (calculateFiscalStressAdjustment).
+ * Connects portfolio data to spending, DOGE findings, meetings, and governance.
  *
  * Architecture: cabinet_portfolios.json is the spine. Every function takes
  * portfolio data + operational data → actionable intelligence.
@@ -14,7 +18,10 @@
  * defines what's centralised vs portfolio-specific.
  */
 
-import { deflate, giniCoefficient, peerBenchmark, computeDistributionStats } from './analytics.js'
+import { deflate, giniCoefficient, peerBenchmark, computeDistributionStats, integrityWeightedHHI, reservesAdequacy, cipfaResilience, realGrowthRate, benfordSecondDigit, materialityThreshold } from './analytics.js'
+import { mapAgendaToPolicyAreas, getTopicAttackLines, buildReformDefenceLines } from './intelligenceEngine.js'
+import { generateCouncilAttackLines, classifyWard, scoreIncumbentEntrenchment } from './strategyEngine.js'
+import { calculateFiscalStressAdjustment } from './electionModel.js'
 
 // ═══════════════════════════════════════════════════════════════════════
 // Parsing Helpers
@@ -732,6 +739,14 @@ export function supplierPortfolioAnalysis(spending, options = {}) {
     hhi += share * share
   }
 
+  // Integrity-weighted HHI — amplifies concentration when councillor-connected suppliers exist
+  const integrityHHI = options.integrity
+    ? integrityWeightedHHI(
+        suppliers.map(s => ({ name: s.name, amount: s.total })),
+        options.integrity
+      )
+    : null
+
   return {
     suppliers: suppliers.slice(0, 25),
     total_suppliers: suppliers.length,
@@ -739,6 +754,7 @@ export function supplierPortfolioAnalysis(spending, options = {}) {
     gini: Math.round(gini * 1000) / 1000,
     hhi: Math.round(hhi),
     top_5_share: suppliers.slice(0, 5).reduce((s, v) => s + v.total, 0) / total,
+    integrity_hhi: integrityHHI,
   }
 }
 
@@ -825,11 +841,38 @@ export function decisionPipeline(meetings, portfolio, documents) {
 }
 
 /**
+ * Enriched decision pipeline — wraps decisionPipeline with policy area tagging.
+ *
+ * @param {Array} meetings - meetings.json data
+ * @param {Object} portfolio - Portfolio
+ * @param {Array} documents - council_documents.json data
+ * @returns {Array} Pipeline items with policy_areas tags
+ */
+export function enrichedDecisionPipeline(meetings, portfolio, documents) {
+  const pipeline = decisionPipeline(meetings, portfolio, documents)
+
+  return pipeline.map(decision => {
+    const agendaTexts = (decision.agenda_items || []).map(
+      item => typeof item === 'string' ? item : (item.title || item.text || '')
+    )
+    const policyAreas = [...new Set(
+      agendaTexts.flatMap(text => mapAgendaToPolicyAreas(text))
+    )]
+    return {
+      ...decision,
+      policy_areas: policyAreas,
+      has_budget_items: policyAreas.includes('budget_finance'),
+      has_social_care: policyAreas.includes('social_care'),
+    }
+  })
+}
+
+/**
  * Generate meeting briefing for a portfolio holder.
  *
  * @param {Object} meeting - Single meeting object
  * @param {Object} portfolio - Portfolio
- * @param {Object} data - { spending, findings, budgets }
+ * @param {Object} data - { spending, findings, budgets, reformTransformation, dogeFindings }
  * @returns {Object} Briefing object
  */
 export function meetingBriefing(meeting, portfolio, data = {}) {
@@ -875,6 +918,31 @@ export function meetingBriefing(meeting, portfolio, data = {}) {
     })
   }
 
+  // Tag agenda items with policy areas (from intelligenceEngine)
+  const agendaItems = meeting.enriched_agenda || meeting.agenda_items || []
+  const policyTagged = agendaItems.map(item => {
+    const text = typeof item === 'string' ? item : (item.title || item.text || '')
+    return {
+      ...(typeof item === 'object' ? item : { title: item }),
+      policy_areas: mapAgendaToPolicyAreas(text),
+    }
+  })
+  briefing.agenda_policy_map = policyTagged
+
+  // Attack and defence lines for each policy area found
+  const allAreas = [...new Set(policyTagged.flatMap(i => i.policy_areas))]
+  if (allAreas.length > 0) {
+    briefing.attack_lines = {}
+    briefing.defence_lines = {}
+    for (const area of allAreas) {
+      briefing.attack_lines[area] = getTopicAttackLines(area, {
+        reformTransformation: data.reformTransformation,
+        dogeFindings: data.dogeFindings || data.findings,
+      })
+      briefing.defence_lines[area] = buildReformDefenceLines(area, data.reformTransformation)
+    }
+  }
+
   return briefing
 }
 
@@ -895,6 +963,16 @@ export function politicalContext(portfolio, options = {}) {
 
   const { elections, councillors, politicalHistory } = options
 
+  // Council-wide attack lines from strategy engine (when data available)
+  const councilAttackLines = (options.dogeFindings || options.budgetSummary || options.collectionRates)
+    ? generateCouncilAttackLines(
+        options.dogeFindings,
+        options.budgetSummary,
+        options.collectionRates,
+        options.politicsSummary
+      )
+    : []
+
   return {
     portfolio_id: portfolio.id,
     cabinet_member: portfolio.cabinet_member?.name,
@@ -909,6 +987,9 @@ export function politicalContext(portfolio, options = {}) {
     // Electoral timing
     next_elections: '2029-05',
     time_to_deliver: 'Approx 3 years before next county elections',
+    // Intelligence engine cross-ref
+    council_attack_lines: councilAttackLines,
+    attack_line_count: councilAttackLines.length,
   }
 }
 
@@ -926,6 +1007,39 @@ export function politicalImpactAssessment(directive, portfolio, options = {}) {
   const riskLevel = directive.risk || 'Medium'
   const isServiceChange = directive.type === 'savings_lever' || directive.type === 'structural'
 
+  // Electoral intelligence — ward classification, entrenchment, fiscal stress
+  let wardImpact = null
+  const cabinetWard = portfolio.cabinet_member?.ward
+  if (cabinetWard && options.elections) {
+    const wardElection = options.elections.wards?.[cabinetWard]
+
+    // Ward classification from strategy engine
+    const prediction = options.wardPredictions?.[cabinetWard]
+    const classification = prediction
+      ? classifyWard(prediction, 'Reform UK', wardElection?.current_holders?.[0]?.party)
+      : null
+
+    // Entrenchment score from strategy engine
+    const wardCouncillors = (options.councillors || []).filter(
+      c => c.ward === cabinetWard || c.division === cabinetWard
+    )
+    const entrenchment = scoreIncumbentEntrenchment(wardElection, wardCouncillors, options.integrityData)
+
+    // Fiscal stress from election model
+    const fiscalStress = options.fiscalData
+      ? calculateFiscalStressAdjustment(options.fiscalData, cabinetWard)
+      : null
+
+    wardImpact = {
+      ward: cabinetWard,
+      classification: classification?.classification || 'unknown',
+      classification_label: classification?.label || null,
+      entrenchment_score: entrenchment?.score || 0,
+      entrenchment_level: entrenchment?.level || 'unknown',
+      fiscal_stress: fiscalStress?.adjustment || 0,
+    }
+  }
+
   return {
     directive_id: directive.id,
     overall_risk: riskLevel,
@@ -936,6 +1050,7 @@ export function politicalImpactAssessment(directive, portfolio, options = {}) {
     counter_narrative: isServiceChange
       ? 'Reform is reforming wasteful practices left by the previous administration while protecting frontline services'
       : 'This is good financial management — recovering money that should never have been spent',
+    ward_impact: wardImpact,
   }
 }
 
@@ -1084,7 +1199,74 @@ export function portfolioBenchmark(portfolio, budgetsGovuk) {
     }
   }
 
+  // Add real-terms growth trend for LCC values where multi-year data exists
+  for (const r of results) {
+    const peerData = budgetsGovuk?.services?.[r.category] || budgetsGovuk?.categories?.[r.category]
+    if (peerData?.years) {
+      const years = Object.keys(peerData.years).sort()
+      const lccValues = years.map(y => peerData.years[y]?.lancashire_cc ?? peerData.years[y]?.['Lancashire']).filter(v => v != null)
+      if (lccValues.length >= 2 && years.length >= lccValues.length) {
+        r.real_growth = realGrowthRate(lccValues, years.slice(0, lccValues.length))
+      }
+    }
+  }
+
   return results.length > 0 ? results : null
+}
+
+
+/**
+ * Financial health assessment combining reserves adequacy, CIPFA resilience,
+ * materiality threshold and optional Benford screening.
+ *
+ * @param {Object} budgetSummary - Budget summary data (reserves, expenditure, council tax)
+ * @param {Object} budgetsGovuk - GOV.UK budget data (for Benford screening of year totals)
+ * @returns {Object|null} Financial health report
+ */
+export function financialHealthAssessment(budgetSummary, budgetsGovuk) {
+  if (!budgetSummary) return null
+
+  const reserves = budgetSummary.reserves?.total_closing || budgetSummary.reserves?.usable || 0
+  const expenditure = budgetSummary.net_revenue_expenditure || budgetSummary.net_expenditure || 0
+
+  const reservesResult = reservesAdequacy(reserves, expenditure)
+
+  const resilience = cipfaResilience({
+    reserves,
+    expenditure,
+    councilTaxDependency: budgetSummary.council_tax?.dependency_pct || null,
+    debtRatio: budgetSummary.debt_ratio || null,
+    interestPaymentsRatio: budgetSummary.interest_payments_ratio || null,
+  })
+
+  const matThreshold = materialityThreshold(expenditure)
+
+  // Benford second-digit screening on year totals if enough data
+  const yearTotals = []
+  if (budgetsGovuk?.services) {
+    for (const svc of Object.values(budgetsGovuk.services)) {
+      if (svc?.authorities) {
+        for (const v of Object.values(svc.authorities)) {
+          if (typeof v === 'number' && v > 0) yearTotals.push(v)
+        }
+      }
+    }
+  }
+  const benford = yearTotals.length >= 50 ? benfordSecondDigit(yearTotals) : null
+
+  return {
+    reserves: reservesResult,
+    resilience,
+    materiality: matThreshold,
+    benford_screening: benford,
+    summary: {
+      reserves_months: reservesResult?.monthsCover || 0,
+      reserves_rating: reservesResult?.rating || 'Unknown',
+      overall_resilience: resilience?.overallRating || 'Unknown',
+      overall_color: resilience?.overallColor || '#6c757d',
+      materiality_threshold: matThreshold?.threshold || 0,
+    },
+  }
 }
 
 
@@ -1255,6 +1437,74 @@ export function crossPortfolioDependencies(portfolios) {
   }
 
   return dependencies.filter(d => ids.has(d.from) && ids.has(d.to))
+}
+
+
+/**
+ * Composite risk dashboard for a single portfolio — rolls up supplier concentration,
+ * integrity amplification, DOGE findings, and Benford screening into a 0-100 score.
+ *
+ * @param {Object} portfolio - Portfolio definition
+ * @param {Array} spending - Portfolio-matched spending records
+ * @param {Object} options - { integrity, findings }
+ * @returns {Object|null} Risk dashboard
+ */
+export function portfolioRiskDashboard(portfolio, spending, options = {}) {
+  if (!portfolio) return null
+
+  const risks = []
+  let totalScore = 0
+
+  // 1. Supplier concentration risk (existing + integrity-weighted)
+  const supplierAnalysis = supplierPortfolioAnalysis(spending, { integrity: options.integrity })
+  if (supplierAnalysis.hhi > 2500) {
+    risks.push({ type: 'concentration', severity: 'high', detail: `HHI ${supplierAnalysis.hhi} (highly concentrated)` })
+    totalScore += 30
+  } else if (supplierAnalysis.hhi > 1500) {
+    risks.push({ type: 'concentration', severity: 'medium', detail: `HHI ${supplierAnalysis.hhi} (moderately concentrated)` })
+    totalScore += 15
+  }
+
+  // 2. Integrity amplification
+  if (supplierAnalysis.integrity_hhi?.isCouncillorConnected) {
+    risks.push({ type: 'integrity', severity: 'high', detail: `${supplierAnalysis.integrity_hhi.connectedSuppliers} councillor-connected supplier(s)` })
+    totalScore += 25
+  }
+
+  // 3. DOGE findings risk
+  if (options.findings) {
+    const pFindings = mapFindingsToPortfolio(options.findings, portfolio)
+    const findingCount = (pFindings.duplicates?.length || 0) + (pFindings.splits?.length || 0) + (pFindings.ch_flags?.length || 0)
+    if (findingCount > 10) {
+      risks.push({ type: 'doge', severity: 'high', detail: `${findingCount} DOGE findings` })
+      totalScore += 20
+    } else if (findingCount > 3) {
+      risks.push({ type: 'doge', severity: 'medium', detail: `${findingCount} DOGE findings` })
+      totalScore += 10
+    }
+  }
+
+  // 4. Benford screening on spending amounts
+  const amounts = (spending || []).map(r => r.amount).filter(a => a != null && a > 0)
+  const benford = amounts.length >= 50 ? benfordSecondDigit(amounts) : null
+  if (benford?.significant) {
+    risks.push({ type: 'benford', severity: 'medium', detail: benford.pDescription || 'Significant deviation from expected distribution' })
+    totalScore += 15
+  }
+
+  const riskScore = Math.min(100, totalScore)
+  const riskLevel = riskScore >= 50 ? 'high' : riskScore >= 25 ? 'medium' : 'low'
+  const riskColor = riskLevel === 'high' ? '#dc3545' : riskLevel === 'medium' ? '#fd7e14' : '#28a745'
+
+  return {
+    portfolio_id: portfolio.id,
+    risk_score: riskScore,
+    risk_level: riskLevel,
+    risk_color: riskColor,
+    risks,
+    supplier_analysis: supplierAnalysis,
+    benford_result: benford,
+  }
 }
 
 
