@@ -168,6 +168,30 @@ Data flow: `elections.json` + `elections_reference.json` + `polling.json` + `dem
 - Reserves adequacy assessment
 - Peer benchmarking (percentile, tier-aware)
 
+## Cabinet Command Engine (v7)
+
+`src/utils/savingsEngine.js` — 24 pure functions, 69 unit tests. Powers Cabinet Command tier (LCC only).
+
+```
+cabinet_portfolios.json (spine — 10 portfolios, governance, officers, MTFS targets)
+  │
+  ├── spending_department_patterns → matchSpendingToPortfolio() → per-portfolio spending
+  │     └── mapFindingsToPortfolio() → DOGE findings matched to portfolio
+  │           └── generateDirectives() → ACTION DIRECTIVES (DO/SAVE/LEGAL/ROUTE)
+  │                 ├── decisionPathway() → officer delegation / cabinet / full council
+  │                 └── generateReformPlaybook() → phased Year 1/2/3 plan
+  │
+  ├── savings_levers (tier/owner fields)
+  │     └── Centralised: duplicates, procurement, CH → Resources portfolio only
+  │     └── Portfolio-specific: demand management, service redesign, income
+  │
+  ├── generateAllDirectives() → cross-portfolio Monday morning list
+  ├── mtfsComparison() → pipeline vs MTFS targets (£65M yr1, £103M 2yr)
+  └── politicalImpactAssessment() → ward exposure, electoral risk
+```
+
+Reuses: analytics.js (deflate, Gini, HHI, peerBenchmark), electionModel.js, intelligenceEngine.js, strategyEngine.js.
+
 ## Procurement Pipeline
 
 ```
