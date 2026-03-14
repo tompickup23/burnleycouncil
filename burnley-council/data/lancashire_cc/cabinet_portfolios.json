@@ -379,6 +379,17 @@
         "oracle_status": "Stabilised after catastrophic 2022 migration. Data breaches, payment delays, salary overpayments. KPMG review classified exempt. Limited assurance audit opinion.",
         "lcpf": { "value": 10800000000, "funded_pct": 115, "ranking": "Top 3 nationally" },
         "reserves_trajectory": { "2022": 420000000, "2023": 345000000, "2024": 326800000, "2026_forecast": 223400000 },
+        "workforce": {
+          "total_employees": 13258,
+          "agency_spend": 15000000,
+          "agency_note": "Multiple directorates relying on agency staff — ASC, SEND, social work. 110 agency EPs alone.",
+          "staff_over_100k": 19
+        },
+        "bt_ocl_partnership": {
+          "status": "Ended 2024",
+          "value": 400000000,
+          "note": "BT/OCL £400M ICT partnership ended. Replaced by Softcat £64M IT infrastructure contract (4 years from Dec 2025)."
+        },
         "efficiency_review": "Initiated June 2025 by Reform. Five focus areas: procurement, property, digital, workforce, partnerships.",
         "s151_timeline": "Noel O'Neill → Brendan Arnold (Oct 2025) → John Betts (Feb 2026 interim) → Gary Fielding (Jun 2026 permanent, from North Yorkshire Council)"
       }
@@ -597,7 +608,10 @@
         "round_number_rate_pct": 5.4,
         "contracts_finder_coverage_pct": 0.0,
         "dph": "Dr Sakthi Karunanithi",
-        "grant_ring_fenced": true
+        "grant_ring_fenced": true,
+        "total_public_health_grant": 97600000,
+        "drug_alcohol_grant": 10600000,
+        "drug_alcohol_grant_note": "SSMTR/ADDER supplemental funding — time-limited, national drug strategy"
       },
       "cross_portfolio_dependencies": [
         { "portfolio": "adult_social_care", "dependency": "Falls prevention, smoking cessation, obesity programmes reduce ASC demand. Every £1 invested here saves £2.80-£3.50 in ASC/NHS." },
@@ -877,8 +891,12 @@
         "road_condition_2025": {
           "a_roads_red_pct": 3.9,
           "bc_roads_red_pct": 6.5,
-          "unclassified_red_pct": 27.6
+          "unclassified_red_pct": 27.6,
+          "potholes_reported": 67439,
+          "defects_handled_2024_25": 115000,
+          "defects_5yr_increase_pct": 52
         },
+        "maintenance_backlog": 650000000,
         "ai_inspections": true,
         "asphalt_recycling_trial": "First UK trial"
       }
@@ -967,6 +985,9 @@
       "operational_context": {
         "hhi": 4141,
         "hhi_classification": "HIGH — Suez dominance",
+        "landfill_rate_pct": 33.8,
+        "landfill_rate_national_avg_pct": 5.6,
+        "landfill_rate_note": "33.8% to landfill — approximately 6x national average. EfW strategy vacuum is primary cause.",
         "contracts_finder_coverage_pct": 0.1,
         "waste_strategy_status": "Expired 2020. No successor published. EfW procurement paused.",
         "trading_standards_budget": 2954000,
