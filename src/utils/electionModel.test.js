@@ -518,6 +518,46 @@ describe('predictCouncil', () => {
     // Ward B and C are not up — their holders should be counted
     expect(result.seatTotals.Conservative || 0).toBeGreaterThanOrEqual(1)
   })
+
+  it('applies integrity adjustment when integrityData provided', () => {
+    const integrityData = {
+      councillors: [{
+        name: 'Alice',
+        ward: 'Ward A',
+        party: 'Labour',
+        risk_level: 'high',
+        red_flags: [
+          { severity: 'critical', type: 'supplier_conflict' },
+          { severity: 'high', type: 'undeclared_interest' },
+          { severity: 'elevated', type: 'co_director' },
+        ],
+      }],
+    }
+    const result = predictCouncil(
+      mockElectionsData,
+      ['Ward A'],
+      DEFAULT_ASSUMPTIONS,
+      nationalPolling,
+      ge2024Result,
+      null, null, null, null, null, null,
+      integrityData,
+    )
+    expect(Object.keys(result.wards)).toHaveLength(1)
+    // Result should still produce a valid prediction
+    expect(result.totalSeats).toBeGreaterThan(0)
+  })
+
+  it('works without integrityData (backward compatible)', () => {
+    const result = predictCouncil(
+      mockElectionsData,
+      ['Ward A', 'Ward B'],
+      DEFAULT_ASSUMPTIONS,
+      nationalPolling,
+      ge2024Result,
+    )
+    expect(Object.keys(result.wards)).toHaveLength(2)
+    expect(result.totalSeats).toBeGreaterThan(0)
+  })
 })
 
 // ---------------------------------------------------------------------------

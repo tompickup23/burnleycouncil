@@ -11,6 +11,27 @@ vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
 
+vi.mock('../utils/intelligenceEngine', () => ({
+  mapAgendaToPolicyAreas: vi.fn((text) => {
+    if (!text) return []
+    if (/budget|treasury|financ/i.test(text)) return ['budget_finance']
+    if (/planning|application/i.test(text)) return ['housing']
+    return []
+  }),
+  getTopicAttackLines: vi.fn(() => [
+    { text: 'Budget overspend risk', party: 'Labour', severity: 'high' },
+  ]),
+  buildReformDefenceLines: vi.fn(() => [
+    { headline: 'Financial turnaround', metric: '£5M savings identified', detail: 'Reform delivered' },
+  ]),
+  POLICY_AREAS: {
+    budget_finance: 'Budget & Finance', council_tax: 'Council Tax', housing: 'Housing',
+    social_care: 'Social Care', transport_highways: 'Transport & Highways',
+    education_schools: 'Education & Schools', environment_climate: 'Environment & Climate',
+    governance_constitution: 'Governance & Constitution',
+  },
+}))
+
 // Mock Recharts to avoid heavy SVG rendering in JSDOM
 vi.mock('recharts', () => {
   const MockChart = ({ children }) => <div data-testid="recharts-mock">{children}</div>
@@ -121,13 +142,37 @@ const mockMeetingsData = {
   },
 }
 
-function setupMocks(overrides = {}) {
-  useCouncilConfig.mockReturnValue(mockConfig)
-  useData.mockReturnValue({
-    data: mockMeetingsData,
-    loading: false,
-    error: null,
-    ...overrides,
+const mockVotingData = {
+  votes: [
+    { title: 'Budget 2025/26', result: 'Carried', council_tax_change: '+3.99%', description: 'Annual budget approval' },
+    { title: 'Highway Maintenance Report', result: 'Noted', description: 'Roads update' },
+  ],
+}
+
+const mockReformData = {
+  achievements: {
+    financial_turnaround: {
+      headline: 'Financial Turnaround',
+      items: [{ metric: '£5M', label: 'savings identified', detail: 'Year 1 Reform delivery' }],
+    },
+  },
+}
+
+const mockDogeData = {
+  findings: [
+    { label: 'Duplicate payments', value: '£340K', severity: 'critical' },
+  ],
+}
+
+function setupMocks({ meetings = mockMeetingsData, configOverrides = {}, voting = null, reform = null, doge = null } = {}) {
+  useCouncilConfig.mockReturnValue({ ...mockConfig, ...configOverrides })
+  useData.mockImplementation((url) => {
+    if (url === '/data/meetings.json') return { data: meetings, loading: !meetings, error: null }
+    if (url === '/data/voting.json') return { data: voting, loading: false, error: null }
+    if (url === '/data/reform_transformation.json') return { data: reform, loading: false, error: null }
+    if (url === '/data/doge_findings.json') return { data: doge, loading: false, error: null }
+    if (url === null) return { data: null, loading: false, error: null }
+    return { data: null, loading: false, error: null }
   })
 }
 
@@ -147,13 +192,19 @@ describe('Meetings', () => {
 
   // === Loading / Error ===
   it('shows loading state', () => {
-    useData.mockReturnValue({ data: null, loading: true, error: null })
+    useData.mockImplementation((url) => {
+      if (url === '/data/meetings.json') return { data: null, loading: true, error: null }
+      return { data: null, loading: false, error: null }
+    })
     renderComponent()
     expect(screen.getByText(/loading meetings calendar/i)).toBeInTheDocument()
   })
 
   it('shows error state', () => {
-    useData.mockReturnValue({ data: null, loading: false, error: new Error('fail') })
+    useData.mockImplementation((url) => {
+      if (url === '/data/meetings.json') return { data: null, loading: false, error: new Error('fail') }
+      return { data: null, loading: false, error: null }
+    })
     renderComponent()
     expect(screen.getByText(/meetings calendar/i)).toBeInTheDocument()
     expect(screen.getByText(/failed to load/i)).toBeInTheDocument()
@@ -373,8 +424,7 @@ describe('Meetings', () => {
   })
 
   it('shows "no meetings" message when filter matches nothing', () => {
-    const emptyMeetings = { ...mockMeetingsData, meetings: [] }
-    useData.mockReturnValue({ data: emptyMeetings, loading: false, error: null })
+    setupMocks({ meetings: { ...mockMeetingsData, meetings: [] } })
     renderComponent()
     expect(screen.getByText(/no meetings match/i)).toBeInTheDocument()
   })
@@ -395,13 +445,129 @@ describe('Meetings', () => {
 
   // === Empty data handling ===
   it('renders when meetings data has no meetings array', () => {
-    useData.mockReturnValue({
-      data: { meetings: [], last_updated: '2026-01-01' },
-      loading: false,
-      error: null,
-    })
+    setupMocks({ meetings: { meetings: [], last_updated: '2026-01-01' } })
     renderComponent()
     expect(screen.getByText('Meetings Calendar')).toBeInTheDocument()
     expect(screen.getByText(/no meetings match/i)).toBeInTheDocument()
+  })
+
+  // === Policy Area Tags ===
+  it('shows policy area tags on agenda items with matching topics', () => {
+    setupMocks()
+    renderComponent()
+    const cards = screen.getAllByRole('button').filter(b => b.classList.contains('meeting-card'))
+    fireEvent.click(cards[0])
+    // Budget Report agenda item should get 'Budget & Finance' tag
+    const budgetTags = screen.getAllByText('Budget & Finance')
+    expect(budgetTags.length).toBeGreaterThan(0)
+  })
+
+  it('shows policy area badges on meeting card headers', () => {
+    setupMocks()
+    renderComponent()
+    // Meeting 1 has budget-related items, so should show policy area mini-badges
+    const policyTags = document.querySelectorAll('.policy-tag, [style*="0.6rem"]')
+    expect(policyTags.length).toBeGreaterThan(0)
+  })
+
+  it('renders policy area filter chips when policy areas exist', () => {
+    setupMocks()
+    renderComponent()
+    expect(screen.getByText('All Topics')).toBeInTheDocument()
+  })
+
+  it('filters meetings by policy area when clicking policy filter', () => {
+    setupMocks()
+    renderComponent()
+    // Click a policy area filter — use getAllByText since 'Budget & Finance' appears as tags too
+    const budgetFilters = screen.getAllByText('Budget & Finance')
+    // The filter pill is a button, find the one that's a filter-pill
+    const filterPill = budgetFilters.find(el => el.classList.contains('filter-pill'))
+    if (filterPill) fireEvent.click(filterPill)
+    // Should still show meetings with budget_finance policy area
+    const cards = document.querySelectorAll('.meeting-card')
+    expect(cards.length).toBeGreaterThan(0)
+  })
+
+  // === Policy Intelligence Section ===
+  it('shows policy intelligence section when reform/doge data available', () => {
+    setupMocks({
+      configOverrides: { council_id: 'lancashire_cc', data_sources: { voting_records: true, doge_investigation: true } },
+      reform: mockReformData,
+      doge: mockDogeData,
+    })
+    renderComponent()
+    const cards = screen.getAllByRole('button').filter(b => b.classList.contains('meeting-card'))
+    fireEvent.click(cards[0])
+    expect(screen.getByText('Policy Intelligence')).toBeInTheDocument()
+  })
+
+  it('shows opposition attack lines in policy intelligence', () => {
+    setupMocks({
+      configOverrides: { council_id: 'lancashire_cc', data_sources: { voting_records: true, doge_investigation: true } },
+      reform: mockReformData,
+      doge: mockDogeData,
+    })
+    renderComponent()
+    const cards = screen.getAllByRole('button').filter(b => b.classList.contains('meeting-card'))
+    fireEvent.click(cards[0])
+    expect(screen.getByText(/likely opposition attacks/i)).toBeInTheDocument()
+    expect(screen.getByText(/budget overspend risk/i)).toBeInTheDocument()
+  })
+
+  it('shows Reform defence lines in policy intelligence', () => {
+    setupMocks({
+      configOverrides: { council_id: 'lancashire_cc', data_sources: { voting_records: true, doge_investigation: true } },
+      reform: mockReformData,
+      doge: mockDogeData,
+    })
+    renderComponent()
+    const cards = screen.getAllByRole('button').filter(b => b.classList.contains('meeting-card'))
+    fireEvent.click(cards[0])
+    expect(screen.getByText(/reform response/i)).toBeInTheDocument()
+  })
+
+  it('shows related past votes when voting data is available', () => {
+    setupMocks({
+      configOverrides: { council_id: 'lancashire_cc', data_sources: { voting_records: true, doge_investigation: true } },
+      voting: mockVotingData,
+      reform: mockReformData,
+      doge: mockDogeData,
+    })
+    renderComponent()
+    const cards = screen.getAllByRole('button').filter(b => b.classList.contains('meeting-card'))
+    fireEvent.click(cards[0])
+    expect(screen.getByText(/related past votes/i)).toBeInTheDocument()
+    expect(screen.getByText(/budget 2025\/26/i)).toBeInTheDocument()
+  })
+
+  it('does not show policy intelligence when no reform/doge data', () => {
+    setupMocks()
+    renderComponent()
+    const cards = screen.getAllByRole('button').filter(b => b.classList.contains('meeting-card'))
+    fireEvent.click(cards[0])
+    expect(screen.queryByText('Policy Intelligence')).not.toBeInTheDocument()
+  })
+
+  it('does not show policy intelligence for meetings without policy areas', () => {
+    const noPolicyMeetings = {
+      ...mockMeetingsData,
+      meetings: [{
+        id: 'mtg-nopolicy', committee: 'Civic Committee', type: 'other',
+        date: '2099-06-01', time: '10:00', cancelled: false,
+        summary: 'Ceremonial meeting.', agenda_items: ['Civic awards ceremony'],
+        public_relevance: 'Awards event.',
+      }],
+    }
+    setupMocks({
+      meetings: noPolicyMeetings,
+      configOverrides: { council_id: 'lancashire_cc', data_sources: { voting_records: true, doge_investigation: true } },
+      reform: mockReformData,
+      doge: mockDogeData,
+    })
+    renderComponent()
+    const cards = screen.getAllByRole('button').filter(b => b.classList.contains('meeting-card'))
+    fireEvent.click(cards[0])
+    expect(screen.queryByText('Policy Intelligence')).not.toBeInTheDocument()
   })
 })

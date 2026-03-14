@@ -4,6 +4,7 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
+import { generateHousingTalkingPoints, generateHealthTalkingPoints, generateEconomyTalkingPoints, generateCrimeTalkingPoints, generateFiscalTalkingPoints } from '../utils/strategyEngine'
 import CollapsibleSection from '../components/CollapsibleSection'
 import CouncillorLink from '../components/CouncillorLink'
 import IntegrityBadge from '../components/IntegrityBadge'
@@ -58,6 +59,10 @@ function MyArea() {
   // Demographics data (optional — for ethnic composition pie chart)
   const { data: demographicsRaw } = useData(config.data_sources?.demographics ? '/data/demographics.json' : null)
   const demographicsWards = demographicsRaw?.wards || {}
+  // Additional data for ward intelligence briefing
+  const { data: housingRaw } = useData('/data/housing.json')
+  const { data: healthRaw } = useData('/data/health.json')
+  const { data: economyRaw } = useData('/data/economy.json')
 
   const wardMapData = useMemo(() => {
     if (!wards || typeof wards !== 'object') return {}
@@ -207,6 +212,20 @@ function MyArea() {
     if (!dep?.avg_imd_score) return null
     return dep.avg_imd_score
   }, [selectedWard, deprivation])
+
+  // Ward Intelligence Briefing — aggregate all talking points
+  const wardBriefingPoints = useMemo(() => {
+    if (!selectedWard) return []
+    const dep = deprivation[selectedWard]
+    const pts = [
+      ...generateHousingTalkingPoints(selectedWard, { wards: housingRaw?.census?.wards || {} }),
+      ...generateHealthTalkingPoints(selectedWard, healthRaw),
+      ...generateEconomyTalkingPoints(selectedWard, economyRaw),
+      ...generateCrimeTalkingPoints(selectedWard, null, dep),
+      ...generateFiscalTalkingPoints(demoFiscalRaw, dep),
+    ]
+    return pts.sort((a, b) => a.priority - b.priority).slice(0, 8)
+  }, [selectedWard, deprivation, housingRaw, healthRaw, economyRaw, demoFiscalRaw])
 
   if (loading) {
     return <LoadingState message="Loading ward data..." />
@@ -828,6 +847,23 @@ function MyArea() {
               </div>
             )}
 
+          </div>
+        </section>
+      )}
+
+      {/* ===== WARD INTELLIGENCE BRIEFING ===== */}
+      {selectedWard && wardBriefingPoints.length > 0 && (
+        <section className="ward-intelligence-briefing animate-fade-in" style={{ marginBottom: '1.5rem' }}>
+          <div style={{ background: 'rgba(18,182,207,0.04)', border: '1px solid rgba(18,182,207,0.15)', borderRadius: 8, padding: '1rem 1.25rem' }}>
+            <h3 style={{ margin: '0 0 0.75rem', fontSize: '1rem', fontWeight: 700, color: '#12B6CF', display: 'flex', alignItems: 'center', gap: 8 }}>
+              <AlertCircle size={18} /> Ward Intelligence Briefing
+            </h3>
+            {wardBriefingPoints.map((pt, i) => (
+              <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 6, fontSize: '0.8rem', lineHeight: 1.5, color: 'var(--text-secondary)' }}>
+                <span style={{ background: 'rgba(18,182,207,0.12)', color: '#12B6CF', padding: '1px 6px', borderRadius: 4, fontSize: '0.65rem', fontWeight: 600, flexShrink: 0 }}>{pt.category}</span>
+                <span>{pt.text}</span>
+              </div>
+            ))}
           </div>
         </section>
       )}

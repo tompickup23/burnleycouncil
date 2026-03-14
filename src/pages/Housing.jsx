@@ -6,6 +6,7 @@ import { LoadingState } from '../components/ui'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { Building2, MapPin, AlertTriangle, Users, ShieldCheck, Home, TrendingUp, FileText } from 'lucide-react'
+import { generateHousingTalkingPoints, generateHMOTalkingPoints } from '../utils/strategyEngine'
 import CollapsibleSection from '../components/CollapsibleSection'
 import SparkLine from '../components/ui/SparkLine'
 import GaugeChart from '../components/ui/GaugeChart'
@@ -140,6 +141,14 @@ function Housing() {
     const comp = wardComparison.find(w => w.name === selectedWard)
     return { ...entry, ...comp }
   }, [selectedWard, wardList, wardComparison])
+
+  // Strategy talking points for selected ward
+  const talkingPoints = useMemo(() => {
+    if (!selectedWard || !housing) return []
+    const housingPts = generateHousingTalkingPoints(selectedWard, { wards: housing.census?.wards || {} })
+    const hmoPts = hmoData ? generateHMOTalkingPoints(selectedWard, hmoData) : []
+    return [...housingPts, ...hmoPts].sort((a, b) => a.priority - b.priority).slice(0, 5)
+  }, [selectedWard, housing, hmoData])
 
   if (loading) return <LoadingState />
   if (error) return <div className="error-state">Error loading housing data: {error.message}</div>
@@ -406,6 +415,19 @@ function Housing() {
                 <span>{selectedWardData.private_pct}% private</span>
                 <span>{selectedWardData.overcrowding_pct}% overcrowded</span>
               </div>
+            </div>
+          )}
+
+          {/* Political Context */}
+          {talkingPoints.length > 0 && (
+            <div className="strategy-context" style={{ background: 'rgba(18,182,207,0.04)', border: '1px solid rgba(18,182,207,0.15)', borderRadius: 8, padding: '1rem 1.25rem', marginTop: '1rem' }}>
+              <h4 style={{ margin: '0 0 0.75rem', fontSize: '0.9rem', fontWeight: 700, color: '#12B6CF' }}>Political Context</h4>
+              {talkingPoints.map((pt, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 6, fontSize: '0.8rem', lineHeight: 1.5, color: 'var(--text-secondary)' }}>
+                  <span style={{ background: 'rgba(18,182,207,0.12)', color: '#12B6CF', padding: '1px 6px', borderRadius: 4, fontSize: '0.65rem', fontWeight: 600, flexShrink: 0 }}>{pt.category}</span>
+                  <span>{pt.text}</span>
+                </div>
+              ))}
             </div>
           )}
 

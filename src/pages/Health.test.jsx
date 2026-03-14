@@ -11,8 +11,13 @@ vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
 
+vi.mock('../utils/strategyEngine', () => ({
+  generateHealthTalkingPoints: vi.fn(() => []),
+}))
+
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { generateHealthTalkingPoints } from '../utils/strategyEngine'
 
 const mockConfig = {
   council_id: 'burnley',
@@ -202,6 +207,7 @@ describe('Health', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
     useCouncilConfig.mockReturnValue(mockConfig)
+    generateHealthTalkingPoints.mockReturnValue([])
   })
 
   // --- Loading states ---
@@ -442,5 +448,38 @@ describe('Health', () => {
     renderComponent()
     fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
     expect(screen.getByText(/Map metric/)).toBeInTheDocument()
+  })
+
+  // --- Strategy talking points ---
+  it('calls generateHealthTalkingPoints when ward is selected', () => {
+    setupMocks()
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
+    const select = document.getElementById('health-ward-select')
+    fireEvent.change(select, { target: { value: 'Bank Hall' } })
+    expect(generateHealthTalkingPoints).toHaveBeenCalledWith('Bank Hall', expect.any(Object))
+  })
+
+  it('renders Political Context section when talking points exist', () => {
+    generateHealthTalkingPoints.mockReturnValue([
+      { category: 'Health', icon: 'Heart', priority: 1, text: 'Low life expectancy area.' },
+    ])
+    setupMocks()
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
+    const select = document.getElementById('health-ward-select')
+    fireEvent.change(select, { target: { value: 'Bank Hall' } })
+    expect(screen.getByText('Political Context')).toBeInTheDocument()
+    expect(screen.getByText('Low life expectancy area.')).toBeInTheDocument()
+  })
+
+  it('does not render Political Context when no talking points', () => {
+    generateHealthTalkingPoints.mockReturnValue([])
+    setupMocks()
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
+    const select = document.getElementById('health-ward-select')
+    fireEvent.change(select, { target: { value: 'Bank Hall' } })
+    expect(screen.queryByText('Political Context')).not.toBeInTheDocument()
   })
 })

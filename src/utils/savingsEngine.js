@@ -1333,6 +1333,36 @@ export function politicalImpactAssessment(directive, portfolio, options = {}) {
   const timeline = directive.timeline || ''
   const isImmediate = /immediate|0-3 month/i.test(timeline)
 
+  // Forensic analytics — Benford + Gini when spending data provided
+  let forensicSignal = null
+  let marketConcentrationContext = null
+  if (options.spending) {
+    const amounts = (Array.isArray(options.spending) ? options.spending : options.spending.records || [])
+      .map(r => r.amount || r.total || 0)
+      .filter(a => a > 0)
+    if (amounts.length > 0) {
+      const benford = benfordSecondDigit(amounts)
+      if (benford) {
+        forensicSignal = {
+          chi_squared: benford.chiSquared,
+          significant: benford.significant,
+          p_description: benford.pDescription,
+          n: benford.n,
+        }
+      }
+      const gini = giniCoefficient(amounts)
+      marketConcentrationContext = {
+        gini,
+        level: gini > 0.8 ? 'extreme' : gini > 0.6 ? 'high' : gini > 0.4 ? 'moderate' : 'low',
+      }
+    }
+  }
+
+  // If Gini is high, enhance Reform PR angle with monopoly-breaking messaging
+  const prAngle = (marketConcentrationContext && marketConcentrationContext.gini > 0.6)
+    ? { ...reformPR, monopoly_angle: 'Reform is breaking supplier monopoly — opening procurement to fair competition' }
+    : reformPR
+
   return {
     directive_id: directive.id,
     overall_risk: riskLevel,
@@ -1345,11 +1375,14 @@ export function politicalImpactAssessment(directive, portfolio, options = {}) {
       : 'This is good financial management — recovering money that should never have been spent',
     ward_impact: wardImpact,
     // Reform PR engine
-    reform_pr: reformPR,
+    reform_pr: prAngle,
     affected_archetypes: affectedArchetypes,
     borough_ripple: boroughRipple,
     matched_rebuttal: matchedRebuttal,
     constituency_resonance: constituencyResonance,
+    // Forensic analytics
+    forensic_signal: forensicSignal,
+    market_concentration_context: marketConcentrationContext,
     electoral_timing: {
       days_to_borough_elections: daysToBorough,
       can_announce_before_may: daysToBorough > 14,

@@ -11,8 +11,13 @@ vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
 
+vi.mock('../utils/strategyEngine', () => ({
+  generateCrimeTalkingPoints: vi.fn(() => []),
+}))
+
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { generateCrimeTalkingPoints } from '../utils/strategyEngine'
 
 const mockConfig = {
   council_id: 'burnley',
@@ -111,6 +116,7 @@ function setupMocks({ crime = mockCrime, history = mockHistory, boundaries = nul
     if (url === '/data/crime_stats.json') return { data: crime, loading: !crime && crime !== null, error: null }
     if (url === '/data/crime_history.json') return { data: history, loading: false, error: null }
     if (url === '/data/ward_boundaries.json') return { data: boundaries, loading: false, error: null }
+    if (url === '/data/deprivation.json') return { data: null, loading: false, error: null }
     if (url === null) return { data: null, loading: false, error: null }
     return { data: null, loading: false, error: null }
   })
@@ -128,6 +134,7 @@ describe('Crime', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
     useCouncilConfig.mockReturnValue(mockConfig)
+    generateCrimeTalkingPoints.mockReturnValue([])
   })
 
   // --- Loading states ---
@@ -355,5 +362,38 @@ describe('Crime', () => {
     renderComponent()
     fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
     expect(screen.getByText(/Map metric/)).toBeInTheDocument()
+  })
+
+  // --- Strategy talking points ---
+  it('calls generateCrimeTalkingPoints when ward is selected', () => {
+    setupMocks()
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
+    const select = document.getElementById('crime-ward-select')
+    fireEvent.change(select, { target: { value: 'Bank Hall - Burnley' } })
+    expect(generateCrimeTalkingPoints).toHaveBeenCalledWith('Bank Hall - Burnley', null, undefined)
+  })
+
+  it('renders Political Context section when talking points exist', () => {
+    generateCrimeTalkingPoints.mockReturnValue([
+      { category: 'Crime', icon: 'Shield', priority: 1, text: 'High crime deprivation area.' },
+    ])
+    setupMocks()
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
+    const select = document.getElementById('crime-ward-select')
+    fireEvent.change(select, { target: { value: 'Bank Hall - Burnley' } })
+    expect(screen.getByText('Political Context')).toBeInTheDocument()
+    expect(screen.getByText('High crime deprivation area.')).toBeInTheDocument()
+  })
+
+  it('does not render Political Context when no talking points', () => {
+    generateCrimeTalkingPoints.mockReturnValue([])
+    setupMocks()
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
+    const select = document.getElementById('crime-ward-select')
+    fireEvent.change(select, { target: { value: 'Bank Hall - Burnley' } })
+    expect(screen.queryByText('Political Context')).not.toBeInTheDocument()
   })
 })

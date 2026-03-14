@@ -6,7 +6,7 @@ import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear,
          computeWhiteFlightVelocity, adjustSavingsForDeprivation,
          adjustForCCATransfers, computeTimelineFeasibility,
          computePropertyDivision, assessPropertyForLGR,
-         computeThreatAssessment } from './lgrModel'
+         computeThreatAssessment, calculateDogeAdjustedRealisation } from './lgrModel'
 
 const mockParams = {
   annualSavings: 126000000,
@@ -528,6 +528,44 @@ describe('lgrModel', () => {
       const result = computeThreatAssessment(null)
       expect(result.threats).toEqual([])
       expect(result.fiscalScore).toBe(0)
+    })
+  })
+
+  describe('calculateDogeAdjustedRealisation', () => {
+    const mockDogeFindings = {
+      findings: [
+        { type: 'supplier_concentration', hhi: 1800 },
+        { type: 'duplicate_payments', total_amount: 200000 },
+      ],
+    }
+
+    it('returns default values when dogeFindings is null', () => {
+      const result = calculateDogeAdjustedRealisation(null, null)
+      expect(result.realisationRate).toBe(0.75)
+      expect(result.directiveCount).toBe(0)
+      expect(result.avgFeasibility).toBeNull()
+    })
+
+    it('adjusts realisation rate based on directives feasibility', () => {
+      const directives = [
+        { id: 'd1', feasibility: 8, impact: 9 },
+        { id: 'd2', feasibility: 9, impact: 7 },
+      ]
+      const result = calculateDogeAdjustedRealisation(mockDogeFindings, null, directives)
+      expect(result.directiveCount).toBe(2)
+      expect(result.avgFeasibility).toBeGreaterThan(7)
+      expect(result.avgImpact).toBeGreaterThan(7)
+      // High feasibility should boost realisation rate
+      expect(result.factors.some(f => f.includes('directives'))).toBe(true)
+    })
+
+    it('returns enriched output without directives (backward compatible)', () => {
+      const result = calculateDogeAdjustedRealisation(mockDogeFindings, null)
+      expect(result.realisationRate).toBeDefined()
+      expect(result.procurementSaving).toBeDefined()
+      expect(result.directiveCount).toBe(0)
+      expect(result.avgFeasibility).toBeNull()
+      expect(result.avgImpact).toBeNull()
     })
   })
 })

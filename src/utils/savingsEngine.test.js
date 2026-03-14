@@ -387,6 +387,40 @@ describe('politicalImpactAssessment', () => {
   it('returns null for null inputs', () => {
     expect(politicalImpactAssessment(null, null)).toBeNull()
   })
+
+  it('includes forensic_signal from Benford analysis when spending provided', () => {
+    const directive = { id: 'test', type: 'savings_lever', risk: 'Medium', save_central: 1000000 }
+    const spending = Array.from({ length: 200 }, (_, i) => ({ amount: (i + 1) * 1000 + 123 }))
+    const result = politicalImpactAssessment(directive, mockPortfolio, { spending })
+    expect(result.forensic_signal).not.toBeNull()
+    expect(result.forensic_signal.n).toBeGreaterThan(0)
+    expect(typeof result.forensic_signal.significant).toBe('boolean')
+  })
+
+  it('includes market_concentration_context with Gini when spending provided', () => {
+    const directive = { id: 'test', type: 'savings_lever', risk: 'Low', save_central: 500000 }
+    // Create highly concentrated spending (one large, many small)
+    const spending = [
+      { amount: 10000000 },
+      ...Array.from({ length: 50 }, () => ({ amount: 100 })),
+    ]
+    const result = politicalImpactAssessment(directive, mockPortfolio, { spending })
+    expect(result.market_concentration_context).not.toBeNull()
+    expect(result.market_concentration_context.gini).toBeGreaterThan(0.5)
+    expect(['extreme', 'high', 'moderate', 'low']).toContain(result.market_concentration_context.level)
+  })
+
+  it('adds monopoly_angle to reform_pr when Gini exceeds 0.6', () => {
+    const directive = { id: 'test', type: 'savings_lever', risk: 'Low', save_central: 500000 }
+    // Extreme concentration: one supplier gets almost everything
+    const spending = [
+      { amount: 100000000 },
+      ...Array.from({ length: 100 }, () => ({ amount: 1 })),
+    ]
+    const result = politicalImpactAssessment(directive, mockPortfolio, { spending })
+    expect(result.market_concentration_context.gini).toBeGreaterThan(0.6)
+    expect(result.reform_pr.monopoly_angle).toContain('monopoly')
+  })
 })
 
 describe('departmentOperationsProfile', () => {

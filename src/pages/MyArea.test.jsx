@@ -11,8 +11,17 @@ vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
 
+vi.mock('../utils/strategyEngine', () => ({
+  generateHousingTalkingPoints: vi.fn(() => []),
+  generateHealthTalkingPoints: vi.fn(() => []),
+  generateEconomyTalkingPoints: vi.fn(() => []),
+  generateCrimeTalkingPoints: vi.fn(() => []),
+  generateFiscalTalkingPoints: vi.fn(() => []),
+}))
+
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { generateHousingTalkingPoints, generateHealthTalkingPoints, generateEconomyTalkingPoints, generateCrimeTalkingPoints, generateFiscalTalkingPoints } from '../utils/strategyEngine'
 
 const mockConfig = {
   council_id: 'burnley',
@@ -91,6 +100,9 @@ function setupMocks(overrides = {}, deprivation = mockDeprivation, planning = nu
     if (urls === '/data/property_assets.json') {
       return { data: null, loading: false, error: new Error('Not found') }
     }
+    if (urls === '/data/housing.json' || urls === '/data/health.json' || urls === '/data/economy.json') {
+      return { data: null, loading: false, error: null }
+    }
     if (urls === '/data/ward_boundaries.json' || urls === null) {
       return { data: null, loading: false, error: null }
     }
@@ -113,6 +125,12 @@ describe('MyArea', () => {
     global.fetch = vi.fn()
     // jsdom doesn't implement scrollIntoView
     Element.prototype.scrollIntoView = vi.fn()
+    // Ensure strategy mocks return empty arrays after restoreAllMocks
+    generateHousingTalkingPoints.mockReturnValue([])
+    generateHealthTalkingPoints.mockReturnValue([])
+    generateEconomyTalkingPoints.mockReturnValue([])
+    generateCrimeTalkingPoints.mockReturnValue([])
+    generateFiscalTalkingPoints.mockReturnValue([])
   })
 
   // === Loading / Error / Basic ===
@@ -547,5 +565,35 @@ describe('MyArea', () => {
     const select = screen.getByLabelText(/select your ward/i)
     fireEvent.change(select, { target: { value: 'Daneshouse' } })
     expect(screen.queryByText('Houses in Multiple Occupation')).not.toBeInTheDocument()
+  })
+
+  // --- Ward Intelligence Briefing ---
+  it('renders Ward Intelligence Briefing when talking points exist', () => {
+    generateFiscalTalkingPoints.mockReturnValue([
+      { category: 'Fiscal', icon: 'AlertTriangle', priority: 1, text: 'Fiscal resilience concern.' },
+    ])
+    setupMocks()
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Cliviger with Worsthorne' } })
+    expect(screen.getByText('Ward Intelligence Briefing')).toBeInTheDocument()
+    expect(screen.getByText('Fiscal resilience concern.')).toBeInTheDocument()
+  })
+
+  it('does not render Ward Intelligence Briefing when no talking points', () => {
+    setupMocks()
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Cliviger with Worsthorne' } })
+    expect(screen.queryByText('Ward Intelligence Briefing')).not.toBeInTheDocument()
+  })
+
+  it('calls multiple talking point generators for ward briefing', () => {
+    setupMocks()
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Brunshaw' } })
+    expect(generateHousingTalkingPoints).toHaveBeenCalled()
+    expect(generateFiscalTalkingPoints).toHaveBeenCalled()
   })
 })

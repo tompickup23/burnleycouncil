@@ -176,4 +176,76 @@ describe('Home', () => {
     renderComponent()
     expect(screen.queryByText(/Fiscal Resilience/)).not.toBeInTheDocument()
   })
+
+  it('shows reserves adequacy in fiscal banner when reserves and expenditure provided', () => {
+    useCouncilConfig.mockReturnValue(mockConfig)
+    useData.mockImplementation((urls) => {
+      if (Array.isArray(urls)) {
+        return {
+          data: [mockInsights, { findings: [], key_findings: [] }, { by_party: [] }, [], null],
+          loading: false,
+          error: null,
+        }
+      }
+      if (urls === '/data/demographic_fiscal.json') {
+        return {
+          data: { fiscal_resilience_score: 45, threats: [{ type: 'fiscal' }], reserves: 5000000, expenditure: 10000000 },
+          loading: false,
+          error: null,
+        }
+      }
+      return { data: null, loading: false, error: null }
+    })
+    renderComponent()
+    expect(screen.getByText(/Fiscal Resilience/)).toBeInTheDocument()
+    expect(screen.getByText(/months cover/)).toBeInTheDocument()
+  })
+
+  it('fiscal banner links to /budgets instead of /doge', () => {
+    useCouncilConfig.mockReturnValue(mockConfig)
+    useData.mockImplementation((urls) => {
+      if (Array.isArray(urls)) {
+        return {
+          data: [mockInsights, { findings: [], key_findings: [] }, { by_party: [] }, [], null],
+          loading: false,
+          error: null,
+        }
+      }
+      if (urls === '/data/demographic_fiscal.json') {
+        return {
+          data: { fiscal_resilience_score: 20, threats: [] },
+          loading: false,
+          error: null,
+        }
+      }
+      return { data: null, loading: false, error: null }
+    })
+    renderComponent()
+    const banner = screen.getByText(/Fiscal Resilience/).closest('a')
+    expect(banner.getAttribute('href')).toBe('/budgets')
+  })
+
+  it('fiscal banner shows without reserves when reserves data not available', () => {
+    useCouncilConfig.mockReturnValue(mockConfig)
+    useData.mockImplementation((urls) => {
+      if (Array.isArray(urls)) {
+        return {
+          data: [mockInsights, { findings: [], key_findings: [] }, { by_party: [] }, [], null],
+          loading: false,
+          error: null,
+        }
+      }
+      if (urls === '/data/demographic_fiscal.json') {
+        return {
+          data: { fiscal_resilience_score: 55, threats: [{ type: 'test' }] },
+          loading: false,
+          error: null,
+        }
+      }
+      return { data: null, loading: false, error: null }
+    })
+    renderComponent()
+    expect(screen.getByText(/Fiscal Resilience/)).toBeInTheDocument()
+    expect(screen.queryByText(/months cover/)).not.toBeInTheDocument()
+  })
 })

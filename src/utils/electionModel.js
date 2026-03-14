@@ -693,7 +693,7 @@ export function predictWard(
  * Predict all wards up for election in a council.
  * @returns {{ wards: Object, seatTotals: Object, totalSeats: number }}
  */
-export function predictCouncil(electionsData, wardsUp, assumptions, nationalPolling, ge2024Result, demographicsMap, deprivationMap, constituencyMap, lcc2025, modelParams, fiscalData) {
+export function predictCouncil(electionsData, wardsUp, assumptions, nationalPolling, ge2024Result, demographicsMap, deprivationMap, constituencyMap, lcc2025, modelParams, fiscalData, integrityData) {
   const wardResults = {};
   const seatTotals = {};
 
@@ -740,6 +740,20 @@ export function predictCouncil(electionsData, wardsUp, assumptions, nationalPoll
       modelParams,
       fiscalData || null,
     );
+
+    // Apply integrity adjustment if data provided (Step 4.5)
+    if (integrityData && result.shares) {
+      const integrityResult = adjustForIntegrity(result.shares, wardData, integrityData);
+      if (integrityResult.methodology?.factors?.length > 0) {
+        result.shares = integrityResult.adjustedShares;
+        // Recompute winner from adjusted shares
+        const sortedParties = Object.entries(result.shares).sort((a, b) => b[1] - a[1]);
+        if (sortedParties.length > 0) {
+          result.winner = sortedParties[0][0];
+        }
+        result.methodology = [...(result.methodology || []), integrityResult.methodology];
+      }
+    }
 
     wardResults[wardName] = result;
 

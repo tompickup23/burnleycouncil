@@ -3,6 +3,7 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { ChartCard } from '../components/ui/ChartCard'
 import { StatCard } from '../components/ui/StatCard'
+import { generateEconomyTalkingPoints } from '../utils/strategyEngine'
 import SparkLine from '../components/ui/SparkLine'
 import GaugeChart from '../components/ui/GaugeChart'
 import CollapsibleSection from '../components/CollapsibleSection'
@@ -118,6 +119,12 @@ export default function Economy() {
     if (e.england_median_weekly) items.push({ name: 'England', value: e.england_median_weekly })
     return items
   }, [economy, config.council_name])
+
+  // Strategy talking points for selected ward
+  const economyTalkingPoints = useMemo(() => {
+    if (!selectedWard || !economy) return []
+    return generateEconomyTalkingPoints(selectedWard, economy)
+  }, [selectedWard, economy])
 
   // Map metric values for choropleth
   const mapValues = useMemo(() => {
@@ -368,6 +375,19 @@ export default function Economy() {
                         )
                       })}
                   </div>
+                </div>
+              )}
+
+              {/* Political Context */}
+              {economyTalkingPoints.length > 0 && (
+                <div className="strategy-context" style={{ background: 'rgba(18,182,207,0.04)', border: '1px solid rgba(18,182,207,0.15)', borderRadius: 8, padding: '1rem 1.25rem', marginTop: '1rem' }}>
+                  <h4 style={{ margin: '0 0 0.75rem', fontSize: '0.9rem', fontWeight: 700, color: '#12B6CF' }}>Political Context</h4>
+                  {economyTalkingPoints.map((pt, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 6, fontSize: '0.8rem', lineHeight: 1.5, color: 'var(--text-secondary)' }}>
+                      <span style={{ background: 'rgba(18,182,207,0.12)', color: '#12B6CF', padding: '1px 6px', borderRadius: 4, fontSize: '0.65rem', fontWeight: 600, flexShrink: 0 }}>{pt.category}</span>
+                      <span>{pt.text}</span>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>

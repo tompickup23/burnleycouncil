@@ -5,6 +5,7 @@ import { LoadingState } from '../components/ui'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, LineChart, Line } from 'recharts'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { Shield, MapPin, AlertTriangle, TrendingDown, Users, Search, Eye } from 'lucide-react'
+import { generateCrimeTalkingPoints } from '../utils/strategyEngine'
 import CollapsibleSection from '../components/CollapsibleSection'
 import GaugeChart from '../components/ui/GaugeChart'
 import ChartCard from '../components/ui/ChartCard'
@@ -53,6 +54,7 @@ function Crime() {
   const { data: wardBoundaries } = useData(
     config.data_sources?.ward_boundaries ? '/data/ward_boundaries.json' : null
   )
+  const { data: deprivationRaw } = useData('/data/deprivation.json')
   const [selectedWard, setSelectedWard] = useState('')
   const [activeTab, setActiveTab] = useState('overview')
   const [mapMetric, setMapMetric] = useState('total_crimes')
@@ -154,6 +156,13 @@ function Crime() {
     if (!selectedWard) return null
     return wardComparison.find(w => w.name === selectedWard) || null
   }, [selectedWard, wardComparison])
+
+  // Strategy talking points for selected ward
+  const crimeTalkingPoints = useMemo(() => {
+    if (!selectedWard) return []
+    const dep = deprivationRaw?.wards?.[selectedWard]
+    return generateCrimeTalkingPoints(selectedWard, null, dep)
+  }, [selectedWard, deprivationRaw])
 
   if (loading) return <LoadingState />
   if (error) return <div className="error-state">Error loading crime data: {error.message}</div>
@@ -364,6 +373,19 @@ function Crime() {
                 <span>{fmt(selectedWardData.asb)} ASB</span>
                 <span>{fmt(selectedWardData.stop_search)} stop & search</span>
               </div>
+            </div>
+          )}
+
+          {/* Political Context */}
+          {crimeTalkingPoints.length > 0 && (
+            <div className="strategy-context" style={{ background: 'rgba(18,182,207,0.04)', border: '1px solid rgba(18,182,207,0.15)', borderRadius: 8, padding: '1rem 1.25rem', marginTop: '1rem' }}>
+              <h4 style={{ margin: '0 0 0.75rem', fontSize: '0.9rem', fontWeight: 700, color: '#12B6CF' }}>Political Context</h4>
+              {crimeTalkingPoints.map((pt, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 6, fontSize: '0.8rem', lineHeight: 1.5, color: 'var(--text-secondary)' }}>
+                  <span style={{ background: 'rgba(18,182,207,0.12)', color: '#12B6CF', padding: '1px 6px', borderRadius: 4, fontSize: '0.65rem', fontWeight: 600, flexShrink: 0 }}>{pt.category}</span>
+                  <span>{pt.text}</span>
+                </div>
+              ))}
             </div>
           )}
 

@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Calendar, Clock, MapPin, ExternalLink, AlertTriangle, ChevronRight, MessageSquare, Filter, Info, FileText, Users } from 'lucide-react'
+import { Calendar, Clock, MapPin, ExternalLink, AlertTriangle, ChevronRight, MessageSquare, Filter, Info, FileText, Users, Shield, Target } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -8,9 +8,17 @@ import CouncillorLink from '../components/CouncillorLink'
 import HeatmapGrid from '../components/ui/HeatmapGrid'
 import ChartCard from '../components/ui/ChartCard'
 import { slugify } from '../utils/format'
+import { mapAgendaToPolicyAreas, getTopicAttackLines, buildReformDefenceLines, POLICY_AREAS } from '../utils/intelligenceEngine'
 import { MEETING_TYPE_LABELS as TYPE_LABELS, MEETING_TYPE_COLORS as TYPE_COLORS, CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
 import '../components/ui/AdvancedCharts.css'
 import './Meetings.css'
+
+const POLICY_AREA_COLORS = {
+  budget_finance: '#ff9f0a', council_tax: '#ff6b35', devolution_lgr: '#af52de',
+  environment_climate: '#30d158', health_wellbeing: '#64d2ff', governance_constitution: '#ff453a',
+  equalities_diversity: '#ffd60a', social_care: '#ff375f', education_schools: '#5e5ce6',
+  transport_highways: '#00c7be', housing: '#ac8e68', community_safety: '#ff6961',
+}
 
 function formatMeetingDate(dateStr) {
   const d = new Date(dateStr + 'T00:00:00')
@@ -55,7 +63,11 @@ function Meetings() {
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
   const { data: meetingsData, loading, error } = useData('/data/meetings.json')
+  const { data: votingData } = useData(config.data_sources?.voting_records ? '/data/voting.json' : null)
+  const { data: reformData } = useData(config.council_id === 'lancashire_cc' ? '/data/reform_transformation.json' : null)
+  const { data: dogeData } = useData(config.data_sources?.doge_investigation ? '/data/doge_findings.json' : null)
   const [typeFilter, setTypeFilter] = useState('all')
+  const [policyFilter, setPolicyFilter] = useState('all')
   const [showPast, setShowPast] = useState(false)
   const [expandedId, setExpandedId] = useState(null)
 
@@ -64,19 +76,42 @@ function Meetings() {
     return () => { document.title = `${councilName} Council Transparency | Where Your Money Goes` }
   }, [councilName])
 
-  const meetings = useMemo(() => {
+  // Enrich meetings with policy area tags
+  const enrichedMeetings = useMemo(() => {
     if (!meetingsData?.meetings) return []
+    return meetingsData.meetings.map(m => {
+      const areas = new Set()
+      for (const item of m.agenda_items || []) {
+        const text = typeof item === 'object' ? (item.title || '') : item
+        for (const area of mapAgendaToPolicyAreas(text)) areas.add(area)
+      }
+      return { ...m, policyAreas: [...areas] }
+    })
+  }, [meetingsData])
+
+  const meetings = useMemo(() => {
+    if (!enrichedMeetings.length) return []
     const now = new Date()
     now.setHours(0, 0, 0, 0)
-    return meetingsData.meetings
+    return enrichedMeetings
       .filter(m => {
         if (!showPast && new Date(m.date + 'T00:00:00') < now && !m.cancelled) return false
         if (m.cancelled && !showPast) return false
         if (typeFilter !== 'all' && m.type !== typeFilter) return false
+        if (policyFilter !== 'all' && !m.policyAreas.includes(policyFilter)) return false
         return true
       })
       .sort((a, b) => a.date.localeCompare(b.date))
-  }, [meetingsData, typeFilter, showPast])
+  }, [enrichedMeetings, typeFilter, policyFilter, showPast])
+
+  // Collect all policy areas across meetings for filter chips
+  const allPolicyAreas = useMemo(() => {
+    const areas = new Set()
+    for (const m of enrichedMeetings) {
+      for (const a of m.policyAreas) areas.add(a)
+    }
+    return [...areas].sort()
+  }, [enrichedMeetings])
 
   const meetingTypes = useMemo(() => {
     if (!meetingsData?.meetings) return []
@@ -324,6 +359,27 @@ function Meetings() {
             </button>
           ))}
         </div>
+        {allPolicyAreas.length > 0 && (
+          <div className="type-filters" style={{ marginTop: '0.5rem' }}>
+            <Target size={16} />
+            <button
+              className={`filter-pill ${policyFilter === 'all' ? 'active' : ''}`}
+              onClick={() => setPolicyFilter('all')}
+            >
+              All Topics
+            </button>
+            {allPolicyAreas.map(area => (
+              <button
+                key={area}
+                className={`filter-pill ${policyFilter === area ? 'active' : ''}`}
+                onClick={() => setPolicyFilter(area)}
+                style={policyFilter === area ? { background: POLICY_AREA_COLORS[area] || '#8e8e93', borderColor: POLICY_AREA_COLORS[area] || '#8e8e93' } : {}}
+              >
+                {POLICY_AREAS[area] || area}
+              </button>
+            ))}
+          </div>
+        )}
         <label className="show-past-toggle">
           <input type="checkbox" checked={showPast} onChange={e => setShowPast(e.target.checked)} />
           Show past & cancelled
@@ -414,6 +470,15 @@ function Meetings() {
                   {meeting.status === 'agenda_published' && (
                     <span className="agenda-badge">Agenda Published</span>
                   )}
+                  {meeting.policyAreas?.length > 0 && (
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '3px', marginTop: '2px' }}>
+                      {meeting.policyAreas.slice(0, 4).map(area => (
+                        <span key={area} style={{ fontSize: '0.6rem', padding: '0 5px', borderRadius: '3px', background: `${POLICY_AREA_COLORS[area] || '#8e8e93'}18`, color: POLICY_AREA_COLORS[area] || '#8e8e93' }}>
+                          {POLICY_AREAS[area] || area}
+                        </span>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="meeting-indicators">
@@ -433,10 +498,85 @@ function Meetings() {
                     <div className="meeting-detail-section">
                       <h4>Agenda Items</h4>
                       <ul className="agenda-list">
-                        {meeting.agenda_items.map((item, i) => (
-                          <li key={i}>{typeof item === 'object' ? (item.title || item.name || '') : item}</li>
-                        ))}
+                        {meeting.agenda_items.map((item, i) => {
+                          const text = typeof item === 'object' ? (item.title || item.name || '') : item
+                          const itemAreas = mapAgendaToPolicyAreas(text)
+                          return (
+                            <li key={i}>
+                              {text}
+                              {itemAreas.length > 0 && (
+                                <span style={{ marginLeft: '0.5rem' }}>
+                                  {itemAreas.map(area => (
+                                    <span key={area} className="policy-tag" style={{ display: 'inline-block', fontSize: '0.65rem', padding: '1px 6px', borderRadius: '4px', marginLeft: '3px', background: `${POLICY_AREA_COLORS[area] || '#8e8e93'}22`, color: POLICY_AREA_COLORS[area] || '#8e8e93', border: `1px solid ${POLICY_AREA_COLORS[area] || '#8e8e93'}40` }}>
+                                      {POLICY_AREAS[area] || area}
+                                    </span>
+                                  ))}
+                                </span>
+                              )}
+                            </li>
+                          )
+                        })}
                       </ul>
+                    </div>
+                  )}
+
+                  {/* Policy Intelligence — attack/defence lines */}
+                  {meeting.policyAreas?.length > 0 && (reformData || dogeData) && (
+                    <div className="meeting-detail-section" style={{ background: 'rgba(18,182,207,0.04)', borderRadius: '8px', padding: '0.75rem', border: '1px solid rgba(18,182,207,0.15)' }}>
+                      <h4 style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}><Shield size={16} /> Policy Intelligence</h4>
+                      {meeting.policyAreas.map(area => {
+                        const attacks = getTopicAttackLines(area, { reformTransformation: reformData, dogeFindings: dogeData })
+                        const defences = buildReformDefenceLines(area, reformData)
+                        if (!attacks.length && !defences.length) return null
+                        return (
+                          <div key={area} style={{ marginBottom: '0.75rem' }}>
+                            <span className="policy-tag" style={{ display: 'inline-block', fontSize: '0.7rem', padding: '2px 8px', borderRadius: '4px', background: `${POLICY_AREA_COLORS[area] || '#8e8e93'}22`, color: POLICY_AREA_COLORS[area] || '#8e8e93', border: `1px solid ${POLICY_AREA_COLORS[area] || '#8e8e93'}40`, fontWeight: 600, marginBottom: '0.4rem' }}>
+                              {POLICY_AREAS[area] || area}
+                            </span>
+                            {attacks.length > 0 && (
+                              <div style={{ fontSize: '0.78rem', marginBottom: '0.3rem' }}>
+                                <strong style={{ color: '#ff453a' }}>Likely opposition attacks:</strong>
+                                <ul style={{ margin: '0.2rem 0 0 1rem', listStyle: 'disc' }}>
+                                  {attacks.slice(0, 3).map((a, j) => (
+                                    <li key={j} style={{ color: 'var(--text-secondary)', lineHeight: 1.4 }}>{a.text}{a.party ? ` (${a.party})` : ''}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                            {defences.length > 0 && (
+                              <div style={{ fontSize: '0.78rem' }}>
+                                <strong style={{ color: '#30d158' }}>Reform response:</strong>
+                                <ul style={{ margin: '0.2rem 0 0 1rem', listStyle: 'disc' }}>
+                                  {defences.slice(0, 2).map((d, j) => (
+                                    <li key={j} style={{ color: 'var(--text-secondary)', lineHeight: 1.4 }}>{d.headline}: {d.metric || d.detail}</li>
+                                  ))}
+                                </ul>
+                              </div>
+                            )}
+                          </div>
+                        )
+                      })}
+                      {/* Matching past votes */}
+                      {votingData?.votes && (() => {
+                        const matchingVotes = votingData.votes.filter(v => {
+                          const vAreas = mapAgendaToPolicyAreas(v.title || v.description || '')
+                          return vAreas.some(a => meeting.policyAreas.includes(a))
+                        }).slice(0, 3)
+                        if (!matchingVotes.length) return null
+                        return (
+                          <div style={{ fontSize: '0.78rem', borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: '0.5rem', marginTop: '0.25rem' }}>
+                            <strong>Related past votes:</strong>
+                            <ul style={{ margin: '0.2rem 0 0 1rem', listStyle: 'disc' }}>
+                              {matchingVotes.map((v, j) => (
+                                <li key={j} style={{ color: 'var(--text-secondary)', lineHeight: 1.4 }}>
+                                  {v.title || v.description} — {v.result || 'recorded'}
+                                  {v.council_tax_change && <span style={{ color: '#ff9f0a', marginLeft: '0.3rem' }}>({v.council_tax_change})</span>}
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )
+                      })()}
                     </div>
                   )}
 

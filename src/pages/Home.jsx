@@ -11,6 +11,7 @@ import {
   PieChart, Pie, Cell
 } from 'recharts'
 import { formatCurrency, formatNumber, formatPercent } from '../utils/format'
+import { reservesAdequacy } from '../utils/analytics'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, PARTY_COLORS, CHART_ANIMATION } from '../utils/constants'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -278,20 +279,26 @@ function Home() {
         </div>
 
         {/* Fiscal Resilience Banner */}
-        {demoFiscalData?.fiscal_resilience_score != null && (
-          <Link to="/doge" className={`fiscal-threat-banner fiscal-threat-banner--${demoFiscalData.fiscal_resilience_score < 30 ? 'critical' : 'warning'}`}>
-            <AlertTriangle size={18} className={`fiscal-threat-icon fiscal-threat-icon--${demoFiscalData.fiscal_resilience_score < 30 ? 'critical' : 'warning'}`} />
-            <div className="fiscal-threat-content">
-              <span className="fiscal-threat-title">
-                Fiscal Resilience: <span className={`fiscal-threat-score--${demoFiscalData.fiscal_resilience_score < 30 ? 'critical' : 'warning'}`}>{demoFiscalData.fiscal_resilience_score}/100</span>
-              </span>
-              <span className="fiscal-threat-detail">
-                {demoFiscalData.threats?.length || 0} demographic fiscal pressures identified
-              </span>
-            </div>
-            <span className="fiscal-threat-link">View analysis →</span>
-          </Link>
-        )}
+        {demoFiscalData?.fiscal_resilience_score != null && (() => {
+          const reserves = demoFiscalData.reserves != null && demoFiscalData.expenditure != null
+            ? reservesAdequacy(demoFiscalData.reserves, demoFiscalData.expenditure) : null
+          const severity = demoFiscalData.fiscal_resilience_score < 30 ? 'critical' : 'warning'
+          return (
+            <Link to="/budgets" className={`fiscal-threat-banner fiscal-threat-banner--${severity}`}>
+              <AlertTriangle size={18} className={`fiscal-threat-icon fiscal-threat-icon--${severity}`} />
+              <div className="fiscal-threat-content">
+                <span className="fiscal-threat-title">
+                  Fiscal Resilience: <span className={`fiscal-threat-score--${severity}`}>{demoFiscalData.fiscal_resilience_score}/100</span>
+                  {reserves && <span style={{ marginLeft: 8, fontSize: '0.8em', opacity: 0.85 }}>({reserves.rating} — {reserves.monthsCover.toFixed(1)} months cover)</span>}
+                </span>
+                <span className="fiscal-threat-detail">
+                  {demoFiscalData.threats?.length || 0} demographic fiscal pressures identified
+                </span>
+              </div>
+              <span className="fiscal-threat-link">View analysis →</span>
+            </Link>
+          )
+        })()}
 
         <div className="hero-actions">
           <Link to={spendingLink} className="btn-primary">

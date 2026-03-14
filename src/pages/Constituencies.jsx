@@ -4,6 +4,7 @@ import { useData } from '../hooks/useData'
 import { LoadingState } from '../components/ui'
 import { Users, TrendingUp, TrendingDown, ArrowUpDown, Search, Landmark, ExternalLink, MapPin, BarChart3, ChevronDown, ChevronUp } from 'lucide-react'
 import { PARTY_COLORS, CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
+import { predictConstituencyGE } from '../utils/electionModel'
 import SparkLine from '../components/ui/SparkLine'
 import HeatmapGrid from '../components/ui/HeatmapGrid'
 import ChartCard from '../components/ui/ChartCard'
@@ -26,6 +27,7 @@ const SORT_OPTIONS = [
 function Constituencies() {
   const { data: constData, loading, error } = useData('/data/shared/constituencies.json')
   const { data: pollingData } = useData('/data/shared/polling.json')
+  const { data: electionsRefData } = useData('/data/shared/elections_reference.json')
   const { data: councilBoundaries } = useData('/data/shared/council_boundaries.json')
   const { data: crossCouncilData } = useData('/data/cross_council.json')
   const [mapMode, setMapMode] = useState('politics')
@@ -92,6 +94,20 @@ function Constituencies() {
     if (!pollingData?.swing_from_ge2024) return {}
     return pollingData.swing_from_ge2024
   }, [pollingData])
+
+  // GE predictions per constituency using electionModel
+  const gePredictions = useMemo(() => {
+    if (!constData?.constituencies || !pollingData?.aggregate) return {}
+    const coefficients = electionsRefData?.model_params || {}
+    const predictions = {}
+    for (const c of constData.constituencies) {
+      const result = predictConstituencyGE(c, pollingData, coefficients)
+      if (result?.prediction) {
+        predictions[c.id] = result
+      }
+    }
+    return predictions
+  }, [constData, pollingData, electionsRefData])
 
   // Selected constituency for detail panel
   const selectedConstituency = useMemo(() => {
@@ -289,6 +305,7 @@ function Constituencies() {
             key={c.id}
             constituency={c}
             swingData={swingData}
+            gePrediction={gePredictions[c.id]}
             isSelected={selectedConstituencyId === c.id}
             onToggleDetail={toggleConstituencyDetail}
           />
@@ -410,7 +427,36 @@ function Constituencies() {
             </ChartCard>
           )}
 
-          {!expenseBreakdownData.length && !votingHeatmapData.length && (
+          {/* GE Prediction from electionModel */}
+          {gePredictions[selectedConstituencyId]?.prediction && (
+            <div className="constituency-detail-prediction" style={{ marginTop: 16 }}>
+              <h3 style={{ fontSize: '1rem', color: '#fff', marginBottom: 8 }}>
+                <TrendingUp size={16} style={{ verticalAlign: 'middle', marginRight: 6 }} />
+                Next GE Projected Vote Shares
+                {gePredictions[selectedConstituencyId].confidence && (
+                  <span style={{ fontSize: '0.75rem', marginLeft: 8, color: '#8e8e93' }}>
+                    ({gePredictions[selectedConstituencyId].confidence} confidence)
+                  </span>
+                )}
+              </h3>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                {Object.entries(gePredictions[selectedConstituencyId].prediction)
+                  .sort((a, b) => b[1] - a[1])
+                  .filter(([, pct]) => pct > 0.01)
+                  .map(([party, pct]) => (
+                    <span key={party} style={{
+                      padding: '4px 10px', borderRadius: 6, fontSize: '0.8rem', fontWeight: 600,
+                      background: 'rgba(255,255,255,0.05)', border: `1px solid ${PARTY_COLORS[party] || '#888'}`,
+                      color: PARTY_COLORS[party] || '#ccc',
+                    }}>
+                      {party}: {(pct * 100).toFixed(1)}%
+                    </span>
+                  ))}
+              </div>
+            </div>
+          )}
+
+          {!expenseBreakdownData.length && !votingHeatmapData.length && !gePredictions[selectedConstituencyId]?.prediction && (
             <p className="constituency-detail-empty">No expense or voting data available for this MP.</p>
           )}
         </section>
@@ -433,7 +479,7 @@ function Constituencies() {
   )
 }
 
-function ConstituencyCard({ constituency: c, swingData, isSelected, onToggleDetail }) {
+function ConstituencyCard({ constituency: c, swingData, gePrediction, isSelected, onToggleDetail }) {
   const mp = c.mp || {}
   const partyColor = PARTY_COLORS[mp.party] || '#888'
   const majorityPct = mp.majority_pct ? (mp.majority_pct * 100).toFixed(1) : '—'
@@ -511,6 +557,12 @@ function ConstituencyCard({ constituency: c, swingData, isSelected, onToggleDeta
 
       {c.partial && (
         <div className="constituency-card-badge">Cross-border</div>
+      )}
+
+      {gePrediction?.prediction?.['Reform UK'] != null && (
+        <div className="constituency-card-badge constituency-card-badge--reform" style={{ borderColor: PARTY_COLORS['Reform UK'] || '#12B6CF', color: PARTY_COLORS['Reform UK'] || '#12B6CF' }}>
+          Reform GE: {(gePrediction.prediction['Reform UK'] * 100).toFixed(1)}%
+        </div>
       )}
 
       {Array.isArray(c.claimant_count) && c.claimant_count.length > 0 && (() => {

@@ -235,13 +235,14 @@ export const MODEL_KEY_MAP = {
  * @param {Object} integrityData - integrity.json data for a council
  * @returns {{ realisationRate: number, procurementSaving: number, factors: string[] }}
  */
-export function calculateDogeAdjustedRealisation(dogeFindings, integrityData) {
+export function calculateDogeAdjustedRealisation(dogeFindings, integrityData, directives) {
   let realisationRate = 0.75; // Base rate
   let procurementSaving = 0.03; // Base procurement saving %
   const factors = [];
 
   if (!dogeFindings) {
-    return { realisationRate, procurementSaving, factors: ['No DOGE data — using default 75% realisation'] };
+    return { realisationRate, procurementSaving, factors: ['No DOGE data — using default 75% realisation'],
+             directiveCount: 0, avgFeasibility: null, avgImpact: null };
   }
 
   // Supplier concentration assessment
@@ -289,9 +290,26 @@ export function calculateDogeAdjustedRealisation(dogeFindings, integrityData) {
     }
   }
 
+  // Directive-based refinement: use average feasibility/impact to adjust realisation
+  let directiveCount = 0;
+  let avgFeasibility = null;
+  let avgImpact = null;
+  if (Array.isArray(directives) && directives.length > 0) {
+    const scored = directives.filter(d => d.feasibility != null && d.impact != null);
+    directiveCount = directives.length;
+    if (scored.length > 0) {
+      avgFeasibility = scored.reduce((s, d) => s + d.feasibility, 0) / scored.length;
+      avgImpact = scored.reduce((s, d) => s + d.impact, 0) / scored.length;
+      // High feasibility (>7) boosts realisation; low (<4) penalises
+      const feasibilityAdj = ((avgFeasibility - 5) / 5) * 0.05; // +-5pp max
+      realisationRate += feasibilityAdj;
+      factors.push(`${scored.length} directives (avg feasibility ${avgFeasibility.toFixed(1)}/10, avg impact ${avgImpact.toFixed(1)}/10) → realisation ${feasibilityAdj >= 0 ? '+' : ''}${(feasibilityAdj * 100).toFixed(1)}pp`);
+    }
+  }
+
   realisationRate = Math.max(0.40, Math.min(1.0, realisationRate));
 
-  return { realisationRate, procurementSaving, factors };
+  return { realisationRate, procurementSaving, factors, directiveCount, avgFeasibility, avgImpact };
 }
 
 /**

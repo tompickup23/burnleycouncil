@@ -11,8 +11,14 @@ vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
 
+vi.mock('../utils/strategyEngine', () => ({
+  generateHousingTalkingPoints: vi.fn(() => []),
+  generateHMOTalkingPoints: vi.fn(() => []),
+}))
+
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { generateHousingTalkingPoints, generateHMOTalkingPoints } from '../utils/strategyEngine'
 
 const mockConfig = {
   council_id: 'burnley',
@@ -183,6 +189,8 @@ describe('Housing', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
     useCouncilConfig.mockReturnValue(mockConfig)
+    generateHousingTalkingPoints.mockReturnValue([])
+    generateHMOTalkingPoints.mockReturnValue([])
   })
 
   // --- Loading states ---
@@ -447,5 +455,39 @@ describe('Housing', () => {
     renderComponent()
     fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
     expect(screen.getByText(/Map metric/)).toBeInTheDocument()
+  })
+
+  // --- Strategy talking points ---
+  it('calls generateHousingTalkingPoints when ward is selected', () => {
+    setupMocks()
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
+    const select = document.getElementById('ward-select')
+    fireEvent.change(select, { target: { value: 'Bank Hall' } })
+    expect(generateHousingTalkingPoints).toHaveBeenCalledWith('Bank Hall', expect.any(Object))
+  })
+
+  it('renders Political Context section when talking points exist', () => {
+    generateHousingTalkingPoints.mockReturnValue([
+      { category: 'Housing', icon: 'Building', priority: 1, text: 'High social housing dependency.' },
+    ])
+    setupMocks()
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
+    const select = document.getElementById('ward-select')
+    fireEvent.change(select, { target: { value: 'Bank Hall' } })
+    expect(screen.getByText('Political Context')).toBeInTheDocument()
+    expect(screen.getByText('High social housing dependency.')).toBeInTheDocument()
+  })
+
+  it('does not render Political Context when no talking points', () => {
+    generateHousingTalkingPoints.mockReturnValue([])
+    generateHMOTalkingPoints.mockReturnValue([])
+    setupMocks()
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
+    const select = document.getElementById('ward-select')
+    fireEvent.change(select, { target: { value: 'Bank Hall' } })
+    expect(screen.queryByText('Political Context')).not.toBeInTheDocument()
   })
 })

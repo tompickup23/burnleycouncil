@@ -31,6 +31,19 @@ vi.mock('../components/WardMap', () => ({
   ),
 }))
 
+vi.mock('../utils/lgrModel', () => ({
+  estimatePropertyRationalisationSavings: vi.fn(() => ({
+    disposalSaving: 22500, coLocationSaving: 12500, conditionSaving: 5000,
+    subsidiaryValue: 0, subsidiaryCount: 0, jvCount: 0,
+    factors: ['1 disposal candidates', '2 co-locatable assets'],
+  })),
+}))
+
+vi.mock('../utils/analytics', () => ({
+  giniCoefficient: vi.fn(() => 0.65),
+  computeDistributionStats: vi.fn(() => ({ mean: 58333, median: 25000, stdDev: 70000, count: 3 })),
+}))
+
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useAuth } from '../context/AuthContext'
@@ -627,5 +640,35 @@ describe('PropertyPortfolio', () => {
     renderComponent(['/properties?ced=Preston%20Central%20East'])
     expect(screen.getByText('County Hall')).toBeInTheDocument()
     expect(screen.queryByText('Burnley Library')).not.toBeInTheDocument()
+  })
+
+  // --- LGR Rationalisation Section ---
+
+  it('renders LGR Rationalisation Potential section with total saving', () => {
+    renderComponent()
+    expect(screen.getByText('LGR Rationalisation Potential')).toBeInTheDocument()
+  })
+
+  it('shows Gini coefficient in rationalisation section', () => {
+    renderComponent()
+    expect(screen.getByText('Spend Gini')).toBeInTheDocument()
+    expect(screen.getByText('0.650')).toBeInTheDocument()
+  })
+
+  it('shows rationalisation factors from lgrModel', () => {
+    renderComponent()
+    expect(screen.getByText(/disposal candidates/)).toBeInTheDocument()
+    expect(screen.getByText(/co-locatable assets/)).toBeInTheDocument()
+  })
+
+  it('does not render rationalisation section when no assets', () => {
+    useData.mockImplementation((path) => {
+      if (path === '/data/ward_boundaries.json') {
+        return { data: null, loading: false, error: null }
+      }
+      return { data: { meta: { total_assets: 0 }, assets: [] }, loading: false, error: null }
+    })
+    renderComponent()
+    expect(screen.queryByText('LGR Rationalisation Potential')).not.toBeInTheDocument()
   })
 })

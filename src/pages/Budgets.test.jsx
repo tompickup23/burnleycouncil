@@ -22,6 +22,25 @@ vi.mock('../hooks/useData', () => ({
   useData: vi.fn(),
 }))
 
+vi.mock('../utils/analytics', async (importOriginal) => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    cipfaResilience: vi.fn(actual.cipfaResilience),
+    reservesAdequacy: vi.fn(actual.reservesAdequacy),
+    realGrowthRate: vi.fn(actual.realGrowthRate),
+    materialityThreshold: vi.fn(actual.materialityThreshold),
+  }
+})
+
+vi.mock('../utils/savingsEngine', async (importOriginal) => {
+  const actual = await importOriginal()
+  return {
+    ...actual,
+    financialHealthAssessment: vi.fn(actual.financialHealthAssessment),
+  }
+})
+
 vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
@@ -813,6 +832,94 @@ describe('Budgets', () => {
       setupMocks({ config: noCollectionConfig })
       renderComponent()
       expect(screen.queryByText(/collection performance/i)).not.toBeInTheDocument()
+    })
+  })
+
+  describe('financial resilience section', () => {
+    const budgetWithReserves = {
+      ...mockBudgetData,
+      _generated: true,
+      reserves_trajectory: [
+        { year: '2020-21', earmarked: 5000000, unallocated: 2000000, total: 7000000 },
+        { year: '2021-22', earmarked: 4500000, unallocated: 1800000, total: 6300000 },
+      ],
+    }
+
+    it('renders financial resilience section when reserves data available', () => {
+      setupMocks({ budgetData: budgetWithReserves })
+      renderComponent()
+      expect(screen.getByText('Financial Resilience')).toBeInTheDocument()
+    })
+
+    it('shows CIPFA rating', () => {
+      setupMocks({ budgetData: budgetWithReserves })
+      renderComponent()
+      expect(screen.getAllByText('CIPFA Rating').length).toBeGreaterThanOrEqual(1)
+    })
+
+    it('shows reserves months stat card', () => {
+      setupMocks({ budgetData: budgetWithReserves })
+      renderComponent()
+      expect(screen.getByText('Reserves Months')).toBeInTheDocument()
+    })
+
+    it('shows reserves adequacy rating label', () => {
+      setupMocks({ budgetData: budgetWithReserves })
+      renderComponent()
+      expect(screen.getByText('Reserves Adequacy')).toBeInTheDocument()
+    })
+
+    it('shows materiality threshold when data available', () => {
+      setupMocks({ budgetData: budgetWithReserves })
+      renderComponent()
+      expect(screen.getByText('Materiality Threshold')).toBeInTheDocument()
+    })
+
+    it('does not render financial resilience when no reserves trajectory', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('Financial Resilience')).not.toBeInTheDocument()
+    })
+
+    it('does not render when budgetData is null', () => {
+      setupMocks({ budgetData: null })
+      renderComponent()
+      expect(screen.queryByText('Financial Resilience')).not.toBeInTheDocument()
+    })
+  })
+
+  describe('financial health assessment section', () => {
+    const budgetWithReserves = {
+      ...mockBudgetData,
+      _generated: true,
+      reserves_trajectory: [
+        { year: '2020-21', earmarked: 5000000, unallocated: 2000000, total: 7000000 },
+        { year: '2021-22', earmarked: 4500000, unallocated: 1800000, total: 6300000 },
+      ],
+    }
+
+    it('renders financial health summary when reserves data available', () => {
+      setupMocks({ budgetData: budgetWithReserves })
+      renderComponent()
+      expect(screen.getByText('Financial Health Summary')).toBeInTheDocument()
+    })
+
+    it('shows reserves cover stat', () => {
+      setupMocks({ budgetData: budgetWithReserves })
+      renderComponent()
+      expect(screen.getByText('Reserves Cover')).toBeInTheDocument()
+    })
+
+    it('shows resilience score stat', () => {
+      setupMocks({ budgetData: budgetWithReserves })
+      renderComponent()
+      expect(screen.getByText('Resilience Score')).toBeInTheDocument()
+    })
+
+    it('does not render financial health when no reserves data', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('Financial Health Summary')).not.toBeInTheDocument()
     })
   })
 })

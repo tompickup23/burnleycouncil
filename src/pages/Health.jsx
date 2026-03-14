@@ -3,6 +3,7 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { ChartCard } from '../components/ui/ChartCard'
 import { StatCard } from '../components/ui/StatCard'
+import { generateHealthTalkingPoints } from '../utils/strategyEngine'
 import CollapsibleSection from '../components/CollapsibleSection'
 import GaugeChart from '../components/ui/GaugeChart'
 import {
@@ -85,6 +86,12 @@ export default function Health() {
         compared: v.compared_to_england,
       }))
   }, [health])
+
+  // Strategy talking points for selected ward
+  const healthTalkingPoints = useMemo(() => {
+    if (!selectedWard || !health) return []
+    return generateHealthTalkingPoints(selectedWard, health)
+  }, [selectedWard, health])
 
   // Map metric values for choropleth
   const mapValues = useMemo(() => {
@@ -351,6 +358,19 @@ export default function Health() {
                       )
                     })}
                   </div>
+                </div>
+              )}
+
+              {/* Political Context */}
+              {healthTalkingPoints.length > 0 && (
+                <div className="strategy-context" style={{ background: 'rgba(18,182,207,0.04)', border: '1px solid rgba(18,182,207,0.15)', borderRadius: 8, padding: '1rem 1.25rem', marginTop: '1rem' }}>
+                  <h4 style={{ margin: '0 0 0.75rem', fontSize: '0.9rem', fontWeight: 700, color: '#12B6CF' }}>Political Context</h4>
+                  {healthTalkingPoints.map((pt, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 6, fontSize: '0.8rem', lineHeight: 1.5, color: 'var(--text-secondary)' }}>
+                      <span style={{ background: 'rgba(18,182,207,0.12)', color: '#12B6CF', padding: '1px 6px', borderRadius: 4, fontSize: '0.65rem', fontWeight: 600, flexShrink: 0 }}>{pt.category}</span>
+                      <span>{pt.text}</span>
+                    </div>
+                  ))}
                 </div>
               )}
             </div>

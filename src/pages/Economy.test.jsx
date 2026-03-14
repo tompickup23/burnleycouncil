@@ -11,8 +11,13 @@ vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
 
+vi.mock('../utils/strategyEngine', () => ({
+  generateEconomyTalkingPoints: vi.fn(() => []),
+}))
+
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { generateEconomyTalkingPoints } from '../utils/strategyEngine'
 
 const mockConfig = {
   council_id: 'burnley',
@@ -180,6 +185,7 @@ describe('Economy', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
     useCouncilConfig.mockReturnValue(mockConfig)
+    generateEconomyTalkingPoints.mockReturnValue([])
   })
 
   // --- Loading states ---
@@ -448,5 +454,38 @@ describe('Economy', () => {
     renderComponent()
     expect(screen.getByText(/Claimant trend/)).toBeInTheDocument()
     expect(screen.getByText('3,395')).toBeInTheDocument()
+  })
+
+  // --- Strategy talking points ---
+  it('calls generateEconomyTalkingPoints when ward is selected', () => {
+    setupMocks()
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
+    const select = document.getElementById('economy-ward-select')
+    fireEvent.change(select, { target: { value: 'Bank Hall' } })
+    expect(generateEconomyTalkingPoints).toHaveBeenCalledWith('Bank Hall', expect.any(Object))
+  })
+
+  it('renders Political Context section when talking points exist', () => {
+    generateEconomyTalkingPoints.mockReturnValue([
+      { category: 'Economy', icon: 'TrendingDown', priority: 1, text: 'High claimant rate area.' },
+    ])
+    setupMocks()
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
+    const select = document.getElementById('economy-ward-select')
+    fireEvent.change(select, { target: { value: 'Bank Hall' } })
+    expect(screen.getByText('Political Context')).toBeInTheDocument()
+    expect(screen.getByText('High claimant rate area.')).toBeInTheDocument()
+  })
+
+  it('does not render Political Context when no talking points', () => {
+    generateEconomyTalkingPoints.mockReturnValue([])
+    setupMocks()
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Analysis' }))
+    const select = document.getElementById('economy-ward-select')
+    fireEvent.change(select, { target: { value: 'Bank Hall' } })
+    expect(screen.queryByText('Political Context')).not.toBeInTheDocument()
   })
 })

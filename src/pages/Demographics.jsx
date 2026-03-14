@@ -6,6 +6,7 @@ import { LoadingState } from '../components/ui'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, Legend } from 'recharts'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import { Users, MapPin, Globe, Briefcase, Church, Info, TrendingUp, Shield, Home, AlertTriangle, Activity, Layers, Car, Train, Heart, Languages } from 'lucide-react'
+import { classifyWardArchetype, generateFiscalTalkingPoints } from '../utils/strategyEngine'
 import CollapsibleSection from '../components/CollapsibleSection'
 import SparkLine from '../components/ui/SparkLine'
 import GaugeChart from '../components/ui/GaugeChart'
@@ -300,6 +301,27 @@ function Demographics() {
     }))
   }, [asylumData])
 
+  // Ward archetype distribution — classify each ward
+  const archetypeDistribution = useMemo(() => {
+    if (!wardList.length) return []
+    const counts = {}
+    wardList.forEach(w => {
+      const dep = deprivation?.wards?.[w.name]
+      const arch = classifyWardArchetype(w, dep)
+      counts[arch.label] = (counts[arch.label] || 0) + 1
+    })
+    return Object.entries(counts)
+      .map(([label, count]) => ({ label, count }))
+      .sort((a, b) => b.count - a.count)
+  }, [wardList, deprivation])
+
+  // Fiscal talking points for selected ward
+  const fiscalTalkingPoints = useMemo(() => {
+    if (!selectedWard) return []
+    const dep = deprivation?.wards?.[selectedWard]
+    return generateFiscalTalkingPoints(demoFiscalData, dep)
+  }, [selectedWard, deprivation, demoFiscalData])
+
   if (loading) return <LoadingState />
   if (error) return <div className="demo-error">Error loading demographics: {error.message}</div>
   if (!demographics) return <div className="demo-error">No demographics data available</div>
@@ -478,9 +500,48 @@ function Demographics() {
                   <span>Level: <strong style={{ color: '#fff' }}>{dep.deprivation_level}</strong></span>
                 </div>
               )}
+
+              {/* Archetype badge */}
+              {(() => {
+                const arch = classifyWardArchetype(w, dep)
+                if (arch.archetype === 'unknown') return null
+                return (
+                  <div style={{ marginTop: 10, display: 'flex', alignItems: 'center', gap: 8, fontSize: 12 }}>
+                    <span style={{ background: 'rgba(18,182,207,0.12)', color: '#12B6CF', padding: '2px 8px', borderRadius: 4, fontWeight: 600 }}>{arch.label}</span>
+                    <span style={{ color: '#8e8e93' }}>{arch.description}</span>
+                  </div>
+                )
+              })()}
+
+              {/* Fiscal talking points */}
+              {fiscalTalkingPoints.length > 0 && (
+                <div style={{ background: 'rgba(18,182,207,0.04)', border: '1px solid rgba(18,182,207,0.15)', borderRadius: 8, padding: '0.75rem 1rem', marginTop: 12 }}>
+                  <h4 style={{ margin: '0 0 0.5rem', fontSize: '0.8rem', fontWeight: 700, color: '#12B6CF' }}>Strategic Context</h4>
+                  {fiscalTalkingPoints.map((pt, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4, fontSize: '0.75rem', lineHeight: 1.5, color: 'var(--text-secondary)' }}>
+                      <span style={{ background: 'rgba(18,182,207,0.12)', color: '#12B6CF', padding: '1px 5px', borderRadius: 4, fontSize: '0.6rem', fontWeight: 600, flexShrink: 0 }}>{pt.category}</span>
+                      <span>{pt.text}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           )
         })()}
+
+        {/* Ward Archetype Distribution */}
+        {archetypeDistribution.length > 0 && (
+          <div style={{ background: 'rgba(28,28,30,0.7)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 12, padding: '1rem 1.25rem', marginTop: 16 }}>
+            <h4 style={{ margin: '0 0 0.75rem', fontSize: '0.85rem', fontWeight: 700, color: '#fff' }}>Ward Archetype Distribution</h4>
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+              {archetypeDistribution.map(a => (
+                <span key={a.label} style={{ background: 'rgba(18,182,207,0.08)', border: '1px solid rgba(18,182,207,0.2)', color: '#ccc', padding: '4px 10px', borderRadius: 6, fontSize: '0.75rem' }}>
+                  {a.label}: <strong style={{ color: '#12B6CF' }}>{a.count}</strong>
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
 
         <div className="demo-source" style={{ marginTop: 16 }}>
           <Info size={16} />

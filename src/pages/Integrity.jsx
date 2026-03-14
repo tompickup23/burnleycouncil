@@ -11,6 +11,7 @@ import ChartCard from '../components/ui/ChartCard'
 import GaugeChart from '../components/ui/GaugeChart'
 import SparkLine from '../components/ui/SparkLine'
 import { formatCurrency, slugify } from '../utils/format'
+import { integrityWeightedHHI } from '../utils/analytics'
 import { SEVERITY_COLORS, CHART_COLORS, TOOLTIP_STYLE, CHART_ANIMATION } from '../utils/constants'
 import '../components/ui/AdvancedCharts.css'
 import './Integrity.css'
@@ -92,6 +93,7 @@ function Integrity() {
     '/data/shared/hansard_cross_reference.json',
   ])
   const [integrity, councillorsFull, mpInterests, crossCouncilIntegrity, ecDonations, hansardData] = data || [null, [], null, null, null, null]
+  const { data: dogeData } = useData(hasSpending ? '/data/doge_findings.json' : null)
   const [search, setSearch] = useState('')
   const [riskFilter, setRiskFilter] = useState('')
   const [partyFilter, setPartyFilter] = useState('')
@@ -406,6 +408,26 @@ function Integrity() {
       .sort((a, b) => b.total - a.total)
   }, [councillors])
 
+  // Spending concentration risk: integrity-weighted HHI
+  const hhiResult = useMemo(() => {
+    if (!dogeData || !integrity) return null
+    try {
+      const findings = dogeData.findings || dogeData
+      if (!Array.isArray(findings)) return null
+      const supplierConc = findings.find(f => f && (f.type === 'supplier_concentration' || f.suppliers))
+      const suppliers = supplierConc?.suppliers || supplierConc?.top_suppliers
+      if (!suppliers || !Array.isArray(suppliers) || suppliers.length === 0) return null
+      const formatted = suppliers.map(s => ({
+        name: s.supplier || s.name || '',
+        amount: s.total || s.amount || s.total_spend || 0,
+      })).filter(s => s.amount > 0)
+      if (formatted.length === 0) return null
+      return integrityWeightedHHI(formatted, integrity)
+    } catch {
+      return null
+    }
+  }, [dogeData, integrity])
+
   // Determine if scan has been run
   const scanComplete = integrity?.councillors_checked > 0
 
@@ -713,6 +735,44 @@ function Integrity() {
               </div>
             )}
           </div>
+
+          {/* Spending Concentration Risk — integrity-weighted HHI */}
+          {hhiResult && (
+            <CollapsibleSection
+              title="Spending Concentration Risk"
+              subtitle={`Standard HHI ${hhiResult.standardHhi.toLocaleString()} vs Integrity-Weighted ${hhiResult.hhi.toLocaleString()}`}
+              icon={<Banknote size={18} />}
+              severity={hhiResult.amplification > 10 ? 'warning' : 'info'}
+              defaultOpen
+            >
+              <div className="dashboard-grid" style={{ marginBottom: 12 }}>
+                <div className="dashboard-card">
+                  <span className="dashboard-number">{hhiResult.standardHhi.toLocaleString()}</span>
+                  <span className="dashboard-label">Standard HHI</span>
+                </div>
+                <div className={`dashboard-card ${hhiResult.amplification > 10 ? 'accent-warning' : ''}`}>
+                  <span className="dashboard-number">{hhiResult.hhi.toLocaleString()}</span>
+                  <span className="dashboard-label">Integrity-Weighted HHI</span>
+                </div>
+                <div className="dashboard-card">
+                  <span className="dashboard-number">{hhiResult.connectedSuppliers}</span>
+                  <span className="dashboard-label">Councillor-Connected Suppliers</span>
+                </div>
+                {hhiResult.amplification > 0 && (
+                  <div className="dashboard-card accent-critical">
+                    <span className="dashboard-number">+{hhiResult.amplification}%</span>
+                    <span className="dashboard-label">Concentration Amplification</span>
+                  </div>
+                )}
+              </div>
+              <p style={{ fontSize: '0.78rem', color: '#8e8e93', margin: 0 }}>
+                Councillor-connected suppliers receive a 1.5x weight in the HHI calculation,
+                reflecting the governance risk of concentrated spending with politically-linked entities.
+                {hhiResult.standardHhi > 2500 && ' Standard HHI already exceeds 2,500 (high concentration threshold).'}
+                {hhiResult.amplification > 10 && ` Integrity weighting amplifies concentration by ${hhiResult.amplification}%, suggesting supplier-councillor connections disproportionately concentrate public spending.`}
+              </p>
+            </CollapsibleSection>
+          )}
 
           {/* Data Sources — Collapsible */}
           {integrity.data_sources?.length > 0 && (

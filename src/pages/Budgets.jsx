@@ -9,6 +9,8 @@ import { CHART_COLORS_EXTENDED as DEPT_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_
 import ChartGradients from '../components/ui/ChartGradients'
 import GaugeChart from '../components/ui/GaugeChart'
 import WaterfallChart from '../components/ui/WaterfallChart'
+import { cipfaResilience, reservesAdequacy, realGrowthRate, materialityThreshold } from '../utils/analytics'
+import { financialHealthAssessment } from '../utils/savingsEngine'
 import '../components/ui/AdvancedCharts.css'
 import './Budgets.css'
 
@@ -200,6 +202,49 @@ function Budgets() {
       { name: 'Other', value: otherTotal / 1_000_000, color: '#8e8e93' },
     ].filter(d => d.value > 0.01)
   }, [fundingData])
+
+  // Financial Resilience — CIPFA assessment, reserves adequacy, materiality
+  const financialResilience = useMemo(() => {
+    if (!budgetData) return null
+    // Get reserves from trajectory or budgets summary
+    const trajectory = budgetData.reserves_trajectory
+    const latestTrajectory = trajectory?.length ? trajectory[trajectory.length - 1] : null
+    const totalReserves = latestTrajectory
+      ? (latestTrajectory.earmarked || 0) + (latestTrajectory.unallocated || 0)
+      : null
+    const expenditure = selectedBudget?.net_revenue_budget || 0
+    if (!totalReserves || expenditure <= 0) return null
+
+    const resAdequacy = reservesAdequacy(totalReserves, expenditure)
+    const cipfa = cipfaResilience({ reserves: totalReserves, expenditure })
+    const matThreshold = materialityThreshold(expenditure)
+
+    // Real growth rate if multi-year data
+    const amounts = revenueBudgets.map(b => b.net_revenue_budget).filter(Boolean)
+    const years = revenueBudgets.map(b => b.financial_year).filter(Boolean)
+    const growth = amounts.length >= 2 ? realGrowthRate(amounts, years) : null
+
+    return { resAdequacy, cipfa, matThreshold, growth }
+  }, [budgetData, selectedBudget, revenueBudgets])
+
+  // Financial Health Assessment (from savingsEngine — wraps CIPFA + reserves + materiality)
+  const healthAssessment = useMemo(() => {
+    if (!budgetData) return null
+    // Build a budgetSummary-like object from available data
+    const trajectory = budgetData.reserves_trajectory
+    const latestTrajectory = trajectory?.length ? trajectory[trajectory.length - 1] : null
+    const totalReserves = latestTrajectory
+      ? (latestTrajectory.earmarked || 0) + (latestTrajectory.unallocated || 0)
+      : null
+    const expenditure = selectedBudget?.net_revenue_budget || 0
+    if (!totalReserves || expenditure <= 0) return null
+
+    const summary = {
+      reserves: { total_closing: totalReserves, usable: totalReserves },
+      net_revenue_expenditure: expenditure,
+    }
+    return financialHealthAssessment(summary)
+  }, [budgetData, selectedBudget])
 
   // Early returns AFTER all hooks
   if (loading) {
@@ -731,6 +776,100 @@ function Budgets() {
                   Earmarked reserves are set aside for specific purposes. Unallocated reserves are the council's general safety net.
                   Declining reserves may indicate financial pressure.
                 </p>
+              </div>
+            </section>
+          )}
+
+          {/* Financial Resilience Assessment — CIPFA rating, reserves adequacy, materiality */}
+          {financialResilience && (
+            <section className="chart-section" data-testid="financial-resilience-section">
+              <h2>Financial Resilience</h2>
+              <p className="section-note">CIPFA-based financial health assessment using reserves, expenditure, and audit standards</p>
+              <div className="gauge-grid" style={{ marginBottom: 16 }}>
+                <GaugeChart
+                  value={financialResilience.resAdequacy?.monthsCover || 0}
+                  max={12}
+                  label="Reserves Adequacy"
+                  subtitle={financialResilience.resAdequacy?.rating || 'N/A'}
+                  format={(v) => `${v.toFixed(1)} mo`}
+                  severity={financialResilience.resAdequacy?.monthsCover < 3 ? 'danger' : financialResilience.resAdequacy?.monthsCover < 6 ? 'warning' : 'info'}
+                  size={130}
+                />
+                {financialResilience.cipfa && (
+                  <GaugeChart
+                    value={financialResilience.cipfa.components?.length || 0}
+                    max={3}
+                    label="CIPFA Rating"
+                    subtitle={financialResilience.cipfa.overallRating || 'N/A'}
+                    format={() => financialResilience.cipfa.overallRating || 'N/A'}
+                    severity={financialResilience.cipfa.overallColor === '#dc3545' ? 'danger' : financialResilience.cipfa.overallColor === '#fd7e14' ? 'warning' : 'info'}
+                    size={130}
+                  />
+                )}
+              </div>
+              <div className="stat-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
+                <div className="stat-card">
+                  <div className="stat-value">{financialResilience.resAdequacy?.monthsCover?.toFixed(1) || '—'}</div>
+                  <div className="stat-label">Reserves Months</div>
+                  <div className="stat-context" style={{ color: financialResilience.resAdequacy?.color || '#6c757d' }}>
+                    {financialResilience.resAdequacy?.rating || 'N/A'}
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-value" style={{ color: financialResilience.cipfa?.overallColor || '#6c757d' }}>
+                    {financialResilience.cipfa?.overallRating || '—'}
+                  </div>
+                  <div className="stat-label">CIPFA Rating</div>
+                </div>
+                {financialResilience.matThreshold && (
+                  <div className="stat-card">
+                    <div className="stat-value">{formatCurrency(financialResilience.matThreshold.threshold, true)}</div>
+                    <div className="stat-label">Materiality Threshold</div>
+                    <div className="stat-context">1% of expenditure</div>
+                  </div>
+                )}
+              </div>
+              {financialResilience.cipfa?.components?.length > 0 && (
+                <div style={{ marginTop: '1rem' }}>
+                  {financialResilience.cipfa.components.map((comp, i) => (
+                    <div key={i} style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.4rem 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                      <span style={{ width: 10, height: 10, borderRadius: '50%', background: comp.color, flexShrink: 0 }} />
+                      <span style={{ flex: 1, fontSize: '0.85rem', color: 'var(--text-secondary)' }}>{comp.name}</span>
+                      <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>{comp.value?.toFixed(1)} {comp.unit}</span>
+                      <span style={{ fontSize: '0.75rem', color: comp.color, fontWeight: 500 }}>{comp.rating}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </section>
+          )}
+
+          {/* Financial Health Summary — from savingsEngine */}
+          {healthAssessment && (
+            <section className="chart-section" data-testid="financial-health-section">
+              <h2>Financial Health Summary</h2>
+              <p className="section-note">Integrated assessment combining reserves adequacy, CIPFA resilience, and audit materiality</p>
+              <div className="stat-grid" style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))' }}>
+                <div className="stat-card">
+                  <div className="stat-value">{healthAssessment.summary?.reserves_months?.toFixed(1) || '—'}</div>
+                  <div className="stat-label">Reserves Cover</div>
+                  <div className="stat-context" style={{ color: healthAssessment.reserves?.color || '#6c757d' }}>
+                    {healthAssessment.summary?.reserves_rating || 'N/A'} ({healthAssessment.summary?.reserves_months?.toFixed(1) || 0} months)
+                  </div>
+                </div>
+                <div className="stat-card">
+                  <div className="stat-value" style={{ color: healthAssessment.summary?.overall_color || '#6c757d' }}>
+                    {healthAssessment.summary?.overall_resilience || '—'}
+                  </div>
+                  <div className="stat-label">Resilience Score</div>
+                </div>
+                {healthAssessment.materiality && (
+                  <div className="stat-card">
+                    <div className="stat-value">{formatCurrency(healthAssessment.summary?.materiality_threshold, true)}</div>
+                    <div className="stat-label">Materiality</div>
+                    <div className="stat-context">Planning: {formatCurrency(healthAssessment.materiality?.planningMateriality, true)}</div>
+                  </div>
+                )}
               </div>
             </section>
           )}

@@ -7,11 +7,16 @@ vi.mock('../hooks/useData', () => ({
   useData: vi.fn(),
 }))
 
+vi.mock('../utils/electionModel', () => ({
+  predictConstituencyGE: vi.fn(),
+}))
+
 vi.mock('../components/ui', () => ({
   LoadingState: ({ message }) => <div>{message || 'Loading...'}</div>,
 }))
 
 import { useData } from '../hooks/useData'
+import { predictConstituencyGE } from '../utils/electionModel'
 
 const mockConstituenciesData = {
   meta: { generated: '2026-02-19' },
@@ -253,5 +258,58 @@ describe('Constituencies', () => {
     const searchInput = screen.getByPlaceholderText(/search constituency or mp/i)
     fireEvent.change(searchInput, { target: { value: 'nonexistent' } })
     expect(screen.getByText('No constituencies match your filters.')).toBeInTheDocument()
+  })
+
+  it('calls predictConstituencyGE for each constituency when polling data available', () => {
+    predictConstituencyGE.mockReturnValue({ prediction: { 'Reform UK': 0.22, Labour: 0.35 }, confidence: 'medium' })
+    const pollingWithAggregate = { ...mockPollingData, aggregate: { Labour: 0.28, Conservative: 0.22, 'Reform UK': 0.22 } }
+    useData.mockImplementation((path) => {
+      if (path === '/data/shared/constituencies.json') return { data: mockConstituenciesData, loading: false, error: null }
+      if (path === '/data/shared/polling.json') return { data: pollingWithAggregate, loading: false, error: null }
+      return { data: null, loading: false, error: null }
+    })
+    renderComponent()
+    expect(predictConstituencyGE).toHaveBeenCalledTimes(3)
+  })
+
+  it('shows Reform GE badge when prediction available', () => {
+    predictConstituencyGE.mockReturnValue({ prediction: { 'Reform UK': 0.22, Labour: 0.35 }, confidence: 'medium' })
+    const pollingWithAggregate = { ...mockPollingData, aggregate: { Labour: 0.28, Conservative: 0.22, 'Reform UK': 0.22 } }
+    useData.mockImplementation((path) => {
+      if (path === '/data/shared/constituencies.json') return { data: mockConstituenciesData, loading: false, error: null }
+      if (path === '/data/shared/polling.json') return { data: pollingWithAggregate, loading: false, error: null }
+      return { data: null, loading: false, error: null }
+    })
+    renderComponent()
+    const badges = screen.getAllByText(/Reform GE:/)
+    expect(badges.length).toBeGreaterThan(0)
+    expect(badges[0].textContent).toContain('22.0%')
+  })
+
+  it('does not show Reform GE badge when prediction returns null', () => {
+    predictConstituencyGE.mockReturnValue({ prediction: null, methodology: [], confidence: 'none' })
+    useData.mockImplementation(mockUseDataLoaded)
+    renderComponent()
+    expect(screen.queryByText(/Reform GE:/)).not.toBeInTheDocument()
+  })
+
+  it('does not crash when elections_reference data is null', () => {
+    predictConstituencyGE.mockReturnValue({ prediction: null, methodology: [], confidence: 'none' })
+    useData.mockImplementation(mockUseDataLoaded)
+    renderComponent()
+    expect(screen.getByText('Lancashire MPs')).toBeInTheDocument()
+  })
+
+  it('renders without Reform prediction when polling data missing', () => {
+    predictConstituencyGE.mockReturnValue({ prediction: null, methodology: [], confidence: 'none' })
+    useData.mockImplementation((path) => {
+      if (path === '/data/shared/constituencies.json') {
+        return { data: mockConstituenciesData, loading: false, error: null }
+      }
+      return { data: null, loading: false, error: null }
+    })
+    renderComponent()
+    expect(screen.getByText('Lancashire MPs')).toBeInTheDocument()
+    expect(screen.queryByText(/Reform GE:/)).not.toBeInTheDocument()
   })
 })

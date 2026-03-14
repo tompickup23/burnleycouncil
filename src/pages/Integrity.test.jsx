@@ -11,8 +11,15 @@ vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
 
+vi.mock('../utils/analytics', () => ({
+  integrityWeightedHHI: vi.fn(() => ({
+    hhi: 1800, standardHhi: 1500, connectedSuppliers: 3, amplification: 20, isCouncillorConnected: true,
+  })),
+}))
+
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { integrityWeightedHHI } from '../utils/analytics'
 
 const mockConfig = {
   council_id: 'burnley',
@@ -2124,6 +2131,71 @@ describe('Integrity', () => {
       renderWithRichData()
       const dashboard = document.querySelector('.integrity-dashboard')
       expect(within(dashboard).getByText('Network Hubs & Bridges')).toBeInTheDocument()
+    })
+  })
+
+  describe('Spending Concentration Risk (integrityWeightedHHI)', () => {
+    function renderWithHHI() {
+      useCouncilConfig.mockReturnValue(mockConfig)
+      useData.mockImplementation((path) => {
+        if (Array.isArray(path)) {
+          return {
+            data: [mockIntegrity, mockCouncillors, null, null, null, null],
+            loading: false,
+            error: null,
+          }
+        }
+        if (path === '/data/doge_findings.json') {
+          return {
+            data: {
+              findings: [{
+                type: 'supplier_concentration',
+                suppliers: [
+                  { supplier: 'ACME Corp', total: 5000000 },
+                  { supplier: 'Widget Ltd', total: 2000000 },
+                ],
+              }],
+            },
+            loading: false,
+            error: null,
+          }
+        }
+        return { data: null, loading: false, error: null }
+      })
+      renderComponent()
+    }
+
+    it('renders Spending Concentration Risk section when doge data available', () => {
+      renderWithHHI()
+      expect(screen.getByText('Spending Concentration Risk')).toBeInTheDocument()
+    })
+
+    it('shows standard and integrity-weighted HHI values', () => {
+      renderWithHHI()
+      expect(screen.getByText('Standard HHI')).toBeInTheDocument()
+      expect(screen.getByText('Integrity-Weighted HHI')).toBeInTheDocument()
+    })
+
+    it('shows concentration amplification percentage', () => {
+      renderWithHHI()
+      expect(screen.getByText('+20%')).toBeInTheDocument()
+      expect(screen.getByText('Concentration Amplification')).toBeInTheDocument()
+    })
+
+    it('does not render HHI section when doge data is null', () => {
+      useCouncilConfig.mockReturnValue(mockConfig)
+      useData.mockImplementation((path) => {
+        if (Array.isArray(path)) {
+          return {
+            data: [mockIntegrity, mockCouncillors, null, null, null, null],
+            loading: false,
+            error: null,
+          }
+        }
+        return { data: null, loading: false, error: null }
+      })
+      renderComponent()
+      expect(screen.queryByText('Spending Concentration Risk')).not.toBeInTheDocument()
     })
   })
 })

@@ -11,8 +11,14 @@ vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
 
+vi.mock('../utils/strategyEngine', () => ({
+  classifyWardArchetype: vi.fn(() => ({ archetype: 'deprived_white', label: 'Left Behind', description: 'High deprivation area' })),
+  generateFiscalTalkingPoints: vi.fn(() => []),
+}))
+
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { classifyWardArchetype, generateFiscalTalkingPoints } from '../utils/strategyEngine'
 
 const mockConfig = {
   council_id: 'burnley',
@@ -185,6 +191,8 @@ describe('Demographics', () => {
   beforeEach(() => {
     vi.restoreAllMocks()
     useCouncilConfig.mockReturnValue(mockConfig)
+    classifyWardArchetype.mockReturnValue({ archetype: 'deprived_white', label: 'Left Behind', description: 'High deprivation area' })
+    generateFiscalTalkingPoints.mockReturnValue([])
   })
 
   it('shows loading state while data loads', () => {
@@ -446,5 +454,40 @@ describe('Demographics', () => {
       renderComponent()
       expect(screen.getAllByText('Lone Parent').length).toBeGreaterThanOrEqual(1)
     })
+  })
+
+  // --- Ward Archetype Distribution ---
+  it('renders Ward Archetype Distribution on ward map tab', () => {
+    useData.mockImplementation((url) => {
+      if (url === '/data/demographics.json') return { data: mockDemographics, loading: false, error: null }
+      if (url === '/data/ward_boundaries.json') return { data: { features: [{ properties: { name: 'Bank Hall' } }] }, loading: false, error: null }
+      return { data: null, loading: false, error: null }
+    })
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Map' }))
+    expect(screen.getByText('Ward Archetype Distribution')).toBeInTheDocument()
+  })
+
+  it('calls classifyWardArchetype for each ward on map tab', () => {
+    useData.mockImplementation((url) => {
+      if (url === '/data/demographics.json') return { data: mockDemographics, loading: false, error: null }
+      if (url === '/data/ward_boundaries.json') return { data: { features: [{ properties: { name: 'Bank Hall' } }] }, loading: false, error: null }
+      return { data: null, loading: false, error: null }
+    })
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Map' }))
+    expect(classifyWardArchetype).toHaveBeenCalled()
+  })
+
+  it('shows archetype counts in distribution summary on map tab', () => {
+    classifyWardArchetype.mockReturnValue({ archetype: 'deprived_white', label: 'Left Behind', description: 'Test desc' })
+    useData.mockImplementation((url) => {
+      if (url === '/data/demographics.json') return { data: mockDemographics, loading: false, error: null }
+      if (url === '/data/ward_boundaries.json') return { data: { features: [{ properties: { name: 'Bank Hall' } }] }, loading: false, error: null }
+      return { data: null, loading: false, error: null }
+    })
+    renderComponent()
+    fireEvent.click(screen.getByRole('tab', { name: 'Ward Map' }))
+    expect(screen.getByText(/Left Behind/)).toBeInTheDocument()
   })
 })

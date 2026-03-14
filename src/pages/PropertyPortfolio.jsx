@@ -13,6 +13,8 @@ import SparkLine from '../components/ui/SparkLine'
 import { formatNumber, formatCurrency } from '../utils/format'
 import { CHART_COLORS, TOOLTIP_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { isQuickWin } from '../utils/strategyEngine'
+import { estimatePropertyRationalisationSavings } from '../utils/lgrModel'
+import { giniCoefficient, computeDistributionStats } from '../utils/analytics'
 import '../components/ui/AdvancedCharts.css'
 
 const WardMap = lazy(() => import('../components/WardMap'))
@@ -919,6 +921,19 @@ export default function PropertyPortfolio() {
   const landOnlyPct = meta.total_assets ? ((meta.land_only || 0) / meta.total_assets * 100).toFixed(1) : '0'
   const cedCount = meta.ced_summary ? Object.keys(meta.ced_summary).length : 0
 
+  // LGR Rationalisation Potential from lgrModel + analytics
+  const rationalisationData = useMemo(() => {
+    if (!assets.length) return null
+    const savings = estimatePropertyRationalisationSavings(assets)
+    const spendAmounts = assets.map(a => a.linked_spend || a.condition_spend || 0).filter(v => v > 0)
+    const gini = spendAmounts.length > 1 ? giniCoefficient(spendAmounts) : 0
+    const stats = spendAmounts.length > 0 ? computeDistributionStats(spendAmounts) : null
+    const totalSaving = savings.disposalSaving + savings.coLocationSaving + savings.conditionSaving
+    const quickWinAssets = assets.filter(isQuickWin)
+    const quickWinSaving = quickWinAssets.reduce((s, a) => s + (a.revenue_estimate_capital || 0), 0)
+    return { ...savings, totalSaving, quickWinSaving, quickWinCount: quickWinAssets.length, gini, stats }
+  }, [assets])
+
   const selectStyle = {
     padding: '8px 12px',
     borderRadius: '8px',
@@ -963,6 +978,44 @@ export default function PropertyPortfolio() {
           <StatCard label="Subsidiaries" value={formatNumber((meta.ownership.assets_by_tier.subsidiary || 0) + (meta.ownership.assets_by_tier.jv || 0))} subtitle={`${Object.keys(meta.ownership.assets_by_entity || {}).length} entities`} icon={Landmark} />
         )}
       </div>
+
+      {/* LGR Rationalisation Potential */}
+      {rationalisationData && rationalisationData.totalSaving > 0 && (
+        <div className="glass-card" style={{ padding: '20px', marginBottom: '16px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+            <Gavel size={18} style={{ color: '#bf5af2' }} />
+            <h3 style={{ color: '#fff', margin: 0, fontSize: '1rem' }}>LGR Rationalisation Potential</h3>
+            <span style={{ fontSize: '0.68rem', padding: '2px 8px', borderRadius: '4px', background: 'rgba(191,90,242,0.12)', color: '#bf5af2', fontWeight: 600 }}>
+              Model Estimate
+            </span>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '12px', marginBottom: '12px' }}>
+            <div style={{ padding: '12px', borderRadius: '8px', background: 'rgba(191,90,242,0.06)', border: '1px solid rgba(191,90,242,0.12)' }}>
+              <div style={{ fontSize: '0.7rem', color: '#bf5af2', fontWeight: 600, marginBottom: '4px' }}>Total Annual Saving</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#bf5af2' }}>{formatCurrency(rationalisationData.totalSaving)}</div>
+            </div>
+            {rationalisationData.quickWinSaving > 0 && (
+              <div style={{ padding: '12px', borderRadius: '8px', background: 'rgba(255,159,10,0.06)', border: '1px solid rgba(255,159,10,0.12)' }}>
+                <div style={{ fontSize: '0.7rem', color: '#ff9f0a', fontWeight: 600, marginBottom: '4px' }}>Quick-Win Capital</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#ff9f0a' }}>{formatCurrency(rationalisationData.quickWinSaving)}</div>
+                <div style={{ fontSize: '0.68rem', color: '#8e8e93' }}>{rationalisationData.quickWinCount} assets</div>
+              </div>
+            )}
+            {rationalisationData.gini > 0 && (
+              <div style={{ padding: '12px', borderRadius: '8px', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
+                <div style={{ fontSize: '0.7rem', color: '#8e8e93', fontWeight: 600, marginBottom: '4px' }}>Spend Gini</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 700, color: '#fff' }}>{rationalisationData.gini.toFixed(3)}</div>
+                <div style={{ fontSize: '0.68rem', color: '#8e8e93' }}>{rationalisationData.gini > 0.6 ? 'Concentrated' : 'Distributed'}</div>
+              </div>
+            )}
+          </div>
+          {rationalisationData.factors.length > 0 && (
+            <div style={{ fontSize: '0.75rem', color: '#8e8e93' }}>
+              {rationalisationData.factors.map((f, i) => <div key={i} style={{ marginBottom: 2 }}>{f}</div>)}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Financial Summary Dashboard */}
       {(meta.estimated_capital_receipts > 0 || meta.estimated_annual_income > 0) && (
