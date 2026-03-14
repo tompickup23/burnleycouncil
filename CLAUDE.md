@@ -93,7 +93,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `src/components/ui/ChartGradients.jsx` | Preset named SVG gradients for common chart fills |
 | `src/components/map/MapIcons.js` | SVG marker icon factory (7 types, severity-based coloring, pulse animation) |
 | `src/components/map/MapIcons.css` | SVG marker animations and styling |
-| `src/utils/savingsEngine.js` | Cabinet Command engine: centralised savings model, portfolio-spending mapping, prescriptive directives (DO/SAVE/LEGAL/ROUTE), decision pathways, reform playbooks, MTFS comparison, political impact, benchmarking. Tier 2: integrity-weighted HHI, CIPFA resilience, Benford screening, policy-area tagging, council attack lines, ward entrenchment, portfolio risk dashboard (27 functions, 98 tests) |
+| `src/utils/savingsEngine.js` | Cabinet Command engine: centralised savings model, portfolio-spending mapping, prescriptive directives (DO/SAVE/LEGAL/ROUTE), decision pathways, reform playbooks, MTFS comparison, political impact, benchmarking. Tier 2: integrity-weighted HHI, CIPFA resilience, Benford screening, policy-area tagging, council attack lines, ward entrenchment, portfolio risk dashboard. Politics engine: Reform PR narrative (reformNarrativeEngine), electoral ripple (electoralRippleAssessment), borough election awareness, scrutiny premium, ward archetype targeting, REFORM_REBUTTALS matching, constituency resonance (29 functions, 127 tests) |
 | `src/utils/analytics.js` | Shared analytics engine: CPI-H deflation, z-scores, Gini, Benford's 2nd digit, reserves adequacy, integrity-weighted HHI |
 | `src/utils/lgrModel.js` | LGR economic model: cashflow, sensitivity, tornado, NPV, demographic fiscal risk, SEND exposure, asylum impact, timeline feasibility, property division (22 functions, 53 tests) |
 | `src/utils/electionModel.js` | Election prediction model: ward-level swing, national polling, demographics-weighted |
@@ -102,7 +102,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
 | `src/components/lgr/` | LGR sub-components: LGRDemographicFiscalRisk, LGRTimelineChaos, LGRBoundaryMap, LGRDeprivationMap, LGRPropertyDivision, LGRCCAImpact (6 components + 6 test files) |
 | `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation, elections (49 tests, 6 files) |
-| `src/**/*.test.{js,jsx}` | Unit tests: 2,555 tests across 53 files (vitest) |
+| `src/**/*.test.{js,jsx}` | Unit tests: 2,584 tests across 53 files (vitest) |
 
 ### Data Pipeline (Python)
 | File | Purpose |
