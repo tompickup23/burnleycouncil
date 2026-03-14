@@ -31,15 +31,15 @@ import {
 import './PortfolioDetail.css'
 
 const TABS = [
-  { id: 'overview', label: 'Overview', icon: Users },
-  { id: 'budget', label: 'Budget', icon: PieChart },
-  { id: 'spending', label: 'Spending', icon: TrendingUp },
-  { id: 'suppliers', label: 'Suppliers', icon: Building2 },
-  { id: 'savings', label: 'Savings', icon: Target },
-  { id: 'decisions', label: 'Decisions', icon: Calendar },
-  { id: 'legal', label: 'Legal & Political', icon: Scale },
-  { id: 'operations', label: 'Operations', icon: Wrench },
-  { id: 'playbook', label: 'Reform Playbook', icon: Zap },
+  { id: 'overview', label: 'Overview', icon: <Users size={14} /> },
+  { id: 'budget', label: 'Budget', icon: <PieChart size={14} /> },
+  { id: 'spending', label: 'Spending', icon: <TrendingUp size={14} /> },
+  { id: 'suppliers', label: 'Suppliers', icon: <Building2 size={14} /> },
+  { id: 'savings', label: 'Savings', icon: <Target size={14} /> },
+  { id: 'decisions', label: 'Decisions', icon: <Calendar size={14} /> },
+  { id: 'legal', label: 'Legal & Political', icon: <Scale size={14} /> },
+  { id: 'operations', label: 'Operations', icon: <Wrench size={14} /> },
+  { id: 'playbook', label: 'Reform Playbook', icon: <Zap size={14} /> },
 ]
 
 export default function PortfolioDetail() {
@@ -121,11 +121,11 @@ export default function PortfolioDetail() {
         <p className="portfolio-subtitle">{portfolio.cabinet_member?.name} — {portfolio.cabinet_member?.ward}</p>
         <div className="portfolio-hero-stats">
           {portfolio.budget_latest?.net_expenditure && (
-            <StatCard label="Net Budget" value={formatCurrency(portfolio.budget_latest.net_expenditure)} icon={PieChart} />
+            <StatCard label="Net Budget" value={formatCurrency(portfolio.budget_latest.net_expenditure)} icon={<PieChart size={24} />} />
           )}
-          <StatCard label="Directives" value={directives.length} icon={Target} />
-          <StatCard label="Savings Identified" value={formatCurrency(totalSavings)} icon={TrendingUp} />
-          <StatCard label="Do Now" value={matrix.do_now.length} icon={Zap} />
+          <StatCard label="Directives" value={directives.length} icon={<Target size={24} />} />
+          <StatCard label="Savings Identified" value={formatCurrency(totalSavings)} icon={<TrendingUp size={24} />} />
+          <StatCard label="Do Now" value={matrix.do_now.length} icon={<Zap size={24} />} />
         </div>
       </div>
 
@@ -140,7 +140,7 @@ export default function PortfolioDetail() {
             className={`portfolio-tab ${activeTab === t.id ? 'active' : ''}`}
             onClick={() => setActiveTab(t.id)}
           >
-            <t.icon size={14} />
+            {t.icon}
             <span>{t.label}</span>
           </button>
         ))}
@@ -214,16 +214,16 @@ export default function PortfolioDetail() {
           {portfolio.budget_latest && (
             <div className="portfolio-budget-cards">
               {portfolio.budget_latest.gross_expenditure && (
-                <StatCard label="Gross Expenditure" value={formatCurrency(portfolio.budget_latest.gross_expenditure)} icon={PieChart} />
+                <StatCard label="Gross Expenditure" value={formatCurrency(portfolio.budget_latest.gross_expenditure)} icon={<PieChart size={24} />} />
               )}
               {portfolio.budget_latest.net_expenditure && (
-                <StatCard label="Net Expenditure" value={formatCurrency(portfolio.budget_latest.net_expenditure)} icon={PieChart} />
+                <StatCard label="Net Expenditure" value={formatCurrency(portfolio.budget_latest.net_expenditure)} icon={<PieChart size={24} />} />
               )}
               {portfolio.budget_latest.income && (
-                <StatCard label="Income" value={formatCurrency(Math.abs(portfolio.budget_latest.income))} icon={TrendingUp} />
+                <StatCard label="Income" value={formatCurrency(Math.abs(portfolio.budget_latest.income))} icon={<TrendingUp size={24} />} />
               )}
               {portfolio.budget_latest.employees && (
-                <StatCard label="Employee Costs" value={formatCurrency(portfolio.budget_latest.employees)} icon={Users} />
+                <StatCard label="Employee Costs" value={formatCurrency(portfolio.budget_latest.employees)} icon={<Users size={24} />} />
               )}
             </div>
           )}

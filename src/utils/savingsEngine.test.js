@@ -4,7 +4,9 @@ import {
   mapFindingsToPortfolio,
   aggregateSavings,
   generateDirectives,
+  generateAllDirectives,
   generateReformPlaybook,
+  mtfsComparison,
   decisionPathway,
   buildImplementationCalendar,
   supplierPortfolioAnalysis,
@@ -160,13 +162,20 @@ describe('generateDirectives', () => {
     expect(directives.length).toBeGreaterThan(0)
   })
 
-  it('includes duplicate recovery directive', () => {
+  it('centralises duplicate directives under resources portfolio only', () => {
+    // Non-resources portfolios should NOT get duplicate directives (centralised model)
     const matched = matchSpendingToPortfolio(mockSpending, mockPortfolio)
     const directives = generateDirectives(mockPortfolio, mockFindings, matched)
     const dupDirective = directives.find(d => d.type === 'duplicate_recovery')
-    expect(dupDirective).toBeDefined()
-    expect(dupDirective.save_central).toBeGreaterThan(0)
-    expect(dupDirective.governance_route).toBe('officer_delegation')
+    expect(dupDirective).toBeUndefined()
+
+    // Resources portfolio DOES get centralised duplicate directives
+    const resourcesPortfolio = { ...mockPortfolio, id: 'resources' }
+    const resourcesDirectives = generateDirectives(resourcesPortfolio, mockFindings, matched)
+    const centralDup = resourcesDirectives.find(d => d.type === 'duplicate_recovery')
+    expect(centralDup).toBeDefined()
+    expect(centralDup.save_central).toBeGreaterThan(0)
+    expect(centralDup.owner).toBe('centralised')
   })
 
   it('includes savings lever directives', () => {
@@ -530,5 +539,103 @@ describe('getAccessiblePortfolios', () => {
   })
   it('empty portfolios array', () => {
     expect(getAccessiblePortfolios([], 'leader', []).length).toBe(0)
+  })
+})
+
+// ─── Centralised model tests ───
+
+describe('generateAllDirectives', () => {
+  const resourcesPortfolio = {
+    id: 'resources',
+    title: 'Resources, HR & Property',
+    short_title: 'Resources',
+    cabinet_member: { name: 'Ged Mirfin' },
+    executive_director: 'Laurence Ainsworth',
+    spending_department_patterns: ['^Finance', '^HR', '^Property'],
+    savings_levers: [
+      { lever: 'Property rationalisation', est_saving: '£3-5M', timeline: '12-24 months', risk: 'Medium', owner: 'portfolio', tier: 'service_redesign' },
+    ],
+  }
+
+  it('generates directives across all portfolios', () => {
+    const all = generateAllDirectives([resourcesPortfolio, mockPortfolio], mockFindings, {}, null)
+    expect(all.length).toBeGreaterThan(0)
+  })
+
+  it('centralised directives appear only on resources', () => {
+    const all = generateAllDirectives([resourcesPortfolio, mockPortfolio], mockFindings, {}, null)
+    const centralised = all.filter(d => d.owner === 'centralised')
+    expect(centralised.every(d => d.portfolio_id === 'resources')).toBe(true)
+  })
+
+  it('sorts by save_central descending', () => {
+    const all = generateAllDirectives([resourcesPortfolio, mockPortfolio], mockFindings, {}, null)
+    for (let i = 1; i < all.length; i++) {
+      expect(all[i - 1].save_central).toBeGreaterThanOrEqual(all[i].save_central)
+    }
+  })
+})
+
+describe('mtfsComparison', () => {
+  const mockCabinetData = {
+    administration: {
+      mtfs: {
+        savings_targets: { '2026_27': 65000000, two_year_total: 103000000 },
+        prior_year_performance: { adult_services_shortfall: 31000000 },
+        cost_pressures_2026_27: { total: 99000000 },
+        redundancy_provision: 11000000,
+      },
+    },
+  }
+
+  it('compares savings pipeline against MTFS targets', () => {
+    const directives = [
+      { save_central: 5000000, save_low: 3000000, save_high: 7000000, timeline: 'Immediate (0-3 months)' },
+      { save_central: 10000000, save_low: 8000000, save_high: 12000000, timeline: '12-18 months' },
+    ]
+    const result = mtfsComparison(directives, mockCabinetData)
+    expect(result).not.toBeNull()
+    expect(result.mtfs_year1_target).toBe(65000000)
+    expect(result.identified_central).toBe(15000000)
+    expect(result.year1_deliverable).toBe(5000000)
+    expect(result.year1_coverage_pct).toBe(Math.round(5000000 / 65000000 * 100))
+  })
+
+  it('returns null for missing MTFS', () => {
+    expect(mtfsComparison([{ save_central: 1000 }], {})).toBeNull()
+  })
+
+  it('returns null for empty directives', () => {
+    expect(mtfsComparison([], mockCabinetData)).toBeNull()
+  })
+})
+
+describe('aggregateSavings centralised model', () => {
+  const mockCabinetData = {
+    reform_operations: {
+      centralised_savings: {
+        functions: [
+          { function: 'Procurement reform', est_saving: '£5-15M', timeline: '6-18 months' },
+          { function: 'Contract management', est_saving: '£3-8M', timeline: '6-12 months' },
+        ],
+      },
+    },
+  }
+
+  it('separates centralised from portfolio savings', () => {
+    const result = aggregateSavings([mockPortfolio], mockFindings, mockCabinetData)
+    expect(result.centralised).toBeGreaterThan(0)
+    expect(result.portfolio_specific).toBeGreaterThan(0)
+    expect(result.total_identified).toBe(result.centralised + result.portfolio_specific)
+  })
+
+  it('includes vs_mtfs when cabinet data has MTFS', () => {
+    const withMtfs = {
+      ...mockCabinetData,
+      administration: { mtfs: { savings_targets: { '2026_27': 65000000, two_year_total: 103000000 } } },
+    }
+    const result = aggregateSavings([mockPortfolio], mockFindings, withMtfs)
+    expect(result.vs_mtfs).not.toBeNull()
+    expect(result.vs_mtfs.target_year1).toBe(65000000)
   })
 })

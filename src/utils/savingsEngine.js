@@ -7,9 +7,38 @@
  *
  * Architecture: cabinet_portfolios.json is the spine. Every function takes
  * portfolio data + operational data → actionable intelligence.
+ *
+ * Key design principle: CENTRALISE cross-cutting functions. Duplicates, procurement,
+ * contract management and commercialisation are handled ONCE under Resources/Finance —
+ * not duplicated across 10 portfolios. The reform_operations section of the data
+ * defines what's centralised vs portfolio-specific.
  */
 
 import { deflate, giniCoefficient, peerBenchmark, computeDistributionStats } from './analytics.js'
+
+// ═══════════════════════════════════════════════════════════════════════
+// Parsing Helpers
+// ═══════════════════════════════════════════════════════════════════════
+
+/** Parse £-amount strings like "£2-10M", "£5M", "£0.5-1.2M" → { low, high } in raw £ */
+function parseSavingRange(str) {
+  if (!str) return { low: 0, high: 0 }
+  const m = (str || '').match(/£([\d.]+)(?:\s*-\s*([\d.]+))?\s*([MBK])?/i)
+  if (!m) return { low: 0, high: 0 }
+  const multiplier = (m[3] || 'M').toUpperCase() === 'B' ? 1e9 : (m[3] || 'M').toUpperCase() === 'K' ? 1e3 : 1e6
+  const low = parseFloat(m[1]) * multiplier
+  const high = m[2] ? parseFloat(m[2]) * multiplier : low * 1.2
+  return { low, high }
+}
+
+/** Classify timeline string → bucket */
+function timelineBucket(tl) {
+  const s = (tl || '').toLowerCase()
+  if (s.includes('immediate') || s.includes('0-3')) return 'immediate'
+  if (s.includes('3-6') || s.includes('short')) return 'short_term'
+  if (s.includes('6-12') || s.includes('12-18') || s.includes('medium')) return 'medium_term'
+  return 'long_term'
+}
 
 // ═══════════════════════════════════════════════════════════════════════
 // Finding → Portfolio Mapping
@@ -62,53 +91,74 @@ export function mapFindingsToPortfolio(findings, portfolio) {
 }
 
 /**
- * Aggregate savings across all portfolios.
+ * Aggregate savings across all portfolios, respecting centralised vs portfolio-specific.
+ * Centralised savings (duplicates, procurement, contracts) counted once under Resources.
+ * Portfolio-specific levers (demand management, service redesign) counted per-portfolio.
  *
  * @param {Array} portfolios - All portfolios from cabinet_portfolios.json
  * @param {Object} findings - doge_findings.json data
+ * @param {Object} cabinetData - Full cabinet_portfolios.json (for reform_operations)
  * @returns {Object} Cross-portfolio savings totals
  */
-export function aggregateSavings(portfolios, findings) {
-  if (!portfolios?.length) return { total_identified: 0, by_portfolio: [], by_timeline: {} }
+export function aggregateSavings(portfolios, findings, cabinetData) {
+  if (!portfolios?.length) return { total_identified: 0, by_portfolio: [], by_timeline: {}, centralised: 0, portfolio_specific: 0, vs_mtfs: null }
 
+  // 1. Centralised savings from reform_operations (counted once, not per-portfolio)
+  const centralisedFunctions = cabinetData?.reform_operations?.centralised_savings?.functions || []
+  let centralisedTotal = 0
+  const centralisedTimeline = { immediate: 0, short_term: 0, medium_term: 0, long_term: 0 }
+  for (const fn of centralisedFunctions) {
+    const { low, high } = parseSavingRange(fn.est_saving)
+    const central = (low + high) / 2
+    centralisedTotal += central
+    centralisedTimeline[timelineBucket(fn.timeline)] += central
+  }
+
+  // 2. Portfolio-specific levers (only those with owner !== 'centralised')
   const byPortfolio = portfolios.map(p => {
     const pFindings = mapFindingsToPortfolio(findings, p)
-    const duplicateValue = pFindings.duplicates.reduce((sum, d) => sum + (d.total_value || d.amount || 0), 0)
-    const splitValue = pFindings.splits.reduce((sum, s) => sum + (s.total_value || s.amount || 0), 0)
 
-    // Sum savings levers
-    const leverTotal = (p.savings_levers || []).reduce((sum, l) => {
-      const match = (l.est_saving || '').match(/£([\d.]+)/)
-      return sum + (match ? parseFloat(match[1]) * 1000000 : 0)
+    // Only count portfolio-owned levers (not centralised ones)
+    const portfolioLevers = (p.savings_levers || []).filter(l => l.owner !== 'centralised')
+    const leverTotal = portfolioLevers.reduce((sum, l) => {
+      const { low, high } = parseSavingRange(l.est_saving)
+      return sum + (low + high) / 2
     }, 0)
 
     return {
       portfolio_id: p.id,
       title: p.short_title || p.title,
-      duplicate_savings: duplicateValue,
-      split_savings: splitValue,
+      cabinet_member: p.cabinet_member?.name,
       lever_savings: leverTotal,
+      lever_count: portfolioLevers.length,
       finding_count: pFindings.duplicates.length + pFindings.splits.length + pFindings.round_numbers.length,
     }
   })
 
-  const total = byPortfolio.reduce((sum, p) => sum + p.duplicate_savings + p.lever_savings, 0)
+  const portfolioTotal = byPortfolio.reduce((sum, p) => sum + p.lever_savings, 0)
+  const total = centralisedTotal + portfolioTotal
 
-  // Timeline breakdown from savings levers
-  const byTimeline = { immediate: 0, short_term: 0, medium_term: 0, long_term: 0 }
+  // Timeline breakdown — portfolio-specific levers only (centralised handled above)
+  const byTimeline = { ...centralisedTimeline }
   for (const p of portfolios) {
     for (const lever of (p.savings_levers || [])) {
-      const match = (lever.est_saving || '').match(/£([\d.]+)/)
-      const amount = match ? parseFloat(match[1]) * 1000000 : 0
-      const tl = (lever.timeline || '').toLowerCase()
-      if (tl.includes('immediate') || tl.includes('0-3')) byTimeline.immediate += amount
-      else if (tl.includes('3-6') || tl.includes('6-12') || tl.includes('short')) byTimeline.short_term += amount
-      else if (tl.includes('12-18') || tl.includes('12-24') || tl.includes('medium')) byTimeline.medium_term += amount
-      else byTimeline.long_term += amount
+      if (lever.owner === 'centralised') continue
+      const { low, high } = parseSavingRange(lever.est_saving)
+      byTimeline[timelineBucket(lever.timeline)] += (low + high) / 2
     }
   }
 
-  return { total_identified: total, by_portfolio: byPortfolio, by_timeline: byTimeline }
+  // MTFS comparison
+  const mtfs = cabinetData?.administration?.mtfs
+  const vsMtfs = mtfs ? {
+    target_year1: mtfs.savings_targets?.['2026_27'] || 0,
+    target_two_year: mtfs.savings_targets?.two_year_total || 0,
+    identified_total: total,
+    coverage_year1_pct: mtfs.savings_targets?.['2026_27'] ? Math.round(total / mtfs.savings_targets['2026_27'] * 100) : null,
+    coverage_two_year_pct: mtfs.savings_targets?.two_year_total ? Math.round(total / mtfs.savings_targets.two_year_total * 100) : null,
+  } : null
+
+  return { total_identified: total, by_portfolio: byPortfolio, by_timeline: byTimeline, centralised: centralisedTotal, portfolio_specific: portfolioTotal, vs_mtfs: vsMtfs }
 }
 
 
@@ -119,148 +169,193 @@ export function aggregateSavings(portfolios, findings) {
 /**
  * Generate prescriptive ACTION DIRECTIVES for a portfolio.
  *
- * Each directive is a specific, actionable instruction:
- * DO: [what], SAVE: [how much], BY WHEN: [timeline], LEGAL: [basis],
- * RISK: [assessment], HOW: [steps], ROUTE: [governance], EVIDENCE: [data]
+ * Cross-cutting findings (duplicates, splits, CH compliance) are ONLY generated
+ * for the Resources portfolio (centralised model). Other portfolios get
+ * portfolio-specific levers, supplier concentration, and demand-side directives.
  *
  * @param {Object} portfolio - Portfolio from cabinet_portfolios.json
  * @param {Object} findings - doge_findings.json
  * @param {Array} spending - Matched spending records
- * @param {Object} options - { budgets, procurement, integrity }
+ * @param {Object} options - { budgets, procurement, integrity, cabinetData }
  * @returns {Array} Directive objects
  */
 export function generateDirectives(portfolio, findings, spending, options = {}) {
   if (!portfolio) return []
   const directives = []
+  const isResourcesPortfolio = portfolio.id === 'resources'
 
-  // 1. Directives from DOGE findings
-  const pFindings = mapFindingsToPortfolio(findings, portfolio)
+  // 1. Cross-cutting DOGE directives — ONLY on Resources portfolio (centralised)
+  // Duplicates, splits, and CH compliance are system-wide financial management
+  // issues. Resources/S151 investigates first (Oracle transparency fix), then
+  // either recovers centrally or assigns to individual directorates.
+  if (isResourcesPortfolio && findings) {
+    // Aggregate ALL findings across all departments (not just Resources patterns)
+    const allDuplicates = findings.likely_duplicates?.examples || findings.likely_duplicates || []
+    const allSplits = findings.split_payments?.examples || findings.split_payments || []
+    const allChFlags = findings.ch_red_flags?.examples || findings.ch_red_flags || []
 
-  // Duplicate recovery directives
-  if (pFindings.duplicates.length > 0) {
-    const totalDuplicates = pFindings.duplicates.reduce((s, d) => s + (d.total_value || d.amount || 0), 0)
-    if (totalDuplicates > 10000) {
+    if (allDuplicates.length > 0) {
+      const totalDuplicates = allDuplicates.reduce((s, d) => s + (d.total_value || d.amount || 0), 0)
+      if (totalDuplicates > 10000) {
+        directives.push({
+          id: 'centralised_dup_recovery',
+          type: 'duplicate_recovery',
+          tier: 'immediate_recovery',
+          owner: 'centralised',
+          action: `Investigate ${formatCurrency(totalDuplicates)} in flagged duplicates — establish Oracle data quality baseline first`,
+          save_low: totalDuplicates * 0.02, // Conservative — most likely Oracle artifacts
+          save_high: totalDuplicates * 0.1,
+          save_central: totalDuplicates * 0.05,
+          timeline: 'Short-term (3-6 months)',
+          legal_basis: 'Financial Procedure Rules — S151 statutory responsibility for financial management',
+          risk: 'Low',
+          risk_detail: 'Internal financial management. Oracle ERP transparency issues (100% empty descriptions) mean many flagged items may be CSV export artifacts, not genuine duplicates. S151/Finance must triage first.',
+          steps: [
+            'Commission Oracle transparency audit — why are 713K+ transaction descriptions empty?',
+            'Establish data quality baseline — what % of flagged duplicates are genuine vs export artifacts',
+            'For confirmed genuine duplicates: issue recovery notices to suppliers',
+            'For systemic issues: escalate to Data, Technology & Efficiency portfolio for Oracle fix',
+            'Report findings to Audit, Risk & Governance Committee',
+          ],
+          governance_route: 'officer_delegation',
+          evidence: `${allDuplicates.length} flagged duplicate groups across all departments. Likely inflated by Oracle data quality issues.`,
+          portfolio_id: 'resources',
+          officer: 'Laurence Ainsworth (interim S151)',
+          priority: 'high',
+          feasibility: 8,
+          impact: Math.min(10, Math.ceil(totalDuplicates * 0.05 / 500000)),
+        })
+      }
+    }
+
+    if (allSplits.length > 0) {
+      const totalSplits = allSplits.reduce((s, d) => s + (d.total_value || d.amount || 0), 0)
+      if (totalSplits > 50000) {
+        directives.push({
+          id: 'centralised_split_investigation',
+          type: 'split_payment',
+          tier: 'procurement_reform',
+          owner: 'centralised',
+          action: `Investigate ${formatCurrency(totalSplits)} in suspected split payments across all directorates`,
+          save_low: totalSplits * 0.05,
+          save_high: totalSplits * 0.15,
+          save_central: totalSplits * 0.1,
+          timeline: 'Short-term (3-6 months)',
+          legal_basis: 'Contract Procedure Rules — threshold avoidance prohibited',
+          risk: 'Medium',
+          risk_detail: 'May reveal procurement non-compliance. Handle via Internal Audit — not individual portfolio holders.',
+          steps: [
+            'Internal Audit to extract all same-supplier transactions below procurement threshold',
+            'Identify patterns suggesting deliberate splitting vs legitimate purchase orders',
+            'Refer confirmed cases to Head of Procurement for process improvement',
+            'Report systemic findings to Audit, Risk & Governance Committee',
+          ],
+          governance_route: 'officer_delegation',
+          evidence: `${allSplits.length} suspected split payment instances council-wide`,
+          portfolio_id: 'resources',
+          officer: 'Laurence Ainsworth (interim S151)',
+          priority: 'medium',
+          feasibility: 7,
+          impact: Math.min(10, Math.ceil(totalSplits * 0.1 / 2000000)),
+        })
+      }
+    }
+
+    if (allChFlags.length > 0) {
       directives.push({
-        id: `${portfolio.id}_dup_recovery`,
-        type: 'duplicate_recovery',
-        action: `Recover ${formatCurrency(totalDuplicates)} in likely duplicate payments`,
-        save_low: totalDuplicates * 0.6,
-        save_high: totalDuplicates * 1.0,
-        save_central: totalDuplicates * 0.8,
+        id: 'centralised_ch_compliance',
+        type: 'compliance',
+        tier: 'procurement_reform',
+        owner: 'centralised',
+        action: `Review ${allChFlags.length} suppliers with Companies House red flags council-wide`,
+        save_low: 0,
+        save_high: 0,
+        save_central: 0,
         timeline: 'Immediate (0-3 months)',
-        legal_basis: 'Financial Procedure Rules — internal recovery, no external constraint',
+        legal_basis: 'Public Contracts Regulations 2015 / Procurement Act 2023 — exclusion grounds',
         risk: 'Low',
-        risk_detail: 'Internal financial management — no service impact, no political risk',
+        risk_detail: 'Regulatory compliance — failure to act is the greater risk. Procurement team action.',
         steps: [
-          'Pull transaction report for flagged duplicates',
-          'Cross-reference invoice numbers and dates',
-          'Issue recovery notices to suppliers',
-          'Escalate unrecovered amounts to S151 Officer',
+          'Procurement team to check current CH status of each flagged supplier',
+          'Review active contracts with dissolved/dormant companies',
+          'Issue termination notices or alternative procurement where appropriate',
+          'Update pre-award checks to include CH status verification as standard',
         ],
         governance_route: 'officer_delegation',
-        evidence: `${pFindings.duplicates.length} likely duplicate groups identified`,
-        portfolio_id: portfolio.id,
-        officer: portfolio.executive_director,
+        evidence: `${allChFlags.length} suppliers with CH compliance issues across all portfolios`,
+        portfolio_id: 'resources',
+        officer: 'Laurence Ainsworth (interim S151)',
         priority: 'high',
         feasibility: 9,
-        impact: Math.min(10, Math.ceil(totalDuplicates / 500000)),
+        impact: 3,
       })
     }
-  }
 
-  // Split payment investigation
-  if (pFindings.splits.length > 0) {
-    const totalSplits = pFindings.splits.reduce((s, d) => s + (d.total_value || d.amount || 0), 0)
-    if (totalSplits > 50000) {
+    // Centralised savings functions from reform_operations
+    const centralisedFunctions = options.cabinetData?.reform_operations?.centralised_savings?.functions || []
+    for (const fn of centralisedFunctions) {
+      // Skip duplicates — already handled above from DOGE findings
+      if (fn.function.toLowerCase().includes('duplicate')) continue
+      const { low, high } = parseSavingRange(fn.est_saving)
+      if (low === 0 && high === 0 && !fn.function.toLowerCase().includes('oracle')) continue
+
       directives.push({
-        id: `${portfolio.id}_split_investigation`,
-        type: 'split_payment',
-        action: `Investigate ${formatCurrency(totalSplits)} in suspected split payments`,
-        save_low: totalSplits * 0.1,
-        save_high: totalSplits * 0.3,
-        save_central: totalSplits * 0.2,
-        timeline: 'Short-term (3-6 months)',
-        legal_basis: 'Contract Procedure Rules — threshold avoidance prohibited',
-        risk: 'Medium',
-        risk_detail: 'May reveal procurement non-compliance. Could implicate officers. Handle via audit.',
-        steps: [
-          'Extract all transactions to same supplier below procurement threshold',
-          'Identify patterns suggesting deliberate splitting',
-          'Refer confirmed cases to Head of Procurement',
-          'Report findings to Audit Committee',
-        ],
-        governance_route: 'officer_delegation',
-        evidence: `${pFindings.splits.length} suspected split payment instances`,
-        portfolio_id: portfolio.id,
-        officer: portfolio.executive_director,
-        priority: 'medium',
-        feasibility: 7,
-        impact: Math.min(10, Math.ceil(totalSplits / 2000000)),
+        id: `centralised_${fn.function.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`,
+        type: 'centralised_reform',
+        tier: 'procurement_reform',
+        owner: 'centralised',
+        action: fn.function,
+        save_low: low,
+        save_high: high,
+        save_central: (low + high) / 2,
+        timeline: fn.timeline || 'Medium-term',
+        legal_basis: fn.legal_basis || 'Best Value duty (LGA 1999)',
+        risk: fn.risk || 'Medium',
+        risk_detail: fn.description,
+        steps: [fn.description],
+        governance_route: fn.decision_route || 'cabinet_decision',
+        evidence: fn.doge_finding || fn.description,
+        portfolio_id: 'resources',
+        officer: options.cabinetData?.reform_operations?.centralised_savings?.executive_director || portfolio.executive_director,
+        priority: fn.risk === 'Low' ? 'high' : fn.risk === 'High' ? 'low' : 'medium',
+        feasibility: fn.risk === 'Low' ? 8 : fn.risk === 'High' ? 4 : 6,
+        impact: Math.min(10, Math.ceil((low + high) / 2 / 1000000)),
       })
     }
   }
 
-  // CH compliance directives
-  if (pFindings.ch_flags.length > 0) {
-    directives.push({
-      id: `${portfolio.id}_ch_compliance`,
-      type: 'compliance',
-      action: `Review ${pFindings.ch_flags.length} suppliers with Companies House red flags`,
-      save_low: 0,
-      save_high: 0,
-      save_central: 0,
-      timeline: 'Immediate (0-3 months)',
-      legal_basis: 'Public Contracts Regulations 2015 — exclusion grounds for dissolved/insolvent companies',
-      risk: 'Low',
-      risk_detail: 'Regulatory compliance — failure to act is greater risk',
-      steps: [
-        'Check current CH status of each flagged supplier',
-        'Review active contracts with dissolved/dormant companies',
-        'Issue termination notices where appropriate',
-        'Ensure procurement team checks CH status before new awards',
-      ],
-      governance_route: 'officer_delegation',
-      evidence: `${pFindings.ch_flags.length} suppliers with CH compliance issues`,
-      portfolio_id: portfolio.id,
-      officer: portfolio.executive_director,
-      priority: 'high',
-      feasibility: 9,
-      impact: 3,
-    })
-  }
-
-  // 2. Directives from savings levers in portfolio data
+  // 2. Portfolio-specific levers (only those owned by the portfolio)
   for (const lever of (portfolio.savings_levers || [])) {
-    const match = (lever.est_saving || '').match(/£([\d.]+)(?:-([\d.]+))?M?/)
-    let saveLow = 0, saveHigh = 0
-    if (match) {
-      saveLow = parseFloat(match[1]) * 1000000
-      saveHigh = match[2] ? parseFloat(match[2]) * 1000000 : saveLow * 1.2
-    }
+    // Skip centralised levers if we're not on Resources — they're generated above
+    if (lever.owner === 'centralised' && !isResourcesPortfolio) continue
+
+    const { low, high } = parseSavingRange(lever.est_saving)
 
     directives.push({
-      id: `${portfolio.id}_lever_${lever.lever?.toLowerCase().replace(/\s+/g, '_')}`,
+      id: `${portfolio.id}_lever_${(lever.lever || lever.description || '').toLowerCase().replace(/[^a-z0-9]+/g, '_')}`,
       type: 'savings_lever',
+      tier: lever.tier || 'demand_management',
+      owner: lever.owner || 'portfolio',
       action: lever.lever || lever.description,
-      save_low: saveLow,
-      save_high: saveHigh,
-      save_central: (saveLow + saveHigh) / 2,
+      save_low: low,
+      save_high: high,
+      save_central: (low + high) / 2,
       timeline: lever.timeline || 'Medium-term',
       legal_basis: lever.legal_constraints || 'No specific legal constraint identified',
       risk: lever.risk || 'Medium',
       risk_detail: lever.description || '',
       steps: lever.steps || [lever.description],
-      governance_route: saveHigh > 500000 ? 'cabinet' : 'officer_delegation',
+      governance_route: high > 500000 ? 'cabinet' : 'officer_delegation',
       evidence: lever.description,
       portfolio_id: portfolio.id,
       officer: portfolio.executive_director,
       priority: lever.risk === 'Low' ? 'high' : lever.risk === 'High' ? 'low' : 'medium',
       feasibility: lever.risk === 'Low' ? 8 : lever.risk === 'High' ? 4 : 6,
-      impact: Math.min(10, Math.ceil((saveLow + saveHigh) / 2 / 1000000)),
+      impact: Math.min(10, Math.ceil((low + high) / 2 / 1000000)),
     })
   }
 
-  // 3. Supplier concentration directives (from spending data)
+  // 3. Supplier concentration directives — per-portfolio (not centralised)
   if (spending?.length > 100) {
     const supplierTotals = {}
     for (const r of spending) {
@@ -275,6 +370,8 @@ export function generateDirectives(portfolio, findings, spending, options = {}) 
       directives.push({
         id: `${portfolio.id}_concentration`,
         type: 'concentration',
+        tier: 'procurement_reform',
+        owner: 'portfolio',
         action: `Reduce supplier concentration (Gini ${(gini * 100).toFixed(0)}%) — top supplier ${topSupplier[0]} has ${formatCurrency(topSupplier[1])}`,
         save_low: topSupplier[1] * 0.05,
         save_high: topSupplier[1] * 0.15,
@@ -282,7 +379,7 @@ export function generateDirectives(portfolio, findings, spending, options = {}) 
         timeline: 'Medium-term (12-24 months)',
         legal_basis: 'Best Value duty (LGA 1999) — requirement to secure continuous improvement',
         risk: 'Medium',
-        risk_detail: 'Changing major suppliers requires careful transition. May face supplier pushback or service disruption.',
+        risk_detail: 'Changing major suppliers requires careful transition. Coordinate with centralised procurement reform.',
         steps: [
           'Map all contracts with top 5 suppliers',
           'Identify alternative suppliers via framework agreements',
@@ -311,6 +408,29 @@ export function generateDirectives(portfolio, findings, spending, options = {}) 
   return directives
 }
 
+/**
+ * Generate ALL directives across ALL portfolios — the "Monday morning list".
+ * Centralised directives appear once (under Resources), not duplicated.
+ *
+ * @param {Array} portfolios - All portfolios
+ * @param {Object} findings - doge_findings.json
+ * @param {Object} allSpending - Map of portfolio_id → spending records
+ * @param {Object} cabinetData - Full cabinet_portfolios.json
+ * @returns {Array} All directives, de-duplicated, sorted by impact
+ */
+export function generateAllDirectives(portfolios, findings, allSpending, cabinetData) {
+  if (!portfolios?.length) return []
+  const all = []
+  for (const p of portfolios) {
+    const spending = allSpending?.[p.id] || []
+    const directives = generateDirectives(p, findings, spending, { cabinetData })
+    all.push(...directives)
+  }
+  // Sort by save_central descending for the overall priority view
+  all.sort((a, b) => (b.save_central || 0) - (a.save_central || 0))
+  return all
+}
+
 
 // ═══════════════════════════════════════════════════════════════════════
 // Reform Playbook
@@ -318,12 +438,15 @@ export function generateDirectives(portfolio, findings, spending, options = {}) 
 
 /**
  * Generate a phased Reform Playbook for a portfolio.
+ * Uses 5-tier model: immediate_recovery → procurement_reform → demand_management
+ * → service_redesign → income_generation
  *
  * @param {Object} portfolio - Portfolio from cabinet_portfolios.json
  * @param {Array} directives - Output from generateDirectives()
+ * @param {Object} cabinetData - Full cabinet_portfolios.json (for MTFS comparison)
  * @returns {Object} Playbook with phases, red lines, targets
  */
-export function generateReformPlaybook(portfolio, directives) {
+export function generateReformPlaybook(portfolio, directives, cabinetData) {
   if (!portfolio) return null
 
   // Phase directives by timeline
@@ -347,6 +470,19 @@ export function generateReformPlaybook(portfolio, directives) {
   }
 
   const sumSavings = (items) => items.reduce((s, d) => s + (d.save_central || 0), 0)
+
+  // Group by tier for the 5-tier view
+  const byTier = {}
+  for (const d of directives) {
+    const tier = d.tier || 'demand_management'
+    if (!byTier[tier]) byTier[tier] = { directives: [], total: 0 }
+    byTier[tier].directives.push(d)
+    byTier[tier].total += d.save_central || 0
+  }
+
+  // Group by ownership
+  const centralised = directives.filter(d => d.owner === 'centralised')
+  const portfolioOwned = directives.filter(d => d.owner !== 'centralised')
 
   // Red lines — statutory duties rated 'red'
   const redLines = (portfolio.statutory_duties || [])
@@ -372,11 +508,57 @@ export function generateReformPlaybook(portfolio, directives) {
       year_2: { label: 'Procurement Reform & Restructure', directives: year2, total_savings: sumSavings(year2) },
       year_3: { label: 'Structural Transformation', directives: year3, total_savings: sumSavings(year3) },
     },
+    by_tier: byTier,
+    ownership: {
+      centralised: { count: centralised.length, total: sumSavings(centralised) },
+      portfolio_specific: { count: portfolioOwned.length, total: sumSavings(portfolioOwned) },
+    },
     total_savings: sumSavings(directives),
     directive_count: directives.length,
     red_lines: redLines,
     amber_zones: amberZones,
     green_space: greenSpace,
+  }
+}
+
+/**
+ * Compare total savings pipeline against MTFS targets.
+ *
+ * @param {Array} allDirectives - All directives from generateAllDirectives()
+ * @param {Object} cabinetData - Full cabinet_portfolios.json
+ * @returns {Object} MTFS comparison
+ */
+export function mtfsComparison(allDirectives, cabinetData) {
+  const mtfs = cabinetData?.administration?.mtfs
+  if (!mtfs || !allDirectives?.length) return null
+
+  const totalCentral = allDirectives.reduce((s, d) => s + (d.save_central || 0), 0)
+  const totalLow = allDirectives.reduce((s, d) => s + (d.save_low || 0), 0)
+  const totalHigh = allDirectives.reduce((s, d) => s + (d.save_high || 0), 0)
+
+  // Year 1 = immediate + short-term directives
+  const year1Directives = allDirectives.filter(d => {
+    const tl = (d.timeline || '').toLowerCase()
+    return tl.includes('immediate') || tl.includes('0-3') || tl.includes('3-6') || tl.includes('short')
+  })
+  const year1Central = year1Directives.reduce((s, d) => s + (d.save_central || 0), 0)
+
+  const target1 = mtfs.savings_targets?.['2026_27'] || 0
+  const target2 = mtfs.savings_targets?.two_year_total || 0
+
+  return {
+    mtfs_year1_target: target1,
+    mtfs_two_year_target: target2,
+    identified_low: totalLow,
+    identified_central: totalCentral,
+    identified_high: totalHigh,
+    year1_deliverable: year1Central,
+    year1_coverage_pct: target1 ? Math.round(year1Central / target1 * 100) : null,
+    two_year_coverage_pct: target2 ? Math.round(totalCentral / target2 * 100) : null,
+    gap_or_surplus: totalCentral - target2,
+    prior_year_shortfall: mtfs.prior_year_performance?.adult_services_shortfall || 0,
+    cost_pressures: mtfs.cost_pressures_2026_27?.total || 0,
+    redundancy_provision: mtfs.redundancy_provision || 0,
   }
 }
 
@@ -667,14 +849,28 @@ export function meetingBriefing(meeting, portfolio, data = {}) {
   if (portfolio.budget_latest?.net_expenditure) {
     briefing.data_points.push(`Net budget: ${formatCurrency(portfolio.budget_latest.net_expenditure)}`)
   }
-  if (portfolio.known_pressures?.length) {
-    briefing.data_points.push(`Key pressures: ${portfolio.known_pressures.slice(0, 3).join('; ')}`)
+  if (portfolio.budget_latest?.yoy_change) {
+    briefing.data_points.push(`YoY change: ${portfolio.budget_latest.yoy_change}`)
+  }
+
+  // Use enriched demand_pressures if available, fall back to known_pressures
+  const pressures = portfolio.demand_pressures?.length
+    ? portfolio.demand_pressures.map(dp => dp.driver || dp.description || dp)
+    : (portfolio.known_pressures || [])
+  if (pressures.length) {
+    briefing.data_points.push(`Key pressures: ${pressures.slice(0, 3).join('; ')}`)
+  }
+
+  // Key contracts awareness
+  for (const contract of (portfolio.key_contracts || []).slice(0, 2)) {
+    briefing.data_points.push(`Key contract: ${contract.provider} — ${contract.value || contract.note || ''}`)
   }
 
   // Likely opposition questions based on pressures and findings
-  for (const pressure of (portfolio.known_pressures || []).slice(0, 3)) {
+  for (const pressure of pressures.slice(0, 3)) {
+    const pressureText = typeof pressure === 'object' ? (pressure.driver || pressure.description) : pressure
     briefing.opposition_questions.push({
-      question: `What is the Cabinet Member doing about: ${pressure}?`,
+      question: `What is the Cabinet Member doing about: ${pressureText}?`,
       suggested_response: `Reform is addressing this through [specific action]. Unlike the previous administration, we are taking a data-driven approach with clear savings targets.`,
     })
   }
@@ -789,7 +985,9 @@ export function departmentOperationsProfile(spending, portfolio) {
       unique_suppliers: uniqueSuppliers,
       avg_transactions_per_supplier: Math.round(avgPerSupplier * 10) / 10,
     },
-    known_pressures: portfolio.known_pressures || [],
+    demand_pressures: portfolio.demand_pressures || [],
+    key_contracts: portfolio.key_contracts || [],
+    operational_context: portfolio.operational_context || null,
     key_services: portfolio.key_services || [],
   }
 }
@@ -1013,6 +1211,8 @@ export function generatePortfolioFOI(directive, portfolio) {
 
 /**
  * Identify cross-portfolio savings dependencies.
+ * Reads from cross_portfolio_dependencies in portfolio data first,
+ * falls back to known local government patterns.
  *
  * @param {Array} portfolios - All portfolios
  * @returns {Array} Dependency links
@@ -1020,40 +1220,40 @@ export function generatePortfolioFOI(directive, portfolio) {
 export function crossPortfolioDependencies(portfolios) {
   if (!portfolios?.length) return []
 
-  // Known cross-portfolio dependencies in local government
-  const dependencies = [
-    {
-      from: 'health_wellbeing',
-      to: 'adult_social_care',
-      type: 'prevention',
-      description: 'Public health prevention programmes reduce Adult Social Care demand. £1 in falls prevention = £3.50 saved in hospital admissions and social care packages.',
-      roi_timeline: '12-24 months',
-    },
-    {
-      from: 'children_families',
-      to: 'education_skills',
-      type: 'early_intervention',
-      description: 'Early intervention in children\'s services reduces SEND demand and exclusions. Family support reduces EHC plan escalation.',
-      roi_timeline: '2-5 years',
-    },
-    {
-      from: 'highways_transport',
-      to: 'economic_development',
-      type: 'infrastructure',
-      description: 'Transport connectivity enables economic growth. Road condition affects business investment decisions.',
-      roi_timeline: '3-10 years',
-    },
-    {
-      from: 'data_technology',
-      to: 'resources_property',
-      type: 'digital_transformation',
-      description: 'Digital services reduce property footprint needs and back-office processing costs.',
-      roi_timeline: '12-18 months',
-    },
-  ]
-
-  // Only return dependencies where both portfolios exist
   const ids = new Set(portfolios.map(p => p.id))
+  const seen = new Set()
+  const dependencies = []
+
+  // 1. Read from portfolio data (enriched in cabinet_portfolios.json)
+  for (const p of portfolios) {
+    for (const dep of (p.cross_portfolio_dependencies || [])) {
+      const key = `${p.id}→${dep.portfolio || dep.to}`
+      if (seen.has(key)) continue
+      seen.add(key)
+      dependencies.push({
+        from: p.id,
+        to: dep.portfolio || dep.to,
+        type: dep.type || 'dependency',
+        description: dep.description || dep.detail,
+        roi_timeline: dep.roi_timeline || dep.timeline,
+      })
+    }
+  }
+
+  // 2. Add known structural dependencies not already covered
+  const fallbacks = [
+    { from: 'health_wellbeing', to: 'adult_social_care', type: 'prevention', description: 'Public health prevention programmes reduce Adult Social Care demand. £1 in falls prevention = £3.50 saved in hospital admissions and social care packages.', roi_timeline: '12-24 months' },
+    { from: 'children_families', to: 'education_skills', type: 'early_intervention', description: 'Early intervention in children\'s services reduces SEND demand and exclusions. Family support reduces EHC plan escalation.', roi_timeline: '2-5 years' },
+    { from: 'highways_transport', to: 'economic_development', type: 'infrastructure', description: 'Transport connectivity enables economic growth. Road condition affects business investment decisions.', roi_timeline: '3-10 years' },
+    { from: 'data_technology', to: 'resources', type: 'digital_transformation', description: 'Digital services reduce property footprint needs and back-office processing costs.', roi_timeline: '12-18 months' },
+  ]
+  for (const fb of fallbacks) {
+    const key = `${fb.from}→${fb.to}`
+    if (!seen.has(key) && ids.has(fb.from) && ids.has(fb.to)) {
+      dependencies.push(fb)
+    }
+  }
+
   return dependencies.filter(d => ids.has(d.from) && ids.has(d.to))
 }
 

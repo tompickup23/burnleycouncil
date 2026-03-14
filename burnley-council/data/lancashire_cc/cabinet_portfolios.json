@@ -8,7 +8,124 @@
     "majority_threshold": 43,
     "control_since": "2025-05-01",
     "previous_control": "Conservative (NOC, largest party)",
-    "next_elections": "2029-05"
+    "next_elections": "2029-05",
+    "mtfs": {
+      "total_net_budget": 1330000000,
+      "council_tax_requirement": 717100000,
+      "band_d_rate": 1801.75,
+      "council_tax_increase_pct": 3.8,
+      "asc_precept_pct": 2.0,
+      "core_spending_power": 1335000000,
+      "total_debt": 1200000000,
+      "debt_service_annual": 80000000,
+      "savings_targets": {
+        "2026_27": 65000000,
+        "two_year_total": 103000000,
+        "note": "£43M carried forward from previous Conservative plans, £22M newly identified by Reform"
+      },
+      "savings_by_directorate": {
+        "adult_services": { "two_year": 46700000, "pct": 45 },
+        "growth_environment_transport_health": { "two_year": 22000000, "pct": 21 },
+        "education_children": { "two_year": 13300000, "pct": 13 },
+        "council_wide": { "two_year": 12900000, "pct": 13 },
+        "resources": { "two_year": 7700000, "pct": 7 }
+      },
+      "cost_pressures_2026_27": {
+        "total": 99000000,
+        "demand_led": 59500000,
+        "inflation": 39500000
+      },
+      "windfalls": {
+        "government_settlement_improvement": 28400000,
+        "pension_contribution_reduction": 20000000,
+        "note": "First multi-year funding statement in a decade (provisional through 2028/29)"
+      },
+      "redundancy_provision": 11000000,
+      "redundancy_estimate_jobs": 400,
+      "prior_year_performance": {
+        "year": "2024/25",
+        "target": 68600000,
+        "achieved_pct": 48,
+        "adult_services_target": 34800000,
+        "adult_services_achieved": 3800000,
+        "adult_services_shortfall": 31000000,
+        "adult_services_overspend": 21600000
+      },
+      "budget_allocations_2026_27": {
+        "adults_health_wellbeing": 558500000,
+        "education_children": 265700000,
+        "place_services": 261900000,
+        "corporate_budgets": 151000000,
+        "chief_executive_services": 1300000
+      }
+    }
+  },
+  "reform_operations": {
+    "model": "Centralised investigation and cross-cutting reform under Resources/Digital. Portfolio-specific transformation led by individual cabinet members. Duplicates, procurement, contract management and commercialisation handled once centrally — not duplicated across 10 portfolios.",
+    "centralised_savings": {
+      "owner": "resources",
+      "cabinet_member": "Ged Mirfin",
+      "executive_director": "Laurence Ainsworth",
+      "functions": [
+        {
+          "function": "Duplicate payment investigation & recovery",
+          "description": "ALL duplicate payment findings centralised under S151/Finance. Oracle ERP transparency data issues must be investigated first to establish which are genuine duplicates vs CSV export artifacts. Once confirmed, recovery handled either by centralised team or assigned to individual directorates.",
+          "doge_finding": "£93.6M flagged across 15,452 high-confidence groups (same supplier, amount, date, reference — 3+ copies). Most likely Oracle/transparency artifacts but must be confirmed.",
+          "est_saving": "£2-10M",
+          "timeline": "3-6 months",
+          "risk": "Low",
+          "decision_route": "officer_delegation"
+        },
+        {
+          "function": "Procurement reform",
+          "description": "Cross-council procurement aggregation, category management, e-procurement, Procurement Act 2023 compliance. Target 3-5% savings on £400M+ addressable spend across all portfolios. Currently devolved — efficiency review targeting centralisation.",
+          "est_saving": "£5-15M",
+          "timeline": "6-18 months",
+          "risk": "Low",
+          "decision_route": "cabinet_decision"
+        },
+        {
+          "function": "Contract management improvement",
+          "description": "Centralised expiry tracking, renegotiation programme, performance management. 65 late contract publications identified (avg 45.5 days late). Zero contract visibility on Contracts Finder for Public Health and Environment categories.",
+          "est_saving": "£3-8M",
+          "timeline": "6-12 months",
+          "risk": "Low",
+          "decision_route": "officer_delegation"
+        },
+        {
+          "function": "Commercialisation & income generation",
+          "description": "New Director of Commercialisation function (absorbed into Finance & Commerce under Brendan Arnold). Fees and charges review, commercial income streams, trading opportunities.",
+          "est_saving": "£2-5M",
+          "timeline": "12-24 months",
+          "risk": "Medium",
+          "decision_route": "cabinet_decision"
+        },
+        {
+          "function": "Oracle transparency fix",
+          "description": "100% of 713,596 transactions have empty descriptions (transparency score 0.0). Oracle ERP export does not include transaction descriptions. This is the single biggest barrier to forensic analysis and public accountability.",
+          "est_saving": "£0 (enabler)",
+          "timeline": "3-6 months",
+          "risk": "Low",
+          "decision_route": "officer_delegation"
+        },
+        {
+          "function": "Property estate rationalisation",
+          "description": "1,200+ properties. Active disposal programme underway (Willow Lane Lancaster £350K, Golden Hill, Horncliffe Quarry, Garstang Swimming Pool). Property/estates/facilities = 6.3% of total spend (~£132M). Simon Lawrence's title changed to 'Director of Growth and Property' — property now explicitly in his remit.",
+          "est_saving": "£3-8M",
+          "timeline": "12-24 months",
+          "risk": "Medium",
+          "decision_route": "cabinet_member_decision"
+        }
+      ]
+    },
+    "savings_pipeline": {
+      "mtfs_target_2026_27": 65000000,
+      "mtfs_target_two_year": 103000000,
+      "ai_doge_identified_range": "£78M-£175M",
+      "ai_doge_identified_low": 78000000,
+      "ai_doge_identified_high": 175000000,
+      "note": "AI DOGE savings pipeline exceeds MTFS target. MTFS is the floor, not the ceiling."
+    }
   },
   "portfolios": [
     {
@@ -25,13 +142,16 @@
       "lead_members": [],
       "champions": [],
       "executive_director": "Mark Wynn (Chief Executive)",
-      "directors": ["Director of Strategy and Innovation"],
+      "directors": [
+        "Sarah Reed — Interim Director of Strategy and Innovation"
+      ],
       "scrutiny_committee": { "name": "Budget and Finance Scrutiny Committee", "id": "budget_finance_scrutiny" },
       "budget_categories": [],
       "spending_department_patterns": ["^Chief Exec", "^Corporate", "^Leader", "^Strategic", "^External Rel", "^Communications", "^Policy"],
       "budget_latest": {
         "year": "2026/27",
-        "note": "Cross-cutting — no single budget line. Oversees all portfolios."
+        "allocation": 1300000,
+        "note": "Cross-cutting — oversees all portfolios. Chief executive services allocation £1.3M."
       },
       "statutory_duties": [
         { "act": "Local Government Act 2000 (Part II)", "summary": "Leader accountable for executive functions and cabinet appointments", "risk_level": "green", "risk": "Constitutional role — cannot be cut" },
@@ -45,14 +165,28 @@
         "Communications and media"
       ],
       "known_pressures": [
-        "LGR transition planning — vesting Apr 2028",
-        "CCA governance requirements",
-        "Cross-party relationship management"
+        "LGR transition — vesting Apr 2028 (recommended delay to Apr 2029 for net £14-34M saving)",
+        "CCA governance — established Feb 2025, Lancashire receiving £20M capital + £40.8M adult skills",
+        "£103M savings delivery across all directorates over 2 years",
+        "2024/25 savings failure — only 48% of £68.6M target achieved",
+        "Cross-party relationship management — Reform 53 vs 31 opposition but call-in still feasible",
+        "19 staff earning over £100K — public/media scrutiny"
+      ],
+      "demand_pressures": [
+        { "driver": "MTFS delivery pressure", "detail": "£65M in 2026/27, £103M over 2 years. Prior year delivered only 48%. Adult services alone had £31M shortfall.", "severity": "critical" },
+        { "driver": "LGR timeline", "detail": "Vesting Apr 2028 requires shadow elections May 2027. Multiple directorates must deliver savings before LGR absorbs capacity.", "severity": "high" },
+        { "driver": "Devolution expectations", "detail": "CCA brings funding but also governance overhead. BSIP flows through CCA from 2025/26.", "severity": "medium" }
       ],
       "savings_levers": [
-        { "lever": "Corporate restructuring", "est_saving": "£2-5M", "timeline": "12-18 months", "risk": "Medium", "description": "Review corporate centre headcount post-2025 election. Multiple interim/consultancy appointments could be made permanent or eliminated.", "legal_constraints": null },
-        { "lever": "External partnerships audit", "est_saving": "£0.5-1M", "timeline": "3-6 months", "risk": "Low", "description": "Review all membership subscriptions, partnership contributions and secondments. Assess value-for-money of each.", "legal_constraints": null }
-      ]
+        { "lever": "Corporate restructuring", "est_saving": "£2-5M", "timeline": "12-18 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Review corporate centre headcount. Multiple interim appointments (Sarah Reed, Brendan Arnold, Jacquie McGeachie, John Betts) — convert or eliminate. 19 staff over £100K.", "legal_constraints": null },
+        { "lever": "External partnerships audit", "est_saving": "£0.5-1M", "timeline": "3-6 months", "risk": "Low", "tier": "immediate_recovery", "owner": "portfolio", "description": "Review all membership subscriptions, partnership contributions and secondments.", "legal_constraints": null }
+      ],
+      "operational_context": {
+        "ce_salary": 236960,
+        "ce_appointed": "2025-02-26",
+        "ce_also": "Partially seconded to Lancashire CCA as Chief Finance Officer (S73)",
+        "key_decisions_pending": "LGR shadow authority structure, CCA investment framework"
+      }
     },
     {
       "id": "children_families",
@@ -72,9 +206,9 @@
       ],
       "executive_director": "Jacqui Old CBE",
       "directors": [
-        "Director of Children's Social Care",
-        "Director of Policy Commissioning and Children's Health",
-        "Director of Children's Services Reform and Professional Standards"
+        "Louise Anderson — Director of Children's Social Care",
+        "Dave Carr — Director of Policy, Commissioning and Children's Health",
+        "VACANT — Director of Children's Services Reform and Professional Standards"
       ],
       "scrutiny_committee": { "name": "Children, Families and Skills Scrutiny Committee", "id": "children_families_skills_scrutiny" },
       "budget_categories": ["Children Social Care"],
@@ -85,7 +219,9 @@
         "income": -6728000,
         "net_expenditure": 291482000,
         "employees": 90106000,
-        "running_expenses": 208104000
+        "running_expenses": 208104000,
+        "allocation_2026_27": 265700000,
+        "allocation_note": "Combined Education & Children's Services"
       },
       "statutory_duties": [
         { "act": "Children Act 1989", "summary": "Duty to safeguard and promote welfare of children in need, accommodate looked-after children", "risk_level": "red", "risk": "Cannot reduce below statutory minimum — Ofsted inspection risk" },
@@ -95,27 +231,62 @@
       ],
       "key_services": [
         "Children's social care and safeguarding",
-        "Looked after children and foster care",
-        "Adoption services",
+        "Looked after children (1,699 — down from 2,127 peak in 2019)",
+        "Foster care (in-house and IFA)",
+        "Adoption services (Adoption Lancashire & Blackpool — joint with Blackpool)",
+        "Family Safeguarding model (multi-disciplinary teams since 2021)",
         "Youth justice and offending",
-        "Care leavers support",
+        "Care leavers support (663 aged 19-21)",
         "Early help and family support",
-        "CAMHS commissioning"
+        "CAMHS commissioning",
+        "UASC (180+ in care, 58 care leavers 18+)"
       ],
       "known_pressures": [
-        "Looked after children numbers rising — 2,100+ (national trend)",
-        "Agency social worker costs — £15-20M p.a. at premium rates",
-        "Residential placement costs — £4,000-8,000/week per child",
-        "Unaccompanied asylum-seeking children (UASC) — 180+, Home Office funding gap",
-        "Ofsted inspection due — inadequate rating would trigger intervention"
+        "Looked after children: 1,699 (Mar 2025). Down 14% from 2,127 peak but 262 now in children's homes (+46% since 2021)",
+        "Agency residential costs: ~£6,000/week average, up to £9,000 complex, national extreme £60,000/week",
+        "IFA contract: £150-160M over 9 years. 85% through Lancashire agreement, 4% off-contract",
+        "UASC: 180+ in care, Home Office grants below actual cost — shortfall on general fund",
+        "Director of CSR & Professional Standards: VACANT",
+        "Lancashire has 8% of all children's homes in England (347 total: 330 agency, 17 LCC). Fylde went from 24→52, Wyre 23→44",
+        "Out-of-area children requiring health assessments: 1,000+",
+        "2024/25 overspend: £1.3M"
+      ],
+      "demand_pressures": [
+        { "driver": "Residential placement cost spiral", "detail": "Average agency children's home cost £6,000/week (+£400 in 18 months). 262 children in homes (+46% since 2021). National spend: £3.1B. Placements >£10K/week up from 120 to 1,510 nationally.", "severity": "critical" },
+        { "driver": "UASC numbers", "detail": "180+ UASC in care. National Transfer Scheme threshold 0.1% of child population. National UASC social care expenditure £323M (+32% in 2 years). Home Office grants don't cover costs.", "severity": "high" },
+        { "driver": "Private children's home proliferation", "detail": "347 children's homes in Lancashire (8% of England total). 2-bed homes exploded from 57→125. Only 149 Lancashire children placed in Lancashire agency homes (15% of 980 capacity). Rest are out-of-area placements.", "severity": "high" },
+        { "driver": "Care leaver obligations", "detail": "663 care leavers (19-21) requiring support. Entitlements non-negotiable under Children and Social Work Act 2017.", "severity": "medium" }
+      ],
+      "key_contracts": [
+        { "name": "IFA Flexible Agreement", "provider": "Sub-regional (LCC, Blackpool, Blackburn, Cumberland, Westmorland & Furness)", "value": "£150-160M", "duration": "9 years", "note": "85% of agency placements. 96% through local/regional contracts." },
+        { "name": "Residential Block Contracts", "provider": "3 providers, 8 block beds each (24 total, expandable to 50)", "value": "~£8.9M (20 months)", "duration": "Since November 2019", "note": "Hard-to-find placements declining: 43%→32%→25%" },
+        { "name": "Short Breaks & Disability", "provider": "Open Provider List", "value": "Various", "duration": "Ends April 2027 — re-procurement mid-2026", "note": "Break Time, Home Care and Short Breaks" },
+        { "name": "Foster With Us regional recruitment", "provider": "LCC + Blackpool + Blackburn + Cumberland + Westmorland", "value": "£1.2M bid", "duration": "Current", "note": "760 more foster carers needed across NW. 152 children waiting." }
       ],
       "savings_levers": [
-        { "lever": "Agency social worker conversion", "est_saving": "£3-5M", "timeline": "6-12 months", "risk": "Medium", "description": "Convert top 50 agency social workers to permanent. Agency rates 40-60% premium. Requires competitive salary offer and retention package.", "legal_constraints": null },
-        { "lever": "Residential placement step-down", "est_saving": "£5-10M", "timeline": "12-18 months", "risk": "Medium", "description": "For every child stepped down from residential (£250K/yr) to fostering (£30K/yr) = £220K saving. Target 25-40 step-downs.", "legal_constraints": "Must demonstrate placement meets child's needs — Care Planning Regulations 2010" },
-        { "lever": "In-house fostering expansion", "est_saving": "£2-4M", "timeline": "12-24 months", "risk": "Low", "description": "Recruit 50 additional in-house foster carers. In-house costs 60% less than independent fostering agencies (IFAs).", "legal_constraints": null },
-        { "lever": "Edge of care prevention", "est_saving": "£3-6M", "timeline": "12-18 months", "risk": "Low", "description": "Invest in intensive family support to prevent children entering care. Every child diverted from care = £40-70K annual saving.", "legal_constraints": null },
-        { "lever": "UASC cost recovery", "est_saving": "£2-4M", "timeline": "3-6 months", "risk": "Low", "description": "Systematic review of Home Office funding claims for UASC. National Transfer Scheme rates often below actual cost — pursue full cost recovery.", "legal_constraints": null }
-      ]
+        { "lever": "WOCL programme (Where Our Children Live)", "est_saving": "£2-4M/year at full capacity", "timeline": "12-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Expanding from 15 to 30 in-house children's homes (up to 100 beds). First 4 opening in Lancaster, Ribble Valley, Burnley, Rossendale. Full programme cost £15.1M/yr vs agency £17.4M/yr = net £2.1M saving. Every child moved from agency (~£312K/yr) to in-house saves ~£100K/yr.", "legal_constraints": "Ofsted registration required. Must meet Children's Homes Regulations 2015." },
+        { "lever": "Agency social worker conversion", "est_saving": "£3-5M", "timeline": "6-12 months", "risk": "Medium", "tier": "procurement_reform", "owner": "portfolio", "description": "97 apprentices currently on social work degree programme (UCLan). 20 NQSWs started Jan 2025. Agency rates 40-60% premium. Grow-your-own strategy via Social Work Academy.", "legal_constraints": null },
+        { "lever": "Residential placement step-down", "est_saving": "£5-10M", "timeline": "12-18 months", "risk": "Medium", "tier": "demand_management", "owner": "portfolio", "description": "Family Safeguarding model already reduced children in care under FS from 388 to 286. For every child stepped down from residential (£312K/yr) to fostering (£30K/yr) = £282K saving. Target 25-40 step-downs.", "legal_constraints": "Care Planning Regulations 2010 — must demonstrate placement meets child's needs" },
+        { "lever": "In-house fostering expansion", "est_saving": "£2-4M", "timeline": "12-24 months", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Foster carer payments £399-523/week + £1,145.50 approval. Refer-a-friend £1,650. In-house costs 60% less than IFA. Target 50 additional carers.", "legal_constraints": null },
+        { "lever": "Edge of care prevention", "est_saving": "£3-6M", "timeline": "12-18 months", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Intensive family support to prevent children entering care. Family Safeguarding model shows proven results. Every child diverted from care = £40-70K annual saving.", "legal_constraints": null },
+        { "lever": "UASC cost recovery", "est_saving": "£2-4M", "timeline": "3-6 months", "risk": "Low", "tier": "immediate_recovery", "owner": "portfolio", "description": "Systematic review of Home Office funding claims for 180+ UASC + 58 care leavers. NTS rates often below actual cost. National expenditure £323M (+32% in 2 years).", "legal_constraints": null }
+      ],
+      "operational_context": {
+        "ofsted_rating": "Good",
+        "ofsted_date": "2022-12-09",
+        "ofsted_note": "From April 2026, Ofsted stops giving overall headline ratings. Individual domain ratings continue.",
+        "transformation_programme": "Family Safeguarding (since 2021, based on Hertfordshire model)",
+        "children_in_care_trend": { "2019": 2127, "2021": 1967, "2025": 1699 },
+        "wocl_programme": {
+          "current_homes": 15,
+          "target_homes": 30,
+          "current_beds": 60,
+          "target_beds": 100,
+          "total_cost": 13000000,
+          "homes_opened": 1,
+          "next_openings": "Lancaster, Ribble Valley, Burnley, Rossendale"
+        }
+      }
     },
     {
       "id": "resources",
@@ -134,9 +305,12 @@
       "champions": [],
       "executive_director": "Laurence Ainsworth",
       "directors": [
-        "Noel O'Neill — Interim Director of Finance and Commerce (S151 Officer)",
-        "Lucy Thompson — Director of People (HR)",
-        "Heloise MacAndrew — Director of Law and Governance (Monitoring Officer)"
+        "Brendan Arnold — Interim Director of Finance and Commerce (Acting S151)",
+        "Heloise MacAndrew — Director of Law and Governance (Monitoring Officer)",
+        "Jacquie McGeachie — Interim Director of People (HR)",
+        "Simon Lawrence — Director of Growth and Property",
+        "Sarah Robinson — Head of Service, Property",
+        "Clare Joynson — Head of Service, Facilities Management"
       ],
       "scrutiny_committee": { "name": "Budget and Finance Scrutiny Committee", "id": "budget_finance_scrutiny" },
       "budget_categories": ["Central services"],
@@ -147,41 +321,67 @@
         "income": -125022000,
         "net_expenditure": 41881000,
         "employees": 106190000,
-        "running_expenses": 60713000
+        "running_expenses": 60713000,
+        "mtfs_savings_target_two_year": 7700000
       },
       "statutory_duties": [
-        { "act": "Local Government Finance Act 1992", "summary": "S151 officer must ensure proper financial administration", "risk_level": "red", "risk": "Cannot remove — statutory officer role" },
+        { "act": "Local Government Finance Act 1992", "summary": "S151 officer must ensure proper financial administration", "risk_level": "red", "risk": "Cannot remove — statutory officer role. Gary Fielding appointed permanent from Jun 2026." },
         { "act": "Accounts and Audit Regulations 2015", "summary": "Annual accounts preparation and external audit", "risk_level": "red", "risk": "Legal requirement" },
         { "act": "Local Government Act 1972 s112", "summary": "Duty to appoint officers for proper discharge of functions", "risk_level": "amber", "risk": "Flexible on structure but must maintain core functions" },
         { "act": "Registration Service Act 1953", "summary": "Births, deaths and marriages registration", "risk_level": "red", "risk": "Statutory service — Home Office funded" },
-        { "act": "Coroners and Justice Act 2009", "summary": "Coroner service provision", "risk_level": "red", "risk": "Cannot reduce — joint service with other authorities" }
+        { "act": "Coroners and Justice Act 2009", "summary": "Coroner service provision", "risk_level": "red", "risk": "Cannot reduce — joint service with other authorities" },
+        { "act": "Procurement Act 2023", "summary": "New procurement regulations from 24 February 2025. Dynamic Markets replace DPS.", "risk_level": "amber", "risk": "Must follow new procedures — training and system changes required" }
       ],
       "key_services": [
-        "Financial management and treasury",
+        "Financial management and treasury (total debt £1.2B, £80M/yr service cost)",
         "Human resources and workforce development",
-        "Property and estate management (1,200+ assets)",
+        "Property and estate management (1,200+ assets, ~£132M property/estates/facilities = 6.3% of spend)",
         "Legal services and governance",
         "Democratic services",
         "Internal audit",
-        "Pension fund administration",
+        "Pension fund administration (LCPF £10.8B, 115% funded — top 3 nationally)",
         "Registrars (births, deaths, marriages)",
         "Coroner's service",
         "Insurance and risk management",
-        "Procurement"
+        "Procurement (devolved model under review — efficiency review targeting centralisation)",
+        "Commercialisation (function within Finance & Commerce)"
       ],
       "known_pressures": [
-        "DSG deficit — £171.4M forecast, rising to £419.9M by 2028/29",
-        "Reserves declining 6 consecutive years (£420M → £345M)",
-        "Property estate maintenance backlog",
-        "Pension fund liabilities",
-        "External audit delays (sector-wide)"
+        "DSG deficit — £22.4M (Mar 2025), forecast £140M (Mar 2026), £328M (Mar 2027), £545M (Mar 2028). Statutory override ends Mar 2028. DfE 90% write-off (HNSG) covers ~£126M of pre-Mar 2026 deficit.",
+        "Reserves declining — £326.8M (Mar 2024) to £223.4M forecast (Mar 2026). General fund just £23.4M (2.25%).",
+        "Oracle Fusion catastrophe (2022) — data breaches, payment delays, salary overpayments, limited assurance audit opinion. KPMG review classified exempt. Now stabilised.",
+        "Property estate maintenance backlog (£5M+ for 5 ASC care homes alone)",
+        "Pension fund liabilities (though 115% funded)",
+        "External audit delays (sector-wide)",
+        "S151 transition — Noel O'Neill → Brendan Arnold (interim) → John Betts (interim) → Gary Fielding (permanent, from Jun 2026)",
+        "Bond investments ~£350M below purchase value",
+        "Multiple interim directors (Finance, People, Strategy) — organisational instability"
+      ],
+      "demand_pressures": [
+        { "driver": "DSG time bomb", "detail": "If statutory override ends Mar 2028 without extension, council cannot set balanced budget. 79% of councils nationally say same. National DSG deficits: £6B (£14B forecast by 2027/28).", "severity": "critical" },
+        { "driver": "Reserves trajectory", "detail": "6 consecutive years of decline (£420M→£345M→£326.8M→£223.4M forecast). General fund at 2.25% — dangerously close to S114 territory.", "severity": "critical" },
+        { "driver": "Procurement compliance", "detail": "Procurement Act 2023 live from Feb 2025. Devolved procurement model means many non-specialist staff doing procurement. Training and system changes needed.", "severity": "high" },
+        { "driver": "Property maintenance", "detail": "1,200+ assets with unknown total maintenance backlog. 5 ASC care homes alone need £5M+. Active disposal programme but no published estate strategy.", "severity": "high" }
+      ],
+      "key_contracts": [
+        { "name": "Softcat IT infrastructure", "provider": "Softcat PLC", "value": "£64M", "duration": "4 years from Dec 2025", "note": "£10.4M in DOGE spending data (20 months)" },
+        { "name": "Local Pensions Partnership", "provider": "LPP Admin Ltd", "value": "£21.8M (20 months)", "duration": "Ongoing", "note": "Pension fund administration" },
+        { "name": "Bloom procurement support", "provider": "Bloom Procurement Services", "value": "£1.91M", "duration": "Ongoing", "note": "2 contracts — both awarded 0 days after deadline. DOGE weak competition flag." },
+        { "name": "Beever & Struthers audit", "provider": "Beever and Struthers LLP", "value": "£131K", "duration": "Annual", "note": "94.4% of procurement threshold — threshold-adjacent flag" }
       ],
       "savings_levers": [
-        { "lever": "Property estate rationalisation", "est_saving": "£3-8M", "timeline": "12-24 months", "risk": "Medium", "description": "1,200+ properties. Identify surplus assets for disposal, co-locate services, reduce running costs. Every vacant property costs £30-100K/yr to maintain.", "legal_constraints": "Disposal must follow best consideration requirements (S123 LGA 1972)" },
-        { "lever": "Support services consolidation", "est_saving": "£2-4M", "timeline": "6-12 months", "risk": "Low", "description": "Support services currently £123M gross (huge). Review internal recharging model, eliminate duplication between central and directorate-level admin.", "legal_constraints": null },
-        { "lever": "Procurement savings", "est_saving": "£5-10M", "timeline": "6-18 months", "risk": "Low", "description": "Cross-council procurement aggregation, framework consolidation, contract renegotiation on expiring contracts. Target 3-5% of addressable spend.", "legal_constraints": "Public Contracts Regulations 2015 — must follow procurement law" },
-        { "lever": "Digital transformation of back office", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Low", "description": "Automate finance processes (e-invoicing, three-way matching, automated reconciliation). Reduce headcount through natural attrition.", "legal_constraints": null }
-      ]
+        { "lever": "Property estate rationalisation", "est_saving": "£3-8M", "timeline": "12-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "centralised", "description": "1,200+ properties. Active disposals: Willow Lane Lancaster (£350K+), Golden Hill, Horncliffe Quarry, Garstang Pool. Property/estates/facilities = 6.3% of spend (~£132M). Every vacant property costs £30-100K/yr to maintain.", "legal_constraints": "S123 LGA 1972 — best consideration requirements for disposal" },
+        { "lever": "Support services consolidation", "est_saving": "£2-4M", "timeline": "6-12 months", "risk": "Low", "tier": "service_redesign", "owner": "centralised", "description": "Support services £123M gross. Review internal recharging model. Eliminate duplication between central and directorate-level admin. £11M redundancy provision already in budget.", "legal_constraints": null },
+        { "lever": "Digital transformation of back office", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Low", "tier": "service_redesign", "owner": "centralised", "description": "Automate finance processes (e-invoicing, three-way matching, automated reconciliation). Oracle Fusion stabilised after 2022 catastrophe. Reduce headcount through natural attrition.", "legal_constraints": null },
+        { "lever": "S151 transition efficiency", "est_saving": "£0.5-1M", "timeline": "6 months", "risk": "Low", "tier": "immediate_recovery", "owner": "portfolio", "description": "Three S151 holders in 18 months (O'Neill→Arnold→Betts→Fielding). Gary Fielding arrives from North Yorkshire Jun 2026. Stabilise structure, eliminate interim costs.", "legal_constraints": null }
+      ],
+      "operational_context": {
+        "oracle_status": "Stabilised after catastrophic 2022 migration. Data breaches, payment delays, salary overpayments. KPMG review classified exempt. Limited assurance audit opinion.",
+        "lcpf": { "value": 10800000000, "funded_pct": 115, "ranking": "Top 3 nationally" },
+        "reserves_trajectory": { "2022": 420000000, "2023": 345000000, "2024": 326800000, "2026_forecast": 223400000 },
+        "efficiency_review": "Initiated June 2025 by Reform. Five focus areas: procurement, property, digital, workforce, partnerships.",
+        "s151_timeline": "Noel O'Neill → Brendan Arnold (Oct 2025) → John Betts (Feb 2026 interim) → Gary Fielding (Jun 2026 permanent, from North Yorkshire Council)"
+      }
     },
     {
       "id": "adult_social_care",
@@ -200,53 +400,120 @@
         { "name": "Gaynor Hargreaves", "area": "Disabled People", "councillor_id": "ghargreaves" },
         { "name": "Nigel Swales", "area": "Mental Health", "councillor_id": "nswales" }
       ],
-      "executive_director": "Jacqui Old CBE",
-      "directors": ["Director of Adult Services"],
+      "executive_director": "Helen Coombes (Interim, since Dec 2024)",
+      "directors": [
+        "Matthew Emerson — Director of Strategic Commissioning and Quality",
+        "John Williams — Director of Operations (Adults)",
+        "Mairead Gill-Mullarkey — Director of Operations (Adults)"
+      ],
       "scrutiny_committee": { "name": "Health and Adult Services Scrutiny Committee", "id": "health_adults_scrutiny" },
       "budget_categories": ["Adult Social Care"],
-      "spending_department_patterns": ["^Adult", "^Residential", "^Home Care", "^Homecare", "^Day Care", "^Day Serv", "^Mental Health.*Adult", "^Learning Disab", "^Older People", "^Older Person", "^Direct Payment", "^Safeguard.*Adult", "^Supported Living", "^Nursing", "^Domicil", "^Reablement", "^Extra Care", "^Shared Lives"],
+      "spending_department_patterns": ["^Adult", "^Residential", "^Home Care", "^Homecare", "^Day Care", "^Day Serv", "^Mental Health.*Adult", "^Learning Disab", "^Older People", "^Older Person", "^Direct Payment", "^Safeguard.*Adult", "^Supported Living", "^Nursing", "^Domicil", "^Reablement", "^Extra Care", "^Shared Lives", "^OP-", "^LD-", "^MH-", "^MH2-", "^MH3-", "^PDSI-", "^Prevention Short"],
       "budget_latest": {
         "year": "2024/25",
         "gross_expenditure": 829285000,
         "income": -244784000,
         "net_expenditure": 584501000,
         "employees": 127972000,
-        "running_expenses": 701313000
+        "running_expenses": 701313000,
+        "allocation_2026_27": 558500000,
+        "allocation_note": "Combined Adults, Health, Wellbeing",
+        "mtfs_savings_target_two_year": 46700000,
+        "pct_of_net_revenue": 59.3,
+        "prior_year_overspend": 21600000
       },
       "statutory_duties": [
-        { "act": "Care Act 2014 (s18-20)", "summary": "Duty to assess and meet eligible care needs. Wellbeing duty. Prevention duty.", "risk_level": "red", "risk": "Cannot cut below assessed eligible needs — judicial review risk" },
-        { "act": "Mental Capacity Act 2005", "summary": "Best interests decisions, DoLS authorisations", "risk_level": "red", "risk": "Deprivation of Liberty — unlawful if not authorised" },
+        { "act": "Care Act 2014 (s18-20)", "summary": "Duty to assess and meet eligible care needs. Wellbeing duty. Prevention duty.", "risk_level": "red", "risk": "Cannot cut below assessed eligible needs — judicial review risk. CQC now assessing compliance." },
+        { "act": "Mental Capacity Act 2005", "summary": "Best interests decisions, DoLS authorisations", "risk_level": "red", "risk": "Deprivation of Liberty — unlawful if not authorised. 332,455 applications nationally, only 19% in time." },
         { "act": "Mental Health Act 1983 (s117)", "summary": "Aftercare for detained patients — free, non-means-tested", "risk_level": "red", "risk": "s117 aftercare CANNOT be charged for — absolute duty" },
-        { "act": "Care Act 2014 (s5)", "summary": "Market shaping duty — ensure diverse, sustainable provider market", "risk_level": "amber", "risk": "If major provider fails, council becomes provider of last resort" }
+        { "act": "Care Act 2014 (s5)", "summary": "Market shaping duty — ensure diverse, sustainable provider market", "risk_level": "amber", "risk": "334 care homes, 11,800 beds. 10% vacancy rate. If major provider fails, council is provider of last resort." }
       ],
       "key_services": [
-        "Residential and nursing care",
-        "Home care and reablement",
-        "Day services",
-        "Safeguarding adults",
-        "Mental health services (adults)",
-        "Learning disability services",
-        "Direct payments and personal budgets",
-        "Deprivation of Liberty Safeguards (DoLS)",
-        "Supported living",
-        "Extra care housing",
-        "Shared Lives scheme"
+        "Residential and nursing care (OP residential £242M, nursing £122M over 20 months — 413 providers, 184 providers)",
+        "Home care and reablement (88,000 hours/week commissioned, 31% off-framework at ~20% higher rates)",
+        "LD Supported Living (£146M over 20 months, 42 suppliers, ~700 properties, ~1,830 people, £70M/yr)",
+        "Day services (5 day centres under review — 3 operating below 60% capacity, 2 closed since pandemic)",
+        "Safeguarding adults (all referrals reviewed by end of working day, no waiting list)",
+        "Mental health services (£63M over 20 months)",
+        "Direct payments and personal budgets (£161M over 20 months — 64% more activities, 66% more control)",
+        "DoLS (large backlog of unauthorised deprivations. National: 123,790 uncompleted, avg 144 days processing)",
+        "In-house care homes (16 total — 5 under review, £5M maintenance backlog. Leader confirmed no closures Feb 2026)",
+        "In-house domiciliary services (9 district teams, mostly CQC Good)",
+        "Short break/respite services (7 teams — 2 rated Outstanding)",
+        "Shared Lives scheme (CQC Outstanding — Lancashire has 9% of national LD Shared Lives placements)",
+        "Equipment/telecare (10,000+ pieces issued monthly, no waiting list)"
       ],
       "known_pressures": [
-        "Demographic growth — over-65 population rising 2.1% p.a. in Lancashire",
-        "National Living Wage impact on provider costs (annual 5-7% uplift)",
-        "Care market sustainability — provider failure risk in rural areas",
-        "Hospital discharge delays — NHS cost shunt to social care",
-        "CHC disputes with NHS Lancashire & South Cumbria ICB — estimated £12M+ unrecovered",
-        "CQC inspection regime — new single assessment framework"
+        "CQC 'Requires Improvement' (Aug 2025) — 2/4 across all 9 quality statements. 2,000+ waiting for assessments (up to 226 days), 3,500+ waiting annual reviews (some years late), 1,100 waiting OT (max 262 days)",
+        "MTFS target: £46.7M over 2 years (45% of all council savings). 2024/25 target was £34.8M — only £3.8M achieved (£31M shortfall). Overspent by £21.6M.",
+        "Demographic growth — over-65 population rising 2.1% p.a. Life expectancy gap: males 10.6 years, females 9.6 years in most deprived wards",
+        "National Living Wage impact — NLW increase 6.7% (£11.44→£12.21/hr from Apr 2025) + Employers NI from 13.8%→15%. Providers need 7-8% uplift.",
+        "Care market sustainability — 334 homes, 10% vacancy. Fair Cost of Care gap: residential £137/week below fair cost. Agency charges >£50/hour.",
+        "Hospital discharge delays — NHS cost shunt to social care. CHC disputes with ICB (the 'daily fight')",
+        "CHC disputes — BCF in excess of £200M p.a. ICB is largest funder. £28M savings target for 2024/25 through better cost sharing 'not worked out as preferred'",
+        "Strained NHS partnerships — CQC found 'some organisations had disengaged'. Historic tensions and funding disputes block integration.",
+        "Leadership instability — Helen Coombes interim since Dec 2024. Permanent DASS recruitment linked to CE recruitment.",
+        "In-house care homes: 5 reviewed (229 beds), £5M maintenance backlog. Day centres: 2 still closed since pandemic."
+      ],
+      "demand_pressures": [
+        { "driver": "Over-65 demographic growth", "detail": "2.1% p.a. growth in Lancashire. Ageing population driving residential, nursing and home care demand. Life expectancy gap widening in deprived wards.", "severity": "critical" },
+        { "driver": "Provider cost inflation", "detail": "NLW +6.7%, Employers NI +1.2pp, CQC fees up, energy costs. Providers need 7-8% fee uplift. Fair Cost of Care: residential £137/week below fair cost.", "severity": "critical" },
+        { "driver": "CQC improvement mandate", "detail": "Requires Improvement rating means CQC will return. Must reduce waiting lists (2,000+ assessments, 3,500+ reviews, 1,100 OT). Post-CQC recruitment: 53 SWs, 14 OTs, 18 SCOs saving £1.6M agency costs.", "severity": "high" },
+        { "driver": "LD Supported Living market risk", "detail": "42 suppliers for £146M (20 months). Average £3.5M per supplier. Any major provider failure could be catastrophic.", "severity": "high" },
+        { "driver": "Mental health demand", "detail": "Leading cause of sickness absence among ASC staff. LPS implementation expected H1 2026 consultation — 7 years after legislation passed.", "severity": "medium" }
+      ],
+      "key_contracts": [
+        { "name": "Home care framework (all zones)", "provider": "30+ providers inc. Guardian Homecare (largest — £1.9M/month), Routes Healthcare, Creative Support", "value": "~£88K hours/week", "duration": "Up to 12 years from Nov 2023", "note": "Zone-based, aligned to NHS Neighbourhood Teams. 31% off-framework at ~20% premium." },
+        { "name": "LD Supported Living", "provider": "49 providers, 39 on Pan-Lancashire framework", "value": "~£70M/year", "duration": "Flexible agreement", "note": "80% quality / 20% price evaluation. 700 properties, 1,830 people." },
+        { "name": "OP Residential (spot purchase)", "provider": "413 providers", "value": "~£242M (20 months)", "duration": "Rolling spot contracts", "note": "Any CQC-registered provider accepting LCC rates." },
+        { "name": "BCF Pooled Budget", "provider": "NHS Lancashire & South Cumbria ICB", "value": "In excess of £200M p.a.", "duration": "Annual BCF agreement", "note": "ICB is largest single supplier relationship (£170.7M in DOGE data). Chorley & SR BCF: £122M across 24 transactions." },
+        { "name": "Prevention/Reablement block", "provider": "3 providers", "value": "£28M (20 months)", "duration": "Block contract", "note": "Short-term care at home." },
+        { "name": "LRL PFI legacy", "provider": "6 suppliers", "value": "£64.5M (20 months)", "duration": "Legacy from GRLOL PFI", "note": "Old PFI arrangement — review terms." },
+        { "name": "Equipment/Telecare", "provider": "1 provider", "value": "£6.5M (20 months)", "duration": "Contract", "note": "10,000+ pieces monthly, no waiting list." }
       ],
       "savings_levers": [
-        { "lever": "CHC cost recovery", "est_saving": "£5-12M", "timeline": "3-6 months", "risk": "Medium", "description": "Systematic review of NHS Continuing Healthcare eligibility. LCC is funding care packages that should be NHS-funded. Establish dedicated CHC review team.", "legal_constraints": "National Framework for NHS CHC 2022 — joint dispute resolution process" },
-        { "lever": "Reablement expansion", "est_saving": "£3-5M", "timeline": "12-18 months", "risk": "Low", "description": "Invest in short-term reablement to reduce long-term residential placements. Every 1% shift from residential to community saves ~£3M. Current reablement capacity undersized.", "legal_constraints": null },
-        { "lever": "Digital care technology", "est_saving": "£1-2M", "timeline": "6-12 months", "risk": "Low", "description": "Remote monitoring, telecare, digital care planning. Reduces face-to-face visits for stable clients. Technology Enabled Care programme.", "legal_constraints": null },
-        { "lever": "Direct payment uptake", "est_saving": "£2-4M", "timeline": "12 months", "risk": "Low", "description": "Self-directed support is typically 15-20% cheaper than council-commissioned packages. Increase uptake from current ~15% to 25%.", "legal_constraints": "Care Act 2014 s31-33 — must offer DPs to all eligible" },
-        { "lever": "Market shaping and commissioning", "est_saving": "£3-8M", "timeline": "18-24 months", "risk": "Medium", "description": "Strategic commissioning to increase competition, block contract where appropriate, reduce spot purchasing premium. Current HHI suggests healthy competition but pricing above benchmarks.", "legal_constraints": "Public Contracts Regulations 2015, Light Touch Regime for social care" },
-        { "lever": "Demand management — falls prevention", "est_saving": "£2-5M", "timeline": "2-3 years", "risk": "Low", "description": "Investment in falls prevention, social prescribing, community assets to delay care onset. Every fall prevented saves £30K+ in residential placement. Cross-portfolio with Public Health.", "legal_constraints": null }
+        { "lever": "CHC cost recovery", "est_saving": "£5-12M", "timeline": "3-6 months", "risk": "Medium", "tier": "immediate_recovery", "owner": "portfolio", "description": "Systematic review of NHS Continuing Healthcare eligibility. BCF >£200M p.a. The ICB CEO acknowledged whether ICB should 'contribute more'. Establish dedicated CHC review team.", "legal_constraints": "National Framework for NHS CHC 2022 — joint dispute resolution process" },
+        { "lever": "Off-framework home care reduction", "est_saving": "£3-5M", "timeline": "6-12 months", "risk": "Low", "tier": "procurement_reform", "owner": "centralised", "description": "31% of home care commissioned off-framework at ~20% higher rates. Move to framework providers. New zone-based contracts from Nov 2023 should enable this.", "legal_constraints": null },
+        { "lever": "Reablement expansion", "est_saving": "£3-5M", "timeline": "12-18 months", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Lancashire reablement success: 87.3% still at home at 91 days (national 81.8%). But only 2.6% offered reablement after discharge (national 2.8%). Every 1% shift from residential to community saves ~£3M.", "legal_constraints": null },
+        { "lever": "Digital care technology", "est_saving": "£1-2M", "timeline": "6-12 months", "risk": "Low", "tier": "service_redesign", "owner": "portfolio", "description": "Remote monitoring, telecare, digital care planning. £3M allocated over 3 years for digital transformation. Reduces face-to-face visits for stable clients.", "legal_constraints": null },
+        { "lever": "Direct payment uptake", "est_saving": "£2-4M", "timeline": "12 months", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Self-directed support typically 15-20% cheaper. CQC found direct payments deliver 64% more activities, 66% more control, 60% better health. Increase uptake.", "legal_constraints": "Care Act 2014 s31-33 — must offer DPs to all eligible" },
+        { "lever": "Residential to community shift", "est_saving": "£5-10M", "timeline": "18-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "OP residential £172M/yr annualised vs home care £57M/yr. If 10% of residential placements converted to home care = £10-15M savings. Living Better Lives programme targets this.", "legal_constraints": "Care Act 2014 — must demonstrate placement meets assessed needs" },
+        { "lever": "Demand management — falls prevention", "est_saving": "£2-5M", "timeline": "2-3 years", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Every £1 in falls prevention saves £3.50 in ASC. Cross-portfolio with Public Health. Positive Ageing Mental Health Trailblazer already achieves 4 weeks earlier discharge.", "legal_constraints": null }
+      ],
+      "operational_context": {
+        "cqc_rating": "Requires Improvement",
+        "cqc_date": "2025-08-15",
+        "cqc_score": "2 out of 4 across all 9 quality statements",
+        "cqc_key_findings": [
+          "2,000+ waiting for assessments (up to 226 days)",
+          "3,500+ waiting annual reviews (some years late)",
+          "1,100 waiting OT assessment (max 262 days)",
+          "Unreliable electronic records system",
+          "Strained relationships with partners",
+          "Mental health leading cause of staff sickness"
+        ],
+        "cqc_improvements_since": [
+          "OT waiting >28 days reduced by 50%",
+          "Assessment waiting reduced 48% (1,850→1,075)",
+          "53 social workers, 14 OTs, 18 SCOs recruited",
+          "Agency staff reduction saving £1.6M since April"
+        ],
+        "transformation_programme": "Living Better Lives in Lancashire (LBLiL) — strength-based practice, three-step conversation, digital ASC, wellbeing and early support function",
+        "conflict_of_interest": "Cabinet Member Graham Dalton is part-owner of 1st for Care GB (Lancaster, private care). Protestations of no interest challenged at scrutiny committee.",
+        "in_house_care_homes": {
+          "total": 16,
+          "under_review": 5,
+          "review_outcome": "Leader confirmed no closures (Feb 2026). Investment pledged. Full report to Cabinet April 2026.",
+          "day_centres_under_review": 5,
+          "day_centres_operating": 3,
+          "day_centres_closed_since_pandemic": 2
+        },
+        "shared_lives": "Outstanding — 9% of total national LD Shared Lives placements. Crown jewel of LCC ASC."
+      },
+      "cross_portfolio_dependencies": [
+        { "portfolio": "health_wellbeing", "dependency": "Falls prevention investment in Public Health saves £3.50 per £1 in ASC residential avoidance" },
+        { "portfolio": "data_technology", "dependency": "Digital care technology and self-service portals reduce ASC operational costs" },
+        { "portfolio": "resources", "dependency": "Property rationalisation affects care home estate. Procurement reform for off-framework home care." }
       ]
     },
     {
@@ -266,11 +533,14 @@
       "champions": [
         { "name": "Nigel Swales", "area": "Mental Health", "councillor_id": "nswales" }
       ],
-      "executive_director": "Phil Green",
-      "directors": ["Director of Public Health"],
+      "executive_director": "Helen Coombes (Interim)",
+      "directors": [
+        "Dr Sakthi Karunanithi — Director of Public Health, Wellbeing and Communities",
+        "Clare Coupe — Director of Communities and Engagement"
+      ],
       "scrutiny_committee": { "name": "Health and Adult Services Scrutiny Committee", "id": "health_adults_scrutiny" },
       "budget_categories": ["Public Health"],
-      "spending_department_patterns": ["^Public Health", "^Health Improv", "^Drug", "^Alcohol", "^Substance", "^Sexual Health", "^Health Visit", "^Health Protect", "^Smoking", "^Obesity", "^Wellbeing"],
+      "spending_department_patterns": ["^Public Health", "^Health Improv", "^Drug", "^Alcohol", "^Substance", "^Sexual Health", "^Health Visit", "^Health Protect", "^Smoking", "^Obesity", "^Wellbeing", "^0-19", "^0-5"],
       "budget_latest": {
         "year": "2024/25",
         "gross_expenditure": 99202000,
@@ -285,9 +555,9 @@
         { "act": "Public Health (Control of Disease) Act 1984", "summary": "Health protection and disease control", "risk_level": "red", "risk": "Cannot reduce emergency preparedness" }
       ],
       "key_services": [
-        "Drug and alcohol services",
+        "Drug and alcohol services (CGL Services — £36.3M combined across 2 entity names)",
         "Sexual health services",
-        "Health visiting and school nursing",
+        "Health visiting and school nursing (0-19 — HCRG Care Services £36.7M combined, 85% of category spend)",
         "Smoking cessation",
         "Obesity and physical activity",
         "Mental health promotion",
@@ -296,14 +566,43 @@
         "Suicide prevention"
       ],
       "known_pressures": [
-        "Public Health Grant ring-fenced but flat in real terms",
-        "Drug and alcohol demand increasing post-COVID",
-        "Mental health demand — particularly young people",
-        "Health inequalities widening in deprived Lancashire wards"
+        "HCRG Care Services near-monopoly — HHI 3,615 (highest of any budget category). 85% of spend through single provider (formerly Virgin Care). £36.7M combined across 2 entity names.",
+        "CGL dual entity — appears as 'CGL' and 'CGL Services Ltd'. £36.3M combined. Rebilling patterns (£561K x15 = £8.4M).",
+        "Public Health Grant ring-fenced but flat in real terms — constrains how money can be used",
+        "Drug and alcohol demand increasing post-COVID. National drug strategy funding uncertain.",
+        "Mental health demand — particularly young people. Suicide prevention critical.",
+        "Health inequalities widening in deprived Lancashire wards",
+        "5.4% round number rate — highest of any budget category (suggests estimates/block amounts rather than invoiced costs)",
+        "0% contract coverage on Contracts Finder — no public health contracts published. Major transparency gap."
+      ],
+      "demand_pressures": [
+        { "driver": "HCRG monopoly risk", "detail": "85% of category spend through single provider. If HCRG exits or fails, the 0-19 health visiting service collapses. No realistic alternative at this scale without major recommissioning.", "severity": "critical" },
+        { "driver": "Drug strategy uncertainty", "detail": "National drug strategy funding (SSMTR/ADDER) time-limited. CGL is dominant provider (£36.3M). If central funding reduces, council must decide whether to maintain from general fund.", "severity": "high" },
+        { "driver": "Health inequalities", "detail": "Life expectancy gap 10.6 years (males) in most deprived wards. Public health interventions generate long-term savings in ASC/NHS but no short-term budget relief.", "severity": "high" }
+      ],
+      "key_contracts": [
+        { "name": "0-19 Health Visiting and School Nursing", "provider": "HCRG Care Services (formerly Virgin Care)", "value": "~£36.7M (20 months)", "duration": "Unknown — not on Contracts Finder", "note": "Near-monopoly position (HHI 3,615). Dual entity names. 85% of category spend. Rebilling: £1.95M x11 = £21.5M." },
+        { "name": "Drug and alcohol treatment", "provider": "CGL Services Ltd", "value": "~£36.3M (20 months, combined)", "duration": "Unknown — not on Contracts Finder", "note": "Dual entity names. Rebilling: £561K x15 = £8.4M, £415K x10 = £4.1M." },
+        { "name": "We Are With You", "provider": "We Are With You", "value": "£1.96M (20 months)", "duration": "Unknown", "note": "Substance misuse/mental health support" }
       ],
       "savings_levers": [
-        { "lever": "Service recommissioning", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Medium", "description": "Retender drug/alcohol and sexual health contracts at scale. Current contracts may not reflect best value. Benchmark against other county councils.", "legal_constraints": "Public Health Grant conditions — must spend on prescribed functions" },
-        { "lever": "Prevention investment (cross-portfolio ROI)", "est_saving": "£0 (invest to save)", "timeline": "2-3 years", "risk": "Low", "description": "Every £1 invested in falls prevention saves £3.50 in Adult Social Care. Every £1 in smoking cessation saves £2.80 in NHS/social care. This portfolio is the long-term savings engine.", "legal_constraints": null }
+        { "lever": "HCRG contract recommissioning", "est_saving": "£2-5M", "timeline": "18-24 months", "risk": "High", "tier": "procurement_reform", "owner": "centralised", "description": "Break 85% monopoly position (HHI 3,615). Retender 0-19 health visiting in lots to create competitive market. Benchmark against other county councils. Zero Contracts Finder visibility means no public scrutiny of current terms.", "legal_constraints": "Public Health Grant conditions. Light Touch Regime for social care/health. Must ensure service continuity during transition." },
+        { "lever": "CGL contract review", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Medium", "tier": "procurement_reform", "owner": "centralised", "description": "Review dual entity arrangement (CGL / CGL Services Ltd). £36.3M combined. Benchmark drug/alcohol service costs against comparable councils.", "legal_constraints": "Drug and alcohol services have vulnerable client groups — service disruption risk" },
+        { "lever": "Prevention investment (cross-portfolio ROI)", "est_saving": "£0 (invest to save)", "timeline": "2-3 years", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Every £1 in falls prevention saves £3.50 in ASC. Every £1 in smoking cessation saves £2.80 in NHS/social care. This portfolio is the long-term savings engine for ASC.", "legal_constraints": null },
+        { "lever": "Contract transparency fix", "est_saving": "£0 (enabler)", "timeline": "1-3 months", "risk": "Low", "tier": "immediate_recovery", "owner": "centralised", "description": "0% contract coverage on Contracts Finder. Publish all public health contracts. This enables scrutiny and future competition.", "legal_constraints": null }
+      ],
+      "operational_context": {
+        "hhi": 3615,
+        "hhi_classification": "HIGH — near-monopoly",
+        "round_number_rate_pct": 5.4,
+        "contracts_finder_coverage_pct": 0.0,
+        "dph": "Dr Sakthi Karunanithi",
+        "grant_ring_fenced": true
+      },
+      "cross_portfolio_dependencies": [
+        { "portfolio": "adult_social_care", "dependency": "Falls prevention, smoking cessation, obesity programmes reduce ASC demand. Every £1 invested here saves £2.80-£3.50 in ASC/NHS." },
+        { "portfolio": "children_families", "dependency": "0-19 health visiting early identification prevents escalation to children's social care" },
+        { "portfolio": "resources", "dependency": "Procurement reform needed to break HCRG near-monopoly and CGL dual entity arrangement" }
       ]
     },
     {
@@ -323,7 +622,7 @@
       ],
       "executive_director": "Jacqui Old CBE",
       "directors": [
-        "Director of Education and Inclusion"
+        "Paul Turner — Director of Education, Culture and Skills"
       ],
       "scrutiny_committee": { "name": "Children, Families and Skills Scrutiny Committee", "id": "children_families_skills_scrutiny" },
       "budget_categories": ["Education services"],
@@ -334,37 +633,88 @@
         "income": -78030000,
         "net_expenditure": 1266580000,
         "employees": 825213000,
-        "running_expenses": 519397000
+        "running_expenses": 519397000,
+        "mtfs_savings_target_two_year": 13300000,
+        "note": "Largest gross budget — mostly DSG passthrough to schools"
       },
       "statutory_duties": [
-        { "act": "Education Act 1996", "summary": "Ensure sufficient school places, school transport for eligible children", "risk_level": "red", "risk": "Home to school transport is major cost driver — statutory distances apply" },
-        { "act": "Children and Families Act 2014 (Part 3)", "summary": "SEND — Education Health and Care Plans (EHCPs), local offer", "risk_level": "red", "risk": "SEND is the biggest financial risk in education. DSG deficit £171M rising to £419M." },
+        { "act": "Education Act 1996", "summary": "Ensure sufficient school places, school transport for eligible children", "risk_level": "red", "risk": "Home to school transport is major cost driver — statutory distances apply. £61M+ for 2025/26." },
+        { "act": "Children and Families Act 2014 (Part 3)", "summary": "SEND — Education Health and Care Plans (EHCPs), local offer", "risk_level": "red", "risk": "DfE Improvement Notice issued June 2025 — 'widespread and systemic failings'. Third consecutive poor SEND inspection." },
         { "act": "Childcare Act 2006", "summary": "Early years provision — sufficient childcare, free entitlement", "risk_level": "amber", "risk": "DfE funded but council has sufficiency duty" },
-        { "act": "Public Libraries and Museums Act 1964", "summary": "Comprehensive and efficient library service", "risk_level": "amber", "risk": "Must provide 'comprehensive' service — reductions need consultation" }
+        { "act": "Public Libraries and Museums Act 1964", "summary": "Comprehensive and efficient library service", "risk_level": "amber", "risk": "63 libraries. Must provide 'comprehensive' service — JR risk (Brent 2011)" }
       ],
       "key_services": [
         "School place planning and admissions",
-        "SEND (Special Educational Needs and Disabilities)",
-        "Education Health and Care Plans (EHCPs)",
-        "Home to school transport",
-        "SEND transport",
-        "Libraries (39 branches)",
+        "SEND — 12,317 EHCPs (Jan 2025), 300 new requests/month vs 53 capacity, 33.8% ASD, 22.3% SLCN, 20.7% SEMH",
+        "EHCP backlog reduction — overdue assessments down 80% (1,801→360), EP backlog down 80% (2,078→425)",
+        "Home to school transport — £61M (2025/26), +£17.7M for 2026/27, 208 in-house minibuses",
+        "SEND transport — 5,200 SEND children + 900 vulnerable adults transported daily",
+        "Libraries (63 branches — Library of Sanctuary withdrawn by Reform)",
         "Adult learning and skills",
         "Early years and childcare",
-        "School improvement (academy oversight limited)"
+        "School improvement (academy oversight limited)",
+        "Inclusion Service (rebranded from SEND Service)"
       ],
       "known_pressures": [
-        "DSG deficit — £171.4M forecast, rising to £419.9M by 2028/29 (CRITICAL)",
-        "SEND demand — EHCP numbers rising 10-15% p.a. nationally",
-        "SEND transport costs — £40M+ and rising 20%+ p.a.",
-        "Library network — 39 branches, high property costs vs digital demand",
-        "School place surplus in some areas (demographic decline in East Lancashire)"
+        "DSG deficit: £22.4M (Mar 2025) → £140M (Mar 2026) → £328M (Mar 2027) → £545M (Mar 2028). DfE 90% write-off (HNSG) covers ~£126M of pre-Mar 2026 deficit.",
+        "DfE SEND Improvement Notice (June 2025) — 'widespread and systemic failings'. Third consecutive poor inspection. 3 priority actions, 2 improvement areas.",
+        "SEND demand — 12,317 EHCPs (Jan 2025), 10.5% annual growth. 300 families/month requesting vs 53 capacity. Forecast 17,673 by Mar 2027.",
+        "SEND transport costs — £61M+ (2025/26), rising 20%+ p.a. Each new EHCP potentially adds £5M to transport costs.",
+        "110 agency educational psychologists (vs 11 permanent FTE) — 10x ratio. £15M+ additional SEND investment.",
+        "Library network — 63 branches. Staff shortages caused temporary closures. No published successor to 2022-2025 Libraries Strategy.",
+        "School place surplus in East Lancashire (demographic decline)",
+        "BSF PFI schools — monthly unitary charges £43.7M+ across phases (locked in, inflation-indexed)"
+      ],
+      "demand_pressures": [
+        { "driver": "SEND EHCP growth spiral", "detail": "12,317 EHCPs growing 10.5% p.a. 300 requests/month vs 53 capacity. 48.4% in special schools (national 38.6%). Independent sector: 5.1% at avg £57K/pupil vs mainstream £9.1K. Every EHCP potentially adds transport cost.", "severity": "critical" },
+        { "driver": "DSG deficit trajectory", "detail": "From £22.4M to £545M in 3 years if growth continues. Statutory override ends Mar 2028. Without extension, council cannot set balanced budget. 79% of councils say same.", "severity": "critical" },
+        { "driver": "Transport cost escalation", "detail": "£61M (2025/26), +£17.7M for 2026/27 (largely SEND). 11% increase in transported pupils since Sep 2024. Taxi firms have pricing power in rural areas.", "severity": "critical" },
+        { "driver": "EP workforce crisis", "detail": "11 permanent EPs vs 110 agency EPs (10x ratio). Agency EPs funded by £5.4M additional budget + £5M prior allocation + £5.3M clearing backlog. Unsustainable.", "severity": "high" }
+      ],
+      "key_contracts": [
+        { "name": "BSF PFI schools (4 phases)", "provider": "Lancashire Schools SPC Phase 1-3", "value": "£43.7M+ (20 months, Phase 1 alone)", "duration": "25-year PFI", "note": "Monthly unitary charges. Phase 1: £1.14M x9 + £1.12M x9 = £20.3M. Locked in — review indexation only." },
+        { "name": "Energy (electricity)", "provider": "Npower Commercial Gas", "value": "£110.8M contract", "duration": "Unknown", "note": "Electricity to LCC and schools. DOGE weak competition flag (awarded 1 day after deadline)." },
+        { "name": "Energy (gas)", "provider": "TotalEnergies Gas & Power", "value": "£60.0M contract", "duration": "Unknown", "note": "Natural gas. DOGE weak competition flag (same)." },
+        { "name": "SEND school places expansion", "provider": "Various construction/expansion", "value": "£57M over 3 years", "duration": "2025-2028", "note": "2 new special schools (Autism 70 places, SEMH 70 places), 3 expansions (+100 places), 5 mainstream SEND units, 1 post-19 college." },
+        { "name": "Agency EP supply", "provider": "3 agencies", "value": "~£15M total investment", "duration": "Time-limited", "note": "110 agency EPs generating 2,400 EHCP advice pieces/year." }
       ],
       "savings_levers": [
-        { "lever": "SEND transport reform", "est_saving": "£5-10M", "timeline": "6-18 months", "risk": "High", "description": "SEND transport is the fastest-growing cost. Route optimisation, personal travel budgets, independent travel training for older students. Benchmark against best-performing councils.", "legal_constraints": "Education Act 1996 s508B — must provide transport to eligible children. SEND Code of Practice." },
-        { "lever": "Library service transformation", "est_saving": "£2-4M", "timeline": "12-24 months", "risk": "High", "description": "39 libraries. Community-managed model for low-use branches, digital-first strategy, co-location with other services. Requires public consultation.", "legal_constraints": "Public Libraries and Museums Act 1964 — must consult and maintain 'comprehensive' service. Judicial review risk (see Brent 2011)." },
-        { "lever": "SEND early intervention", "est_saving": "£3-8M", "timeline": "2-3 years", "risk": "Medium", "description": "Invest in mainstream school SEND support to reduce EHCP demand. Every child kept in mainstream vs special school saves £25-40K/yr in placement + transport.", "legal_constraints": "Children and Families Act 2014 — parental preference for special school must be considered" },
-        { "lever": "Home to school transport review", "est_saving": "£1-3M", "timeline": "6-12 months", "risk": "Medium", "description": "Review discretionary transport (post-16, denominational). Route optimisation for statutory transport.", "legal_constraints": "Statutory distances: 2 miles (under 8), 3 miles (8-16). Discretionary policies can be changed with consultation." }
+        { "lever": "SEND transport reform", "est_saving": "£5-10M", "timeline": "6-18 months", "risk": "High", "tier": "service_redesign", "owner": "portfolio", "description": "50 new Ford minibuses deployed (208 total fleet). Passenger occupancy up 3→5. Cost per passenger down 30% (£11K→£8K). Transport Assistant Grants increased 488→750 saving ~£2M/yr. 200+ parents supporting single-occupancy journeys avoiding £1.8M. Personal Travel Budgets for 400+ families.", "legal_constraints": "Education Act 1996 s508B — must provide transport to eligible children. Statutory distances: 2 miles (under 8), 3 miles (8-16)." },
+        { "lever": "SEND early intervention & mainstream inclusion", "est_saving": "£3-8M", "timeline": "2-3 years", "risk": "Medium", "tier": "demand_management", "owner": "portfolio", "description": "Lancashire 48.4% in special schools (national 38.6%). Every child maintained in mainstream vs special school saves £25-40K/yr in placement + transport. £7.5M recurrent investment into SEND staffing + £37M into places. AI assisting EHCP compliance checking.", "legal_constraints": "Children and Families Act 2014 — parental preference for special school must be considered" },
+        { "lever": "Home to school transport review", "est_saving": "£1-3M", "timeline": "6-12 months", "risk": "Medium", "tier": "procurement_reform", "owner": "portfolio", "description": "Review discretionary transport (post-16, denominational). Route optimisation for statutory transport. Renegotiate taxi contracts.", "legal_constraints": "Statutory distances. Discretionary policies can be changed with consultation." },
+        { "lever": "Energy contract review", "est_saving": "£2-5M", "timeline": "6-12 months", "risk": "Low", "tier": "procurement_reform", "owner": "centralised", "description": "Npower £110.8M and TotalEnergies £60.0M both flagged for weak competition (awarded 1 day after deadline). Combined £170.8M in energy. Review framework terms and market test.", "legal_constraints": null },
+        { "lever": "Library service transformation", "est_saving": "£2-4M", "timeline": "12-24 months", "risk": "High", "tier": "service_redesign", "owner": "portfolio", "description": "63 libraries. Community-managed model for low-use branches, digital-first strategy, co-location with other services. No successor to 2022-2025 Libraries Strategy. Requires public consultation.", "legal_constraints": "Public Libraries and Museums Act 1964 — must consult and maintain 'comprehensive' service. JR risk (Brent 2011)." }
+      ],
+      "operational_context": {
+        "send_inspection": {
+          "rating": "Widespread and/or systemic failings",
+          "date": "2025-02-12",
+          "improvement_notice": "DfE Improvement Notice issued 5 June 2025",
+          "improvement_board_chair": "Kathryn Boulton (Independent)",
+          "consecutive_poor_inspections": 3
+        },
+        "ehcp_backlog_progress": {
+          "overdue_assessments": { "dec_2024": 1801, "jan_2026": 360, "reduction_pct": 80 },
+          "ep_backlog": { "may_2025": 2078, "jan_2026": 425, "reduction_pct": 80 },
+          "target": "Clear all overdue by April 2026"
+        },
+        "dsg_write_off": {
+          "eligible": true,
+          "coverage_pct": 90,
+          "estimated_write_off": 126000000,
+          "residual": 14000000,
+          "condition": "Must submit local SEND reform plan to DfE"
+        },
+        "libraries_count": 63,
+        "send_capital_investment": 57000000,
+        "new_special_schools": 2,
+        "new_places_planned": 400,
+        "ai_in_ehcp": true
+      },
+      "cross_portfolio_dependencies": [
+        { "portfolio": "resources", "dependency": "Energy contracts (£170.8M combined) need central procurement review. BSF PFI indexation review." },
+        { "portfolio": "highways_transport", "dependency": "SEND transport uses Ford minibuses from highways fleet procurement. Route optimisation shared." },
+        { "portfolio": "health_wellbeing", "dependency": "NHS ICB commitment of £1.8M for neurodivergent pathway. Joint SEND governance required by DfE." }
       ]
     },
     {
@@ -384,8 +734,7 @@
       "champions": [],
       "executive_director": "Phil Green",
       "directors": [
-        "Simon Lawrence — Director of Growth and Regeneration",
-        "Mike Jensen — Director of Investment"
+        "Simon Lawrence — Director of Growth and Property"
       ],
       "scrutiny_committee": { "name": "Environment, Economic Growth and Transport Scrutiny Committee", "id": "environment_econ_transport_scrutiny" },
       "budget_categories": ["Cultural and related services"],
@@ -404,19 +753,34 @@
       "key_services": [
         "Economic development and inward investment",
         "Regeneration programmes",
+        "Preston City Deal (£434M programme — PWD complete at £207M, doubled from £104M)",
         "Tourism and visitor economy",
         "Arts and culture",
         "Heritage and conservation",
-        "Business support"
+        "Business support",
+        "Skelmersdale town centre regeneration (up to £150M public/private investment using public land)"
       ],
       "known_pressures": [
         "Lancashire productivity gap vs national average",
         "Town centre decline in East Lancashire",
-        "Post-levelling-up fund uncertainty"
+        "Post-levelling-up fund uncertainty",
+        "LCCA established Feb 2025 — £20M capital + £40.8M adult skills. BSIP flows through CCA from 2025/26.",
+        "Preston City Deal overruns — PWD doubled from £104M to £207M. Cottam Parkway ~£27M short. A582 dualling uncertain.",
+        "Mike Jensen (Director of Investment) no longer in Jan 2026 structure — capacity gap",
+        "Low contract visibility — only 0.6% (£140K) on Contracts Finder"
+      ],
+      "demand_pressures": [
+        { "driver": "CCA expectations", "detail": "LCCA established Feb 2025. Brings £20M capital and £40.8M adult skills funding but requires governance overhead and joint working.", "severity": "medium" },
+        { "driver": "City Deal legacy costs", "detail": "£434M programme with significant overruns. PWD doubled to £207M. Cottam Parkway gap ~£27M. A582 dualling uncertain. These are sunk commitments.", "severity": "high" },
+        { "driver": "Skelmersdale regeneration", "detail": "£150M public/private programme depends on publicly owned land. Long-term commitment with uncertain returns.", "severity": "medium" }
+      ],
+      "key_contracts": [
+        { "name": "Preston City Deal", "provider": "Various contractors (Walter Carefoot £4.6M, John Turner Construction £4.3M)", "value": "£434M programme", "duration": "Multi-year", "note": "PWD complete at £207M. Cottam Parkway and A582 dualling outstanding." }
       ],
       "savings_levers": [
-        { "lever": "Programme rationalisation", "est_saving": "£1-2M", "timeline": "3-6 months", "risk": "Medium", "description": "Review all economic development programmes for outcomes vs cost. Discontinue low-impact schemes. Focus investment on highest-ROI areas.", "legal_constraints": null },
-        { "lever": "External funding maximisation", "est_saving": "£0.5-1M", "timeline": "6-12 months", "risk": "Low", "description": "Dedicated external funding team to capture UKSPF, Levelling Up, CCA investment. Every £1 in matched funding reduces council contribution.", "legal_constraints": null }
+        { "lever": "Programme rationalisation", "est_saving": "£1-2M", "timeline": "3-6 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Review all economic development programmes for outcomes vs cost. Discontinue low-impact schemes. Focus investment on highest-ROI areas.", "legal_constraints": null },
+        { "lever": "External funding maximisation", "est_saving": "£0.5-1M", "timeline": "6-12 months", "risk": "Low", "tier": "income_generation", "owner": "portfolio", "description": "Dedicated external funding team to capture UKSPF, CCA investment. Every £1 in matched funding reduces council contribution.", "legal_constraints": null },
+        { "lever": "CCA funding leverage", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Low", "tier": "income_generation", "owner": "portfolio", "description": "£20M CCA capital + £40.8M adult skills. Ensure Lancashire captures maximum share. Align council programmes with CCA priorities.", "legal_constraints": null }
       ]
     },
     {
@@ -447,39 +811,77 @@
         "income": -60858000,
         "net_expenditure": 68472000,
         "employees": 36201000,
-        "running_expenses": 93129000
+        "running_expenses": 93129000,
+        "highways_pot_2026_27": 72000000
       },
       "statutory_duties": [
-        { "act": "Highways Act 1980 (s41)", "summary": "Duty to maintain highways — non-delegable duty of care", "risk_level": "red", "risk": "Failure to maintain = liability for injury claims. Largest claims area." },
+        { "act": "Highways Act 1980 (s41)", "summary": "Duty to maintain highways — non-delegable duty of care", "risk_level": "red", "risk": "Failure to maintain = liability for injury claims. Claims: £70K/yr (2023/24). 115,000 defects handled 2024/25 (+52% over 5 years)." },
         { "act": "Traffic Management Act 2004", "summary": "Network management duty — keep traffic moving", "risk_level": "amber", "risk": "Must have network management plan" },
-        { "act": "New Roads and Street Works Act 1991", "summary": "Coordinate utility works, recover reinstatement costs", "risk_level": "green", "risk": "Revenue opportunity — s59 recharges to utility companies" },
-        { "act": "Flood and Water Management Act 2010", "summary": "Lead local flood authority duties", "risk_level": "amber", "risk": "Must maintain flood risk strategy" }
+        { "act": "New Roads and Street Works Act 1991", "summary": "Coordinate utility works, recover reinstatement costs", "risk_level": "green", "risk": "Revenue opportunity — s59 recharges to utility companies. Permit scheme since March 2015." },
+        { "act": "Flood and Water Management Act 2010", "summary": "Lead local flood authority duties", "risk_level": "amber", "risk": "Padiham scheme: £39M (revised from £18M). Construction resumes Spring 2026, completion Winter 2028." }
       ],
       "key_services": [
-        "Highway maintenance (5,900km road network)",
-        "Pothole repair and resurfacing",
-        "Street lighting (140,000+ columns)",
-        "Winter maintenance and gritting",
+        "Highway maintenance (5,900km road network — managed service model since Jun 2025, 50% cost reduction per m-sq)",
+        "Pothole repair and resurfacing (defects down 42%: 61K→35K in 6 months. Repair size expanded 2→6 m-sq.)",
+        "Street lighting (170,000+ columns, 152,000 LED converted. Cumulative savings £40M+. 26,000+ columns over 40 years old.)",
+        "Winter maintenance (58 gritters, 7 depots, ~1,800 miles priority routes, 22,800 tonnes salt, £5-6M/yr)",
         "Bridge maintenance (1,800+ structures)",
         "Traffic management and road safety",
-        "Public transport coordination",
+        "Public transport coordination (BSIP £67.1M secured. 21M bus journeys H1 2024/25, +10%.)",
         "Parking enforcement",
         "Cycling and active travel",
-        "Flood risk management"
+        "Flood risk management (Padiham £39M scheme, NW RFCC protecting 40,000+ homes)"
       ],
       "known_pressures": [
-        "Maintenance backlog — estimated £200M+ to bring network to good condition",
-        "Climate change — increased flood and storm damage",
-        "Utility company damage to roads — s59 enforcement opportunity",
-        "Street lighting energy costs (mitigated by LED programme)",
-        "Bus service funding post-BSIP"
+        "Maintenance backlog — £650M to bring network to good condition (revised from £200M). DfT rating: AMBER.",
+        "Road deterioration accelerating — A roads red: 2.1%→3.9% (2022→2025). B/C roads red: 3.7%→6.5%. Weather factor: 125% average rainfall, saturated network 6+ months.",
+        "DfT funding: £195.3M baseline + £72.7M incentive over 4 years. Additional £12.3M for 2025/26 taking total to £46.8M.",
+        "Ford Motor Co vehicle procurement — 18 contracts, ~£7.05M, 5 category monopolies. Multiple same-day awards (30 May 2024). 9 contracts published 95-132 days late.",
+        "Climate change — increased flood and storm damage. 2024/25 winter: 18,096 tonnes salt (up from 12,096), 3,869 actions over 85 days.",
+        "Bus service BSIP funding flows through CCA from 2025/26 — governance uncertainty",
+        "2024/25 transport costs overran by £4.3M (SEND transport up 15%+)"
+      ],
+      "demand_pressures": [
+        { "driver": "Road condition decline", "detail": "A roads red condition nearly doubled (2.1%→3.9%) in 3 years. B/C roads red up 76% (3.7%→6.5%). Unclassified roads: 27.6% red (stable but high). £650M backlog.", "severity": "critical" },
+        { "driver": "Climate resilience", "detail": "125% average rainfall in 2023. Network saturated 6+ months from summer 2024. Padiham flood scheme cost inflated from £18M to £39M. More frequent extreme weather events.", "severity": "high" },
+        { "driver": "SEND transport growth", "detail": "208 in-house minibuses. 5,200 SEND children + 900 vulnerable adults daily. Each new EHCP potentially adds transport cost. Budget +£17.7M for 2026/27.", "severity": "high" }
+      ],
+      "key_contracts": [
+        { "name": "Ford fleet vehicles", "provider": "Ford Motor Co Ltd (3 entity variants)", "value": "~£7.05M (18 contracts)", "duration": "Via TPPL framework", "note": "5 category monopolies (tippers, panel vans, vans, passenger cars, minibuses). 7 contracts awarded same day (30/05/2024). Late publications: 95-132 days." },
+        { "name": "Managed highway service", "provider": "In-house + managed contractors", "value": "~£72M pot (2026/27)", "duration": "Since June 2025", "note": "Replaced fragmented multi-contractor model. Cost per m-sq reduced from £200 to under £100. 12-month warranty on all repairs." },
+        { "name": "BSIP bus services", "provider": "Various operators (40+ routes)", "value": "£67.1M total BSIP funding", "duration": "Multiple phases since Nov 2022", "note": "£1 Evening Fare (2.6M tickets), £1 Sunday Single (780K tickets). Flows through CCA from 2025/26." },
+        { "name": "Highway materials", "provider": "Holcim (£4.3M), Aggregate Industries (£4.0M), Ventbrook (£6.6M), Tarmac (£3.9M)", "value": "~£18.8M (20 months)", "duration": "Ongoing supply", "note": "Daily delivery ticket payments — normal for highways. 2,000-4,000 txns each." },
+        { "name": "Padiham flood scheme", "provider": "Jacobs (design), VolkerStevin (construction)", "value": "£39M (revised from £18M)", "duration": "Construction Spring 2026 — Winter 2028", "note": "Partnership with EA, Burnley BC, LEP, NW RFCC." }
       ],
       "savings_levers": [
-        { "lever": "Utility company recharges (s59)", "est_saving": "£2-5M", "timeline": "3-6 months", "risk": "Low", "description": "NRSWA 1991 s59 allows councils to charge utility companies for excessive road damage. Many councils under-recover. Establish dedicated enforcement team.", "legal_constraints": "NRSWA 1991 — clear legal basis. Utility companies may dispute but case law supports councils." },
-        { "lever": "Preventive maintenance shift", "est_saving": "£3-6M", "timeline": "12-24 months", "risk": "Low", "description": "Every £1 spent on preventive maintenance saves £4-8 in reactive repair. Shift budget from filling potholes to surface treatments and micro-asphalt.", "legal_constraints": null },
-        { "lever": "Street lighting energy and dimming", "est_saving": "£1-2M", "timeline": "6-12 months", "risk": "Low", "description": "LED conversion programme savings. Part-night lighting (midnight-6am dimming) in low-risk areas. Already partially implemented.", "legal_constraints": "Must maintain lighting on classified roads — discretionary on unclassified" },
-        { "lever": "Income generation", "est_saving": "£1-3M", "timeline": "6-12 months", "risk": "Low", "description": "Permit fees for street works, advertising on highway assets, expanded parking charges. Review fee levels against statutory maximums.", "legal_constraints": "Fees must not exceed cost of service (except where statute permits surplus)" }
-      ]
+        { "lever": "Utility company recharges (s59)", "est_saving": "£2-5M", "timeline": "3-6 months", "risk": "Low", "tier": "income_generation", "owner": "portfolio", "description": "NRSWA 1991 s59 allows councils to charge for excessive road damage. Permit scheme since March 2015. Many councils under-recover. Establish dedicated enforcement team.", "legal_constraints": "NRSWA 1991 — clear legal basis. Case law supports councils." },
+        { "lever": "Managed service model expansion", "est_saving": "£3-6M", "timeline": "12-24 months", "risk": "Low", "tier": "procurement_reform", "owner": "portfolio", "description": "6 months in: defects down 42%, cost per m-sq down 50%+, repair size tripled, 12-month warranty. Extend model to more service areas. First UK trial of asphalt recycling machine. AI inspections piloted.", "legal_constraints": null },
+        { "lever": "Street lighting energy and dimming", "est_saving": "£1-2M", "timeline": "6-12 months", "risk": "Low", "tier": "service_redesign", "owner": "portfolio", "description": "152K of 170K+ columns converted to LED. Cumulative savings £40M+. Part-night dimming in low-risk areas. 26,000+ columns over 40 years old need replacement programme.", "legal_constraints": "Must maintain lighting on classified roads" },
+        { "lever": "Income generation", "est_saving": "£1-3M", "timeline": "6-12 months", "risk": "Low", "tier": "income_generation", "owner": "portfolio", "description": "Permit fees for street works, advertising on highway assets, parking charges. Review fee levels against statutory maximums.", "legal_constraints": "Fees must not exceed cost of service (except where statute permits)" },
+        { "lever": "Ford fleet diversification", "est_saving": "£0.5-1M", "timeline": "6-12 months", "risk": "Low", "tier": "procurement_reform", "owner": "centralised", "description": "5 category monopolies, all Ford. Multiple same-day awards. Market test alternative suppliers through TPPL framework. 9 late publications (95-132 days) — process fix needed.", "legal_constraints": "Must follow TPPL framework rules" }
+      ],
+      "operational_context": {
+        "dft_rating": "AMBER (overall)",
+        "managed_service_results": {
+          "defects_reduction_pct": 42,
+          "cost_reduction_pct": 50,
+          "repair_size_increase": "2 to 6 m-sq",
+          "warranty": "12 months"
+        },
+        "led_programme": {
+          "converted": 152000,
+          "total": 170000,
+          "cumulative_savings": 40000000,
+          "columns_over_40_years": 26000
+        },
+        "road_condition_2025": {
+          "a_roads_red_pct": 3.9,
+          "bc_roads_red_pct": 6.5,
+          "unclassified_red_pct": 27.6
+        },
+        "ai_inspections": true,
+        "asphalt_recycling_trial": "First UK trial"
+      }
     },
     {
       "id": "environment_communities",
@@ -500,10 +902,13 @@
         { "name": "Gary Kniveton", "area": "Armed Forces and Veterans", "councillor_id": "gkniveton" }
       ],
       "executive_director": "Phil Green",
-      "directors": ["Director of Environment and Regulatory"],
+      "directors": [
+        "Jonathan Edwards — Director of Environment and Planning",
+        "Clare Coupe — Director of Communities and Engagement"
+      ],
       "scrutiny_committee": { "name": "Environment, Economic Growth and Transport Scrutiny Committee", "id": "environment_econ_transport_scrutiny" },
       "budget_categories": ["Environmental and regulatory services"],
-      "spending_department_patterns": ["^Waste", "^Recycl", "^Environment", "^Trading Stand", "^Planning", "^Countryside", "^Biodiversity", "^Climate", "^Community Safety", "^Fire", "^Emergency", "^Registration", "^Land Drain", "^Agricultural"],
+      "spending_department_patterns": ["^Waste", "^Recycl", "^Environment", "^Trading Stand", "^Planning", "^Countryside", "^Biodiversity", "^Climate", "^Community Safety", "^Fire", "^Emergency", "^Registration", "^Land Drain", "^Agricultural", "^LRL"],
       "budget_latest": {
         "year": "2024/25",
         "gross_expenditure": 113639000,
@@ -513,15 +918,17 @@
         "running_expenses": 102103000
       },
       "statutory_duties": [
-        { "act": "Environmental Protection Act 1990", "summary": "Waste disposal authority — must arrange disposal of controlled waste", "risk_level": "red", "risk": "Cannot stop waste disposal — statutory duty. Largest single contract (Lancashire Renewables £71M)." },
-        { "act": "Environment Act 2021", "summary": "Biodiversity duty, waste strategy", "risk_level": "amber", "risk": "New duties — still clarifying scope" },
+        { "act": "Environmental Protection Act 1990", "summary": "Waste disposal authority — must arrange disposal of controlled waste", "risk_level": "red", "risk": "Cannot stop waste disposal. Lancashire Renewables (£71M) is arms-length wholly-owned company. Suez (£46.2M) is 60.7% of category." },
+        { "act": "Environment Act 2021", "summary": "Biodiversity duty, waste strategy, food waste collection from Apr 2026", "risk_level": "amber", "risk": "New duties. Lancashire Renewables expanding to food waste processing." },
         { "act": "Civil Contingencies Act 2004", "summary": "Emergency planning and resilience", "risk_level": "red", "risk": "Category 1 responder — must maintain emergency plans" },
-        { "act": "Consumer Rights Act 2015 / Enterprise Act 2002", "summary": "Trading standards enforcement", "risk_level": "amber", "risk": "Can reduce but not eliminate — doorstep crime, food safety" }
+        { "act": "Consumer Rights Act 2015 / Enterprise Act 2002", "summary": "Trading standards enforcement", "risk_level": "amber", "risk": "~50-70 staff, £2.95M budget. Can reduce but not eliminate." }
       ],
       "key_services": [
-        "Waste disposal (county-wide)",
+        "Waste disposal (Lancashire Renewables — wholly owned, 2 MBT plants, 500K tonnes/yr capacity, 95% diversion from landfill, ~250 employees, 35 HGVs)",
+        "Waste acceptance and recovery (Suez: North Lancashire £12.4M, FCC: South £13.0M + East £10.3M. Contracts to 2030.)",
+        "Food waste processing (from April 2026 — Lancashire Renewables expanding)",
         "Recycling coordination",
-        "Trading standards and consumer protection",
+        "Trading standards and consumer protection (~600 bogus caller reports + ~600 scam reports/year)",
         "Countryside management",
         "Biodiversity and climate action",
         "Emergency planning and resilience",
@@ -530,16 +937,52 @@
         "Minerals and waste planning"
       ],
       "known_pressures": [
-        "Waste disposal contract (Lancashire Renewables) — £71M+ and indexed to inflation",
-        "Environment Act 2021 — new biodiversity and waste duties",
+        "Lancashire Renewables: £71.2M (20 months), wholly-owned, ex-PFI (terminated 2014 — just 3 years into 25-year £2B PFI). 2 MBT plants cost £250M to build. 3.80 MW electricity generation.",
+        "Suez: 60.7% of category (HHI 4,141 — HIGH). £46.2M (20 months). Whinney Hill landfill extended to Mar 2026.",
+        "EfW procurement paused — Suez, Veolia, Biffa, Miller Turner expressed interest but council reviewing waste strategy (previous strategy expired 2020). No replacement strategy published.",
+        "Envirofuel: 2-year contract for East Lancashire waste (100K+ tonnes/year). Converts to fuel for cement works.",
+        "Environment Act 2021 — new biodiversity and food waste duties from Apr 2026",
         "Climate action commitments",
-        "Rural service delivery costs — sparse population"
+        "Trading standards: Rogue roofer jailed 1 year (Jan 2026). £1M confiscation order (Jeffreys, Colne). £1.65M illicit tobacco/vapes seized (Oswaldtwistle).",
+        "0.1% contract coverage on Contracts Finder (£99.5K of £94.3M outturn) — massive transparency gap"
+      ],
+      "demand_pressures": [
+        { "driver": "Waste contract lock-in", "detail": "Lancashire Renewables (wholly-owned) + Suez (60.7%) = £117M duopoly over 20 months. PFI terminated but plant costs are sunk. Inflation-indexed. EfW strategy paused.", "severity": "critical" },
+        { "driver": "Food waste mandate", "detail": "From April 2026, source-separated food waste processing required. Lancashire Renewables expanding but additional cost.", "severity": "high" },
+        { "driver": "Waste strategy vacuum", "detail": "Previous waste strategy expired 2020. No successor published. EfW procurement paused. Suez applied for AD plant in Blackburn as alternative — 'unclear whether EfW facility will be developed'.", "severity": "high" }
+      ],
+      "key_contracts": [
+        { "name": "Lancashire Renewables Ltd", "provider": "Wholly-owned subsidiary (LCC + Blackpool)", "value": "£71.2M (20 months)", "duration": "Ongoing (ex-PFI, terminated 2014)", "note": "2 MBT plants (Farington, Thornton). 500K tonnes capacity. 95% landfill diversion. £250M build cost. 3.80 MW generation." },
+        { "name": "Non-recyclable waste (3 lots)", "provider": "Suez (North £12.4M), FCC (South £13.0M, East £10.3M)", "value": "£35.7M total", "duration": "To 31/03/2030", "note": "Lot structure provides some competition but Suez dominant overall." },
+        { "name": "Waste wood collection (3 lots)", "provider": "Suez (Lots 1-2), Boden & Davies (Lot 3)", "value": "£3.0M over 4 years", "duration": "From February 2024", "note": "" },
+        { "name": "Envirofuel East Lancashire", "provider": "Envirofuel (SRF) Ltd", "value": "~£3.5M (20 months)", "duration": "2-year contract", "note": "100K+ tonnes/year from East Lancashire. Converts waste to fuel for cement works." },
+        { "name": "Lancashire Environmental Fund", "provider": "SUEZ + LCC + Lancashire Wildlife Trust + Community Futures", "value": "Landfill Communities Fund", "duration": "Since 1998", "note": "Partnership for environmental improvements." }
       ],
       "savings_levers": [
-        { "lever": "Waste contract review", "est_saving": "£3-8M", "timeline": "18-24 months", "risk": "High", "description": "Lancashire Renewables contract is single biggest external contract (£71M). Review indexation terms, performance deductions, recycling credits. Even 5% saving = £3.5M.", "legal_constraints": "PFI/PPP contract terms may limit renegotiation scope. Legal review of break clauses needed." },
-        { "lever": "Trading standards modernisation", "est_saving": "£0.5-1M", "timeline": "6-12 months", "risk": "Low", "description": "Shift from reactive complaints to intelligence-led enforcement. Digital-first consumer advice. Regional collaboration.", "legal_constraints": null },
-        { "lever": "Countryside and access rationalisation", "est_saving": "£0.3-0.5M", "timeline": "6-12 months", "risk": "Medium", "description": "Review countryside properties and access points. Community transfer where appropriate.", "legal_constraints": "Countryside and Rights of Way Act 2000 — must maintain definitive map" }
-      ]
+        { "lever": "Waste contract review", "est_saving": "£3-8M", "timeline": "18-24 months", "risk": "High", "tier": "procurement_reform", "owner": "centralised", "description": "Lancashire Renewables £71M + Suez £46M = £117M. Even 5% saving = £5.8M. Review indexation terms, performance deductions, recycling credits. EfW strategy needed — current vacuum is costing money. Suez non-recyclable waste contracts expire 2030.", "legal_constraints": "PFI legacy terms may limit scope. Legal review of terms needed." },
+        { "lever": "Trading standards modernisation", "est_saving": "£0.5-1M", "timeline": "6-12 months", "risk": "Low", "tier": "service_redesign", "owner": "portfolio", "description": "Shift from reactive to intelligence-led enforcement. Digital-first consumer advice. Regional collaboration. Safe Trader scheme income.", "legal_constraints": null },
+        { "lever": "Countryside and access rationalisation", "est_saving": "£0.3-0.5M", "timeline": "6-12 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Review countryside properties and access points. Community transfer where appropriate.", "legal_constraints": "Countryside and Rights of Way Act 2000 — must maintain definitive map" },
+        { "lever": "Contract transparency fix", "est_saving": "£0 (enabler)", "timeline": "1-3 months", "risk": "Low", "tier": "immediate_recovery", "owner": "centralised", "description": "0.1% contract coverage on Contracts Finder. Publish all waste and environment contracts to enable scrutiny and competition.", "legal_constraints": null }
+      ],
+      "operational_context": {
+        "hhi": 4141,
+        "hhi_classification": "HIGH — Suez dominance",
+        "contracts_finder_coverage_pct": 0.1,
+        "waste_strategy_status": "Expired 2020. No successor published. EfW procurement paused.",
+        "trading_standards_budget": 2954000,
+        "trading_standards_staff_estimate": "50-70",
+        "lancashire_renewables": {
+          "company_no": "05881147",
+          "employees": 250,
+          "plants": ["Farington (Leyland)", "Thornton (Fleetwood)"],
+          "capacity_tonnes": 500000,
+          "landfill_diversion_pct": 95,
+          "generation_mw": 3.80,
+          "build_cost": 250000000,
+          "original_pfi_value": 2000000000,
+          "pfi_terminated": "August 2014"
+        }
+      }
     },
     {
       "id": "data_technology",
@@ -566,29 +1009,58 @@
         "note": "Shared with Resources portfolio — ICT and digital within Central Services budget"
       },
       "statutory_duties": [
-        { "act": "Data Protection Act 2018 / UK GDPR", "summary": "Data protection and information governance", "risk_level": "red", "risk": "ICO enforcement — fines up to £17.5M or 4% of turnover" },
-        { "act": "Freedom of Information Act 2000", "summary": "Respond to FOI requests within 20 working days", "risk_level": "amber", "risk": "Must comply but can charge for complex requests" }
+        { "act": "Data Protection Act 2018 / UK GDPR", "summary": "Data protection and information governance", "risk_level": "red", "risk": "ICO enforcement — fines up to £17.5M or 4% of turnover. Oracle data breaches in 2022 migration." },
+        { "act": "Freedom of Information Act 2000", "summary": "Respond to FOI requests within 20 working days", "risk_level": "amber", "risk": "Must comply but can charge for complex requests" },
+        { "act": "Procurement Act 2023", "summary": "Digital procurement systems and compliance", "risk_level": "amber", "risk": "Live from 24 February 2025. Dynamic Markets replace DPS. System changes needed." }
       ],
       "key_services": [
-        "ICT infrastructure and systems",
+        "ICT infrastructure and systems (Oracle Fusion ERP, Liquid Logic social care, Nutanix)",
         "Digital transformation programme",
         "Customer services and contact centre",
         "Data analytics and business intelligence",
-        "Procurement and contract management",
         "Website and digital channels",
-        "Cyber security"
+        "Cyber security",
+        "AI and automation (AI used in EHCP compliance checking, highway inspections piloted)"
       ],
       "known_pressures": [
-        "Legacy systems requiring replacement (Liquid Logic, SAP)",
+        "Oracle Fusion ERP — catastrophic 2022 migration, now stabilised. Data breaches, payment delays, salary overpayments. 100% empty transaction descriptions (transparency score 0.0).",
+        "Softcat £64M IT infrastructure contract (4 years from Dec 2025) — £10.4M in 20 months of spending data",
+        "Netcall £4.3M agentic AI / CRM contract — new investment",
         "Cyber security threats increasing",
+        "Legacy systems: Liquid Logic (social care), Oracle Fusion (finance) — integration challenges",
         "Customer expectations for digital self-service",
-        "AI and automation opportunities not yet captured"
+        "AI and automation opportunities not yet fully captured",
+        "Procurement Act 2023 compliance — system and process changes needed"
+      ],
+      "demand_pressures": [
+        { "driver": "Transparency gap", "detail": "100% of 713,596 transactions have empty descriptions (transparency score 0.0). Oracle ERP export limitation. Single biggest barrier to forensic analysis and public accountability.", "severity": "critical" },
+        { "driver": "Legacy system risk", "detail": "Oracle Fusion (finance, still bearing scars of 2022), Liquid Logic (social care), Nutanix (infrastructure). Integration gaps. CQC cited 'unreliable and hard to use' electronic records.", "severity": "high" },
+        { "driver": "AI opportunity cost", "detail": "AI used in EHCP compliance checking and highway inspections but not yet systematically applied to procurement, fraud detection, customer routing, report generation.", "severity": "medium" }
+      ],
+      "key_contracts": [
+        { "name": "Softcat IT infrastructure", "provider": "Softcat PLC", "value": "£64M", "duration": "4 years from Dec 2025", "note": "Core IT infrastructure and managed services. £10.4M in 20 months of data." },
+        { "name": "Netcall AI/CRM", "provider": "Netcall", "value": "£4.3M", "duration": "Recent award", "note": "Agentic AI and CRM platform. Customer service transformation." },
+        { "name": "Oracle Fusion ERP", "provider": "Oracle Corporation UK", "value": "Unknown — Oracle credits of £162K and £150K noted", "duration": "Ongoing", "note": "Core finance system. KPMG review classified exempt." }
       ],
       "savings_levers": [
-        { "lever": "Channel shift to digital", "est_saving": "£2-5M", "timeline": "12-24 months", "risk": "Medium", "description": "Every transaction shifted from phone/face-to-face to digital saves £5-10 per interaction. Target 80% digital for routine services. Invest in self-service portals.", "legal_constraints": "Must maintain accessibility for digitally excluded — Equality Act 2010" },
-        { "lever": "System consolidation", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Medium", "description": "Multiple overlapping systems across directorates. Consolidate onto fewer platforms, eliminate duplicate licences.", "legal_constraints": null },
-        { "lever": "AI and automation", "est_saving": "£1-3M", "timeline": "6-18 months", "risk": "Low", "description": "Automate routine processes: FOI triage, invoice matching, customer routing, report generation. Each automated process saves 0.5-2 FTE.", "legal_constraints": "Must ensure AI decisions are fair and auditable — public sector equality duty" },
-        { "lever": "Procurement reform", "est_saving": "£5-10M", "timeline": "6-18 months", "risk": "Low", "description": "Cross-council procurement aggregation, category management, e-procurement. Target 3-5% savings on £400M+ addressable spend across all portfolios. This portfolio enables savings everywhere else.", "legal_constraints": "Procurement Act 2023 (from Oct 2024) — new framework. Must follow procedures." }
+        { "lever": "Channel shift to digital", "est_saving": "£2-5M", "timeline": "12-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Every transaction shifted from phone/face-to-face to digital saves £5-10 per interaction. Target 80% digital for routine services. Netcall AI/CRM investment should enable this.", "legal_constraints": "Must maintain accessibility for digitally excluded — Equality Act 2010" },
+        { "lever": "System consolidation", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Multiple overlapping systems across directorates. Consolidate onto fewer platforms, eliminate duplicate licences. Oracle Fusion stabilised — now build on it.", "legal_constraints": null },
+        { "lever": "AI and automation", "est_saving": "£1-3M", "timeline": "6-18 months", "risk": "Low", "tier": "service_redesign", "owner": "portfolio", "description": "Automate routine processes: FOI triage, invoice matching, customer routing, report generation. Already proven in EHCP compliance and highway inspections. Each automated process saves 0.5-2 FTE.", "legal_constraints": "Public sector equality duty — AI decisions must be fair and auditable" },
+        { "lever": "Oracle transparency fix", "est_saving": "£0 (critical enabler)", "timeline": "3-6 months", "risk": "Low", "tier": "immediate_recovery", "owner": "portfolio", "description": "Fix Oracle ERP export to include transaction descriptions. This is the single most important fix for accountability. Currently 0.0 transparency score — 100% empty.", "legal_constraints": null }
+      ],
+      "operational_context": {
+        "transparency_score": 0.0,
+        "empty_descriptions_pct": 100,
+        "oracle_status": "Stabilised after catastrophic 2022 migration",
+        "ai_in_use": ["EHCP compliance checking", "Highway inspection pilot"],
+        "softcat_contract_start": "December 2025",
+        "netcall_contract": "Agentic AI / CRM — new"
+      },
+      "cross_portfolio_dependencies": [
+        { "portfolio": "resources", "dependency": "Shared budget. Oracle fix enables all portfolios' financial accountability." },
+        { "portfolio": "adult_social_care", "dependency": "Digital care technology and self-service portals. Liquid Logic improvements directly impact ASC waiting lists." },
+        { "portfolio": "education_skills", "dependency": "EHCP online portal. AI compliance checking. SEND transport routing optimisation." },
+        { "portfolio": "highways_transport", "dependency": "AI highway inspections. Route optimisation for winter maintenance and SEND transport." }
       ]
     }
   ],
@@ -596,15 +1068,26 @@
     "chief_executive": {
       "name": "Mark Wynn",
       "title": "Chief Executive",
-      "also": "Director of Resources",
-      "statutory": true
+      "statutory": true,
+      "salary": 236960,
+      "appointed": "2025-02-26",
+      "background": "Previously Executive Director of Resources at LCC. Also partially seconded to Lancashire CCA as Chief Finance Officer (S73). From Cheshire West and Chester Council (COO), Cambridgeshire CC, Shropshire Council."
     },
     "s151_officer": {
-      "name": "Noel O'Neill",
-      "title": "Interim Director of Finance and Commerce",
-      "role": "Chief Financial Officer (Section 151 Officer)",
+      "name": "John Betts",
+      "title": "Interim Section 151 Officer",
       "statutory": true,
-      "responsibility": "Proper administration of council finances. Must report if budget is at risk of being unbalanced (s114 notice)."
+      "appointed": "2026-02-26",
+      "incoming_permanent": {
+        "name": "Gary Fielding",
+        "title": "Corporate Director of Finance and Section 151 Officer",
+        "from": "North Yorkshire Council (Corporate Director of Resources)",
+        "salary_at_nyc": 160000,
+        "starts": "June 2026",
+        "approved": "2026-02-26 (Full Council)",
+        "background": "Lancaster University (Philosophy & Politics, 1987-90). Returns to Lancashire."
+      },
+      "timeline": "Noel O'Neill → Brendan Arnold (Oct 2025) → John Betts (Feb 2026 interim) → Gary Fielding (Jun 2026 permanent)"
     },
     "monitoring_officer": {
       "name": "Heloise MacAndrew",
@@ -616,26 +1099,53 @@
       {
         "name": "Laurence Ainsworth",
         "title": "Executive Director of Resources",
-        "portfolios": ["resources", "data_technology"]
+        "portfolios": ["resources", "data_technology"],
+        "note": "Promoted from Director of Strategy & Transformation"
       },
       {
         "name": "Jacqui Old CBE",
         "title": "Executive Director of Education and Children's Services",
-        "portfolios": ["children_families", "education_skills"]
+        "portfolios": ["children_families", "education_skills"],
+        "note": "From North Tyneside Council. CBE for services to community."
       },
       {
         "name": "Phil Green",
         "title": "Executive Director of Growth, Environment, Transport and Health",
-        "portfolios": ["highways_transport", "environment_communities", "economic_development", "health_wellbeing"]
+        "portfolios": ["highways_transport", "environment_communities", "economic_development"]
+      },
+      {
+        "name": "Helen Coombes",
+        "title": "Executive Director of Adults, Health and Wellbeing",
+        "portfolios": ["adult_social_care", "health_wellbeing"],
+        "status": "Interim since December 2024",
+        "note": "Previously Dorset Council. Title changed from 'Adult Services' to 'Adults, Health and Wellbeing'."
       }
     ],
     "directors": [
-      { "name": "Matt Townsend", "title": "Director of Highways and Transport", "portfolio": "highways_transport" },
+      { "name": "Brendan Arnold", "title": "Interim Director of Finance and Commerce", "portfolio": "resources", "note": "Acting S151 (until John Betts). From Boston Borough / South Holland." },
+      { "name": "Heloise MacAndrew", "title": "Director of Law and Governance (Monitoring Officer)", "portfolio": "resources" },
+      { "name": "Jacquie McGeachie", "title": "Interim Director of People (HR)", "portfolio": "resources", "note": "Replaced Lucy Thompson" },
+      { "name": "Sarah Reed", "title": "Interim Director of Strategy and Innovation", "portfolio": "leader" },
       { "name": "Peter Lloyd", "title": "Director of Digital", "portfolio": "data_technology" },
-      { "name": "Lucy Thompson", "title": "Director of People", "portfolio": "resources" },
-      { "name": "Simon Lawrence", "title": "Director of Growth and Regeneration", "portfolio": "economic_development" },
-      { "name": "Mike Jensen", "title": "Director of Investment", "portfolio": "economic_development" }
-    ]
+      { "name": "Simon Lawrence", "title": "Director of Growth and Property", "portfolio": "economic_development", "note": "Title changed from Growth and Regeneration — Property now explicitly in remit" },
+      { "name": "Matt Townsend", "title": "Director of Highways and Transport", "portfolio": "highways_transport" },
+      { "name": "Jonathan Edwards", "title": "Director of Environment and Planning", "portfolio": "environment_communities" },
+      { "name": "Clare Coupe", "title": "Director of Communities and Engagement", "portfolio": "environment_communities" },
+      { "name": "Matthew Emerson", "title": "Director of Strategic Commissioning and Quality", "portfolio": "adult_social_care", "note": "New role — commissioning restructure" },
+      { "name": "John Williams", "title": "Director of Operations (Adults)", "portfolio": "adult_social_care" },
+      { "name": "Mairead Gill-Mullarkey", "title": "Director of Operations (Adults)", "portfolio": "adult_social_care" },
+      { "name": "Louise Anderson", "title": "Director of Children's Social Care", "portfolio": "children_families", "note": "From Wolverhampton" },
+      { "name": "Paul Turner", "title": "Director of Education, Culture and Skills", "portfolio": "education_skills", "note": "From Blackpool Council" },
+      { "name": "Dave Carr", "title": "Director of Policy, Commissioning and Children's Health", "portfolio": "children_families" },
+      { "name": "Dr Sakthi Karunanithi", "title": "Director of Public Health, Wellbeing and Communities", "portfolio": "health_wellbeing" }
+    ],
+    "key_departures": [
+      { "name": "Noel O'Neill", "title": "Interim Director of Finance and Commerce / S151 Officer", "replaced_by": "Brendan Arnold (interim)" },
+      { "name": "Lucy Thompson", "title": "Director of People (HR)", "replaced_by": "Jacquie McGeachie (interim)" },
+      { "name": "Mike Jensen", "title": "Director of Investment", "status": "No longer in Jan 2026 structure" },
+      { "name": "Angie Ridgwell", "title": "Chief Executive", "departed": "September 2024 to Hertfordshire CC", "salary": 231000 }
+    ],
+    "staff_over_100k": 19
   },
   "governance": {
     "constitution": {

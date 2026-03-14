@@ -156,10 +156,10 @@ export default function CabinetDashboard() {
   if (error) return <div className="cabinet-dashboard"><h1>Error</h1><p>{error.message || 'Failed to load'}</p></div>
 
   const tabs = [
-    { id: 'operations', label: 'Operations', icon: Zap },
-    { id: 'portfolios', label: 'Portfolios', icon: Briefcase },
-    { id: 'decisions', label: 'Decisions', icon: Calendar },
-    { id: 'budget', label: 'Budget', icon: PieChart },
+    { id: 'operations', label: 'Operations', icon: <Zap size={16} /> },
+    { id: 'portfolios', label: 'Portfolios', icon: <Briefcase size={16} /> },
+    { id: 'decisions', label: 'Decisions', icon: <Calendar size={16} /> },
+    { id: 'budget', label: 'Budget', icon: <PieChart size={16} /> },
   ]
 
   return (
@@ -169,10 +169,10 @@ export default function CabinetDashboard() {
         <h1>Cabinet Dashboard</h1>
         <p className="cabinet-subtitle">Reform Operations Centre — {administration.party} {administration.seats}/{administration.total}</p>
         <div className="cabinet-hero-stats">
-          <StatCard label="Total Savings Identified" value={formatCurrency(savings.total_identified)} icon={TrendingUp} />
-          <StatCard label="Action Directives" value={allDirectives.length} icon={Target} />
-          <StatCard label="Do Now" value={matrix.do_now.length} icon={Zap} />
-          <StatCard label="Portfolios" value={portfolios.length} icon={Users} />
+          <StatCard label="Total Savings Identified" value={formatCurrency(savings.total_identified)} icon={<TrendingUp size={24} />} />
+          <StatCard label="Action Directives" value={allDirectives.length} icon={<Target size={24} />} />
+          <StatCard label="Do Now" value={matrix.do_now.length} icon={<Zap size={24} />} />
+          <StatCard label="Portfolios" value={portfolios.length} icon={<Users size={24} />} />
         </div>
       </div>
 
@@ -184,7 +184,7 @@ export default function CabinetDashboard() {
             className={`cabinet-tab ${activeTab === t.id ? 'active' : ''}`}
             onClick={() => setActiveTab(t.id)}
           >
-            <t.icon size={16} />
+            {t.icon}
             <span>{t.label}</span>
           </button>
         ))}

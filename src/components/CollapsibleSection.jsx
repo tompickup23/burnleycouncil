@@ -1,12 +1,14 @@
 import { useState, createElement } from 'react'
 import { ChevronDown } from 'lucide-react'
 
-/** Render icon prop — handles both component references (Zap) and rendered elements (<Zap />) */
+/** Render icon prop — accepts pre-rendered elements or component refs */
 function renderIcon(icon, size) {
   if (!icon) return null
-  if (typeof icon === 'function') return createElement(icon, { size })
-  if (typeof icon === 'object' && icon.type !== undefined && icon.props !== undefined) return icon
-  if (typeof icon === 'object') { try { return createElement(icon, { size }) } catch { return null } }
+  if (typeof icon === 'function') { try { return createElement(icon, { size }) } catch { return null } }
+  if (typeof icon !== 'object') return null
+  if (icon.$$typeof && icon.props !== undefined) return icon
+  if (icon.$$typeof) { try { return createElement(icon, { size }) } catch { return null } }
+  try { return createElement(icon, { size }) } catch { return null }
   return null
 }
 
