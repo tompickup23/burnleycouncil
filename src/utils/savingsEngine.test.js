@@ -21,6 +21,8 @@ import {
   portfolioBenchmark,
   financialHealthAssessment,
   portfolioRiskDashboard,
+  reformNarrativeEngine,
+  electoralRippleAssessment,
   scoreImplementation,
   priorityMatrix,
   generatePortfolioFOI,
@@ -900,5 +902,252 @@ describe('portfolioRiskDashboard', () => {
     const result = portfolioRiskDashboard(mockPortfolio, [], { findings: mockFindings })
     expect(result).not.toBeNull()
     expect(result.supplier_analysis.hhi).toBe(0)
+  })
+})
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// Politics Engine Upgrade — Reform PR, Borough Elections, Electoral Ripple
+// ═══════════════════════════════════════════════════════════════════════
+
+describe('politicalContext — borough elections & Reform narrative', () => {
+  it('includes borough election context with countdown', () => {
+    const result = politicalContext(mockPortfolio)
+    expect(result.borough_elections).toBeDefined()
+    expect(result.borough_elections.date).toBe('2026-05-07')
+    expect(result.borough_elections.districts_electing).toBeInstanceOf(Array)
+    expect(result.borough_elections.districts_electing.length).toBe(12)
+    expect(typeof result.borough_elections.days_away).toBe('number')
+  })
+
+  it('includes Reform scrutiny premium', () => {
+    const result = politicalContext(mockPortfolio)
+    expect(result.scrutiny_premium).toBeDefined()
+    expect(result.scrutiny_premium.factor).toBe(2.5)
+    expect(result.scrutiny_premium.reason).toContain('Reform UK')
+  })
+
+  it('includes Reform narrative hooks for portfolio', () => {
+    const result = politicalContext(mockPortfolio)
+    expect(result.reform_narrative_hooks).toBeInstanceOf(Array)
+    expect(result.reform_narrative_hooks.length).toBeGreaterThan(0)
+  })
+
+  it('includes Reform seat counts and majority', () => {
+    const result = politicalContext(mockPortfolio)
+    expect(result.reform_seats).toBe(53)
+    expect(result.total_seats).toBe(84)
+    expect(result.majority_size).toBe(10)
+  })
+})
+
+describe('politicalImpactAssessment — Reform PR engine', () => {
+  const mockDirective = { id: 'pr-test', type: 'savings_lever', risk: 'Medium', save_central: 3000000, timeline: 'Immediate (0-3 months)' }
+
+  it('includes reform_pr angle with headline and hook', () => {
+    const result = politicalImpactAssessment(mockDirective, mockPortfolio)
+    expect(result.reform_pr).toBeDefined()
+    expect(result.reform_pr.headline).toContain('Reform')
+    expect(result.reform_pr.hook).toBeDefined()
+    expect(result.reform_pr.tone).toBeDefined()
+  })
+
+  it('maps affected ward archetypes', () => {
+    const result = politicalImpactAssessment(mockDirective, mockPortfolio)
+    expect(result.affected_archetypes).toBeInstanceOf(Array)
+    expect(result.affected_archetypes.length).toBeGreaterThan(0)
+    // Adult social care maps to retirement, affluent_retired, deprived_diverse
+    expect(result.affected_archetypes).toContain('retirement')
+  })
+
+  it('generates borough ripple assessment', () => {
+    const result = politicalImpactAssessment(mockDirective, mockPortfolio)
+    expect(result.borough_ripple).toBeDefined()
+    expect(result.borough_ripple.affected_districts).toBeInstanceOf(Array)
+    expect(result.borough_ripple.scrutiny_multiplier).toBe(2.5)
+    expect(result.borough_ripple.talking_point).toContain('Reform')
+  })
+
+  it('matches a REFORM_REBUTTALS counter-narrative', () => {
+    const result = politicalImpactAssessment(mockDirective, mockPortfolio)
+    // Should find a rebuttal (savings_lever maps to "cutting services" pattern)
+    expect(result.matched_rebuttal).not.toBeNull()
+    if (result.matched_rebuttal) {
+      expect(result.matched_rebuttal.attack).toBeDefined()
+      expect(result.matched_rebuttal.rebuttal).toBeDefined()
+    }
+  })
+
+  it('includes constituency resonance', () => {
+    const result = politicalImpactAssessment(mockDirective, mockPortfolio)
+    expect(result.constituency_resonance).toBeDefined()
+    expect(result.constituency_resonance.national_narrative).toContain('Reform')
+  })
+
+  it('includes electoral timing with announcement recommendation', () => {
+    const result = politicalImpactAssessment(mockDirective, mockPortfolio)
+    expect(result.electoral_timing).toBeDefined()
+    expect(typeof result.electoral_timing.days_to_borough_elections).toBe('number')
+    expect(result.electoral_timing.recommended_announcement).toBeDefined()
+  })
+
+  it('generates different PR angles for different directive types', () => {
+    const dupDirective = { id: 'dup', type: 'duplicate_recovery', save_central: 500000 }
+    const splitDirective = { id: 'split', type: 'split_payment', save_central: 200000 }
+    const dup = politicalImpactAssessment(dupDirective, mockPortfolio)
+    const split = politicalImpactAssessment(splitDirective, mockPortfolio)
+    expect(dup.reform_pr.tone).toBe('accountability')
+    expect(split.reform_pr.tone).toBe('transparency')
+  })
+})
+
+describe('meetingBriefing — Reform achievements & press hooks', () => {
+  it('generates reform_achievements per agenda item', () => {
+    const result = meetingBriefing(mockMeetingWithAgenda, mockPortfolio)
+    expect(result.reform_achievements).toBeInstanceOf(Array)
+    expect(result.reform_achievements.length).toBe(2)
+    expect(result.reform_achievements[0].reform_angle).toContain('Reform')
+  })
+
+  it('flags borough election relevance for near-term meetings', () => {
+    const nearTermMeeting = {
+      title: 'Cabinet',
+      date: '2026-04-01', // ~36 days before May 7
+      enriched_agenda: [{ title: 'Budget Review' }],
+    }
+    const result = meetingBriefing(nearTermMeeting, mockPortfolio)
+    expect(result.borough_election_relevance).toBe(true)
+    expect(result.days_to_borough_elections).toBeGreaterThan(0)
+  })
+
+  it('generates press hooks', () => {
+    const result = meetingBriefing(mockMeetingWithAgenda, mockPortfolio)
+    expect(result.press_hooks).toBeInstanceOf(Array)
+    // Should have at least the budget net expenditure hook
+    expect(result.press_hooks.length).toBeGreaterThan(0)
+  })
+
+  it('tags council tax agenda items with appropriate Reform angle', () => {
+    const ctMeeting = {
+      title: 'Cabinet',
+      date: '2026-04-01',
+      enriched_agenda: [{ title: 'Council Tax Setting 2026/27' }],
+    }
+    const result = meetingBriefing(ctMeeting, mockPortfolio)
+    const ctAchievement = result.reform_achievements.find(a => a.item.includes('Council Tax'))
+    if (ctAchievement) {
+      expect(ctAchievement.reform_angle).toContain('council tax')
+    }
+  })
+})
+
+describe('reformNarrativeEngine', () => {
+  const mockDirectives = [
+    { id: 'd1', type: 'duplicate_recovery', save_central: 500000, action: 'Recover duplicate payments', timeline: 'Immediate (0-3 months)' },
+    { id: 'd2', type: 'savings_lever', save_central: 3000000, action: 'Home care reablement expansion', timeline: '6-12 months' },
+    { id: 'd3', type: 'concentration', save_central: 1000000, action: 'Break supplier monopoly', timeline: '12-18 months' },
+  ]
+
+  it('generates comprehensive PR package', () => {
+    const result = reformNarrativeEngine(mockPortfolio, mockDirectives)
+    expect(result).not.toBeNull()
+    expect(result.total_savings).toBe(4500000)
+    expect(result.directive_count).toBe(3)
+    expect(result.immediate_wins).toBe(1)
+  })
+
+  it('generates archetype-targeted messages', () => {
+    const result = reformNarrativeEngine(mockPortfolio, mockDirectives)
+    expect(result.archetype_messages).toBeInstanceOf(Array)
+    expect(result.archetype_messages.length).toBeGreaterThan(0)
+    expect(result.archetype_messages[0].archetype).toBeDefined()
+    expect(result.archetype_messages[0].message).toContain('Reform')
+  })
+
+  it('generates press releases from immediate wins', () => {
+    const result = reformNarrativeEngine(mockPortfolio, mockDirectives)
+    expect(result.press_releases).toBeInstanceOf(Array)
+    expect(result.press_releases.length).toBe(1) // Only 1 immediate win
+    expect(result.press_releases[0].headline).toContain('Reform')
+  })
+
+  it('generates borough campaign material', () => {
+    const result = reformNarrativeEngine(mockPortfolio, mockDirectives)
+    expect(result.borough_campaign).toBeDefined()
+    expect(result.borough_campaign.leaflet_line).toContain('Reform')
+    expect(result.borough_campaign.social_media).toContain('#ReformDelivers')
+    expect(result.borough_campaign.canvassing_script).toContain('borough council')
+  })
+
+  it('includes constituency talking points', () => {
+    const result = reformNarrativeEngine(mockPortfolio, mockDirectives)
+    expect(result.constituency_talking_points).toBeInstanceOf(Array)
+    expect(result.constituency_talking_points.length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('returns null for null portfolio', () => {
+    expect(reformNarrativeEngine(null, mockDirectives)).toBeNull()
+  })
+
+  it('handles empty directives', () => {
+    const result = reformNarrativeEngine(mockPortfolio, [])
+    expect(result.total_savings).toBe(0)
+    expect(result.press_releases).toEqual([])
+  })
+})
+
+describe('electoralRippleAssessment', () => {
+  const mockActions = [
+    { portfolio: mockPortfolio, savings: 5000000, directives_count: 8 },
+    { portfolio: { id: 'highways_transport', title: 'Highways & Transport' }, savings: 2000000, directives_count: 5 },
+    { portfolio: { id: 'resources', title: 'Resources' }, savings: 10000000, directives_count: 12 },
+  ]
+
+  it('scores impact across all 12 Lancashire districts', () => {
+    const result = electoralRippleAssessment(mockActions)
+    expect(result.district_impact).toBeInstanceOf(Array)
+    expect(result.district_impact.length).toBe(12)
+    expect(result.district_impact[0].impact_score).toBeGreaterThan(0)
+    expect(['high', 'medium', 'low']).toContain(result.district_impact[0].impact_level)
+  })
+
+  it('generates constituency-level messaging', () => {
+    const result = electoralRippleAssessment(mockActions)
+    expect(result.constituency_impact).toBeDefined()
+    expect(result.constituency_impact.message).toContain('Reform')
+    expect(result.constituency_impact.national_narrative).toContain('governance showcase')
+    expect(result.constituency_impact.mp_challenge).toContain('Lancashire MPs')
+  })
+
+  it('calculates overall ripple score', () => {
+    const result = electoralRippleAssessment(mockActions)
+    expect(result.overall_score).toBeGreaterThan(0)
+    expect(result.overall_score).toBeLessThanOrEqual(100)
+    expect(['high', 'medium', 'low']).toContain(result.overall_level)
+  })
+
+  it('includes scrutiny premium', () => {
+    const result = electoralRippleAssessment(mockActions)
+    expect(result.scrutiny_premium.factor).toBe(2.5)
+  })
+
+  it('aggregates total savings and directives', () => {
+    const result = electoralRippleAssessment(mockActions)
+    expect(result.total_savings).toBe(17000000)
+    expect(result.total_directives).toBe(25)
+  })
+
+  it('returns empty for null input', () => {
+    const result = electoralRippleAssessment(null)
+    expect(result.district_impact).toEqual([])
+    expect(result.overall_score).toBe(0)
+  })
+
+  it('each district has a Reform talking point', () => {
+    const result = electoralRippleAssessment(mockActions)
+    for (const d of result.district_impact) {
+      expect(d.talking_point).toContain('Reform')
+      expect(d.district).toBeDefined()
+    }
   })
 })
