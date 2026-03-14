@@ -45,9 +45,10 @@ const SPENDING_KEYWORDS = /budget|revenue|capital|treasury|fee|charge|spend|fina
 function detectDogeRelevance(meeting) {
   if (meeting.doge_relevance) return meeting.doge_relevance
   if (!meeting.agenda_items?.length) return null
-  const matches = meeting.agenda_items.filter(item => SPENDING_KEYWORDS.test(item))
+  const matches = meeting.agenda_items.filter(item => SPENDING_KEYWORDS.test(typeof item === 'object' ? item.title || '' : item))
   if (matches.length === 0) return null
-  return `This meeting has ${matches.length} agenda item${matches.length > 1 ? 's' : ''} with spending relevance: ${matches.slice(0, 4).join('; ')}${matches.length > 4 ? ` (+${matches.length - 4} more)` : ''}.`
+  const labels = matches.map(m => typeof m === 'object' ? m.title || '' : m)
+  return `This meeting has ${matches.length} agenda item${matches.length > 1 ? 's' : ''} with spending relevance: ${labels.slice(0, 4).join('; ')}${matches.length > 4 ? ` (+${matches.length - 4} more)` : ''}.`
 }
 
 function Meetings() {
@@ -433,7 +434,7 @@ function Meetings() {
                       <h4>Agenda Items</h4>
                       <ul className="agenda-list">
                         {meeting.agenda_items.map((item, i) => (
-                          <li key={i}>{item}</li>
+                          <li key={i}>{typeof item === 'object' ? (item.title || item.name || '') : item}</li>
                         ))}
                       </ul>
                     </div>
@@ -475,9 +476,17 @@ function Meetings() {
                     <div className="meeting-detail-section">
                       <h4>Published Documents</h4>
                       <div className="doc-list">
-                        {meeting.documents.map((doc, i) => (
-                          <span key={i} className="doc-badge"><FileText size={12} /> {doc}</span>
-                        ))}
+                        {meeting.documents.map((doc, i) => {
+                          const title = typeof doc === 'object' ? (doc.title || doc.name || 'Document') : doc
+                          const url = typeof doc === 'object' ? doc.url : null
+                          return url ? (
+                            <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="doc-badge" onClick={e => e.stopPropagation()} style={{ textDecoration: 'none', color: 'inherit' }}>
+                              <FileText size={12} /> {title} <ExternalLink size={10} />
+                            </a>
+                          ) : (
+                            <span key={i} className="doc-badge"><FileText size={12} /> {title}</span>
+                          )
+                        })}
                       </div>
                     </div>
                   )}
