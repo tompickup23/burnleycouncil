@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Building2, Shield, Heart, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair, ChevronDown, ChevronUp, Search, Construction, Route, Briefcase } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Building2, Shield, Heart, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair, ChevronDown, ChevronUp, Search, Construction, Route, Briefcase, Zap, Target } from 'lucide-react'
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { isFirebaseEnabled } from '../firebase'
@@ -30,9 +30,10 @@ const navSections = [
     ],
   },
   {
-    title: 'People',
+    title: 'Council',
     collapsible: true,
     items: [
+      { path: '/executive', icon: Briefcase, label: 'Cabinet & Executive', requires: 'executive_view' },
       { path: '/politics', icon: Users, label: 'Councillors', requires: 'politics' },
       { path: '/integrity', icon: Fingerprint, label: 'Integrity', requires: 'integrity' },
       { path: '/pay', icon: BadgePoundSterling, label: 'Executive Pay', requires: 'pay_comparison' },
@@ -286,6 +287,46 @@ function Layout({ children }) {
                 <Building size={20} />
                 <span>Property Estate</span>
               </NavLink>
+            </div>
+          )}
+
+          {/* Cabinet section — visible to councillor+ role, requires cabinet_portfolios */}
+          {(authCtx?.isCouncillor || !isFirebaseEnabled) && dataSources.cabinet_portfolios && (
+            <div className="nav-section">
+              <div className="nav-divider" />
+              <button
+                className="nav-section-title"
+                onClick={() => toggleSection('Cabinet')}
+                style={{
+                  background: 'none', border: 'none', width: '100%',
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '8px 16px 3px', cursor: 'pointer',
+                  color: 'rgba(18, 182, 207, 0.6)', fontSize: '0.55rem',
+                  fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em',
+                }}
+              >
+                Cabinet
+                <ChevronDown
+                  size={10}
+                  style={{
+                    transform: collapsedSections['Cabinet'] ? 'rotate(-90deg)' : 'rotate(0deg)',
+                    transition: 'transform 0.2s ease',
+                    opacity: 0.5,
+                  }}
+                />
+              </button>
+              {!collapsedSections['Cabinet'] && (
+                <>
+                  <NavLink
+                    to="/cabinet"
+                    className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+                    onClick={() => setSidebarOpen(false)}
+                  >
+                    <Zap size={20} />
+                    <span>Cabinet Dashboard</span>
+                  </NavLink>
+                </>
+              )}
             </div>
           )}
 

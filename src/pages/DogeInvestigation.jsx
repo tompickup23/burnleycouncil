@@ -290,6 +290,15 @@ function DogeInvestigation() {
           </div>
         </div>
 
+        {/* Cabinet portfolio link — for councils with cabinet data */}
+        {dataSources.cabinet_portfolios && (
+          <div style={{ marginTop: '0.75rem' }}>
+            <Link to="/cabinet" style={{ color: '#12B6CF', fontSize: '0.78rem', textDecoration: 'none', fontWeight: 600 }}>
+              View findings mapped by Cabinet Portfolio →
+            </Link>
+          </div>
+        )}
+
         {/* Gauge overview — fraud risk indicators + data quality */}
         {(dogeFindings.fraud_triangle || dataQuality.overall_score != null) && (
           <div className="gauge-grid" style={{ marginTop: 20 }}>

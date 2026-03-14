@@ -3,17 +3,19 @@
  *
  * Features:
  * - List all registered users with their roles
- * - Assign/change roles (unassigned, viewer, strategist, admin)
+ * - Assign/change roles (8-level hierarchy)
  * - Set per-council access (select councils from list)
  * - Set per-page access within each council
  * - Set constituency access
+ * - Assign cabinet portfolios (for lead_member/cabinet_member/champion roles)
  */
 import { useState, useEffect, useCallback } from 'react'
 import { collection, getDocs, doc, updateDoc } from 'firebase/firestore'
 import { Users, Shield, ChevronDown, ChevronUp, Save, Check, X, Loader2, Search } from 'lucide-react'
 import { db } from '../firebase'
-import { useAuth } from '../context/AuthContext'
+import { useAuth, ROLES, ROLE_DESCRIPTIONS } from '../context/AuthContext'
 import { LANCASHIRE_COUNCILS } from '../utils/constants'
+import { useData } from '../hooks/useData'
 import './AdminPanel.css'
 
 const COUNCILS = LANCASHIRE_COUNCILS
@@ -23,10 +25,12 @@ const PAGES = [
   'spending', 'budgets', 'doge', 'news', 'procurement', 'suppliers',
   'pay', 'politics', 'integrity', 'my-area', 'demographics', 'lgr',
   'lgr-calculator', 'elections', 'constituencies', 'meetings', 'compare',
-  'foi', 'press', 'about', 'strategy',
+  'foi', 'press', 'about', 'strategy', 'intelligence', 'executive',
+  'cabinet', 'properties',
 ]
 
-const ROLES = ['unassigned', 'viewer', 'strategist', 'admin']
+// Roles that can have portfolio assignments
+const PORTFOLIO_ROLES = ['champion', 'lead_member', 'cabinet_member']
 
 export default function AdminPanel() {
   const { isAdmin } = useAuth()
@@ -36,6 +40,10 @@ export default function AdminPanel() {
   const [expandedUser, setExpandedUser] = useState(null)
   const [saving, setSaving] = useState(null)
   const [saveSuccess, setSaveSuccess] = useState(null)
+
+  // Load portfolio data for assignment dropdowns
+  const { data: portfolioData } = useData('/data/cabinet_portfolios.json')
+  const portfolios = portfolioData?.portfolios || []
 
   // Load all users
   const loadUsers = useCallback(async () => {
@@ -101,6 +109,7 @@ export default function AdminPanel() {
               onToggle={() => setExpandedUser(expandedUser === u.uid ? null : u.uid)}
               saving={saving === u.uid}
               saveSuccess={saveSuccess === u.uid}
+              portfolios={portfolios}
               onSave={async (updates) => {
                 setSaving(u.uid)
                 setSaveSuccess(null)
@@ -125,11 +134,13 @@ export default function AdminPanel() {
   )
 }
 
-function UserCard({ user, expanded, onToggle, onSave, saving, saveSuccess }) {
+function UserCard({ user, expanded, onToggle, onSave, saving, saveSuccess, portfolios }) {
   const [role, setRole] = useState(user.role || 'unassigned')
   const [councilAccess, setCouncilAccess] = useState(user.council_access || [])
   const [pageAccess, setPageAccess] = useState(user.page_access || {})
   const [constituencyAccess, setConstituencyAccess] = useState(user.constituency_access || [])
+  const [portfolioIds, setPortfolioIds] = useState(user.portfolio_ids || [])
+  const [championAreas, setChampionAreas] = useState(user.champion_areas || [])
   const [dirty, setDirty] = useState(false)
 
   const toggleCouncil = (id) => {
@@ -161,12 +172,25 @@ function UserCard({ user, expanded, onToggle, onSave, saving, saveSuccess }) {
     setDirty(true)
   }
 
+  const togglePortfolio = (id) => {
+    setDirty(true)
+    if (id === '*') {
+      setPortfolioIds(portfolioIds.includes('*') ? [] : ['*'])
+      return
+    }
+    setPortfolioIds(prev =>
+      prev.includes(id) ? prev.filter(p => p !== id) : [...prev.filter(p => p !== '*'), id]
+    )
+  }
+
   const handleSave = () => {
     onSave({
       role,
       council_access: councilAccess,
       page_access: pageAccess,
       constituency_access: constituencyAccess,
+      portfolio_ids: portfolioIds,
+      champion_areas: championAreas,
     })
     setDirty(false)
   }
@@ -198,21 +222,50 @@ function UserCard({ user, expanded, onToggle, onSave, saving, saveSuccess }) {
 
       {expanded && (
         <div className="admin-user-details">
-          {/* Role selector */}
+          {/* Role selector — 8-level hierarchy */}
           <div className="admin-section">
             <h3>Role</h3>
-            <div className="admin-role-buttons">
+            <div className="admin-role-buttons admin-role-buttons-8">
               {ROLES.map(r => (
                 <button
                   key={r}
                   className={`admin-role-btn ${role === r ? 'active' : ''}`}
                   onClick={() => handleRoleChange(r)}
+                  title={ROLE_DESCRIPTIONS[r] || r}
                 >
-                  {r}
+                  {r.replace('_', ' ')}
                 </button>
               ))}
             </div>
           </div>
+
+          {/* Portfolio assignment — for champion/lead_member/cabinet_member roles */}
+          {PORTFOLIO_ROLES.includes(role) && portfolios.length > 0 && (
+            <div className="admin-section">
+              <h3>Portfolio Assignment</h3>
+              <div className="admin-checkbox-grid">
+                <label className="admin-checkbox admin-checkbox-all">
+                  <input
+                    type="checkbox"
+                    checked={portfolioIds.includes('*')}
+                    onChange={() => togglePortfolio('*')}
+                  />
+                  <span>All Portfolios</span>
+                </label>
+                {portfolios.map(p => (
+                  <label key={p.id} className="admin-checkbox">
+                    <input
+                      type="checkbox"
+                      checked={portfolioIds.includes('*') || portfolioIds.includes(p.id)}
+                      onChange={() => togglePortfolio(p.id)}
+                      disabled={portfolioIds.includes('*')}
+                    />
+                    <span>{p.title}{p.cabinet_member?.name ? ` (${p.cabinet_member.name})` : ''}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+          )}
 
           {/* Council access */}
           <div className="admin-section">

@@ -5,12 +5,15 @@
  *   <ProtectedRoute page="spending">
  *     <Spending />
  *   </ProtectedRoute>
+ *   <ProtectedRoute minRole="councillor">
+ *     <CabinetDashboard />
+ *   </ProtectedRoute>
  *
  * Checks:
  * 1. User is authenticated (handled by AuthGate/PasswordGate upstream)
  * 2. User has council access (via AuthContext.hasCouncilAccess)
  * 3. User has page access (via AuthContext.hasPageAccess)
- * 4. For strategy pages: user has strategist or admin role
+ * 4. For role-gated pages: user meets minimum role level
  *
  * When Firebase is not enabled (dev mode), all routes are accessible.
  */
@@ -18,7 +21,7 @@ import { isFirebaseEnabled } from '../firebase'
 import { useAuth } from '../context/AuthContext'
 import { useCouncilConfig } from '../context/CouncilConfig'
 
-export default function ProtectedRoute({ children, page, requireStrategist = false }) {
+export default function ProtectedRoute({ children, page, requireStrategist = false, minRole = null }) {
   // Hooks must be called unconditionally (React Rules of Hooks)
   const auth = useAuth()
   const config = useCouncilConfig()
@@ -26,18 +29,28 @@ export default function ProtectedRoute({ children, page, requireStrategist = fal
   // In dev mode (no Firebase), allow everything
   if (!isFirebaseEnabled) return children
 
-  const { hasPageAccess, isAdmin, isStrategist } = auth
+  const { hasPageAccess, isAdmin, isStrategist, hasMinRole } = auth
   const councilId = config.council_id || 'unknown'
 
   // Admin sees everything
   if (isAdmin) return children
 
-  // Strategy pages require strategist role
+  // Hierarchical role check (new system)
+  if (minRole && !hasMinRole(minRole)) {
+    return (
+      <div className="protected-route-denied">
+        <h2>Access Restricted</h2>
+        <p>You need {minRole.replace('_', ' ')} access or above to view this page.</p>
+      </div>
+    )
+  }
+
+  // Legacy: strategy pages require strategist/councillor role
   if (requireStrategist && !isStrategist) {
     return (
       <div className="protected-route-denied">
         <h2>Access Restricted</h2>
-        <p>You need strategist access to view this page.</p>
+        <p>You need councillor access to view this page.</p>
       </div>
     )
   }

@@ -1,8 +1,8 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import compression from 'vite-plugin-compression'
-import { cpSync, existsSync, readFileSync, writeFileSync, mkdirSync, rmSync } from 'fs'
-import { resolve } from 'path'
+import { cpSync, existsSync, readFileSync, writeFileSync, mkdirSync, rmSync, statSync } from 'fs'
+import { resolve, extname } from 'path'
 
 /**
  * Copies council-specific data and parameterises index.html at build time.
@@ -29,8 +29,37 @@ function councilDataPlugin() {
   const totalSpend = config.doge_context?.total_spend || ''
   const transactions = config.doge_context?.transactions || ''
 
+  const sharedDir = resolve(rootDir, 'burnley-council', 'data', 'shared')
+
   return {
     name: 'council-data',
+    // Dev mode: serve council data directly from source to avoid startup race condition
+    // where buildStart copies files but Vite's static middleware hasn't picked them up yet
+    configureServer(server) {
+      const MIME = { '.json': 'application/json', '.geojson': 'application/json', '.csv': 'text/csv' }
+      server.middlewares.use('/data', (req, res, next) => {
+        const relPath = decodeURIComponent(req.url.split('?')[0])
+        // Try council-specific data first
+        const councilPath = resolve(srcDir, relPath.slice(1))
+        if (existsSync(councilPath) && statSync(councilPath).isFile()) {
+          res.setHeader('Content-Type', MIME[extname(councilPath)] || 'application/octet-stream')
+          res.setHeader('Cache-Control', 'no-store')
+          res.end(readFileSync(councilPath))
+          return
+        }
+        // Try shared data (requests come as /data/shared/*)
+        if (relPath.startsWith('/shared/')) {
+          const sharedPath = resolve(sharedDir, relPath.slice('/shared/'.length))
+          if (existsSync(sharedPath) && statSync(sharedPath).isFile()) {
+            res.setHeader('Content-Type', MIME[extname(sharedPath)] || 'application/octet-stream')
+            res.setHeader('Cache-Control', 'no-store')
+            res.end(readFileSync(sharedPath))
+            return
+          }
+        }
+        next()
+      })
+    },
     buildStart() {
       if (!existsSync(srcDir)) {
         console.warn(`⚠ Council data dir not found: ${srcDir}`)
@@ -44,7 +73,6 @@ function councilDataPlugin() {
       cpSync(srcDir, destDir, { recursive: true, force: true })
 
       // Also copy shared data files
-      const sharedDir = resolve(rootDir, 'burnley-council', 'data', 'shared')
       if (existsSync(sharedDir)) {
         const sharedDestDir = resolve(destDir, 'shared')
         mkdirSync(sharedDestDir, { recursive: true })

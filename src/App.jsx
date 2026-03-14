@@ -48,6 +48,9 @@ const Health = lazy(() => import('./pages/Health'))
 const Economy = lazy(() => import('./pages/Economy'))
 const Highways = lazy(() => import('./pages/Highways'))
 const Roadworks = lazy(() => import('./pages/Roadworks'))
+const Executive = lazy(() => import('./pages/Executive'))
+const CabinetDashboard = lazy(() => import('./pages/CabinetDashboard'))
+const PortfolioDetail = lazy(() => import('./pages/PortfolioDetail'))
 const AdminPanel = lazy(() => import('./components/AdminPanel'))
 const AuthGate = lazy(() => import('./components/AuthGate'))
 
@@ -76,7 +79,7 @@ function FirebaseAuthGate({ children }) {
     return <LoadingState message="Authenticating..." />
   }
 
-  // Not logged in or unassigned → show AuthGate
+  // Not logged in or unassigned (level 0) → show AuthGate
   if (!user || role === 'unassigned') {
     return (
       <Suspense fallback={<LoadingState />}>
@@ -157,6 +160,9 @@ function RouterContent() {
             <Route path="/economy" element={<Guarded><Economy /></Guarded>} />
             <Route path="/highways" element={<Guarded><Highways /></Guarded>} />
             <Route path="/roadworks" element={<Guarded><Roadworks /></Guarded>} />
+            <Route path="/executive" element={<Guarded><Executive /></Guarded>} />
+            <Route path="/cabinet" element={<Guarded><CabinetDashboard /></Guarded>} />
+            <Route path="/cabinet/:portfolioId" element={<Guarded><PortfolioDetail /></Guarded>} />
             <Route path="/admin" element={<Guarded><AdminPanel /></Guarded>} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>

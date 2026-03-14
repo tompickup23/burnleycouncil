@@ -28,7 +28,8 @@ Multi-council public spending transparency platform for Lancashire. React SPA de
 - **Highways:** `roadworks_etl.py` + `traffic_etl.py` → `roadworks.json` + `traffic.json`. LCC MARIO ArcGIS roadworks, DfT traffic counts, JCI model, deferral recommendations, s59 clash detection. `HighwaysMap.jsx` (direct Leaflet) + `Highways.jsx` page with legal framework from `highways_legal.json`
 - **Councillor Profiling:** `councillor_research_etl.py` → `councillor_profiles.json` — DOB, occupation, biography, structured employment/land/securities, committee memberships, electoral history (NOT YET RUN)
 - **FOI Generation:** `foi_generator.py` — auto-generate FOI requests from DOGE anomalies + integrity findings (NOT YET RUN)
-- **Auth:** Firebase Auth (free tier, 50K MAUs) + Firestore RBAC. Dual-mode: Firebase in production (`VITE_FIREBASE_API_KEY` set), PasswordGate for local dev. 4 roles: unassigned, viewer, strategist, admin. Per-council/page/constituency permissions.
+- **Auth:** Firebase Auth (free tier, 50K MAUs) + Firestore RBAC. Dual-mode: Firebase in production (`VITE_FIREBASE_API_KEY` set), PasswordGate for local dev. 8 hierarchical roles: unassigned(0), public(1), councillor(2), champion(3), lead_member(4), cabinet_member(5), leader(6), admin(7). Per-council/page/constituency/portfolio permissions. Backward compat: viewer→public, strategist→councillor.
+- **Cabinet Command:** `cabinet_portfolios.json` → `savingsEngine.js` → Executive/CabinetDashboard/PortfolioDetail pages. 10 LCC portfolios with budget mapping, savings levers, statutory duties, governance routing. Prescriptive ACTION DIRECTIVES: DO/SAVE/LEGAL/ROUTE/HOW/EVIDENCE format. LCC-only (gated by `cabinet_portfolios` config flag).
 - **Hosting:** GitHub Pages (free), custom domain aidoge.co.uk
 - **Servers:** vps-news (Oracle x86, 1GB RAM, free), vps-main (Hostinger KVM8, 32GB RAM, £22/mo), 2x AWS t3.micro (free trial until Jul 2026)
 
@@ -65,15 +66,15 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 ### Frontend (React SPA)
 | File | Purpose |
 |------|---------|
-| `src/App.jsx` | Router with 38 lazy-loaded routes, 41 routes total |
-| `src/pages/` | 36 page components + 49 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, MPComparison, Integrity, Intelligence, Strategy, CouncillorDossier, PropertyPortfolio, PropertyDetail, LGRTracker, Demographics, Highways, Housing, Crime, Health, Economy, etc.) |
+| `src/App.jsx` | Router with 41 lazy-loaded routes, 44 routes total |
+| `src/pages/` | 39 page components + 52 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, MPComparison, Integrity, Intelligence, Strategy, CouncillorDossier, PropertyPortfolio, PropertyDetail, LGRTracker, Demographics, Highways, Housing, Crime, Health, Economy, Executive, CabinetDashboard, PortfolioDetail, etc.) |
 | `src/components/` | Shared UI components (Layout, ChartCard, StatCard, CouncillorLink, SupplierLink, EvidenceChain, IntegrityBadge, NetworkGraph, WardMap, HighwaysMap, GlobalSearch, Breadcrumb, DataFreshnessStamp, etc.) |
 | `src/context/CouncilConfig.jsx` | Council-specific config context provider |
-| `src/context/AuthContext.jsx` | Firebase auth state, Firestore RBAC, permission checks |
+| `src/context/AuthContext.jsx` | Firebase auth state, Firestore RBAC, 8-level hierarchical roles, portfolio permissions |
 | `src/firebase.js` | Firebase app init (only when VITE_FIREBASE_API_KEY set) |
 | `src/components/AuthGate.jsx` | Login/register UI (Google, Apple, Facebook, email/password) |
-| `src/components/AdminPanel.jsx` | User management: role assignment, council/page toggles |
-| `src/components/ProtectedRoute.jsx` | Route-level permission checks (council, page, role) |
+| `src/components/AdminPanel.jsx` | User management: 8-role picker, portfolio assignment, council/page toggles |
+| `src/components/ProtectedRoute.jsx` | Route-level permission checks (council, page, minRole hierarchy) |
 | `firestore.rules` | Firestore security rules (user reads own doc, admin reads all) |
 | `src/hooks/useData.js` | Data fetching hook (loads from /data/*.json) |
 | `src/hooks/useSpendingWorker.js` | Web Worker hook for spending data (v3 chunked + v2/v1 fallback) |
@@ -92,6 +93,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `src/components/ui/ChartGradients.jsx` | Preset named SVG gradients for common chart fills |
 | `src/components/map/MapIcons.js` | SVG marker icon factory (7 types, severity-based coloring, pulse animation) |
 | `src/components/map/MapIcons.css` | SVG marker animations and styling |
+| `src/utils/savingsEngine.js` | Cabinet Command engine: portfolio-spending mapping, prescriptive directives, decision pathways, reform playbooks, political impact, benchmarking (22 functions, 61 tests) |
 | `src/utils/analytics.js` | Shared analytics engine: CPI-H deflation, z-scores, Gini, Benford's 2nd digit, reserves adequacy, integrity-weighted HHI |
 | `src/utils/lgrModel.js` | LGR economic model: cashflow, sensitivity, tornado, NPV, demographic fiscal risk, SEND exposure, asylum impact, timeline feasibility, property division (22 functions, 53 tests) |
 | `src/utils/electionModel.js` | Election prediction model: ward-level swing, national polling, demographics-weighted |
@@ -100,7 +102,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
 | `src/components/lgr/` | LGR sub-components: LGRDemographicFiscalRisk, LGRTimelineChaos, LGRBoundaryMap, LGRDeprivationMap, LGRPropertyDivision, LGRCCAImpact (6 components + 6 test files) |
 | `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation, elections (49 tests, 6 files) |
-| `src/**/*.test.{js,jsx}` | Unit tests: 2,353 tests across 49 files (vitest) |
+| `src/**/*.test.{js,jsx}` | Unit tests: 2,518 tests across 53 files (vitest) |
 
 ### Data Pipeline (Python)
 | File | Purpose |
@@ -203,6 +205,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `councillor_profiles.json` | councillor_research_etl.py | Councillor profiling data (DOB, occupation, committees, employment, electoral history) — NOT YET GENERATED |
 | `register_of_interests.json` | register_of_interests_etl.py | ModernGov register data (companies, employment, securities, land) |
 | `meetings.json` | meetings_etl.py | Council meetings (title, date, committee, venue, agenda/minutes + document URLs) |
+| `cabinet_portfolios.json` | Manual | 10 LCC cabinet portfolios: members, officers, budgets, spending patterns, statutory duties, savings levers, governance — LCC only |
 | `council_documents.json` | council_documents_etl.py | LLM-analysed council decisions from PDF minutes/reports (11 councils, 392 decisions) |
 | `voting.json` | votes_attendance_etl.py | Recorded votes per councillor + LLM-enriched political summaries (11 councils) |
 | `political_history.json` | political_history_etl.py | Ward-level political history for strategy engine (15 councils) |
@@ -401,5 +404,6 @@ Lancashire has **15 councils** across three tiers. Understanding this is critica
 - **Highways Feature** (done, 5 Mar): Lancashire-wide roadworks map + analytics system. Phases A-C: config-driven ETL refactoring (highways_config.json, 12 districts), roadworks_etl.py Lancashire-wide (1,722 works), traffic_etl.py (1,011 DfT count points, 2,001 junctions, JCI model with data_quality + confidence scoring + data freshness + s59 monitoring tier), lcc_highways_etl.py Lancashire-wide bbox. Visual: Leaflet.markercluster (severity-coloured), capacity bar popups, district filter + flyTo, speed controls, keyboard shortcuts, loading skeleton, mobile responsive. Phase D: AI DOGE React integration — HighwaysMap.jsx (direct Leaflet, severity markers, ward boundaries, JCI junctions, corridor overlays), Highways.jsx page (hero→map→analytics, s59 clashes, deferrals, traffic intelligence, legal framework from highways_legal.json), 51 new tests. 2,200 tests (45 files).
 - **Advanced Visualisation Overhaul** (done, 8 Mar): 14 new reusable components (SparkLine, GaugeChart, TreemapChart, WaterfallChart, HeatmapGrid, BumpChart, ChartTooltip, ChartGradient, ChartGradients, ChoroplethMap, MapLegend, MapIcons, AdvancedCharts.css). 12 page upgrades: Demographics (choropleth), DOGE (gauges+treemap+heatmap), Spending (treemap+calendar+sparklines), Budgets (waterfall+stacked area), Elections (sparklines+brush), Integrity (gauge+pie), CrossCouncil (radar+bump), Constituencies (expenses+voting heatmap), PropertyPortfolio (EPC+treemap), MyArea (sparklines+gauge), Meetings (bar+pie+calendar), Highways (SVG icon markers). Full Reform UK turquoise (#12B6CF) sweep across 77+ files. CHART_ANIMATION on all Recharts charts. Brush zoom on 8+ time-series. Gzip/Brotli filter fix. 105 files changed, 4,829 insertions, 825 deletions. Build: 2,535 modules, 14.54s.
 - **Data Enhancement Phases A-D** (done, 9 Mar): 4 new domain pages with dedicated ETLs. Housing (housing_etl.py, Census 2021 tenure/overcrowding/accommodation, 3 tabs, 31 tests). Crime (Crime.jsx using existing police_etl data, 4 tabs, 30 tests). Health (health_etl.py, Fingertips API + Census health/disability/care, 3 tabs, 31 tests). Economy (economy_etl.py, Nomis Claimant Count + ASHE + Census industry/occupation/hours, 4 tabs, 35 tests). 60× new data files (15 councils × 4 domains, minus LCC crime). 2,353 tests (49 files).
+- **Cabinet Command / v7** (done, 14 Mar): Reform Operations Platform. 8-level hierarchical auth (unassigned→admin), portfolio-aware RBAC, cabinet_portfolios.json data spine (10 LCC portfolios), savingsEngine.js (22 pure functions, 61 tests), 3 new pages: Executive.jsx (public cabinet/officer view), CabinetDashboard.jsx (operations command centre with Monday Morning List, savings pipeline, priority matrix), PortfolioDetail.jsx (9-tab parameterized page with Reform Playbook, decision pathways, statutory red lines). Layout nav restructured with Cabinet section. AdminPanel upgraded with 8-role picker + portfolio assignment. LCC-only (config-gated). 12 new/modified files, ~5,000 new lines. 2,518 tests (53 files).
 
 ## Cost: £22/month (Hostinger VPS — Clawdbot, email, clawd-worker). LLM costs: £0 (Mistral/Gemini/Groq/Nvidia free tiers). 2x AWS free trial ends Jul 2026.

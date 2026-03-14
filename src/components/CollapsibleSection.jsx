@@ -1,5 +1,14 @@
-import { useState } from 'react'
+import { useState, createElement } from 'react'
 import { ChevronDown } from 'lucide-react'
+
+/** Render icon prop — handles both component references (Zap) and rendered elements (<Zap />) */
+function renderIcon(icon, size) {
+  if (!icon) return null
+  if (typeof icon === 'function') return createElement(icon, { size })
+  if (typeof icon === 'object' && icon.type !== undefined && icon.props !== undefined) return icon
+  if (typeof icon === 'object') { try { return createElement(icon, { size }) } catch { return null } }
+  return null
+}
 
 /**
  * Broadcast-styled collapsible section for data-heavy pages.
@@ -31,7 +40,7 @@ export default function CollapsibleSection({
     <div className={`cs-section ${open ? 'cs-open' : ''} cs-${severity}`} id={id}>
       <button className="cs-header" onClick={() => setOpen(o => !o)} aria-expanded={open}>
         <div className="cs-title-row">
-          {icon && <span className="cs-icon">{icon}</span>}
+          {icon && <span className="cs-icon">{renderIcon(icon, 18)}</span>}
           <div className="cs-title-group">
             <h3 className="cs-title">{title}</h3>
             {subtitle && <span className="cs-subtitle">{subtitle}</span>}

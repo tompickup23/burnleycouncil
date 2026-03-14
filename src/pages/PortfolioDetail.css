@@ -1,0 +1,169 @@
+.portfolio-detail { max-width: 1400px; margin: 0 auto; padding: 0 1rem 3rem; }
+
+.portfolio-hero { padding: 1.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 1.5rem; }
+.portfolio-back { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.75rem; display: inline-block; margin-bottom: 0.5rem; }
+.portfolio-back:hover { color: #12B6CF; }
+.portfolio-hero h1 { font-size: 1.6rem; font-weight: 800; margin: 0 0 0.3rem; }
+.portfolio-subtitle { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-bottom: 1rem; }
+.portfolio-hero-stats { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+.portfolio-access-denied { display: flex; flex-direction: column; align-items: center; padding: 4rem; text-align: center; color: rgba(255,255,255,0.5); }
+
+/* Tabs */
+.portfolio-tabs { display: flex; gap: 0.2rem; padding: 0.2rem; background: rgba(255,255,255,0.03); border-radius: 10px; margin-bottom: 1.5rem; overflow-x: auto; }
+.portfolio-tab {
+  display: flex; align-items: center; gap: 0.3rem; padding: 0.5rem 0.75rem;
+  background: none; border: none; border-radius: 8px; color: rgba(255,255,255,0.45);
+  font-size: 0.75rem; font-weight: 600; cursor: pointer; white-space: nowrap; transition: all 0.2s;
+}
+.portfolio-tab:hover { color: rgba(255,255,255,0.8); background: rgba(255,255,255,0.04); }
+.portfolio-tab.active { color: #12B6CF; background: rgba(18,182,207,0.1); }
+
+.portfolio-tab-content { animation: fadeIn 0.2s ease; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Overview */
+.portfolio-overview-grid { display: flex; flex-direction: column; gap: 1.5rem; }
+.portfolio-overview-section h3 { font-size: 0.88rem; color: #12B6CF; margin: 0 0 0.5rem; }
+.portfolio-people-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.5rem; }
+.portfolio-person-card {
+  display: flex; flex-direction: column; padding: 0.75rem;
+  background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px;
+}
+.portfolio-person-card strong { font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.05em; }
+.portfolio-person-card span { font-size: 0.82rem; }
+.portfolio-person-cabinet { border-left: 3px solid #12B6CF; }
+.portfolio-person-role { font-size: 0.7rem; color: rgba(18,182,207,0.6); }
+.portfolio-services-list { list-style: none; padding: 0; margin: 0; }
+.portfolio-services-list li { padding: 0.25rem 0; font-size: 0.82rem; color: rgba(255,255,255,0.65); border-bottom: 1px solid rgba(255,255,255,0.03); }
+.portfolio-pressures-list { list-style: none; padding: 0; margin: 0; }
+.portfolio-pressure-item { display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0; font-size: 0.82rem; color: #fd7e14; }
+
+/* Budget */
+.portfolio-budget-cards { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.portfolio-budget-categories h3 { font-size: 0.88rem; color: #12B6CF; margin-bottom: 0.5rem; }
+.portfolio-tag-list { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+.portfolio-tag { padding: 0.2rem 0.6rem; background: rgba(18,182,207,0.1); border-radius: 4px; font-size: 0.72rem; color: #12B6CF; }
+
+/* Spending */
+.portfolio-spending-info { margin-bottom: 1.5rem; }
+.portfolio-spending-info h3 { font-size: 0.88rem; color: #12B6CF; margin-bottom: 0.35rem; }
+.portfolio-spending-note { font-size: 0.78rem; color: rgba(255,255,255,0.45); margin-bottom: 0.5rem; }
+.portfolio-pattern-tag { padding: 0.15rem 0.5rem; background: rgba(255,255,255,0.06); border-radius: 4px; font-size: 0.72rem; color: rgba(255,255,255,0.65); font-family: monospace; }
+.portfolio-section-link { display: inline-flex; align-items: center; gap: 0.2rem; color: #12B6CF; text-decoration: none; font-size: 0.78rem; font-weight: 600; margin-top: 0.75rem; }
+
+/* Findings */
+.portfolio-findings-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.5rem; }
+.portfolio-finding-card {
+  padding: 0.75rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px;
+}
+.portfolio-finding-card h4 { font-size: 0.78rem; margin: 0 0 0.25rem; }
+.portfolio-finding-count { font-size: 0.72rem; color: rgba(255,255,255,0.45); display: block; }
+.portfolio-finding-value { font-size: 1rem; font-weight: 700; color: #fd7e14; display: block; margin-top: 0.2rem; }
+
+/* Directives */
+.portfolio-directives { display: flex; flex-direction: column; gap: 0.75rem; }
+.portfolio-directive-card {
+  padding: 1rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 10px;
+}
+.portfolio-directive-header { display: flex; justify-content: space-between; margin-bottom: 0.4rem; }
+.portfolio-directive-type { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.05em; color: rgba(18,182,207,0.6); font-weight: 700; }
+.portfolio-risk-low { color: #28a745; }
+.portfolio-risk-medium { color: #fd7e14; }
+.portfolio-risk-high { color: #dc3545; }
+.portfolio-directive-action { font-size: 0.88rem; font-weight: 700; margin-bottom: 0.35rem; }
+.portfolio-directive-row { display: flex; gap: 1rem; flex-wrap: wrap; font-size: 0.78rem; color: rgba(255,255,255,0.6); margin-bottom: 0.2rem; }
+.portfolio-directive-timeline-days { color: rgba(18,182,207,0.6); font-weight: 600; }
+.portfolio-directive-steps { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 0.4rem; }
+.portfolio-directive-steps ol { margin: 0.25rem 0 0 1.5rem; padding: 0; }
+.portfolio-directive-steps li { margin-bottom: 0.15rem; }
+.portfolio-directive-evidence { font-size: 0.72rem; color: rgba(255,255,255,0.35); margin-top: 0.3rem; }
+
+/* Legal */
+.portfolio-statutory-grid { display: flex; flex-direction: column; gap: 0.5rem; }
+.portfolio-statutory-card { padding: 0.75rem 1rem; border-radius: 8px; border-left: 3px solid; }
+.portfolio-statutory-red { border-left-color: #dc3545; background: rgba(220,53,69,0.05); }
+.portfolio-statutory-amber { border-left-color: #fd7e14; background: rgba(253,126,20,0.05); }
+.portfolio-statutory-green { border-left-color: #28a745; background: rgba(40,167,69,0.05); }
+.portfolio-statutory-badge { font-size: 0.62rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.1em; padding: 0.1rem 0.4rem; border-radius: 3px; }
+.portfolio-badge-red { background: rgba(220,53,69,0.2); color: #dc3545; }
+.portfolio-badge-amber { background: rgba(253,126,20,0.2); color: #fd7e14; }
+.portfolio-badge-green { background: rgba(40,167,69,0.2); color: #28a745; }
+.portfolio-statutory-card h4 { font-size: 0.82rem; margin: 0.4rem 0 0.2rem; }
+.portfolio-statutory-card p { font-size: 0.78rem; color: rgba(255,255,255,0.6); margin: 0; }
+.portfolio-statutory-risk { font-size: 0.7rem; color: rgba(255,255,255,0.4); }
+
+.portfolio-political-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.5rem; }
+.portfolio-political-item { padding: 0.75rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; }
+.portfolio-political-item strong { display: block; font-size: 0.72rem; color: rgba(18,182,207,0.6); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.2rem; }
+.portfolio-political-item span { font-size: 0.78rem; color: rgba(255,255,255,0.6); }
+
+.portfolio-pathways { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 0.5rem; }
+.portfolio-pathway-card { padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; }
+.portfolio-pathway-card h4 { font-size: 0.82rem; margin: 0 0 0.25rem; color: #12B6CF; }
+.portfolio-pathway-card p { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin: 0; }
+
+/* Dependencies */
+.portfolio-dependency-card { padding: 0.75rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; margin-bottom: 0.5rem; }
+.portfolio-dependency-card strong { display: block; font-size: 0.78rem; color: #12B6CF; text-transform: capitalize; margin-bottom: 0.2rem; }
+.portfolio-dependency-card p { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin: 0; }
+.portfolio-dependency-roi { font-size: 0.7rem; color: rgba(255,255,255,0.35); }
+
+/* Playbook */
+.portfolio-playbook-phase { margin-bottom: 1.5rem; }
+.portfolio-playbook-phase-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 0.5rem; }
+.portfolio-playbook-phase-header h3 { margin: 0; font-size: 1rem; }
+.portfolio-playbook-phase-savings { color: #28a745; font-weight: 700; font-size: 0.95rem; }
+.portfolio-playbook-phase-count { color: rgba(255,255,255,0.4); font-size: 0.75rem; }
+.portfolio-playbook-directives { display: flex; flex-direction: column; gap: 0.3rem; }
+.portfolio-playbook-directive {
+  display: grid; grid-template-columns: 60px 1fr 80px; gap: 0.5rem; align-items: center;
+  padding: 0.5rem 0.75rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 6px; font-size: 0.78rem;
+}
+.portfolio-playbook-risk { text-transform: capitalize; font-weight: 600; font-size: 0.7rem; }
+.portfolio-playbook-action { color: rgba(255,255,255,0.7); }
+.portfolio-playbook-save { text-align: right; color: #28a745; font-weight: 600; }
+
+/* Red lines */
+.portfolio-redline-card { padding: 0.75rem 1rem; background: rgba(220,53,69,0.05); border: 1px solid rgba(220,53,69,0.15); border-radius: 8px; margin-bottom: 0.5rem; }
+.portfolio-redline-card h4 { font-size: 0.82rem; margin: 0 0 0.2rem; }
+.portfolio-redline-card p { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin: 0; }
+.portfolio-redline-risk { font-size: 0.7rem; color: #dc3545; }
+
+.portfolio-amber-card { padding: 0.75rem 1rem; background: rgba(253,126,20,0.05); border: 1px solid rgba(253,126,20,0.15); border-radius: 8px; margin-bottom: 0.5rem; }
+.portfolio-amber-card h4 { font-size: 0.82rem; margin: 0 0 0.2rem; }
+.portfolio-amber-card p { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin: 0; }
+.portfolio-amber-risk { font-size: 0.7rem; color: #fd7e14; }
+
+.portfolio-green-card { padding: 0.75rem 1rem; background: rgba(40,167,69,0.05); border: 1px solid rgba(40,167,69,0.15); border-radius: 8px; margin-bottom: 0.5rem; }
+.portfolio-green-card h4 { font-size: 0.82rem; margin: 0 0 0.2rem; }
+.portfolio-green-card p { font-size: 0.78rem; color: rgba(255,255,255,0.55); margin: 0; }
+
+/* FOI */
+.portfolio-foi-grid { display: flex; flex-direction: column; gap: 0.75rem; }
+.portfolio-foi-card { padding: 0.75rem 1rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; }
+.portfolio-foi-card h4 { font-size: 0.82rem; margin: 0 0 0.5rem; }
+.portfolio-foi-body { font-size: 0.72rem; color: rgba(255,255,255,0.5); white-space: pre-wrap; margin: 0; font-family: monospace; background: rgba(0,0,0,0.2); padding: 0.75rem; border-radius: 6px; }
+
+/* Playbook total */
+.portfolio-playbook-total { margin-top: 1.5rem; }
+.portfolio-playbook-total-inner {
+  display: flex; flex-direction: column; align-items: center; gap: 0.3rem;
+  padding: 1.5rem; background: rgba(18,182,207,0.06); border: 1px solid rgba(18,182,207,0.2);
+  border-radius: 12px; text-align: center;
+}
+.portfolio-playbook-total-inner span { font-size: 0.78rem; color: rgba(255,255,255,0.5); }
+.portfolio-playbook-total-inner strong { font-size: 2rem; font-weight: 800; color: #28a745; }
+.portfolio-playbook-total-count { font-size: 0.72rem !important; color: rgba(255,255,255,0.35) !important; }
+
+/* Decisions */
+.portfolio-decision-item { display: flex; gap: 1rem; padding: 0.6rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 6px; margin-bottom: 0.3rem; }
+.portfolio-decision-date { min-width: 80px; color: rgba(255,255,255,0.4); font-size: 0.72rem; }
+.portfolio-decision-content h4 { font-size: 0.82rem; margin: 0 0 0.1rem; }
+.portfolio-decision-venue { font-size: 0.7rem; color: rgba(255,255,255,0.35); }
+.portfolio-decision-type { font-size: 0.62rem; padding: 0.1rem 0.35rem; border-radius: 3px; text-transform: capitalize; }
+.portfolio-dt-approved { background: rgba(40,167,69,0.15); color: #28a745; }
+
+.portfolio-empty { color: rgba(255,255,255,0.35); font-size: 0.82rem; padding: 1rem; text-align: center; }
+.portfolio-note { color: rgba(255,255,255,0.45); font-size: 0.82rem; padding: 0.5rem 0; }

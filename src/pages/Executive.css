@@ -1,0 +1,159 @@
+.executive-page { max-width: 1400px; margin: 0 auto; padding: 0 1rem 3rem; }
+
+.executive-hero {
+  padding: 2rem 0 1.5rem;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 1.5rem;
+}
+.executive-hero h1 { font-size: 1.8rem; font-weight: 800; margin: 0 0 0.5rem; }
+.executive-subtitle { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-bottom: 1rem; }
+.executive-hero-stats { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+
+/* Cabinet Grid */
+.executive-cabinet-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 0.75rem;
+}
+.executive-cabinet-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  overflow: hidden;
+}
+.executive-cabinet-card:hover { border-color: rgba(18,182,207,0.3); transform: translateY(-1px); }
+.executive-cabinet-card.selected { border-color: rgba(18,182,207,0.5); background: rgba(18,182,207,0.04); }
+.executive-card-header {
+  padding: 0.75rem 1rem 0.5rem;
+  border-top: 3px solid #12B6CF;
+}
+.executive-card-header h3 { font-size: 0.95rem; font-weight: 700; margin: 0; }
+.executive-card-role { font-size: 0.7rem; color: rgba(18,182,207,0.7); font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.executive-card-body { padding: 0 1rem 0.75rem; }
+.executive-card-portfolio { font-size: 0.82rem; color: rgba(255,255,255,0.7); margin: 0.25rem 0; font-weight: 500; }
+.executive-card-ward { font-size: 0.72rem; color: rgba(255,255,255,0.35); margin: 0; }
+.executive-card-budget { margin-top: 0.5rem; }
+.executive-card-budget-label { font-size: 0.65rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 0.05em; }
+.executive-card-budget-value { font-size: 0.85rem; font-weight: 700; display: block; margin: 0.15rem 0; }
+.executive-card-budget-bar { height: 4px; background: rgba(255,255,255,0.06); border-radius: 2px; overflow: hidden; }
+.executive-card-budget-fill { height: 100%; border-radius: 2px; transition: width 0.3s ease; }
+.executive-card-details {
+  padding: 0.75rem 1rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  font-size: 0.78rem;
+}
+.executive-card-detail-row { margin-bottom: 0.35rem; color: rgba(255,255,255,0.65); }
+.executive-card-detail-row strong { color: rgba(255,255,255,0.85); margin-right: 0.3rem; }
+.executive-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  margin-top: 0.5rem;
+  color: #12B6CF;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.78rem;
+}
+.executive-card-link:hover { text-decoration: underline; }
+
+/* Budget section */
+.executive-budget-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+@media (max-width: 900px) { .executive-budget-section { grid-template-columns: 1fr; } }
+
+/* Officers */
+.executive-officers { display: flex; flex-direction: column; gap: 1rem; }
+.executive-officer-chief {
+  background: rgba(18,182,207,0.08) !important;
+  border-color: rgba(18,182,207,0.3) !important;
+  text-align: center;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.executive-officer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 0.5rem; }
+.executive-officer-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+.executive-officer-card h4 { font-size: 0.85rem; margin: 0 0 0.2rem; }
+.executive-officer-card span { font-size: 0.72rem; color: rgba(255,255,255,0.45); }
+.executive-officer-statutory { border-left: 3px solid #fd7e14; }
+.executive-statutory-officers { margin-top: 0.5rem; }
+.executive-statutory-officers h4 { font-size: 0.8rem; color: rgba(255,255,255,0.5); margin-bottom: 0.5rem; }
+
+/* Committees */
+.executive-committees { display: flex; flex-direction: column; gap: 1rem; }
+.executive-committee-group h4 { font-size: 0.82rem; color: rgba(18,182,207,0.7); margin-bottom: 0.5rem; }
+.executive-committee-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 0.4rem; }
+.executive-committee-item {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 6px;
+  font-size: 0.78rem;
+}
+.executive-committee-name { font-weight: 600; }
+.executive-committee-chair { color: rgba(255,255,255,0.45); font-size: 0.7rem; }
+.executive-committee-members { color: rgba(255,255,255,0.35); font-size: 0.68rem; }
+
+/* Decisions */
+.executive-decisions { display: flex; flex-direction: column; gap: 0.5rem; }
+.executive-decision-item {
+  display: flex;
+  gap: 1rem;
+  padding: 0.75rem;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 8px;
+  font-size: 0.8rem;
+}
+.executive-decision-date {
+  min-width: 80px;
+  color: rgba(255,255,255,0.4);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+.executive-decision-content h4 { font-size: 0.82rem; margin: 0 0 0.25rem; }
+.executive-decision-content p { color: rgba(255,255,255,0.55); margin: 0.25rem 0 0; font-size: 0.75rem; }
+.executive-decision-committee {
+  display: inline-block;
+  font-size: 0.65rem;
+  padding: 0.1rem 0.4rem;
+  background: rgba(18,182,207,0.1);
+  border-radius: 3px;
+  color: #12B6CF;
+  margin-right: 0.3rem;
+}
+.executive-decision-type {
+  display: inline-block;
+  font-size: 0.65rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 3px;
+  text-transform: capitalize;
+}
+.executive-decision-approved { background: rgba(40,167,69,0.15); color: #28a745; }
+.executive-decision-noted { background: rgba(108,117,125,0.15); color: #8e8e93; }
+
+/* Governance */
+.executive-governance {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 0.75rem;
+}
+.executive-governance-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 1rem;
+}
+.executive-governance-card h4 { font-size: 0.82rem; margin: 0 0 0.35rem; color: #12B6CF; }
+.executive-governance-card p { font-size: 0.78rem; color: rgba(255,255,255,0.6); margin: 0; }

@@ -1,0 +1,761 @@
+{
+  "last_updated": "2026-03-14",
+  "council_id": "lancashire_cc",
+  "administration": {
+    "party": "Reform UK",
+    "seats": 53,
+    "total": 84,
+    "majority_threshold": 43,
+    "control_since": "2025-05-01",
+    "previous_control": "Conservative (NOC, largest party)",
+    "next_elections": "2029-05"
+  },
+  "portfolios": [
+    {
+      "id": "leader",
+      "title": "Leader — Strategy, Performance & External Relations",
+      "short_title": "Leader's Office",
+      "cabinet_member": {
+        "name": "Stephen Atkinson",
+        "councillor_id": "satkinson",
+        "uid": "33642",
+        "ward": "Ribble Valley South West",
+        "cabinet_role": "Chair"
+      },
+      "lead_members": [],
+      "champions": [],
+      "executive_director": "Mark Wynn (Chief Executive)",
+      "directors": ["Director of Strategy and Innovation"],
+      "scrutiny_committee": { "name": "Budget and Finance Scrutiny Committee", "id": "budget_finance_scrutiny" },
+      "budget_categories": [],
+      "spending_department_patterns": ["^Chief Exec", "^Corporate", "^Leader", "^Strategic", "^External Rel", "^Communications", "^Policy"],
+      "budget_latest": {
+        "year": "2026/27",
+        "note": "Cross-cutting — no single budget line. Oversees all portfolios."
+      },
+      "statutory_duties": [
+        { "act": "Local Government Act 2000 (Part II)", "summary": "Leader accountable for executive functions and cabinet appointments", "risk_level": "green", "risk": "Constitutional role — cannot be cut" },
+        { "act": "Localism Act 2011", "summary": "General power of competence", "risk_level": "green", "risk": "Enables broad action" }
+      ],
+      "key_services": [
+        "Corporate strategy and performance",
+        "External relations and partnerships",
+        "Lancashire Combined County Authority liaison",
+        "Devolution negotiations",
+        "Communications and media"
+      ],
+      "known_pressures": [
+        "LGR transition planning — vesting Apr 2028",
+        "CCA governance requirements",
+        "Cross-party relationship management"
+      ],
+      "savings_levers": [
+        { "lever": "Corporate restructuring", "est_saving": "£2-5M", "timeline": "12-18 months", "risk": "Medium", "description": "Review corporate centre headcount post-2025 election. Multiple interim/consultancy appointments could be made permanent or eliminated.", "legal_constraints": null },
+        { "lever": "External partnerships audit", "est_saving": "£0.5-1M", "timeline": "3-6 months", "risk": "Low", "description": "Review all membership subscriptions, partnership contributions and secondments. Assess value-for-money of each.", "legal_constraints": null }
+      ]
+    },
+    {
+      "id": "children_families",
+      "title": "Children & Families",
+      "short_title": "Children",
+      "cabinet_member": {
+        "name": "Simon Evans",
+        "councillor_id": "sevans",
+        "uid": "33844",
+        "ward": "Skelmersdale Central",
+        "cabinet_role": "Deputy Chair"
+      },
+      "lead_members": [],
+      "champions": [
+        { "name": "Mackenzie Ritson", "area": "Young People", "councillor_id": "mritson" },
+        { "name": "Ellie Close", "area": "Combatting Sexual Exploitation & VAWG", "councillor_id": "eclose" }
+      ],
+      "executive_director": "Jacqui Old CBE",
+      "directors": [
+        "Director of Children's Social Care",
+        "Director of Policy Commissioning and Children's Health",
+        "Director of Children's Services Reform and Professional Standards"
+      ],
+      "scrutiny_committee": { "name": "Children, Families and Skills Scrutiny Committee", "id": "children_families_skills_scrutiny" },
+      "budget_categories": ["Children Social Care"],
+      "spending_department_patterns": ["^Children", "^Child ", "^Fostering", "^Adoption", "^Looked After", "^LAC", "^Safeguard.*Child", "^Youth Just", "^Youth Offend", "^Leaving Care", "^CAMHS", "^Family"],
+      "budget_latest": {
+        "year": "2024/25",
+        "gross_expenditure": 298210000,
+        "income": -6728000,
+        "net_expenditure": 291482000,
+        "employees": 90106000,
+        "running_expenses": 208104000
+      },
+      "statutory_duties": [
+        { "act": "Children Act 1989", "summary": "Duty to safeguard and promote welfare of children in need, accommodate looked-after children", "risk_level": "red", "risk": "Cannot reduce below statutory minimum — Ofsted inspection risk" },
+        { "act": "Children Act 2004", "summary": "Duty to cooperate for children's wellbeing, Local Safeguarding arrangements", "risk_level": "red", "risk": "Ofsted will judge inadequate if arrangements weakened" },
+        { "act": "Children and Social Work Act 2017", "summary": "Corporate parenting principles, local offer for care leavers", "risk_level": "red", "risk": "Care leaver entitlements non-negotiable" },
+        { "act": "Crime and Disorder Act 1998", "summary": "Youth offending team provision", "risk_level": "amber", "risk": "Joint funding with police — reduction needs partner agreement" }
+      ],
+      "key_services": [
+        "Children's social care and safeguarding",
+        "Looked after children and foster care",
+        "Adoption services",
+        "Youth justice and offending",
+        "Care leavers support",
+        "Early help and family support",
+        "CAMHS commissioning"
+      ],
+      "known_pressures": [
+        "Looked after children numbers rising — 2,100+ (national trend)",
+        "Agency social worker costs — £15-20M p.a. at premium rates",
+        "Residential placement costs — £4,000-8,000/week per child",
+        "Unaccompanied asylum-seeking children (UASC) — 180+, Home Office funding gap",
+        "Ofsted inspection due — inadequate rating would trigger intervention"
+      ],
+      "savings_levers": [
+        { "lever": "Agency social worker conversion", "est_saving": "£3-5M", "timeline": "6-12 months", "risk": "Medium", "description": "Convert top 50 agency social workers to permanent. Agency rates 40-60% premium. Requires competitive salary offer and retention package.", "legal_constraints": null },
+        { "lever": "Residential placement step-down", "est_saving": "£5-10M", "timeline": "12-18 months", "risk": "Medium", "description": "For every child stepped down from residential (£250K/yr) to fostering (£30K/yr) = £220K saving. Target 25-40 step-downs.", "legal_constraints": "Must demonstrate placement meets child's needs — Care Planning Regulations 2010" },
+        { "lever": "In-house fostering expansion", "est_saving": "£2-4M", "timeline": "12-24 months", "risk": "Low", "description": "Recruit 50 additional in-house foster carers. In-house costs 60% less than independent fostering agencies (IFAs).", "legal_constraints": null },
+        { "lever": "Edge of care prevention", "est_saving": "£3-6M", "timeline": "12-18 months", "risk": "Low", "description": "Invest in intensive family support to prevent children entering care. Every child diverted from care = £40-70K annual saving.", "legal_constraints": null },
+        { "lever": "UASC cost recovery", "est_saving": "£2-4M", "timeline": "3-6 months", "risk": "Low", "description": "Systematic review of Home Office funding claims for UASC. National Transfer Scheme rates often below actual cost — pursue full cost recovery.", "legal_constraints": null }
+      ]
+    },
+    {
+      "id": "resources",
+      "title": "Resources, HR & Property",
+      "short_title": "Resources",
+      "cabinet_member": {
+        "name": "Ged Mirfin",
+        "councillor_id": "gmirfin",
+        "uid": "26579",
+        "ward": "Ribble Valley North East",
+        "cabinet_role": "Member"
+      },
+      "lead_members": [
+        { "name": "Vacant", "area": "Finance and Resources", "councillor_id": null }
+      ],
+      "champions": [],
+      "executive_director": "Laurence Ainsworth",
+      "directors": [
+        "Noel O'Neill — Interim Director of Finance and Commerce (S151 Officer)",
+        "Lucy Thompson — Director of People (HR)",
+        "Heloise MacAndrew — Director of Law and Governance (Monitoring Officer)"
+      ],
+      "scrutiny_committee": { "name": "Budget and Finance Scrutiny Committee", "id": "budget_finance_scrutiny" },
+      "budget_categories": ["Central services"],
+      "spending_department_patterns": ["^Finance", "^HR", "^Human Res", "^Property", "^Estates", "^Legal", "^Democratic", "^Audit", "^Pension", "^Retirement", "^Registr", "^Coroner", "^Surplus Asset", "^Support Serv", "^Central Admin", "^ICT", "^Insurance", "^Treasury"],
+      "budget_latest": {
+        "year": "2024/25",
+        "gross_expenditure": 166903000,
+        "income": -125022000,
+        "net_expenditure": 41881000,
+        "employees": 106190000,
+        "running_expenses": 60713000
+      },
+      "statutory_duties": [
+        { "act": "Local Government Finance Act 1992", "summary": "S151 officer must ensure proper financial administration", "risk_level": "red", "risk": "Cannot remove — statutory officer role" },
+        { "act": "Accounts and Audit Regulations 2015", "summary": "Annual accounts preparation and external audit", "risk_level": "red", "risk": "Legal requirement" },
+        { "act": "Local Government Act 1972 s112", "summary": "Duty to appoint officers for proper discharge of functions", "risk_level": "amber", "risk": "Flexible on structure but must maintain core functions" },
+        { "act": "Registration Service Act 1953", "summary": "Births, deaths and marriages registration", "risk_level": "red", "risk": "Statutory service — Home Office funded" },
+        { "act": "Coroners and Justice Act 2009", "summary": "Coroner service provision", "risk_level": "red", "risk": "Cannot reduce — joint service with other authorities" }
+      ],
+      "key_services": [
+        "Financial management and treasury",
+        "Human resources and workforce development",
+        "Property and estate management (1,200+ assets)",
+        "Legal services and governance",
+        "Democratic services",
+        "Internal audit",
+        "Pension fund administration",
+        "Registrars (births, deaths, marriages)",
+        "Coroner's service",
+        "Insurance and risk management",
+        "Procurement"
+      ],
+      "known_pressures": [
+        "DSG deficit — £171.4M forecast, rising to £419.9M by 2028/29",
+        "Reserves declining 6 consecutive years (£420M → £345M)",
+        "Property estate maintenance backlog",
+        "Pension fund liabilities",
+        "External audit delays (sector-wide)"
+      ],
+      "savings_levers": [
+        { "lever": "Property estate rationalisation", "est_saving": "£3-8M", "timeline": "12-24 months", "risk": "Medium", "description": "1,200+ properties. Identify surplus assets for disposal, co-locate services, reduce running costs. Every vacant property costs £30-100K/yr to maintain.", "legal_constraints": "Disposal must follow best consideration requirements (S123 LGA 1972)" },
+        { "lever": "Support services consolidation", "est_saving": "£2-4M", "timeline": "6-12 months", "risk": "Low", "description": "Support services currently £123M gross (huge). Review internal recharging model, eliminate duplication between central and directorate-level admin.", "legal_constraints": null },
+        { "lever": "Procurement savings", "est_saving": "£5-10M", "timeline": "6-18 months", "risk": "Low", "description": "Cross-council procurement aggregation, framework consolidation, contract renegotiation on expiring contracts. Target 3-5% of addressable spend.", "legal_constraints": "Public Contracts Regulations 2015 — must follow procurement law" },
+        { "lever": "Digital transformation of back office", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Low", "description": "Automate finance processes (e-invoicing, three-way matching, automated reconciliation). Reduce headcount through natural attrition.", "legal_constraints": null }
+      ]
+    },
+    {
+      "id": "adult_social_care",
+      "title": "Adult Social Care",
+      "short_title": "Adults",
+      "cabinet_member": {
+        "name": "Graham Dalton",
+        "councillor_id": "gdalton",
+        "uid": "33645",
+        "ward": "Lancaster Rural North",
+        "cabinet_role": "Member"
+      },
+      "lead_members": [],
+      "champions": [
+        { "name": "Jan Schofield", "area": "Older People", "councillor_id": "jschofield" },
+        { "name": "Gaynor Hargreaves", "area": "Disabled People", "councillor_id": "ghargreaves" },
+        { "name": "Nigel Swales", "area": "Mental Health", "councillor_id": "nswales" }
+      ],
+      "executive_director": "Jacqui Old CBE",
+      "directors": ["Director of Adult Services"],
+      "scrutiny_committee": { "name": "Health and Adult Services Scrutiny Committee", "id": "health_adults_scrutiny" },
+      "budget_categories": ["Adult Social Care"],
+      "spending_department_patterns": ["^Adult", "^Residential", "^Home Care", "^Homecare", "^Day Care", "^Day Serv", "^Mental Health.*Adult", "^Learning Disab", "^Older People", "^Older Person", "^Direct Payment", "^Safeguard.*Adult", "^Supported Living", "^Nursing", "^Domicil", "^Reablement", "^Extra Care", "^Shared Lives"],
+      "budget_latest": {
+        "year": "2024/25",
+        "gross_expenditure": 829285000,
+        "income": -244784000,
+        "net_expenditure": 584501000,
+        "employees": 127972000,
+        "running_expenses": 701313000
+      },
+      "statutory_duties": [
+        { "act": "Care Act 2014 (s18-20)", "summary": "Duty to assess and meet eligible care needs. Wellbeing duty. Prevention duty.", "risk_level": "red", "risk": "Cannot cut below assessed eligible needs — judicial review risk" },
+        { "act": "Mental Capacity Act 2005", "summary": "Best interests decisions, DoLS authorisations", "risk_level": "red", "risk": "Deprivation of Liberty — unlawful if not authorised" },
+        { "act": "Mental Health Act 1983 (s117)", "summary": "Aftercare for detained patients — free, non-means-tested", "risk_level": "red", "risk": "s117 aftercare CANNOT be charged for — absolute duty" },
+        { "act": "Care Act 2014 (s5)", "summary": "Market shaping duty — ensure diverse, sustainable provider market", "risk_level": "amber", "risk": "If major provider fails, council becomes provider of last resort" }
+      ],
+      "key_services": [
+        "Residential and nursing care",
+        "Home care and reablement",
+        "Day services",
+        "Safeguarding adults",
+        "Mental health services (adults)",
+        "Learning disability services",
+        "Direct payments and personal budgets",
+        "Deprivation of Liberty Safeguards (DoLS)",
+        "Supported living",
+        "Extra care housing",
+        "Shared Lives scheme"
+      ],
+      "known_pressures": [
+        "Demographic growth — over-65 population rising 2.1% p.a. in Lancashire",
+        "National Living Wage impact on provider costs (annual 5-7% uplift)",
+        "Care market sustainability — provider failure risk in rural areas",
+        "Hospital discharge delays — NHS cost shunt to social care",
+        "CHC disputes with NHS Lancashire & South Cumbria ICB — estimated £12M+ unrecovered",
+        "CQC inspection regime — new single assessment framework"
+      ],
+      "savings_levers": [
+        { "lever": "CHC cost recovery", "est_saving": "£5-12M", "timeline": "3-6 months", "risk": "Medium", "description": "Systematic review of NHS Continuing Healthcare eligibility. LCC is funding care packages that should be NHS-funded. Establish dedicated CHC review team.", "legal_constraints": "National Framework for NHS CHC 2022 — joint dispute resolution process" },
+        { "lever": "Reablement expansion", "est_saving": "£3-5M", "timeline": "12-18 months", "risk": "Low", "description": "Invest in short-term reablement to reduce long-term residential placements. Every 1% shift from residential to community saves ~£3M. Current reablement capacity undersized.", "legal_constraints": null },
+        { "lever": "Digital care technology", "est_saving": "£1-2M", "timeline": "6-12 months", "risk": "Low", "description": "Remote monitoring, telecare, digital care planning. Reduces face-to-face visits for stable clients. Technology Enabled Care programme.", "legal_constraints": null },
+        { "lever": "Direct payment uptake", "est_saving": "£2-4M", "timeline": "12 months", "risk": "Low", "description": "Self-directed support is typically 15-20% cheaper than council-commissioned packages. Increase uptake from current ~15% to 25%.", "legal_constraints": "Care Act 2014 s31-33 — must offer DPs to all eligible" },
+        { "lever": "Market shaping and commissioning", "est_saving": "£3-8M", "timeline": "18-24 months", "risk": "Medium", "description": "Strategic commissioning to increase competition, block contract where appropriate, reduce spot purchasing premium. Current HHI suggests healthy competition but pricing above benchmarks.", "legal_constraints": "Public Contracts Regulations 2015, Light Touch Regime for social care" },
+        { "lever": "Demand management — falls prevention", "est_saving": "£2-5M", "timeline": "2-3 years", "risk": "Low", "description": "Investment in falls prevention, social prescribing, community assets to delay care onset. Every fall prevented saves £30K+ in residential placement. Cross-portfolio with Public Health.", "legal_constraints": null }
+      ]
+    },
+    {
+      "id": "health_wellbeing",
+      "title": "Health & Wellbeing",
+      "short_title": "Health",
+      "cabinet_member": {
+        "name": "Daniel Matchett",
+        "councillor_id": "dmatchett",
+        "uid": "33786",
+        "ward": "Whitworth & Bacup",
+        "cabinet_role": "Member"
+      },
+      "lead_members": [
+        { "name": "Dr Lorenzo More", "area": "Health", "councillor_id": "lmore" }
+      ],
+      "champions": [
+        { "name": "Nigel Swales", "area": "Mental Health", "councillor_id": "nswales" }
+      ],
+      "executive_director": "Phil Green",
+      "directors": ["Director of Public Health"],
+      "scrutiny_committee": { "name": "Health and Adult Services Scrutiny Committee", "id": "health_adults_scrutiny" },
+      "budget_categories": ["Public Health"],
+      "spending_department_patterns": ["^Public Health", "^Health Improv", "^Drug", "^Alcohol", "^Substance", "^Sexual Health", "^Health Visit", "^Health Protect", "^Smoking", "^Obesity", "^Wellbeing"],
+      "budget_latest": {
+        "year": "2024/25",
+        "gross_expenditure": 99202000,
+        "income": -1561000,
+        "net_expenditure": 97641000,
+        "employees": 18944000,
+        "running_expenses": 80258000
+      },
+      "statutory_duties": [
+        { "act": "Health and Social Care Act 2012 (s12)", "summary": "Director of Public Health — statutory chief officer. Public health functions.", "risk_level": "red", "risk": "DPH is statutory role — cannot remove" },
+        { "act": "National Health Service Act 2006 (s2B)", "summary": "Duty to take steps to improve public health", "risk_level": "amber", "risk": "Broad duty — discretion on how to deliver" },
+        { "act": "Public Health (Control of Disease) Act 1984", "summary": "Health protection and disease control", "risk_level": "red", "risk": "Cannot reduce emergency preparedness" }
+      ],
+      "key_services": [
+        "Drug and alcohol services",
+        "Sexual health services",
+        "Health visiting and school nursing",
+        "Smoking cessation",
+        "Obesity and physical activity",
+        "Mental health promotion",
+        "Health protection",
+        "NHS Health Checks",
+        "Suicide prevention"
+      ],
+      "known_pressures": [
+        "Public Health Grant ring-fenced but flat in real terms",
+        "Drug and alcohol demand increasing post-COVID",
+        "Mental health demand — particularly young people",
+        "Health inequalities widening in deprived Lancashire wards"
+      ],
+      "savings_levers": [
+        { "lever": "Service recommissioning", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Medium", "description": "Retender drug/alcohol and sexual health contracts at scale. Current contracts may not reflect best value. Benchmark against other county councils.", "legal_constraints": "Public Health Grant conditions — must spend on prescribed functions" },
+        { "lever": "Prevention investment (cross-portfolio ROI)", "est_saving": "£0 (invest to save)", "timeline": "2-3 years", "risk": "Low", "description": "Every £1 invested in falls prevention saves £3.50 in Adult Social Care. Every £1 in smoking cessation saves £2.80 in NHS/social care. This portfolio is the long-term savings engine.", "legal_constraints": null }
+      ]
+    },
+    {
+      "id": "education_skills",
+      "title": "Education & Skills",
+      "short_title": "Education",
+      "cabinet_member": {
+        "name": "Matthew Salter",
+        "councillor_id": "msalter",
+        "uid": "19502",
+        "ward": "Wyre Rural Central",
+        "cabinet_role": "Member"
+      },
+      "lead_members": [],
+      "champions": [
+        { "name": "Mackenzie Ritson", "area": "Young People", "councillor_id": "mritson" }
+      ],
+      "executive_director": "Jacqui Old CBE",
+      "directors": [
+        "Director of Education and Inclusion"
+      ],
+      "scrutiny_committee": { "name": "Children, Families and Skills Scrutiny Committee", "id": "children_families_skills_scrutiny" },
+      "budget_categories": ["Education services"],
+      "spending_department_patterns": ["^Education", "^School", "^SEND", "^Special Educ", "^SEN ", "^Pupil", "^Library", "^Libraries", "^Museum", "^Archive", "^Skills", "^Apprentice", "^Adult Learn", "^Early Years", "^Nursery", "^Home to School", "^School Transport"],
+      "budget_latest": {
+        "year": "2024/25",
+        "gross_expenditure": 1344610000,
+        "income": -78030000,
+        "net_expenditure": 1266580000,
+        "employees": 825213000,
+        "running_expenses": 519397000
+      },
+      "statutory_duties": [
+        { "act": "Education Act 1996", "summary": "Ensure sufficient school places, school transport for eligible children", "risk_level": "red", "risk": "Home to school transport is major cost driver — statutory distances apply" },
+        { "act": "Children and Families Act 2014 (Part 3)", "summary": "SEND — Education Health and Care Plans (EHCPs), local offer", "risk_level": "red", "risk": "SEND is the biggest financial risk in education. DSG deficit £171M rising to £419M." },
+        { "act": "Childcare Act 2006", "summary": "Early years provision — sufficient childcare, free entitlement", "risk_level": "amber", "risk": "DfE funded but council has sufficiency duty" },
+        { "act": "Public Libraries and Museums Act 1964", "summary": "Comprehensive and efficient library service", "risk_level": "amber", "risk": "Must provide 'comprehensive' service — reductions need consultation" }
+      ],
+      "key_services": [
+        "School place planning and admissions",
+        "SEND (Special Educational Needs and Disabilities)",
+        "Education Health and Care Plans (EHCPs)",
+        "Home to school transport",
+        "SEND transport",
+        "Libraries (39 branches)",
+        "Adult learning and skills",
+        "Early years and childcare",
+        "School improvement (academy oversight limited)"
+      ],
+      "known_pressures": [
+        "DSG deficit — £171.4M forecast, rising to £419.9M by 2028/29 (CRITICAL)",
+        "SEND demand — EHCP numbers rising 10-15% p.a. nationally",
+        "SEND transport costs — £40M+ and rising 20%+ p.a.",
+        "Library network — 39 branches, high property costs vs digital demand",
+        "School place surplus in some areas (demographic decline in East Lancashire)"
+      ],
+      "savings_levers": [
+        { "lever": "SEND transport reform", "est_saving": "£5-10M", "timeline": "6-18 months", "risk": "High", "description": "SEND transport is the fastest-growing cost. Route optimisation, personal travel budgets, independent travel training for older students. Benchmark against best-performing councils.", "legal_constraints": "Education Act 1996 s508B — must provide transport to eligible children. SEND Code of Practice." },
+        { "lever": "Library service transformation", "est_saving": "£2-4M", "timeline": "12-24 months", "risk": "High", "description": "39 libraries. Community-managed model for low-use branches, digital-first strategy, co-location with other services. Requires public consultation.", "legal_constraints": "Public Libraries and Museums Act 1964 — must consult and maintain 'comprehensive' service. Judicial review risk (see Brent 2011)." },
+        { "lever": "SEND early intervention", "est_saving": "£3-8M", "timeline": "2-3 years", "risk": "Medium", "description": "Invest in mainstream school SEND support to reduce EHCP demand. Every child kept in mainstream vs special school saves £25-40K/yr in placement + transport.", "legal_constraints": "Children and Families Act 2014 — parental preference for special school must be considered" },
+        { "lever": "Home to school transport review", "est_saving": "£1-3M", "timeline": "6-12 months", "risk": "Medium", "description": "Review discretionary transport (post-16, denominational). Route optimisation for statutory transport.", "legal_constraints": "Statutory distances: 2 miles (under 8), 3 miles (8-16). Discretionary policies can be changed with consultation." }
+      ]
+    },
+    {
+      "id": "economic_development",
+      "title": "Economic Development & Growth",
+      "short_title": "Economy",
+      "cabinet_member": {
+        "name": "Brian Moore",
+        "councillor_id": "bmoore",
+        "uid": "33662",
+        "ward": "Morecambe South",
+        "cabinet_role": "Member"
+      },
+      "lead_members": [
+        { "name": "Martyn Sutton", "area": "Economic Development", "councillor_id": "msutton" }
+      ],
+      "champions": [],
+      "executive_director": "Phil Green",
+      "directors": [
+        "Simon Lawrence — Director of Growth and Regeneration",
+        "Mike Jensen — Director of Investment"
+      ],
+      "scrutiny_committee": { "name": "Environment, Economic Growth and Transport Scrutiny Committee", "id": "environment_econ_transport_scrutiny" },
+      "budget_categories": ["Cultural and related services"],
+      "spending_department_patterns": ["^Economic Dev", "^Regeneration", "^Growth", "^Investment", "^Tourism", "^Arts", "^Culture", "^Heritage", "^Sport", "^Leisure"],
+      "budget_latest": {
+        "year": "2024/25",
+        "gross_expenditure": 27730000,
+        "income": -4077000,
+        "net_expenditure": 23653000,
+        "employees": 13352000,
+        "running_expenses": 14378000
+      },
+      "statutory_duties": [
+        { "act": "Local Government Act 2000", "summary": "Power to promote economic wellbeing (now general power of competence)", "risk_level": "green", "risk": "Discretionary — can shape as needed" }
+      ],
+      "key_services": [
+        "Economic development and inward investment",
+        "Regeneration programmes",
+        "Tourism and visitor economy",
+        "Arts and culture",
+        "Heritage and conservation",
+        "Business support"
+      ],
+      "known_pressures": [
+        "Lancashire productivity gap vs national average",
+        "Town centre decline in East Lancashire",
+        "Post-levelling-up fund uncertainty"
+      ],
+      "savings_levers": [
+        { "lever": "Programme rationalisation", "est_saving": "£1-2M", "timeline": "3-6 months", "risk": "Medium", "description": "Review all economic development programmes for outcomes vs cost. Discontinue low-impact schemes. Focus investment on highest-ROI areas.", "legal_constraints": null },
+        { "lever": "External funding maximisation", "est_saving": "£0.5-1M", "timeline": "6-12 months", "risk": "Low", "description": "Dedicated external funding team to capture UKSPF, Levelling Up, CCA investment. Every £1 in matched funding reduces council contribution.", "legal_constraints": null }
+      ]
+    },
+    {
+      "id": "highways_transport",
+      "title": "Highways & Transport",
+      "short_title": "Highways",
+      "cabinet_member": {
+        "name": "Warren Goldsworthy",
+        "councillor_id": "wgoldsworthy",
+        "uid": "33622",
+        "ward": "Clitheroe",
+        "cabinet_role": "Member"
+      },
+      "lead_members": [
+        { "name": "John Clemson", "area": "Highways and Transport", "councillor_id": "jclemson" }
+      ],
+      "champions": [],
+      "executive_director": "Phil Green",
+      "directors": [
+        "Matt Townsend — Director of Highways and Transport"
+      ],
+      "scrutiny_committee": { "name": "Environment, Economic Growth and Transport Scrutiny Committee", "id": "environment_econ_transport_scrutiny" },
+      "budget_categories": ["Highways and transport services"],
+      "spending_department_patterns": ["^Highway", "^Road", "^Transport", "^Traffic", "^Parking", "^Street Light", "^Bridge", "^Pothole", "^Winter Maint", "^Gritting", "^Flood", "^Drainage", "^Public Trans", "^Bus", "^Cycling", "^Walking", "^Active Travel"],
+      "budget_latest": {
+        "year": "2024/25",
+        "gross_expenditure": 129330000,
+        "income": -60858000,
+        "net_expenditure": 68472000,
+        "employees": 36201000,
+        "running_expenses": 93129000
+      },
+      "statutory_duties": [
+        { "act": "Highways Act 1980 (s41)", "summary": "Duty to maintain highways — non-delegable duty of care", "risk_level": "red", "risk": "Failure to maintain = liability for injury claims. Largest claims area." },
+        { "act": "Traffic Management Act 2004", "summary": "Network management duty — keep traffic moving", "risk_level": "amber", "risk": "Must have network management plan" },
+        { "act": "New Roads and Street Works Act 1991", "summary": "Coordinate utility works, recover reinstatement costs", "risk_level": "green", "risk": "Revenue opportunity — s59 recharges to utility companies" },
+        { "act": "Flood and Water Management Act 2010", "summary": "Lead local flood authority duties", "risk_level": "amber", "risk": "Must maintain flood risk strategy" }
+      ],
+      "key_services": [
+        "Highway maintenance (5,900km road network)",
+        "Pothole repair and resurfacing",
+        "Street lighting (140,000+ columns)",
+        "Winter maintenance and gritting",
+        "Bridge maintenance (1,800+ structures)",
+        "Traffic management and road safety",
+        "Public transport coordination",
+        "Parking enforcement",
+        "Cycling and active travel",
+        "Flood risk management"
+      ],
+      "known_pressures": [
+        "Maintenance backlog — estimated £200M+ to bring network to good condition",
+        "Climate change — increased flood and storm damage",
+        "Utility company damage to roads — s59 enforcement opportunity",
+        "Street lighting energy costs (mitigated by LED programme)",
+        "Bus service funding post-BSIP"
+      ],
+      "savings_levers": [
+        { "lever": "Utility company recharges (s59)", "est_saving": "£2-5M", "timeline": "3-6 months", "risk": "Low", "description": "NRSWA 1991 s59 allows councils to charge utility companies for excessive road damage. Many councils under-recover. Establish dedicated enforcement team.", "legal_constraints": "NRSWA 1991 — clear legal basis. Utility companies may dispute but case law supports councils." },
+        { "lever": "Preventive maintenance shift", "est_saving": "£3-6M", "timeline": "12-24 months", "risk": "Low", "description": "Every £1 spent on preventive maintenance saves £4-8 in reactive repair. Shift budget from filling potholes to surface treatments and micro-asphalt.", "legal_constraints": null },
+        { "lever": "Street lighting energy and dimming", "est_saving": "£1-2M", "timeline": "6-12 months", "risk": "Low", "description": "LED conversion programme savings. Part-night lighting (midnight-6am dimming) in low-risk areas. Already partially implemented.", "legal_constraints": "Must maintain lighting on classified roads — discretionary on unclassified" },
+        { "lever": "Income generation", "est_saving": "£1-3M", "timeline": "6-12 months", "risk": "Low", "description": "Permit fees for street works, advertising on highway assets, expanded parking charges. Review fee levels against statutory maximums.", "legal_constraints": "Fees must not exceed cost of service (except where statute permits surplus)" }
+      ]
+    },
+    {
+      "id": "environment_communities",
+      "title": "Rural Affairs, Environment & Communities",
+      "short_title": "Environment",
+      "cabinet_member": {
+        "name": "Joshua Roberts",
+        "councillor_id": "jroberts",
+        "uid": "33679",
+        "ward": "Fylde East",
+        "cabinet_role": "Member"
+      },
+      "lead_members": [
+        { "name": "Ella Worthington", "area": "Rural Affairs, Environment & Communities", "councillor_id": "eworthington" }
+      ],
+      "champions": [
+        { "name": "James Tomlinson", "area": "Rural Affairs, Agricultural Community & Parishes", "councillor_id": "jtomlinson" },
+        { "name": "Gary Kniveton", "area": "Armed Forces and Veterans", "councillor_id": "gkniveton" }
+      ],
+      "executive_director": "Phil Green",
+      "directors": ["Director of Environment and Regulatory"],
+      "scrutiny_committee": { "name": "Environment, Economic Growth and Transport Scrutiny Committee", "id": "environment_econ_transport_scrutiny" },
+      "budget_categories": ["Environmental and regulatory services"],
+      "spending_department_patterns": ["^Waste", "^Recycl", "^Environment", "^Trading Stand", "^Planning", "^Countryside", "^Biodiversity", "^Climate", "^Community Safety", "^Fire", "^Emergency", "^Registration", "^Land Drain", "^Agricultural"],
+      "budget_latest": {
+        "year": "2024/25",
+        "gross_expenditure": 113639000,
+        "income": -19291000,
+        "net_expenditure": 94348000,
+        "employees": 11536000,
+        "running_expenses": 102103000
+      },
+      "statutory_duties": [
+        { "act": "Environmental Protection Act 1990", "summary": "Waste disposal authority — must arrange disposal of controlled waste", "risk_level": "red", "risk": "Cannot stop waste disposal — statutory duty. Largest single contract (Lancashire Renewables £71M)." },
+        { "act": "Environment Act 2021", "summary": "Biodiversity duty, waste strategy", "risk_level": "amber", "risk": "New duties — still clarifying scope" },
+        { "act": "Civil Contingencies Act 2004", "summary": "Emergency planning and resilience", "risk_level": "red", "risk": "Category 1 responder — must maintain emergency plans" },
+        { "act": "Consumer Rights Act 2015 / Enterprise Act 2002", "summary": "Trading standards enforcement", "risk_level": "amber", "risk": "Can reduce but not eliminate — doorstep crime, food safety" }
+      ],
+      "key_services": [
+        "Waste disposal (county-wide)",
+        "Recycling coordination",
+        "Trading standards and consumer protection",
+        "Countryside management",
+        "Biodiversity and climate action",
+        "Emergency planning and resilience",
+        "Community safety",
+        "Land drainage",
+        "Minerals and waste planning"
+      ],
+      "known_pressures": [
+        "Waste disposal contract (Lancashire Renewables) — £71M+ and indexed to inflation",
+        "Environment Act 2021 — new biodiversity and waste duties",
+        "Climate action commitments",
+        "Rural service delivery costs — sparse population"
+      ],
+      "savings_levers": [
+        { "lever": "Waste contract review", "est_saving": "£3-8M", "timeline": "18-24 months", "risk": "High", "description": "Lancashire Renewables contract is single biggest external contract (£71M). Review indexation terms, performance deductions, recycling credits. Even 5% saving = £3.5M.", "legal_constraints": "PFI/PPP contract terms may limit renegotiation scope. Legal review of break clauses needed." },
+        { "lever": "Trading standards modernisation", "est_saving": "£0.5-1M", "timeline": "6-12 months", "risk": "Low", "description": "Shift from reactive complaints to intelligence-led enforcement. Digital-first consumer advice. Regional collaboration.", "legal_constraints": null },
+        { "lever": "Countryside and access rationalisation", "est_saving": "£0.3-0.5M", "timeline": "6-12 months", "risk": "Medium", "description": "Review countryside properties and access points. Community transfer where appropriate.", "legal_constraints": "Countryside and Rights of Way Act 2000 — must maintain definitive map" }
+      ]
+    },
+    {
+      "id": "data_technology",
+      "title": "Data, Technology, Customer & Efficiency",
+      "short_title": "Digital",
+      "cabinet_member": {
+        "name": "David Dwyer",
+        "councillor_id": "ddwyer",
+        "uid": "33687",
+        "ward": "Fylde South",
+        "cabinet_role": "Member"
+      },
+      "lead_members": [],
+      "champions": [],
+      "executive_director": "Laurence Ainsworth",
+      "directors": [
+        "Peter Lloyd — Director of Digital"
+      ],
+      "scrutiny_committee": { "name": "Budget and Finance Scrutiny Committee", "id": "budget_finance_scrutiny" },
+      "budget_categories": [],
+      "spending_department_patterns": ["^ICT", "^Digital", "^IT ", "^Information Tech", "^Customer Serv", "^Contact Centre", "^Web", "^Data", "^Transformation", "^Business Change", "^Procurement"],
+      "budget_latest": {
+        "year": "2026/27",
+        "note": "Shared with Resources portfolio — ICT and digital within Central Services budget"
+      },
+      "statutory_duties": [
+        { "act": "Data Protection Act 2018 / UK GDPR", "summary": "Data protection and information governance", "risk_level": "red", "risk": "ICO enforcement — fines up to £17.5M or 4% of turnover" },
+        { "act": "Freedom of Information Act 2000", "summary": "Respond to FOI requests within 20 working days", "risk_level": "amber", "risk": "Must comply but can charge for complex requests" }
+      ],
+      "key_services": [
+        "ICT infrastructure and systems",
+        "Digital transformation programme",
+        "Customer services and contact centre",
+        "Data analytics and business intelligence",
+        "Procurement and contract management",
+        "Website and digital channels",
+        "Cyber security"
+      ],
+      "known_pressures": [
+        "Legacy systems requiring replacement (Liquid Logic, SAP)",
+        "Cyber security threats increasing",
+        "Customer expectations for digital self-service",
+        "AI and automation opportunities not yet captured"
+      ],
+      "savings_levers": [
+        { "lever": "Channel shift to digital", "est_saving": "£2-5M", "timeline": "12-24 months", "risk": "Medium", "description": "Every transaction shifted from phone/face-to-face to digital saves £5-10 per interaction. Target 80% digital for routine services. Invest in self-service portals.", "legal_constraints": "Must maintain accessibility for digitally excluded — Equality Act 2010" },
+        { "lever": "System consolidation", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Medium", "description": "Multiple overlapping systems across directorates. Consolidate onto fewer platforms, eliminate duplicate licences.", "legal_constraints": null },
+        { "lever": "AI and automation", "est_saving": "£1-3M", "timeline": "6-18 months", "risk": "Low", "description": "Automate routine processes: FOI triage, invoice matching, customer routing, report generation. Each automated process saves 0.5-2 FTE.", "legal_constraints": "Must ensure AI decisions are fair and auditable — public sector equality duty" },
+        { "lever": "Procurement reform", "est_saving": "£5-10M", "timeline": "6-18 months", "risk": "Low", "description": "Cross-council procurement aggregation, category management, e-procurement. Target 3-5% savings on £400M+ addressable spend across all portfolios. This portfolio enables savings everywhere else.", "legal_constraints": "Procurement Act 2023 (from Oct 2024) — new framework. Must follow procedures." }
+      ]
+    }
+  ],
+  "senior_officers": {
+    "chief_executive": {
+      "name": "Mark Wynn",
+      "title": "Chief Executive",
+      "also": "Director of Resources",
+      "statutory": true
+    },
+    "s151_officer": {
+      "name": "Noel O'Neill",
+      "title": "Interim Director of Finance and Commerce",
+      "role": "Chief Financial Officer (Section 151 Officer)",
+      "statutory": true,
+      "responsibility": "Proper administration of council finances. Must report if budget is at risk of being unbalanced (s114 notice)."
+    },
+    "monitoring_officer": {
+      "name": "Heloise MacAndrew",
+      "title": "Director of Law and Governance",
+      "statutory": true,
+      "responsibility": "Ensures council acts lawfully. Must report if any proposal or decision contravenes law."
+    },
+    "executive_directors": [
+      {
+        "name": "Laurence Ainsworth",
+        "title": "Executive Director of Resources",
+        "portfolios": ["resources", "data_technology"]
+      },
+      {
+        "name": "Jacqui Old CBE",
+        "title": "Executive Director of Education and Children's Services",
+        "portfolios": ["children_families", "education_skills"]
+      },
+      {
+        "name": "Phil Green",
+        "title": "Executive Director of Growth, Environment, Transport and Health",
+        "portfolios": ["highways_transport", "environment_communities", "economic_development", "health_wellbeing"]
+      }
+    ],
+    "directors": [
+      { "name": "Matt Townsend", "title": "Director of Highways and Transport", "portfolio": "highways_transport" },
+      { "name": "Peter Lloyd", "title": "Director of Digital", "portfolio": "data_technology" },
+      { "name": "Lucy Thompson", "title": "Director of People", "portfolio": "resources" },
+      { "name": "Simon Lawrence", "title": "Director of Growth and Regeneration", "portfolio": "economic_development" },
+      { "name": "Mike Jensen", "title": "Director of Investment", "portfolio": "economic_development" }
+    ]
+  },
+  "governance": {
+    "constitution": {
+      "key_decision_financial_threshold": 500000,
+      "key_decision_ward_threshold": 2,
+      "forward_plan_notice_days": 28,
+      "callin_period_days": 5,
+      "callin_signatures_required": 5,
+      "cabinet_quorum": 3,
+      "full_council_quorum": 21,
+      "reform_seats": 53,
+      "total_seats": 84,
+      "majority_threshold": 43
+    },
+    "decision_routes": {
+      "officer_delegation": {
+        "description": "Officer decides under scheme of delegation",
+        "timeline_days": 0,
+        "authority": "Constitution Part 3, Schedule 5 — Scheme of Delegation to Officers",
+        "reporting": "Reported to next Cabinet meeting for noting",
+        "suitable_for": "Operational decisions within approved budget and policy framework"
+      },
+      "cabinet_member_decision": {
+        "description": "Individual cabinet member decision (portfolio holder)",
+        "timeline_days": 33,
+        "authority": "Constitution Part 4, Section B — Individual Cabinet Member Decisions",
+        "constraints": "Must not be contrary to approved budget or policy framework. Subject to call-in.",
+        "suitable_for": "Portfolio-specific decisions within existing policy"
+      },
+      "cabinet_decision": {
+        "description": "Collective cabinet decision",
+        "timeline_days": 42,
+        "authority": "Constitution Part 4, Section A — Cabinet Decision-Making",
+        "schedule": "Monthly, typically first Tuesday",
+        "suitable_for": "Key Decisions, new policies, budget virements, contract awards above threshold"
+      },
+      "full_council": {
+        "description": "Full Council decision required",
+        "timeline_days": 56,
+        "authority": "Constitution Part 2 — Full Council Functions",
+        "required_for": ["Budget and council tax setting", "Policy framework changes", "Constitutional amendments", "Borrowing above £10M"],
+        "schedule": "Quarterly + Annual Budget + Extraordinary as needed"
+      },
+      "urgency": {
+        "description": "Urgent decision bypassing normal timescales",
+        "timeline_days": 2,
+        "authority": "Constitution Part 4, Section D — Urgency Procedure",
+        "requirements": "Chief Executive AND Chair of relevant scrutiny committee must both agree to waive Forward Plan and/or call-in"
+      }
+    },
+    "officer_thresholds": {
+      "expenditure_approval": {
+        "director": 250000,
+        "executive_director": 500000,
+        "chief_executive": 1000000,
+        "cabinet_member": "unlimited within approved budget"
+      },
+      "contract_award": {
+        "director": 100000,
+        "executive_director": 250000,
+        "cabinet_member": 500000,
+        "cabinet": "unlimited"
+      },
+      "write_off": {
+        "s151_officer": 50000,
+        "cabinet": 250000,
+        "full_council": "unlimited"
+      },
+      "virement": {
+        "budget_holder": 100000,
+        "director": 250000,
+        "cabinet": 500000,
+        "full_council": "unlimited"
+      }
+    },
+    "scrutiny_committees": [
+      {
+        "name": "Budget and Finance Scrutiny Committee",
+        "id": "budget_finance_scrutiny",
+        "meets": "Monthly",
+        "portfolios": ["resources", "leader", "data_technology"],
+        "powers": "Can require any cabinet member or officer to attend. Can call-in cabinet decisions. Can refer matters to Full Council."
+      },
+      {
+        "name": "Health and Adult Services Scrutiny Committee",
+        "id": "health_adults_scrutiny",
+        "meets": "Monthly",
+        "portfolios": ["adult_social_care", "health_wellbeing"],
+        "powers": "Statutory health scrutiny power — can require NHS bodies to attend. Can refer NHS service changes to Secretary of State."
+      },
+      {
+        "name": "Children, Families and Skills Scrutiny Committee",
+        "id": "children_families_skills_scrutiny",
+        "meets": "Monthly",
+        "portfolios": ["children_families", "education_skills"],
+        "powers": "Can require any cabinet member or officer to attend. Education scrutiny including academies."
+      },
+      {
+        "name": "Environment, Economic Growth and Transport Scrutiny Committee",
+        "id": "environment_econ_transport_scrutiny",
+        "meets": "Monthly",
+        "portfolios": ["highways_transport", "environment_communities", "economic_development"],
+        "powers": "Can require any cabinet member or officer to attend. Flood scrutiny powers."
+      }
+    ],
+    "political_arithmetic": {
+      "reform_majority": 10,
+      "reform_can_lose": 10,
+      "opposition_total": 31,
+      "opposition_breakdown": {
+        "Progressive Lancashire": 11,
+        "Conservative": 8,
+        "Liberal Democrats": 5,
+        "Labour": 5,
+        "Our West Lancashire": 2
+      },
+      "callin_feasible": true,
+      "callin_note": "Opposition has 31 members — call-in (5 signatures) is easily achievable",
+      "full_council_override": "Reform majority means any Full Council referral would be won 53-31",
+      "recorded_vote_threshold": 6
+    }
+  }
+}
