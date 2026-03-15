@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useParams, Link, useLocation } from 'react-router-dom'
-import { Users, PieChart, Target, ChevronRight, Calendar, TrendingUp, Shield, Zap, Briefcase, FileText, AlertTriangle, Scale, Building2, Wrench, MapPin, Download, Activity, Truck, GraduationCap, Heart } from 'lucide-react'
+import { Users, PieChart, Target, ChevronRight, Calendar, TrendingUp, Shield, Zap, Briefcase, FileText, AlertTriangle, Scale, Building2, Wrench, MapPin, Download, Activity, Truck, GraduationCap, Heart, Recycle } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, Legend, PieChart as RechartsPie, Pie, Cell, ScatterChart, Scatter, ZAxis, AreaChart, Area, Treemap } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -33,6 +33,10 @@ import {
   ascDemandProjection,
   ascMarketRisk,
   chcRecoveryModel,
+  highwayAssetTrajectory,
+  wasteDisposalComparison,
+  quantifyDemandPressures,
+  netFiscalTrajectory,
 } from '../utils/savingsEngine'
 import './PortfolioDetail.css'
 
@@ -107,6 +111,10 @@ export default function PortfolioDetail() {
   const ascProjection = useMemo(() => ascDemandProjection(serviceModel?.asc_demand_model), [serviceModel])
   const ascMarket = useMemo(() => ascMarketRisk(serviceModel?.asc_demand_model), [serviceModel])
   const chcRecovery = useMemo(() => chcRecoveryModel(serviceModel?.asc_demand_model?.chc_model), [serviceModel])
+  const highwayTrajectory = useMemo(() => highwayAssetTrajectory(serviceModel?.highway_asset_model), [serviceModel])
+  const wasteComparison = useMemo(() => wasteDisposalComparison(serviceModel?.waste_model), [serviceModel])
+  const demandPressures = useMemo(() => quantifyDemandPressures(portfolio), [portfolio])
+  const fiscalTrajectory = useMemo(() => netFiscalTrajectory(portfolio, demandPressures, directives), [portfolio, demandPressures, directives])
 
   // Scatter data for priority matrix
   const scatterData = useMemo(() =>
@@ -251,6 +259,47 @@ export default function PortfolioDetail() {
               </ul>
             </div>
           </div>
+
+          {/* Service Intelligence Summary Card */}
+          {serviceModel && Object.keys(serviceModel).length > 0 && (
+            <div className="service-summary-card">
+              <div className="service-summary-header">
+                <Activity size={16} style={{ color: '#12B6CF' }} />
+                <span className="service-summary-label">Service Intelligence</span>
+                <span className="service-summary-models">{Object.keys(serviceModel).length} model{Object.keys(serviceModel).length > 1 ? 's' : ''} active</span>
+              </div>
+              <div className="service-summary-metrics">
+                {demandPressures.total_annual > 0 && (
+                  <div className="service-summary-metric">
+                    <span className="ssm-value" style={{ color: '#dc3545' }}>{formatCurrency(demandPressures.total_annual)}/yr</span>
+                    <span className="ssm-label">demand growth</span>
+                  </div>
+                )}
+                {fiscalTrajectory.trajectory && (
+                  <div className="service-summary-metric">
+                    <span className="ssm-value" style={{ color: fiscalTrajectory.trajectory === 'improving' ? '#28a745' : fiscalTrajectory.trajectory === 'stable' ? '#fd7e14' : '#dc3545' }}>
+                      {fiscalTrajectory.trajectory.charAt(0).toUpperCase() + fiscalTrajectory.trajectory.slice(1)}
+                    </span>
+                    <span className="ssm-label">fiscal trajectory</span>
+                  </div>
+                )}
+                {demandPressures.coverage_pct > 0 && (
+                  <div className="service-summary-metric">
+                    <span className="ssm-value" style={{ color: demandPressures.coverage_pct >= 75 ? '#28a745' : demandPressures.coverage_pct >= 50 ? '#fd7e14' : '#dc3545' }}>
+                      {demandPressures.coverage_pct}%
+                    </span>
+                    <span className="ssm-label">savings coverage</span>
+                  </div>
+                )}
+                {fiscalTrajectory.breakeven_year > 0 && (
+                  <div className="service-summary-metric">
+                    <span className="ssm-value">Year {fiscalTrajectory.breakeven_year}</span>
+                    <span className="ssm-label">breakeven</span>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
 
           {/* Service Intelligence: SEND Cost Cascade */}
           {serviceModel?.send_cost_model && (
@@ -617,6 +666,165 @@ export default function PortfolioDetail() {
                   )}
                 </CollapsibleSection>
               )}
+            </div>
+          )}
+
+          {/* Service Intelligence: Highway Asset Dashboard */}
+          {serviceModel?.highway_asset_model && highwayTrajectory.yearly.length > 0 && (
+            <div className="service-intelligence-section">
+              <h2 className="service-intelligence-title"><Wrench size={20} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Service Intelligence: Highway Assets</h2>
+              <p className="service-intelligence-subtitle">Asset deterioration trajectory, managed service performance, and lifecycle cost optimisation</p>
+
+              {/* Asset Summary */}
+              <CollapsibleSection title={`Asset Trajectory (£${((highwayTrajectory.current_gap || 0) / 1000000).toFixed(0)}M/yr investment gap)`} icon={<TrendingUp size={18} />} defaultOpen>
+                <div className="service-stat-row" style={{ marginBottom: '16px' }}>
+                  <StatCard label="Backlog" value={formatCurrency(serviceModel.highway_asset_model.asset_summary?.maintenance_backlog || 0)} color="#dc3545" icon={<AlertTriangle size={18} />} />
+                  <StatCard label="Annual Deterioration" value={formatCurrency(serviceModel.highway_asset_model.asset_summary?.annual_deterioration || 0)} color="#fd7e14" icon={<TrendingUp size={18} />} />
+                  <StatCard label="Annual Investment" value={formatCurrency(serviceModel.highway_asset_model.asset_summary?.annual_investment || 0)} color="#28a745" icon={<Target size={18} />} />
+                  <StatCard label="Optimal Spend" value={formatCurrency(highwayTrajectory.optimal_spend)} icon={<Target size={18} />} />
+                </div>
+                <ChartCard title="Maintenance Backlog Trajectory" subtitle="Backlog grows when deterioration exceeds investment">
+                  <ResponsiveContainer width="100%" height={280}>
+                    <AreaChart data={highwayTrajectory.yearly} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                      <XAxis dataKey="label" tick={AXIS_TICK_STYLE} />
+                      <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(0)}M`} />
+                      <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => formatCurrency(v)} />
+                      <Area type="monotone" dataKey="backlog" stroke="#dc3545" fill="#dc3545" fillOpacity={0.3} name="Backlog" {...CHART_ANIMATION} />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </ChartCard>
+              </CollapsibleSection>
+
+              {/* Road Condition */}
+              {highwayTrajectory.condition_trends.length > 0 && (
+                <CollapsibleSection title="Road Condition vs National Average" icon={<AlertTriangle size={18} />}>
+                  <ChartCard title="Red Condition %" subtitle="Higher = worse. Red roads need structural repair">
+                    <ResponsiveContainer width="100%" height={220}>
+                      <BarChart data={highwayTrajectory.condition_trends} margin={{ top: 10, right: 30, left: 10, bottom: 0 }} layout="vertical">
+                        <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                        <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => `${v}%`} />
+                        <YAxis type="category" dataKey="road_class" tick={AXIS_TICK_STYLE} width={100} tickFormatter={v => v.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())} />
+                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => `${v}%`} />
+                        <Bar dataKey="red_pct" fill="#dc3545" {...CHART_ANIMATION} name="Lancashire" />
+                        <Bar dataKey="national_avg" fill="rgba(255,255,255,0.3)" {...CHART_ANIMATION} name="National Avg" />
+                        <Legend />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                </CollapsibleSection>
+              )}
+
+              {/* Managed Service + S59 + LED */}
+              <CollapsibleSection title="Savings Levers" icon={<Target size={18} />}>
+                <div className="service-stat-row">
+                  {highwayTrajectory.managed_service_saving_pct > 0 && (
+                    <StatCard label="Managed Service" value={`${highwayTrajectory.managed_service_saving_pct}% cost cut`} color="#28a745" icon={<Wrench size={18} />} />
+                  )}
+                  {highwayTrajectory.s59?.potential_income > 0 && (
+                    <StatCard label="S59 Income" value={formatCurrency(highwayTrajectory.s59.potential_income)} color="#12B6CF" icon={<Scale size={18} />} />
+                  )}
+                  {highwayTrajectory.led && (
+                    <StatCard label="LED Saving" value={formatCurrency(highwayTrajectory.led.dimming_saving_pa || 0)} color="#28a745" icon={<Zap size={18} />} />
+                  )}
+                  <StatCard label="Preventative vs Reactive" value={`${Math.round((1 - highwayTrajectory.preventative_ratio) * 100)}% cheaper`} icon={<TrendingUp size={18} />} />
+                </div>
+                {highwayTrajectory.led && (
+                  <div className="service-roi-card" style={{ marginTop: '12px' }}>
+                    <div className="service-roi-header">
+                      <strong>LED Programme: {((highwayTrajectory.led.converted || 0)).toLocaleString()} of {((highwayTrajectory.led.total_columns || 0)).toLocaleString()} converted ({Math.round((highwayTrajectory.led.converted / highwayTrajectory.led.total_columns) * 100)}%)</strong>
+                      <span className="service-roi-net">{highwayTrajectory.led.energy_saving_pct}% energy saving</span>
+                    </div>
+                  </div>
+                )}
+                {highwayTrajectory.dft_allocation > 0 && (
+                  <div className="service-roi-card" style={{ marginTop: '8px' }}>
+                    <div className="service-roi-header">
+                      <strong>DfT Allocation 2026-30</strong>
+                      <span className="service-roi-net">{formatCurrency(highwayTrajectory.dft_allocation)}</span>
+                    </div>
+                  </div>
+                )}
+              </CollapsibleSection>
+            </div>
+          )}
+
+          {/* Service Intelligence: Waste Disposal Dashboard */}
+          {serviceModel?.waste_model && wasteComparison.current_cost > 0 && (
+            <div className="service-intelligence-section">
+              <h2 className="service-intelligence-title"><Recycle size={20} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Service Intelligence: Waste Disposal</h2>
+              <p className="service-intelligence-subtitle">Disposal cost scenarios, landfill tax trajectory, and market concentration</p>
+
+              {/* Key Stats */}
+              <CollapsibleSection title={`Disposal Costs (${formatCurrency(wasteComparison.current_cost)}/yr)`} icon={<PieChart size={18} />} defaultOpen>
+                <div className="service-stat-row" style={{ marginBottom: '16px' }}>
+                  <StatCard label="Total Cost" value={formatCurrency(wasteComparison.current_cost)} icon={<PieChart size={18} />} />
+                  <StatCard label="Landfill Rate" value={`${wasteComparison.landfill_rate_pct}%`} color="#dc3545" icon={<AlertTriangle size={18} />} />
+                  <StatCard label="National Avg" value={`${wasteComparison.national_avg_landfill_pct}%`} icon={<Target size={18} />} />
+                  <StatCard label="Ratio to National" value={`${wasteComparison.ratio_to_national}×`} color="#dc3545" icon={<TrendingUp size={18} />} />
+                </div>
+
+                {/* Landfill Tax Trajectory */}
+                {wasteComparison.landfill_tax_5yr.length > 0 && (
+                  <ChartCard title="Landfill Tax Trajectory" subtitle="Escalating tax makes landfill increasingly uneconomic">
+                    <ResponsiveContainer width="100%" height={250}>
+                      <BarChart data={wasteComparison.landfill_tax_5yr} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                        <XAxis dataKey="label" tick={AXIS_TICK_STYLE} />
+                        <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(0)}M`} />
+                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => typeof v === 'number' && v > 1000 ? formatCurrency(v) : `£${v}/t`} />
+                        <Bar dataKey="annual_cost" fill="#dc3545" {...CHART_ANIMATION} name="Annual Landfill Cost" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                )}
+              </CollapsibleSection>
+
+              {/* Disposal Scenarios */}
+              {wasteComparison.scenarios.length > 0 && (
+                <CollapsibleSection title="Disposal Scenarios" icon={<Target size={18} />}>
+                  <ChartCard title="Annual Cost by Scenario" subtitle="EfW offers long-term savings but requires capital investment">
+                    <ResponsiveContainer width="100%" height={220}>
+                      <BarChart data={wasteComparison.scenarios} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                        <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                        <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(0)}M`} />
+                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => formatCurrency(v)} />
+                        <Bar dataKey="annual_cost" fill={CHART_COLORS[0]} {...CHART_ANIMATION} name="Annual Cost" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                  {wasteComparison.scenarios.map((s, i) => (
+                    <div key={i} className="service-roi-card" style={{ marginTop: '8px' }}>
+                      <div className="service-roi-header">
+                        <strong>{s.name}: Landfill {s.landfill_rate.toFixed(0)}%</strong>
+                        <span className="service-roi-net">{formatCurrency(s.annual_cost)}/yr</span>
+                      </div>
+                      <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginTop: '4px' }}>{s.description}</div>
+                    </div>
+                  ))}
+                </CollapsibleSection>
+              )}
+
+              {/* Market + Mandates */}
+              <CollapsibleSection title="Market & Mandates" icon={<AlertTriangle size={18} />}>
+                <div className="service-stat-row">
+                  <StatCard label="Market HHI" value={wasteComparison.market_hhi.toLocaleString()} color={wasteComparison.market_hhi > 2500 ? '#dc3545' : '#fd7e14'} icon={<PieChart size={18} />} />
+                  <StatCard label="Duopoly Share" value={`${wasteComparison.duopoly_pct}%`} color="#dc3545" icon={<AlertTriangle size={18} />} />
+                  <StatCard label="Strategy Status" value={wasteComparison.strategy_status} color="#fd7e14" icon={<FileText size={18} />} />
+                  {wasteComparison.efw_saving > 0 && (
+                    <StatCard label="EfW Saving" value={formatCurrency(wasteComparison.efw_saving)} color="#28a745" icon={<Target size={18} />} />
+                  )}
+                </div>
+                {wasteComparison.food_waste_impact > 0 && (
+                  <div className="service-roi-card" style={{ marginTop: '12px' }}>
+                    <div className="service-roi-header">
+                      <strong>Food Waste Mandate ({wasteComparison.food_waste_effective || 'TBC'})</strong>
+                      <span className="service-roi-net">{formatCurrency(wasteComparison.food_waste_impact)}/yr + {formatCurrency(wasteComparison.food_waste_capital)} capital</span>
+                    </div>
+                  </div>
+                )}
+              </CollapsibleSection>
             </div>
           )}
         </div>

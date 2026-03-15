@@ -47,6 +47,11 @@ import {
   budgetRealismCheck,
   inspectionRemediationTimeline,
   netFiscalTrajectory,
+  highwayAssetTrajectory,
+  wasteDisposalComparison,
+  assetServiceDirectives,
+  highwaysIntelligenceSummary,
+  fiscalSystemOverview,
 } from './savingsEngine.js'
 
 // ─── Test fixtures ───
@@ -2707,5 +2712,501 @@ describe('netFiscalTrajectory', () => {
     const result = netFiscalTrajectory(portfolio, demand, directives)
     expect(result.total_demand_5yr).toBeGreaterThan(0)
     expect(result.total_savings_5yr).toBeGreaterThan(0)
+  })
+})
+
+// ============================================================
+// Phase 4: Highways + Waste Asset Intelligence
+// ============================================================
+
+const mockHighwayModel = {
+  asset_summary: {
+    gross_replacement_cost: 10200000000,
+    maintenance_backlog: 650000000,
+    annual_deterioration: 45000000,
+    annual_investment: 72000000,
+    investment_gap: 38000000,
+    investment_as_pct_of_need: 65,
+    cipfa_steady_state_pct: 18,
+  },
+  condition_trends: {
+    a_roads: { red_pct: 3.9, prev_year: 2.1, national_avg: 5.0, trend: 'deteriorating' },
+    b_c_roads: { red_pct: 6.5, prev_year: 4.6, national_avg: 6.0, trend: 'rapidly_deteriorating' },
+    unclassified: { red_pct: 27.6, national_avg: 17.0, trend: 'critical' },
+  },
+  lifecycle_cost_per_km_pa: {
+    surface_dressing: 3750,
+    micro_asphalt: 7143,
+    thin_overlay: 6667,
+    resurfacing: 9000,
+    reconstruction: 18750,
+  },
+  managed_service: {
+    defects_before: 61000,
+    defects_after: 35000,
+    reduction_pct: 42,
+    cost_before_per_sqm: 200,
+    cost_after_per_sqm: 100,
+    months_live: 6,
+  },
+  s59_enforcement: {
+    breach_threshold_pct: 30,
+    overrun_charge_per_day_non_ts: 250,
+    overrun_charge_per_day_ts: 2500,
+    utility_works_pa: 1596,
+    potential_income: 3500000,
+  },
+  dft_allocation_2026_2030: 268000000,
+  cumulative_shortfall_14yr: 834000000,
+  led_programme: {
+    total_columns: 138000,
+    converted: 110000,
+    remaining: 28000,
+    dimming_saving_pa: 2200000,
+    energy_saving_pct: 73,
+  },
+}
+
+const mockWasteModel = {
+  disposal_costs: {
+    landfill: { tonnes_pa: 170000, cost_per_tonne: 120, tax_per_tonne: 103, total: 37910000 },
+    mbt: { tonnes_pa: 500000, cost_per_tonne: 85, operator: 'Lancashire Renewables', total: 42500000 },
+    recycling: { tonnes_pa: 180000, revenue_per_tonne: -15, total: -2700000 },
+  },
+  total_disposal_cost: 77710000,
+  landfill_rate_pct: 33.8,
+  national_avg_landfill_pct: 5.6,
+  ratio_to_national: 6.0,
+  food_waste_mandate: { effective: '2026-04-01', est_annual_cost: 8000000, capital_required: 12000000 },
+  efw_procurement: { status: 'paused', potential_saving_pa: 15000000, capital_cost: 300000000, timeline_years: 5 },
+  market_concentration: { hhi: 4141, lancashire_renewables_spend: 71200000, suez_spend: 46200000, duopoly_pct: 87 },
+  landfill_tax_trajectory: { 2024: 103, 2025: 107, 2026: 111, 2027: 115, 2028: 120, annual_increase_pct: 3.5 },
+  expired_waste_strategy: '2020',
+}
+
+describe('highwayAssetTrajectory', () => {
+  it('returns empty for null input', () => {
+    const result = highwayAssetTrajectory(null)
+    expect(result.yearly).toEqual([])
+    expect(result.optimal_spend).toBe(0)
+  })
+
+  it('returns empty for model without asset_summary', () => {
+    const result = highwayAssetTrajectory({ condition_trends: {} })
+    expect(result.yearly).toEqual([])
+  })
+
+  it('projects backlog growth over default 5 years', () => {
+    const result = highwayAssetTrajectory(mockHighwayModel)
+    expect(result.yearly).toHaveLength(6) // Year 0 + 5 years
+    expect(result.yearly[0].label).toBe('Current')
+    expect(result.yearly[0].backlog).toBe(650000000)
+  })
+
+  it('computes negative gap when deterioration < investment', () => {
+    const model = {
+      ...mockHighwayModel,
+      asset_summary: { ...mockHighwayModel.asset_summary, annual_deterioration: 45000000, annual_investment: 72000000 },
+    }
+    const result = highwayAssetTrajectory(model)
+    expect(result.current_gap).toBe(-27000000) // 45M - 72M
+    // Backlog should shrink over time
+    expect(result.yearly[5].backlog).toBeLessThan(result.yearly[0].backlog)
+  })
+
+  it('computes positive gap when deterioration > investment', () => {
+    const model = {
+      ...mockHighwayModel,
+      asset_summary: { ...mockHighwayModel.asset_summary, annual_deterioration: 100000000, annual_investment: 72000000 },
+    }
+    const result = highwayAssetTrajectory(model)
+    expect(result.current_gap).toBe(28000000)
+    expect(result.yearly[5].backlog).toBeGreaterThan(result.yearly[0].backlog)
+  })
+
+  it('calculates optimal spend', () => {
+    const result = highwayAssetTrajectory(mockHighwayModel)
+    // optimal = deterioration + backlog/10 = 45M + 65M = 110M
+    expect(result.optimal_spend).toBe(110000000)
+  })
+
+  it('calculates preventative ratio from lifecycle costs', () => {
+    const result = highwayAssetTrajectory(mockHighwayModel)
+    // avg preventative = (3750+7143)/2 ≈ 5446, avg reactive = (9000+18750)/2 = 13875
+    expect(result.preventative_ratio).toBeGreaterThan(0.3)
+    expect(result.preventative_ratio).toBeLessThan(0.5)
+  })
+
+  it('calculates managed service saving percentage', () => {
+    const result = highwayAssetTrajectory(mockHighwayModel)
+    expect(result.managed_service_saving_pct).toBe(50) // (200-100)/200 = 50%
+  })
+
+  it('extracts condition trends', () => {
+    const result = highwayAssetTrajectory(mockHighwayModel)
+    expect(result.condition_trends).toHaveLength(3)
+    expect(result.condition_trends[0].road_class).toBe('a_roads')
+    expect(result.condition_trends[0].annual_change).toBeCloseTo(1.8, 1) // 3.9 - 2.1
+  })
+
+  it('supports custom year projection', () => {
+    const result = highwayAssetTrajectory(mockHighwayModel, 10)
+    expect(result.yearly).toHaveLength(11) // Year 0 + 10 years
+  })
+
+  it('includes LED and S59 data', () => {
+    const result = highwayAssetTrajectory(mockHighwayModel)
+    expect(result.led.total_columns).toBe(138000)
+    expect(result.s59.potential_income).toBe(3500000)
+    expect(result.dft_allocation).toBe(268000000)
+  })
+})
+
+describe('wasteDisposalComparison', () => {
+  it('returns empty for null input', () => {
+    const result = wasteDisposalComparison(null)
+    expect(result.current_cost).toBe(0)
+    expect(result.scenarios).toEqual([])
+  })
+
+  it('returns empty for model without disposal_costs', () => {
+    const result = wasteDisposalComparison({ landfill_rate_pct: 33 })
+    expect(result.current_cost).toBe(0)
+  })
+
+  it('computes current total cost', () => {
+    const result = wasteDisposalComparison(mockWasteModel)
+    expect(result.current_cost).toBe(77710000)
+  })
+
+  it('projects landfill tax trajectory over 5 years', () => {
+    const result = wasteDisposalComparison(mockWasteModel)
+    expect(result.landfill_tax_5yr).toHaveLength(6) // Year 0 + 5
+    expect(result.landfill_tax_5yr[0].tax_per_tonne).toBe(103)
+    // Tax increases at 3.5% pa
+    expect(result.landfill_tax_5yr[5].tax_per_tonne).toBeGreaterThan(103)
+  })
+
+  it('generates 3 scenarios', () => {
+    const result = wasteDisposalComparison(mockWasteModel)
+    expect(result.scenarios).toHaveLength(3)
+    expect(result.scenarios.map(s => s.name)).toEqual(['Status Quo', 'Energy from Waste', 'Recycling Expansion'])
+  })
+
+  it('EfW scenario has lower annual cost', () => {
+    const result = wasteDisposalComparison(mockWasteModel)
+    const statusQuo = result.scenarios.find(s => s.name === 'Status Quo')
+    const efw = result.scenarios.find(s => s.name === 'Energy from Waste')
+    expect(efw.annual_cost).toBeLessThan(statusQuo.annual_cost)
+  })
+
+  it('computes EfW payback period', () => {
+    const result = wasteDisposalComparison(mockWasteModel)
+    expect(result.efw_payback).toBe(20) // 300M / 15M = 20 years
+  })
+
+  it('includes food waste mandate costs', () => {
+    const result = wasteDisposalComparison(mockWasteModel)
+    expect(result.food_waste_impact).toBe(8000000)
+    expect(result.food_waste_capital).toBe(12000000)
+    expect(result.food_waste_effective).toBe('2026-04-01')
+  })
+
+  it('includes market concentration data', () => {
+    const result = wasteDisposalComparison(mockWasteModel)
+    expect(result.market_hhi).toBe(4141)
+    expect(result.duopoly_pct).toBe(87)
+  })
+
+  it('reflects expired strategy status', () => {
+    const result = wasteDisposalComparison(mockWasteModel)
+    expect(result.strategy_status).toBe('Expired 2020')
+  })
+
+  it('returns landfill vs national comparison', () => {
+    const result = wasteDisposalComparison(mockWasteModel)
+    expect(result.landfill_rate_pct).toBe(33.8)
+    expect(result.national_avg_landfill_pct).toBe(5.6)
+    expect(result.ratio_to_national).toBe(6.0)
+  })
+})
+
+describe('assetServiceDirectives', () => {
+  it('returns empty for null inputs', () => {
+    const result = assetServiceDirectives(null, null)
+    expect(result).toEqual([])
+  })
+
+  it('generates highway directives from highway model', () => {
+    const result = assetServiceDirectives(mockHighwayModel, null)
+    expect(result.length).toBeGreaterThanOrEqual(3) // LED, managed service, s59, preventative
+    expect(result.every(d => d.id && d.type && d.action)).toBe(true)
+  })
+
+  it('generates LED completion directive', () => {
+    const result = assetServiceDirectives(mockHighwayModel, null)
+    const led = result.find(d => d.id.includes('led'))
+    expect(led).toBeTruthy()
+    expect(led.action).toContain('28,000')
+    expect(led.save_central).toBe(2200000)
+  })
+
+  it('generates managed service expansion directive', () => {
+    const result = assetServiceDirectives(mockHighwayModel, null)
+    const managed = result.find(d => d.id.includes('managed'))
+    expect(managed).toBeTruthy()
+    expect(managed.action).toContain('42%')
+    expect(managed.save_central).toBeGreaterThan(0)
+  })
+
+  it('generates s59 enforcement directive', () => {
+    const result = assetServiceDirectives(mockHighwayModel, null)
+    const s59 = result.find(d => d.id.includes('s59'))
+    expect(s59).toBeTruthy()
+    expect(s59.type).toBe('income')
+    expect(s59.save_central).toBe(2450000) // 3.5M * 0.7
+  })
+
+  it('generates preventative maintenance directive', () => {
+    const result = assetServiceDirectives(mockHighwayModel, null)
+    const prev = result.find(d => d.id.includes('preventative'))
+    expect(prev).toBeTruthy()
+    expect(prev.timeline).toContain('Long-term')
+  })
+
+  it('generates waste directives from waste model', () => {
+    const result = assetServiceDirectives(null, mockWasteModel)
+    expect(result.length).toBeGreaterThanOrEqual(2) // EfW, food waste, market
+    expect(result.every(d => d.id && d.type && d.action)).toBe(true)
+  })
+
+  it('generates EfW procurement directive', () => {
+    const result = assetServiceDirectives(null, mockWasteModel)
+    const efw = result.find(d => d.id.includes('efw'))
+    expect(efw).toBeTruthy()
+    expect(efw.type).toBe('transformation')
+    expect(efw.action).toContain('33.8%')
+    expect(efw.save_central).toBe(12750000) // 15M * 0.85
+  })
+
+  it('generates food waste compliance directive', () => {
+    const result = assetServiceDirectives(null, mockWasteModel)
+    const food = result.find(d => d.id.includes('food-waste'))
+    expect(food).toBeTruthy()
+    expect(food.type).toBe('statutory')
+    expect(food.priority).toBe('critical')
+  })
+
+  it('generates market diversification directive for high duopoly', () => {
+    const result = assetServiceDirectives(null, mockWasteModel)
+    const market = result.find(d => d.id.includes('waste-market'))
+    expect(market).toBeTruthy()
+    expect(market.action).toContain('87%')
+    expect(market.action).toContain('4141')
+  })
+
+  it('combines both highway and waste directives', () => {
+    const result = assetServiceDirectives(mockHighwayModel, mockWasteModel)
+    const hwCount = result.filter(d => d.id.includes('asset-led') || d.id.includes('asset-managed') || d.id.includes('asset-s59') || d.id.includes('asset-preventative')).length
+    const wasteCount = result.filter(d => d.id.includes('asset-efw') || d.id.includes('asset-food') || d.id.includes('asset-waste')).length
+    expect(hwCount).toBeGreaterThanOrEqual(3)
+    expect(wasteCount).toBeGreaterThanOrEqual(2)
+  })
+})
+
+describe('highwaysIntelligenceSummary', () => {
+  it('returns defaults for null inputs', () => {
+    const result = highwaysIntelligenceSummary(null, null, null)
+    expect(result.condition_dashboard).toEqual([])
+    expect(result.defect_trend).toBeNull()
+    expect(result.roadworks_active).toBe(0)
+  })
+
+  it('builds condition dashboard from asset model', () => {
+    const result = highwaysIntelligenceSummary(mockHighwayModel, null, null)
+    expect(result.condition_dashboard).toHaveLength(3)
+    expect(result.condition_dashboard[0].road_class).toBe('a_roads')
+    expect(result.condition_dashboard[0].gap).toBeCloseTo(-1.1, 1) // 3.9 - 5.0
+  })
+
+  it('extracts defect trend from managed service', () => {
+    const result = highwaysIntelligenceSummary(mockHighwayModel, null, null)
+    expect(result.defect_trend.before).toBe(61000)
+    expect(result.defect_trend.after).toBe(35000)
+    expect(result.defect_trend.reduction_pct).toBe(42)
+    expect(result.defect_trend.unit_cost_saving_pct).toBe(50)
+  })
+
+  it('calculates lifecycle savings opportunity', () => {
+    const result = highwaysIntelligenceSummary(mockHighwayModel, null, null)
+    // Cheapest = 3750 (surface dressing), dearest = 18750 (reconstruction)
+    // (1 - 3750/18750) * 100 = 80%
+    expect(result.lifecycle_savings_opportunity).toBe(80)
+  })
+
+  it('processes traffic data', () => {
+    const trafficData = {
+      stats: { high_jci_count: 45, junction_count: 200 },
+      s59_clashes: [{ id: 1 }, { id: 2 }, { id: 3 }],
+      deferrals: [{ id: 1 }],
+    }
+    const result = highwaysIntelligenceSummary(null, trafficData, null)
+    expect(result.traffic_hotspots).toBe(45)
+    expect(result.s59_breaches).toBe(3)
+    expect(result.deferral_count).toBe(1)
+  })
+
+  it('processes roadworks data', () => {
+    const roadworksData = {
+      stats: { total: 150, by_operator: { 'Lancashire County Council': 50, 'BT Openreach': 40, 'United Utilities': 60 } },
+    }
+    const result = highwaysIntelligenceSummary(null, null, roadworksData)
+    expect(result.roadworks_active).toBe(150)
+    expect(result.utility_coordination_score).toBeGreaterThan(0)
+  })
+
+  it('combines all data sources', () => {
+    const trafficData = { stats: { high_jci_count: 20 }, s59_clashes: [], deferrals: [] }
+    const roadworksData = { stats: { total: 100 } }
+    const result = highwaysIntelligenceSummary(mockHighwayModel, trafficData, roadworksData)
+    expect(result.condition_dashboard).toHaveLength(3)
+    expect(result.defect_trend).not.toBeNull()
+    expect(result.roadworks_active).toBe(100)
+    expect(result.traffic_hotspots).toBe(20)
+  })
+})
+
+// ============================================================
+// Phase 5: Unified Intelligence Dashboard
+// ============================================================
+
+describe('fiscalSystemOverview', () => {
+  const mockPortfolios = [
+    {
+      id: 'adult_social_care',
+      title: 'Adult Social Care',
+      short_title: 'Adults',
+      demand_pressures: [
+        { pressure: 'Over-65 demographic growth: £12M/year impact' },
+        { pressure: 'NLW increases: £5M pressure' },
+      ],
+      savings_levers: [
+        { lever: 'CHC recovery', saving: '£5-12M' },
+        { lever: 'Reablement', saving: '£2-4M' },
+      ],
+      operational_context: {
+        service_model: {
+          asc_demand_model: { demographics: {} },
+          inspection_remediation: { cqc_rating: 'Requires Improvement', target_rating: 'Good', date: '2025-08-01' },
+        },
+      },
+    },
+    {
+      id: 'education_skills',
+      title: 'Education & Skills',
+      short_title: 'Education',
+      demand_pressures: [
+        { pressure: 'EHCP growth: £8M annual impact' },
+      ],
+      savings_levers: [
+        { lever: 'SEND transport', saving: '£3-5M' },
+      ],
+      operational_context: {
+        service_model: {
+          send_cost_model: {},
+          lac_cost_model: {},
+        },
+      },
+    },
+    {
+      id: 'highways_transport',
+      title: 'Highways',
+      short_title: 'Highways',
+      demand_pressures: [],
+      savings_levers: [],
+      operational_context: {},
+    },
+  ]
+
+  it('returns empty for null input', () => {
+    const result = fiscalSystemOverview(null)
+    expect(result.portfolios).toEqual([])
+    expect(result.service_model_coverage).toBe(0)
+  })
+
+  it('returns empty for empty array', () => {
+    const result = fiscalSystemOverview([])
+    expect(result.portfolios).toEqual([])
+  })
+
+  it('identifies portfolios with service models', () => {
+    const result = fiscalSystemOverview(mockPortfolios)
+    expect(result.service_model_count).toBe(2)
+    expect(result.total_portfolios).toBe(3)
+    expect(result.service_model_coverage).toBe(67) // 2/3 = 67%
+  })
+
+  it('returns model types for modelled portfolios', () => {
+    const result = fiscalSystemOverview(mockPortfolios)
+    const asc = result.portfolios.find(p => p.id === 'adult_social_care')
+    expect(asc.has_service_model).toBe(true)
+    expect(asc.model_types).toContain('asc_demand_model')
+  })
+
+  it('identifies unmodelled portfolios', () => {
+    const result = fiscalSystemOverview(mockPortfolios)
+    const hw = result.portfolios.find(p => p.id === 'highways_transport')
+    expect(hw.has_service_model).toBe(false)
+    expect(hw.model_types).toEqual([])
+  })
+
+  it('extracts demand pressures from text', () => {
+    const result = fiscalSystemOverview(mockPortfolios)
+    const asc = result.portfolios.find(p => p.id === 'adult_social_care')
+    expect(asc.demand_annual).toBeGreaterThan(0)
+  })
+
+  it('calculates savings from levers', () => {
+    const result = fiscalSystemOverview(mockPortfolios)
+    const asc = result.portfolios.find(p => p.id === 'adult_social_care')
+    expect(asc.savings_central).toBeGreaterThan(0)
+  })
+
+  it('calculates coverage percentage', () => {
+    const result = fiscalSystemOverview(mockPortfolios)
+    expect(result.coverage_pct).toBeGreaterThan(0)
+    expect(result.coverage_pct).toBeLessThanOrEqual(100)
+  })
+
+  it('extracts inspection summary', () => {
+    const result = fiscalSystemOverview(mockPortfolios)
+    expect(result.inspection_summary).toHaveLength(1)
+    expect(result.inspection_summary[0].current_rating).toBe('Requires Improvement')
+    expect(result.inspection_summary[0].target_rating).toBe('Good')
+  })
+
+  it('assigns trajectory based on net position', () => {
+    const result = fiscalSystemOverview(mockPortfolios)
+    for (const p of result.portfolios) {
+      expect(['improving', 'stable', 'declining']).toContain(p.trajectory)
+    }
+  })
+
+  it('calculates total demand and savings', () => {
+    const result = fiscalSystemOverview(mockPortfolios)
+    expect(result.total_demand).toBeGreaterThan(0)
+    expect(result.total_savings).toBeGreaterThan(0)
+  })
+
+  it('calculates net position', () => {
+    const result = fiscalSystemOverview(mockPortfolios)
+    expect(result.net_position).toBe(result.total_savings - result.total_demand)
+  })
+
+  it('handles portfolios with no demand pressures or levers', () => {
+    const result = fiscalSystemOverview([{ id: 'empty', title: 'Empty', operational_context: {} }])
+    expect(result.portfolios).toHaveLength(1)
+    expect(result.portfolios[0].demand_annual).toBe(0)
+    expect(result.portfolios[0].savings_central).toBe(0)
   })
 })

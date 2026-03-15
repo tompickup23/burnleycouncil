@@ -22,6 +22,9 @@ import {
   formatCurrency,
   getAccessiblePortfolios,
   contractPipeline,
+  fiscalSystemOverview,
+  quantifyDemandPressures,
+  budgetRealismCheck,
 } from '../utils/savingsEngine'
 import './DirectorateDashboard.css'
 
@@ -142,6 +145,12 @@ export default function DirectorateDashboard() {
       { name: 'Long (18m+)', value: buckets.long_term / 1e6 },
     ]
   }, [directorateProfiles])
+
+  // Fiscal System Overview — service model coverage + demand vs savings
+  const fiscalSystem = useMemo(() => {
+    if (!portfolioData?.portfolios?.length) return null
+    return fiscalSystemOverview(portfolioData.portfolios)
+  }, [portfolioData])
 
   if (!dataSources.cabinet_portfolios) return <div className="page-empty"><p>Cabinet portfolios not available for this council.</p></div>
   if (!hasAccess) return <div className="page-empty"><p>Councillor access required.</p></div>
@@ -281,6 +290,66 @@ export default function DirectorateDashboard() {
               {mondayList.length === 0 && <p className="empty-message">No directives generated yet.</p>}
             </div>
           </CollapsibleSection>
+
+          {/* Fiscal System Overview */}
+          {fiscalSystem && (
+            <CollapsibleSection title={`Fiscal System — ${fiscalSystem.service_model_count}/${fiscalSystem.total_portfolios} portfolios modelled`} icon={<Shield size={18} />}>
+              <div className="fiscal-system-grid">
+                <StatCard label="Service Models" value={`${fiscalSystem.service_model_coverage}%`} color={fiscalSystem.service_model_coverage >= 50 ? '#28a745' : '#fd7e14'} icon={<BarChart3 size={18} />} />
+                <StatCard label="Net Position" value={formatCurrency(fiscalSystem.net_position)} color={fiscalSystem.net_position >= 0 ? '#28a745' : '#dc3545'} icon={<TrendingUp size={18} />} />
+                {fiscalSystem.inspection_summary.length > 0 && (
+                  <StatCard label="Inspections" value={`${fiscalSystem.inspection_summary.length} active`} color="#fd7e14" icon={<AlertTriangle size={18} />} />
+                )}
+              </div>
+
+              {/* Service Model Coverage badges */}
+              <div className="fiscal-coverage-badges">
+                {fiscalSystem.portfolios.map(p => (
+                  <Link key={p.id} to={`/portfolio/${p.id}`} className={`fiscal-badge ${p.has_service_model ? 'modelled' : 'descriptive'}`}>
+                    <span className="fiscal-badge-dot" />
+                    <span className="fiscal-badge-name">{p.title}</span>
+                    {p.has_service_model && <span className="fiscal-badge-types">{p.model_types.join(', ')}</span>}
+                  </Link>
+                ))}
+              </div>
+
+              {/* Inspection Status */}
+              {fiscalSystem.inspection_summary.length > 0 && (
+                <div className="fiscal-inspections">
+                  <h4 style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', marginBottom: '8px' }}>Inspection Status</h4>
+                  {fiscalSystem.inspection_summary.map((ins, i) => (
+                    <div key={i} className="fiscal-inspection-row">
+                      <span className="fiscal-inspection-portfolio">{ins.portfolio}</span>
+                      <span className={`fiscal-inspection-rating ${ins.current_rating?.toLowerCase().includes('requires') ? 'requires-improvement' : ins.current_rating?.toLowerCase().includes('good') ? 'good' : ''}`}>
+                        {ins.current_rating}
+                      </span>
+                      <span className="fiscal-inspection-target">→ {ins.target_rating}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {/* Demand Pressure Heatmap */}
+              {fiscalSystem.portfolios.some(p => p.demand_annual > 0 || p.savings_central > 0) && (
+                <div className="fiscal-demand-matrix">
+                  <h4 style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', marginBottom: '8px' }}>Demand vs Savings by Portfolio</h4>
+                  <ChartCard title="" subtitle="">
+                    <ResponsiveContainer width="100%" height={Math.max(180, fiscalSystem.portfolios.filter(p => p.demand_annual > 0 || p.savings_central > 0).length * 40)}>
+                      <BarChart data={fiscalSystem.portfolios.filter(p => p.demand_annual > 0 || p.savings_central > 0)} layout="vertical" margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                        <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(0)}M`} />
+                        <YAxis type="category" dataKey="title" tick={AXIS_TICK_STYLE} width={80} />
+                        <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v) => formatCurrency(v)} />
+                        <Legend />
+                        <Bar dataKey="demand_annual" name="Demand Pressure" fill="#dc3545" {...CHART_ANIMATION} />
+                        <Bar dataKey="savings_central" name="Savings Identified" fill="#28a745" {...CHART_ANIMATION} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                </div>
+              )}
+            </CollapsibleSection>
+          )}
         </div>
       )}
 

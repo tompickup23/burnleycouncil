@@ -325,6 +325,105 @@
   padding: 20px;
 }
 
+/* Fiscal System Overview */
+.fiscal-system-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.fiscal-coverage-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.fiscal-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.fiscal-badge:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.fiscal-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #dc3545;
+  flex-shrink: 0;
+}
+
+.fiscal-badge.modelled .fiscal-badge-dot {
+  background: #28a745;
+}
+
+.fiscal-badge-name {
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.fiscal-badge-types {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.fiscal-inspections {
+  margin-bottom: 16px;
+}
+
+.fiscal-inspection-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  font-size: 0.8rem;
+}
+
+.fiscal-inspection-portfolio {
+  flex: 1;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.fiscal-inspection-rating {
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.fiscal-inspection-rating.requires-improvement {
+  background: rgba(253, 126, 20, 0.15);
+  color: #fd7e14;
+}
+
+.fiscal-inspection-rating.good {
+  background: rgba(40, 167, 69, 0.15);
+  color: #28a745;
+}
+
+.fiscal-inspection-target {
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.75rem;
+}
+
+.fiscal-demand-matrix {
+  margin-top: 8px;
+}
+
 @media (max-width: 768px) {
   .reform-hero h1 { font-size: 1.2rem; }
   .stat-grid-4 { grid-template-columns: 1fr 1fr; }
@@ -332,4 +431,7 @@
   .mtfs-row { flex-wrap: wrap; }
   .mtfs-label { min-width: auto; flex: 1 1 100%; }
   .mtfs-dir-row { flex-wrap: wrap; }
+  .fiscal-coverage-badges { gap: 4px; }
+  .fiscal-badge { padding: 4px 8px; font-size: 0.7rem; }
+  .fiscal-system-grid { grid-template-columns: 1fr; }
 }

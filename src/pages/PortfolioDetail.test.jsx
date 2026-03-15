@@ -149,6 +149,10 @@ vi.mock('../utils/savingsEngine', () => ({
   ascDemandProjection: vi.fn(() => ({ yearly: [], base_cost: 0, total_growth: 0, blended_growth_rate: 0, cost_breakdown: {} })),
   ascMarketRisk: vi.fn(() => ({ provider_count: 0, vacancy_rate: 0, closure_trend: 0, fair_cost_gap: 0, inflation_pressure: 0, risk_score: 0, risk_level: 'low', off_framework_pct: 0, mitigation_options: [] })),
   chcRecoveryModel: vi.fn(() => ({ current_income: 0, target_income: 0, gap: 0, net_benefit: 0, implementation_cost: 0, timeline: [] })),
+  highwayAssetTrajectory: vi.fn(() => ({ yearly: [], optimal_spend: 0, current_gap: 0, preventative_ratio: 0.4, managed_service_saving_pct: 0, condition_trends: [], dft_allocation: 0, cumulative_shortfall: 0, led: null, s59: null })),
+  wasteDisposalComparison: vi.fn(() => ({ current_cost: 0, scenarios: [], food_waste_impact: 0, efw_saving: 0, landfill_tax_5yr: [], landfill_rate_pct: 0, national_avg_landfill_pct: 0, ratio_to_national: 0, market_hhi: 0, duopoly_pct: 0, strategy_status: '' })),
+  quantifyDemandPressures: vi.fn(() => ({ pressures: [], total_annual: 0, total_5yr: 0, net_after_savings: 0, coverage_pct: 0 })),
+  netFiscalTrajectory: vi.fn(() => ({ yearly: [], breakeven_year: 0, trajectory: 'stable', total_demand_5yr: 0, total_savings_5yr: 0, net_5yr: 0 })),
 }))
 
 vi.mock('./PortfolioDetail.css', () => ({}))

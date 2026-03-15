@@ -237,9 +237,62 @@
 .service-table td { padding: 0.5rem; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.04); }
 .service-table-highlight { color: #28a745; font-weight: 700; }
 
+/* Service Intelligence Summary Card */
+.service-summary-card {
+  background: linear-gradient(135deg, rgba(18,182,207,0.08), rgba(18,182,207,0.02));
+  border: 1px solid rgba(18,182,207,0.2);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+}
+
+.service-summary-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.service-summary-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.9);
+}
+
+.service-summary-models {
+  font-size: 0.7rem;
+  color: rgba(18,182,207,0.7);
+  background: rgba(18,182,207,0.1);
+  padding: 2px 8px;
+  border-radius: 10px;
+}
+
+.service-summary-metrics {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.service-summary-metric {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.ssm-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.ssm-label {
+  font-size: 0.7rem;
+  color: rgba(255,255,255,0.4);
+}
+
 @media (max-width: 768px) {
   .portfolio-contracts-table { font-size: 0.72rem; }
   .expiry-card { grid-template-columns: 1fr; }
   .service-stat-row { grid-template-columns: repeat(2, 1fr); }
   .service-lever-cards { grid-template-columns: 1fr; }
+  .service-summary-metrics { gap: 12px; }
 }

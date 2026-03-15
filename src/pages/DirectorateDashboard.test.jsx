@@ -89,6 +89,19 @@ vi.mock('../utils/savingsEngine', () => ({
     return m >= 1 ? `£${m}M` : `£${Math.round(v / 1000).toLocaleString()}K`
   }),
   getAccessiblePortfolios: vi.fn((portfolios) => portfolios),
+  contractPipeline: vi.fn(() => ({ expiring_3m: [], expiring_6m: [], all: [] })),
+  fiscalSystemOverview: vi.fn(() => ({
+    portfolios: [
+      { id: 'adult_social_care', title: 'Adults', has_service_model: true, model_types: ['asc_demand_model'], demand_annual: 12000000, savings_central: 8000000, net_position: -4000000, coverage_pct: 67, inspection: { current_rating: 'Requires Improvement', target_rating: 'Good' }, trajectory: 'stable' },
+      { id: 'education_skills', title: 'Education', has_service_model: true, model_types: ['send_cost_model', 'lac_cost_model'], demand_annual: 8000000, savings_central: 5000000, net_position: -3000000, coverage_pct: 63, inspection: null, trajectory: 'declining' },
+    ],
+    total_demand: 20000000, total_savings: 13000000, coverage_pct: 65,
+    service_model_coverage: 20, service_model_count: 2, total_portfolios: 10,
+    inspection_summary: [{ portfolio: 'Adults', current_rating: 'Requires Improvement', target_rating: 'Good' }],
+    net_position: -7000000,
+  })),
+  quantifyDemandPressures: vi.fn(() => ({ pressures: [], total_annual: 0, total_5yr: 0, coverage_pct: 0 })),
+  budgetRealismCheck: vi.fn(() => ({ credibility_score: 70 })),
 }))
 
 vi.mock('./DirectorateDashboard.css', () => ({}))
@@ -357,7 +370,8 @@ describe('DirectorateDashboard', () => {
     setupMocks()
     renderDashboard()
     // Coverage is 120% (from mock) — should show 'up' trend
+    // 4 aggregate stat cards + 3 fiscal system stat cards = 7
     const statCards = screen.getAllByTestId('stat-card')
-    expect(statCards.length).toBe(4)
+    expect(statCards.length).toBe(7)
   })
 })
