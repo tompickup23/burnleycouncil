@@ -54,6 +54,12 @@ import {
   fiscalSystemOverview,
   spendingBudgetVariance,
   spendingConcentration,
+  childrenCostProjection,
+  childrenServiceDirectives,
+  publicHealthProjection,
+  publicHealthDirectives,
+  propertyEstateProjection,
+  resourcesServiceDirectives,
 } from './savingsEngine.js'
 
 // ─── Test fixtures ───
@@ -3385,5 +3391,802 @@ describe('matchSpendingToPortfolio — summary mode', () => {
     const summary = { by_portfolio: {} }
     const result = matchSpendingToPortfolio([], mockPortfolio, summary)
     expect(result).toEqual([]) // no records match
+  })
+})
+
+// ─── Children's Services Cost Model ───
+
+const mockChildrenModel = {
+  lac_population: {
+    current: 1699,
+    peak_2019: 2127,
+    reduction_pct: 14,
+    in_residential: 262,
+    residential_growth_pct_pa: 13.3,
+    uasc_in_care: 180,
+    care_leavers_19_21: 663,
+    care_leavers_18_plus: 58,
+  },
+  placement_costs: {
+    agency_residential_weekly: 6000,
+    complex_residential_weekly: 9000,
+    in_house_residential_weekly: 4000,
+    in_house_foster_weekly_low: 399,
+    in_house_foster_weekly_high: 523,
+    ifa_foster_weekly_low: 900,
+    ifa_foster_weekly_high: 1100,
+    residential_annual_per_child: 312000,
+    fostering_annual_per_child: 30000,
+  },
+  residential_market: {
+    total_homes_lancashire: 347,
+    private_homes: 330,
+    lcc_owned_homes: 17,
+    two_bed_growth: { from: 57, to: 125 },
+    lcc_children_in_agency: 149,
+    agency_capacity: 980,
+    out_of_area_pct: 15,
+  },
+  agency_workforce: {
+    apprentices_uclan: 97,
+    nqsws_jan_2025: 20,
+    agency_premium_pct_low: 40,
+    agency_premium_pct_high: 60,
+    agency_eps_send: 110,
+    ep_agency_daily: 800,
+    ep_permanent_daily: 300,
+    base_sw_salary: 40000,
+    agency_premium_per_sw: 20000,
+  },
+  family_safeguarding: {
+    children_before: 388,
+    children_after: 286,
+    reduction_pct: 26,
+    cost_per_family: 15000,
+    edge_of_care_posts_target: 20,
+    edge_of_care_annual_cost: 800000,
+  },
+  uasc_model: {
+    uasc_in_care: 180,
+    care_leavers: 58,
+    ho_grant_under_16_daily: 143,
+    ho_grant_16_17_daily: 200,
+    actual_cost_daily_low: 200,
+    actual_cost_daily_high: 400,
+    daily_shortfall_estimate: 100,
+    annual_shortfall_total: 6570000,
+    recoverable_estimate_low: 2000000,
+    recoverable_estimate_high: 4000000,
+  },
+  wocl_programme: {
+    current_homes: 15,
+    target_homes: 30,
+    current_beds: 60,
+    target_beds: 100,
+    capital_cost_per_home: 1200000,
+    annual_running_cost_per_home: 450000,
+    saving_per_placement_pa: 100000,
+    full_programme_annual_cost: 15100000,
+    agency_equivalent_cost: 17400000,
+    net_saving_at_capacity: 2100000,
+  },
+  ifa_contract: {
+    value_total: 155000000,
+    duration_years: 9,
+    through_local_regional_pct: 96,
+    through_lancashire_pct: 85,
+    off_contract_pct: 4,
+  },
+}
+
+describe('childrenCostProjection', () => {
+  it('returns empty for null input', () => {
+    const result = childrenCostProjection(null)
+    expect(result.yearly).toEqual([])
+    expect(result.base_cost).toBe(0)
+    expect(result.total_5yr_cost).toBe(0)
+  })
+
+  it('returns empty for missing lac_population', () => {
+    const result = childrenCostProjection({})
+    expect(result.yearly).toEqual([])
+  })
+
+  it('projects 5 years by default', () => {
+    const result = childrenCostProjection(mockChildrenModel)
+    expect(result.yearly).toHaveLength(5)
+  })
+
+  it('projects custom number of years', () => {
+    const result = childrenCostProjection(mockChildrenModel, 3)
+    expect(result.yearly).toHaveLength(3)
+  })
+
+  it('base cost is positive for full model', () => {
+    const result = childrenCostProjection(mockChildrenModel)
+    expect(result.base_cost).toBeGreaterThan(0)
+  })
+
+  it('residential count grows at specified rate', () => {
+    const result = childrenCostProjection(mockChildrenModel)
+    expect(result.yearly[0].residential_count).toBe(262)
+    // Year 2 should be greater due to 13.3% growth
+    expect(result.yearly[1].residential_count).toBeGreaterThan(result.yearly[0].residential_count)
+  })
+
+  it('residential costs grow year-on-year', () => {
+    const result = childrenCostProjection(mockChildrenModel)
+    for (let i = 1; i < result.yearly.length; i++) {
+      expect(result.yearly[i].residential_cost).toBeGreaterThan(result.yearly[i - 1].residential_cost)
+    }
+  })
+
+  it('agency premium declines over time', () => {
+    const result = childrenCostProjection(mockChildrenModel)
+    expect(result.yearly[4].agency_premium).toBeLessThan(result.yearly[0].agency_premium)
+  })
+
+  it('total 5yr cost is sum of yearly totals', () => {
+    const result = childrenCostProjection(mockChildrenModel)
+    const sum = result.yearly.reduce((s, y) => s + y.total, 0)
+    expect(result.total_5yr_cost).toBe(sum)
+  })
+
+  it('cost breakdown components are positive', () => {
+    const result = childrenCostProjection(mockChildrenModel)
+    expect(result.cost_breakdown.residential.value).toBeGreaterThan(0)
+    expect(result.cost_breakdown.fostering.value).toBeGreaterThan(0)
+    expect(result.cost_breakdown.agency_premium.value).toBeGreaterThan(0)
+    expect(result.cost_breakdown.uasc.value).toBeGreaterThan(0)
+  })
+
+  it('cost breakdown percentages sum close to 100', () => {
+    const result = childrenCostProjection(mockChildrenModel)
+    const bd = result.cost_breakdown
+    const sum = bd.residential.pct + bd.fostering.pct + bd.agency_premium.pct + bd.uasc.pct
+    expect(sum).toBeGreaterThanOrEqual(98)
+    expect(sum).toBeLessThanOrEqual(102)
+  })
+
+  it('growth rate from model', () => {
+    const result = childrenCostProjection(mockChildrenModel)
+    expect(result.growth_rate).toBeCloseTo(0.133, 2)
+  })
+
+  it('WOCL trajectory shows home expansion', () => {
+    const result = childrenCostProjection(mockChildrenModel)
+    expect(result.wocl_trajectory).toHaveLength(5)
+    expect(result.wocl_trajectory[0].homes).toBeGreaterThan(15)
+    expect(result.wocl_trajectory[4].homes).toBeLessThanOrEqual(30)
+    expect(result.wocl_trajectory[4].saving).toBeGreaterThan(0)
+  })
+})
+
+describe('childrenServiceDirectives', () => {
+  it('returns empty array for null input', () => {
+    expect(childrenServiceDirectives(null)).toEqual([])
+    expect(childrenServiceDirectives(undefined)).toEqual([])
+  })
+
+  it('generates WOCL expansion directive', () => {
+    const result = childrenServiceDirectives(mockChildrenModel)
+    const wocl = result.find(d => d.id === 'children_wocl_expansion')
+    expect(wocl).toBeDefined()
+    expect(wocl.type).toBe('service_model')
+    expect(wocl.tier).toBe('service_redesign')
+    expect(wocl.save_low).toBeGreaterThan(0)
+    expect(wocl.save_high).toBeGreaterThan(wocl.save_low)
+    expect(wocl.steps).toHaveLength(5)
+    expect(wocl.governance_route).toBe('cabinet_decision')
+  })
+
+  it('generates agency workforce conversion directive', () => {
+    const result = childrenServiceDirectives(mockChildrenModel)
+    const agency = result.find(d => d.id === 'children_agency_conversion')
+    expect(agency).toBeDefined()
+    expect(agency.action).toContain('UCLan')
+    expect(agency.priority).toBe('high')
+    expect(agency.feasibility).toBeGreaterThan(0)
+  })
+
+  it('generates family safeguarding directive', () => {
+    const result = childrenServiceDirectives(mockChildrenModel)
+    const fs = result.find(d => d.id === 'children_family_safeguarding')
+    expect(fs).toBeDefined()
+    expect(fs.action).toContain('26%')
+    expect(fs.tier).toBe('demand_management')
+  })
+
+  it('generates UASC recovery directive', () => {
+    const result = childrenServiceDirectives(mockChildrenModel)
+    const uasc = result.find(d => d.id === 'children_uasc_recovery')
+    expect(uasc).toBeDefined()
+    expect(uasc.save_low).toBe(2000000)
+    expect(uasc.save_high).toBe(4000000)
+    expect(uasc.tier).toBe('income_generation')
+  })
+
+  it('generates IFA optimisation directive', () => {
+    const result = childrenServiceDirectives(mockChildrenModel)
+    const ifa = result.find(d => d.id === 'children_ifa_optimisation')
+    expect(ifa).toBeDefined()
+    expect(ifa.action).toContain('85%')
+    expect(ifa.tier).toBe('procurement')
+  })
+
+  it('generates at least 4 directives with full data', () => {
+    const result = childrenServiceDirectives(mockChildrenModel)
+    expect(result.length).toBeGreaterThanOrEqual(4)
+  })
+
+  it('all directives have standard schema fields', () => {
+    const result = childrenServiceDirectives(mockChildrenModel)
+    for (const d of result) {
+      expect(d.id).toBeTruthy()
+      expect(d.type).toBe('service_model')
+      expect(d.tier).toBeTruthy()
+      expect(d.action).toBeTruthy()
+      expect(d.save_low).toBeGreaterThanOrEqual(0)
+      expect(d.save_high).toBeGreaterThanOrEqual(d.save_low)
+      expect(d.save_central).toBeGreaterThanOrEqual(0)
+      expect(d.timeline).toBeTruthy()
+      expect(d.legal_basis).toBeTruthy()
+      expect(d.steps).toBeDefined()
+      expect(d.governance_route).toBeTruthy()
+      expect(d.priority).toBeTruthy()
+      expect(typeof d.feasibility).toBe('number')
+      expect(typeof d.impact).toBe('number')
+    }
+  })
+
+  it('integrates with generateDirectives for children portfolio', () => {
+    const childrenPortfolio = {
+      id: 'children_families',
+      title: 'Children & Families',
+      cabinet_member: { name: 'Test' },
+      executive_director: 'Amanda Hatton',
+      spending_department_patterns: ['^Children'],
+      budget_latest: { net_expenditure: 180000000 },
+      savings_levers: [],
+      operational_context: { service_model: { children_cost_model: mockChildrenModel } },
+    }
+    const result = generateDirectives(childrenPortfolio, {}, [])
+    const serviceDirectives = result.filter(d => d.type === 'service_model')
+    expect(serviceDirectives.length).toBeGreaterThanOrEqual(4)
+    for (const d of serviceDirectives) {
+      expect(d.portfolio_id).toBe('children_families')
+      expect(d.officer).toBe('Amanda Hatton')
+    }
+  })
+})
+
+// ─── Public Health Cost Model ───
+
+const mockPublicHealthModel = {
+  grant: {
+    total_public_health_grant: 97600000,
+    drug_alcohol_supplemental: 10600000,
+    ring_fenced: true,
+    supplemental_time_limited: true,
+    real_terms_decline_pct_pa: 2.5,
+  },
+  prevention_roi: {
+    falls: { roi_ratio: 3.5, annual_spend: 2000000, asc_avoidance_pa: 7000000, population_over_65: 248000 },
+    smoking: { roi_ratio: 2.8, annual_spend: 3500000, nhs_avoidance_pa: 9800000, smokers_target: 45000 },
+    obesity: { roi_ratio: 3.7, annual_spend: 1500000, asc_avoidance_pa: 5550000, adult_obesity_pct: 28.5 },
+    physical_activity: { roi_ratio: 3.7, annual_spend: 800000, health_saving_pa: 2960000 },
+  },
+  hcrg_monopoly: {
+    contract_value_20mo: 36700000,
+    annual_equivalent: 22000000,
+    hhi: 3615,
+    category_spend_pct: 85,
+    dual_entity: true,
+    contracts_finder_published: 0,
+    rebilling_pattern_monthly: 1950000,
+    market_alternatives: 3,
+    benchmark_saving_pct_low: 10,
+    benchmark_saving_pct_high: 15,
+  },
+  substance_misuse: {
+    cgl_value_20mo: 36300000,
+    cgl_annual: 22000000,
+    cgl_dual_entity: true,
+    ssmtr_adder_value: 10600000,
+    ssmtr_adder_end_date: '2025-03-31',
+    we_are_with_you_value_20mo: 1960000,
+    total_substance_misuse_annual: 25000000,
+  },
+  health_inequalities: {
+    life_expectancy_gap_male: 10.6,
+    life_expectancy_gap_female: 8.2,
+    deprivation_quintile_gap_years: 10.6,
+    asc_residential_annual: 172000000,
+    prevention_asc_reduction_target_pct: 5,
+  },
+}
+
+describe('publicHealthProjection', () => {
+  it('returns empty for null input', () => {
+    const result = publicHealthProjection(null)
+    expect(result.yearly).toEqual([])
+    expect(result.base_grant).toBe(0)
+  })
+
+  it('returns empty for missing grant', () => {
+    const result = publicHealthProjection({})
+    expect(result.yearly).toEqual([])
+  })
+
+  it('projects 5 years by default', () => {
+    const result = publicHealthProjection(mockPublicHealthModel)
+    expect(result.yearly).toHaveLength(5)
+  })
+
+  it('projects custom number of years', () => {
+    const result = publicHealthProjection(mockPublicHealthModel, 3)
+    expect(result.yearly).toHaveLength(3)
+  })
+
+  it('grant declines in real terms', () => {
+    const result = publicHealthProjection(mockPublicHealthModel)
+    expect(result.yearly[4].grant_real_terms).toBeLessThan(result.yearly[0].grant_real_terms)
+  })
+
+  it('base grant is correct', () => {
+    const result = publicHealthProjection(mockPublicHealthModel)
+    expect(result.base_grant).toBe(97600000)
+  })
+
+  it('grant decline 5yr is positive', () => {
+    const result = publicHealthProjection(mockPublicHealthModel)
+    expect(result.grant_decline_5yr).toBeGreaterThan(0)
+  })
+
+  it('total prevention ROI is positive', () => {
+    const result = publicHealthProjection(mockPublicHealthModel)
+    expect(result.total_prevention_roi).toBeGreaterThan(0)
+  })
+
+  it('monopoly risk value from HCRG', () => {
+    const result = publicHealthProjection(mockPublicHealthModel)
+    expect(result.monopoly_risk_value).toBe(22000000)
+  })
+
+  it('supplemental cliff edge detected', () => {
+    const result = publicHealthProjection(mockPublicHealthModel)
+    expect(result.supplemental_cliff).not.toBeNull()
+    expect(result.supplemental_cliff.value).toBe(10600000)
+    expect(result.supplemental_cliff.end_date).toBe('2025-03-31')
+  })
+
+  it('HCRG cost inflates over time', () => {
+    const result = publicHealthProjection(mockPublicHealthModel)
+    expect(result.yearly[4].hcrg_cost).toBeGreaterThan(result.yearly[0].hcrg_cost)
+  })
+
+  it('supplemental only in year 1', () => {
+    const result = publicHealthProjection(mockPublicHealthModel)
+    expect(result.yearly[0].supplemental).toBe(10600000)
+    expect(result.yearly[1].supplemental).toBe(0)
+  })
+})
+
+describe('publicHealthDirectives', () => {
+  it('returns empty array for null input', () => {
+    expect(publicHealthDirectives(null)).toEqual([])
+    expect(publicHealthDirectives(undefined)).toEqual([])
+  })
+
+  it('generates HCRG recommissioning directive', () => {
+    const result = publicHealthDirectives(mockPublicHealthModel)
+    const hcrg = result.find(d => d.id === 'ph_hcrg_recommission')
+    expect(hcrg).toBeDefined()
+    expect(hcrg.type).toBe('service_model')
+    expect(hcrg.tier).toBe('procurement')
+    expect(hcrg.action).toContain('3615')
+    expect(hcrg.priority).toBe('high')
+    expect(hcrg.risk).toBe('High')
+  })
+
+  it('generates substance misuse review directive', () => {
+    const result = publicHealthDirectives(mockPublicHealthModel)
+    const sm = result.find(d => d.id === 'ph_substance_misuse_review')
+    expect(sm).toBeDefined()
+    expect(sm.action).toContain('SSMTR')
+    expect(sm.action).toContain('2025-03-31')
+  })
+
+  it('generates prevention expansion directive', () => {
+    const result = publicHealthDirectives(mockPublicHealthModel)
+    const prev = result.find(d => d.id === 'ph_prevention_expansion')
+    expect(prev).toBeDefined()
+    expect(prev.action).toContain('3.5:1')
+    expect(prev.tier).toBe('demand_management')
+    expect(prev.risk).toBe('Low')
+  })
+
+  it('generates health inequalities directive', () => {
+    const result = publicHealthDirectives(mockPublicHealthModel)
+    const hi = result.find(d => d.id === 'ph_health_inequalities')
+    expect(hi).toBeDefined()
+    expect(hi.action).toContain('10.6')
+    expect(hi.timeline).toContain('Long-term')
+  })
+
+  it('generates grant maximisation directive', () => {
+    const result = publicHealthDirectives(mockPublicHealthModel)
+    const gm = result.find(d => d.id === 'ph_grant_maximisation')
+    expect(gm).toBeDefined()
+    expect(gm.action).toContain('2.5%')
+    expect(gm.tier).toBe('income_generation')
+  })
+
+  it('generates at least 4 directives with full data', () => {
+    const result = publicHealthDirectives(mockPublicHealthModel)
+    expect(result.length).toBeGreaterThanOrEqual(4)
+  })
+
+  it('all directives have standard schema fields', () => {
+    const result = publicHealthDirectives(mockPublicHealthModel)
+    for (const d of result) {
+      expect(d.id).toBeTruthy()
+      expect(d.type).toBe('service_model')
+      expect(d.tier).toBeTruthy()
+      expect(d.action).toBeTruthy()
+      expect(d.save_low).toBeGreaterThanOrEqual(0)
+      expect(d.save_high).toBeGreaterThanOrEqual(d.save_low)
+      expect(d.save_central).toBeGreaterThanOrEqual(0)
+      expect(d.timeline).toBeTruthy()
+      expect(d.legal_basis).toBeTruthy()
+      expect(d.steps).toBeDefined()
+      expect(d.governance_route).toBeTruthy()
+      expect(d.priority).toBeTruthy()
+      expect(typeof d.feasibility).toBe('number')
+      expect(typeof d.impact).toBe('number')
+    }
+  })
+
+  it('integrates with generateDirectives for health portfolio', () => {
+    const phPortfolio = {
+      id: 'health_wellbeing',
+      title: 'Health & Wellbeing',
+      cabinet_member: { name: 'Test' },
+      executive_director: 'Sakthi Karunanithi',
+      spending_department_patterns: ['^Public Health'],
+      budget_latest: { net_expenditure: 97600000 },
+      savings_levers: [],
+      operational_context: { service_model: { public_health_model: mockPublicHealthModel } },
+    }
+    const result = generateDirectives(phPortfolio, {}, [])
+    const serviceDirectives = result.filter(d => d.type === 'service_model')
+    expect(serviceDirectives.length).toBeGreaterThanOrEqual(4)
+    for (const d of serviceDirectives) {
+      expect(d.portfolio_id).toBe('health_wellbeing')
+      expect(d.officer).toBe('Sakthi Karunanithi')
+    }
+  })
+})
+
+// ─── Property Estate Cost Model ───
+
+const mockPropertyModel = {
+  estate_summary: {
+    total_properties: 1200,
+    property_estates_facilities_cost: 132000000,
+    pct_of_total_spend: 6.3,
+    maintenance_backlog_known: 5000000,
+    active_disposal_target: 56300000,
+  },
+  condition_data: {
+    operational: 950,
+    surplus_under_review: 80,
+    investment_heritage: 120,
+    vacant_estimated: 50,
+    avg_maintenance_cost_low: 30000,
+    avg_maintenance_cost_high: 100000,
+  },
+  disposal_programme: {
+    target_receipts: 56300000,
+    active_disposals: ['Willow Lane Lancaster', 'Golden Hill', 'Horncliffe Quarry', 'Garstang Pool'],
+    backlog_growth_pct_pa: 8,
+  },
+  co_location_opportunity: {
+    potential_consolidations: 15,
+    estimated_saving_per_merge: 200000,
+    total_potential: 3000000,
+  },
+  in_house_care_homes: {
+    count: 16,
+    maintenance_backlog: 5000000,
+    under_review: 5,
+    closure_commitment: 'All 5 county care homes saved',
+  },
+}
+
+const mockProcurementModel = {
+  supplier_concentration: {
+    top_10_pct_of_spend: 45,
+    off_contract_estimate_pct: 15,
+    overall_hhi: 1200,
+  },
+  contracts_finder_coverage: {
+    overall_pct: 33,
+    non_compliant_value: 500000000,
+  },
+  duplicate_risk: {
+    flagged_value: 93600000,
+    high_confidence_groups: 12,
+    estimated_genuine_pct: 5,
+  },
+  invoice_processing: {
+    monthly_invoices: 50000,
+    manual_cost_per_invoice: 5.0,
+    automated_cost_per_invoice: 0.50,
+    annual_invoices: 600000,
+    automation_saving_potential: 2700000,
+  },
+  support_services_gross: 123000000,
+  redundancy_provision: 11000000,
+  jobs_affected_estimate: 400,
+  finance_automation_potential: {
+    finance_ftes: 80,
+    automation_pct: 20,
+    avg_salary: 35000,
+    headcount_saving: 560000,
+  },
+}
+
+describe('propertyEstateProjection', () => {
+  it('returns empty for null input', () => {
+    const result = propertyEstateProjection(null)
+    expect(result.yearly).toEqual([])
+    expect(result.base_cost).toBe(0)
+  })
+
+  it('returns empty for missing estate_summary', () => {
+    const result = propertyEstateProjection({})
+    expect(result.yearly).toEqual([])
+  })
+
+  it('projects 5 years by default', () => {
+    const result = propertyEstateProjection(mockPropertyModel)
+    expect(result.yearly).toHaveLength(5)
+  })
+
+  it('projects custom number of years', () => {
+    const result = propertyEstateProjection(mockPropertyModel, 3)
+    expect(result.yearly).toHaveLength(3)
+  })
+
+  it('base cost matches estate data', () => {
+    const result = propertyEstateProjection(mockPropertyModel)
+    expect(result.base_cost).toBe(132000000)
+  })
+
+  it('backlog grows over time', () => {
+    const result = propertyEstateProjection(mockPropertyModel)
+    expect(result.yearly[4].backlog).toBeGreaterThan(result.yearly[0].backlog)
+  })
+
+  it('running costs inflate at 3% pa', () => {
+    const result = propertyEstateProjection(mockPropertyModel)
+    expect(result.yearly[1].running_cost).toBeGreaterThan(result.yearly[0].running_cost)
+    // Check approx 3% growth
+    const ratio = result.yearly[1].running_cost / result.yearly[0].running_cost
+    expect(ratio).toBeCloseTo(1.03, 1)
+  })
+
+  it('disposal receipts spread front-loaded', () => {
+    const result = propertyEstateProjection(mockPropertyModel)
+    // Year 1 gets 30%, Year 5 gets 10%
+    expect(result.yearly[0].disposal_receipts).toBeGreaterThan(result.yearly[4].disposal_receipts)
+  })
+
+  it('co-location savings ramp up', () => {
+    const result = propertyEstateProjection(mockPropertyModel)
+    expect(result.yearly[4].co_location_saving).toBeGreaterThan(result.yearly[0].co_location_saving)
+    expect(result.yearly[4].co_location_saving).toBe(3000000) // 100% by year 5
+  })
+
+  it('backlog trajectory shows 5yr growth', () => {
+    const result = propertyEstateProjection(mockPropertyModel)
+    expect(result.backlog_trajectory).toBeGreaterThan(5000000)
+  })
+
+  it('disposal pipeline matches target', () => {
+    const result = propertyEstateProjection(mockPropertyModel)
+    expect(result.disposal_pipeline).toBe(56300000)
+  })
+
+  it('care home liability captured', () => {
+    const result = propertyEstateProjection(mockPropertyModel)
+    expect(result.care_home_liability).toBe(5000000)
+  })
+})
+
+describe('resourcesServiceDirectives', () => {
+  it('returns empty for null inputs', () => {
+    const result = resourcesServiceDirectives(null, null)
+    expect(result).toEqual([])
+  })
+
+  it('generates property directives from property model', () => {
+    const result = resourcesServiceDirectives(mockPropertyModel, null)
+    expect(result.length).toBeGreaterThanOrEqual(2)
+    expect(result.every(d => d.id && d.type && d.action)).toBe(true)
+  })
+
+  it('generates estate rationalisation directive', () => {
+    const result = resourcesServiceDirectives(mockPropertyModel, null)
+    const estate = result.find(d => d.id === 'resources_estate_rationalisation')
+    expect(estate).toBeTruthy()
+    expect(estate.tier).toBe('income_generation')
+    expect(estate.action).toContain('Willow Lane')
+    expect(estate.save_high).toBe(56300000)
+  })
+
+  it('generates co-location directive', () => {
+    const result = resourcesServiceDirectives(mockPropertyModel, null)
+    const coLoc = result.find(d => d.id === 'resources_co_location')
+    expect(coLoc).toBeTruthy()
+    expect(coLoc.action).toContain('15')
+    expect(coLoc.tier).toBe('service_redesign')
+  })
+
+  it('generates care home investment directive', () => {
+    const result = resourcesServiceDirectives(mockPropertyModel, null)
+    const ch = result.find(d => d.id === 'resources_care_home_investment')
+    expect(ch).toBeTruthy()
+    expect(ch.tier).toBe('statutory')
+    expect(ch.action).toContain('All 5 county care homes saved')
+  })
+
+  it('generates procurement directives from procurement model', () => {
+    const result = resourcesServiceDirectives(null, mockProcurementModel)
+    expect(result.length).toBeGreaterThanOrEqual(2)
+    expect(result.every(d => d.id && d.type && d.action)).toBe(true)
+  })
+
+  it('generates e-invoicing directive', () => {
+    const result = resourcesServiceDirectives(null, mockProcurementModel)
+    const einv = result.find(d => d.id === 'resources_e_invoicing')
+    expect(einv).toBeTruthy()
+    expect(einv.tier).toBe('efficiency')
+    expect(einv.action).toContain('600,000')
+    expect(einv.save_high).toBe(2700000)
+  })
+
+  it('generates supplier diversification directive', () => {
+    const result = resourcesServiceDirectives(null, mockProcurementModel)
+    const sd = result.find(d => d.id === 'resources_supplier_diversification')
+    expect(sd).toBeTruthy()
+    expect(sd.action).toContain('1200')
+    expect(sd.action).toContain('33%')
+  })
+
+  it('generates finance automation directive', () => {
+    const result = resourcesServiceDirectives(null, mockProcurementModel)
+    const fa = result.find(d => d.id === 'resources_finance_automation')
+    expect(fa).toBeTruthy()
+    expect(fa.action).toContain('20%')
+  })
+
+  it('combines both property and procurement directives', () => {
+    const result = resourcesServiceDirectives(mockPropertyModel, mockProcurementModel)
+    const propCount = result.filter(d => d.id.startsWith('resources_estate') || d.id.startsWith('resources_co') || d.id.startsWith('resources_care')).length
+    const procCount = result.filter(d => d.id.startsWith('resources_e_') || d.id.startsWith('resources_supplier') || d.id.startsWith('resources_finance')).length
+    expect(propCount).toBeGreaterThanOrEqual(2)
+    expect(procCount).toBeGreaterThanOrEqual(2)
+  })
+
+  it('all directives have standard schema fields', () => {
+    const result = resourcesServiceDirectives(mockPropertyModel, mockProcurementModel)
+    for (const d of result) {
+      expect(d.id).toBeTruthy()
+      expect(d.type).toBe('service_model')
+      expect(d.tier).toBeTruthy()
+      expect(d.action).toBeTruthy()
+      expect(d.save_low).toBeGreaterThanOrEqual(0)
+      expect(d.save_high).toBeGreaterThanOrEqual(d.save_low)
+      expect(d.save_central).toBeGreaterThanOrEqual(0)
+      expect(d.timeline).toBeTruthy()
+      expect(d.legal_basis).toBeTruthy()
+      expect(d.steps).toBeDefined()
+      expect(d.governance_route).toBeTruthy()
+      expect(d.priority).toBeTruthy()
+      expect(typeof d.feasibility).toBe('number')
+      expect(typeof d.impact).toBe('number')
+    }
+  })
+
+  it('integrates with generateDirectives for resources portfolio', () => {
+    const resPortfolio = {
+      id: 'resources',
+      title: 'Resources',
+      cabinet_member: { name: 'Test' },
+      executive_director: 'Angie Ridgwell',
+      spending_department_patterns: ['^Resources', '^Corporate'],
+      budget_latest: { net_expenditure: 200000000 },
+      savings_levers: [],
+      operational_context: {
+        service_model: {
+          property_cost_model: mockPropertyModel,
+          procurement_model: mockProcurementModel,
+        },
+      },
+    }
+    const result = generateDirectives(resPortfolio, {}, [])
+    const serviceDirectives = result.filter(d => d.type === 'service_model')
+    expect(serviceDirectives.length).toBeGreaterThanOrEqual(4)
+    for (const d of serviceDirectives) {
+      expect(d.portfolio_id).toBe('resources')
+      expect(d.officer).toBe('Angie Ridgwell')
+    }
+  })
+})
+
+// ─── Updated quantifyDemandPressures for new models ───
+
+describe('quantifyDemandPressures — new service models', () => {
+  it('adds children_cost_model pressures', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 180000000 },
+      demand_pressures: [],
+      operational_context: { service_model: { children_cost_model: mockChildrenModel } },
+    }
+    const result = quantifyDemandPressures(portfolio)
+    const residentialPressure = result.pressures.find(p => p.name.includes('Residential placement'))
+    expect(residentialPressure).toBeDefined()
+    expect(residentialPressure.severity).toBe('critical')
+  })
+
+  it('adds UASC shortfall pressure', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 180000000 },
+      demand_pressures: [],
+      operational_context: { service_model: { children_cost_model: mockChildrenModel } },
+    }
+    const result = quantifyDemandPressures(portfolio)
+    const uascPressure = result.pressures.find(p => p.name.includes('UASC'))
+    expect(uascPressure).toBeDefined()
+    expect(uascPressure.annual_impact).toBe(6570000)
+  })
+
+  it('adds public_health_model pressures', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 97600000 },
+      demand_pressures: [],
+      operational_context: { service_model: { public_health_model: mockPublicHealthModel } },
+    }
+    const result = quantifyDemandPressures(portfolio)
+    const grantPressure = result.pressures.find(p => p.name.includes('PH grant'))
+    expect(grantPressure).toBeDefined()
+    expect(grantPressure.severity).toBe('high')
+  })
+
+  it('adds SSMTR/ADDER cliff edge pressure', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 97600000 },
+      demand_pressures: [],
+      operational_context: { service_model: { public_health_model: mockPublicHealthModel } },
+    }
+    const result = quantifyDemandPressures(portfolio)
+    const cliffPressure = result.pressures.find(p => p.name.includes('SSMTR'))
+    expect(cliffPressure).toBeDefined()
+    expect(cliffPressure.severity).toBe('critical')
+    expect(cliffPressure.annual_impact).toBe(10600000)
+  })
+
+  it('adds property_cost_model pressures', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 200000000 },
+      demand_pressures: [],
+      operational_context: { service_model: { property_cost_model: mockPropertyModel } },
+    }
+    const result = quantifyDemandPressures(portfolio)
+    const backlogPressure = result.pressures.find(p => p.name.includes('Property maintenance'))
+    expect(backlogPressure).toBeDefined()
+    expect(backlogPressure.severity).toBe('medium')
   })
 })
