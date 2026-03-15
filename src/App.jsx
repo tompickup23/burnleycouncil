@@ -142,7 +142,8 @@ function RouterContent() {
             <Route path="/supplier/:supplierId" element={<Guarded><SupplierView /></Guarded>} />
             <Route path="/procurement" element={<Guarded><Procurement /></Guarded>} />
             <Route path="/press" element={<Guarded><Press /></Guarded>} />
-            <Route path="/demographics" element={<Guarded><Demographics /></Guarded>} />
+            <Route path="/people-and-communities" element={<Guarded><Demographics /></Guarded>} />
+            <Route path="/demographics" element={<Navigate to="/people-and-communities" replace />} />
             <Route path="/lgr" element={<Guarded><LGRTracker /></Guarded>} />
             <Route path="/lgr-calculator" element={<Guarded><LGRCostCalculator /></Guarded>} />
             <Route path="/integrity" element={<Guarded><Integrity /></Guarded>} />

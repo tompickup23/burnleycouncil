@@ -55,7 +55,7 @@ const navSections = [
     items: [
       { path: '/my-area', icon: MapPin, label: 'My Area', requires: 'my_area' },
       { path: '/roadworks', icon: Route, label: 'Roadworks', requires: 'highways' },
-      { path: '/demographics', icon: Globe, label: 'People', requires: 'demographics' },
+      { path: '/people-and-communities', icon: Globe, label: 'People & Communities', requires: 'demographics' },
       { path: '/housing', icon: Building2, label: 'Housing', requires: 'housing' },
       { path: '/crime', icon: Shield, label: 'Crime & Safety', requires: 'crime_stats' },
       { path: '/health', icon: Heart, label: 'Health', requires: 'health' },

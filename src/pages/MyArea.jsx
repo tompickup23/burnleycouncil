@@ -322,7 +322,7 @@ function MyArea() {
         key: 'demographics',
         title: 'Demographics',
         icon: <Users size={22} />,
-        to: '/demographics',
+        to: '/people-and-communities',
         color: '#12B6CF',
         stat,
         label,

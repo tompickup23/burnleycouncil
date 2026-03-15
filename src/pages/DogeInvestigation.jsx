@@ -1467,7 +1467,7 @@ function DogeInvestigation() {
 
             {/* Links */}
             <div style={{ marginTop: '1rem', display: 'flex', gap: '1rem', fontSize: '0.8125rem' }}>
-              <Link to="/demographics" className="link-arrow">Demographics → Fiscal Outlook</Link>
+              <Link to="/people-and-communities" className="link-arrow">People & Communities → Fiscal Outlook</Link>
               <Link to="/lgr" className="link-arrow">LGR Tracker → Demographic Risk</Link>
             </div>
 
