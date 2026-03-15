@@ -32,7 +32,7 @@ function Demographics() {
   const [mapMetric, setMapMetric] = useState('deprivation')
 
   useEffect(() => {
-    document.title = `Demographics | ${councilName} Council Transparency`
+    document.title = `People & Communities | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
 
@@ -331,7 +331,7 @@ function Demographics() {
       {/* Hero */}
       <section className="demo-hero">
         <div className="hero-content">
-          <h1>Demographics</h1>
+          <h1>People & Communities</h1>
           <p className="hero-subtitle">
             Population data, projections, and migration for {councilName}
           </p>

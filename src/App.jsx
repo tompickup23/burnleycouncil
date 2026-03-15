@@ -49,7 +49,6 @@ const Economy = lazy(() => import('./pages/Economy'))
 const Highways = lazy(() => import('./pages/Highways'))
 const Roadworks = lazy(() => import('./pages/Roadworks'))
 const Executive = lazy(() => import('./pages/Executive'))
-const CabinetDashboard = lazy(() => import('./pages/CabinetDashboard'))
 const DirectorateDashboard = lazy(() => import('./pages/DirectorateDashboard'))
 const DirectorateDetail = lazy(() => import('./pages/DirectorateDetail'))
 const PortfolioDetail = lazy(() => import('./pages/PortfolioDetail'))
@@ -164,7 +163,6 @@ function RouterContent() {
             <Route path="/roadworks" element={<Guarded><Roadworks /></Guarded>} />
             <Route path="/executive" element={<Guarded><Executive /></Guarded>} />
             <Route path="/cabinet" element={<Guarded><DirectorateDashboard /></Guarded>} />
-            <Route path="/cabinet/old" element={<Guarded><CabinetDashboard /></Guarded>} />
             <Route path="/cabinet/:portfolioId" element={<Guarded><PortfolioDetail /></Guarded>} />
             <Route path="/directorate/:directorateId" element={<Guarded><DirectorateDetail /></Guarded>} />
             <Route path="/admin" element={<Guarded><AdminPanel /></Guarded>} />

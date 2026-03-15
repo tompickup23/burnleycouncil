@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useLocation } from 'react-router-dom'
 import { Users, PieChart, Target, ChevronRight, Calendar, TrendingUp, Shield, Zap, Briefcase, FileText, AlertTriangle, Scale, Building2, Wrench, MapPin, Download } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, Legend, PieChart as RechartsPie, Pie, Cell, ScatterChart, Scatter, ZAxis } from 'recharts'
 import { useData } from '../hooks/useData'
@@ -24,6 +24,8 @@ import {
   priorityMatrix,
   generatePortfolioFOI,
   crossPortfolioDependencies,
+  contractPipeline,
+  fundingConstraints,
   formatCurrency,
 } from '../utils/savingsEngine'
 import './PortfolioDetail.css'
@@ -32,7 +34,7 @@ const TABS = [
   { id: 'overview', label: 'Overview', icon: <Users size={14} /> },
   { id: 'budget', label: 'Budget', icon: <PieChart size={14} /> },
   { id: 'spending', label: 'Spending', icon: <TrendingUp size={14} /> },
-  { id: 'suppliers', label: 'Suppliers', icon: <Building2 size={14} /> },
+  { id: 'contracts', label: 'Contracts', icon: <Building2 size={14} /> },
   { id: 'savings', label: 'Savings', icon: <Target size={14} /> },
   { id: 'decisions', label: 'Decisions', icon: <Calendar size={14} /> },
   { id: 'legal', label: 'Legal & Political', icon: <Scale size={14} /> },
@@ -42,6 +44,7 @@ const TABS = [
 
 export default function PortfolioDetail() {
   const { portfolioId } = useParams()
+  const location = useLocation()
   const config = useCouncilConfig()
   const dataSources = config.data_sources || {}
   const authCtx = useAuth()
@@ -49,6 +52,15 @@ export default function PortfolioDetail() {
 
   const hasAccess = authCtx?.isCouncillor || !isFirebaseEnabled
   const isCabinetLevel = authCtx?.isCabinetLevel || !isFirebaseEnabled
+
+  // Context-aware back navigation
+  const referrer = location.state?.from
+  const backLink = referrer?.startsWith('/directorate/') ? referrer
+    : referrer === '/executive' ? '/executive'
+    : '/cabinet'
+  const backLabel = referrer?.startsWith('/directorate/') ? '← Back to Directorate'
+    : referrer === '/executive' ? '← Back to Executive'
+    : '← Savings Dashboard'
 
   const { data: allData, loading, error } = useData(
     dataSources.cabinet_portfolios
@@ -65,12 +77,12 @@ export default function PortfolioDetail() {
   const portfolio = portfolios.find(p => p.id === portfolioId)
   const findings = findingsData || {}
   const meetings = Array.isArray(meetingsData) ? meetingsData : meetingsData?.meetings || []
-  const documents = Array.isArray(documentsData) ? documentsData : documentsData?.decisions || []
+  const documents = Array.isArray(documentsData) ? documentsData : documentsData?.decisions || documentsData?.recent_decisions || []
   const procurement = Array.isArray(procurementData) ? procurementData : procurementData?.contracts || []
 
   // Compute all derived data with useMemo hooks BEFORE conditional returns
   const pFindings = useMemo(() => mapFindingsToPortfolio(findings, portfolio), [findings, portfolio])
-  const directives = useMemo(() => generateDirectives(portfolio, findings, []), [portfolio, findings])
+  const directives = useMemo(() => generateDirectives(portfolio, findings, [], { procurement, fundingModel: portfolioData?.administration?.funding_model }), [portfolio, findings, procurement, portfolioData])
   const playbook = useMemo(() => generateReformPlaybook(portfolio, directives), [portfolio, directives])
   const matrix = useMemo(() => priorityMatrix(directives), [directives])
   const upcomingDecisions = useMemo(() => decisionPipeline(meetings, portfolio, documents), [meetings, portfolio, documents])
@@ -78,6 +90,8 @@ export default function PortfolioDetail() {
     dogeFindings: findings,
   }), [portfolio, findings])
   const dependencies = useMemo(() => crossPortfolioDependencies(portfolios), [portfolios])
+  const contractData = useMemo(() => contractPipeline(procurement, portfolio), [procurement, portfolio])
+  const fundingData = useMemo(() => fundingConstraints(portfolio, portfolioData?.administration?.funding_model), [portfolio, portfolioData])
 
   // Scatter data for priority matrix
   const scatterData = useMemo(() =>
@@ -105,7 +119,26 @@ export default function PortfolioDetail() {
   if (loading) return <LoadingState message="Loading portfolio..." />
   if (error) return <div className="portfolio-detail"><h1>Error</h1><p>{error.message || 'Failed to load'}</p></div>
   if (!portfolio) {
-    return <div className="portfolio-detail"><h1>Portfolio Not Found</h1><p>No portfolio with ID &quot;{portfolioId}&quot;</p><Link to="/cabinet">Back to Cabinet Dashboard</Link></div>
+    const validIds = portfolios.map(p => p.id).filter(Boolean)
+    return (
+      <div className="portfolio-detail">
+        <h1>Portfolio Not Found</h1>
+        <p>No portfolio with ID &quot;{portfolioId}&quot;</p>
+        {validIds.length > 0 && (
+          <div style={{ marginTop: '1rem' }}>
+            <p>Available portfolios:</p>
+            <ul style={{ listStyle: 'none', padding: 0 }}>
+              {validIds.map(id => (
+                <li key={id} style={{ margin: '0.25rem 0' }}>
+                  <Link to={`/cabinet/${id}`} style={{ color: '#12B6CF' }}>{portfolios.find(p => p.id === id)?.title || id}</Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+        <Link to="/cabinet" style={{ display: 'inline-block', marginTop: '1rem', color: '#12B6CF' }}>← Back to Savings Dashboard</Link>
+      </div>
+    )
   }
 
   const totalSavings = directives.reduce((s, d) => s + (d.save_central || 0), 0)
@@ -114,7 +147,7 @@ export default function PortfolioDetail() {
     <div className="portfolio-detail">
       {/* Hero */}
       <div className="portfolio-hero">
-        <Link to="/cabinet" className="portfolio-back">← Savings Dashboard</Link>
+        <Link to={backLink} className="portfolio-back">{backLabel}</Link>
         <h1>{portfolio.title}</h1>
         <p className="portfolio-subtitle">{portfolio.cabinet_member?.name} — {portfolio.cabinet_member?.ward}</p>
         <div className="portfolio-hero-stats">
@@ -233,6 +266,34 @@ export default function PortfolioDetail() {
               ))}
             </div>
           </div>
+
+          {/* Ring-fenced Funding Constraints */}
+          {fundingData && fundingData.grants.length > 0 && (
+            <CollapsibleSection title="Ring-Fenced Funding" icon={<Shield size={18} />}>
+              <div className="portfolio-stat-row" style={{ marginBottom: '1rem' }}>
+                <StatCard label="Ring-Fenced Total" value={formatCurrency(fundingData.ring_fenced_total)} color="#e4002b" icon={<Shield size={18} />} />
+                <StatCard label="Addressable Budget" value={formatCurrency(fundingData.addressable)} icon={<Target size={18} />} />
+                <StatCard label="Addressable %" value={`${fundingData.addressable_pct}%`} icon={<PieChart size={18} />} />
+              </div>
+              {fundingData.grants.map((g, i) => (
+                <div key={i} className="funding-grant-card">
+                  <div>
+                    <div className="funding-grant-name">
+                      {g.name}
+                      {g.saveable !== undefined && (
+                        <span className={`funding-saveable funding-saveable-${g.saveable}`}>
+                          {g.saveable === false ? 'Not saveable' : g.saveable === 'within_ringfence' ? 'Efficiency only' : String(g.saveable)}
+                        </span>
+                      )}
+                    </div>
+                    <div className="funding-grant-source">Source: {g.source}</div>
+                    {g.note && <div className="funding-grant-note">{g.note}</div>}
+                  </div>
+                  <div className="funding-grant-value">{formatCurrency(g.value)}</div>
+                </div>
+              ))}
+            </CollapsibleSection>
+          )}
         </div>
       )}
 
@@ -276,11 +337,111 @@ export default function PortfolioDetail() {
         </div>
       )}
 
-      {/* Tab 4: Suppliers */}
-      {activeTab === 'suppliers' && (
+      {/* Tab 4: Contracts & Procurement */}
+      {activeTab === 'contracts' && (
         <div className="portfolio-tab-content">
-          <p className="portfolio-note">Supplier analysis requires spending data to be loaded. View the full analysis on the Spending page.</p>
-          <Link to="/spending" className="portfolio-section-link">View Spending Analysis <ChevronRight size={14} /></Link>
+          {/* Contract Coverage Stats */}
+          <div className="portfolio-stat-row" style={{ marginBottom: '1.5rem' }}>
+            <StatCard label="Matched Contracts" value={contractData.total_contracts} icon={<FileText size={18} />} />
+            <StatCard label="Total Value" value={contractData.total_value > 0 ? formatCurrency(contractData.total_value) : '—'} icon={<TrendingUp size={18} />} />
+            <StatCard label="Expiring <3 months" value={contractData.expiring_3m.length} color={contractData.expiring_3m.length > 0 ? '#e4002b' : undefined} icon={<AlertTriangle size={18} />} />
+            <StatCard label="Expiring 3-12 months" value={contractData.expiring_6m.length + contractData.expiring_12m.length} icon={<Calendar size={18} />} />
+          </div>
+
+          {/* Key Contracts Table */}
+          {portfolio.key_contracts?.length > 0 && (
+            <CollapsibleSection title="Key Contracts" icon={<Briefcase size={18} />} defaultOpen>
+              <div className="portfolio-contracts-table-wrap">
+                <table className="portfolio-contracts-table">
+                  <thead>
+                    <tr>
+                      <th>Contract</th>
+                      <th>Provider</th>
+                      <th>Value</th>
+                      <th>Duration</th>
+                      <th>CF</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {portfolio.key_contracts.map((kc, i) => (
+                      <tr key={i}>
+                        <td>
+                          <span className="contract-name">{kc.name}</span>
+                          {kc.note && <span className="contract-note">{kc.note}</span>}
+                        </td>
+                        <td>{kc.provider}</td>
+                        <td className="contract-value">{kc.value}</td>
+                        <td>{kc.duration}</td>
+                        <td>
+                          {kc.contracts_finder_ids?.length > 0
+                            ? <span className="cf-badge cf-linked" title={`${kc.contracts_finder_ids.length} linked`}>{kc.contracts_finder_ids.length}</span>
+                            : <span className="cf-badge cf-none" title="Not on Contracts Finder">—</span>
+                          }
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CollapsibleSection>
+          )}
+
+          {/* Contracts Finder Notices */}
+          {contractData.relevant.length > 0 && (
+            <CollapsibleSection title={`Contracts Finder Notices (${contractData.relevant.length})`} icon={<FileText size={18} />}>
+              <div className="portfolio-contracts-table-wrap">
+                <table className="portfolio-contracts-table">
+                  <thead>
+                    <tr>
+                      <th>Title</th>
+                      <th>Supplier</th>
+                      <th>Value</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {contractData.relevant.slice(0, 25).map((c, i) => (
+                      <tr key={c.id || i}>
+                        <td>
+                          {c.id ? <a href={`https://www.contractsfinder.service.gov.uk/Notice/${c.id}`} target="_blank" rel="noopener noreferrer" className="contract-link">{c.title}</a> : c.title}
+                        </td>
+                        <td>{c.supplier}</td>
+                        <td className="contract-value">{c.value > 0 ? formatCurrency(c.value) : '—'}</td>
+                        <td><span className={`contract-status contract-status-${c.status?.toLowerCase()}`}>{c.status}</span></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CollapsibleSection>
+          )}
+
+          {/* Contract Expiry Pipeline */}
+          {(contractData.expiring_3m.length > 0 || contractData.expiring_6m.length > 0 || contractData.expiring_12m.length > 0) && (
+            <CollapsibleSection title="Contract Expiry Pipeline" icon={<AlertTriangle size={18} />}>
+              {[
+                { label: 'Expiring within 3 months', items: contractData.expiring_3m, urgency: 'critical' },
+                { label: 'Expiring 3-6 months', items: contractData.expiring_6m, urgency: 'warning' },
+                { label: 'Expiring 6-12 months', items: contractData.expiring_12m, urgency: 'info' },
+              ].filter(g => g.items.length > 0).map(g => (
+                <div key={g.label} className="expiry-group">
+                  <h4 className={`expiry-heading expiry-${g.urgency}`}>{g.label} ({g.items.length})</h4>
+                  {g.items.map((c, i) => (
+                    <div key={i} className="expiry-card">
+                      <span className="expiry-title">{c.title}</span>
+                      <span className="expiry-supplier">{c.supplier}</span>
+                      <span className="expiry-value">{c.value > 0 ? formatCurrency(c.value) : '—'}</span>
+                      <span className="expiry-date">{c.end_date}</span>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </CollapsibleSection>
+          )}
+
+          {contractData.total_contracts === 0 && !portfolio.key_contracts?.length && (
+            <p className="portfolio-note">No Contracts Finder data matched this portfolio. Coverage gaps may exist — check procurement.json for department matching patterns.</p>
+          )}
         </div>
       )}
 
@@ -319,6 +480,17 @@ export default function PortfolioDetail() {
                       </div>
                     )}
                     {d.evidence && <div className="portfolio-directive-evidence"><strong>EVIDENCE:</strong> {d.evidence}</div>}
+                    {d.funding_constraint && <div className="portfolio-directive-constraint"><strong>FUNDING:</strong> {d.funding_constraint}</div>}
+                    {d.article_refs?.length > 0 && (
+                      <div className="portfolio-directive-sources">
+                        <strong>SOURCES:</strong>
+                        {d.article_refs.map((r, j) => (
+                          <Link key={j} to={`/news/${r.id}`} className="portfolio-source-link">
+                            <FileText size={12} /> {r.title}
+                          </Link>
+                        ))}
+                      </div>
+                    )}
                   </div>
                 )
               })}

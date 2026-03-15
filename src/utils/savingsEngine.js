@@ -561,6 +561,8 @@ export function generateDirectives(portfolio, findings, spending, options = {}) 
       steps: lever.steps || [lever.description],
       governance_route: high > 500000 ? 'cabinet' : 'officer_delegation',
       evidence: lever.description,
+      article_refs: lever.evidence?.article_refs || [],
+      lever_name: lever.lever,
       portfolio_id: portfolio.id,
       officer: portfolio.executive_director,
       priority: lever.risk === 'Low' ? 'high' : lever.risk === 'High' ? 'low' : 'medium',
@@ -608,6 +610,79 @@ export function generateDirectives(portfolio, findings, spending, options = {}) 
         feasibility: 5,
         impact: Math.min(10, Math.ceil(topSupplier[1] * 0.1 / 1000000)),
       })
+    }
+  }
+
+  // 4. Contract-aware directives (from procurement data)
+  if (options.procurement?.length > 0) {
+    const pipeline = contractPipeline(options.procurement, portfolio)
+
+    // Expiring contract renegotiation opportunity
+    if (pipeline.expiring_3m.length > 0) {
+      const expiringValue = pipeline.expiring_3m.reduce((s, c) => s + (c.value || 0), 0)
+      if (expiringValue > 50000) {
+        directives.push({
+          id: `${portfolio.id}_contract_expiry_3m`,
+          type: 'contract_renegotiation',
+          tier: 'procurement_reform',
+          owner: 'portfolio',
+          action: `${pipeline.expiring_3m.length} contracts expiring within 3 months (${formatCurrency(expiringValue)}) — renegotiate or retender`,
+          save_low: expiringValue * 0.03,
+          save_high: expiringValue * 0.12,
+          save_central: expiringValue * 0.07,
+          timeline: 'Immediate (0-3 months)',
+          legal_basis: 'Public Contracts Regulations 2015 / Procurement Act 2023',
+          risk: 'Medium',
+          risk_detail: 'Short timeline. May need to extend existing contracts if retender not possible within window.',
+          steps: ['Review contract terms and performance', 'Assess market alternatives', 'Issue retender or negotiate extension with improved terms'],
+          governance_route: expiringValue > 500000 ? 'cabinet' : 'officer_delegation',
+          evidence: `Contracts Finder: ${pipeline.expiring_3m.map(c => c.title).join('; ')}`,
+          portfolio_id: portfolio.id,
+          officer: portfolio.executive_director,
+          priority: 'high',
+          feasibility: 7,
+          impact: Math.min(10, Math.ceil(expiringValue * 0.07 / 500000)),
+        })
+      }
+    }
+
+    // Weak competition warning (single bidder contracts)
+    if (pipeline.single_bidder_count > 0 && pipeline.total_contracts > 2) {
+      const singleBidderPct = Math.round((pipeline.single_bidder_count / pipeline.total_contracts) * 100)
+      if (singleBidderPct > 30) {
+        directives.push({
+          id: `${portfolio.id}_weak_competition`,
+          type: 'competition_improvement',
+          tier: 'procurement_reform',
+          owner: 'portfolio',
+          action: `${singleBidderPct}% of contracts have single bidder — improve market engagement`,
+          save_low: 0,
+          save_high: pipeline.total_value * 0.05,
+          save_central: pipeline.total_value * 0.02,
+          timeline: 'Medium-term (6-18 months)',
+          legal_basis: 'Best Value duty (LGA 1999) — duty to secure competition',
+          risk: 'Low',
+          risk_detail: 'Better procurement practices. Market warming, lot-splitting, and framework diversification.',
+          steps: ['Analyse why single-bidder outcomes occur', 'Conduct pre-market engagement for upcoming retenders', 'Consider lot-splitting to widen competition'],
+          governance_route: 'officer_delegation',
+          evidence: `${pipeline.single_bidder_count}/${pipeline.total_contracts} contracts had single bidder`,
+          portfolio_id: portfolio.id,
+          officer: portfolio.executive_director,
+          priority: 'medium',
+          feasibility: 6,
+          impact: Math.min(8, Math.ceil(pipeline.total_value * 0.02 / 1000000)),
+        })
+      }
+    }
+  }
+
+  // 5. Funding constraint metadata on existing directives
+  if (options.fundingModel) {
+    const constraints = fundingConstraints(portfolio, options.fundingModel)
+    if (constraints && constraints.addressable_pct < 50) {
+      for (const d of directives) {
+        d.funding_constraint = `Only ${constraints.addressable_pct}% of budget addressable (${formatCurrency(constraints.ring_fenced_total)} ring-fenced)`
+      }
     }
   }
 
@@ -973,39 +1048,81 @@ export function supplierPortfolioAnalysis(spending, options = {}) {
  * @returns {Object} Contract pipeline analysis
  */
 export function contractPipeline(contracts, portfolio) {
-  if (!contracts?.length || !portfolio) return { expiring_3m: [], expiring_6m: [], expiring_12m: [], total_value: 0 }
+  const empty = { expiring_3m: [], expiring_6m: [], expiring_12m: [], total_value: 0, total_contracts: 0, relevant: [], sme_count: 0, single_bidder_count: 0 }
+  if (!contracts?.length || !portfolio) return empty
 
   const now = new Date()
   const m3 = new Date(now.getTime() + 90 * 24 * 60 * 60 * 1000)
   const m6 = new Date(now.getTime() + 180 * 24 * 60 * 60 * 1000)
   const m12 = new Date(now.getTime() + 365 * 24 * 60 * 60 * 1000)
 
-  // Filter contracts relevant to portfolio (simple keyword match on title/description)
-  const keywords = (portfolio.key_services || []).map(s => s.toLowerCase().split(' ')).flat()
+  // Match via spending_department_patterns (regex), key_services keywords, AND key_contracts providers
+  const patterns = (portfolio.spending_department_patterns || []).map(p => { try { return new RegExp(p, 'i') } catch { return null } }).filter(Boolean)
+  const keywords = (portfolio.key_services || []).map(s => s.toLowerCase().split(' ')).flat().filter(k => k.length > 3)
+  const providers = (portfolio.key_contracts || []).map(kc => kc.provider.toLowerCase().split(' ')[0]).filter(w => w.length > 3)
+
   const isRelevant = (contract) => {
-    const text = `${contract.title || ''} ${contract.description || ''}`.toLowerCase()
-    return keywords.some(k => k.length > 3 && text.includes(k))
+    const text = `${contract.title || ''} ${contract.description || ''} ${contract.awarded_supplier || ''}`.toLowerCase()
+    if (keywords.some(k => text.includes(k))) return true
+    if (patterns.some(p => p.test(text))) return true
+    const supplier = (contract.awarded_supplier || '').toLowerCase()
+    if (providers.some(p => supplier.includes(p))) return true
+    return false
   }
 
   const relevant = contracts.filter(isRelevant)
 
-  const categorize = (items) => items.map(c => ({
+  const normalise = (c) => ({
+    id: c.id,
     title: c.title,
-    supplier: c.supplier || c.awarded_to,
-    value: c.value || c.contract_value,
-    end_date: c.end_date,
-  }))
+    supplier: c.awarded_supplier || c.supplier || '',
+    value: c.awarded_value || c.value || 0,
+    end_date: c.contract_end || c.end_date || null,
+    start_date: c.contract_start || c.start_date || null,
+    status: c.status || 'unknown',
+    bid_count: c.bid_count || null,
+    procedure_type: c.procedure_type || null,
+    is_sme: c.is_sme || false,
+  })
 
-  const expiring3m = relevant.filter(c => c.end_date && new Date(c.end_date) <= m3 && new Date(c.end_date) >= now)
-  const expiring6m = relevant.filter(c => c.end_date && new Date(c.end_date) <= m6 && new Date(c.end_date) > m3)
-  const expiring12m = relevant.filter(c => c.end_date && new Date(c.end_date) <= m12 && new Date(c.end_date) > m6)
+  const normalised = relevant.map(normalise)
+  const withEnd = normalised.filter(c => c.end_date)
+
+  const expiring3m = withEnd.filter(c => new Date(c.end_date) <= m3 && new Date(c.end_date) >= now)
+  const expiring6m = withEnd.filter(c => new Date(c.end_date) <= m6 && new Date(c.end_date) > m3)
+  const expiring12m = withEnd.filter(c => new Date(c.end_date) <= m12 && new Date(c.end_date) > m6)
 
   return {
-    expiring_3m: categorize(expiring3m),
-    expiring_6m: categorize(expiring6m),
-    expiring_12m: categorize(expiring12m),
-    total_value: relevant.reduce((s, c) => s + (c.value || c.contract_value || 0), 0),
-    total_contracts: relevant.length,
+    expiring_3m: expiring3m,
+    expiring_6m: expiring6m,
+    expiring_12m: expiring12m,
+    total_value: normalised.reduce((s, c) => s + (c.value || 0), 0),
+    total_contracts: normalised.length,
+    relevant: normalised,
+    sme_count: normalised.filter(c => c.is_sme).length,
+    single_bidder_count: normalised.filter(c => c.bid_count === 1).length,
+  }
+}
+
+/**
+ * Calculate funding constraints for a portfolio.
+ *
+ * @param {Object} portfolio - Portfolio object
+ * @param {Object} fundingModel - funding_model from cabinet_portfolios.json
+ * @returns {Object} Funding constraint analysis
+ */
+export function fundingConstraints(portfolio, fundingModel) {
+  if (!portfolio || !fundingModel) return null
+  const grants = (fundingModel.ring_fenced_grants || []).filter(g => g.portfolio === portfolio.id)
+  const ringFencedTotal = grants.reduce((s, g) => s + (g.value || 0), 0)
+  const totalBudget = portfolio.budget?.total || 0
+  const addressable = Math.max(0, totalBudget - ringFencedTotal)
+  return {
+    total_budget: totalBudget,
+    ring_fenced_total: ringFencedTotal,
+    addressable,
+    addressable_pct: totalBudget > 0 ? Math.round((addressable / totalBudget) * 1000) / 10 : 100,
+    grants,
   }
 }
 
@@ -2137,22 +2254,29 @@ export function evidenceChainStrength(lever) {
 
   let score = 0
 
-  // Data points — has at least 2 specific facts?
-  if (Array.isArray(ev.data_points) && ev.data_points.length >= 2) score += 20
-  else if (Array.isArray(ev.data_points) && ev.data_points.length === 1) score += 10
+  // Data points — has at least 2 specific facts? (max 15)
+  if (Array.isArray(ev.data_points) && ev.data_points.length >= 2) score += 15
+  else if (Array.isArray(ev.data_points) && ev.data_points.length === 1) score += 8
 
-  // Benchmark — has comparable reference?
-  if (ev.benchmark && ev.benchmark.length > 10) score += 20
+  // Benchmark — has comparable reference? (max 15)
+  if (ev.benchmark && ev.benchmark.length > 10) score += 15
 
-  // Calculation — has arithmetic showing how the number was derived?
+  // Calculation — has arithmetic showing how the number was derived? (max 20)
   if (ev.calculation && ev.calculation.length > 10) score += 20
 
-  // KPI link — connects to inspection/performance metric?
-  if (ev.kpi_link && ev.kpi_link.length > 10) score += 20
+  // KPI link — connects to inspection/performance metric? (max 15)
+  if (ev.kpi_link && ev.kpi_link.length > 10) score += 15
 
-  // Implementation steps — has actionable plan?
-  if (Array.isArray(ev.implementation_steps) && ev.implementation_steps.length >= 3) score += 20
-  else if (Array.isArray(ev.implementation_steps) && ev.implementation_steps.length >= 1) score += 10
+  // Implementation steps — has actionable plan? (max 15)
+  if (Array.isArray(ev.implementation_steps) && ev.implementation_steps.length >= 3) score += 15
+  else if (Array.isArray(ev.implementation_steps) && ev.implementation_steps.length >= 1) score += 8
+
+  // Article references — has published evidence? (max 10)
+  if (Array.isArray(ev.article_refs) && ev.article_refs.length >= 2) score += 10
+  else if (Array.isArray(ev.article_refs) && ev.article_refs.length === 1) score += 5
+
+  // Political framing — has Reform messaging? (max 10)
+  if (ev.political_framing && ev.political_framing.length > 20) score += 10
 
   return score
 }

@@ -137,7 +137,10 @@ function DogeInvestigation() {
   const { data: documentsData } = useData(dataSources.council_documents ? '/data/council_documents.json' : null)
   // Cross-council data for peer benchmarking
   const { data: crossCouncilData } = useData('/data/cross_council.json')
-  // Elections reference removed — was loaded but never used
+  // Procurement data for contract coverage analysis
+  const { data: procurementRaw } = useData('/data/procurement.json')
+  const procurementContracts = Array.isArray(procurementRaw) ? procurementRaw : procurementRaw?.contracts || []
+  const procurementStats = procurementRaw?.stats || null
 
   // Live Forensic Screening computations — use data[N] directly since
   // destructured names (insights, dogeFindings) aren't available until after conditional returns
@@ -1214,6 +1217,43 @@ function DogeInvestigation() {
           </ExpandableSection>
         )}
       </section>
+
+      {/* Contract Coverage Analysis (from procurement.json) */}
+      {procurementContracts.length > 0 && (
+        <ExpandableSection
+          title="Contracts Finder Coverage"
+          subtitle={`${procurementContracts.length} contracts, ${procurementStats ? '£' + Math.round((procurementStats.total_value || 0) / 1e6) + 'M total' : ''}`}
+          severity="info"
+        >
+          <div className="analysis-content">
+            <div className="procurement-stats-row">
+              <div className="proc-stat">
+                <span className="proc-stat-value">{procurementContracts.length}</span>
+                <span className="proc-stat-label">Total Contracts</span>
+              </div>
+              <div className="proc-stat">
+                <span className="proc-stat-value">{procurementContracts.filter(c => c.status === 'awarded').length}</span>
+                <span className="proc-stat-label">Awarded</span>
+              </div>
+              {procurementStats?.total_value > 0 && (
+                <div className="proc-stat">
+                  <span className="proc-stat-value">£{Math.round(procurementStats.total_value / 1e6)}M</span>
+                  <span className="proc-stat-label">Total Value</span>
+                </div>
+              )}
+              {procurementStats?.coverage_gap_pct !== undefined && (
+                <div className="proc-stat">
+                  <span className="proc-stat-value" style={{ color: procurementStats.coverage_gap_pct > 50 ? '#ff453a' : '#ff9f0a' }}>{procurementStats.coverage_gap_pct}%</span>
+                  <span className="proc-stat-label">Coverage Gap</span>
+                </div>
+              )}
+            </div>
+            <p className="analysis-note" style={{ marginTop: '0.75rem' }}>
+              Contracts Finder only captures notices above £30K. Many council contracts — especially in social care, public health and waste — are not published. Cross-reference with portfolio key contracts on the <Link to="/cabinet" style={{ color: '#12B6CF' }}>Savings Dashboard</Link>.
+            </p>
+          </div>
+        </ExpandableSection>
+      )}
 
       {/* Fraud Triangle Risk Assessment */}
       {dogeFindings.fraud_triangle && (

@@ -161,6 +161,7 @@ export default function Strategy() {
     '/data/health.json',
     '/data/voting.json',
     '/data/political_history.json',
+    '/data/councillor_profiles.json',
   ])
   const [
     councillorsData, integrityData, interestsData,
@@ -170,7 +171,8 @@ export default function Strategy() {
     hmoData, fiscalData, meetingsData,
     housingData, economyData, healthData,
     votingData, politicalHistoryData,
-  ] = dossierData || [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
+    councillorProfilesData,
+  ] = dossierData || [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]
   const propertyAssets = propertyAssetsRaw?.assets || []
 
   // --- State ---
@@ -688,6 +690,7 @@ export default function Strategy() {
               ref={dossierRef}
               dossier={activeDossier}
               playbook={activePlaybook}
+              councillorProfiles={councillorProfilesData}
               ourParty={ourParty}
               wardLabel={wardLabel}
               activeTab={dossierTab}
@@ -1335,7 +1338,7 @@ const DOSSIER_TABS = [
   { id: 'cheatSheet', label: 'Briefing Sheet', icon: Printer },
 ]
 
-const WardDossierView = forwardRef(function WardDossierView({ dossier, playbook, ourParty, wardLabel, activeTab, onTabChange, onBack }, ref) {
+const WardDossierView = forwardRef(function WardDossierView({ dossier, playbook, councillorProfiles, ourParty, wardLabel, activeTab, onTabChange, onBack }, ref) {
   if (!dossier) return null
   const cls = dossier.election?.classification || {}
 
@@ -1378,7 +1381,7 @@ const WardDossierView = forwardRef(function WardDossierView({ dossier, playbook,
       {/* Tab content */}
       <div className="dossier-content">
         {activeTab === 'strategyPlaybook' && <DossierStrategyPlaybook wardStrategy={dossier.wardStrategy} entrenchment={dossier.entrenchment} />}
-        {activeTab === 'canvassingPlaybook' && <DossierCanvassingPlaybook playbook={playbook} />}
+        {activeTab === 'canvassingPlaybook' && <DossierCanvassingPlaybook playbook={playbook} councillorProfiles={councillorProfiles} />}
         {activeTab === 'profile' && <DossierProfile profile={dossier.profile} />}
         {activeTab === 'election' && <DossierElection election={dossier.election} ourParty={ourParty} />}
         {activeTab === 'councillors' && <DossierCouncillors councillors={dossier.councillors} />}
@@ -1914,7 +1917,7 @@ function DossierStrategyPlaybook({ wardStrategy, entrenchment }) {
   )
 }
 
-function DossierCanvassingPlaybook({ playbook }) {
+function DossierCanvassingPlaybook({ playbook, councillorProfiles }) {
   if (!playbook) return <p className="dossier-empty">No canvassing data — requires election and demographic data.</p>
 
   const handlePrint = () => window.print()
@@ -1998,30 +2001,49 @@ function DossierCanvassingPlaybook({ playbook }) {
       )}
 
       {/* Defender Briefing */}
-      {playbook.defenderBriefing && (
-        <div className="playbook-section">
-          <h4><Eye size={14} /> Defending Councillor: {playbook.defenderBriefing.name}</h4>
-          <div className="defender-briefing">
-            <div className="defender-meta">
-              <span><strong>Party:</strong> {playbook.defenderBriefing.party}</span>
-              <span><strong>Tenure:</strong> {playbook.defenderBriefing.tenure}</span>
-              <span><strong>Trend:</strong> {playbook.defenderBriefing.marginTrend}</span>
+      {playbook.defenderBriefing && (() => {
+        const defName = playbook.defenderBriefing.name
+        const defProfile = defName && councillorProfiles?.councillors
+          ? councillorProfiles.councillors[slugify(defName)] || Object.values(councillorProfiles.councillors).find(p => p.name === defName)
+          : null
+        return (
+          <div className="playbook-section">
+            <h4><Eye size={14} /> Defending Councillor: {defName}</h4>
+            <div className="defender-briefing">
+              <div className="defender-meta">
+                <span><strong>Party:</strong> {playbook.defenderBriefing.party}</span>
+                <span><strong>Tenure:</strong> {playbook.defenderBriefing.tenure}</span>
+                <span><strong>Trend:</strong> {playbook.defenderBriefing.marginTrend}</span>
+                {defProfile?.occupation && <span><strong>Occupation:</strong> {defProfile.occupation}</span>}
+              </div>
+              {defProfile?.employment?.length > 0 && (
+                <div className="defender-profile-detail">
+                  <strong><Briefcase size={12} /> Employment:</strong>
+                  <ul>{defProfile.employment.map((e, i) => <li key={i}>{e.role ? `${e.role} — ${e.employer || ''}` : e.raw || e.employer}</li>)}</ul>
+                </div>
+              )}
+              {defProfile?.committees?.length > 0 && (
+                <div className="defender-profile-detail">
+                  <strong><Users size={12} /> Committees ({defProfile.committees.length}):</strong>
+                  <ul>{defProfile.committees.slice(0, 5).map((c, i) => <li key={i}>{c.committee || c.name}{c.role && c.role !== 'Member' ? ` (${c.role})` : ''}</li>)}</ul>
+                </div>
+              )}
+              {playbook.defenderBriefing.vulnerabilities?.length > 0 && (
+                <div className="defender-vulns">
+                  <strong><ThumbsDown size={12} /> Vulnerabilities:</strong>
+                  <ul>{playbook.defenderBriefing.vulnerabilities.map((v, i) => <li key={i}>{v}</li>)}</ul>
+                </div>
+              )}
+              {playbook.defenderBriefing.strengths?.length > 0 && (
+                <div className="defender-strengths">
+                  <strong><ThumbsUp size={12} /> Strengths (be aware):</strong>
+                  <ul>{playbook.defenderBriefing.strengths.map((s, i) => <li key={i}>{s}</li>)}</ul>
+                </div>
+              )}
             </div>
-            {playbook.defenderBriefing.vulnerabilities?.length > 0 && (
-              <div className="defender-vulns">
-                <strong><ThumbsDown size={12} /> Vulnerabilities:</strong>
-                <ul>{playbook.defenderBriefing.vulnerabilities.map((v, i) => <li key={i}>{v}</li>)}</ul>
-              </div>
-            )}
-            {playbook.defenderBriefing.strengths?.length > 0 && (
-              <div className="defender-strengths">
-                <strong><ThumbsUp size={12} /> Strengths (be aware):</strong>
-                <ul>{playbook.defenderBriefing.strengths.map((s, i) => <li key={i}>{s}</li>)}</ul>
-              </div>
-            )}
           </div>
-        </div>
-      )}
+        )
+      })()}
 
       {/* Ward Intelligence */}
       {playbook.wardIntelligence?.turnoutHistory?.length > 0 && (

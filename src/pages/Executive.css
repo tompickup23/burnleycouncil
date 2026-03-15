@@ -9,6 +9,24 @@
 .executive-subtitle { color: rgba(255,255,255,0.5); font-size: 0.85rem; margin-bottom: 1rem; }
 .executive-hero-stats { display: flex; gap: 0.75rem; flex-wrap: wrap; }
 
+/* Savings Dashboard cross-link */
+.executive-savings-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1.5rem;
+  background: rgba(18, 182, 207, 0.08);
+  border: 1px solid rgba(18, 182, 207, 0.2);
+  border-radius: 8px;
+  color: #12B6CF;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.executive-savings-link:hover { background: rgba(18, 182, 207, 0.15); }
+
 /* Cabinet Grid */
 .executive-cabinet-grid {
   display: grid;
@@ -157,3 +175,12 @@
 }
 .executive-governance-card h4 { font-size: 0.82rem; margin: 0 0 0.35rem; color: #12B6CF; }
 .executive-governance-card p { font-size: 0.78rem; color: rgba(255,255,255,0.6); margin: 0; }
+
+/* Contract coverage */
+.executive-stat-row { display: flex; gap: 0.75rem; flex-wrap: wrap; }
+.executive-contracts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 0.5rem; }
+.executive-contract-card { display: flex; flex-direction: column; gap: 0.2rem; padding: 0.6rem 0.75rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 6px; text-decoration: none; transition: background 0.2s; }
+.executive-contract-card:hover { background: rgba(255,255,255,0.06); }
+.executive-contract-title { font-size: 0.78rem; font-weight: 600; color: rgba(255,255,255,0.85); }
+.executive-contract-count { font-size: 0.7rem; color: rgba(255,255,255,0.5); }
+.executive-contract-urgent { font-size: 0.65rem; color: #e4002b; font-weight: 600; }

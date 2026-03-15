@@ -18,6 +18,8 @@ import {
   optimiseCanvassingRoute,
   generateCanvassingCSV,
   isQuickWin,
+  getBurnleyElectionBriefing,
+  BURNLEY_WARD_INTEL,
   WARD_CLASSES,
 } from './strategyEngine'
 
@@ -1656,5 +1658,213 @@ describe('generateCanvassingPlaybook', () => {
     const pb = generateCanvassingPlaybook('Test Ward', playbookData)
     const argDont = pb.doorstepDonts.find(d => d.toLowerCase().includes('argue'))
     expect(argDont).toBeDefined()
+  })
+
+  it('includes localIssues from elections.json reform_candidates', () => {
+    const dataWithReform = {
+      ...playbookData,
+      electionsData: {
+        ...playbookData.electionsData,
+        meta: {
+          next_election: {
+            reform_candidates: {
+              'Test Ward': {
+                candidate: 'John Smith',
+                local_issues: ['council tax up 5%', 'road repairs delayed'],
+              },
+            },
+          },
+        },
+      },
+    }
+    const pb = generateCanvassingPlaybook('Test Ward', dataWithReform)
+    expect(pb.localIssues).toEqual(['council tax up 5%', 'road repairs delayed'])
+  })
+
+  it('falls back to BURNLEY_WARD_INTEL for known wards', () => {
+    const pb = generateCanvassingPlaybook('Daneshouse with Stoneyholme', playbookData)
+    expect(pb.wardTier).toBe('must_win')
+    expect(pb.wardOpportunity).toBe(95)
+    expect(pb.localIssues.length).toBeGreaterThan(0)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// BURNLEY_WARD_INTEL constant
+// ---------------------------------------------------------------------------
+
+describe('BURNLEY_WARD_INTEL', () => {
+  it('contains all 15 Burnley wards', () => {
+    expect(Object.keys(BURNLEY_WARD_INTEL)).toHaveLength(15)
+  })
+
+  it('has must_win tier for core targets', () => {
+    expect(BURNLEY_WARD_INTEL['Daneshouse with Stoneyholme'].tier).toBe('must_win')
+    expect(BURNLEY_WARD_INTEL['Queensgate'].tier).toBe('must_win')
+    expect(BURNLEY_WARD_INTEL['Trinity'].tier).toBe('must_win')
+  })
+
+  it('has defend tier for Reform-held seats', () => {
+    expect(BURNLEY_WARD_INTEL['Hapton with Park'].tier).toBe('defend')
+    expect(BURNLEY_WARD_INTEL['Whittlefield with Ightenhill'].tier).toBe('defend')
+  })
+
+  it('has UKIP heritage data for relevant wards', () => {
+    expect(BURNLEY_WARD_INTEL['Daneshouse with Stoneyholme'].ukip_peak).toBe(49.2)
+    expect(BURNLEY_WARD_INTEL['Queensgate'].ukip_peak).toBe(40.3)
+    expect(BURNLEY_WARD_INTEL['Brunshaw'].ukip_peak).toBe(0)
+  })
+
+  it('each ward has local_issues array', () => {
+    for (const [ward, intel] of Object.entries(BURNLEY_WARD_INTEL)) {
+      expect(intel.local_issues).toBeDefined()
+      expect(Array.isArray(intel.local_issues)).toBe(true)
+      expect(intel.local_issues.length).toBeGreaterThan(0)
+    }
+  })
+
+  it('each ward has messaging string', () => {
+    for (const [ward, intel] of Object.entries(BURNLEY_WARD_INTEL)) {
+      expect(typeof intel.messaging).toBe('string')
+      expect(intel.messaging.length).toBeGreaterThan(10)
+    }
+  })
+
+  it('opportunity scores range 0-100', () => {
+    for (const intel of Object.values(BURNLEY_WARD_INTEL)) {
+      expect(intel.opportunity).toBeGreaterThanOrEqual(0)
+      expect(intel.opportunity).toBeLessThanOrEqual(100)
+    }
+  })
+})
+
+// ---------------------------------------------------------------------------
+// getBurnleyElectionBriefing
+// ---------------------------------------------------------------------------
+
+describe('getBurnleyElectionBriefing', () => {
+  const burnleyElections = {
+    meta: {
+      next_election: {
+        date: '2026-05-07',
+        type: 'borough_thirds',
+        seats_up: 15,
+        wards_up: [
+          'Bank Hall', 'Briercliffe', 'Brunshaw', 'Cliviger with Worsthorne',
+          'Coalclough with Deerplay', 'Daneshouse with Stoneyholme', 'Gannow',
+          'Gawthorpe', 'Hapton with Park', 'Lanehead', 'Queensgate',
+          'Rosegrove with Lowerhouse', 'Rosehill with Burnley Wood', 'Trinity',
+          'Whittlefield with Ightenhill',
+        ],
+        defenders: {
+          'Daneshouse with Stoneyholme': { name: 'Shah Hussain', party: 'Labour', elected_year: 2022 },
+          'Coalclough with Deerplay': { name: 'Gordon Birtwistle', party: 'Liberal Democrats', elected_year: 2022 },
+          'Hapton with Park': { name: 'Jamie McGowan', party: 'Reform UK', elected_year: 2022 },
+        },
+        reform_candidates: {
+          'Daneshouse with Stoneyholme': {
+            candidate: 'TBC',
+            local_issues: ['highest deprivation', 'unemployment 10%'],
+          },
+          'Hapton with Park': {
+            candidate: 'Jamie McGowan (Reform UK incumbent)',
+            local_issues: ['maintaining Reform representation'],
+          },
+        },
+        ward_intel: {
+          current_reform_seats: {
+            'Hapton with Park': ['Jamie McGowan'],
+            'Whittlefield with Ightenhill': ['Alan Hosker'],
+            'Trinity': ['Jeff Sumner'],
+          },
+          ukip_heritage_wards: {
+            'Daneshouse with Stoneyholme': { peak_pct: 49.2, peak_year: 2015 },
+          },
+          election_summary: '15 seats contested May 7 2026.',
+        },
+      },
+    },
+    wards: {
+      'Coalclough with Deerplay': {
+        history: [
+          { year: 2024, turnout_votes: 800, candidates: [{ party: 'Liberal Democrats', votes: 400 }, { party: 'Labour', votes: 200 }, { party: 'Conservative', votes: 100 }] },
+          { year: 2022, turnout_votes: 700, candidates: [{ party: 'Liberal Democrats', votes: 350 }, { party: 'Labour', votes: 200 }] },
+          { year: 2019, turnout_votes: 1200, candidates: [{ party: 'Liberal Democrats', votes: 380 }, { party: 'Independent', votes: 350 }] },
+        ],
+      },
+      'Daneshouse with Stoneyholme': {
+        history: [
+          { year: 2022, turnout_votes: 500, candidates: [{ party: 'Labour', votes: 250 }, { party: 'Independent', votes: 150 }] },
+        ],
+      },
+    },
+  }
+
+  it('returns null for non-Burnley 2026 election data', () => {
+    expect(getBurnleyElectionBriefing({ meta: { next_election: { date: '2027-05-06' } } })).toBeNull()
+    expect(getBurnleyElectionBriefing(null)).toBeNull()
+    expect(getBurnleyElectionBriefing({})).toBeNull()
+  })
+
+  it('returns briefing with correct election metadata', () => {
+    const briefing = getBurnleyElectionBriefing(burnleyElections)
+    expect(briefing.election_date).toBe('2026-05-07')
+    expect(briefing.seats_contested).toBe(15)
+    expect(briefing.wards_contested).toBe(15)
+    expect(briefing.current_reform_seats).toBe(3)
+  })
+
+  it('generates ward briefings sorted by opportunity', () => {
+    const briefing = getBurnleyElectionBriefing(burnleyElections)
+    expect(briefing.ward_briefings).toHaveLength(15)
+    // First should be highest opportunity
+    const opportunities = briefing.ward_briefings.map(w => w.opportunity)
+    for (let i = 1; i < opportunities.length; i++) {
+      expect(opportunities[i]).toBeLessThanOrEqual(opportunities[i - 1])
+    }
+  })
+
+  it('includes priority tiers', () => {
+    const briefing = getBurnleyElectionBriefing(burnleyElections)
+    expect(briefing.tiers.must_win.length).toBe(3)
+    expect(briefing.tiers.defend.length).toBe(2)
+    expect(briefing.tiers.long_shot.length).toBe(2)
+  })
+
+  it('includes Coalclough deep-dive', () => {
+    const briefing = getBurnleyElectionBriefing(burnleyElections)
+    expect(briefing.coalclough_deep_dive).toBeDefined()
+    expect(briefing.coalclough_deep_dive.tenure_years).toBe(43)
+    expect(briefing.coalclough_deep_dive.defender).toContain('Birtwistle')
+    expect(briefing.coalclough_deep_dive.vulnerability_analysis.length).toBeGreaterThan(3)
+    expect(briefing.coalclough_deep_dive.margin_trajectory.length).toBeGreaterThan(0)
+  })
+
+  it('includes resource allocation recommendations', () => {
+    const briefing = getBurnleyElectionBriefing(burnleyElections)
+    expect(briefing.resource_allocation).toBeDefined()
+    expect(briefing.resource_allocation.must_win).toContain('50%')
+    expect(briefing.resource_allocation.long_shot).toContain('2%')
+  })
+
+  it('includes UKIP heritage data', () => {
+    const briefing = getBurnleyElectionBriefing(burnleyElections)
+    expect(briefing.ukip_heritage_wards['Daneshouse with Stoneyholme'].peak_pct).toBe(49.2)
+  })
+
+  it('ward briefing includes defender and reform candidate info', () => {
+    const briefing = getBurnleyElectionBriefing(burnleyElections)
+    const daneshouse = briefing.ward_briefings.find(w => w.ward === 'Daneshouse with Stoneyholme')
+    expect(daneshouse.defender.name).toBe('Shah Hussain')
+    expect(daneshouse.defender.party).toBe('Labour')
+    expect(daneshouse.local_issues).toContain('highest deprivation')
+  })
+
+  it('calculates margin trends for wards with history', () => {
+    const briefing = getBurnleyElectionBriefing(burnleyElections)
+    const coalclough = briefing.ward_briefings.find(w => w.ward === 'Coalclough with Deerplay')
+    expect(coalclough.margin_trend).toBeDefined()
+    expect(['narrowing', 'widening', 'insufficient_data']).toContain(coalclough.margin_trend)
+    expect(coalclough.recent_margins.length).toBeGreaterThan(0)
   })
 })

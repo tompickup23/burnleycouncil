@@ -221,6 +221,35 @@ const mockLegalFramework = [
   },
 ]
 
+const mockProfiles = {
+  councillors: {
+    'john-smith': {
+      councillor_id: 'john-smith',
+      name: 'John Smith',
+      ward: 'Burnley Central',
+      party: 'Labour',
+      occupation: 'Self-employed Consultant',
+      biography: 'Local businessman and community advocate.',
+      completeness: 75,
+      identity_confidence: 82,
+      employment: [
+        { raw: 'Self-employed consultant', role: 'Consultant', employer: 'Smith Consulting Ltd' },
+        { raw: 'Burnley Borough Council', role: null, employer: 'Burnley Borough Council' },
+      ],
+      committees: [
+        { committee: 'Planning Committee', role: 'Chair' },
+        { committee: 'Full Council', role: 'Member' },
+      ],
+      electoral_history: [
+        { year: 2023, ward: 'Burnley Central', party: 'Labour', votes: 1200, pct: 48, elected: true },
+        { year: 2019, ward: 'Burnley Central', party: 'Labour', votes: 1100, pct: 55, elected: true },
+      ],
+      land: [{ raw: '12 High Street, Burnley' }],
+      securities: [],
+    },
+  },
+}
+
 function renderDossier(councillorId = 'john-smith') {
   return render(
     <MemoryRouter initialEntries={[`/councillor/${councillorId}`]}>
@@ -243,6 +272,9 @@ function setupMocks(overrides = {}) {
       mockMeetings,
       mockDogeFindings,
       mockLegalFramework,
+      null, // votingData
+      null, // documentsData
+      mockProfiles,
     ],
     loading: overrides.loading || false,
     error: overrides.error || null,
@@ -341,9 +373,10 @@ describe('CouncillorDossier', () => {
   })
 
   describe('Tabs', () => {
-    it('renders all 5 tabs', () => {
+    it('renders all tabs including profile', () => {
       setupMocks()
       renderDossier()
+      expect(screen.getByText('Profile')).toBeInTheDocument()
       expect(screen.getByText('Integrity')).toBeInTheDocument()
       expect(screen.getByText('Companies')).toBeInTheDocument()
       expect(screen.getByText('Register')).toBeInTheDocument()
@@ -351,11 +384,11 @@ describe('CouncillorDossier', () => {
       expect(screen.getByText('Timeline')).toBeInTheDocument()
     })
 
-    it('defaults to integrity tab', () => {
+    it('defaults to profile tab', () => {
       setupMocks()
       renderDossier()
-      // Integrity tab should show indicators content
-      expect(screen.getByText(/3 indicator/)).toBeInTheDocument()
+      // Profile tab should show employment content by default
+      expect(screen.getByText('Employment (2)')).toBeInTheDocument()
     })
 
     it('switches to companies tab', () => {
@@ -393,6 +426,7 @@ describe('CouncillorDossier', () => {
     it('shows severity badges', () => {
       setupMocks()
       renderDossier()
+      fireEvent.click(screen.getByText('Integrity'))
       expect(screen.getByText('high')).toBeInTheDocument()
       expect(screen.getByText('warning')).toBeInTheDocument()
     })
@@ -400,18 +434,21 @@ describe('CouncillorDossier', () => {
     it('shows flag types', () => {
       setupMocks()
       renderDossier()
+      fireEvent.click(screen.getByText('Integrity'))
       expect(screen.getByText('direct_supplier_conflict')).toBeInTheDocument()
     })
 
     it('shows flag detail text', () => {
       setupMocks()
       renderDossier()
+      fireEvent.click(screen.getByText('Integrity'))
       expect(screen.getByText(/Smith Consulting Ltd which matches council supplier/)).toBeInTheDocument()
     })
 
     it('shows confidence badges', () => {
       setupMocks()
       renderDossier()
+      fireEvent.click(screen.getByText('Integrity'))
       // Source tier 1 badge
       expect(screen.getByText(/T1.*95%/)).toBeInTheDocument()
     })
@@ -419,12 +456,14 @@ describe('CouncillorDossier', () => {
     it('shows summary counts', () => {
       setupMocks()
       renderDossier()
+      fireEvent.click(screen.getByText('Integrity'))
       expect(screen.getByText(/8 public data sources/)).toBeInTheDocument()
     })
 
     it('shows empty state for clean councillor', () => {
       setupMocks()
       renderDossier('jane-doe')
+      fireEvent.click(screen.getByText('Integrity'))
       // Jane Doe has 0 flags
       expect(screen.getByText(/No integrity flags identified/)).toBeInTheDocument()
     })
@@ -613,6 +652,57 @@ describe('CouncillorDossier', () => {
       expect(screen.getByText('Cllr Jane Doe')).toBeInTheDocument()
       expect(screen.getByText('92')).toBeInTheDocument() // Score
       expect(screen.getByText('Low Risk')).toBeInTheDocument()
+    })
+  })
+
+  describe('Profile Tab', () => {
+    it('shows profile tab in tabs list', () => {
+      setupMocks()
+      renderDossier()
+      expect(screen.getByText('Profile')).toBeInTheDocument()
+    })
+
+    it('displays occupation in header when profile exists', () => {
+      setupMocks()
+      renderDossier()
+      expect(screen.getByText('Self-employed Consultant')).toBeInTheDocument()
+    })
+
+    it('shows completeness and confidence scores', () => {
+      setupMocks()
+      renderDossier()
+      expect(screen.getByText('75%')).toBeInTheDocument()
+      expect(screen.getByText('82%')).toBeInTheDocument()
+    })
+
+    it('shows employment history in profile tab', () => {
+      setupMocks()
+      renderDossier()
+      expect(screen.getByText('Employment (2)')).toBeInTheDocument()
+      expect(screen.getByText('Consultant')).toBeInTheDocument()
+    })
+
+    it('shows electoral history count', () => {
+      setupMocks()
+      renderDossier()
+      expect(screen.getByText('Electoral History (2)')).toBeInTheDocument()
+    })
+
+    it('shows biography when available', () => {
+      setupMocks()
+      renderDossier()
+      expect(screen.getByText('Local businessman and community advocate.')).toBeInTheDocument()
+    })
+
+    it('shows empty state when no profile data', () => {
+      setupMocks({
+        data: [
+          mockCouncillors, mockIntegrity, mockRegister, mockElections,
+          mockMeetings, mockDogeFindings, mockLegalFramework, null, null, null,
+        ],
+      })
+      renderDossier()
+      expect(screen.getByText(/no profile data available/i)).toBeInTheDocument()
     })
   })
 })

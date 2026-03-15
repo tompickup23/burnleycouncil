@@ -78,6 +78,10 @@
 .portfolio-directive-steps ol { margin: 0.25rem 0 0 1.5rem; padding: 0; }
 .portfolio-directive-steps li { margin-bottom: 0.15rem; }
 .portfolio-directive-evidence { font-size: 0.72rem; color: rgba(255,255,255,0.35); margin-top: 0.3rem; }
+.portfolio-directive-sources { display: flex; align-items: center; flex-wrap: wrap; gap: 0.4rem; margin-top: 0.3rem; font-size: 0.72rem; }
+.portfolio-directive-sources strong { color: rgba(255,255,255,0.5); }
+.portfolio-source-link { display: inline-flex; align-items: center; gap: 3px; padding: 2px 6px; border-radius: 4px; background: rgba(18,182,207,0.08); color: #12B6CF; text-decoration: none; font-size: 0.7rem; transition: background 0.2s; }
+.portfolio-source-link:hover { background: rgba(18,182,207,0.2); }
 
 /* Legal */
 .portfolio-statutory-grid { display: flex; flex-direction: column; gap: 0.5rem; }
@@ -167,3 +171,50 @@
 
 .portfolio-empty { color: rgba(255,255,255,0.35); font-size: 0.82rem; padding: 1rem; text-align: center; }
 .portfolio-note { color: rgba(255,255,255,0.45); font-size: 0.82rem; padding: 0.5rem 0; }
+
+/* Contracts & Procurement Tab */
+.portfolio-contracts-table-wrap { overflow-x: auto; }
+.portfolio-contracts-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.portfolio-contracts-table th { text-align: left; padding: 0.5rem 0.6rem; color: rgba(255,255,255,0.5); font-weight: 600; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.04em; border-bottom: 1px solid rgba(255,255,255,0.08); }
+.portfolio-contracts-table td { padding: 0.5rem 0.6rem; border-bottom: 1px solid rgba(255,255,255,0.04); vertical-align: top; }
+.portfolio-contracts-table tr:hover { background: rgba(255,255,255,0.02); }
+.contract-name { display: block; font-weight: 600; }
+.contract-note { display: block; font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-top: 0.15rem; line-height: 1.3; }
+.contract-value { white-space: nowrap; font-variant-numeric: tabular-nums; }
+.contract-link { color: #12B6CF; text-decoration: none; }
+.contract-link:hover { text-decoration: underline; }
+.contract-status { font-size: 0.68rem; padding: 0.1rem 0.35rem; border-radius: 3px; text-transform: capitalize; }
+.contract-status-awarded { background: rgba(40,167,69,0.15); color: #28a745; }
+.contract-status-closed { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.5); }
+.contract-status-open { background: rgba(18,182,207,0.15); color: #12B6CF; }
+.cf-badge { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 20px; border-radius: 4px; font-size: 0.65rem; font-weight: 700; }
+.cf-linked { background: rgba(40,167,69,0.15); color: #28a745; }
+.cf-none { background: rgba(255,255,255,0.04); color: rgba(255,255,255,0.3); }
+
+.expiry-group { margin-bottom: 1rem; }
+.expiry-heading { font-size: 0.78rem; font-weight: 700; margin: 0 0 0.4rem; padding: 0.3rem 0.5rem; border-radius: 4px; }
+.expiry-critical { background: rgba(228,0,43,0.12); color: #e4002b; }
+.expiry-warning { background: rgba(255,159,67,0.12); color: #ff9f43; }
+.expiry-info { background: rgba(18,182,207,0.1); color: #12B6CF; }
+.expiry-card { display: grid; grid-template-columns: 1fr auto auto auto; gap: 0.5rem; padding: 0.4rem 0.6rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 4px; margin-bottom: 0.25rem; font-size: 0.75rem; align-items: center; }
+.expiry-title { font-weight: 500; }
+.expiry-supplier { color: rgba(255,255,255,0.5); }
+.expiry-value { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.expiry-date { color: rgba(255,255,255,0.4); font-size: 0.7rem; }
+
+/* Funding constraints */
+.funding-grant-card { display: flex; justify-content: space-between; align-items: center; padding: 0.6rem 0.8rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 6px; margin-bottom: 0.3rem; }
+.funding-grant-name { font-weight: 600; font-size: 0.82rem; }
+.funding-grant-source { font-size: 0.7rem; color: rgba(255,255,255,0.4); }
+.funding-grant-value { font-size: 0.85rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.funding-grant-note { font-size: 0.7rem; color: rgba(255,255,255,0.4); margin-top: 0.15rem; }
+.funding-saveable { font-size: 0.62rem; padding: 0.1rem 0.3rem; border-radius: 3px; margin-left: 0.5rem; }
+.funding-saveable-false { background: rgba(228,0,43,0.12); color: #e4002b; }
+.funding-saveable-within_ringfence { background: rgba(255,159,67,0.12); color: #ff9f43; }
+
+.portfolio-directive-constraint { font-size: 0.72rem; color: rgba(228,0,43,0.8); padding: 0.3rem 0.5rem; background: rgba(228,0,43,0.06); border-left: 2px solid rgba(228,0,43,0.3); border-radius: 0 3px 3px 0; margin-top: 0.3rem; }
+
+@media (max-width: 768px) {
+  .portfolio-contracts-table { font-size: 0.72rem; }
+  .expiry-card { grid-template-columns: 1fr; }
+}

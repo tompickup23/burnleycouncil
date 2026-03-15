@@ -93,6 +93,11 @@ function Budgets() {
   const hasDocuments = config.data_sources?.council_documents
   const { data: documentsData } = useData(hasDocuments ? '/data/council_documents.json' : null)
 
+  // Cabinet portfolios (LCC-only — for CSP decomposition)
+  const hasCabinetPortfolios = config.data_sources?.cabinet_portfolios
+  const { data: cabinetPortfoliosData } = useData(hasCabinetPortfolios ? '/data/cabinet_portfolios.json' : null)
+  const fundingModel = cabinetPortfoliosData?.administration?.funding_model || null
+
   const [activeTab, setActiveTab] = useState('revenue')
   const [expandedDept, setExpandedDept] = useState(null)
   const [selectedYear, setSelectedYear] = useState(() => {
@@ -1411,6 +1416,53 @@ function Budgets() {
       {/* Budget Decisions from council documents */}
       {documentsData?.decisions?.length > 0 && (
         <BudgetDecisionsSection decisions={documentsData.decisions} />
+      )}
+
+      {/* Core Spending Power Decomposition (LCC only) */}
+      {fundingModel && (
+        <section className="budget-section csp-section" style={{ marginTop: '32px' }}>
+          <h2><Landmark size={20} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Core Spending Power Decomposition</h2>
+          <p className="csp-subtitle" style={{ fontSize: '0.82rem', color: 'rgba(255,255,255,0.5)', marginBottom: '16px' }}>
+            How {councilName}'s {formatCurrency(fundingModel.core_spending_power, true)} Core Spending Power breaks down — and what's actually available for savings.
+          </p>
+          <div className="csp-grid">
+            {Object.entries(fundingModel.csp_components || {}).map(([key, comp]) => (
+              <div key={key} className="csp-card">
+                <div className="csp-card-name">{key.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}</div>
+                <div className="csp-card-value">{formatCurrency(comp.value, true)}</div>
+                <div className="csp-card-pct">{comp.pct}% of CSP</div>
+                <span className={`csp-rf-badge ${comp.ring_fenced === true ? 'rf-yes' : comp.ring_fenced === 'mixed' ? 'rf-mixed' : 'rf-no'}`}>
+                  {comp.ring_fenced === true ? 'Ring-fenced' : comp.ring_fenced === 'mixed' ? 'Mixed' : 'Discretionary'}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {(fundingModel.ring_fenced_grants || []).length > 0 && (
+            <div className="csp-grants-section" style={{ marginTop: '20px' }}>
+              <h3 style={{ fontSize: '0.95rem', color: '#e8e8e8', marginBottom: '10px' }}>Ring-Fenced Grants</h3>
+              <div className="csp-grants-list">
+                {fundingModel.ring_fenced_grants.map((g, i) => (
+                  <div key={i} className="csp-grant-row">
+                    <div style={{ flex: 1 }}>
+                      <div style={{ fontWeight: 600, fontSize: '0.82rem', color: '#ccc' }}>{g.name}</div>
+                      {g.note && <div style={{ fontSize: '0.72rem', color: 'rgba(255,255,255,0.4)', marginTop: '2px' }}>{g.note}</div>}
+                    </div>
+                    <div style={{ textAlign: 'right', minWidth: '80px' }}>
+                      <div style={{ fontWeight: 700, color: '#12B6CF', fontSize: '0.85rem' }}>{formatCurrency(g.value, true)}</div>
+                      <div style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.4)' }}>{g.source}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <div className="csp-constraint-note" style={{ marginTop: '16px' }}>
+            <AlertTriangle size={14} style={{ verticalAlign: 'middle', marginRight: '6px', color: '#fd7e14' }} />
+            <span>{fundingModel.savings_constraint_note}</span>
+          </div>
+        </section>
       )}
     </div>
   )

@@ -35,7 +35,7 @@ const navSections = [
     items: [
       { path: '/executive', icon: Briefcase, label: 'Cabinet & Executive', requires: 'executive_view' },
       { path: '/politics', icon: Users, label: 'Councillors', requires: 'politics' },
-      { path: '/integrity', icon: Fingerprint, label: 'Integrity', requires: 'integrity' },
+      { path: '/integrity', icon: Fingerprint, label: 'Councillor Intel', requires: 'integrity' },
       { path: '/pay', icon: BadgePoundSterling, label: 'Executive Pay', requires: 'pay_comparison' },
       { path: '/constituencies', icon: Landmark, label: 'MPs', requires: 'constituencies' },
     ],
@@ -45,7 +45,7 @@ const navSections = [
     collapsible: true,
     items: [
       { path: '/elections', icon: Vote, label: 'Elections', requires: 'elections' },
-      { path: '/meetings', icon: Calendar, label: 'Meetings', requires: 'meetings' },
+      { path: '/meetings', icon: Calendar, label: 'Council Business', requires: 'meetings' },
       { path: '/news', icon: Newspaper, label: 'News', requires: 'news' },
     ],
   },
@@ -55,7 +55,7 @@ const navSections = [
     items: [
       { path: '/my-area', icon: MapPin, label: 'My Area', requires: 'my_area' },
       { path: '/roadworks', icon: Route, label: 'Roadworks', requires: 'highways' },
-      { path: '/demographics', icon: Globe, label: 'Demographics', requires: 'demographics' },
+      { path: '/demographics', icon: Globe, label: 'People', requires: 'demographics' },
       { path: '/housing', icon: Building2, label: 'Housing', requires: 'housing' },
       { path: '/crime', icon: Shield, label: 'Crime & Safety', requires: 'crime_stats' },
       { path: '/health', icon: Heart, label: 'Health', requires: 'health' },
@@ -100,6 +100,10 @@ function Layout({ children }) {
   const { data: searchData } = useData(['/data/councillors.json', '/data/config.json', '/data/property_assets.json'])
   const [councillorsForSearch, configForSearch, propertyAssetsForSearch] = searchData || [[], null, null]
   const propertiesForSearch = propertyAssetsForSearch?.assets || []
+
+  // Load cabinet portfolios for nav sub-list
+  const { data: cabinetNavData } = useData(dataSources.cabinet_portfolios ? '/data/cabinet_portfolios.json' : null)
+  const cabinetPortfolios = cabinetNavData?.portfolios || []
 
   // Keyboard shortcut: Cmd+K / Ctrl+K for GlobalSearch
   useEffect(() => {
@@ -290,8 +294,8 @@ function Layout({ children }) {
             </div>
           )}
 
-          {/* Cabinet section — visible to councillor+ role, requires cabinet_portfolios */}
-          {(authCtx?.isCouncillor || !isFirebaseEnabled) && dataSources.cabinet_portfolios && (
+          {/* Cabinet section — requires cabinet_portfolios data source */}
+          {dataSources.cabinet_portfolios && (
             <div className="nav-section">
               <div className="nav-divider" />
               <button
@@ -318,13 +322,40 @@ function Layout({ children }) {
               {!collapsedSections['Cabinet'] && (
                 <>
                   <NavLink
-                    to="/cabinet"
+                    to="/executive"
                     className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
                     onClick={() => setSidebarOpen(false)}
                   >
-                    <Zap size={20} />
-                    <span>Savings Dashboard</span>
+                    <Landmark size={20} />
+                    <span>Executive</span>
                   </NavLink>
+                  {(authCtx?.isCouncillor || !isFirebaseEnabled) && (
+                    <>
+                      <NavLink
+                        to="/cabinet"
+                        className={({ isActive }) => `nav-item ${isActive ? 'active' : ''}`}
+                        onClick={() => setSidebarOpen(false)}
+                      >
+                        <Zap size={20} />
+                        <span>Savings Dashboard</span>
+                      </NavLink>
+                      {cabinetPortfolios.length > 0 && (
+                        <div className="nav-portfolio-list">
+                          {cabinetPortfolios.map(p => (
+                            <NavLink
+                              key={p.id}
+                              to={`/cabinet/${p.id}`}
+                              className={({ isActive }) => `nav-item nav-portfolio-item ${isActive ? 'active' : ''}`}
+                              onClick={() => setSidebarOpen(false)}
+                            >
+                              <Target size={14} />
+                              <span>{p.short_title || p.title}</span>
+                            </NavLink>
+                          ))}
+                        </div>
+                      )}
+                    </>
+                  )}
                 </>
               )}
             </div>

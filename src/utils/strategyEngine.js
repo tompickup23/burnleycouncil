@@ -3362,6 +3362,14 @@ export function generateCanvassingPlaybook(wardName, allData, ourParty = 'Reform
   // --- Dos and Don'ts ---
   const { dos, donts } = _buildDoorstepRules(archetype, profile, cheatSheet)
 
+  // --- Ward-specific local issues from elections.json ---
+  const electionsData = allData?.electionsData
+  const reformCandidates = electionsData?.meta?.next_election?.reform_candidates || {}
+  const wardReformData = reformCandidates[wardName] || {}
+  const localIssues = wardReformData.local_issues || BURNLEY_WARD_INTEL[wardName]?.local_issues || []
+  const wardTier = BURNLEY_WARD_INTEL[wardName]?.tier || null
+  const wardOpportunity = BURNLEY_WARD_INTEL[wardName]?.opportunity || null
+
   return {
     wardName,
     archetype,
@@ -3378,6 +3386,9 @@ export function generateCanvassingPlaybook(wardName, allData, ourParty = 'Reform
     bodyLanguageTips: BODY_LANGUAGE_TIPS,
     messagingPillars: wardStrategy?.messagingPillars || [],
     warnings: cheatSheet?.doNotSay || wardStrategy?.warnings || [],
+    localIssues,
+    wardTier,
+    wardOpportunity,
   }
 }
 
@@ -3692,4 +3703,226 @@ function _buildDoorstepRules(archetype, profile, cheatSheet) {
   }
 
   return { dos, donts }
+}
+
+// ---------------------------------------------------------------------------
+// Burnley Election Briefing (May 7 2026)
+// ---------------------------------------------------------------------------
+
+/**
+ * Ward-level intelligence constant for Burnley borough election May 7 2026.
+ * Sourced from elections.json, deprivation.json, economy.json, housing.json.
+ */
+export const BURNLEY_WARD_INTEL = {
+  'Daneshouse with Stoneyholme': {
+    tier: 'must_win', opportunity: 95, imd: 59.1, claimants_pct: 10.0,
+    ukip_peak: 49.2, ukip_year: 2015, defender: 'Labour',
+    local_issues: ['highest deprivation', 'unemployment 10%', 'HMO abuse (39.4% private rented)'],
+    messaging: 'Reclaim the UKIP seat. Peter Gill won here twice. Services-first: jobs, housing standards, council failure.',
+  },
+  'Queensgate': {
+    tier: 'must_win', opportunity: 85, imd: 44.2, claimants_pct: 7.3,
+    ukip_peak: 40.3, ukip_year: 2015, defender: 'Labour',
+    local_issues: ['high deprivation', 'unemployment 7.3%', 'HMO density (35.2% private rented)'],
+    messaging: 'Karen Ingham got 40% for UKIP. Reclaim with jobs & housing standards focus.',
+  },
+  'Trinity': {
+    tier: 'must_win', opportunity: 90, imd: 63.1, claimants_pct: 7.8,
+    ukip_peak: 36.3, ukip_year: 2015, defender: 'Green Party',
+    local_issues: ['most deprived ward in Burnley', 'HMO exploitation (39.1% private rented)', 'unemployment 7.8%'],
+    messaging: 'Jeff Sumner already holds 1 seat. Push for 2nd. Tom Commis UKIP heritage. Most deprived = most neglected.',
+  },
+  'Bank Hall': {
+    tier: 'competitive', opportunity: 70, imd: 62.3, claimants_pct: 8.7,
+    ukip_peak: 24.4, ukip_year: 2015, defender: 'Independent',
+    local_issues: ['highest unemployment in Burnley (8.7%)', 'very high deprivation', 'high private renting (40.3%)'],
+    messaging: 'Independent councillors lack resources to deliver. Ultra-high unemployment demands national movement backing.',
+  },
+  'Coalclough with Deerplay': {
+    tier: 'competitive', opportunity: 65, imd: 29.6, claimants_pct: 3.6,
+    ukip_peak: 24.0, ukip_year: 2015, defender: 'Liberal Democrats',
+    local_issues: ['Lib Dem complacency (Birtwistle since 1983)', 'social housing (20.8%)', 'medium-high deprivation'],
+    messaging: 'Birtwistle margins collapsed: 83% (2006) → 2.4% (2019). 43-year tenure = complacency. Near-miss 2019 (30 votes).',
+  },
+  'Gawthorpe': {
+    tier: 'competitive', opportunity: 60, imd: 40.5, claimants_pct: 5.0,
+    ukip_peak: 0, ukip_year: null, defender: 'Labour',
+    local_issues: ['high deprivation', 'unemployment 5%', 'housing standards (30.8% private rented)'],
+    messaging: 'Labour promised regeneration — Gawthorpe is still waiting.',
+  },
+  'Rosegrove with Lowerhouse': {
+    tier: 'competitive', opportunity: 55, imd: 42.1, claimants_pct: 4.2,
+    ukip_peak: 0, ukip_year: null, defender: 'Labour',
+    local_issues: ['high deprivation', 'social housing crisis (20.6% social rented)', 'anti-social behaviour'],
+    messaging: 'Labour promised to fix social housing — Rosegrove still waiting.',
+  },
+  'Brunshaw': {
+    tier: 'building', opportunity: 40, imd: 39.1, claimants_pct: 5.8,
+    ukip_peak: 0, ukip_year: null, defender: 'Labour',
+    local_issues: ['social housing quality (29.1% social rented)', 'unemployment above average', 'high deprivation'],
+    messaging: 'Working-class ward Labour takes for granted. Social housing neglect.',
+  },
+  'Gannow': {
+    tier: 'building', opportunity: 40, imd: 34.5, claimants_pct: 4.7,
+    ukip_peak: 0, ukip_year: null, defender: 'Independent',
+    local_issues: ['above-average deprivation', 'private renting growth (25.6%)', 'Independent accountability gap'],
+    messaging: 'Independent councillor lacks party infrastructure. Reform offers national movement backing.',
+  },
+  'Lanehead': {
+    tier: 'building', opportunity: 35, imd: 30.3, claimants_pct: 5.5,
+    ukip_peak: 0, ukip_year: null, defender: 'Labour',
+    local_issues: ['unemployment 5.5%', 'medium-high deprivation', 'social housing maintenance'],
+    messaging: 'Labour takes Lanehead for granted. Cost-of-living squeeze demands change.',
+  },
+  'Rosehill with Burnley Wood': {
+    tier: 'building', opportunity: 35, imd: 41.6, claimants_pct: 5.5,
+    ukip_peak: 0, ukip_year: null, defender: 'Labour',
+    local_issues: ['high deprivation', 'unemployment 5.5%', 'housing quality and street maintenance'],
+    messaging: 'Old Labour values, modern Labour neglect. Time for change.',
+  },
+  'Hapton with Park': {
+    tier: 'defend', opportunity: 0, imd: 30.9, claimants_pct: 3.7,
+    ukip_peak: 36.6, ukip_year: 2019, defender: 'Reform UK',
+    local_issues: ['maintaining Reform representation', 'community infrastructure', 'medium deprivation'],
+    messaging: 'Jamie McGowan: proof Reform delivers locally. Easy hold — focus resources elsewhere.',
+  },
+  'Whittlefield with Ightenhill': {
+    tier: 'defend', opportunity: 0, imd: 15.2, claimants_pct: 2.7,
+    ukip_peak: 44.4, ukip_year: 2019, defender: 'Reform UK',
+    local_issues: ['council tax value', 'protecting community character', 'planning control'],
+    messaging: 'Alan Hosker: Reform wins in affluent areas too. Easy hold — credibility anchor.',
+  },
+  'Briercliffe': {
+    tier: 'long_shot', opportunity: 15, imd: 15.3, claimants_pct: 2.3,
+    ukip_peak: 0, ukip_year: null, defender: 'Liberal Democrats',
+    local_issues: ['council tax value', 'rural road maintenance', 'planning pressures'],
+    messaging: 'Affluent Lib Dem fortress. Leaflet only — no canvassing resource.',
+  },
+  'Cliviger with Worsthorne': {
+    tier: 'long_shot', opportunity: 10, imd: 11.7, claimants_pct: 1.2,
+    ukip_peak: 0, ukip_year: null, defender: 'Green Party',
+    local_issues: ['rural service provision', 'council tax burden', 'countryside planning protection'],
+    messaging: 'Least deprived ward. Skip — no Reform opportunity.',
+  },
+}
+
+/**
+ * Generate a complete May 7 2026 Burnley borough election briefing.
+ *
+ * @param {Object} electionsData - elections.json for Burnley
+ * @param {Object|null} deprivationData - deprivation.json
+ * @param {Object|null} economyData - economy.json
+ * @returns {Object} Comprehensive election briefing
+ */
+export function getBurnleyElectionBriefing(electionsData, deprivationData = null, economyData = null) {
+  const nextElection = electionsData?.meta?.next_election
+  if (!nextElection || nextElection.date !== '2026-05-07') {
+    return null
+  }
+
+  const wardsUp = nextElection.wards_up || []
+  const defenders = nextElection.defenders || {}
+  const reformCandidates = nextElection.reform_candidates || {}
+  const wardIntel = nextElection.ward_intel || {}
+
+  // Build per-ward briefings
+  const wardBriefings = wardsUp.map(ward => {
+    const defender = defenders[ward] || {}
+    const reform = reformCandidates[ward] || {}
+    const intel = BURNLEY_WARD_INTEL[ward] || {}
+    const wardElections = electionsData?.wards?.[ward]?.history || []
+    const latestElection = wardElections[0]
+
+    // Margin trend from last 5 elections
+    const recent5 = wardElections.slice(0, 5)
+    const margins = recent5.map(e => {
+      const sorted = [...(e.candidates || [])].sort((a, b) => b.votes - a.votes)
+      if (sorted.length < 2) return null
+      return ((sorted[0].votes - sorted[1].votes) / (e.turnout_votes || 1) * 100)
+    }).filter(m => m != null)
+    const marginTrend = margins.length >= 2
+      ? margins[0] < margins[margins.length - 1] ? 'narrowing' : 'widening'
+      : 'insufficient_data'
+
+    return {
+      ward,
+      tier: intel.tier || 'unknown',
+      opportunity: intel.opportunity || 0,
+      defender: {
+        name: defender.name,
+        party: defender.party,
+        elected_year: defender.elected_year,
+      },
+      reform_candidate: reform.candidate || 'TBC',
+      local_issues: reform.local_issues || intel.local_issues || [],
+      tactical_notes: reform.tactical_notes || '',
+      messaging: intel.messaging || '',
+      imd: intel.imd || null,
+      claimants_pct: intel.claimants_pct || null,
+      ukip_heritage: intel.ukip_peak > 0 ? { peak_pct: intel.ukip_peak, peak_year: intel.ukip_year } : null,
+      margin_trend: marginTrend,
+      recent_margins: margins.slice(0, 5),
+    }
+  })
+
+  // Sort by opportunity (highest first)
+  wardBriefings.sort((a, b) => b.opportunity - a.opportunity)
+
+  // Priority tiers
+  const tiers = {
+    must_win: wardBriefings.filter(w => w.tier === 'must_win'),
+    competitive: wardBriefings.filter(w => w.tier === 'competitive'),
+    building: wardBriefings.filter(w => w.tier === 'building'),
+    defend: wardBriefings.filter(w => w.tier === 'defend'),
+    long_shot: wardBriefings.filter(w => w.tier === 'long_shot'),
+  }
+
+  // Resource allocation recommendation
+  const resourceAllocation = {
+    must_win: '50% of canvassing hours — 3-4 door-knocks per ward, weekly street stalls',
+    competitive: '30% of canvassing hours — 2-3 door-knocks per ward, targeted leafleting',
+    building: '15% of canvassing hours — 1-2 door-knocks, full leaflet coverage',
+    defend: '3% — leaflet and election day GOTV only (incumbents do their own work)',
+    long_shot: '2% — single leaflet drop, no canvassing',
+  }
+
+  // Coalclough deep-dive
+  const coalcloughHistory = electionsData?.wards?.['Coalclough with Deerplay']?.history || []
+  const coalcloughDeepDive = {
+    ward: 'Coalclough with Deerplay',
+    defender: 'Gordon Birtwistle (Liberal Democrats)',
+    tenure_since: 1983,
+    tenure_years: 43,
+    margin_trajectory: coalcloughHistory.slice(0, 10).map(e => {
+      const sorted = [...(e.candidates || [])].sort((a, b) => b.votes - a.votes)
+      const margin = sorted.length >= 2
+        ? ((sorted[0].votes - sorted[1].votes) / (e.turnout_votes || 1) * 100).toFixed(1)
+        : null
+      return { year: e.year, margin_pct: margin ? parseFloat(margin) : null, winner: sorted[0]?.party }
+    }),
+    vulnerability_analysis: [
+      'Margins collapsed from 83% (2006) to 2.4% in 2019 — long-term decline trajectory',
+      '2019 near-miss: only 30 votes margin, Independent nearly unseated him',
+      '43-year tenure breeds complacency — "when did he last knock on your door?"',
+      'UKIP got 24% in 2015 — Reform heritage vote exists but was never consolidated',
+      'Medium-high deprivation (IMD 29.6) — residents feel left behind despite Lib Dem promises',
+      '2024 rebound to 40% may reflect personal vote rather than party strength — test with strong Reform challenger',
+    ],
+    recommended_approach: 'Field a strong local candidate with community roots. 4+ door-knocks. Frame as generational change — 43 years is too long. "When did Birtwistle last ask what YOU need?" Don\'t attack him personally — attack the complacency of 40+ years of the same party.',
+  }
+
+  return {
+    election_date: '2026-05-07',
+    election_type: 'Borough election (thirds cycle)',
+    seats_contested: 15,
+    wards_contested: wardsUp.length,
+    current_reform_seats: Object.keys(wardIntel.current_reform_seats || {}).length || 3,
+    realistic_target: '5-7 Reform seats (defend 2-3, gain 2-4)',
+    ward_briefings: wardBriefings,
+    tiers,
+    resource_allocation: resourceAllocation,
+    coalclough_deep_dive: coalcloughDeepDive,
+    ukip_heritage_wards: wardIntel.ukip_heritage_wards || {},
+    summary: wardIntel.election_summary || 'May 7 2026: 15 seats, 3 Reform holds, 3 core targets with UKIP heritage.',
+  }
 }

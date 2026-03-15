@@ -213,7 +213,7 @@ describe('Meetings', () => {
   it('renders meetings page heading with data', () => {
     setupMocks()
     renderComponent()
-    expect(screen.getByText('Meetings Calendar')).toBeInTheDocument()
+    expect(screen.getByText('Council Business')).toBeInTheDocument()
   })
 
   // === Quick Info Banner ===
@@ -447,7 +447,7 @@ describe('Meetings', () => {
   it('renders when meetings data has no meetings array', () => {
     setupMocks({ meetings: { meetings: [], last_updated: '2026-01-01' } })
     renderComponent()
-    expect(screen.getByText('Meetings Calendar')).toBeInTheDocument()
+    expect(screen.getByText('Council Business')).toBeInTheDocument()
     expect(screen.getByText(/no meetings match/i)).toBeInTheDocument()
   })
 

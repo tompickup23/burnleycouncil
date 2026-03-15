@@ -1121,3 +1121,27 @@
   margin-bottom: var(--space-sm);
   color: var(--text-primary);
 }
+
+/* CSP Decomposition */
+.csp-section { margin-bottom: 2rem; }
+.budget-section-intro { color: rgba(255,255,255,0.6); font-size: 0.85rem; margin-bottom: 1rem; }
+.csp-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem; }
+.csp-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 0.75rem; }
+.csp-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+.csp-card-name { font-size: 0.72rem; text-transform: capitalize; color: rgba(255,255,255,0.6); }
+.csp-ring-badge { font-size: 0.6rem; padding: 0.1rem 0.4rem; border-radius: 3px; font-weight: 600; }
+.ring-fenced { background: rgba(228,0,43,0.12); color: #e4002b; }
+.ring-mixed { background: rgba(255,159,67,0.12); color: #ff9f43; }
+.ring-free { background: rgba(40,167,69,0.12); color: #28a745; }
+.csp-card-value { font-size: 1.1rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.csp-card-pct { font-size: 0.72rem; color: rgba(255,255,255,0.4); }
+.csp-grants { margin-top: 1.5rem; }
+.csp-grants h3 { font-size: 0.9rem; margin-bottom: 0.75rem; }
+.csp-grants-list { display: flex; flex-direction: column; gap: 0.4rem; }
+.csp-grant-row { display: flex; justify-content: space-between; align-items: flex-start; padding: 0.6rem 0.75rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 6px; }
+.csp-grant-info { display: flex; flex-direction: column; gap: 0.1rem; }
+.csp-grant-name { font-weight: 600; font-size: 0.82rem; }
+.csp-grant-source { font-size: 0.7rem; color: rgba(255,255,255,0.4); }
+.csp-grant-note { font-size: 0.7rem; color: rgba(255,255,255,0.4); max-width: 500px; line-height: 1.3; }
+.csp-grant-value { font-size: 0.9rem; font-weight: 700; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.budget-constraint-note { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin-top: 1rem; padding: 0.6rem 0.8rem; background: rgba(228,0,43,0.06); border-left: 3px solid rgba(228,0,43,0.3); border-radius: 0 4px 4px 0; }

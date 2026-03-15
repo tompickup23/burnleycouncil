@@ -574,3 +574,23 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+/* ── Councillor Profile Summary ── */
+.councillor-profile-summary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.councillor-profile-summary .profile-detail {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.03);
+  padding: 2px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}

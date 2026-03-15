@@ -64,6 +64,9 @@ COUNCILS = {
     "south_ribble": {
         "buyer_names": ["South Ribble Borough Council"],
     },
+    "lancashire_cc": {
+        "buyer_names": ["Lancashire County Council"],
+    },
 }
 
 REQUEST_DELAY = 1.0

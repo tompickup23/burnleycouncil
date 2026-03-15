@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from 'react'
-import { Calendar, Clock, MapPin, ExternalLink, AlertTriangle, ChevronRight, MessageSquare, Filter, Info, FileText, Users, Shield, Target } from 'lucide-react'
+import { Calendar, Clock, MapPin, ExternalLink, AlertTriangle, ChevronRight, MessageSquare, Filter, Info, FileText, Users, Shield, Target, Gavel } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -66,6 +66,9 @@ function Meetings() {
   const { data: votingData } = useData(config.data_sources?.voting_records ? '/data/voting.json' : null)
   const { data: reformData } = useData(config.council_id === 'lancashire_cc' ? '/data/reform_transformation.json' : null)
   const { data: dogeData } = useData(config.data_sources?.doge_investigation ? '/data/doge_findings.json' : null)
+  const { data: documentsRaw } = useData(config.data_sources?.council_documents ? '/data/council_documents.json' : null)
+  const decisions = documentsRaw?.decisions || documentsRaw?.recent_decisions || []
+  const [activeView, setActiveView] = useState('meetings')
   const [typeFilter, setTypeFilter] = useState('all')
   const [policyFilter, setPolicyFilter] = useState('all')
   const [showPast, setShowPast] = useState(false)
@@ -189,12 +192,31 @@ function Meetings() {
     <div className="meetings-page animate-fade-in">
       {/* Page Header */}
       <div className="page-header">
-        <h1>Meetings Calendar</h1>
+        <h1>Council Business</h1>
         <p className="subtitle">
-          Upcoming {councilName} Council meetings with agenda analysis and public participation guidance
+          {councilName} meetings, agendas, and key decisions
         </p>
       </div>
 
+      {/* View Tabs — Meetings / Decisions */}
+      {decisions.length > 0 && (
+        <div className="meetings-view-tabs">
+          <button
+            className={`view-tab ${activeView === 'meetings' ? 'active' : ''}`}
+            onClick={() => setActiveView('meetings')}
+          >
+            <Calendar size={14} /> Meetings ({enrichedMeetings.length})
+          </button>
+          <button
+            className={`view-tab ${activeView === 'decisions' ? 'active' : ''}`}
+            onClick={() => setActiveView('decisions')}
+          >
+            <Gavel size={14} /> Decisions ({decisions.length})
+          </button>
+        </div>
+      )}
+
+      {activeView === 'meetings' && <>
       {/* Quick Info Banner */}
       <div className="meetings-info-banner">
         <div className="info-stat">
@@ -660,7 +682,121 @@ function Meetings() {
           {meetingsData?.last_updated && ` Last checked: ${formatMeetingDate(meetingsData.last_updated.split('T')[0])}.`}
         </p>
       </div>
+      </>}
+
+      {/* ══════════════════════════════════════════════════════════════════
+       *  DECISIONS VIEW — council_documents.json
+       * ══════════════════════════════════════════════════════════════════ */}
+      {activeView === 'decisions' && decisions.length > 0 && (
+        <DecisionsView decisions={decisions} councilName={councilName} />
+      )}
     </div>
+  )
+}
+
+/** Decisions View — filterable table of LLM-extracted council decisions */
+function DecisionsView({ decisions, councilName }) {
+  const [committeeFilter, setCommitteeFilter] = useState('all')
+  const [topicFilter, setTopicFilter] = useState('all')
+  const [sortBy, setSortBy] = useState('date')
+  const [expandedId, setExpandedId] = useState(null)
+
+  const committees = useMemo(() => {
+    const set = new Set(decisions.map(d => d.committee).filter(Boolean))
+    return [...set].sort()
+  }, [decisions])
+
+  const topics = useMemo(() => {
+    const set = new Set(decisions.flatMap(d => d.topics || []).filter(Boolean))
+    return [...set].sort()
+  }, [decisions])
+
+  const filtered = useMemo(() => {
+    let list = decisions
+    if (committeeFilter !== 'all') list = list.filter(d => d.committee === committeeFilter)
+    if (topicFilter !== 'all') list = list.filter(d => d.topics?.includes(topicFilter))
+    if (sortBy === 'financial') {
+      list = [...list].sort((a, b) => {
+        const aVal = parseFloat(String(a.financial_impact || '0').replace(/[£,k]/gi, '')) || 0
+        const bVal = parseFloat(String(b.financial_impact || '0').replace(/[£,k]/gi, '')) || 0
+        return bVal - aVal
+      })
+    } else {
+      list = [...list].sort((a, b) => (b.date || '').localeCompare(a.date || ''))
+    }
+    return list
+  }, [decisions, committeeFilter, topicFilter, sortBy])
+
+  return (
+    <section className="decisions-view" data-testid="decisions-view">
+      <div className="decisions-header">
+        <h2><Gavel size={20} /> Council Decisions ({decisions.length})</h2>
+        <p className="subtitle">Key decisions extracted from committee reports and minutes via AI analysis.</p>
+      </div>
+
+      {/* Filters */}
+      <div className="decisions-filters">
+        <select value={committeeFilter} onChange={e => setCommitteeFilter(e.target.value)} aria-label="Filter by committee">
+          <option value="all">All committees</option>
+          {committees.map(c => <option key={c} value={c}>{c}</option>)}
+        </select>
+        <select value={topicFilter} onChange={e => setTopicFilter(e.target.value)} aria-label="Filter by topic">
+          <option value="all">All topics</option>
+          {topics.map(t => <option key={t} value={t}>{t}</option>)}
+        </select>
+        <select value={sortBy} onChange={e => setSortBy(e.target.value)} aria-label="Sort decisions">
+          <option value="date">Most recent</option>
+          <option value="financial">Financial impact</option>
+        </select>
+      </div>
+
+      {/* Decision Cards */}
+      <div className="decisions-list">
+        {filtered.map((d, i) => (
+          <article
+            key={i}
+            className={`decision-card ${expandedId === i ? 'expanded' : ''}`}
+            onClick={() => setExpandedId(expandedId === i ? null : i)}
+          >
+            <div className="decision-card-header">
+              <div className="decision-card-title">
+                <strong>{d.title || d.description?.slice(0, 80) || 'Decision'}</strong>
+                {d.financial_impact && (
+                  <span className="decision-financial">{d.financial_impact}</span>
+                )}
+              </div>
+              <div className="decision-card-meta">
+                {d.committee && <span className="decision-committee">{d.committee}</span>}
+                {d.date && <span className="decision-date">{formatMeetingDate(d.date)}</span>}
+              </div>
+            </div>
+            {expandedId === i && (
+              <div className="decision-card-body">
+                {d.description && <p>{d.description}</p>}
+                {d.topics?.length > 0 && (
+                  <div className="decision-topics">
+                    {d.topics.map((t, j) => <span key={j} className="topic-badge">{t}</span>)}
+                  </div>
+                )}
+                {d.key_facts?.length > 0 && (
+                  <ul className="decision-facts">
+                    {d.key_facts.map((f, j) => <li key={j}>{f}</li>)}
+                  </ul>
+                )}
+                {d.source_url && (
+                  <a href={d.source_url} target="_blank" rel="noopener noreferrer" className="decision-source-link">
+                    <ExternalLink size={12} /> View source document
+                  </a>
+                )}
+              </div>
+            )}
+          </article>
+        ))}
+        {filtered.length === 0 && (
+          <p className="decisions-empty">No decisions match your filters.</p>
+        )}
+      </div>
+    </section>
   )
 }
 

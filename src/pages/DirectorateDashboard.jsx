@@ -21,6 +21,7 @@ import {
   matchSpendingToPortfolio,
   formatCurrency,
   getAccessiblePortfolios,
+  contractPipeline,
 } from '../utils/savingsEngine'
 import './DirectorateDashboard.css'
 
@@ -47,11 +48,12 @@ export default function DirectorateDashboard() {
 
   const { data: allData, loading, error } = useData(
     dataSources.cabinet_portfolios
-      ? ['/data/cabinet_portfolios.json', '/data/doge_findings.json', '/data/budgets.json', '/data/meetings.json', '/data/council_documents.json']
+      ? ['/data/cabinet_portfolios.json', '/data/doge_findings.json', '/data/budgets.json', '/data/meetings.json', '/data/council_documents.json', '/data/procurement.json']
       : null
   )
 
-  const [portfolioData, findingsData, budgetsData, meetingsData, documentsData] = allData || [null, null, null, null, null]
+  const [portfolioData, findingsData, budgetsData, meetingsData, documentsData, procurementData] = allData || [null, null, null, null, null, null]
+  const procurement = Array.isArray(procurementData) ? procurementData : procurementData?.contracts || []
 
   // Build directorate profiles
   const directorateProfiles = useMemo(() => {
@@ -99,6 +101,22 @@ export default function DirectorateDashboard() {
       .slice(0, 10)
   }, [portfolioData, findingsData])
 
+  // Contract expiry counts per directorate
+  const contractCounts = useMemo(() => {
+    if (!procurement.length || !portfolioData?.directorates?.length) return {}
+    const counts = {}
+    for (const d of portfolioData.directorates) {
+      const portfolios = portfolioData.portfolios.filter(p => d.portfolio_ids?.includes(p.id))
+      let expiring = 0
+      for (const p of portfolios) {
+        const pipeline = contractPipeline(procurement, p)
+        expiring += pipeline.expiring_3m.length
+      }
+      if (expiring > 0) counts[d.id] = expiring
+    }
+    return counts
+  }, [procurement, portfolioData])
+
   // MTFS chart data
   const mtfsChartData = useMemo(() => {
     return directorateProfiles.map(d => ({
@@ -142,6 +160,7 @@ export default function DirectorateDashboard() {
       <div className="page-hero reform-hero">
         <h1><Zap size={28} /> Reform Savings Command Centre</h1>
         <p className="hero-subtitle">Evidence-backed savings intelligence across {directorateProfiles.length} directorates</p>
+        <Link to="/executive" className="dd-cross-link"><Users size={14} /> View Cabinet & Executive</Link>
       </div>
 
       {/* Hero stats */}
@@ -220,6 +239,11 @@ export default function DirectorateDashboard() {
                       <span className="dc-metric" title="Evidence strength">
                         <strong>{dp.avg_evidence_strength}</strong>/100 evidence
                       </span>
+                      {contractCounts[dp.directorate_id] > 0 && (
+                        <span className="dc-expiry-badge" title="Contracts expiring within 3 months">
+                          {contractCounts[dp.directorate_id]} expiring
+                        </span>
+                      )}
                       {risk && (
                         <span className="dc-risk-badge" style={{ color: risk.risk_color }}>
                           {risk.risk_level}

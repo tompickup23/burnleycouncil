@@ -136,6 +136,8 @@ vi.mock('../utils/savingsEngine', () => ({
     body: 'Under the Freedom of Information Act 2000...',
   })),
   crossPortfolioDependencies: vi.fn(() => []),
+  contractPipeline: vi.fn(() => ({ expiring_3m: [], expiring_6m: [], expiring_12m: [], total_value: 0, total_contracts: 0, relevant: [], sme_count: 0, single_bidder_count: 0 })),
+  fundingConstraints: vi.fn(() => null),
   formatCurrency: vi.fn((v) => {
     if (!v && v !== 0) return '£0'
     const m = Math.round(v / 1000000)
@@ -264,7 +266,7 @@ describe('PortfolioDetail', () => {
     renderComponent()
     expect(screen.getByText('Portfolio Not Found')).toBeInTheDocument()
     expect(screen.getByText(/No portfolio with ID "nonexistent_portfolio"/)).toBeInTheDocument()
-    expect(screen.getByText('Back to Cabinet Dashboard')).toBeInTheDocument()
+    expect(screen.getByText('← Back to Savings Dashboard')).toBeInTheDocument()
   })
 
   // --- Not available ---
@@ -406,7 +408,7 @@ describe('PortfolioDetail', () => {
     expect(screen.getByText('Overview')).toBeInTheDocument()
     expect(screen.getByText('Budget')).toBeInTheDocument()
     expect(screen.getByText('Spending')).toBeInTheDocument()
-    expect(screen.getByText('Suppliers')).toBeInTheDocument()
+    expect(screen.getByText('Contracts')).toBeInTheDocument()
     expect(screen.getByText('Savings')).toBeInTheDocument()
     expect(screen.getByText('Decisions')).toBeInTheDocument()
     expect(screen.getByText('Legal & Political')).toBeInTheDocument()

@@ -31,6 +31,7 @@ import {
   formatCurrency,
   parseSavingRange,
   timelineBucket,
+  fundingConstraints,
 } from '../utils/savingsEngine'
 import './DirectorateDetail.css'
 
@@ -128,14 +129,16 @@ export default function DirectorateDetail() {
   }, [portfolios])
 
   // Directives across all portfolios in this directorate
+  const procurementContracts = Array.isArray(procurementData) ? procurementData : procurementData?.contracts || []
+  const fundingModel = portfolioData?.administration?.funding_model || null
   const allDirectives = useMemo(() => {
     if (!findingsData) return []
     const directives = []
     for (const p of portfolios) {
-      directives.push(...generateDirectives(p, findingsData, []))
+      directives.push(...generateDirectives(p, findingsData, [], { procurement: procurementContracts, fundingModel }))
     }
     return directives
-  }, [portfolios, findingsData])
+  }, [portfolios, findingsData, procurementContracts, fundingModel])
 
   // Playbook (first portfolio as representative)
   const playbook = useMemo(() => {
@@ -170,6 +173,16 @@ export default function DirectorateDetail() {
   const keyContracts = useMemo(() =>
     portfolios.flatMap(p => (p.key_contracts || []).map(c => ({ ...c, portfolio: p.title || p.short_title }))),
   [portfolios])
+
+  // Funding constraints per portfolio in this directorate
+  const directorateFunding = useMemo(() => {
+    if (!fundingModel) return null
+    const constraints = portfolios.map(p => ({ portfolio: p.title || p.short_title, ...fundingConstraints(p, fundingModel) })).filter(c => c.grants?.length > 0)
+    if (!constraints.length) return null
+    const totalRingFenced = constraints.reduce((s, c) => s + c.ring_fenced_total, 0)
+    const totalBudget = constraints.reduce((s, c) => s + c.total_budget, 0)
+    return { constraints, totalRingFenced, totalBudget, addressable: Math.max(0, totalBudget - totalRingFenced) }
+  }, [portfolios, fundingModel])
 
   // Performance metrics chart
   const metricsChartData = useMemo(() => {
@@ -273,12 +286,14 @@ export default function DirectorateDetail() {
                     <th>Save Range</th>
                     <th>Timeline</th>
                     <th>Evidence</th>
+                    <th>Sources</th>
                     <th>Portfolio</th>
                   </tr>
                 </thead>
                 <tbody>
                   {allLevers.map((l, i) => {
                     const ev = evidenceLabel(l.evidence_score)
+                    const refs = l.evidence?.article_refs || []
                     return (
                       <tr key={i}>
                         <td className="dd-lever-name">{l.lever}</td>
@@ -286,6 +301,15 @@ export default function DirectorateDetail() {
                         <td>{TIMELINE_LABELS[l.timeline_bucket] || l.timeline || '—'}</td>
                         <td>
                           <span className="dd-evidence-badge" style={{ color: ev.color }}>{l.evidence_score}</span>
+                        </td>
+                        <td>
+                          {refs.length > 0 ? (
+                            <span className="dd-article-refs">
+                              {refs.map((r, j) => (
+                                <Link key={j} to={`/news/${r.id}`} className="dd-article-link" title={r.title}><FileText size={12} /></Link>
+                              ))}
+                            </span>
+                          ) : '—'}
                         </td>
                         <td className="dd-portfolio-tag">{l.portfolio_title}</td>
                       </tr>
@@ -339,6 +363,27 @@ export default function DirectorateDetail() {
           {directorate.savings_narrative && (
             <CollapsibleSection title="Savings Context" icon={<FileText size={18} />}>
               <p className="dd-narrative">{directorate.savings_narrative}</p>
+            </CollapsibleSection>
+          )}
+
+          {/* Constituent Portfolios */}
+          {portfolios.length > 0 && (
+            <CollapsibleSection title="Portfolios in this Directorate" defaultOpen icon={<Users size={18} />}>
+              <div className="dd-portfolio-cards">
+                {portfolios.map(p => (
+                  <Link key={p.id} to={`/cabinet/${p.id}`} state={{ from: `/directorate/${directorateId}` }} className="dd-portfolio-card">
+                    <div className="dd-pc-header">
+                      <h4>{p.short_title || p.title}</h4>
+                      <span className="dd-pc-member">{p.cabinet_member?.name}</span>
+                    </div>
+                    {p.budget_latest?.net_expenditure && (
+                      <span className="dd-pc-budget">{formatCurrency(p.budget_latest.net_expenditure)}</span>
+                    )}
+                    <span className="dd-pc-levers">{(p.savings_levers || []).length} savings levers</span>
+                    <ChevronRight size={14} className="dd-pc-arrow" />
+                  </Link>
+                ))}
+              </div>
             </CollapsibleSection>
           )}
         </div>
@@ -412,6 +457,27 @@ export default function DirectorateDetail() {
                   ))}
                 </tbody>
               </table>
+            </CollapsibleSection>
+          )}
+
+          {/* Funding constraints */}
+          {directorateFunding && (
+            <CollapsibleSection title="Funding Constraints" icon={<Scale size={18} />}>
+              <div className="dd-funding-summary">
+                <StatCard label="Ring-Fenced" value={formatCurrency(directorateFunding.totalRingFenced)} color="#e4002b" icon={<Shield size={18} />} />
+                <StatCard label="Addressable" value={formatCurrency(directorateFunding.addressable)} icon={<Target size={18} />} />
+              </div>
+              {directorateFunding.constraints.map((c, i) => (
+                <div key={i} className="dd-funding-portfolio">
+                  <h4>{c.portfolio}: {c.addressable_pct}% addressable</h4>
+                  {c.grants.map((g, j) => (
+                    <div key={j} className="dd-funding-grant">
+                      <span>{g.name} ({g.source})</span>
+                      <span>{formatCurrency(g.value)}</span>
+                    </div>
+                  ))}
+                </div>
+              ))}
             </CollapsibleSection>
           )}
 

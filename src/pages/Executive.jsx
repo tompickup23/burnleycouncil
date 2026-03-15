@@ -1,15 +1,17 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Users, Building2, PieChart, ChevronRight, ExternalLink, Briefcase, Shield, Calendar, Landmark } from 'lucide-react'
+import { Users, Building2, PieChart, ChevronRight, ExternalLink, Briefcase, Shield, Calendar, Landmark, Zap } from 'lucide-react'
 import { Treemap, ResponsiveContainer, Tooltip as RechartsTooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { isFirebaseEnabled } from '../firebase'
+import { useAuth } from '../context/AuthContext'
 import { LoadingState } from '../components/ui'
 import { StatCard } from '../components/ui/StatCard'
 import { ChartCard, CHART_TOOLTIP_STYLE } from '../components/ui/ChartCard'
 import CollapsibleSection from '../components/CollapsibleSection'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
-import { formatCurrency } from '../utils/savingsEngine'
+import { formatCurrency, contractPipeline } from '../utils/savingsEngine'
 import './Executive.css'
 
 /**
@@ -25,15 +27,17 @@ import './Executive.css'
 export default function Executive() {
   const config = useCouncilConfig()
   const dataSources = config.data_sources || {}
+  const authCtx = useAuth()
+  const hasCouncillorAccess = authCtx?.isCouncillor || !isFirebaseEnabled
   const [selectedMember, setSelectedMember] = useState(null)
 
   const { data: allData, loading, error } = useData(
     dataSources.cabinet_portfolios
-      ? ['/data/cabinet_portfolios.json', '/data/committees.json', '/data/council_documents.json', '/data/budgets.json', '/data/councillors.json']
+      ? ['/data/cabinet_portfolios.json', '/data/committees.json', '/data/council_documents.json', '/data/budgets.json', '/data/councillors.json', '/data/procurement.json']
       : null
   )
 
-  const [portfolioData, committeesData, documentsData, budgetsData, councillorsData] = allData || [null, null, null, null, null]
+  const [portfolioData, committeesData, documentsData, budgetsData, councillorsData, procurementData] = allData || [null, null, null, null, null, null]
 
   const portfolios = portfolioData?.portfolios || []
   const governance = portfolioData?.governance || {}
@@ -100,6 +104,19 @@ export default function Executive() {
     return portfolios.reduce((s, p) => s + (p.budget_latest?.net_expenditure || 0), 0)
   }, [portfolios])
 
+  // Contract coverage health
+  const procurement = Array.isArray(procurementData) ? procurementData : procurementData?.contracts || []
+  const contractHealth = useMemo(() => {
+    if (!procurement.length || !portfolios.length) return null
+    const perPortfolio = portfolios.map(p => {
+      const pipeline = contractPipeline(procurement, p)
+      return { id: p.id, title: p.short_title || p.title, ...pipeline }
+    })
+    const totalContracts = perPortfolio.reduce((s, p) => s + p.total_contracts, 0)
+    const expiringUrgent = perPortfolio.reduce((s, p) => s + p.expiring_3m.length, 0)
+    return { perPortfolio: perPortfolio.filter(p => p.total_contracts > 0), totalContracts, expiringUrgent }
+  }, [procurement, portfolios])
+
   if (!dataSources.cabinet_portfolios) {
     return (
       <div className="executive-page">
@@ -128,6 +145,13 @@ export default function Executive() {
           <StatCard label="Control Since" value={administration.control_since?.slice(0, 4) || 'N/A'} icon={Calendar} />
         </div>
       </div>
+
+      {/* Savings Dashboard cross-link */}
+      {hasCouncillorAccess && (
+        <Link to="/cabinet" className="executive-savings-link">
+          <Zap size={16} /> View Savings Dashboard — evidence-backed savings intelligence <ChevronRight size={14} />
+        </Link>
+      )}
 
       {/* Cabinet Grid */}
       <CollapsibleSection title="Cabinet" icon={<Users size={18} />} defaultOpen>
@@ -184,7 +208,7 @@ export default function Executive() {
                       <strong>Champions:</strong> {p.champions.map(c => `${c.name} (${c.area})`).join(', ')}
                     </div>
                   )}
-                  <Link to={`/cabinet/${p.id}`} className="executive-card-link">
+                  <Link to={`/cabinet/${p.id}`} state={{ from: '/executive' }} className="executive-card-link">
                     View Portfolio Detail <ChevronRight size={14} />
                   </Link>
                 </div>
@@ -330,6 +354,25 @@ export default function Executive() {
                 majority of {(administration.seats || 0) - (administration.majority_threshold || 0)}
               </p>
             </div>
+          </div>
+        </CollapsibleSection>
+      )}
+
+      {/* Contract Coverage Health */}
+      {contractHealth && contractHealth.totalContracts > 0 && (
+        <CollapsibleSection title={`Contract Coverage (${contractHealth.totalContracts} matched)`} icon={<Briefcase size={18} />}>
+          <div className="executive-stat-row" style={{ marginBottom: '1rem' }}>
+            <StatCard label="Total Matched" value={contractHealth.totalContracts} icon={<Briefcase size={18} />} />
+            <StatCard label="Expiring <3m" value={contractHealth.expiringUrgent} color={contractHealth.expiringUrgent > 0 ? '#e4002b' : undefined} icon={<Calendar size={18} />} />
+          </div>
+          <div className="executive-contracts-grid">
+            {contractHealth.perPortfolio.map(p => (
+              <Link key={p.id} to={`/portfolio/${p.id}`} state={{ from: '/executive' }} className="executive-contract-card">
+                <span className="executive-contract-title">{p.title}</span>
+                <span className="executive-contract-count">{p.total_contracts} contracts</span>
+                {p.expiring_3m.length > 0 && <span className="executive-contract-urgent">{p.expiring_3m.length} expiring</span>}
+              </Link>
+            ))}
           </div>
         </CollapsibleSection>
       )}

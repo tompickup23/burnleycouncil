@@ -2497,3 +2497,13 @@
   margin-top: 0.3rem;
   font-style: italic;
 }
+
+/* Councillor occupation in opposition profiles */
+.councillor-card-occupation {
+  font-size: 0.65rem;
+  color: var(--text-secondary);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

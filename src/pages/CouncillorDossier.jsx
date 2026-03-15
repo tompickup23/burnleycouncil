@@ -49,6 +49,7 @@ const SEVERITY_STYLES = {
 }
 
 const TABS = [
+  { id: 'profile', label: 'Profile', icon: Briefcase },
   { id: 'integrity', label: 'Integrity', icon: Shield },
   { id: 'companies', label: 'Companies', icon: Building2 },
   { id: 'register', label: 'Register', icon: FileText },
@@ -109,7 +110,7 @@ export default function CouncillorDossier() {
   const navigate = useNavigate()
   const config = useCouncilConfig()
   const councilName = config.council_name || 'Council'
-  const [activeTab, setActiveTab] = useState('integrity')
+  const [activeTab, setActiveTab] = useState('profile')
 
   // Load ALL data sources in parallel
   const { data, loading, error } = useData([
@@ -122,9 +123,10 @@ export default function CouncillorDossier() {
     '/data/shared/legal_framework.json',
     '/data/voting.json',
     '/data/council_documents.json',
+    '/data/councillor_profiles.json',
   ])
 
-  const [councillorsRaw, integrity, register, elections, meetings, dogeFindings, legalFramework, votingData, documentsData] = data || [null, null, null, null, null, null, null, null, null]
+  const [councillorsRaw, integrity, register, elections, meetings, dogeFindings, legalFramework, votingData, documentsData, profilesData] = data || [null, null, null, null, null, null, null, null, null, null]
 
   // Find the councillor across all data sources
   const councillor = useMemo(() => {
@@ -154,6 +156,16 @@ export default function CouncillorDossier() {
     }
     return register[councillorId] || register[councillor.name] || register[councillor.id] || null
   }, [register, councillor, councillorId])
+
+  // Find profile data from councillor_profiles.json
+  const profileData = useMemo(() => {
+    if (!profilesData?.councillors || !councillor) return null
+    const cId = councillor.id || slugify(councillor.name)
+    return profilesData.councillors[cId] || profilesData.councillors[councillorId] ||
+      Object.values(profilesData.councillors).find(p =>
+        slugify(p.name || '') === slugify(councillor.name || '')
+      ) || null
+  }, [profilesData, councillor, councillorId])
 
   // Find election data for this councillor's ward
   const electoralData = useMemo(() => {
@@ -328,13 +340,14 @@ export default function CouncillorDossier() {
 
   // Tab counts for badges
   const tabCounts = useMemo(() => ({
+    profile: profileData ? (profileData.employment?.length || 0) + (profileData.committees?.length || 0) : 0,
     integrity: redFlags.length,
     companies: companies.length,
     register: registerData ? Object.keys(registerData.sections || registerData).filter(k => k !== 'name' && k !== 'id').length : 0,
     voting: councillorVotes.length,
     electoral: electoralData?.history?.length || 0,
     timeline: timelineEvents.length,
-  }), [redFlags, companies, registerData, councillorVotes, electoralData, timelineEvents])
+  }), [profileData, redFlags, companies, registerData, councillorVotes, electoralData, timelineEvents])
 
   // Page title
   useEffect(() => {
@@ -430,6 +443,11 @@ export default function CouncillorDossier() {
                 <Award size={11} /> {councillor.roles[0]}
               </span>
             )}
+            {profileData?.occupation && (
+              <span className="dossier-meta-tag">
+                <Briefcase size={11} /> {profileData.occupation}
+              </span>
+            )}
             {committees.length > 0 && (
               <span className="dossier-meta-tag">
                 <Users size={11} /> {committees.length} committee{committees.length > 1 ? 's' : ''}
@@ -505,6 +523,13 @@ export default function CouncillorDossier() {
 
       {/* ── TAB CONTENT ── */}
       <div className="dossier-tab-content">
+        {activeTab === 'profile' && (
+          <ProfileTab
+            profileData={profileData}
+            councillor={councillor}
+            committees={committees}
+          />
+        )}
         {activeTab === 'integrity' && (
           <IntegrityTab
             redFlags={redFlags}
@@ -554,6 +579,136 @@ export default function CouncillorDossier() {
 /* ────────────────────────────────────────────────────────────────────────
  *  TAB COMPONENTS
  * ──────────────────────────────────────────────────────────────────────── */
+
+/** Profile Tab — Personal background, employment, committees from councillor_profiles.json */
+function ProfileTab({ profileData, councillor, committees }) {
+  if (!profileData) {
+    return (
+      <div className="dossier-empty">
+        <Briefcase size={40} style={{ color: '#86868b', marginBottom: 'var(--space-md)' }} />
+        <p>No profile data available for Cllr {councillor.name}.</p>
+        <p style={{ fontSize: '0.75rem', marginTop: 'var(--space-sm)' }}>
+          Profile data is compiled from the council&apos;s register of interests, committee memberships, and electoral records.
+        </p>
+      </div>
+    )
+  }
+
+  const employment = profileData.employment || []
+  const land = profileData.land || []
+  const securities = profileData.securities || []
+  const profileCommittees = profileData.committees || []
+  const electoralHistory = profileData.electoral_history || []
+
+  return (
+    <div className="dossier-profile-tab">
+      {/* Biography */}
+      {profileData.biography && (
+        <div className="profile-section">
+          <h3><Globe size={14} /> Biography</h3>
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+            {profileData.biography}
+          </p>
+        </div>
+      )}
+
+      {/* Completeness scores */}
+      <div className="profile-scores">
+        {profileData.completeness != null && (
+          <div className="profile-score-badge">
+            <span className="profile-score-value">{profileData.completeness}%</span>
+            <span className="profile-score-label">Data Completeness</span>
+          </div>
+        )}
+        {profileData.identity_confidence != null && (
+          <div className="profile-score-badge">
+            <span className="profile-score-value">{profileData.identity_confidence}%</span>
+            <span className="profile-score-label">Identity Confidence</span>
+          </div>
+        )}
+      </div>
+
+      {/* Employment History */}
+      {employment.length > 0 && (
+        <div className="profile-section">
+          <h3><Briefcase size={14} /> Employment ({employment.length})</h3>
+          <div className="profile-list">
+            {employment.map((emp, i) => (
+              <div key={i} className="profile-list-item">
+                <div className="profile-item-title">{emp.role || emp.raw || 'Unknown role'}</div>
+                {emp.employer && <div className="profile-item-detail">{emp.employer}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Committee Memberships */}
+      {(profileCommittees.length > 0 || committees.length > 0) && (
+        <div className="profile-section">
+          <h3><Users size={14} /> Committees ({profileCommittees.length || committees.length})</h3>
+          <div className="profile-list">
+            {(profileCommittees.length > 0 ? profileCommittees : committees).map((c, i) => (
+              <div key={i} className="profile-list-item">
+                <div className="profile-item-title">{c.committee || c.name}</div>
+                {c.role && c.role !== 'Member' && (
+                  <span className="profile-role-badge">{c.role}</span>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Electoral History */}
+      {electoralHistory.length > 0 && (
+        <div className="profile-section">
+          <h3><Vote size={14} /> Electoral History ({electoralHistory.length})</h3>
+          <div className="profile-list">
+            {electoralHistory.map((e, i) => (
+              <div key={i} className="profile-list-item">
+                <div className="profile-item-title">
+                  {e.year} — {e.ward}
+                  {e.elected && <span className="profile-elected-badge">Elected</span>}
+                </div>
+                <div className="profile-item-detail">
+                  {e.party}{e.votes != null ? ` · ${e.votes} votes` : ''}{e.pct != null ? ` (${e.pct}%)` : ''}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Land/Securities if present */}
+      {land.length > 0 && (
+        <div className="profile-section">
+          <h3><MapPin size={14} /> Land & Property ({land.length})</h3>
+          <div className="profile-list">
+            {land.map((l, i) => (
+              <div key={i} className="profile-list-item">
+                <div className="profile-item-title">{l.raw || l.description || 'Property interest'}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {securities.length > 0 && (
+        <div className="profile-section">
+          <h3><Scale size={14} /> Securities ({securities.length})</h3>
+          <div className="profile-list">
+            {securities.map((s, i) => (
+              <div key={i} className="profile-list-item">
+                <div className="profile-item-title">{s.raw || s.description || 'Security interest'}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
 
 /** Integrity Tab — All red flags with severity, confidence, legal references */
 function IntegrityTab({ redFlags, integrityData, councillor, legalFramework }) {

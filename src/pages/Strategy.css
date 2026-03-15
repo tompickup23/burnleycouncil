@@ -2681,6 +2681,26 @@
 .defender-vulns li { color: #ff9f0a; }
 .defender-strengths li { color: #8e8e93; }
 
+.defender-profile-detail {
+  margin-top: 8px;
+  font-size: 0.78rem;
+}
+.defender-profile-detail strong {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: #12B6CF;
+  margin-bottom: 4px;
+}
+.defender-profile-detail ul {
+  margin: 4px 0 0;
+  padding-left: 18px;
+}
+.defender-profile-detail li {
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
 /* Turnout History */
 .turnout-history .mini-table {
   width: 100%;

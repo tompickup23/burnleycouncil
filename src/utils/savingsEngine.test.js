@@ -34,6 +34,7 @@ import {
   directorateKPITracker,
   benchmarkDirectorate,
   directorateRiskProfile,
+  fundingConstraints,
 } from './savingsEngine.js'
 
 // ─── Test fixtures ───
@@ -221,6 +222,40 @@ describe('generateDirectives', () => {
       }
     }
   })
+
+  it('generates contract expiry directives from procurement data', () => {
+    const now = new Date()
+    const in30d = new Date(now.getTime() + 30 * 86400000).toISOString().slice(0, 10)
+    const procurement = [
+      { id: '1', title: 'Social care home framework', awarded_supplier: 'Care Co', awarded_value: 500000, contract_end: in30d, status: 'awarded' },
+    ]
+    const directives = generateDirectives(mockPortfolio, {}, [], { procurement })
+    const expiryDirective = directives.find(d => d.type === 'contract_renegotiation')
+    expect(expiryDirective).toBeDefined()
+    expect(expiryDirective.save_central).toBeGreaterThan(0)
+    expect(expiryDirective.timeline).toContain('Immediate')
+  })
+
+  it('generates weak competition directives for single-bidder contracts', () => {
+    const procurement = Array.from({ length: 5 }, (_, i) => ({
+      id: String(i), title: 'Social care service ' + i, awarded_supplier: 'Provider ' + i, awarded_value: 100000, bid_count: i < 3 ? 1 : 3, status: 'awarded',
+    }))
+    const directives = generateDirectives(mockPortfolio, {}, [], { procurement })
+    const compDirective = directives.find(d => d.type === 'competition_improvement')
+    expect(compDirective).toBeDefined()
+    expect(compDirective.action).toContain('single bidder')
+  })
+
+  it('adds funding_constraint to directives when addressable % is low', () => {
+    const fundingModel = {
+      ring_fenced_grants: [{ name: 'BCF', value: 200000000, portfolio: 'adult_social_care' }],
+    }
+    const portfolioWithBudget = { ...mockPortfolio, budget: { total: 300000000 } }
+    const directives = generateDirectives(portfolioWithBudget, {}, [], { fundingModel })
+    const withConstraint = directives.filter(d => d.funding_constraint)
+    expect(withConstraint.length).toBeGreaterThan(0)
+    expect(withConstraint[0].funding_constraint).toContain('ring-fenced')
+  })
 })
 
 describe('generateReformPlaybook', () => {
@@ -321,11 +356,109 @@ describe('contractPipeline', () => {
   it('returns empty for no contracts', () => {
     const result = contractPipeline([], mockPortfolio)
     expect(result.expiring_3m).toEqual([])
+    expect(result.total_contracts).toBe(0)
+    expect(result.relevant).toEqual([])
   })
 
   it('handles null inputs', () => {
     const result = contractPipeline(null, null)
     expect(result.expiring_3m).toEqual([])
+    expect(result.total_contracts).toBe(0)
+  })
+
+  it('matches contracts by key_services keywords', () => {
+    const contracts = [
+      { id: '1', title: 'Social care services', awarded_supplier: 'Care Co', awarded_value: 50000, status: 'awarded' },
+      { id: '2', title: 'IT consulting', awarded_supplier: 'Tech Co', awarded_value: 10000, status: 'awarded' },
+    ]
+    const portfolio = { ...mockPortfolio, key_services: ['Social care', 'Adult residential'], spending_department_patterns: [] }
+    const result = contractPipeline(contracts, portfolio)
+    expect(result.total_contracts).toBe(1)
+    expect(result.relevant[0].supplier).toBe('Care Co')
+  })
+
+  it('matches contracts by spending_department_patterns regex', () => {
+    const contracts = [
+      { id: '1', title: 'Highways resurfacing', awarded_supplier: 'Tarmac Ltd', awarded_value: 100000, status: 'awarded' },
+    ]
+    const portfolio = { ...mockPortfolio, key_services: [], spending_department_patterns: ['highways?'], key_contracts: [] }
+    const result = contractPipeline(contracts, portfolio)
+    expect(result.total_contracts).toBe(1)
+  })
+
+  it('matches contracts by key_contracts provider name', () => {
+    const contracts = [
+      { id: '1', title: 'Fleet vehicles', awarded_supplier: 'Ford Motor Co Ltd', awarded_value: 500000, status: 'awarded' },
+    ]
+    const portfolio = { ...mockPortfolio, key_services: [], spending_department_patterns: [], key_contracts: [{ provider: 'Ford Motor Co Ltd' }] }
+    const result = contractPipeline(contracts, portfolio)
+    expect(result.total_contracts).toBe(1)
+  })
+
+  it('normalises procurement.json field names', () => {
+    const contracts = [
+      { id: '1', title: 'Social care', awarded_supplier: 'Provider A', awarded_value: 75000, contract_start: '2024-01-01', contract_end: '2028-01-01', status: 'awarded', bid_count: 3, procedure_type: 'open' },
+    ]
+    const result = contractPipeline(contracts, mockPortfolio)
+    expect(result.relevant[0].supplier).toBe('Provider A')
+    expect(result.relevant[0].value).toBe(75000)
+    expect(result.relevant[0].start_date).toBe('2024-01-01')
+    expect(result.relevant[0].bid_count).toBe(3)
+  })
+
+  it('categorises expiring contracts by timeframe', () => {
+    const now = new Date()
+    const in30d = new Date(now.getTime() + 30 * 86400000).toISOString().slice(0, 10)
+    const in120d = new Date(now.getTime() + 120 * 86400000).toISOString().slice(0, 10)
+    const in300d = new Date(now.getTime() + 300 * 86400000).toISOString().slice(0, 10)
+    const contracts = [
+      { id: '1', title: 'Social care A', awarded_supplier: 'A', awarded_value: 10000, contract_end: in30d, status: 'awarded' },
+      { id: '2', title: 'Social care B', awarded_supplier: 'B', awarded_value: 20000, contract_end: in120d, status: 'awarded' },
+      { id: '3', title: 'Social care C', awarded_supplier: 'C', awarded_value: 30000, contract_end: in300d, status: 'awarded' },
+    ]
+    const result = contractPipeline(contracts, mockPortfolio)
+    expect(result.expiring_3m.length).toBe(1)
+    expect(result.expiring_6m.length).toBe(1)
+    expect(result.expiring_12m.length).toBe(1)
+  })
+
+  it('calculates total value from awarded_value', () => {
+    const contracts = [
+      { id: '1', title: 'Social care A', awarded_supplier: 'A', awarded_value: 100000, status: 'awarded' },
+      { id: '2', title: 'Social care B', awarded_supplier: 'B', awarded_value: 200000, status: 'awarded' },
+    ]
+    const result = contractPipeline(contracts, mockPortfolio)
+    expect(result.total_value).toBe(300000)
+  })
+})
+
+describe('fundingConstraints', () => {
+  it('returns null for missing inputs', () => {
+    expect(fundingConstraints(null, {})).toBe(null)
+    expect(fundingConstraints({}, null)).toBe(null)
+  })
+
+  it('calculates ring-fenced totals for matching portfolio', () => {
+    const portfolio = { id: 'education_skills', budget: { total: 300000000 } }
+    const fundingModel = {
+      ring_fenced_grants: [
+        { name: 'DSG', value: 982000000, portfolio: 'education_skills' },
+        { name: 'PH Grant', value: 77000000, portfolio: 'health_wellbeing' },
+      ],
+    }
+    const result = fundingConstraints(portfolio, fundingModel)
+    expect(result.ring_fenced_total).toBe(982000000)
+    expect(result.grants.length).toBe(1)
+    expect(result.addressable).toBe(0) // Budget < ring-fenced
+    expect(result.addressable_pct).toBe(0)
+  })
+
+  it('returns 100% addressable when no grants match', () => {
+    const portfolio = { id: 'resources', budget: { total: 50000000 } }
+    const fundingModel = { ring_fenced_grants: [{ name: 'DSG', value: 982000000, portfolio: 'education_skills' }] }
+    const result = fundingConstraints(portfolio, fundingModel)
+    expect(result.addressable_pct).toBe(100)
+    expect(result.addressable).toBe(50000000)
   })
 })
 
@@ -1232,7 +1365,7 @@ const mockPortfolioWithEvidence = {
   ...mockPortfolio,
   savings_levers: [
     { lever: 'Lever A', est_saving: '£5-10M', timeline: '3-6 months', tier: 'immediate_recovery', owner: 'portfolio',
-      evidence: { data_points: ['Fact 1', 'Fact 2', 'Fact 3'], benchmark: 'National average is lower', calculation: '100 × £50K = £5M', kpi_link: 'CQC improvement plan mandates this', implementation_steps: [{ step: 'Step 1' }, { step: 'Step 2' }, { step: 'Step 3' }] } },
+      evidence: { data_points: ['Fact 1', 'Fact 2', 'Fact 3'], benchmark: 'National average is lower', calculation: '100 × £50K = £5M', kpi_link: 'CQC improvement plan mandates this', implementation_steps: [{ step: 'Step 1' }, { step: 'Step 2' }, { step: 'Step 3' }], article_refs: [{ id: 'test-article', title: 'Test' }, { id: 'test-2', title: 'Test 2' }], political_framing: 'This is a key Reform achievement showing fiscal responsibility.' } },
     { lever: 'Lever B', est_saving: '£2-4M', timeline: '12-18 months', tier: 'service_redesign', owner: 'portfolio',
       evidence: { data_points: ['One fact'], benchmark: 'Short', calculation: null, kpi_link: null, implementation_steps: [] } },
     { lever: 'Lever C', est_saving: '£1-2M', timeline: '6-12 months', tier: 'procurement_reform', owner: 'centralised' },
@@ -1258,33 +1391,52 @@ describe('evidenceChainStrength', () => {
   it('scores partially for incomplete evidence', () => {
     const lever = mockPortfolioWithEvidence.savings_levers[1]
     const score = evidenceChainStrength(lever)
-    expect(score).toBeGreaterThan(0)
-    expect(score).toBeLessThan(100)
+    expect(score).toBe(8) // 1 data_point = 8, benchmark too short, no calc/kpi/steps/refs/framing
   })
 
-  it('gives 20 for data_points with 2+ items', () => {
+  it('gives 15 for data_points with 2+ items', () => {
     const lever = { evidence: { data_points: ['A', 'B'] } }
-    expect(evidenceChainStrength(lever)).toBe(20)
+    expect(evidenceChainStrength(lever)).toBe(15)
   })
 
-  it('gives 10 for data_points with 1 item', () => {
+  it('gives 8 for data_points with 1 item', () => {
     const lever = { evidence: { data_points: ['A'] } }
-    expect(evidenceChainStrength(lever)).toBe(10)
+    expect(evidenceChainStrength(lever)).toBe(8)
   })
 
-  it('gives 20 for benchmark with sufficient text', () => {
+  it('gives 15 for benchmark with sufficient text', () => {
     const lever = { evidence: { benchmark: 'National average is much lower than Lancashire' } }
-    expect(evidenceChainStrength(lever)).toBe(20)
+    expect(evidenceChainStrength(lever)).toBe(15)
   })
 
-  it('gives 10 for implementation_steps with 1-2 items', () => {
+  it('gives 8 for implementation_steps with 1-2 items', () => {
     const lever = { evidence: { implementation_steps: [{ step: 'Do something' }] } }
+    expect(evidenceChainStrength(lever)).toBe(8)
+  })
+
+  it('gives 15 for implementation_steps with 3+ items', () => {
+    const lever = { evidence: { implementation_steps: [{ step: 'A' }, { step: 'B' }, { step: 'C' }] } }
+    expect(evidenceChainStrength(lever)).toBe(15)
+  })
+
+  it('gives 10 for article_refs with 2+ items', () => {
+    const lever = { evidence: { article_refs: [{ id: 'a' }, { id: 'b' }] } }
     expect(evidenceChainStrength(lever)).toBe(10)
   })
 
-  it('gives 20 for implementation_steps with 3+ items', () => {
-    const lever = { evidence: { implementation_steps: [{ step: 'A' }, { step: 'B' }, { step: 'C' }] } }
-    expect(evidenceChainStrength(lever)).toBe(20)
+  it('gives 5 for article_refs with 1 item', () => {
+    const lever = { evidence: { article_refs: [{ id: 'a' }] } }
+    expect(evidenceChainStrength(lever)).toBe(5)
+  })
+
+  it('gives 10 for political_framing with sufficient text', () => {
+    const lever = { evidence: { political_framing: 'This is our key Reform achievement showing fiscal responsibility and accountability.' } }
+    expect(evidenceChainStrength(lever)).toBe(10)
+  })
+
+  it('gives 0 for short political_framing', () => {
+    const lever = { evidence: { political_framing: 'Short text' } }
+    expect(evidenceChainStrength(lever)).toBe(0)
   })
 })
 

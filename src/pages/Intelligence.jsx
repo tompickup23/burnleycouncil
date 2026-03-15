@@ -34,7 +34,6 @@ const RISK_COLORS = { high: '#ff453a', elevated: '#ff9f0a', medium: '#ffd60a', l
 // Section definitions — labels are set dynamically below based on the ruling party
 const BASE_SECTIONS = [
   { id: 'warRoom', label: 'Briefing Room', icon: Swords },
-  { id: 'decisions', label: 'Decisions', icon: Gavel },
   { id: 'profiles', label: 'Opposition', icon: Users },
   { id: 'dossier', label: 'Dossier', icon: FileText },
   { id: 'rulingRecord', label: 'Our Record', icon: Award },
@@ -311,6 +310,11 @@ export default function Intelligence() {
     dataSources.council_documents ? '/data/council_documents.json' : null
   )
 
+  // --- Councillor profiles (optional — from councillor_research_etl.py) ---
+  const { data: profilesData } = useData(
+    dataSources.councillor_profiles ? '/data/councillor_profiles.json' : null
+  )
+
   // --- State ---
   const [activeSection, setActiveSection] = useState('warRoom')
   const [selectedMeetingIdx, setSelectedMeetingIdx] = useState(null)
@@ -319,9 +323,6 @@ export default function Intelligence() {
   const [selectedCouncillor, setSelectedCouncillor] = useState(null)
   const [dossierTab, setDossierTab] = useState('profile')
   const [searchQuery, setSearchQuery] = useState('')
-  const [decisionsCommitteeFilter, setDecisionsCommitteeFilter] = useState('all')
-  const [decisionsTopicFilter, setDecisionsTopicFilter] = useState('all')
-  const [expandedDecisions, setExpandedDecisions] = useState({})
   const [meetingMode, setMeetingMode] = useState(false)
 
   // --- Page title ---
@@ -783,184 +784,6 @@ export default function Intelligence() {
       )}
 
       {/* ================================================================ */}
-      {/* SECTION: COUNCIL DECISIONS */}
-      {/* ================================================================ */}
-      {activeSection === 'decisions' && documentsData && (
-        <section className="intel-section">
-          <h2><Gavel size={20} /> Council Decisions</h2>
-          <p className="intel-section-desc">
-            {documentsData.decisions_count} decisions extracted from {documentsData.documents_count} council documents
-            {documentsData.date_range && ` (${documentsData.date_range})`}
-          </p>
-
-          {/* Filters */}
-          <div className="intel-decisions-filters">
-            {documentsData.by_committee && Object.keys(documentsData.by_committee).length > 1 && (
-              <select
-                value={decisionsCommitteeFilter}
-                onChange={e => setDecisionsCommitteeFilter(e.target.value)}
-                className="intel-filter-select"
-              >
-                <option value="all">All committees</option>
-                {Object.entries(documentsData.by_committee)
-                  .sort((a, b) => b[1] - a[1])
-                  .map(([committee, count]) => (
-                    <option key={committee} value={committee}>{committee} ({count})</option>
-                  ))}
-              </select>
-            )}
-            <select
-              value={decisionsTopicFilter}
-              onChange={e => setDecisionsTopicFilter(e.target.value)}
-              className="intel-filter-select"
-            >
-              <option value="all">All topics</option>
-              {(() => {
-                const topics = new Map()
-                ;(documentsData.recent_decisions || []).forEach(d => {
-                  ;(d.policy_areas || []).forEach(t => topics.set(t, (topics.get(t) || 0) + 1))
-                })
-                return [...topics.entries()].sort((a, b) => b[1] - a[1]).map(([topic, count]) => (
-                  <option key={topic} value={topic}>{topic.replace(/_/g, ' ')} ({count})</option>
-                ))
-              })()}
-            </select>
-          </div>
-
-          {/* Department breakdown */}
-          {documentsData.by_department && Object.keys(documentsData.by_department).length > 0 && (
-            <div className="intel-dept-breakdown">
-              <h3>By Department</h3>
-              <div className="dept-chips">
-                {Object.entries(documentsData.by_department)
-                  .sort((a, b) => b[1].count - a[1].count)
-                  .slice(0, 10)
-                  .map(([dept, info]) => (
-                    <span key={dept} className="dept-chip">
-                      {dept}: {info.count}
-                      {info.total_value > 0 && ` (${(info.total_value >= 1e6 ? `£${(info.total_value / 1e6).toFixed(1)}M` : `£${(info.total_value / 1e3).toFixed(0)}K`)})`}
-                    </span>
-                  ))}
-              </div>
-            </div>
-          )}
-
-          {/* Decision cards */}
-          <div className="intel-decisions-list">
-            {(documentsData.recent_decisions || [])
-              .filter(d => decisionsCommitteeFilter === 'all' || d.committee === decisionsCommitteeFilter)
-              .filter(d => decisionsTopicFilter === 'all' || (d.policy_areas || []).includes(decisionsTopicFilter))
-              .map(d => {
-                const isExpanded = !!expandedDecisions[d.decision_id]
-                return (
-                  <div key={d.decision_id} className={`intel-decision-card outcome-${d.outcome || 'unknown'}`}>
-                    <div
-                      className="decision-card-header"
-                      onClick={() => setExpandedDecisions(prev => ({
-                        ...prev, [d.decision_id]: !prev[d.decision_id]
-                      }))}
-                      role="button" tabIndex={0}
-                      onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && setExpandedDecisions(prev => ({
-                        ...prev, [d.decision_id]: !prev[d.decision_id]
-                      }))}
-                    >
-                      <div className="decision-title-row">
-                        {isExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-                        <span className="decision-title">{d.title}</span>
-                        <span className={`decision-outcome-badge ${d.outcome || ''}`}>
-                          {d.outcome || 'unknown'}
-                        </span>
-                      </div>
-                      <div className="decision-meta">
-                        <span><Calendar size={12} /> {d.date}</span>
-                        <span>{d.committee}</span>
-                        {d.department && <span>{d.department}</span>}
-                        {d.financial_value != null && (
-                          <span className="decision-financial">
-                            £{d.financial_value >= 1e6 ? `${(d.financial_value / 1e6).toFixed(1)}M` : d.financial_value >= 1e3 ? `${(d.financial_value / 1e3).toFixed(0)}K` : d.financial_value.toLocaleString()}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    {/* Expanded detail */}
-                    {isExpanded && (
-                      <div className="decision-detail">
-                        {d.political_summary && (
-                          <p className="decision-summary">{d.political_summary}</p>
-                        )}
-
-                        {/* Vote split */}
-                        {(d.vote_for != null || d.vote_against != null) && (
-                          <div className="decision-votes">
-                            <span className="vote-for">{d.vote_for ?? 0} for</span>
-                            <span className="vote-against">{d.vote_against ?? 0} against</span>
-                            {d.vote_abstain > 0 && <span className="vote-abstain">{d.vote_abstain} abstained</span>}
-                            {d.is_recorded_vote && <span className="recorded-vote-badge">Recorded vote</span>}
-                          </div>
-                        )}
-
-                        {/* Key data points */}
-                        {d.key_data_points?.length > 0 && (
-                          <ul className="decision-key-facts">
-                            {d.key_data_points.map((fact, j) => <li key={j}>{fact}</li>)}
-                          </ul>
-                        )}
-
-                        {/* Policy area tags */}
-                        {d.policy_areas?.length > 0 && (
-                          <div className="decision-tags">
-                            {d.policy_areas.map(t => (
-                              <span key={t} className="decision-policy-tag">{t.replace(/_/g, ' ')}</span>
-                            ))}
-                          </div>
-                        )}
-
-                        {/* Motions */}
-                        {d.motions?.length > 0 && (
-                          <div className="decision-motions">
-                            <h4>Motions</h4>
-                            {d.motions.map((m, j) => (
-                              <div key={j} className={`motion-item motion-${m.outcome || 'unknown'}`}>
-                                <div className="motion-header">
-                                  <span className={`motion-type-badge ${m.type}`}>{m.type}</span>
-                                  <span className={`motion-outcome ${m.outcome}`}>{m.outcome}</span>
-                                </div>
-                                {m.proposer && <div className="motion-proposer">Proposed: {m.proposer}{m.seconder ? ` / Seconded: ${m.seconder}` : ''}</div>}
-                                {m.text && <p className="motion-text">{m.text}</p>}
-                                {(m.vote_for != null || m.vote_against != null) && (
-                                  <div className="motion-votes">
-                                    {m.vote_for != null && <span className="vote-for">{m.vote_for} for</span>}
-                                    {m.vote_against != null && <span className="vote-against">{m.vote_against} against</span>}
-                                  </div>
-                                )}
-                              </div>
-                            ))}
-                          </div>
-                        )}
-
-                        {d.financial_context && (
-                          <p className="decision-financial-context">{d.financial_context}</p>
-                        )}
-                      </div>
-                    )}
-                  </div>
-                )
-              })}
-          </div>
-        </section>
-      )}
-
-      {activeSection === 'decisions' && !documentsData && (
-        <section className="intel-section">
-          <h2><Gavel size={20} /> Council Decisions</h2>
-          <p className="intel-empty-note">
-            No council documents data available. Run the council_documents_etl.py pipeline to extract decisions from meeting minutes.
-          </p>
-        </section>
-      )}
-
-      {/* ================================================================ */}
       {/* SECTION B: OPPOSITION PROFILES */}
       {/* ================================================================ */}
       {activeSection === 'profiles' && (
@@ -1045,6 +868,7 @@ export default function Intelligence() {
               const integrity = integrityData?.councillors?.find(ic =>
                 cleanCouncillorName(ic.name) === cleanCouncillorName(c.name)
               )
+              const profile = profilesData?.councillors?.[slugify(c.name)]
               return (
                 <button
                   key={i}
@@ -1059,6 +883,7 @@ export default function Intelligence() {
                   </div>
                   <div className="councillor-card-bottom">
                     <span className="councillor-card-ward">{c.division || c.ward || '—'}</span>
+                    {profile?.occupation && <span className="councillor-card-occupation">{profile.occupation}</span>}
                     {integrity?.risk_level && <RiskBadge level={integrity.risk_level} />}
                   </div>
                 </button>

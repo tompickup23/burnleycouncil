@@ -222,7 +222,7 @@ describe('Demographics', () => {
   it('renders the page heading with data', () => {
     setupMocks()
     renderComponent()
-    expect(screen.getByText('Demographics')).toBeInTheDocument()
+    expect(screen.getByText('People & Communities')).toBeInTheDocument()
   })
 
   it('shows Census 2021 tab by default', () => {
