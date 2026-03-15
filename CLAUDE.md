@@ -102,7 +102,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
 | `src/components/lgr/` | LGR sub-components: LGRDemographicFiscalRisk, LGRTimelineChaos, LGRBoundaryMap, LGRDeprivationMap, LGRPropertyDivision, LGRCCAImpact (6 components + 6 test files) |
 | `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation, elections (49 tests, 6 files) |
-| `src/**/*.test.{js,jsx}` | Unit tests: 2,647 tests across 53 files (vitest) |
+| `src/**/*.test.{js,jsx}` | Unit tests: 2,696 tests across 53 files (vitest) |
 
 ### Data Pipeline (Python)
 | File | Purpose |
