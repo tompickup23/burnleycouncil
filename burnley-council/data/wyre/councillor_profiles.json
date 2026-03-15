@@ -1,25 +1,25 @@
 {
   "council_id": "wyre",
-  "generated_at": "2026-02-28T02:48:50.226155Z",
+  "generated_at": "2026-03-15T01:31:36.843433Z",
   "version": "1.0",
   "total_councillors": 50,
-  "moderngov_scraped": 50,
+  "moderngov_scraped": 0,
   "sources": {
     "councillors": true,
     "register": true,
     "elections": true,
     "meetings": true,
-    "moderngov_biography": true
+    "moderngov_biography": false
   },
   "summary": {
     "with_dob": 0,
     "with_occupation": 0,
     "with_employment": 0,
     "with_land": 0,
-    "with_committees": 0,
+    "with_committees": 50,
     "with_electoral": 40,
-    "avg_completeness": 23,
-    "avg_identity_confidence": 33
+    "avg_completeness": 32,
+    "avg_identity_confidence": 43
   },
   "councillors": {
     "hswatton": {
@@ -30,14 +30,30 @@
       "moderngov_uid": "537",
       "dob": null,
       "occupation": null,
-      "biography": "Email: harry.swatton@wyre.gov.uk",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -49,8 +65,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "khigginson": {
       "councillor_id": "khigginson",
@@ -60,14 +76,20 @@
       "moderngov_uid": "533",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Wyre Council Civic Centre Poulton-le-Fylde Lancashire FY6 7PU",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -79,8 +101,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "vwells": {
       "councillor_id": "vwells",
@@ -97,7 +119,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -109,8 +142,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "jpreston": {
       "councillor_id": "jpreston",
@@ -127,7 +160,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -139,8 +183,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "pmarinel": {
       "councillor_id": "pmarinel",
@@ -157,7 +201,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -169,8 +224,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "dbolton": {
       "councillor_id": "dbolton",
@@ -187,7 +242,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Climate Change Sub-Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -199,8 +275,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "dswift": {
       "councillor_id": "dswift",
@@ -217,7 +293,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -229,8 +316,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "jibison": {
       "councillor_id": "jibison",
@@ -247,7 +334,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Employment and Appeals Committee",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -259,8 +362,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "awalker": {
       "councillor_id": "awalker",
@@ -277,7 +380,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -289,8 +408,8 @@
         "elections_fought": 5,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "sfielding": {
       "councillor_id": "sfielding",
@@ -307,7 +426,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -319,8 +449,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "iamos": {
       "councillor_id": "iamos",
@@ -337,7 +467,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -349,8 +495,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "rrendell": {
       "councillor_id": "rrendell",
@@ -367,7 +513,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -379,8 +541,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "acollinson": {
       "councillor_id": "acollinson",
@@ -397,7 +559,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -409,8 +582,8 @@
         "elections_fought": 5,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "latkins": {
       "councillor_id": "latkins",
@@ -427,7 +600,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -439,8 +623,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 10,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "satkins": {
       "councillor_id": "satkins",
@@ -450,14 +634,30 @@
       "moderngov_uid": "348",
       "dob": null,
       "occupation": null,
-      "biography": "Phone: (01995) 602225",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Climate Change Sub-Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -469,8 +669,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "pcartridge": {
       "councillor_id": "pcartridge",
@@ -487,7 +687,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Climate Change Sub-Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Employment and Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -499,8 +720,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "scatterall": {
       "councillor_id": "scatterall",
@@ -517,7 +738,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -529,8 +761,8 @@
         "elections_fought": 4,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "jrobinson": {
       "councillor_id": "jrobinson",
@@ -547,7 +779,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Climate Change Sub-Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -559,8 +812,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 10,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "lbowen": {
       "councillor_id": "lbowen",
@@ -577,7 +830,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Emergency Powers Executive Decisions",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -589,8 +858,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 10,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "rberry": {
       "councillor_id": "rberry",
@@ -600,14 +869,30 @@
       "moderngov_uid": "123",
       "dob": null,
       "occupation": null,
-      "biography": "Phone: (01253) 891346",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Emergency Powers Executive Decisions",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -619,8 +904,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "sbridge": {
       "councillor_id": "sbridge",
@@ -637,7 +922,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Emergency Powers Executive Decisions",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -649,8 +950,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "snicholls": {
       "councillor_id": "snicholls",
@@ -667,7 +968,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -679,8 +986,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 10,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "rfail": {
       "councillor_id": "rfail",
@@ -697,7 +1004,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Climate Change Sub-Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -709,8 +1032,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "wmartin": {
       "councillor_id": "wmartin",
@@ -727,7 +1050,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -739,8 +1068,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "dhiggs": {
       "councillor_id": "dhiggs",
@@ -757,7 +1086,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -769,8 +1109,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "jcrawford": {
       "councillor_id": "jcrawford",
@@ -780,14 +1120,25 @@
       "moderngov_uid": "639",
       "dob": null,
       "occupation": null,
-      "biography": "Email: james.crawford@wyre.gov.uk",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -799,8 +1150,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "pellison": {
       "councillor_id": "pellison",
@@ -810,14 +1161,20 @@
       "moderngov_uid": "350",
       "dob": null,
       "occupation": null,
-      "biography": "Phone: (01253) 860683",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -829,8 +1186,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "cstephenson": {
       "councillor_id": "cstephenson",
@@ -840,14 +1197,25 @@
       "moderngov_uid": "536",
       "dob": null,
       "occupation": null,
-      "biography": "Email: carole.stephenson@wyre.gov.uk",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -859,8 +1227,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "mbelshaw": {
       "councillor_id": "mbelshaw",
@@ -877,7 +1245,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -889,8 +1273,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 10,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "ajones": {
       "councillor_id": "ajones",
@@ -900,14 +1284,25 @@
       "moderngov_uid": "668",
       "dob": null,
       "occupation": null,
-      "biography": "Email: alice.jones@wyre.gov.uk",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Climate Change Sub-Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -919,8 +1314,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "csmith": {
       "councillor_id": "csmith",
@@ -937,7 +1332,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -949,8 +1355,8 @@
         "elections_fought": 4,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "mmoliner": {
       "councillor_id": "mmoliner",
@@ -967,7 +1373,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -979,8 +1396,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "rduffy": {
       "councillor_id": "rduffy",
@@ -997,7 +1414,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment and Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1009,8 +1437,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "akay": {
       "councillor_id": "akay",
@@ -1027,7 +1455,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -1039,8 +1483,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "aleigh": {
       "councillor_id": "aleigh",
@@ -1057,7 +1501,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1069,8 +1529,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "asorensen": {
       "councillor_id": "asorensen",
@@ -1080,14 +1540,20 @@
       "moderngov_uid": "542",
       "dob": null,
       "occupation": null,
-      "biography": "Email: ashley.sorensen@wyre.gov.uk",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1099,8 +1565,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "crimmer": {
       "councillor_id": "crimmer",
@@ -1117,7 +1583,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1129,8 +1606,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "crushforth": {
       "councillor_id": "crushforth",
@@ -1147,7 +1624,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -1159,8 +1647,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "bmeekins": {
       "councillor_id": "bmeekins",
@@ -1177,7 +1665,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1189,8 +1683,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "craynor": {
       "councillor_id": "craynor",
@@ -1200,14 +1694,30 @@
       "moderngov_uid": "179",
       "dob": null,
       "occupation": null,
-      "biography": "Email: cheryl.raynor@wyre.gov.uk",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Climate Change Sub-Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2017,
         "years_in_office": 9,
@@ -1219,8 +1729,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "fthewlis": {
       "councillor_id": "fthewlis",
@@ -1237,7 +1747,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1249,8 +1765,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "kminto": {
       "councillor_id": "kminto",
@@ -1267,7 +1783,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Overview and Scrutiny Climate Change Sub-Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1279,8 +1816,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "slivesey": {
       "councillor_id": "slivesey",
@@ -1297,7 +1834,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1309,8 +1862,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "cbirch": {
       "councillor_id": "cbirch",
@@ -1327,7 +1880,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Employment and Appeals Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -1339,8 +1908,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "lmckay": {
       "councillor_id": "lmckay",
@@ -1357,7 +1926,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -1369,8 +1949,8 @@
         "elections_fought": 4,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "cbaxter": {
       "councillor_id": "cbaxter",
@@ -1380,14 +1960,35 @@
       "moderngov_uid": "359",
       "dob": null,
       "occupation": null,
-      "biography": "Bus. phone: 01772 687677",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1399,8 +2000,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "mvincent": {
       "councillor_id": "mvincent",
@@ -1417,7 +2018,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Blackpool, Fylde and Wyre Economic Prosperity Board",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Emergency Powers Executive Decisions",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -1429,8 +2051,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "bstephenson": {
       "councillor_id": "bstephenson",
@@ -1447,7 +2069,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1459,8 +2092,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "mblair": {
       "councillor_id": "mblair",
@@ -1477,7 +2110,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1489,8 +2133,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "cwalker": {
       "councillor_id": "cwalker",
@@ -1507,7 +2151,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1519,8 +2174,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 25,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     }
   }
 }

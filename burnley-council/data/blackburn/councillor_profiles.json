@@ -1,25 +1,25 @@
 {
   "council_id": "blackburn",
-  "generated_at": "2026-02-28T02:46:19.035396Z",
+  "generated_at": "2026-03-15T01:31:36.804513Z",
   "version": "1.0",
   "total_councillors": 51,
-  "moderngov_scraped": 51,
+  "moderngov_scraped": 0,
   "sources": {
     "councillors": true,
     "register": true,
     "elections": true,
     "meetings": true,
-    "moderngov_biography": true
+    "moderngov_biography": false
   },
   "summary": {
     "with_dob": 0,
     "with_occupation": 0,
     "with_employment": 47,
     "with_land": 1,
-    "with_committees": 0,
+    "with_committees": 51,
     "with_electoral": 36,
     "avg_completeness": 45,
-    "avg_identity_confidence": 46
+    "avg_identity_confidence": 56
   },
   "councillors": {
     "akapadia": {
@@ -30,8 +30,8 @@
       "moderngov_uid": "990",
       "dob": null,
       "occupation": null,
-      "biography": "Bus. phone: 07484412953",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/0/9/9/Info00000990/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Upholsterer - MS Upholstery, Weir Street",
@@ -43,7 +43,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -56,7 +62,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "eraja": {
       "councillor_id": "eraja",
@@ -66,8 +72,8 @@
       "moderngov_uid": "768",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Democratic Services Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/8/6/7/Info00000768/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Support WOrker",
@@ -89,7 +95,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Children & Young People Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "People Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -102,7 +144,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "ssidat": {
       "councillor_id": "ssidat",
@@ -112,8 +154,8 @@
       "moderngov_uid": "148",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/8/4/1/Info00000148/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "School Escort",
@@ -150,7 +192,48 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Call In Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Corporate Resources Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -163,7 +246,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 40,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "pakhtar": {
       "councillor_id": "pakhtar",
@@ -173,8 +256,8 @@
       "moderngov_uid": "149",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 3 Percivial Street Blackburn BB1 6NH",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/9/4/1/Info00000149/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Royal Hospital Blackburn",
@@ -191,7 +274,53 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "General Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2010,
         "years_in_office": 16,
@@ -204,7 +333,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "rkhan": {
       "councillor_id": "rkhan",
@@ -214,8 +343,8 @@
       "moderngov_uid": "991",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: C/o Democratic Services Blackburn Town Hall",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/1/9/9/Info00000991/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "media",
@@ -232,7 +361,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -245,7 +380,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "shussain": {
       "councillor_id": "shussain",
@@ -255,8 +390,8 @@
       "moderngov_uid": "151",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Services Floor 2 Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/1/5/1/Info00000151/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Unite the Union",
@@ -272,7 +407,48 @@
           "raw": "£100 from Unite the Union"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Board",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Corporate Resources Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2012,
         "years_in_office": 14,
@@ -285,7 +461,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jfloyd": {
       "councillor_id": "jfloyd",
@@ -295,8 +471,8 @@
       "moderngov_uid": "187",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 5 Beardwood Brow Blackburn BB2 7AX",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/7/8/1/Info00000187/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Nurse",
@@ -313,7 +489,48 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Board",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Health & Wellbeing Board",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -326,7 +543,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "tfazal": {
       "councillor_id": "tfazal",
@@ -336,8 +553,8 @@
       "moderngov_uid": "186",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Services Floor 2 Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/6/8/1/Info00000186/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Grand Venues",
@@ -404,7 +621,58 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "General Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Corporate Resources Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -417,7 +685,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "whussain": {
       "councillor_id": "whussain",
@@ -427,8 +695,8 @@
       "moderngov_uid": "992",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Democratic Services Blackburn Town Hall BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/2/9/9/Info00000992/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Project Manager - (learning disabilities and Autism)",
@@ -450,7 +718,28 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Corporate Resources Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -463,7 +752,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 40,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "mhussain": {
       "councillor_id": "mhussain",
@@ -473,8 +762,8 @@
       "moderngov_uid": "177",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Services Floor 2 Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/7/7/1/Info00000177/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Director",
@@ -522,7 +811,38 @@
         }
       ],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -535,7 +855,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 55,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "tmahmood": {
       "councillor_id": "tmahmood",
@@ -545,8 +865,8 @@
       "moderngov_uid": "993",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: C/o Democratic Services Blackburn Town Hall",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/3/9/9/Info00000993/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Driving Instructor (Self -Employed)",
@@ -558,7 +878,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "General Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -571,7 +912,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "zkhan": {
       "councillor_id": "zkhan",
@@ -581,8 +922,8 @@
       "moderngov_uid": "154",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 13-15 Copperfield Street Blackburn BB1 1RB",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/4/5/1/Info00000154/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Unite Union",
@@ -599,7 +940,48 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Place Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -612,7 +994,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 40,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "jshorrock": {
       "councillor_id": "jshorrock",
@@ -622,8 +1004,8 @@
       "moderngov_uid": "157",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 107 Oban Drive Blackburn BB1 2JE",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/7/5/1/Info00000157/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Councillor",
@@ -664,7 +1046,43 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -677,7 +1095,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 55,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "thumphrys": {
       "councillor_id": "thumphrys",
@@ -687,14 +1105,45 @@
       "moderngov_uid": "666",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 1 Durham Close Blackburn BB1 1DQ",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/6/6/6/Info00000666/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Call In Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Corporate Resources Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -707,7 +1156,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "vmcgurk": {
       "councillor_id": "vmcgurk",
@@ -717,8 +1166,8 @@
       "moderngov_uid": "156",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Democratic Services, Town Hall, Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/6/5/1/Info00000156/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Department of Health and Social Care, Reciprocal Health Care",
@@ -762,7 +1211,43 @@
         }
       ],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Board",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -775,7 +1260,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jslater": {
       "councillor_id": "jslater",
@@ -785,8 +1270,8 @@
       "moderngov_uid": "159",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 11 Minster Crescent Darwen BB3 3PY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/9/5/1/Info00000159/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Councillor",
@@ -803,7 +1288,48 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Chief Executive Employment Committee",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Children & Young People Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -816,7 +1342,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "jslater2": {
       "councillor_id": "jslater2",
@@ -826,8 +1352,8 @@
       "moderngov_uid": "160",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 34 Rudyard Drive Darwen BB3 3LE",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/0/6/1/Info00000160/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Manufacturing Manager",
@@ -839,7 +1365,48 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Chief Executive Employment Committee",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Children & Young People Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -852,7 +1419,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "ljohnson": {
       "councillor_id": "ljohnson",
@@ -862,8 +1429,8 @@
       "moderngov_uid": "994",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 11 Old Farmside Blackburn BB2 4UL",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/4/9/9/Info00000994/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -880,7 +1447,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "General Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -893,7 +1486,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "kfielding": {
       "councillor_id": "kfielding",
@@ -903,8 +1496,8 @@
       "moderngov_uid": "667",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 39 Cyprus Street Darwen BB3 2JX",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/7/6/6/Info00000667/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Photographer",
@@ -940,7 +1533,38 @@
         }
       ],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Place Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Corporate Resources Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -953,7 +1577,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mmccaughran": {
       "councillor_id": "mmccaughran",
@@ -963,8 +1587,8 @@
       "moderngov_uid": "769",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 43 Dove Lane Darwen BB3 1EE",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/9/6/7/Info00000769/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Support Worker",
@@ -986,7 +1610,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "People Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Place Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -999,7 +1659,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mgibson": {
       "councillor_id": "mgibson",
@@ -1009,8 +1669,8 @@
       "moderngov_uid": "884",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 89 Spring Vale Garden Village Darwen BB3 2HS",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/4/8/8/Info00000884/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Paid Media Lead",
@@ -1037,7 +1697,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Children & Young People Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1050,7 +1741,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ashaw": {
       "councillor_id": "ashaw",
@@ -1060,8 +1751,8 @@
       "moderngov_uid": "885",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Services Floor 2 Old Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/5/8/8/Info00000885/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Senior Caseworker",
@@ -1098,7 +1789,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1111,7 +1823,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "kconnor": {
       "councillor_id": "kconnor",
@@ -1121,14 +1833,60 @@
       "moderngov_uid": "191",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 5 Elswick Street Darwen BB3 3DX",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/1/9/1/Info00000191/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Call In Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Corporate Resources Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -1141,7 +1899,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "mjackson": {
       "councillor_id": "mjackson",
@@ -1151,8 +1909,8 @@
       "moderngov_uid": "831",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: Duke of York House Johnson New Road Waterside Darwen BB3 3NS",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/1/3/8/Info00000831/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Property Developer",
@@ -1204,7 +1962,48 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Call In Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Children & Young People Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Corporate Resources Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -1217,7 +2016,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 55,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "btaylor": {
       "councillor_id": "btaylor",
@@ -1227,8 +2026,8 @@
       "moderngov_uid": "194",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 22 Sunnyhurst Lane Darwen BB3 1JN",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/4/9/1/Info00000194/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -1254,7 +2053,48 @@
           "raw": "Labour and Co-operative party sponsored £200 for election expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Children & Young People Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Corporate Resources Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -1267,7 +2107,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "dsmith": {
       "councillor_id": "dsmith",
@@ -1277,8 +2117,8 @@
       "moderngov_uid": "193",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 18B Woodbank Avenue Darwen BB3 1JJ",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/3/9/1/Info00000193/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Blackburn with Darwen Borough Councillor",
@@ -1307,7 +2147,43 @@
           "raw": "£50 - Unite Union"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "People Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Chair"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -1320,7 +2196,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "sbrookfield": {
       "councillor_id": "sbrookfield",
@@ -1330,8 +2206,8 @@
       "moderngov_uid": "192",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 17 Ramsey Road Blackburn BB2 3LY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/2/9/1/Info00000192/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Description of your employment activity | Name of Employer or Body",
@@ -1399,7 +2275,63 @@
           "raw": "Name of Person or Body making Payments"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "General Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub-Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Place Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -1412,7 +2344,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "awhalley": {
       "councillor_id": "awhalley",
@@ -1422,8 +2354,8 @@
       "moderngov_uid": "995",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Services Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/5/9/9/Info00000995/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "N/A (Retired)",
@@ -1445,7 +2377,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Call In Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "General Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Place Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -1458,7 +2421,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ewhittingham": {
       "councillor_id": "ewhittingham",
@@ -1468,8 +2431,8 @@
       "moderngov_uid": "770",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Services Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/0/7/7/Info00000770/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Catering and Events",
@@ -1495,7 +2458,48 @@
           "raw": "Unite Union - Financial Support in Elections"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Call In Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "People Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -1508,7 +2512,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jcasey": {
       "councillor_id": "jcasey",
@@ -1518,8 +2522,8 @@
       "moderngov_uid": "162",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Democratic Services Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/2/6/1/Info00000162/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Blackburn Bus Company, Transdev Lancashire United",
@@ -1536,7 +2540,68 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Call In Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "General Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub-Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2014,
         "years_in_office": 12,
@@ -1549,7 +2614,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "apatel": {
       "councillor_id": "apatel",
@@ -1560,7 +2625,7 @@
       "dob": null,
       "occupation": null,
       "biography": null,
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/3/6/6/Info00000663/bigpic.jpg",
+      "photo_url": null,
       "employment": [
         {
           "raw": "Self Employed Taxi Driver",
@@ -1577,7 +2642,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2008,
         "years_in_office": 18,
@@ -1589,8 +2675,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 45,
-      "identity_confidence": 50
+      "data_completeness_pct": 50,
+      "identity_confidence": 60
     },
     "mdesai": {
       "councillor_id": "mdesai",
@@ -1600,8 +2686,8 @@
       "moderngov_uid": "464",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 350 Whalley Old Road Blackburn BB1 5SB",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/4/6/4/Info00000464/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Virgin Media",
@@ -1623,7 +2709,48 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Chief Officer Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Board",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Health & Wellbeing Board",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1636,7 +2763,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "skhan": {
       "councillor_id": "skhan",
@@ -1646,8 +2773,8 @@
       "moderngov_uid": "771",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Services Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/1/7/7/Info00000771/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Customer Services Manager",
@@ -1669,7 +2796,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1682,7 +2840,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "dhardman": {
       "councillor_id": "dhardman",
@@ -1692,8 +2850,8 @@
       "moderngov_uid": "167",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 12 Wythburn Avenue Blackburn BB2 5HQ",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/7/6/1/Info00000167/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Procurement",
@@ -1729,7 +2887,58 @@
           "raw": "Conservative Party - Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "General Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -1742,7 +2951,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mrussell": {
       "councillor_id": "mrussell",
@@ -1752,8 +2961,8 @@
       "moderngov_uid": "670",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Democratic Services Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/0/7/6/Info00000670/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Customer Services Team Leader",
@@ -1770,7 +2979,48 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Children & Young People Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "General Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -1783,7 +3033,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "pmarrow": {
       "councillor_id": "pmarrow",
@@ -1793,8 +3043,8 @@
       "moderngov_uid": "168",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: Brownlands Farm Pleasington Blackburn BB2 5JE",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/8/6/1/Info00000168/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "J Marrow & Sons",
@@ -1825,7 +3075,48 @@
         }
       ],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Place Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2016,
         "years_in_office": 10,
@@ -1838,7 +3129,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 55,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "dtalbot": {
       "councillor_id": "dtalbot",
@@ -1848,8 +3139,8 @@
       "moderngov_uid": "172",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Democratic Services Blackburn Town Hall BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/2/7/1/Info00000172/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Office Manager",
@@ -1881,7 +3172,48 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Board",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Health & Wellbeing Board",
+          "type": "partnership",
+          "role": "Chair"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -1894,7 +3226,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jsmith": {
       "councillor_id": "jsmith",
@@ -1904,8 +3236,8 @@
       "moderngov_uid": "171",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 57 Brookway Blackburn BB2 4RB",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/1/7/1/Info00000171/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Duty Manager",
@@ -1937,7 +3269,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Board",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2006,
         "years_in_office": 20,
@@ -1950,7 +3318,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jgunn": {
       "councillor_id": "jgunn",
@@ -1960,8 +3328,8 @@
       "moderngov_uid": "170",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Services Floor 2 Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/0/7/1/Info00000170/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Blackburn with Darwen",
@@ -1995,7 +3363,53 @@
           "raw": "Equity the Union Membership"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Chief Officer Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Board",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Health & Wellbeing Board",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2008,7 +3422,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "iahmed": {
       "councillor_id": "iahmed",
@@ -2018,8 +3432,8 @@
       "moderngov_uid": "996",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: C/o Democratic Services Blackburn Town Hall BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/6/9/9/Info00000996/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "I work in Mental Health, support worker for Future Directions. I also work for Geloos Pharmacy as a delivery driver.",
@@ -2031,7 +3445,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Children & Young People Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -2044,7 +3469,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "priley": {
       "councillor_id": "priley",
@@ -2054,8 +3479,8 @@
       "moderngov_uid": "174",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 46 Pleckgate road Blackburn BB1 8NZ",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/4/7/1/Info00000174/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -2076,7 +3501,58 @@
           "raw": "£50 from Unite Union for Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Chief Executive Employment Committee",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Chief Officer Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Board",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -2089,7 +3565,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "sali": {
       "councillor_id": "sali",
@@ -2099,14 +3575,50 @@
       "moderngov_uid": "772",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Services Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/2/7/7/Info00000772/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Call In Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Place Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -2119,7 +3631,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "mpatel": {
       "councillor_id": "mpatel",
@@ -2129,8 +3641,8 @@
       "moderngov_uid": "997",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 13 Cromer Place Blackburn BB1 8EL",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/7/9/9/Info00000997/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Taxi Driver (Private Hire Driver) For BWD",
@@ -2142,7 +3654,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -2155,7 +3678,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "spatel": {
       "councillor_id": "spatel",
@@ -2165,8 +3688,8 @@
       "moderngov_uid": "886",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 10 Preston Old Road Blackburn BB2 2SS",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/6/8/8/Info00000886/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Senior Administrator",
@@ -2210,7 +3733,38 @@
           "raw": "£100 for Election Support"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Children & Young People Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Place Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2223,7 +3777,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "skhonat": {
       "councillor_id": "skhonat",
@@ -2233,8 +3787,8 @@
       "moderngov_uid": "178",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 176 Buncer Lane Blackburn BB2 6TE",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/8/7/1/Info00000178/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "NRCA",
@@ -2275,7 +3829,58 @@
         }
       ],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "General Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2008,
         "years_in_office": 18,
@@ -2288,7 +3893,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "imasters": {
       "councillor_id": "imasters",
@@ -2298,8 +3903,8 @@
       "moderngov_uid": "998",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 57 Quebec Road Blackburn BB2 7DE",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/8/9/9/Info00000998/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Ambulance NHS Parademic (Retired)\r\n*Patient Transport Service NHS Trust",
@@ -2311,7 +3916,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "General Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -2324,7 +3955,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "qmahmood": {
       "councillor_id": "qmahmood",
@@ -2334,8 +3965,8 @@
       "moderngov_uid": "181",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Services Floor 2 Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/1/8/1/Info00000181/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Grunenthal UK LTD",
@@ -2357,7 +3988,58 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Chief Officer Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Board",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Place Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -2370,7 +4052,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "simtiaz": {
       "councillor_id": "simtiaz",
@@ -2380,8 +4062,8 @@
       "moderngov_uid": "773",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: C/o Democratic Services Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/3/7/7/Info00000773/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Solicitor",
@@ -2413,7 +4095,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Children & Young People Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning and Highways Committee",
+          "type": "planning",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -2426,7 +4139,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jrigby": {
       "councillor_id": "jrigby",
@@ -2436,14 +4149,45 @@
       "moderngov_uid": "183",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Democratic Services Town Hall Blackburn BB1 7DY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/3/8/1/Info00000183/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -2456,7 +4200,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jslater3": {
       "councillor_id": "jslater3",
@@ -2466,8 +4210,8 @@
       "moderngov_uid": "184",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 11 Minster Crescent Darwen Lancashire BB3 3PY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/4/8/1/Info00000184/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Councillor",
@@ -2504,7 +4248,48 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Chief Executive Employment Committee",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Children & Young People Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -2517,7 +4302,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 55,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "nslater": {
       "councillor_id": "nslater",
@@ -2527,8 +4312,8 @@
       "moderngov_uid": "197",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 11 Minster Crescent Darwen BB3 3PY",
-      "photo_url": "https://democracy.blackburn.gov.uk/UserData/7/9/1/Info00000197/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Consultant",
@@ -2564,7 +4349,58 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Annual Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Call In Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Specialist Advisory Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Forum",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Finance Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Pennine Lancashire Building Control Joint Committee Decisions",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Corporate Resources Overview & Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -2577,7 +4413,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 55,
-      "identity_confidence": 50
+      "identity_confidence": 60
     }
   }
 }

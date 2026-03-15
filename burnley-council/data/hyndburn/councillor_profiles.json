@@ -1,25 +1,25 @@
 {
   "council_id": "hyndburn",
-  "generated_at": "2026-02-28T02:43:04.669403Z",
+  "generated_at": "2026-03-15T01:31:36.759172Z",
   "version": "1.0",
   "total_councillors": 34,
-  "moderngov_scraped": 34,
+  "moderngov_scraped": 0,
   "sources": {
     "councillors": true,
     "register": true,
     "elections": true,
     "meetings": true,
-    "moderngov_biography": true
+    "moderngov_biography": false
   },
   "summary": {
     "with_dob": 0,
     "with_occupation": 0,
     "with_employment": 0,
     "with_land": 0,
-    "with_committees": 0,
+    "with_committees": 34,
     "with_electoral": 24,
-    "avg_completeness": 26,
-    "avg_identity_confidence": 32
+    "avg_completeness": 31,
+    "avg_identity_confidence": 42
   },
   "councillors": {
     "sbutton": {
@@ -30,14 +30,40 @@
       "moderngov_uid": "508",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Scaitcliffe House",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning (Trees) Sub-Committee",
+          "type": "planning",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Communities and Wellbeing Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2016,
         "years_in_office": 10,
@@ -49,8 +75,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "valexander": {
       "councillor_id": "valexander",
@@ -60,14 +86,40 @@
       "moderngov_uid": "205",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Scaitcliffe House",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet Committee (Scrap Metal Dealers Act 2013)",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Judicial Committee (Private Hire and Hackney Carriage Licensing)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Learning and Development Panel",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -79,8 +131,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "cmckenna": {
       "councillor_id": "cmckenna",
@@ -90,14 +142,35 @@
       "moderngov_uid": "534",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 4 Broad Oak Road Accrington BB5 2BP",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Communities and Wellbeing Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Special Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Learning and Development Panel",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -109,8 +182,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "mbooth": {
       "councillor_id": "mbooth",
@@ -120,14 +193,50 @@
       "moderngov_uid": "506",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 57 Manchester Road Accrington BB5 2BW",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning (Trees) Sub-Committee",
+          "type": "planning",
+          "role": "Chair"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Communities and Wellbeing Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Resources Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Special Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -139,8 +248,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "dheap": {
       "councillor_id": "dheap",
@@ -150,14 +259,30 @@
       "moderngov_uid": "560",
       "dob": null,
       "occupation": null,
-      "biography": "Email: David.Heap@hyndburnbc.gov.uk",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Communities and Wellbeing Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Resources Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -169,8 +294,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "kpratt": {
       "councillor_id": "kpratt",
@@ -180,14 +305,30 @@
       "moderngov_uid": "115",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: Mayroyd, 120 Hollins Lane Baxenden Accrington.  BB5 2JS",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Leader's Policy Development Board",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -199,8 +340,8 @@
         "elections_fought": 5,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "myounis": {
       "councillor_id": "myounis",
@@ -210,14 +351,25 @@
       "moderngov_uid": "505",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Scaitcliffe House",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Special Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -229,8 +381,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "sfazal": {
       "councillor_id": "sfazal",
@@ -240,14 +392,25 @@
       "moderngov_uid": "536",
       "dob": null,
       "occupation": null,
-      "biography": "Email: shabir.fazal@hyndburnbc.gov.uk",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -259,8 +422,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "lcox": {
       "councillor_id": "lcox",
@@ -270,14 +433,35 @@
       "moderngov_uid": "288",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 27 Pansy Street South Accrington BB5 4BS",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Communities and Wellbeing Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -289,8 +473,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "seaves": {
       "councillor_id": "seaves",
@@ -300,14 +484,45 @@
       "moderngov_uid": "537",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Scaitcliffe House Ormerod Street Accrington BB5 0PF",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet Committee (Scrap Metal Dealers Act 2013)",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet Waste and Recycling Group",
+          "type": "executive",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -319,8 +534,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "mfisher": {
       "councillor_id": "mfisher",
@@ -330,14 +545,60 @@
       "moderngov_uid": "286",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Scaitcliffe House Ormerod Street Accrington BB5 0PF",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet Committee (Scrap Metal Dealers Act 2013)",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet Committee (Street Naming)",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Judicial Committee (Private Hire and Hackney Carriage Licensing)",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Management Review Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Leader's Policy Development Board",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -349,8 +610,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "pedwards": {
       "councillor_id": "pedwards",
@@ -360,14 +621,25 @@
       "moderngov_uid": "480",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Scaitcliffe House Ormerod Street Accrington BB5 0PF",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -379,8 +651,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "dcassidy": {
       "councillor_id": "dcassidy",
@@ -390,14 +662,45 @@
       "moderngov_uid": "481",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 16 Cambridge Drive Knuzden Blackburn BB1 2DG",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Judicial Committee (Private Hire and Hackney Carriage Licensing)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Management Review Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -409,8 +712,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "dparkins": {
       "councillor_id": "dparkins",
@@ -420,14 +723,25 @@
       "moderngov_uid": "507",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Scaitcliffe House",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -439,8 +753,8 @@
         "elections_fought": 4,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "jallen": {
       "councillor_id": "jallen",
@@ -450,14 +764,35 @@
       "moderngov_uid": "386",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: C/O Scaitcliffe House Ormerod Street Accrington BB5 0PF",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Special Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -469,8 +804,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "jaddison": {
       "councillor_id": "jaddison",
@@ -480,14 +815,40 @@
       "moderngov_uid": "112",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 77 Catlow Hall Street Oswaldtwistle BB5 3EZ",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning (Trees) Sub-Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Resources Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Learning and Development Panel",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -499,8 +860,8 @@
         "elections_fought": 4,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "aclegg": {
       "councillor_id": "aclegg",
@@ -510,14 +871,25 @@
       "moderngov_uid": "384",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 4 Lime Road Accrington BB5 6BN",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Resources Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -529,8 +901,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "pcox": {
       "councillor_id": "pcox",
@@ -540,14 +912,25 @@
       "moderngov_uid": "121",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 27 Pansy Street South Accrington BB5 4BS",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Resources Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -559,8 +942,8 @@
         "elections_fought": 4,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "jclements": {
       "councillor_id": "jclements",
@@ -570,14 +953,25 @@
       "moderngov_uid": "482",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Scaitcliffe House Ormerod Street Accrington",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Communities and Wellbeing Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -589,8 +983,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "naziz": {
       "councillor_id": "naziz",
@@ -600,14 +994,40 @@
       "moderngov_uid": "133",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Scaitcliffe House Ormerod Street Accrington BB5 0PF",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Resources Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2012,
         "years_in_office": 14,
@@ -619,8 +1039,8 @@
         "elections_fought": 4,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "cyates": {
       "councillor_id": "cyates",
@@ -630,14 +1050,45 @@
       "moderngov_uid": "538",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: C/O Scaitcliffe House Ormerod Street Accrington BB5 0PF",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Communities and Wellbeing Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Special Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -649,8 +1100,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "handerson": {
       "councillor_id": "handerson",
@@ -660,14 +1111,45 @@
       "moderngov_uid": "504",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Scaitcliffe House",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Resources Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Special Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Learning and Development Panel",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -679,8 +1161,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "sbrerton": {
       "councillor_id": "sbrerton",
@@ -690,14 +1172,40 @@
       "moderngov_uid": "483",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Scaitcliffe House Ormerod Street Accrington",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet Committee (Street Naming)",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Planning (Trees) Sub-Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -709,8 +1217,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "cpritchard": {
       "councillor_id": "cpritchard",
@@ -720,14 +1228,45 @@
       "moderngov_uid": "539",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Scaitcliffe House Ormerod Street Accrington BB5 0PF",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet Committee (Street Naming)",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -739,8 +1278,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "jplummer": {
       "councillor_id": "jplummer",
@@ -750,14 +1289,30 @@
       "moderngov_uid": "114",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 170 Bold Street Accrington BB5 6SR",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning (Trees) Sub-Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2014,
         "years_in_office": 12,
@@ -769,8 +1324,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "bdawson": {
       "councillor_id": "bdawson",
@@ -780,14 +1335,35 @@
       "moderngov_uid": "484",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 4 Haywood Close Accrington BB5 5DA",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Judicial Committee (Private Hire and Hackney Carriage Licensing)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -799,8 +1375,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "erawcliffe": {
       "councillor_id": "erawcliffe",
@@ -810,14 +1386,40 @@
       "moderngov_uid": "540",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Scaitcliffe House Ormerod Street Accrington BB5 0PF",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -829,8 +1431,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "kwalsh": {
       "councillor_id": "kwalsh",
@@ -840,14 +1442,25 @@
       "moderngov_uid": "415",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Scaitcliffe House Ormerod Street Accrington BB5 0PF",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Special Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -859,8 +1472,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "kwhitehead": {
       "councillor_id": "kwhitehead",
@@ -870,14 +1483,50 @@
       "moderngov_uid": "485",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Scaitcliffe House",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Judicial Committee (Private Hire and Hackney Carriage Licensing)",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Management Review Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet Waste and Recycling Group",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Leader's Policy Development Board",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -889,8 +1538,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "mbem": {
       "councillor_id": "mbem",
@@ -900,14 +1549,40 @@
       "moderngov_uid": "122",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 49 - 51 Monk Street Accrington BB5 1SS",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Management Review Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Cabinet Waste and Recycling Group",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Leader's Policy Development Board",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -919,8 +1594,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "agilbert": {
       "councillor_id": "agilbert",
@@ -930,14 +1605,25 @@
       "moderngov_uid": "541",
       "dob": null,
       "occupation": null,
-      "biography": "Email: andrew.gilbert@hyndburnbc.gov.uk",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -949,8 +1635,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "ssmithson": {
       "councillor_id": "ssmithson",
@@ -960,14 +1646,30 @@
       "moderngov_uid": "455",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 30 Willow Park Oswaldtwistle BB5 3QY",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Resources Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet Waste and Recycling Group",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -979,8 +1681,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "twalker": {
       "councillor_id": "twalker",
@@ -990,14 +1692,30 @@
       "moderngov_uid": "542",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Scaitcliffe House",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Communities and Wellbeing Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1009,8 +1727,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "zkhan": {
       "councillor_id": "zkhan",
@@ -1020,14 +1738,40 @@
       "moderngov_uid": "486",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Council Offices Scaitcliffe House Accrington BB5 0PF",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Management Review Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Special Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Leader's Policy Development Board",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1039,8 +1783,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     }
   }
 }

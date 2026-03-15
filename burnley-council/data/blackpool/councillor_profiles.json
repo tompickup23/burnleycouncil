@@ -1,25 +1,25 @@
 {
   "council_id": "blackpool",
-  "generated_at": "2026-02-28T02:45:21.493232Z",
+  "generated_at": "2026-03-15T01:31:36.790406Z",
   "version": "1.0",
   "total_councillors": 42,
-  "moderngov_scraped": 42,
+  "moderngov_scraped": 0,
   "sources": {
     "councillors": true,
     "register": true,
     "elections": true,
     "meetings": true,
-    "moderngov_biography": true
+    "moderngov_biography": false
   },
   "summary": {
     "with_dob": 0,
     "with_occupation": 0,
     "with_employment": 0,
     "with_land": 0,
-    "with_committees": 0,
+    "with_committees": 42,
     "with_electoral": 35,
     "avg_completeness": 32,
-    "avg_identity_confidence": 33
+    "avg_identity_confidence": 43
   },
   "councillors": {
     "acooper": {
@@ -30,14 +30,35 @@
       "moderngov_uid": "969",
       "dob": null,
       "occupation": null,
-      "biography": "Surgeries are held the first Monday of every month at Anchorsholme Library Cafe from 3pm - 4pm.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/9/6/9/Info00000969/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Adult Social Care and Health Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Scrutiny Leadership Board",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Tourism, Economy and Communities Scrutiny  Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -50,7 +71,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "pgalley": {
       "councillor_id": "pgalley",
@@ -60,14 +81,25 @@
       "moderngov_uid": "129",
       "dob": null,
       "occupation": null,
-      "biography": "Surgeries are held the first Monday of every month at Anchorsholme Library Cafe from 3pm - 4pm.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/9/2/1/Info00000129/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Leadership Board",
+          "type": "scrutiny",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -80,7 +112,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jmckevitt": {
       "councillor_id": "jmckevitt",
@@ -90,14 +122,40 @@
       "moderngov_uid": "1073",
       "dob": null,
       "occupation": null,
-      "biography": "Bispham has a ward PACT meeting, held on the 1st Tuesday of each month at 6pm at the Cavendish Park Bowling Club. Alternatively, please contact me on 07949938132 should you wish to raise anything to me in confidence.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/3/7/0/Info00001073/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Public Protection Sub-Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Climate Change and Environment Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -110,7 +168,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "pwilshaw": {
       "councillor_id": "pwilshaw",
@@ -120,14 +178,30 @@
       "moderngov_uid": "805",
       "dob": null,
       "occupation": null,
-      "biography": "Bispham has a ward PACT meeting, held with Cllr McKevitt on the 1st Tuesday of the month at Cavendish Park Bowling Club at 6pm",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/5/0/8/Info00000805/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Health and Wellbeing Board",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Children and Young People's Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -140,7 +214,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jhobson": {
       "councillor_id": "jhobson",
@@ -150,14 +224,25 @@
       "moderngov_uid": "446",
       "dob": null,
       "occupation": null,
-      "biography": "Surgeries are held at Revoe Library Saturday mornings at 11am during 2025 on the following dates: 8th Feb, 8th March, 12th April, 17th May, 14th June, 13th Sept, 11th Oct and 8th Nov. To avoid any disturbance in the library, these will be by appointment so please either call on 01253 477070 or email jim.hobson@blackpool.gov.uk to arrange a 15 minute slot. Max 2 persons per appointment.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/6/4/4/Info00000446/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -170,7 +255,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "mfenlon": {
       "councillor_id": "mfenlon",
@@ -180,14 +265,30 @@
       "moderngov_uid": "971",
       "dob": null,
       "occupation": null,
-      "biography": "Constituents can contact Councillor Mel Fenlon directly by phone or by email.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/1/7/9/Info00000971/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Adult Social Care and Health Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -200,7 +301,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "lmarshall": {
       "councillor_id": "lmarshall",
@@ -210,14 +311,25 @@
       "moderngov_uid": "973",
       "dob": null,
       "occupation": null,
-      "biography": "Ward Surgery - Second Saturday of the month at St Kentigern's Parish Centre on Newton Drive, 11am-12 noon. Brunswick PACT - First Tuesday of the month at The Boys and Girls Club on Victory Road, 7pm-8pm.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/3/7/9/Info00000973/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -230,7 +342,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "mthomas": {
       "councillor_id": "mthomas",
@@ -240,14 +352,40 @@
       "moderngov_uid": "972",
       "dob": null,
       "occupation": null,
-      "biography": "Ward Surgery - Second Saturday of the month at St Kentigern's Parish Centre on Newton Drive, 11am-12 noon. Brunswick PACT - First Tuesday of the month at The Boys and Girls Club on Victory Road, 7pm-8pm.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/2/7/9/Info00000972/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Adult Social Care and Health Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Leadership Board",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Tourism, Economy and Communities Scrutiny  Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -260,7 +398,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "itaylor": {
       "councillor_id": "itaylor",
@@ -270,14 +408,30 @@
       "moderngov_uid": "149",
       "dob": null,
       "occupation": null,
-      "biography": "Surgery details - Every Thursday at St Paul's Church, Egerton Road between 10.30 am - 11.30 am",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/9/4/1/Info00000149/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -290,7 +444,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "lwilliams": {
       "councillor_id": "lwilliams",
@@ -300,14 +454,35 @@
       "moderngov_uid": "348",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Leader's Office Blackpool Council PO Box No 4 Talbot Road, Blackpool FY1 1NA",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/8/4/3/Info00000348/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Blackpool, Fylde and Wyre Economic Prosperity Board",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Shareholder Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -320,7 +495,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "ahumphreys": {
       "councillor_id": "ahumphreys",
@@ -330,14 +505,50 @@
       "moderngov_uid": "974",
       "dob": null,
       "occupation": null,
-      "biography": "Drop in surgery every Monday 10am -1pm  Location - Wash Your Words/Langdale Library. Alternatively you can contact directly.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/4/7/9/Info00000974/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Public Protection Sub-Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Climate Change and Environment Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -350,7 +561,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "pburdess": {
       "councillor_id": "pburdess",
@@ -360,14 +571,25 @@
       "moderngov_uid": "800",
       "dob": null,
       "occupation": null,
-      "biography": "3rd Saturday of the month from 11am - 1pm, commencing February 17th to the end of the year (except August). 17/2, 16/3, 20/4, 18/5, 15/6, 20/7. Location - Wash Your Words/Langdale Library. Alternatively you can contact directly on 01253 477070.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/0/0/8/Info00000800/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -380,7 +602,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "dflanagan": {
       "councillor_id": "dflanagan",
@@ -390,14 +612,40 @@
       "moderngov_uid": "976",
       "dob": null,
       "occupation": null,
-      "biography": "Surgeries are held on the First Monday of every month at 7pm at Kings Church, on Bispham Avenue.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/6/7/9/Info00000976/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Adult Social Care and Health Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Children and Young People's Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Scrutiny Leadership Board",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -410,7 +658,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jmorgan": {
       "councillor_id": "jmorgan",
@@ -420,14 +668,40 @@
       "moderngov_uid": "1125",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/o Blackpool Town Hall Talbot Square Blackpool FY1 1AD",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/5/2/1/Info00001125/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Adult Social Care and Health Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -440,7 +714,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "kcritchley": {
       "councillor_id": "kcritchley",
@@ -450,14 +724,25 @@
       "moderngov_uid": "349",
       "dob": null,
       "occupation": null,
-      "biography": "Surgeries are held at Palatine Library on St Anne’s Road the first Saturday of the month, 10.30am until 12.00pm.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/9/4/3/Info00000349/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Public Protection Sub-Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -470,7 +755,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "nbrookes": {
       "councillor_id": "nbrookes",
@@ -480,14 +765,30 @@
       "moderngov_uid": "799",
       "dob": null,
       "occupation": null,
-      "biography": "Surgeries are the first Saturday of every month from 10-30am to 12 noon at Palatine Library. except for Bank Holidays",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/9/9/7/Info00000799/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Health and Wellbeing Board",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -500,7 +801,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "bmitchell": {
       "councillor_id": "bmitchell",
@@ -510,14 +811,30 @@
       "moderngov_uid": "885",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 19 Freemantle Avenue Blackpool FY4 1SX",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/5/8/8/Info00000885/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Scrutiny Leadership Board",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -530,7 +847,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "phunter": {
       "councillor_id": "phunter",
@@ -540,14 +857,30 @@
       "moderngov_uid": "134",
       "dob": null,
       "occupation": null,
-      "biography": "The first Saturday of each month at the Molynuex Drive Community Centre, between 10am and 12pm and the second Friday of each month at Our Lady of the Assumption Church Hall, Common Edge Road,from 4.30pm to 6pm.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/4/3/1/Info00000134/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Chair"
+        },
+        {
+          "committee": "Adult Social Care and Health Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -560,7 +893,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jfarrell": {
       "councillor_id": "jfarrell",
@@ -570,14 +903,45 @@
       "moderngov_uid": "801",
       "dob": null,
       "occupation": null,
-      "biography": "Surgeries will take place at Moor Park Library on the first Saturday of every month from 11am to 12noon apart from on bank holiday weekends.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/1/0/8/Info00000801/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Health and Wellbeing Board",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -590,7 +954,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jbamborough": {
       "councillor_id": "jbamborough",
@@ -601,13 +965,34 @@
       "dob": null,
       "occupation": null,
       "biography": null,
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/7/7/9/Info00000977/bigpic.jpg",
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Adult Social Care and Health Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -619,8 +1004,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "jboughton": {
       "councillor_id": "jboughton",
@@ -630,14 +1015,30 @@
       "moderngov_uid": "978",
       "dob": null,
       "occupation": null,
-      "biography": "Constituent Surgery for Layton Councillors on the first Saturday of every month, from 10.30 am -11.30 am at Layton Library.  Either Councillor Kath Benson or Councillour John Boughton will be in attendance.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/8/7/9/Info00000978/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Children and Young People's Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Tourism, Economy and Communities Scrutiny  Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -650,7 +1051,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "kbenson": {
       "councillor_id": "kbenson",
@@ -660,14 +1061,30 @@
       "moderngov_uid": "188",
       "dob": null,
       "occupation": null,
-      "biography": "Constituent Surgery for Layton Councillors on the first Saturday of every month, from 10.30 am -11.30 am at Layton Library.  Either Councillor Kath Benson or Councillour John Boughton will be in attendance. *Please note the Surgery scheduled for 3rd January 2026 has been cancelled due to unforseen circumstances.  Apologies for any inconvenience.*",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/8/8/1/Info00000188/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2014,
         "years_in_office": 12,
@@ -680,7 +1097,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "joneill": {
       "councillor_id": "joneill",
@@ -690,14 +1107,25 @@
       "moderngov_uid": "1069",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Blackpool Town Hall Talbot Road Blackpool FY1 1AD",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/9/6/0/Info00001069/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Public Protection Sub-Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -710,7 +1138,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "sbrookes": {
       "councillor_id": "sbrookes",
@@ -720,14 +1148,50 @@
       "moderngov_uid": "980",
       "dob": null,
       "occupation": null,
-      "biography": "General residents meeting and surgery 5:30-7pm on the first Wednesday of every month at Marton United Reformed Church (Wordsworth Avenue).",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/0/8/9/Info00000980/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Public Protection Sub-Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Children and Young People's Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -740,7 +1204,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "eellison": {
       "councillor_id": "eellison",
@@ -750,14 +1214,45 @@
       "moderngov_uid": "981",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: 294 Fleetwood Road Thornton Cleveleys FY5 1NQ",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/1/8/9/Info00000981/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Climate Change and Environment Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Tourism, Economy and Communities Scrutiny  Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -770,7 +1265,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jsloman": {
       "councillor_id": "jsloman",
@@ -780,14 +1275,40 @@
       "moderngov_uid": "886",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Blackpool Town Hall Talbot Square Blackpool FY1 1AD",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/6/8/8/Info00000886/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Climate Change and Environment Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Scrutiny Leadership Board",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -800,7 +1321,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "ahoyle": {
       "councillor_id": "ahoyle",
@@ -810,14 +1331,40 @@
       "moderngov_uid": "982",
       "dob": null,
       "occupation": null,
-      "biography": "Held at @The Grange Community Centre every first and third Friday of the month.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/2/8/9/Info00000982/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Climate Change and Environment Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Tourism, Economy and Communities Scrutiny  Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -830,7 +1377,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "gcampbell": {
       "councillor_id": "gcampbell",
@@ -840,14 +1387,30 @@
       "moderngov_uid": "122",
       "dob": null,
       "occupation": null,
-      "biography": "Held at @The Grange Community Centre starting 16 June and every fortnight thereafter.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/2/2/1/Info00000122/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Tourism, Economy and Communities Scrutiny  Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -860,7 +1423,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "cmitchell": {
       "councillor_id": "cmitchell",
@@ -870,14 +1433,40 @@
       "moderngov_uid": "983",
       "dob": null,
       "occupation": null,
-      "biography": "Please contact directly for any issues.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/3/8/9/Info00000983/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Children and Young People's Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Scrutiny Leadership Board",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -890,7 +1479,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "gwalsh": {
       "councillor_id": "gwalsh",
@@ -900,14 +1489,45 @@
       "moderngov_uid": "804",
       "dob": null,
       "occupation": null,
-      "biography": "Monthly surgery is held on the last Wednesday of each month at the Cafe C, Solaris Centre at 11am - 12am. Upcoming dates are, Sept 25th, Oct 30th, Nov 27th, Dec (TBD), Jan 29th, Feb 26th.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/4/0/8/Info00000804/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Public Protection Sub-Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Leadership Board",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Tourism, Economy and Communities Scrutiny  Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -920,7 +1540,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "gbaker": {
       "councillor_id": "gbaker",
@@ -930,14 +1550,35 @@
       "moderngov_uid": "798",
       "dob": null,
       "occupation": null,
-      "biography": "Surgeries are by appointment only, please contact directly to arrange.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/8/9/7/Info00000798/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -950,7 +1591,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jroberts": {
       "councillor_id": "jroberts",
@@ -960,14 +1601,20 @@
       "moderngov_uid": "347",
       "dob": null,
       "occupation": null,
-      "biography": "Ward surgery available by appointment.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/7/4/3/Info00000347/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -980,7 +1627,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jhugo": {
       "councillor_id": "jhugo",
@@ -990,14 +1637,25 @@
       "moderngov_uid": "802",
       "dob": null,
       "occupation": null,
-      "biography": "To be held at the Guards Club on Whitegate Drive on the first Wednesday of the month at 8:00pm",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/2/0/8/Info00000802/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1010,7 +1668,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "msmith": {
       "councillor_id": "msmith",
@@ -1020,14 +1678,35 @@
       "moderngov_uid": "147",
       "dob": null,
       "occupation": null,
-      "biography": "To be held at the Guards Club on Whitegate Drive on the first Wednesday of the month at 8:00pm",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/7/4/1/Info00000147/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Blackpool, Fylde and Wyre Economic Prosperity Board",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Shareholder Committee",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -1040,7 +1719,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "lroe": {
       "councillor_id": "lroe",
@@ -1050,14 +1729,35 @@
       "moderngov_uid": "984",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Blackpool Town Hall Talbot Square Blackpool FY1 1AD",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/4/8/9/Info00000984/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Children and Young People's Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1070,7 +1770,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "pwebb": {
       "councillor_id": "pwebb",
@@ -1081,13 +1781,39 @@
       "dob": null,
       "occupation": null,
       "biography": null,
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/5/8/9/Info00000985/bigpic.jpg",
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Adult Social Care and Health Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Climate Change and Environment Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Leadership Board",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1099,8 +1825,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 30,
-      "identity_confidence": 35
+      "data_completeness_pct": 35,
+      "identity_confidence": 45
     },
     "fjackson": {
       "councillor_id": "fjackson",
@@ -1110,14 +1836,35 @@
       "moderngov_uid": "136",
       "dob": null,
       "occupation": null,
-      "biography": "Surgeries will be held at Palatine Library on the first Saturday of the month, 10:30 -11:30am.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/6/3/1/Info00000136/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Tourism, Economy and Communities Scrutiny  Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -1130,7 +1877,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "pbrookes": {
       "councillor_id": "pbrookes",
@@ -1140,14 +1887,45 @@
       "moderngov_uid": "986",
       "dob": null,
       "occupation": null,
-      "biography": "Surgeries will be held at Palatine Library on the first Saturday of the month, 10:30 -11:30am.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/6/8/9/Info00000986/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Public Protection Sub-Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Tourism, Economy and Communities Scrutiny  Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1160,7 +1938,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "dscott": {
       "councillor_id": "dscott",
@@ -1170,14 +1948,35 @@
       "moderngov_uid": "346",
       "dob": null,
       "occupation": null,
-      "biography": "Telephone direct for any issues.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/6/4/3/Info00000346/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing Panel",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Public Protection Sub-Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -1190,7 +1989,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "mscott": {
       "councillor_id": "mscott",
@@ -1200,14 +1999,35 @@
       "moderngov_uid": "613",
       "dob": null,
       "occupation": null,
-      "biography": "Telephone directly for any issues.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/3/1/6/Info00000613/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Shareholder Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Adult Social Care and Health Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Children and Young People's Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1220,7 +2040,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "dmitchell": {
       "councillor_id": "dmitchell",
@@ -1230,14 +2050,25 @@
       "moderngov_uid": "988",
       "dob": null,
       "occupation": null,
-      "biography": "Please contact directly to arrange.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/8/8/9/Info00000988/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Climate Change and Environment Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1250,7 +2081,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "scartmell": {
       "councillor_id": "scartmell",
@@ -1260,14 +2091,40 @@
       "moderngov_uid": "987",
       "dob": null,
       "occupation": null,
-      "biography": "Constituents can contact Councillor Cartmel directly on 07565152456. In person surgery details are yet to be confirmed.",
-      "photo_url": "https://democracy.blackpool.gov.uk/UserData/7/8/9/Info00000987/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Children and Young People's Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Climate Change and Environment Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Scrutiny Leadership Board",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1280,7 +2137,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     }
   }
 }

@@ -1,25 +1,25 @@
 {
   "council_id": "lancaster",
-  "generated_at": "2026-02-28T02:49:54.013301Z",
+  "generated_at": "2026-03-15T01:31:36.853909Z",
   "version": "1.0",
   "total_councillors": 61,
-  "moderngov_scraped": 61,
+  "moderngov_scraped": 0,
   "sources": {
     "councillors": true,
     "register": true,
     "elections": true,
     "meetings": true,
-    "moderngov_biography": true
+    "moderngov_biography": false
   },
   "summary": {
     "with_dob": 0,
     "with_occupation": 0,
     "with_employment": 0,
     "with_land": 0,
-    "with_committees": 0,
+    "with_committees": 61,
     "with_electoral": 43,
     "avg_completeness": 31,
-    "avg_identity_confidence": 32
+    "avg_identity_confidence": 42
   },
   "councillors": {
     "gblaikie": {
@@ -30,14 +30,25 @@
       "moderngov_uid": "9611",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 44 Beaufort Road Morecambe LA4 6TZ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/1/1/6/Info00009611/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -50,7 +61,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "kknight": {
       "councillor_id": "kknight",
@@ -60,14 +71,20 @@
       "moderngov_uid": "9886",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 11 Northumberland St Morecambe Lancashire LA4 4AU",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/6/8/8/Info00009886/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -80,7 +97,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "mbottoms": {
       "councillor_id": "mbottoms",
@@ -90,14 +107,40 @@
       "moderngov_uid": "9874",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 20 Park Street Morecambe LA3 6BN",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/4/7/8/Info00009874/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -110,7 +153,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "jwild": {
       "councillor_id": "jwild",
@@ -120,14 +163,30 @@
       "moderngov_uid": "2848",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: Rowan Bank 29 St Michael's Lane Bolton-le-Sands Carnforth LA5 8JT",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/8/4/8/Info00002848/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -140,7 +199,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "kbudden": {
       "councillor_id": "kbudden",
@@ -150,14 +209,35 @@
       "moderngov_uid": "920",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: Town End Cottage 1 Town End Bolton-le-Sands Carnforth LA5 8JF",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/0/2/9/Info00000920/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Performance Panel",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Policy Cabinet Advisory Group",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -170,7 +250,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "pnewton": {
       "councillor_id": "pnewton",
@@ -180,14 +260,35 @@
       "moderngov_uid": "9892",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 38 Hest Bank Lane Hest Bank LA2 6BT",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/2/9/8/Info00009892/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Business Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "People and Organisational Development Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -200,7 +301,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "hmills": {
       "councillor_id": "hmills",
@@ -210,14 +311,30 @@
       "moderngov_uid": "9891",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall Dalton Square, Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/1/9/8/Info00009891/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Budget and Performance Panel",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -230,7 +347,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "spunshon": {
       "councillor_id": "spunshon",
@@ -240,14 +357,25 @@
       "moderngov_uid": "9895",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Town Hall Dalton Square Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/5/9/8/Info00009895/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -260,7 +388,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "cjackson": {
       "councillor_id": "cjackson",
@@ -270,14 +398,40 @@
       "moderngov_uid": "2674",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall, Dalton Square Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/4/7/6/Info00002674/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "People and Organisational Development Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Joint Committee for Revenues and Benefits",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Shareholders Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -290,7 +444,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jlenox": {
       "councillor_id": "jlenox",
@@ -300,14 +454,25 @@
       "moderngov_uid": "9495",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall Dalton Square, Lancaster LA1 1PL",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/5/9/4/Info00009495/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -320,7 +485,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "sriches": {
       "councillor_id": "sriches",
@@ -330,14 +495,25 @@
       "moderngov_uid": "9896",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Lancaster Town Hall Dalton Square, Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/6/9/8/Info00009896/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -350,7 +526,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "channa": {
       "councillor_id": "channa",
@@ -360,14 +536,30 @@
       "moderngov_uid": "9882",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 14 St Michaels Crescent Bolton Le Sands Carnforth LA5 8LD",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/2/8/8/Info00009882/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Performance Panel",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -380,7 +572,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "jstubbs": {
       "councillor_id": "jstubbs",
@@ -390,14 +582,30 @@
       "moderngov_uid": "10330",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: 55 Coniston Road Carnforth Lancashire LA5 9AX",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/0/3/3/Info00010330/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Performance Panel",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -410,7 +618,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "lbelcher": {
       "councillor_id": "lbelcher",
@@ -420,14 +628,35 @@
       "moderngov_uid": "9872",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 7 Slyne Road Bolton-le-Sands Carnforth Lancashire LA5 8AG",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/2/7/8/Info00009872/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Policy Cabinet Advisory Group",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -440,7 +669,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "dbrookes": {
       "councillor_id": "dbrookes",
@@ -450,14 +679,30 @@
       "moderngov_uid": "2223",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 23 Regent Street Lancaster LA1 1SQ`",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/3/2/2/Info00002223/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Planning Policy Cabinet Advisory Group",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -470,7 +715,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "imetcalfriener": {
       "councillor_id": "imetcalfriener",
@@ -480,14 +725,30 @@
       "moderngov_uid": "10317",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster Town Hall Dalton Square Lancaster LA1 1PL",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/7/1/3/Info00010317/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Performance Panel",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -500,7 +761,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "pstubbins": {
       "councillor_id": "pstubbins",
@@ -510,14 +771,35 @@
       "moderngov_uid": "8378",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall Dalton Squate, Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/8/7/3/Info00008378/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "People and Organisational Development Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Shareholders Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -530,7 +812,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "ptynan": {
       "councillor_id": "ptynan",
@@ -540,14 +822,40 @@
       "moderngov_uid": "9899",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 1 Eden Park Lancaster LA1 4SJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/9/9/8/Info00009899/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Policy Cabinet Advisory Group",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -560,7 +868,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "smaddocks": {
       "councillor_id": "smaddocks",
@@ -570,14 +878,40 @@
       "moderngov_uid": "9684",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall Dalton Square, Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/4/8/6/Info00009684/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "People and Organisational Development Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -590,7 +924,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jsommerville": {
       "councillor_id": "jsommerville",
@@ -600,14 +934,30 @@
       "moderngov_uid": "9898",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 38 Seaborn Road Morecambe LA4 6BB",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/8/9/8/Info00009898/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Performance Panel",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -620,7 +970,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "smcgowan": {
       "councillor_id": "smcgowan",
@@ -630,14 +980,30 @@
       "moderngov_uid": "9889",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 17A Denis Streeet Lancaster LA1 1QX",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/9/8/8/Info00009889/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Council Business Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -650,7 +1016,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "carmistead": {
       "councillor_id": "carmistead",
@@ -660,14 +1026,25 @@
       "moderngov_uid": "9871",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall, Dalton Square Lancaster LA1 1PL",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/1/7/8/Info00009871/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -680,7 +1057,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "spenney": {
       "councillor_id": "spenney",
@@ -690,14 +1067,30 @@
       "moderngov_uid": "9893",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall, Dalton Square Lancaster LA1 1PL",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/3/9/8/Info00009893/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Performance Panel",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -710,7 +1103,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "ccozler": {
       "councillor_id": "ccozler",
@@ -720,14 +1113,25 @@
       "moderngov_uid": "2825",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 183 Westminster Rd Heysham Morecambe LA3 1SL",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/5/2/8/Info00002825/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -740,7 +1144,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "rcleet": {
       "councillor_id": "rcleet",
@@ -750,14 +1154,20 @@
       "moderngov_uid": "8386",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 13 Draycombe Drive Heysham Morecambe LA3 1LN",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/6/8/3/Info00008386/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -770,7 +1180,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "cpotter": {
       "councillor_id": "cpotter",
@@ -780,14 +1190,30 @@
       "moderngov_uid": "9894",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Lancaster Town Hall Dalton Square, Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/4/9/8/Info00009894/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Shareholders Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -800,7 +1226,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "chartley": {
       "councillor_id": "chartley",
@@ -810,14 +1236,25 @@
       "moderngov_uid": "2830",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 43 Kingfisher Drive Heysham Morecambe LA3 2FT",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/0/3/8/Info00002830/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -830,7 +1267,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "pbradley": {
       "councillor_id": "pbradley",
@@ -840,14 +1277,20 @@
       "moderngov_uid": "9875",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 25 Douglas Drive Heysham LA3 2LW",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/5/7/8/Info00009875/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -860,7 +1303,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "sabuhajar": {
       "councillor_id": "sabuhajar",
@@ -870,14 +1313,30 @@
       "moderngov_uid": "9869",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Services Town Hall Lancaster Lancs LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/9/6/8/Info00009869/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Business Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -890,7 +1349,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "wcolley": {
       "councillor_id": "wcolley",
@@ -900,14 +1359,30 @@
       "moderngov_uid": "10457",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 14 Claughton Drive Lancaster LA1 4QW",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/7/5/4/Info00010457/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -920,7 +1395,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "jpritchard": {
       "councillor_id": "jpritchard",
@@ -930,14 +1405,30 @@
       "moderngov_uid": "8374",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 10 Sycamore Road Brookhouse Lancaster LA2 9PB",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/4/7/3/Info00008374/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Policy Cabinet Advisory Group",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -950,7 +1441,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "pjackson": {
       "councillor_id": "pjackson",
@@ -960,14 +1451,35 @@
       "moderngov_uid": "9885",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 22 Hornby Terrace Hornby Lancaster LA2 8LQ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/5/8/8/Info00009885/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Shareholders Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -980,7 +1492,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "gdowding": {
       "councillor_id": "gdowding",
@@ -990,14 +1502,30 @@
       "moderngov_uid": "930",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/0/3/9/Info00000930/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1010,7 +1538,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "mbannon": {
       "councillor_id": "mbannon",
@@ -1020,14 +1548,25 @@
       "moderngov_uid": "8359",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster Town Hall Dalton Square Lancaster LA1 1PX",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/9/5/3/Info00008359/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1040,7 +1579,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "nwilkinson": {
       "councillor_id": "nwilkinson",
@@ -1050,14 +1589,25 @@
       "moderngov_uid": "2842",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall Dalton Square, Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/2/4/8/Info00002842/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Shareholders Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1070,7 +1620,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "agardiner": {
       "councillor_id": "agardiner",
@@ -1080,14 +1630,20 @@
       "moderngov_uid": "2827",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall Dalton Square, Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/7/2/8/Info00002827/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -1100,7 +1656,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jlivermore": {
       "councillor_id": "jlivermore",
@@ -1110,14 +1666,25 @@
       "moderngov_uid": "9887",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: Craigwell Hotel 372 Marine Road East Morecambe LA4 5AH",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/7/8/8/Info00009887/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1130,7 +1697,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "phart": {
       "councillor_id": "phart",
@@ -1140,14 +1707,35 @@
       "moderngov_uid": "9884",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 50 Clark Street Morecambe LA4 5HT",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/4/8/8/Info00009884/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "People and Organisational Development Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1160,7 +1748,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jparr": {
       "councillor_id": "jparr",
@@ -1170,14 +1758,35 @@
       "moderngov_uid": "7431",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall Dalton Square, Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/1/3/4/Info00007431/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Business Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Policy Cabinet Advisory Group",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Shareholders Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1190,7 +1799,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "pblack": {
       "councillor_id": "pblack",
@@ -1200,14 +1809,35 @@
       "moderngov_uid": "8360",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall Dalton Square, Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/0/6/3/Info00008360/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "People and Organisational Development Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Shareholders Committee",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1220,7 +1850,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "rcolbridge": {
       "councillor_id": "rcolbridge",
@@ -1230,14 +1860,30 @@
       "moderngov_uid": "9876",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall Dalton Square LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/6/7/8/Info00009876/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Performance Panel",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1250,7 +1896,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "aotway": {
       "councillor_id": "aotway",
@@ -1260,14 +1906,30 @@
       "moderngov_uid": "10359",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 6 Royal Albert Cottages Ashton Road Lancaster LA1 5AL",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/9/5/3/Info00010359/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Policy Cabinet Advisory Group",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1280,7 +1942,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "jwood": {
       "councillor_id": "jwood",
@@ -1290,14 +1952,30 @@
       "moderngov_uid": "8380",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 8 Mariner Way Lancaster LA1 5TS",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/0/8/3/Info00008380/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "People and Organisational Development Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Shareholders Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1310,7 +1988,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "amills": {
       "councillor_id": "amills",
@@ -1320,14 +1998,25 @@
       "moderngov_uid": "2760",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall, Dalton Square Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/0/6/7/Info00002760/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Business Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -1340,7 +2029,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "thamiltoncox": {
       "councillor_id": "thamiltoncox",
@@ -1350,14 +2039,35 @@
       "moderngov_uid": "2228",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 29 Alderman Road Lancaster LA1 5FW",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/8/2/2/Info00002228/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Joint Committee for Revenues and Benefits",
+          "type": "partnership",
+          "role": "Chair"
+        },
+        {
+          "committee": "Shareholders Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1370,7 +2080,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "agreenwell": {
       "councillor_id": "agreenwell",
@@ -1380,14 +2090,25 @@
       "moderngov_uid": "9880",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 15 Cove Orchard Silverdale LA5 0BF",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/0/8/8/Info00009880/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1400,7 +2121,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "mgawith": {
       "councillor_id": "mgawith",
@@ -1410,14 +2131,30 @@
       "moderngov_uid": "9879",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 7 Town End Bolton Le Sands Carnforth LA5 8JF",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/9/7/8/Info00009879/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1430,7 +2167,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "rredfern": {
       "councillor_id": "rredfern",
@@ -1440,14 +2177,25 @@
       "moderngov_uid": "955",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 4 Laburnam Road Skerton Lancaster LA1 2BY",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/5/5/9/Info00000955/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -1460,7 +2208,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "sthornberry": {
       "councillor_id": "sthornberry",
@@ -1470,14 +2218,30 @@
       "moderngov_uid": "8393",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall Dalton Square, Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/3/9/3/Info00008393/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Chair"
+        },
+        {
+          "committee": "Planning Policy Cabinet Advisory Group",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1490,7 +2254,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "bcooper": {
       "councillor_id": "bcooper",
@@ -1500,14 +2264,25 @@
       "moderngov_uid": "2838",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 423 Lancaster Road Morecambe LA4 6NB",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/8/3/8/Info00002838/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1520,7 +2295,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "rdennison": {
       "councillor_id": "rdennison",
@@ -1530,14 +2305,25 @@
       "moderngov_uid": "1829",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 38 Beaufort Road Morecambe LA4 6TZ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/9/2/8/Info00001829/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -1550,7 +2336,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "mdeery": {
       "councillor_id": "mdeery",
@@ -1560,14 +2346,30 @@
       "moderngov_uid": "10350",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster Town Hall Dalton Square Lancaster LA1 1PL",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/0/5/3/Info00010350/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -1580,7 +2382,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "tfish": {
       "councillor_id": "tfish",
@@ -1590,14 +2392,30 @@
       "moderngov_uid": "9877",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster Town Hall Dalton Square Lancaster LA1 1PL",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/7/7/8/Info00009877/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1610,7 +2428,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "rhunter": {
       "councillor_id": "rhunter",
@@ -1620,14 +2438,30 @@
       "moderngov_uid": "9612",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: Elm Tree Cottage Burrow Carnforth LA6 2RJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/2/1/6/Info00009612/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Council Business Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Budget and Performance Panel",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -1640,7 +2474,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "styldesley": {
       "councillor_id": "styldesley",
@@ -1650,14 +2484,35 @@
       "moderngov_uid": "9838",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 3 Well Lane Yealand Redmayne Carnforth LA5 9SX",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/8/3/8/Info00009838/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Policy Cabinet Advisory Group",
+          "type": "executive",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -1670,7 +2525,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "dwhitaker": {
       "councillor_id": "dwhitaker",
@@ -1680,14 +2535,30 @@
       "moderngov_uid": "965",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 20 Marine Road West Morecambe LA3 1BU",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/5/6/9/Info00000965/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Council Business Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1700,7 +2571,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jainscough": {
       "councillor_id": "jainscough",
@@ -1710,14 +2581,25 @@
       "moderngov_uid": "9870",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 10 Woodhill Avenue Morecambe LA4 4PF",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/0/7/8/Info00009870/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Shareholders Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1730,7 +2612,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "mpattison": {
       "councillor_id": "mpattison",
@@ -1740,14 +2622,30 @@
       "moderngov_uid": "2238",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 5 Newlands Road Morecambe LA4 5SQ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/8/3/2/Info00002238/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1760,7 +2658,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jhanson": {
       "councillor_id": "jhanson",
@@ -1770,14 +2668,30 @@
       "moderngov_uid": "9881",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 19 Regent Park Avenue Morecambe LA4 4QP",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/1/8/8/Info00009881/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Regulatory Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1790,7 +2704,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "mblack": {
       "councillor_id": "mblack",
@@ -1800,14 +2714,20 @@
       "moderngov_uid": "9873",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Democratic Support Lancaster City Council Town Hall Dalton Square, Lancaster LA1 1PJ",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/3/7/8/Info00009873/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1820,7 +2740,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "pharris": {
       "councillor_id": "pharris",
@@ -1830,14 +2750,20 @@
       "moderngov_uid": "9883",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 1 Chatsworth Road Morecambe LA4 4JF",
-      "photo_url": "https://committeeadmin.lancaster.gov.uk/UserData/3/8/8/Info00009883/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1850,7 +2776,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     }
   }
 }

@@ -1,25 +1,25 @@
 {
   "council_id": "south_ribble",
-  "generated_at": "2026-02-28T02:51:36.412303Z",
+  "generated_at": "2026-03-15T01:31:36.878081Z",
   "version": "1.0",
   "total_councillors": 50,
-  "moderngov_scraped": 50,
+  "moderngov_scraped": 0,
   "sources": {
     "councillors": true,
     "register": true,
     "elections": true,
     "meetings": true,
-    "moderngov_biography": true
+    "moderngov_biography": false
   },
   "summary": {
     "with_dob": 0,
-    "with_occupation": 3,
+    "with_occupation": 0,
     "with_employment": 40,
     "with_land": 47,
-    "with_committees": 0,
+    "with_committees": 50,
     "with_electoral": 27,
     "avg_completeness": 50,
-    "avg_identity_confidence": 42
+    "avg_identity_confidence": 52
   },
   "councillors": {
     "chunter": {
@@ -30,8 +30,8 @@
       "moderngov_uid": "724",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland Lancashire PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/4/2/7/Info00000724/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Coopers Ltd",
@@ -49,7 +49,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Services Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Bamber Bridge, Walton-le-Dale and Eastern",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -62,7 +83,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "estevens": {
       "councillor_id": "estevens",
@@ -72,8 +93,8 @@
       "moderngov_uid": "837",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/7/3/8/Info00000837/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Local Pensions Partnership Administration",
@@ -116,7 +137,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Bamber Bridge, Walton-le-Dale and Eastern",
+          "type": "other",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -129,7 +171,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ctomlinson": {
       "councillor_id": "ctomlinson",
@@ -139,8 +181,8 @@
       "moderngov_uid": "135",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/o South Ribble Borough Council Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/5/3/1/Info00000135/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Flooring retailer - Greens Carpets Ltd.",
@@ -163,7 +205,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Central Lancashire Strategic Planning Joint Advisory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Chair"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Bamber Bridge, Walton-le-Dale and Eastern",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -176,7 +244,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "dbollenberg": {
       "councillor_id": "dbollenberg",
@@ -186,8 +254,8 @@
       "moderngov_uid": "952",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/2/5/9/Info00000952/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "University Research Ethics Officer - Lancaster University",
@@ -220,7 +288,23 @@
           "raw": "Unite the Union - £50"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Bamber Bridge, Walton-le-Dale and Eastern",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -233,7 +317,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "aturner": {
       "councillor_id": "aturner",
@@ -243,8 +327,8 @@
       "moderngov_uid": "423",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/3/2/4/Info00000423/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Member of Lancashire County Council",
@@ -284,7 +368,43 @@
           "raw": "South Ribble and West Lancs Lib Dem - Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Penwortham",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -297,7 +417,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "cburtonjohnson": {
       "councillor_id": "cburtonjohnson",
@@ -307,8 +427,8 @@
       "moderngov_uid": "1027",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland PR25 6DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/7/2/0/Info00001027/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Farm Support at Cliftons Farm, Inglewhite (Part Time)",
@@ -330,7 +450,18 @@
           "raw": "Election Leaflets from Liberal Democrats"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -343,7 +474,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "kunsworth": {
       "councillor_id": "kunsworth",
@@ -353,8 +484,8 @@
       "moderngov_uid": "653",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/3/5/6/Info00000653/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Volunteering for Charity \"Key\" at The Base",
@@ -377,7 +508,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Appointment and Employment Panel",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Central Lancashire Strategic Planning Joint Advisory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -390,7 +547,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mtomlinson": {
       "councillor_id": "mtomlinson",
@@ -400,8 +557,8 @@
       "moderngov_uid": "137",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 37 Clifton Avenue Leyland PR25 3ES",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/7/3/1/Info00000137/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Constituency Support Officer (Part Time) for Paul Foster MP",
@@ -419,7 +576,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Appointment and Employment Panel",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Leyland Town Deal Board",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Services Joint Committee",
+          "type": "partnership",
+          "role": "Chair"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -432,7 +620,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ppillinger": {
       "councillor_id": "ppillinger",
@@ -442,8 +630,8 @@
       "moderngov_uid": "838",
       "dob": null,
       "occupation": null,
-      "biography": "Email: pete.pillinger@southribble.gov.uk",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/8/3/8/Info00000838/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -461,7 +649,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Social Media Protocol Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Complaints Working Group",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -474,7 +698,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "wroberts": {
       "councillor_id": "wroberts",
@@ -484,8 +708,8 @@
       "moderngov_uid": "839",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/9/3/8/Info00000839/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Ormskirk School",
@@ -512,7 +736,33 @@
         }
       ],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Central Lancashire Strategic Planning Joint Advisory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Services Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -525,7 +775,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "dashton": {
       "councillor_id": "dashton",
@@ -535,8 +785,8 @@
       "moderngov_uid": "840",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/0/4/8/Info00000840/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -548,7 +798,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Penwortham",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -561,7 +832,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "iwatkinson": {
       "councillor_id": "iwatkinson",
@@ -571,8 +842,8 @@
       "moderngov_uid": "125",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/o South Ribble Borough Council West Paddock Leyland Lancs PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/5/2/1/Info00000125/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Teacher",
@@ -595,7 +866,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Governance Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Penwortham",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -608,7 +895,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jgleeson": {
       "councillor_id": "jgleeson",
@@ -618,8 +905,8 @@
       "moderngov_uid": "842",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 131 Hoghton Lane Preston PR5 4EH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/2/4/8/Info00000842/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "IT Consultant",
@@ -637,7 +924,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Social Media Protocol Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Bamber Bridge, Walton-le-Dale and Eastern",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -650,7 +968,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "mforshaw": {
       "councillor_id": "mforshaw",
@@ -660,8 +978,8 @@
       "moderngov_uid": "841",
       "dob": null,
       "occupation": null,
-      "biography": "Email: mathew.forshaw@southribble.gov.uk",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/1/4/8/Info00000841/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Self-Employed",
@@ -857,7 +1175,18 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Bamber Bridge, Walton-le-Dale and Eastern",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -870,7 +1199,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "csharples": {
       "councillor_id": "csharples",
@@ -879,9 +1208,9 @@
       "party": "Labour",
       "moderngov_uid": "420",
       "dob": null,
-      "occupation": "Panel (Reserve) Cabinet Central Lancashire Strategic Planning Joint Advisory Committee South Ribble",
-      "biography": "Correspondence address: C/o South Ribble Borough Council Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/0/2/4/Info00000420/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -899,7 +1228,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Appointment and Employment Panel",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Central Lancashire Strategic Planning Joint Advisory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Leyland Town Deal Board",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -911,8 +1271,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "ljackson": {
       "councillor_id": "ljackson",
@@ -922,8 +1282,8 @@
       "moderngov_uid": "761",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/1/6/7/Info00000761/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -935,7 +1295,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Social Media Protocol Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Complaints Working Group",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -948,7 +1344,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jalty": {
       "councillor_id": "jalty",
@@ -958,8 +1354,8 @@
       "moderngov_uid": "417",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland Lancashire PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/7/1/4/Info00000417/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Artisan Business/Retail, Beadesired (from flame to fashion)",
@@ -971,7 +1367,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Appointment and Employment Panel",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Shared Services Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Central Villages",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -984,7 +1406,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "pbem": {
       "councillor_id": "pbem",
@@ -994,8 +1416,8 @@
       "moderngov_uid": "133",
       "dob": null,
       "occupation": null,
-      "biography": "Regular surgeries held at various locations - details can be found on Facebook (fb.com/CllrPaul) or by email request. Casework undertaken from the Farington East Ward.",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/3/3/1/Info00000133/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "PPG- Governance & Quality Manager",
@@ -1022,7 +1444,28 @@
           "raw": "Labour Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Central Villages",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Trade Forum",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1035,7 +1478,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "grear": {
       "councillor_id": "grear",
@@ -1045,8 +1488,8 @@
       "moderngov_uid": "843",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/3/4/8/Info00000843/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Independent Parliamentary Standards Authority (IPSA)",
@@ -1069,7 +1512,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Central Villages",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1082,7 +1556,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "kwalton": {
       "councillor_id": "kwalton",
@@ -1091,9 +1565,9 @@
       "party": "Conservative",
       "moderngov_uid": "121",
       "dob": null,
-      "occupation": "Panel Audit and Governance Committee (Reserve) Corporate, Performance and Budget Scrutiny Committee",
-      "biography": "Home address: 3 Croston Road Lostock Hall Preston PR5 5RS",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/1/2/1/Info00000121/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "South Ribble Borough Councillor",
@@ -1116,7 +1590,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Appointment and Employment Panel",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Services Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Central Villages",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -1128,8 +1633,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "cwatson": {
       "councillor_id": "cwatson",
@@ -1139,8 +1644,8 @@
       "moderngov_uid": "844",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 3 Claytongate Drive Penwortham Preston PR1 9SE",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/4/4/8/Info00000844/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Zinge Industries",
@@ -1158,7 +1663,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Social Media Protocol Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Complaints Working Group",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Western Parishes",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1171,7 +1707,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jrainsbury": {
       "councillor_id": "jrainsbury",
@@ -1181,8 +1717,8 @@
       "moderngov_uid": "166",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 16 Tristan Avenue Walmer Bridge Preston PR4 5GL",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/6/6/1/Info00000166/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Sales Assistant - Coast",
@@ -1200,7 +1736,48 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Social Media Protocol Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Standards Complaints Working Group",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Western Parishes",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Trade Forum",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -1213,7 +1790,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "dhowarth": {
       "councillor_id": "dhowarth",
@@ -1223,8 +1800,8 @@
       "moderngov_uid": "161",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 49 Crookings Lane Penwortham PR1 0HX",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/1/6/1/Info00000161/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "County Councillor",
@@ -1257,7 +1834,48 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Social Media Protocol Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Penwortham",
+          "type": "other",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1270,7 +1888,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "dshaw": {
       "councillor_id": "dshaw",
@@ -1280,8 +1898,8 @@
       "moderngov_uid": "421",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 30 Carleton Drive Penwortham PR1 0QT",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/1/2/4/Info00000421/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired Civil Servant",
@@ -1299,7 +1917,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Governance Committee",
+          "type": "audit",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Penwortham",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1312,7 +1966,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "jlillis": {
       "councillor_id": "jlillis",
@@ -1322,8 +1976,8 @@
       "moderngov_uid": "845",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland Lancashire PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/5/4/8/Info00000845/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Liberal Democrats",
@@ -1370,7 +2024,38 @@
           "raw": "Liberal Democrats"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Social Media Protocol Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Complaints Working Group",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Penwortham",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1383,7 +2068,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "agelder": {
       "councillor_id": "agelder",
@@ -1393,8 +2078,8 @@
       "moderngov_uid": "425",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland Lancs PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/5/2/4/Info00000425/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "ABG-Associates (Director and Employee)",
@@ -1412,7 +2097,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Appointment and Employment Panel",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Shared Services Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1425,7 +2136,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "hwilliams": {
       "councillor_id": "hwilliams",
@@ -1435,8 +2146,8 @@
       "moderngov_uid": "846",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 22 Willow Tree Crescent Leyland PR25 1YA",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/6/4/8/Info00000846/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Senior Resource Planning Analyst - Shared Services Connected LTD",
@@ -1469,7 +2180,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Leyland Town Deal Board",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1482,7 +2229,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ccoulton": {
       "councillor_id": "ccoulton",
@@ -1492,8 +2239,8 @@
       "moderngov_uid": "127",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/7/2/1/Info00000127/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -1505,7 +2252,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Social Media Protocol Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Western Parishes",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1518,7 +2281,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "jbuttery": {
       "councillor_id": "jbuttery",
@@ -1528,8 +2291,8 @@
       "moderngov_uid": "652",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 50 Back Lane Longton Preston PR4 5BE",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/2/5/6/Info00000652/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -1541,7 +2304,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Social Media Protocol Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Western Parishes",
+          "type": "partnership",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Taxi Trade Forum",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1554,7 +2348,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "wking": {
       "councillor_id": "wking",
@@ -1564,8 +2358,8 @@
       "moderngov_uid": "847",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/7/4/8/Info00000847/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Director of Candy Shack Distillery Ltd",
@@ -1583,7 +2377,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Western Parishes",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1596,7 +2411,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "estringfellow": {
       "councillor_id": "estringfellow",
@@ -1606,8 +2421,8 @@
       "moderngov_uid": "850",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/0/5/8/Info00000850/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -1619,7 +2434,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Central Lancashire Strategic Planning Joint Advisory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Central Villages",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1632,7 +2483,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "lpritchard": {
       "councillor_id": "lpritchard",
@@ -1642,8 +2493,8 @@
       "moderngov_uid": "849",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/9/4/8/Info00000849/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Preston City Council",
@@ -1660,7 +2511,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Central Villages",
+          "type": "other",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1673,7 +2550,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "pgabbott": {
       "councillor_id": "pgabbott",
@@ -1683,8 +2560,8 @@
       "moderngov_uid": "848",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/8/4/8/Info00000848/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "TD Construction Testing",
@@ -1711,7 +2588,28 @@
           "raw": "Labour Party - Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Central Villages",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1724,7 +2622,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jflannery": {
       "councillor_id": "jflannery",
@@ -1734,8 +2632,8 @@
       "moderngov_uid": "426",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland Lancs PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/6/2/4/Info00000426/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Company Director, Flannery Associates",
@@ -1773,7 +2671,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Penwortham",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1786,7 +2695,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jburrows": {
       "councillor_id": "jburrows",
@@ -1796,8 +2705,8 @@
       "moderngov_uid": "956",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/6/5/9/Info00000956/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -1819,7 +2728,23 @@
           "raw": "South Ribble Conservative Association"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Penwortham",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1832,7 +2757,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "kmartin": {
       "councillor_id": "kmartin",
@@ -1842,8 +2767,8 @@
       "moderngov_uid": "149",
       "dob": null,
       "occupation": null,
-      "biography": "Email: cllr.kmartin@southribble.gov.uk",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/9/4/1/Info00000149/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Lancashire County Counciol",
@@ -1875,7 +2800,48 @@
           "raw": "The Labour Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Standards Complaints Working Group",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Penwortham",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Trade Forum",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -1888,7 +2854,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mgreen": {
       "councillor_id": "mgreen",
@@ -1898,8 +2864,8 @@
       "moderngov_uid": "158",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/8/5/1/Info00000158/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Exam Invigilator at Academy@Worden",
@@ -1921,7 +2887,38 @@
           "raw": "South Ribble Conservative Association (election expenses)"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -1934,7 +2931,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mgreen2": {
       "councillor_id": "mgreen2",
@@ -1944,8 +2941,8 @@
       "moderngov_uid": "160",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/0/6/1/Info00000160/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Lancashire County Council - Cabinet Member",
@@ -1980,7 +2977,38 @@
           "raw": "South Ribble Conservative Association (Election expenses)"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -1993,7 +3021,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "msmith": {
       "councillor_id": "msmith",
@@ -2003,8 +3031,8 @@
       "moderngov_uid": "169",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: Cage Farm Cage Lane Whitestake Preston PR4 4JP",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/9/6/1/Info00000169/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2023,7 +3051,33 @@
           "raw": "South Ribble Conservative Association - Election expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Services Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Western Parishes",
+          "type": "partnership",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2036,7 +3090,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "psmith": {
       "councillor_id": "psmith",
@@ -2046,8 +3100,8 @@
       "moderngov_uid": "123",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: Cage Farm Cage Lane Whitestake Preston PR4 4JP",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/3/2/1/Info00000123/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2066,7 +3120,33 @@
           "raw": "Election expenses - South Ribble Conservative Association"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appointment and Employment Panel",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Services Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Western Parishes",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2079,7 +3159,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "jgleave": {
       "councillor_id": "jgleave",
@@ -2089,8 +3169,8 @@
       "moderngov_uid": "851",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/1/5/8/Info00000851/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Self employed",
@@ -2118,7 +3198,23 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Bamber Bridge, Walton-le-Dale and Eastern",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2131,7 +3227,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "pmullineaux": {
       "councillor_id": "pmullineaux",
@@ -2141,8 +3237,8 @@
       "moderngov_uid": "153",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 11 Victoria Place Walton-le-Dale Preston PR5 4HG",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/3/5/1/Info00000153/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2154,7 +3250,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Appointment and Employment Panel",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Bamber Bridge, Walton-le-Dale and Eastern",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Trade Forum",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2167,7 +3289,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "jbell": {
       "councillor_id": "jbell",
@@ -2177,8 +3299,8 @@
       "moderngov_uid": "118",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/o South Ribble Borough Council Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/8/1/1/Info00000118/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -2196,7 +3318,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Appeals Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Leyland Town Deal Board",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Social Media Protocol Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Taxi Trade Forum",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -2209,7 +3367,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mfarnworth": {
       "councillor_id": "mfarnworth",
@@ -2219,8 +3377,8 @@
       "moderngov_uid": "852",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/2/5/8/Info00000852/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "MP Office Manager",
@@ -2243,7 +3401,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -2256,7 +3430,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jhindletaylor": {
       "councillor_id": "jhindletaylor",
@@ -2266,8 +3440,8 @@
       "moderngov_uid": "853",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/3/5/8/Info00000853/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Remote web content writer",
@@ -2290,7 +3464,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Social Media Protocol Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -2303,7 +3498,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "npeet": {
       "councillor_id": "npeet",
@@ -2313,8 +3508,8 @@
       "moderngov_uid": "854",
       "dob": null,
       "occupation": null,
-      "biography": "Email: nicky.peet@southribble.gov.uk",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/4/5/8/Info00000854/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "HMRC",
@@ -2336,7 +3531,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Leyland",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -2349,7 +3555,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "clomax": {
       "councillor_id": "clomax",
@@ -2359,8 +3565,8 @@
       "moderngov_uid": "429",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland Lancs PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/9/2/4/Info00000429/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2372,7 +3578,53 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Complaints Working Group",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Bamber Bridge, Walton-le-Dale and Eastern",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Taxi Trade Forum",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2385,7 +3637,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "hbedford": {
       "councillor_id": "hbedford",
@@ -2395,8 +3647,8 @@
       "moderngov_uid": "855",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 120 Chorley Road Walton-le-Dale Preston PR5 4PA",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/5/5/8/Info00000855/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2408,7 +3660,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing and Public Safety Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Bamber Bridge, Walton-le-Dale and Eastern",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2421,7 +3704,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "dbretherton": {
       "councillor_id": "dbretherton",
@@ -2430,9 +3713,9 @@
       "party": "Conservative",
       "moderngov_uid": "422",
       "dob": null,
-      "occupation": "Panel (Reserve) Audit and Governance Committee Corporate, Performance and Budget Scrutiny Committee",
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland Lancs PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/2/2/4/Info00000422/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired Stockbroker",
@@ -2499,7 +3782,43 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate, Performance and Budget Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Appointment and Employment Panel",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Services Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Bamber Bridge, Walton-le-Dale and Eastern",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2511,8 +3830,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 60,
-      "identity_confidence": 40
+      "data_completeness_pct": 50,
+      "identity_confidence": 50
     },
     "mcampbell": {
       "councillor_id": "mcampbell",
@@ -2522,8 +3841,8 @@
       "moderngov_uid": "419",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Civic Centre West Paddock Leyland Lancs PR25 1DH",
-      "photo_url": "https://southribble.moderngov.co.uk/UserData/9/1/4/Info00000419/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Lancashire County Council",
@@ -2550,7 +3869,23 @@
           "raw": "South Ribble Conservatives Association (elections expenses)"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Community and External Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "My Neighbourhood Community Hub - Bamber Bridge, Walton-le-Dale and Eastern",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2563,7 +3898,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     }
   }
 }

@@ -1,25 +1,25 @@
 {
   "council_id": "lancashire_cc",
-  "generated_at": "2026-02-28T02:44:36.368188Z",
+  "generated_at": "2026-03-15T01:31:36.778361Z",
   "version": "1.0",
   "total_councillors": 84,
-  "moderngov_scraped": 84,
+  "moderngov_scraped": 0,
   "sources": {
     "councillors": true,
     "register": true,
     "elections": true,
     "meetings": true,
-    "moderngov_biography": true
+    "moderngov_biography": false
   },
   "summary": {
     "with_dob": 0,
-    "with_occupation": 1,
+    "with_occupation": 0,
     "with_employment": 63,
     "with_land": 84,
-    "with_committees": 0,
+    "with_committees": 84,
     "with_electoral": 2,
     "avg_completeness": 42,
-    "avg_identity_confidence": 36
+    "avg_identity_confidence": 46
   },
   "councillors": {
     "ctetlow": {
@@ -30,8 +30,8 @@
       "moderngov_uid": "33835",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/5/3/8/Info00033835/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Renewable Energy Consultant",
@@ -84,7 +84,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Finance Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit, Risk and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -97,7 +128,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cjoynes": {
       "councillor_id": "cjoynes",
@@ -107,8 +138,8 @@
       "moderngov_uid": "33850",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/0/5/8/Info00033850/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Targeted Provision - Online SEND Tutor",
@@ -158,7 +189,33 @@
           "raw": "Funding towards cost of leaflets and printing for County Council Election."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Special Sub-Committee for VG110 - Determination of Town and Village Green Application - Land to the North side of Accrington Road, Whalley known as 'The Hellicliffes'",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -171,7 +228,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "casghar": {
       "councillor_id": "casghar",
@@ -182,7 +239,7 @@
       "dob": null,
       "occupation": null,
       "biography": null,
-      "photo_url": "https://council.lancashire.gov.uk/UserData/0/6/8/Info00033860/bigpic.jpg",
+      "photo_url": null,
       "employment": [
         {
           "raw": "Self-employed private hire driver licensed by Hyndburn Borough Council",
@@ -212,7 +269,23 @@
           "raw": "Contribution towards election expenses."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Special Sub-Committee for VG110 - Determination of Town and Village Green Application - Land to the North side of Accrington Road, Whalley known as 'The Hellicliffes'",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -224,8 +297,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 40,
-      "identity_confidence": 40
+      "data_completeness_pct": 45,
+      "identity_confidence": 50
     },
     "ciqbal": {
       "councillor_id": "ciqbal",
@@ -235,8 +308,8 @@
       "moderngov_uid": "163",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Address in Lancashire C/O Labour Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/3/6/1/Info00000163/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Local Government Officer",
@@ -259,7 +332,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Health and Adult Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -272,7 +356,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "ckamran": {
       "councillor_id": "ckamran",
@@ -282,8 +366,8 @@
       "moderngov_uid": "33750",
       "dob": null,
       "occupation": null,
-      "biography": "Email: maheen.kamran@lancashire.gov.uk",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/0/5/7/Info00033750/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Thursby GP Surgery",
@@ -306,7 +390,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -319,7 +409,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cthomson": {
       "councillor_id": "cthomson",
@@ -329,8 +419,8 @@
       "moderngov_uid": "33756",
       "dob": null,
       "occupation": null,
-      "biography": "Email: liam.thomson@lancashire.gov.uk",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/6/5/7/Info00033756/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Safran Naccels",
@@ -353,7 +443,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -366,7 +472,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "carif": {
       "councillor_id": "carif",
@@ -376,8 +482,8 @@
       "moderngov_uid": "26569",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: County Hall Preston PR1 8XJ",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/9/6/5/Info00026569/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Solicitor",
@@ -400,7 +506,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -413,7 +525,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cpoulton": {
       "councillor_id": "cpoulton",
@@ -423,8 +535,8 @@
       "moderngov_uid": "33766",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/6/6/7/Info00033766/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "BEWI PACKAGING & COMPONENTS",
@@ -447,7 +559,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -460,7 +583,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "ckutavicius": {
       "councillor_id": "ckutavicius",
@@ -470,8 +593,8 @@
       "moderngov_uid": "33768",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/8/6/7/Info00033768/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -483,7 +606,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -496,7 +625,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cedwards": {
       "councillor_id": "cedwards",
@@ -507,7 +636,7 @@
       "dob": null,
       "occupation": null,
       "biography": null,
-      "photo_url": "https://council.lancashire.gov.uk/UserData/4/2/8/Info00033824/bigpic.jpg",
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -530,7 +659,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Community, Cultural, and Corporate Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit, Risk and Governance Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -542,8 +697,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 40,
-      "identity_confidence": 40
+      "data_completeness_pct": 45,
+      "identity_confidence": 50
     },
     "csnow": {
       "councillor_id": "csnow",
@@ -553,8 +708,8 @@
       "moderngov_uid": "33823",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 15 Avondale Road Chorley Lancashire PR7 2ED",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/3/2/8/Info00033823/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Director",
@@ -577,7 +732,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2025,
         "years_in_office": 1,
@@ -590,7 +756,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ctopp": {
       "councillor_id": "ctopp",
@@ -600,8 +766,8 @@
       "moderngov_uid": "33847",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 8XJ",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/7/4/8/Info00033847/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -613,7 +779,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -626,7 +803,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "csnape": {
       "councillor_id": "csnape",
@@ -636,8 +813,8 @@
       "moderngov_uid": "4416",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 14 The Avenue Adlington Chorley PR6 9RX",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/6/1/4/Info00004416/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Senior Local Campaign Officer",
@@ -678,7 +855,23 @@
           "raw": "Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Community, Cultural, and Corporate Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -691,7 +884,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cwade": {
       "councillor_id": "cwade",
@@ -701,8 +894,8 @@
       "moderngov_uid": "33864",
       "dob": null,
       "occupation": null,
-      "biography": "Email: mark.wade@lancashire.gov.uk",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/4/6/8/Info00033864/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Entertainment Industry",
@@ -732,7 +925,23 @@
           "raw": "£70 for leaflets"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -745,7 +954,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "chutchinson": {
       "councillor_id": "chutchinson",
@@ -755,8 +964,8 @@
       "moderngov_uid": "33871",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/1/7/8/Info00033871/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "IT Field Service Engineer",
@@ -779,7 +988,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -792,7 +1017,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cclifford": {
       "councillor_id": "cclifford",
@@ -802,8 +1027,8 @@
       "moderngov_uid": "26571",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 546 Preston Road Clayton-le-Woods Chorley Lancashire PR6 7EB",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/1/7/5/Info00026571/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Nature & Conservation Services",
@@ -854,7 +1079,23 @@
           "raw": "Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -867,7 +1108,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "ccrawford": {
       "councillor_id": "ccrawford",
@@ -877,8 +1118,8 @@
       "moderngov_uid": "33660",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/0/6/6/Info00033660/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Fylde Maintenance Services",
@@ -921,7 +1162,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -934,7 +1186,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cschofield": {
       "councillor_id": "cschofield",
@@ -944,8 +1196,8 @@
       "moderngov_uid": "33695",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/5/9/6/Info00033695/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -967,7 +1219,28 @@
           "raw": "Reform UK Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Board",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Health and Adult Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -980,7 +1253,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cgoldsworthy": {
       "councillor_id": "cgoldsworthy",
@@ -990,8 +1263,8 @@
       "moderngov_uid": "33622",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 8 Hatch Brook Avenue Clitheroe Lancashire BB7 2SJ",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/2/2/6/Info00033622/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -1010,7 +1283,18 @@
           "raw": "£312.00"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1023,7 +1307,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "criggott": {
       "councillor_id": "criggott",
@@ -1033,8 +1317,8 @@
       "moderngov_uid": "18940",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 9 Seaforth Crescent Buckshaw Village Chorley PR7 7HL",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/0/4/9/Info00018940/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Landlord",
@@ -1079,7 +1363,38 @@
           "raw": "Contribution towards campaign material & elections expenses."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Finance Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Community, Cultural, and Corporate Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Combined County Authority - Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1092,7 +1407,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cshaw": {
       "councillor_id": "cshaw",
@@ -1102,8 +1417,8 @@
       "moderngov_uid": "33717",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/7/1/7/Info00033717/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Consultant Engineer",
@@ -1136,7 +1451,33 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Company Member Cabinet Committee",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Finance Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Combined County Authority - Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1149,7 +1490,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cjones": {
       "councillor_id": "cjones",
@@ -1159,8 +1500,8 @@
       "moderngov_uid": "33732",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/2/3/7/Info00033732/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -1172,7 +1513,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Community, Cultural, and Corporate Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1185,7 +1552,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "croberts": {
       "councillor_id": "croberts",
@@ -1195,8 +1562,8 @@
       "moderngov_uid": "33679",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/9/7/6/Info00033679/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Code Connect",
@@ -1219,7 +1586,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Combined County Authority - Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1232,7 +1615,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cdwyer": {
       "councillor_id": "cdwyer",
@@ -1242,8 +1625,8 @@
       "moderngov_uid": "33687",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/7/8/6/Info00033687/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Consultant",
@@ -1266,7 +1649,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Company Member Cabinet Committee",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Lancashire Combined County Authority - Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1279,7 +1683,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "csingleton": {
       "councillor_id": "csingleton",
@@ -1289,8 +1693,8 @@
       "moderngov_uid": "26581",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Home address in Lancashire C/O Conservative Group Office County Hall Preston PR1 8XJ",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/1/8/5/Info00026581/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -1314,7 +1718,18 @@
           "raw": "Conservative Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1327,7 +1742,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cfox": {
       "councillor_id": "cfox",
@@ -1337,8 +1752,8 @@
       "moderngov_uid": "33873",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preson PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/3/7/8/Info00033873/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -1357,7 +1772,28 @@
           "raw": "£276.50"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Board",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Health and Adult Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1370,7 +1806,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cparkinson": {
       "councillor_id": "cparkinson",
@@ -1380,8 +1816,8 @@
       "moderngov_uid": "33876",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/6/7/8/Info00033876/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Optical Pre Screener",
@@ -1406,7 +1842,13 @@
           "raw": "£276.50"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1419,7 +1861,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "caustin": {
       "councillor_id": "caustin",
@@ -1429,8 +1871,8 @@
       "moderngov_uid": "33618",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/8/1/6/Info00033618/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -1449,7 +1891,23 @@
           "raw": "£599.47"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit, Risk and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1462,7 +1920,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cclemson": {
       "councillor_id": "cclemson",
@@ -1472,8 +1930,8 @@
       "moderngov_uid": "33897",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/7/9/8/Info00033897/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Grace Joseph Ltd",
@@ -1496,7 +1954,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1509,7 +1973,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cdowding": {
       "councillor_id": "cdowding",
@@ -1519,8 +1983,8 @@
       "moderngov_uid": "4438",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Progressive Lancashire Group County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/8/3/4/Info00004438/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -1532,7 +1996,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Finance Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1545,7 +2025,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cstubbins": {
       "councillor_id": "cstubbins",
@@ -1555,8 +2035,8 @@
       "moderngov_uid": "33630",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: The Green Party Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/0/3/6/Info00033630/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Westmorland and Furness Council",
@@ -1589,7 +2069,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Company Member Cabinet Committee",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit, Risk and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Combined County Authority - Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1602,7 +2108,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "ccrimmins": {
       "councillor_id": "ccrimmins",
@@ -1612,8 +2118,8 @@
       "moderngov_uid": "33635",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 73 Sand lane Warton Carnforth Lancashire LA5 9NJ",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/5/3/6/Info00033635/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -1637,7 +2143,28 @@
           "raw": "£599.47"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Community, Cultural, and Corporate Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Health and Adult Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Joint Health Scrutiny Committee - Shaping Care Together Programme",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1650,7 +2177,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cdalton": {
       "councillor_id": "cdalton",
@@ -1660,8 +2187,8 @@
       "moderngov_uid": "33645",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/5/4/6/Info00033645/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Registered Nurse/Business part owner of 1st for Care GB Ltd.",
@@ -1679,7 +2206,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Health and Wellbeing Board",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1692,7 +2235,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cmills": {
       "councillor_id": "cmills",
@@ -1702,8 +2245,8 @@
       "moderngov_uid": "30275",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: The Green Party Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/5/7/2/Info00030275/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -1715,7 +2258,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Health and Adult Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Joint Health Scrutiny Committee - Shaping Care Together Programme",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1728,7 +2292,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cwhalley": {
       "councillor_id": "cwhalley",
@@ -1738,8 +2302,8 @@
       "moderngov_uid": "33792",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/2/9/7/Info00033792/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Business Development & Growth Consultancy",
@@ -1762,7 +2326,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Company Member Cabinet Committee",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit, Risk and Governance Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Lancashire Local Pension Board",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Combined County Authority - Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1775,7 +2365,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cclose": {
       "councillor_id": "cclose",
@@ -1785,8 +2375,8 @@
       "moderngov_uid": "33795",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/5/9/7/Info00033795/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Cat Café Liverpool",
@@ -1829,7 +2419,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Board",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1842,7 +2443,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cduxbury": {
       "councillor_id": "cduxbury",
@@ -1852,8 +2453,8 @@
       "moderngov_uid": "33626",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/6/2/6/Info00033626/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "HGS Ltd",
@@ -1876,7 +2477,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1889,7 +2501,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cgummer": {
       "councillor_id": "cgummer",
@@ -1899,8 +2511,8 @@
       "moderngov_uid": "33801",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/1/0/8/Info00033801/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Building Surveyor",
@@ -1918,7 +2530,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Community, Cultural, and Corporate Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1931,7 +2559,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cashton": {
       "councillor_id": "cashton",
@@ -1941,8 +2569,8 @@
       "moderngov_uid": "119",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 10 Pendle Place Lytham Lancashire FY8 4JB",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/9/1/1/Info00000119/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Blackpool and Fylde College",
@@ -1987,7 +2615,18 @@
           "raw": "Contribution Towards Campaign Material/Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2000,7 +2639,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cbalchin": {
       "councillor_id": "cbalchin",
@@ -2010,8 +2649,8 @@
       "moderngov_uid": "33757",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 382 Newchurch Road Rawtenstall Rossendale Lancashire BB4 7SN",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/7/5/7/Info00033757/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Simply Later Life Planning LTD",
@@ -2039,7 +2678,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2025,
         "years_in_office": 1,
@@ -2052,7 +2702,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ckniveton": {
       "councillor_id": "ckniveton",
@@ -2062,8 +2712,8 @@
       "moderngov_uid": "33653",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/3/5/6/Info00033653/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2075,7 +2725,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Finance Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2088,7 +2749,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cwalsh": {
       "councillor_id": "cwalsh",
@@ -2098,8 +2759,8 @@
       "moderngov_uid": "33656",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/6/5/6/Info00033656/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Barber",
@@ -2122,7 +2783,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2135,7 +2807,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cmoore": {
       "councillor_id": "cmoore",
@@ -2145,8 +2817,8 @@
       "moderngov_uid": "33662",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/2/6/6/Info00033662/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Landlord",
@@ -2171,7 +2843,28 @@
           "raw": "£599.49"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Company Member Cabinet Committee",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2184,7 +2877,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cblake": {
       "councillor_id": "cblake",
@@ -2194,8 +2887,8 @@
       "moderngov_uid": "33807",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/7/0/8/Info00033807/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "My Pretty Little Gifts Ltd (Online Retail)",
@@ -2218,7 +2911,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Finance Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2231,7 +2945,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cali": {
       "councillor_id": "cali",
@@ -2241,8 +2955,8 @@
       "moderngov_uid": "4426",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Home Address in Lancashire C/O Democratic Services County Hall Preston PR1 8XJ",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/6/2/4/Info00004426/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2254,7 +2968,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Finance Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Conduct Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Combined County Authority - Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2267,7 +3012,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cjohnson": {
       "councillor_id": "cjohnson",
@@ -2277,8 +3022,8 @@
       "moderngov_uid": "30134",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 114 Nursery Avenue Ormskirk Lancashire L39 2DZ",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/4/3/1/Info00030134/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Mersey & West Lancashire NHS Trust",
@@ -2317,7 +3062,23 @@
           "raw": "Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2330,7 +3091,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "chargreaves": {
       "councillor_id": "chargreaves",
@@ -2340,8 +3101,8 @@
       "moderngov_uid": "33886",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/6/8/8/Info00033886/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Arcade Club Ltd, Arcade Club Leeds Limited",
@@ -2388,7 +3149,23 @@
         }
       ],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Board",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Health and Adult Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2401,7 +3178,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cpickup": {
       "councillor_id": "cpickup",
@@ -2411,8 +3188,8 @@
       "moderngov_uid": "33781",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/1/8/7/Info00033781/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Self Employed Financial Consultant (further details classed as sensitive information held under Section 32 of the Localism Act)",
@@ -2430,7 +3207,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2443,7 +3231,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "catkinson": {
       "councillor_id": "catkinson",
@@ -2452,9 +3240,9 @@
       "party": "Reform UK",
       "moderngov_uid": "33883",
       "dob": null,
-      "occupation": "Committee Full Council Pension Fund Committee (Deputy Chair) Term of Office 06/05/2025 - 08/05/2029",
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/3/8/8/Info00033883/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -2472,7 +3260,53 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Budget and Finance Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Conduct Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Chair"
+        },
+        {
+          "committee": "Lancashire Combined County Authority",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2484,8 +3318,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 55,
-      "identity_confidence": 40
+      "data_completeness_pct": 45,
+      "identity_confidence": 50
     },
     "chartley": {
       "councillor_id": "chartley",
@@ -2495,8 +3329,8 @@
       "moderngov_uid": "26575",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 2 Deer Chace Fence Burnley Lancashire BB12 9PH",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/5/7/5/Info00026575/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2513,7 +3347,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2526,7 +3371,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cwhipp": {
       "councillor_id": "cwhipp",
@@ -2536,8 +3381,8 @@
       "moderngov_uid": "4430",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 1 Bank Edge Lockfield Drive Barnoldswick BB18 6HN",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/0/3/4/Info00004430/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2561,7 +3406,18 @@
           "raw": "Election expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2574,7 +3430,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cmccollum": {
       "councillor_id": "cmccollum",
@@ -2584,8 +3440,8 @@
       "moderngov_uid": "33906",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/6/0/9/Info00033906/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2597,7 +3453,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Board",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Health and Adult Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2610,7 +3487,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cmore": {
       "councillor_id": "cmore",
@@ -2620,8 +3497,8 @@
       "moderngov_uid": "33818",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/8/1/8/Info00033818/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "University of Lancashire",
@@ -2644,7 +3521,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Health and Wellbeing Board",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2657,7 +3545,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "chowarth": {
       "councillor_id": "chowarth",
@@ -2667,8 +3555,8 @@
       "moderngov_uid": "4452",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 49 Crookings Lane Penwortham Preston PR1 0HX",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/2/5/4/Info00004452/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2697,7 +3585,18 @@
           "raw": "Election expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2710,7 +3609,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cclempson": {
       "councillor_id": "cclempson",
@@ -2720,8 +3619,8 @@
       "moderngov_uid": "4447",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 42 Belvedere Road Thornton Cleveleys FY5 5DG",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/7/4/4/Info00004447/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Whisky tasting and presentation",
@@ -2756,7 +3655,13 @@
           "raw": "Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2769,7 +3674,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "clavalette": {
       "councillor_id": "clavalette",
@@ -2779,8 +3684,8 @@
       "moderngov_uid": "33665",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Independent Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/5/6/6/Info00033665/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2804,7 +3709,23 @@
           "raw": "Election expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2817,7 +3738,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cbrown": {
       "councillor_id": "cbrown",
@@ -2827,8 +3748,8 @@
       "moderngov_uid": "26590",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Labour Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/0/9/5/Info00026590/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Promotion of Community Wealth Building in the UK",
@@ -2861,7 +3782,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2874,7 +3806,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cmotala": {
       "councillor_id": "cmotala",
@@ -2884,8 +3816,8 @@
       "moderngov_uid": "175",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Home Address in Lancashire County Hall Preston PR1 8XJ",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/5/7/1/Info00000175/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -2904,7 +3836,18 @@
           "raw": "Contribution towards 2017 election costs"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Community, Cultural, and Corporate Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2917,7 +3860,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cparker": {
       "councillor_id": "cparker",
@@ -2927,8 +3870,8 @@
       "moderngov_uid": "33681",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/1/8/6/Info00033681/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Actuation Valve & Control Ltd",
@@ -2946,7 +3889,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Combined County Authority - Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Combined County Authority - Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2959,7 +3923,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cduke": {
       "councillor_id": "cduke",
@@ -2969,8 +3933,8 @@
       "moderngov_uid": "30330",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Liberal Democrats Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/0/3/3/Info00030330/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Environment Agency",
@@ -2993,7 +3957,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3006,7 +3981,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cjones2": {
       "councillor_id": "cjones2",
@@ -3016,8 +3991,8 @@
       "moderngov_uid": "33701",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/1/0/7/Info00033701/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Self employed",
@@ -3040,7 +4015,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Community, Cultural, and Corporate Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3053,7 +4054,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "crazakazi": {
       "councillor_id": "crazakazi",
@@ -3063,8 +4064,8 @@
       "moderngov_uid": "33703",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Independent Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/3/0/7/Info00033703/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Local Pensions Partnership Administration Ltd",
@@ -3087,7 +4088,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Board",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3100,7 +4112,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cjewell": {
       "councillor_id": "cjewell",
@@ -3110,8 +4122,8 @@
       "moderngov_uid": "165",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 42 Layton Road Ashton-on-Ribble Preston PR2 1PU",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/5/6/1/Info00000165/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "BAE SYSTEMS, WARTON AERODROME, PRESTON PR4 1AX\"",
@@ -3151,7 +4163,28 @@
           "raw": "Election expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Finance Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Health and Adult Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit, Risk and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3164,7 +4197,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cpotter": {
       "councillor_id": "cpotter",
@@ -3174,8 +4207,8 @@
       "moderngov_uid": "18954",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 26 Aldwych Drive Preston PR2 1SJ",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/4/5/9/Info00018954/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Self-employed Camerman and Editor",
@@ -3207,7 +4240,18 @@
         }
       ],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Community, Cultural, and Corporate Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3220,7 +4264,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cmirfin": {
       "councillor_id": "cmirfin",
@@ -3230,8 +4274,8 @@
       "moderngov_uid": "26579",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 18 The Cloisters, Whalley Clitheroe Lancashire BB7 9UE",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/9/7/5/Info00026579/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "LGA Peer Review",
@@ -3266,7 +4310,33 @@
           "raw": "Election Campaign"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Combined County Authority - Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3279,7 +4349,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "catkinson2": {
       "councillor_id": "catkinson2",
@@ -3289,8 +4359,8 @@
       "moderngov_uid": "33642",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/2/4/6/Info00033642/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Director / Shareholder / Employee - Various Companies:\r\n\r\nGJMS Holdings Ltd (03929718)\r\nNew GJMS Ltd (05863290)\r\nFreedom Ability Ltd (06675171)\r\nHalo Education Ltd (07086740)\r\nHalo School Furniture (06882707)\r\nNeo One Distribution Ltd (06882491)\r\nHec Sama LLP\r\nSSCA ltd ( 05868157 )\r\nKidi-Sure ltd ( 05868156 )\r\nAtkinson Properties ltd ( 03929729 )\r\nNeo One Ltd ( 06725966 )",
@@ -3336,7 +4406,53 @@
           "raw": "Reform UK Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Budget and Finance Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Conduct Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Chair"
+        },
+        {
+          "committee": "Lancashire Combined County Authority",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3349,7 +4465,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "critson": {
       "councillor_id": "critson",
@@ -3359,8 +4475,8 @@
       "moderngov_uid": "33772",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 2 Heathbourne Road Bacup Rossendale Lancashire OL13 0SN",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/2/7/7/Info00033772/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "DW RITSON",
@@ -3383,7 +4499,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Budget and Finance Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit, Risk and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3396,7 +4533,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cash": {
       "councillor_id": "cash",
@@ -3406,8 +4543,8 @@
       "moderngov_uid": "33775",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 40 Bolton Road North Edenfield Lancashire BL0 0EZ",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/5/7/7/Info00033775/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Greater Manchester Police",
@@ -3430,7 +4567,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Parenting Board",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Community, Cultural, and Corporate Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Conduct Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3443,7 +4611,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cbarnes": {
       "councillor_id": "cbarnes",
@@ -3453,8 +4621,8 @@
       "moderngov_uid": "26570",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Home address in Lancashire C/O Labour Group Office County Hall Preston PR1 8XJ",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/0/7/5/Info00026570/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Barnardos",
@@ -3500,7 +4668,18 @@
           "raw": "Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3513,7 +4692,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cevans": {
       "councillor_id": "cevans",
@@ -3523,8 +4702,8 @@
       "moderngov_uid": "33844",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/4/4/8/Info00033844/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -3536,7 +4715,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Lancashire Combined County Authority",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3549,7 +4749,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "cswales": {
       "councillor_id": "cswales",
@@ -3559,8 +4759,8 @@
       "moderngov_uid": "33859",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/9/5/8/Info00033859/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Wrightington, Wigan and Leigh NHS teaching hospitals trust",
@@ -3588,7 +4788,28 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Health and Adult Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Joint Health Scrutiny Committee - Shaping Care Together Programme",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3601,7 +4822,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cworthington": {
       "councillor_id": "cworthington",
@@ -3611,8 +4832,8 @@
       "moderngov_uid": "33800",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/0/0/8/Info00033800/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Self Employed: 1) help people build an additional income stream and save money, 2) surveyour",
@@ -3630,7 +4851,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Urgency Committee of the Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3643,7 +4875,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "csutton": {
       "councillor_id": "csutton",
@@ -3653,8 +4885,8 @@
       "moderngov_uid": "33668",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/8/6/6/Info00033668/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -3679,7 +4911,18 @@
           "raw": "Election expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3692,7 +4935,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "ccottam": {
       "councillor_id": "ccottam",
@@ -3702,8 +4945,8 @@
       "moderngov_uid": "33834",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/4/3/8/Info00033834/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Professional Driver with a C=E Licence",
@@ -3725,7 +4968,23 @@
           "raw": "Reform UK Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Environment, Economic Growth and Transport Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3738,7 +4997,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "clord": {
       "councillor_id": "clord",
@@ -3748,8 +5007,8 @@
       "moderngov_uid": "33837",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/7/3/8/Info00033837/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Barrister-at-law",
@@ -3772,7 +5031,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Children, Families and Skills Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Conduct Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3785,7 +5065,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cbuckley": {
       "councillor_id": "cbuckley",
@@ -3795,8 +5075,8 @@
       "moderngov_uid": "4423",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 11 Wildings Lane St Annes FY8 3RJ",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/3/2/4/Info00004423/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Senior Lecturer (spouse)",
@@ -3846,7 +5126,28 @@
           "raw": "Contribution towards campaign material & election expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit, Risk and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Conduct Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Combined County Authority - Audit and Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3859,7 +5160,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "crigby": {
       "councillor_id": "crigby",
@@ -3869,8 +5170,8 @@
       "moderngov_uid": "26580",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 6 Chislehurst Place Lytham St Annes FY8 4RU",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/0/8/5/Info00026580/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -3887,7 +5188,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Pension Fund Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3900,7 +5212,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "calderson": {
       "councillor_id": "calderson",
@@ -3910,8 +5222,8 @@
       "moderngov_uid": "33738",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/8/3/7/Info00033738/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Decorator",
@@ -3929,7 +5241,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Community, Cultural, and Corporate Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Regulatory Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Special Sub-Committee for VG110 - Determination of Town and Village Green Application - Land to the North side of Accrington Road, Whalley known as 'The Hellicliffes'",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -3942,7 +5275,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cowens": {
       "councillor_id": "cowens",
@@ -3952,8 +5285,8 @@
       "moderngov_uid": "33808",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: The Retreat 4 Cobbs Brow Lane Newburgh Lancashire WN8 7ND",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/8/0/8/Info00033808/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Northwest Management Solutions Ltd",
@@ -3988,7 +5321,18 @@
           "raw": "Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -4001,7 +5345,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cfreitas": {
       "councillor_id": "cfreitas",
@@ -4011,8 +5355,8 @@
       "moderngov_uid": "33812",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Conservative Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/2/1/8/Info00033812/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "British Coffee Association",
@@ -4058,7 +5402,23 @@
           "raw": "Election expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Health and Adult Services Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -4071,7 +5431,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cgraham": {
       "councillor_id": "cgraham",
@@ -4081,8 +5441,8 @@
       "moderngov_uid": "33825",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/5/2/8/Info00033825/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Edge Hill University",
@@ -4109,7 +5469,13 @@
           "raw": "Reform UK party has paid for all of my expenses for the election campaign, which will be submitted in due course."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -4122,7 +5488,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "cmatchett": {
       "councillor_id": "cmatchett",
@@ -4132,8 +5498,8 @@
       "moderngov_uid": "33786",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Reform UK Group Office County Hall Preston PR1 0LD",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/6/8/7/Info00033786/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Lancashire and South Cumbria NHS Trust",
@@ -4176,7 +5542,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Health and Wellbeing Board",
+          "type": "partnership",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -4189,7 +5571,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "csalter": {
       "councillor_id": "csalter",
@@ -4199,8 +5581,8 @@
       "moderngov_uid": "19502",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 29 Woburn Way Claughton-on-Brock Preston PR3 0QF",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/2/0/5/Info00019502/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -4230,7 +5612,23 @@
           "raw": "Supporting leaflets"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Lancashire Combined County Authority - Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -4243,7 +5641,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 30,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "ctomlinson": {
       "councillor_id": "ctomlinson",
@@ -4253,8 +5651,8 @@
       "moderngov_uid": "33777",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: Bilsborrow Hall Farm Preston Lancashire PR3 0RP",
-      "photo_url": "https://council.lancashire.gov.uk/UserData/7/7/7/Info00033777/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Farmer",
@@ -4302,7 +5700,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -4315,7 +5719,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     }
   }
 }

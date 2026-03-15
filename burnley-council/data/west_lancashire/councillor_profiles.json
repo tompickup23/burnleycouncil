@@ -1,25 +1,25 @@
 {
   "council_id": "west_lancashire",
-  "generated_at": "2026-02-28T02:47:58.389856Z",
+  "generated_at": "2026-03-15T01:31:36.834640Z",
   "version": "1.0",
   "total_councillors": 45,
-  "moderngov_scraped": 45,
+  "moderngov_scraped": 0,
   "sources": {
     "councillors": true,
     "register": true,
     "elections": true,
     "meetings": true,
-    "moderngov_biography": true
+    "moderngov_biography": false
   },
   "summary": {
     "with_dob": 0,
     "with_occupation": 0,
     "with_employment": 35,
     "with_land": 6,
-    "with_committees": 0,
+    "with_committees": 45,
     "with_electoral": 34,
     "avg_completeness": 45,
-    "avg_identity_confidence": 44
+    "avg_identity_confidence": 54
   },
   "councillors": {
     "gjohnson": {
@@ -30,8 +30,8 @@
       "moderngov_uid": "500000126",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 114 Nursery Avenue Ormskirk L39 2DZ",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/6/2/1/Info500000126/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Part time 9bank) Logistics Team Member",
@@ -58,7 +58,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Members Updates (Not a Meeting)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Members Update (Not a Meeting)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Members Updates (Not a Meeting)",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee Members Update (Not a Meeting)",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -71,7 +107,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "phennessy": {
       "councillor_id": "phennessy",
@@ -81,8 +117,8 @@
       "moderngov_uid": "500000136",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/6/3/1/Info500000136/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Attendant (Part-time)",
@@ -99,7 +135,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "West Lancashire Armed Forces Covenant Working Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -112,7 +174,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "slawton": {
       "councillor_id": "slawton",
@@ -122,8 +184,8 @@
       "moderngov_uid": "500000442",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/2/4/4/Info500000442/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "teacher",
@@ -140,7 +202,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -153,7 +226,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "epope": {
       "councillor_id": "epope",
@@ -163,8 +236,8 @@
       "moderngov_uid": "176",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/6/7/1/Info00000176/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Name of Employer",
@@ -192,7 +265,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Overview & Scrutiny Committee",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -205,7 +299,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "jgordon": {
       "councillor_id": "jgordon",
@@ -215,8 +309,8 @@
       "moderngov_uid": "246",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/6/4/2/Info00000246/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Name of Employer",
@@ -244,7 +338,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "West Lancashire Armed Forces Covenant Working Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2016,
         "years_in_office": 10,
@@ -257,7 +377,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "phesketh": {
       "councillor_id": "phesketh",
@@ -267,8 +387,8 @@
       "moderngov_uid": "500000454",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/4/5/4/Info500000454/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Driver / Support Worker",
@@ -295,7 +415,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -308,7 +454,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "afowler": {
       "councillor_id": "afowler",
@@ -318,8 +464,8 @@
       "moderngov_uid": "500000390",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/0/9/3/Info500000390/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Partner of Mortgage Broker. \r\nUnit 3, 5 Murray Road Huddersfield HD2 2AD",
@@ -346,7 +492,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -359,7 +531,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jabbott": {
       "councillor_id": "jabbott",
@@ -369,8 +541,8 @@
       "moderngov_uid": "500000348",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/o Democratic Services West Lancashire Borough Counci 52 Derby Street Ormskirk L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/8/4/3/Info500000348/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Name of Employer",
@@ -393,7 +565,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -406,7 +599,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "pburnside": {
       "councillor_id": "pburnside",
@@ -416,8 +609,8 @@
       "moderngov_uid": "500000392",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/o West Lancs Borough Council 52 Derby Street Ormskirk West Lancs L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/2/9/3/Info500000392/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Costs Lawyer",
@@ -443,7 +636,28 @@
         }
       ],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Landlord Services Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Overview & Scrutiny Committee",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -456,7 +670,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ieccles": {
       "councillor_id": "ieccles",
@@ -466,8 +680,8 @@
       "moderngov_uid": "500000341",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/1/4/3/Info500000341/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Name of Employer",
@@ -495,7 +709,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Members Updates (Not a Meeting)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Members Update (Not a Meeting)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Members Updates (Not a Meeting)",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -508,7 +758,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "jhoward": {
       "councillor_id": "jhoward",
@@ -518,8 +768,8 @@
       "moderngov_uid": "667",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/7/6/6/Info00000667/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -541,7 +791,43 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Members Updates (Not a Meeting)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Members Update (Not a Meeting)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Members Updates (Not a Meeting)",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -554,7 +840,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 55,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "tfreitas": {
       "councillor_id": "tfreitas",
@@ -564,8 +850,8 @@
       "moderngov_uid": "500000446",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services 52 Derby Street Ormskirk Lancashire L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/6/4/4/Info500000446/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Media & Public Affairs Manager",
@@ -599,7 +885,23 @@
           "raw": "Campaign Expenses - Lancashire Conservative Group"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Polling Districts and Polling Places Review Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -612,7 +914,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "dwest": {
       "councillor_id": "dwest",
@@ -622,14 +924,35 @@
       "moderngov_uid": "144",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/4/4/1/Info00000144/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -642,7 +965,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "nfurey": {
       "councillor_id": "nfurey",
@@ -652,8 +975,8 @@
       "moderngov_uid": "168",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/8/6/1/Info00000168/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Income Coordinator",
@@ -694,7 +1017,23 @@
           "raw": "GMB Trade Union - Election Grant"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Polling Districts and Polling Places Review Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -707,7 +1046,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "npryceroberts": {
       "councillor_id": "npryceroberts",
@@ -717,8 +1056,8 @@
       "moderngov_uid": "177",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services West Lancs Borough Council 52 Derby Street Ormskirk L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/7/7/1/Info00000177/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "University Lecturer",
@@ -760,7 +1099,28 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Landlord Services Working Group",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Tawd Valley Developments / Estates Regeneration Working Group",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -773,7 +1133,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 40,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "jingman": {
       "councillor_id": "jingman",
@@ -783,14 +1143,30 @@
       "moderngov_uid": "500000403",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/3/0/4/Info500000403/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -803,7 +1179,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "nhennessy": {
       "councillor_id": "nhennessy",
@@ -813,8 +1189,8 @@
       "moderngov_uid": "111",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/1/1/1/Info00000111/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Community Engagement Officer (Part-time)\r\nSmoke Free Sefton\r\nBurlington House, Sefton",
@@ -831,7 +1207,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -844,7 +1236,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "rmolloy": {
       "councillor_id": "rmolloy",
@@ -854,8 +1246,8 @@
       "moderngov_uid": "500000397",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/7/9/3/Info500000397/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Employee, LIverpool John Moores University",
@@ -876,7 +1268,23 @@
           "raw": "Labour Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Tawd Valley Developments / Estates Regeneration Working Group",
+          "type": "other",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -889,7 +1297,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "afennell": {
       "councillor_id": "afennell",
@@ -899,8 +1307,8 @@
       "moderngov_uid": "500000350",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services 52 Derby Street Ormskirk West Lancashire L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/0/5/3/Info500000350/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -912,7 +1320,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Members Updates (Not a Meeting)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Members Update (Not a Meeting)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Members Updates (Not a Meeting)",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -925,7 +1354,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "gdowling": {
       "councillor_id": "gdowling",
@@ -935,8 +1364,8 @@
       "moderngov_uid": "110",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services 52 Derby Street Ormskirk West Lancashire L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/0/1/1/Info00000110/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Employee, Co-operative Party",
@@ -955,7 +1384,38 @@
           "raw": "Co-operative Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Leisure Operations Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Chief Officers Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Polling Districts and Polling Places Review Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Corporate Consultative Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -968,7 +1428,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "manderson": {
       "councillor_id": "manderson",
@@ -978,8 +1438,8 @@
       "moderngov_uid": "500000399",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services 52 Derby Street, Ormskirk, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/9/9/3/Info500000399/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -998,7 +1458,33 @@
           "raw": "Cooperative Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Leisure Operations Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Overview & Scrutiny Committee",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1011,7 +1497,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "dwhittington": {
       "councillor_id": "dwhittington",
@@ -1021,8 +1507,8 @@
       "moderngov_uid": "148",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/8/4/1/Info00000148/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [
@@ -1037,7 +1523,38 @@
           "raw": "West Lancashire Conservative assoc"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Chief Officers Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Tawd Valley Developments / Estates Regeneration Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Consultative Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1050,7 +1567,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 40,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "kjuckes": {
       "councillor_id": "kjuckes",
@@ -1060,8 +1577,8 @@
       "moderngov_uid": "657",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/7/5/6/Info00000657/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "I am a Trustee of richard Durning School, Bispham",
@@ -1078,7 +1595,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Investigation & Disciplinary Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Landlord Services Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Members Updates (Not a Meeting)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Members Update (Not a Meeting)",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Members Updates (Not a Meeting)",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1091,7 +1644,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "rbailey": {
       "councillor_id": "rbailey",
@@ -1101,8 +1654,8 @@
       "moderngov_uid": "500000278",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 73 Brandreth Drive Parbold Wigan Lancashire WN8 7HD",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/8/7/2/Info500000278/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Principal Advisor",
@@ -1133,7 +1686,28 @@
           "raw": "West Lancashire Conservative Association - election expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Leisure Operations Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Overview & Scrutiny Committee",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1146,7 +1720,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "aowens": {
       "councillor_id": "aowens",
@@ -1156,8 +1730,8 @@
       "moderngov_uid": "172",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 4 Cobbs Brow Lane Newburgh Wigan WN8 7ND",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/2/7/1/Info00000172/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Director",
@@ -1183,7 +1757,43 @@
           "raw": "Our West Lancashire,79 Liverpool Road, Bickerstaffe, Ormskirk, L39 0EG"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Leisure Operations Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Chief Officers Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Investigation & Disciplinary Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Tawd Valley Developments / Estates Regeneration Working Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -1196,7 +1806,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "irigby": {
       "councillor_id": "irigby",
@@ -1206,8 +1816,8 @@
       "moderngov_uid": "500000127",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/7/2/1/Info500000127/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Director of Ixtech LTD, Bickerstaffe, L39 0EZ",
@@ -1223,7 +1833,23 @@
           "raw": "Election expenses - Our West Lancashire"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Consultative Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Overview & Scrutiny Committee",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1236,7 +1862,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "lwebster": {
       "councillor_id": "lwebster",
@@ -1246,8 +1872,8 @@
       "moderngov_uid": "500000536",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services 52 Derby Street Ormskirk West Lancs L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/6/3/5/Info500000536/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Island Park Ltd",
@@ -1314,7 +1940,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1327,7 +1969,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ablundell": {
       "councillor_id": "ablundell",
@@ -1337,8 +1979,8 @@
       "moderngov_uid": "660",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/0/6/6/Info00000660/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Estate Agent",
@@ -1355,7 +1997,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1368,7 +2026,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mmarshall": {
       "councillor_id": "mmarshall",
@@ -1378,14 +2036,25 @@
       "moderngov_uid": "157",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/7/5/1/Info00000157/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Investigation & Disciplinary Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1398,7 +2067,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "mwestley": {
       "councillor_id": "mwestley",
@@ -1408,14 +2077,40 @@
       "moderngov_uid": "146",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/6/4/1/Info00000146/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1428,7 +2123,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "mparlour": {
       "councillor_id": "mparlour",
@@ -1438,8 +2133,8 @@
       "moderngov_uid": "500000429",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/9/2/4/Info500000429/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Manchester Airports Group\r\nEarly Talent Manager",
@@ -1458,7 +2153,28 @@
           "raw": "The Co-operative Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Investigation & Disciplinary Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Executive Overview & Scrutiny Committee",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1471,7 +2187,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "tdevine": {
       "councillor_id": "tdevine",
@@ -1481,8 +2197,8 @@
       "moderngov_uid": "155",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services 52 Derby Street Ormskirk Lancashire L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/5/5/1/Info00000155/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Careafloat Childcare services,158-160 Birkrig, Digmoor shopping parade, Skelmersdale, WN8 9HY",
@@ -1503,7 +2219,33 @@
           "raw": "member of UNISON Number 22196900"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "West Lancashire Armed Forces Covenant Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Overview & Scrutiny Committee",
+          "type": "executive",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1516,7 +2258,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ygagen": {
       "councillor_id": "ygagen",
@@ -1526,8 +2268,8 @@
       "moderngov_uid": "169",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/9/6/1/Info00000169/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Employment",
@@ -1544,7 +2286,48 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Leisure Operations Working Group",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Chief Officers Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Investigation & Disciplinary Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Tawd Valley Developments / Estates Regeneration Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate Consultative Group",
+          "type": "other",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1557,7 +2340,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jfinch": {
       "councillor_id": "jfinch",
@@ -1567,8 +2350,8 @@
       "moderngov_uid": "500000056",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services 52 Derby Street Ormskirk Lancashire L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/6/5/0/Info500000056/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Name of Employer",
@@ -1596,7 +2379,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1609,7 +2403,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "taldridge": {
       "councillor_id": "taldridge",
@@ -1619,14 +2413,40 @@
       "moderngov_uid": "114",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/o Democratic Services 52 Derby Street Ormskirk West Lancs L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/4/1/1/Info00000114/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Polling Districts and Polling Places Review Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1639,7 +2459,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "vcummins": {
       "councillor_id": "vcummins",
@@ -1649,8 +2469,8 @@
       "moderngov_uid": "500000044",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/o 52 Derby Street Ormskirk West Lancs L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/4/4/0/Info500000044/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Student Engagement Manager",
@@ -1667,7 +2487,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Chief Officers Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -1680,7 +2516,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ccoughlan": {
       "councillor_id": "ccoughlan",
@@ -1690,14 +2526,40 @@
       "moderngov_uid": "500000124",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
+      "biography": null,
       "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Leisure Operations Working Group",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Policy & Resources Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Polling Districts and Polling Places Review Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1709,8 +2571,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 15,
-      "identity_confidence": 25
+      "data_completeness_pct": 20,
+      "identity_confidence": 35
     },
     "mnixon": {
       "councillor_id": "mnixon",
@@ -1720,14 +2582,35 @@
       "moderngov_uid": "162",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/2/6/1/Info00000162/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Appeals Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Landlord Services Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Tawd Valley Developments / Estates Regeneration Working Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -1740,7 +2623,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "phogan": {
       "councillor_id": "phogan",
@@ -1750,8 +2633,8 @@
       "moderngov_uid": "500000412",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services 52 Derby Street Ormskirk West Lancs L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/2/1/4/Info500000412/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "West Lancashire College (Newcastle College Group) maingrade lect user and UCU trades union rep",
@@ -1793,7 +2676,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Corporate and Environmental Overview and Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -1806,7 +2710,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "dwestley": {
       "councillor_id": "dwestley",
@@ -1816,8 +2720,8 @@
       "moderngov_uid": "145",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/5/4/1/Info00000145/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -1833,7 +2737,48 @@
           "raw": "Southport Conservative Association - Election Expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Leisure Operations Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Chief Officers Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Tawd Valley Developments / Estates Regeneration Working Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Assessment Sub-Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Hearings Sub-Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Corporate Consultative Group",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive Overview & Scrutiny Committee",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1846,7 +2791,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jmee": {
       "councillor_id": "jmee",
@@ -1856,8 +2801,8 @@
       "moderngov_uid": "159",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/9/5/1/Info00000159/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Name of Employer",
@@ -1880,7 +2825,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Polling Districts and Polling Places Review Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2008,
         "years_in_office": 18,
@@ -1893,7 +2864,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mwitter": {
       "councillor_id": "mwitter",
@@ -1903,8 +2874,8 @@
       "moderngov_uid": "500000092",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/2/9/0/Info500000092/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Brough Councillor",
@@ -1921,7 +2892,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Landlord Services Working Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1934,7 +2921,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 40
+      "identity_confidence": 50
     },
     "gowen": {
       "councillor_id": "gowen",
@@ -1944,14 +2931,50 @@
       "moderngov_uid": "173",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/3/7/1/Info00000173/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Chair"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Corporate Consultative Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2012,
         "years_in_office": 14,
@@ -1964,7 +2987,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "jfillis": {
       "councillor_id": "jfillis",
@@ -1974,8 +2997,8 @@
       "moderngov_uid": "500000271",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/1/7/2/Info500000271/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
@@ -1991,7 +3014,28 @@
           "raw": "Co op"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing & Gambling Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Licensing & Gambling Sub-Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Executive Overview & Scrutiny Committee",
+          "type": "executive",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -2004,7 +3048,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 35,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "spatel": {
       "councillor_id": "spatel",
@@ -2014,8 +3058,8 @@
       "moderngov_uid": "430",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/O Democratic Services, 52 Derby Street, Ormskirk, Lancashire, L39 2DF",
-      "photo_url": "https://democracy.westlancs.gov.uk/UserData/0/3/4/Info00000430/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Director",
@@ -2032,7 +3076,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit & Governance Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -2045,7 +3105,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 50,
-      "identity_confidence": 50
+      "identity_confidence": 60
     }
   }
 }

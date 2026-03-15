@@ -1,25 +1,25 @@
 {
   "council_id": "burnley",
-  "generated_at": "2026-02-28T02:42:37.262555Z",
+  "generated_at": "2026-03-15T01:31:36.750698Z",
   "version": "1.0",
   "total_councillors": 45,
-  "moderngov_scraped": 45,
+  "moderngov_scraped": 0,
   "sources": {
     "councillors": true,
     "register": true,
     "elections": true,
     "meetings": true,
-    "moderngov_biography": true
+    "moderngov_biography": false
   },
   "summary": {
     "with_dob": 0,
     "with_occupation": 0,
     "with_employment": 42,
     "with_land": 43,
-    "with_committees": 0,
+    "with_committees": 45,
     "with_electoral": 43,
     "avg_completeness": 59,
-    "avg_identity_confidence": 49
+    "avg_identity_confidence": 59
   },
   "councillors": {
     "aanwar": {
@@ -30,8 +30,8 @@
       "moderngov_uid": "316",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/6/1/3/Info00000316/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Community Team Leader , Lancashire County Council, Education Improvement",
@@ -64,7 +64,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Burnley Town Board (Pride in Place)",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -77,7 +103,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "lkhan": {
       "councillor_id": "lkhan",
@@ -87,8 +113,8 @@
       "moderngov_uid": "147",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/7/4/1/Info00000147/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Curantis Healthcare Ltd",
@@ -131,7 +157,38 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Burnley Town Board (Pride in Place)",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2016,
         "years_in_office": 10,
@@ -144,7 +201,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 65,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "slone": {
       "councillor_id": "slone",
@@ -154,8 +211,8 @@
       "moderngov_uid": "408",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Burnley Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/8/0/4/Info00000408/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -167,7 +224,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -180,7 +263,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 45,
-      "identity_confidence": 35
+      "identity_confidence": 45
     },
     "akelly": {
       "councillor_id": "akelly",
@@ -190,8 +273,8 @@
       "moderngov_uid": "145",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/5/4/1/Info00000145/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -224,7 +307,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -237,7 +351,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "glishman": {
       "councillor_id": "glishman",
@@ -247,8 +361,8 @@
       "moderngov_uid": "321",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/1/2/3/Info00000321/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Unite the Union, retired member",
@@ -275,7 +389,18 @@
           "raw": "Contribution from Burnley Liberal Democrats to election expenses."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -288,7 +413,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mlishman": {
       "councillor_id": "mlishman",
@@ -298,8 +423,8 @@
       "moderngov_uid": "149",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/9/4/1/Info00000149/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Liberal Democrats",
@@ -322,7 +447,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2008,
         "years_in_office": 18,
@@ -335,7 +486,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "csollis": {
       "councillor_id": "csollis",
@@ -345,8 +496,8 @@
       "moderngov_uid": "542",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 216 Brownhill Avenue Burnley BB10 4QH",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/2/4/5/Info00000542/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Business Manager, Vanguard Community Cecntre",
@@ -379,7 +530,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -392,7 +564,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mtownsend": {
       "councillor_id": "mtownsend",
@@ -402,8 +574,8 @@
       "moderngov_uid": "165",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/5/6/1/Info00000165/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -494,7 +666,23 @@
           "raw": "Co-Operative Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2011,
         "years_in_office": 15,
@@ -507,7 +695,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 65,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ssproule": {
       "councillor_id": "ssproule",
@@ -517,8 +705,8 @@
       "moderngov_uid": "691",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/1/9/6/Info00000691/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Community Resuscitation and Engagement Manager for Cheshire, Mersey and Greater manchester @ Northwest Ambulance service NHS trust",
@@ -550,7 +738,23 @@
           "raw": "Labour Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -563,7 +767,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "bhughes": {
       "councillor_id": "bhughes",
@@ -573,8 +777,8 @@
       "moderngov_uid": "620",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Burnley Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/0/2/6/Info00000620/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Blaze arts",
@@ -612,7 +816,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -625,7 +860,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "iemo": {
       "councillor_id": "iemo",
@@ -635,8 +870,8 @@
       "moderngov_uid": "291",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/1/9/2/Info00000291/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Conservative Party",
@@ -658,7 +893,33 @@
           "raw": "Conservative Association election expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2018,
         "years_in_office": 8,
@@ -671,7 +932,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jlauner": {
       "councillor_id": "jlauner",
@@ -681,8 +942,8 @@
       "moderngov_uid": "543",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: c/o Burnley Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/3/4/5/Info00000543/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Nouvita Heallthcare - Business Development Manager",
@@ -720,7 +981,33 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -733,7 +1020,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 65,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "gbirtwistle": {
       "councillor_id": "gbirtwistle",
@@ -743,8 +1030,8 @@
       "moderngov_uid": "128",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/8/2/1/Info00000128/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -772,7 +1059,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2006,
         "years_in_office": 20,
@@ -785,7 +1093,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "hbaker": {
       "councillor_id": "hbaker",
@@ -795,8 +1103,8 @@
       "moderngov_uid": "122",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/2/2/1/Info00000122/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Excalibur Web Support Limited",
@@ -838,7 +1146,28 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Executive",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -851,7 +1180,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 65,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jinckle": {
       "councillor_id": "jinckle",
@@ -861,8 +1190,8 @@
       "moderngov_uid": "500",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/0/0/5/Info00000500/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Teaching Assistant\r\nRosewood Primary School",
@@ -885,7 +1214,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -898,7 +1258,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "nkazmi": {
       "councillor_id": "nkazmi",
@@ -908,8 +1268,8 @@
       "moderngov_uid": "621",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 123 Barden Lane BB10 1JF",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/1/2/6/Info00000621/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Lecturer",
@@ -952,7 +1312,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -965,7 +1356,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "schaudhary": {
       "councillor_id": "schaudhary",
@@ -975,8 +1366,8 @@
       "moderngov_uid": "129",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/9/2/1/Info00000129/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -999,7 +1390,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2012,
         "years_in_office": 14,
@@ -1012,7 +1434,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "shussain": {
       "councillor_id": "shussain",
@@ -1022,8 +1444,8 @@
       "moderngov_uid": "142",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/2/4/1/Info00000142/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Employment Specialist",
@@ -1056,7 +1478,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2010,
         "years_in_office": 16,
@@ -1069,7 +1512,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "cbriggs": {
       "councillor_id": "cbriggs",
@@ -1079,8 +1522,8 @@
       "moderngov_uid": "125",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/5/2/1/Info00000125/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "B and M Engineering Supplies Ltd",
@@ -1113,7 +1556,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -1126,7 +1600,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ghaigh": {
       "councillor_id": "ghaigh",
@@ -1136,8 +1610,8 @@
       "moderngov_uid": "692",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Town Hall, Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/2/9/6/Info00000692/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Office Manager for Oliver Ryan MP",
@@ -1192,7 +1666,38 @@
           "raw": "The Co-Operative Party - Contribution towards election expenses"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -1205,7 +1710,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "nmottershead": {
       "councillor_id": "nmottershead",
@@ -1215,8 +1720,8 @@
       "moderngov_uid": "153",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/3/5/1/Info00000153/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Conservative Party",
@@ -1234,7 +1739,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2010,
         "years_in_office": 16,
@@ -1247,7 +1763,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "alewis": {
       "councillor_id": "alewis",
@@ -1257,8 +1773,8 @@
       "moderngov_uid": "477",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 16 Grasmere Avenue Padiham BB12 8PG",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/7/7/4/Info00000477/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Case Worker for Oliver Ryan MP, 5 Grimshaw Street, Burnley, BB11 2AS",
@@ -1300,7 +1816,23 @@
           "raw": "Labour Party paid for my election expenses when I last stood for election."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -1313,7 +1845,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "bdole": {
       "councillor_id": "bdole",
@@ -1323,8 +1855,8 @@
       "moderngov_uid": "693",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 154 Victoria Road, Padiham, Burnley, BB12 8TA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/3/9/6/Info00000693/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Part time work Blackburn College",
@@ -1356,7 +1888,33 @@
           "raw": "Expenses/campaign paid by Labour Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -1369,7 +1927,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jharbour": {
       "councillor_id": "jharbour",
@@ -1379,8 +1937,8 @@
       "moderngov_uid": "138",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/8/3/1/Info00000138/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "The Labour Party\r\nUnison Retired Members Section",
@@ -1417,7 +1975,23 @@
           "raw": "The Labour Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2007,
         "years_in_office": 19,
@@ -1430,7 +2004,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 65,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ahosker": {
       "councillor_id": "ahosker",
@@ -1440,8 +2014,8 @@
       "moderngov_uid": "141",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/1/4/1/Info00000141/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Reform UK",
@@ -1459,7 +2033,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -1472,7 +2067,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jmcgowan": {
       "councillor_id": "jmcgowan",
@@ -1482,8 +2077,8 @@
       "moderngov_uid": "544",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/4/4/5/Info00000544/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Director McGowan Media",
@@ -1520,7 +2115,33 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Burnley Town Board (Pride in Place)",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -1533,7 +2154,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 65,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jbroughton": {
       "councillor_id": "jbroughton",
@@ -1543,8 +2164,8 @@
       "moderngov_uid": "622",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Burnley Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/2/2/6/Info00000622/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Business Control Manager for Iconic Media",
@@ -1572,7 +2193,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -1585,7 +2227,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "awaddington": {
       "councillor_id": "awaddington",
@@ -1595,8 +2237,8 @@
       "moderngov_uid": "694",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Burnley Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/4/9/6/Info00000694/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Spillard Safety Systems Ltd\r\nSales Manager",
@@ -1628,7 +2270,38 @@
           "raw": "Labour Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -1641,7 +2314,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "sahmed": {
       "councillor_id": "sahmed",
@@ -1651,14 +2324,35 @@
       "moderngov_uid": "766",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 31 Highfield Avenue Burnley BB10 2PS",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/6/6/7/Info00000766/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1671,7 +2365,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "sgraham": {
       "councillor_id": "sgraham",
@@ -1681,8 +2375,8 @@
       "moderngov_uid": "136",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/6/3/1/Info00000136/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -1731,7 +2425,23 @@
           "raw": "Unison"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -1744,7 +2454,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 65,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "aali": {
       "councillor_id": "aali",
@@ -1754,8 +2464,8 @@
       "moderngov_uid": "695",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/5/9/6/Info00000695/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Self employed taxi driver",
@@ -1803,7 +2513,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -1816,7 +2542,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mishtiaq": {
       "councillor_id": "mishtiaq",
@@ -1826,8 +2552,8 @@
       "moderngov_uid": "143",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/3/4/1/Info00000143/bigpic.png",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Curantis Healthcare (Director & 50% shareholder)",
@@ -1880,7 +2606,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Chair"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -1893,7 +2635,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mparvez": {
       "councillor_id": "mparvez",
@@ -1903,14 +2645,25 @@
       "moderngov_uid": "767",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Burnley Council Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/7/6/7/Info00000767/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [],
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1923,7 +2676,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 20,
-      "identity_confidence": 25
+      "identity_confidence": 35
     },
     "abrown": {
       "councillor_id": "abrown",
@@ -1933,8 +2686,8 @@
       "moderngov_uid": "696",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/6/9/6/Info00000696/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Unison Lancashire",
@@ -1981,7 +2734,38 @@
           "raw": "Burnley Labour Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -1994,7 +2778,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "gbarton": {
       "councillor_id": "gbarton",
@@ -2004,8 +2788,8 @@
       "moderngov_uid": "547",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 9 Carlton Road Burnley BB11 4JE",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/7/4/5/Info00000547/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Lancashire Constabulary - Financial Investigator",
@@ -2048,7 +2832,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -2061,7 +2861,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "preynolds": {
       "councillor_id": "preynolds",
@@ -2071,8 +2871,8 @@
       "moderngov_uid": "159",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/9/5/1/Info00000159/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Neighbourhood Group Worker\r\nChildren and Family Wellbeing Service \r\nLancashire County Council \r\nBurnleyWood CFW\r\nBrunswick Street Burnley\r\npaid employment",
@@ -2100,7 +2900,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Chair"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -2113,7 +2924,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "bhorrocks": {
       "councillor_id": "bhorrocks",
@@ -2123,8 +2934,8 @@
       "moderngov_uid": "598",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 18 Sussex Street Burnley BB11 3NQ",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/8/9/5/Info00000598/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Freelance trainer Health and Social Care Tina Training Initiatives",
@@ -2161,7 +2972,23 @@
           "raw": "Labour Party Member\r\nFees paid by Labour Party"
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -2174,7 +3001,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "jsumner": {
       "councillor_id": "jsumner",
@@ -2184,8 +3011,8 @@
       "moderngov_uid": "162",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/2/6/1/Info00000162/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Burnley Council",
@@ -2218,7 +3045,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2006,
         "years_in_office": 20,
@@ -2231,7 +3084,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mbrindle": {
       "councillor_id": "mbrindle",
@@ -2241,8 +3094,8 @@
       "moderngov_uid": "124",
       "dob": null,
       "occupation": null,
-      "biography": "Burnley Borough Council is not responsible for the content of any external link",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/4/2/1/Info00000124/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -2270,7 +3123,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -2283,7 +3157,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "ahall": {
       "councillor_id": "ahall",
@@ -2293,8 +3167,8 @@
       "moderngov_uid": "659",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: C/o Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/9/5/6/Info00000659/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Barista. Part time at Little Barista, Charter Walk, Burnley",
@@ -2317,7 +3191,33 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -2330,7 +3230,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "hbridges": {
       "councillor_id": "hbridges",
@@ -2340,8 +3240,8 @@
       "moderngov_uid": "624",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 45 Printers Fold Burnley BB12 6PH",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/4/2/6/Info00000624/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Violinist. Full-time employee of the Halle Concerts Society",
@@ -2384,7 +3284,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -2397,7 +3318,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "mhurt": {
       "councillor_id": "mhurt",
@@ -2407,8 +3328,8 @@
       "moderngov_uid": "503",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Burnley Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/3/0/5/Info00000503/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Burnley Leisure and Culture Trustee",
@@ -2446,7 +3367,28 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -2459,7 +3401,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 65,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "dwhitaker": {
       "councillor_id": "dwhitaker",
@@ -2469,8 +3411,8 @@
       "moderngov_uid": "504",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 12 Cartmel Drive Burnley BB12 8UX",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/4/0/5/Info00000504/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Director Mcgowan Media",
@@ -2508,7 +3450,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Audit and Standards Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Act 2003 Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi Licensing Sub Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -2521,7 +3494,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "lashworth": {
       "councillor_id": "lashworth",
@@ -2531,8 +3504,8 @@
       "moderngov_uid": "625",
       "dob": null,
       "occupation": null,
-      "biography": "Correspondence address: c/o Burnley Town Hall Manchester Road Burnley BB11 9SA",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/5/2/6/Info00000625/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Manchester Airport",
@@ -2555,7 +3528,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -2568,7 +3552,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     },
     "msteel": {
       "councillor_id": "msteel",
@@ -2578,8 +3562,8 @@
       "moderngov_uid": "546",
       "dob": null,
       "occupation": null,
-      "biography": "Home address: 418 Burnley Road Cliviger BB10 4SU",
-      "photo_url": "https://burnley.moderngov.co.uk/UserData/6/4/5/Info00000546/bigpic.jpg",
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Randstad - client partner recruitment",
@@ -2607,7 +3591,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Development Control Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Full Council",
+          "type": "full_council",
+          "role": "Member"
+        },
+        {
+          "committee": "Member Training",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Scrutiny Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -2620,7 +3625,7 @@
         "swing_trend": null
       },
       "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "identity_confidence": 60
     }
   }
 }

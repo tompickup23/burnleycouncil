@@ -1,25 +1,25 @@
 {
   "council_id": "preston",
-  "generated_at": "2026-02-28T02:47:09.053769Z",
+  "generated_at": "2026-03-15T01:31:36.821663Z",
   "version": "1.0",
   "total_councillors": 48,
-  "moderngov_scraped": 48,
+  "moderngov_scraped": 0,
   "sources": {
     "councillors": true,
     "register": true,
     "elections": true,
     "meetings": true,
-    "moderngov_biography": true
+    "moderngov_biography": false
   },
   "summary": {
     "with_dob": 0,
-    "with_occupation": 48,
+    "with_occupation": 0,
     "with_employment": 47,
     "with_land": 42,
-    "with_committees": 0,
+    "with_committees": 48,
     "with_electoral": 36,
-    "avg_completeness": 67,
-    "avg_identity_confidence": 47
+    "avg_completeness": 57,
+    "avg_identity_confidence": 57
   },
   "councillors": {
     "jhull": {
@@ -29,9 +29,9 @@
       "party": "Labour",
       "moderngov_uid": "123",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/3/2/1/Info00000123/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "HMRC",
@@ -77,7 +77,28 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Crime and Disorder Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -89,8 +110,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "matkins": {
       "councillor_id": "matkins",
@@ -99,9 +120,9 @@
       "party": "Ashton Independent",
       "moderngov_uid": "50000158",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 38 James Street Preston PR1 4JU",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/8/5/1/Info50000158/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "None.",
@@ -137,7 +158,23 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Management Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Crime and Disorder Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -149,8 +186,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 60,
-      "identity_confidence": 40
+      "data_completeness_pct": 50,
+      "identity_confidence": 50
     },
     "rhodgson": {
       "councillor_id": "rhodgson",
@@ -159,9 +196,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "50000934",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 28 Victoria Quay Ashton Preston PR2 2YW",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/4/3/9/Info50000934/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Lib Dem Party Organiser",
@@ -173,7 +210,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -185,8 +228,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "data_completeness_pct": 35,
+      "identity_confidence": 50
     },
     "mclose": {
       "councillor_id": "mclose",
@@ -195,9 +238,9 @@
       "party": "Labour",
       "moderngov_uid": "50000742",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/2/4/7/Info50000742/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Disability Equality (NW) LTD",
@@ -250,7 +293,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -262,8 +311,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "nmcmahon": {
       "councillor_id": "nmcmahon",
@@ -272,9 +321,9 @@
       "party": "Labour",
       "moderngov_uid": "50000743",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/3/4/7/Info50000743/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Lancaster University",
@@ -315,7 +364,23 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -327,8 +392,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "sholmes": {
       "councillor_id": "sholmes",
@@ -337,9 +402,9 @@
       "party": "Labour",
       "moderngov_uid": "50000865",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: c/o Resources Department Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/5/6/8/Info50000865/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Solicitor",
@@ -367,7 +432,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Management Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -379,8 +465,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "dgregg": {
       "councillor_id": "dgregg",
@@ -389,9 +475,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "50000565",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road PR5 4NB",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/5/6/5/Info50000565/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Operations and Leadership Administrator",
@@ -408,7 +494,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -420,8 +512,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "data_completeness_pct": 35,
+      "identity_confidence": 50
     },
     "jpotter": {
       "councillor_id": "jpotter",
@@ -430,9 +522,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "1201",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 26 Aldwych Drive Preston PR2 1SJ",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/1/0/2/Info00001201/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Video Cameraman/ Editor (John Potter Film)",
@@ -493,7 +585,38 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Management Committee",
+          "type": "scrutiny",
+          "role": "Chair"
+        },
+        {
+          "committee": "Central Lancashire Strategic Planning Joint Advisory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Guild Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Ad-Hoc Task and Finish Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2012,
         "years_in_office": 14,
@@ -505,8 +628,8 @@
         "elections_fought": 4,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "jmierlo": {
       "councillor_id": "jmierlo",
@@ -515,9 +638,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "50000867",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 1 Rosewood Preston PR4 0NN",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/7/6/8/Info50000867/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Registered Nurse at North Preston Medical Practice",
@@ -535,7 +658,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Crime and Disorder Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -547,8 +681,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "chenshaw": {
       "councillor_id": "chenshaw",
@@ -557,9 +691,9 @@
       "party": "Independent",
       "moderngov_uid": "50000506",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/6/0/5/Info50000506/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Information supplied to Member Services",
@@ -577,7 +711,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Guild Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Revenues and Benefits Service Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -589,8 +744,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "lbrooks": {
       "councillor_id": "lbrooks",
@@ -599,9 +754,9 @@
       "party": "Labour",
       "moderngov_uid": "50000419",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/9/1/4/Info50000419/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Pier House - Anglesey",
@@ -642,7 +797,23 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Management Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -654,8 +825,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "sdesai": {
       "councillor_id": "sdesai",
@@ -664,9 +835,9 @@
       "party": "Labour",
       "moderngov_uid": "778",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 55 Frenchwood Street Preston PR1 3SU",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/8/7/7/Info00000778/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Royal Mail Engineers",
@@ -724,7 +895,38 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Revenues and Benefits Service Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -736,8 +938,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "svohra": {
       "councillor_id": "svohra",
@@ -746,9 +948,9 @@
       "party": "Labour",
       "moderngov_uid": "50000806",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/6/0/8/Info50000806/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Stonyhill Medical Practice",
@@ -796,7 +998,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Management Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -808,8 +1031,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "snatha": {
       "councillor_id": "snatha",
@@ -818,9 +1041,9 @@
       "party": "Labour",
       "moderngov_uid": "50000564",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/4/6/5/Info50000564/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Self Employed Consultany Work (various clients)",
@@ -879,7 +1102,23 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -891,8 +1130,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "zcoupland": {
       "councillor_id": "zcoupland",
@@ -901,9 +1140,9 @@
       "party": "Labour",
       "moderngov_uid": "50000265",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/5/6/2/Info50000265/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Sahara-in-Preston",
@@ -926,7 +1165,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Revenues and Benefits Service Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -938,8 +1193,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "mrawlinson": {
       "councillor_id": "mrawlinson",
@@ -948,9 +1203,9 @@
       "party": "Labour",
       "moderngov_uid": "169",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 13 Fermor Road Preston PR1 4TX",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/9/6/1/Info00000169/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Department for Work and Pensions (DWP)",
@@ -1014,7 +1269,28 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Guild Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Shared Revenues and Benefits Service Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2008,
         "years_in_office": 18,
@@ -1026,8 +1302,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "vwise": {
       "councillor_id": "vwise",
@@ -1036,9 +1312,9 @@
       "party": "Labour",
       "moderngov_uid": "50000744",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/4/4/7/Info50000744/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [],
       "land": [
         {
@@ -1050,7 +1326,48 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Revenues and Benefits Service Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi and Miscellaneous Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1062,8 +1379,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 40,
-      "identity_confidence": 25
+      "data_completeness_pct": 30,
+      "identity_confidence": 35
     },
     "ypatel": {
       "councillor_id": "ypatel",
@@ -1072,9 +1389,9 @@
       "party": "Labour",
       "moderngov_uid": "1435",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/5/3/4/Info00001435/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -1105,7 +1422,18 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Crime and Disorder Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1117,8 +1445,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 60,
-      "identity_confidence": 40
+      "data_completeness_pct": 50,
+      "identity_confidence": 50
     },
     "aafzal": {
       "councillor_id": "aafzal",
@@ -1127,9 +1455,9 @@
       "party": "Labour",
       "moderngov_uid": "50000745",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/5/4/7/Info50000745/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "DJ UK / Dunlop Jacobs UK",
@@ -1190,7 +1518,33 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Central Lancashire Strategic Planning Joint Advisory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Revenues and Benefits Service Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -1202,8 +1556,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "fbailey": {
       "councillor_id": "fbailey",
@@ -1212,9 +1566,9 @@
       "party": "Labour",
       "moderngov_uid": "50000498",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 96 Victoria Road Fulwood Preston PR2 8NN",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/8/9/4/Info50000498/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Full time employment - Lancashire County Council",
@@ -1242,7 +1596,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Revenues and Benefits Service Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1254,8 +1629,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "pkelly": {
       "councillor_id": "pkelly",
@@ -1264,9 +1639,9 @@
       "party": "Labour",
       "moderngov_uid": "50000269",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 1 Connaught Road Preston PR1 8EX",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/9/6/2/Info50000269/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Being Real Workplace Mental Health Solutions",
@@ -1302,7 +1677,23 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1314,8 +1705,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "fduke": {
       "councillor_id": "fduke",
@@ -1324,9 +1715,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "50000746",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/6/4/7/Info50000746/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Flood and Coastal Erosion Risk Manager (Lancs)",
@@ -1354,7 +1745,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Management Committee",
+          "type": "scrutiny",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -1366,8 +1768,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "mpeak": {
       "councillor_id": "mpeak",
@@ -1376,9 +1778,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "50000868",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 50 Maudland Bank Preston PR1 2YL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/8/6/8/Info50000868/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -1419,7 +1821,43 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Crime and Disorder Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi and Miscellaneous Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -1431,8 +1869,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "traisbeck": {
       "councillor_id": "traisbeck",
@@ -1441,9 +1879,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "50000566",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 39 The Turnpike Fulwood Preston PR2 3NT",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/6/6/5/Info50000566/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Self Employed Sales Agent",
@@ -1479,7 +1917,38 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Management Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi and Miscellaneous Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1491,8 +1960,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "bward": {
       "councillor_id": "bward",
@@ -1501,9 +1970,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "50000870",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 27 Millersgate Cottam Preston PR4 0NZ",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/0/7/8/Info50000870/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Teacher",
@@ -1541,7 +2010,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1553,8 +2033,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 55,
-      "identity_confidence": 40
+      "data_completeness_pct": 45,
+      "identity_confidence": 50
     },
     "jrutter": {
       "councillor_id": "jrutter",
@@ -1563,9 +2043,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "50000807",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: Hunters Lodge Mellings Fold Preston PR1 4PD",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/7/0/8/Info50000807/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Teacher",
@@ -1603,7 +2083,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Central Lancashire Strategic Planning Joint Advisory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1615,8 +2111,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 55,
-      "identity_confidence": 40
+      "data_completeness_pct": 45,
+      "identity_confidence": 50
     },
     "ndarby": {
       "councillor_id": "ndarby",
@@ -1625,9 +2121,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "50000267",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 28 Spindle Road Cottam Preston PR4 0PU",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/7/6/2/Info50000267/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Admin and Marketing Co-ordinator",
@@ -1655,7 +2151,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2014,
         "years_in_office": 12,
@@ -1667,8 +2174,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "mjewell": {
       "councillor_id": "mjewell",
@@ -1677,9 +2184,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "399",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 42 Layton Road Ashton Preston PR2 1PU",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/9/9/3/Info00000399/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "BAE Systems PLC, Warton Aerodrome",
@@ -1702,7 +2209,28 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2006,
         "years_in_office": 20,
@@ -1714,8 +2242,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "pcrowe": {
       "councillor_id": "pcrowe",
@@ -1724,9 +2252,9 @@
       "party": "Labour",
       "moderngov_uid": "1125",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 155 Waterloo Road Ashton Preston PR2 1EP",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/5/2/1/Info00001125/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Unite the Union",
@@ -1768,7 +2296,38 @@
         }
       ],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi and Miscellaneous Committee",
+          "type": "licensing",
+          "role": "Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2010,
         "years_in_office": 16,
@@ -1780,8 +2339,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "slittle": {
       "councillor_id": "slittle",
@@ -1790,9 +2349,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "50000877",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 97 Ashton Bank Way Preston PR2 1BZ",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/7/7/8/Info50000877/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Regional Sales Manager",
@@ -1830,7 +2389,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -1842,8 +2412,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 55,
-      "identity_confidence": 40
+      "data_completeness_pct": 45,
+      "identity_confidence": 50
     },
     "mbrown": {
       "councillor_id": "mbrown",
@@ -1852,9 +2422,9 @@
       "party": "Labour",
       "moderngov_uid": "117",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/7/1/1/Info00000117/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Senior Fellow for the Promotion of Community Wealth Building for the Democracy Collaborative",
@@ -1900,7 +2470,28 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Chair"
+        },
+        {
+          "committee": "Chief Officer Employment Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Shared Revenues and Benefits Service Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1912,8 +2503,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "nkhan": {
       "councillor_id": "nkhan",
@@ -1922,9 +2513,9 @@
       "party": "Labour",
       "moderngov_uid": "50000504",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 5 Glencourse Drive Fulwood Preston PR2 6AF",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/4/0/5/Info50000504/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Fostering Panel Member - Community Fster Care",
@@ -1967,7 +2558,38 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Shared Revenues and Benefits Service Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi and Miscellaneous Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Ad-Hoc Task and Finish Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -1979,8 +2601,8 @@
         "elections_fought": 3,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "pakhtar": {
       "councillor_id": "pakhtar",
@@ -1989,9 +2611,9 @@
       "party": "Labour",
       "moderngov_uid": "50000568",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/8/6/5/Info50000568/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Chief Diversity and Inclusion Officer, NHS Blood and Transplant",
@@ -2027,7 +2649,28 @@
           "raw": "Not applicable."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Crime and Disorder Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Taxi and Miscellaneous Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -2039,8 +2682,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "hlandless": {
       "councillor_id": "hlandless",
@@ -2049,9 +2692,9 @@
       "party": "Conservative",
       "moderngov_uid": "50000562",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 1 The Croft Goosnargh Preston PR3 2BT",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/2/6/5/Info50000562/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Tap and Tales, 853 Whittingham Lane, Gosnargh, PR3 2AU",
@@ -2102,7 +2745,33 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Management Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Central Lancashire Strategic Planning Joint Advisory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -2114,8 +2783,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "mbell": {
       "councillor_id": "mbell",
@@ -2124,9 +2793,9 @@
       "party": "Conservative",
       "moderngov_uid": "50000809",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 5 Fulmar Avenue Broughton PR3 5NB",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/9/0/8/Info50000809/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Project Manager",
@@ -2168,7 +2837,18 @@
       ],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi and Miscellaneous Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -2180,8 +2860,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "swhittam": {
       "councillor_id": "swhittam",
@@ -2190,9 +2870,9 @@
       "party": "Conservative",
       "moderngov_uid": "50000747",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 3 Hazelmere Road Fulwood Preston PR2 9UN",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/7/4/7/Info50000747/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Operations Manager",
@@ -2235,7 +2915,23 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Employment Committee",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2022,
         "years_in_office": 4,
@@ -2247,8 +2943,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "dguise": {
       "councillor_id": "dguise",
@@ -2257,9 +2953,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "50000864",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 1 Mayfield Catforth Road Catforth Preston PR4 0HH",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/4/6/8/Info50000864/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Democratic Services Officer",
@@ -2334,7 +3030,33 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -2346,8 +3068,8 @@
         "elections_fought": 4,
         "swing_trend": null
       },
-      "data_completeness_pct": 65,
-      "identity_confidence": 50
+      "data_completeness_pct": 55,
+      "identity_confidence": 60
     },
     "mwhittam": {
       "councillor_id": "mwhittam",
@@ -2356,9 +3078,9 @@
       "party": "Conservative",
       "moderngov_uid": "50000268",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 3 Hazelmere Road Fulwood Preston PR2 9UN",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/8/6/2/Info50000268/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Grimsargh Parish Council",
@@ -2396,7 +3118,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Ad-Hoc Task and Finish Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2408,8 +3141,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 55,
-      "identity_confidence": 40
+      "data_completeness_pct": 45,
+      "identity_confidence": 50
     },
     "sthompson": {
       "councillor_id": "sthompson",
@@ -2418,9 +3151,9 @@
       "party": "Reform UK",
       "moderngov_uid": "627",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: Kiln Lodge Station Lane Barton PR3 5DX",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/7/2/6/Info00000627/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Retired",
@@ -2457,7 +3190,28 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2015,
         "years_in_office": 11,
@@ -2469,8 +3223,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "ahindle": {
       "councillor_id": "ahindle",
@@ -2479,9 +3233,9 @@
       "party": "Labour",
       "moderngov_uid": "50000500",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/0/0/5/Info50000500/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Husband - Specialist Biomedical Scientist",
@@ -2519,7 +3273,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        },
+        {
+          "committee": "Guild Committee",
+          "type": "other",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Shared Revenues and Benefits Service Joint Committee",
+          "type": "partnership",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2021,
         "years_in_office": 5,
@@ -2531,8 +3306,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "jsaksena": {
       "councillor_id": "jsaksena",
@@ -2541,9 +3316,9 @@
       "party": "Labour",
       "moderngov_uid": "173",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 67 Windsor Avenue Ashton Preston PR2 1JD",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/3/7/1/Info00000173/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "None.",
@@ -2579,7 +3354,38 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Management Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Crime and Disorder Committee",
+          "type": "other",
+          "role": "Chair"
+        },
+        {
+          "committee": "Guild Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Ad-Hoc Task and Finish Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2010,
         "years_in_office": 16,
@@ -2591,8 +3397,8 @@
         "elections_fought": 5,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "pvarty": {
       "councillor_id": "pvarty",
@@ -2601,9 +3407,9 @@
       "party": "Labour",
       "moderngov_uid": "50000808",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 49 Pope Lane Ribbleton Preston PR2 6HB",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/8/0/8/Info50000808/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Registered Carer",
@@ -2630,7 +3436,43 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Overview and Scrutiny Management Committee",
+          "type": "scrutiny",
+          "role": "Member"
+        },
+        {
+          "committee": "Crime and Disorder Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Guild Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Standards Committee",
+          "type": "audit",
+          "role": "Chair"
+        },
+        {
+          "committee": "Taxi and Miscellaneous Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -2642,8 +3484,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "data_completeness_pct": 50,
+      "identity_confidence": 60
     },
     "cdwyer": {
       "councillor_id": "cdwyer",
@@ -2652,9 +3494,9 @@
       "party": "Labour",
       "moderngov_uid": "50000810",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/0/1/8/Info50000810/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Parliamentary Caseworker",
@@ -2671,7 +3513,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Chair"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi and Miscellaneous Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2023,
         "years_in_office": 3,
@@ -2683,8 +3546,8 @@
         "elections_fought": 1,
         "swing_trend": null
       },
-      "data_completeness_pct": 60,
-      "identity_confidence": 50
+      "data_completeness_pct": 50,
+      "identity_confidence": 60
     },
     "gkulbacki": {
       "councillor_id": "gkulbacki",
@@ -2693,9 +3556,9 @@
       "party": "Liberal Democrats",
       "moderngov_uid": "50000866",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 23 Yewlands Drive Fulwood Preston PR2 9QT",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/6/6/8/Info50000866/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Tutor",
@@ -2733,7 +3596,28 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Crime and Disorder Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Guild Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi and Miscellaneous Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2024,
         "years_in_office": 2,
@@ -2745,8 +3629,8 @@
         "elections_fought": 5,
         "swing_trend": null
       },
-      "data_completeness_pct": 70,
-      "identity_confidence": 50
+      "data_completeness_pct": 60,
+      "identity_confidence": 60
     },
     "mgreen": {
       "councillor_id": "mgreen",
@@ -2755,9 +3639,9 @@
       "party": "Conservative",
       "moderngov_uid": "50000572",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Department Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/2/7/5/Info50000572/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "PhD Student",
@@ -2808,7 +3692,48 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Central Lancashire Strategic Planning Joint Advisory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Crime and Disorder Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Guild Committee",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Taxi and Miscellaneous Committee",
+          "type": "licensing",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": 2019,
         "years_in_office": 7,
@@ -2820,8 +3745,8 @@
         "elections_fought": 2,
         "swing_trend": null
       },
-      "data_completeness_pct": 75,
-      "identity_confidence": 50
+      "data_completeness_pct": 65,
+      "identity_confidence": 60
     },
     "jmorgan": {
       "councillor_id": "jmorgan",
@@ -2830,9 +3755,9 @@
       "party": "Labour",
       "moderngov_uid": "50000420",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 13 Fermor Road Preston PR1 4TX",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/0/2/4/Info50000420/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Branch Customer Service Consultant",
@@ -2849,7 +3774,13 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2861,8 +3792,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 45,
-      "identity_confidence": 40
+      "data_completeness_pct": 35,
+      "identity_confidence": 50
     },
     "jiqbal": {
       "councillor_id": "jiqbal",
@@ -2871,9 +3802,9 @@
       "party": "Labour",
       "moderngov_uid": "624",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Home address: 79 Ribbleton Avenue Preston PR1 5RX",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/4/2/6/Info00000624/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "None.",
@@ -2904,7 +3835,48 @@
           "raw": "None."
         }
       ],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Audit Committee",
+          "type": "audit",
+          "role": "Member"
+        },
+        {
+          "committee": "Central Lancashire Strategic Planning Joint Advisory Committee",
+          "type": "planning",
+          "role": "Member"
+        },
+        {
+          "committee": "Licensing Committee",
+          "type": "licensing",
+          "role": "Vice-Chair"
+        },
+        {
+          "committee": "Licensing Sub-Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Planning Committee",
+          "type": "planning",
+          "role": "Chair"
+        },
+        {
+          "committee": "Taxi and Miscellaneous Committee",
+          "type": "licensing",
+          "role": "Member"
+        },
+        {
+          "committee": "Ad-Hoc Task and Finish Group",
+          "type": "other",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2916,8 +3888,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 60,
-      "identity_confidence": 40
+      "data_completeness_pct": 50,
+      "identity_confidence": 50
     },
     "ssarwar": {
       "councillor_id": "ssarwar",
@@ -2926,9 +3898,9 @@
       "party": "Labour",
       "moderngov_uid": "50000675",
       "dob": null,
-      "occupation": "s, Volunteering and Skills Welfare benefits and debt advice View all Residents sections The Council",
-      "biography": "Correspondence address: C/o Resources Directorate Town Hall Lancaster Road Preston PR1 2RL",
-      "photo_url": "https://preston.moderngov.co.uk/UserData/5/7/6/Info50000675/bigpic.jpg",
+      "occupation": null,
+      "biography": null,
+      "photo_url": null,
       "employment": [
         {
           "raw": "Programme Delivery Manager",
@@ -2951,7 +3923,18 @@
       "securities": [],
       "gifts_hospitality": [],
       "sponsorship": [],
-      "committees": [],
+      "committees": [
+        {
+          "committee": "Council",
+          "type": "other",
+          "role": "Member"
+        },
+        {
+          "committee": "Cabinet",
+          "type": "executive",
+          "role": "Member"
+        }
+      ],
       "electoral": {
         "first_elected": null,
         "years_in_office": 0,
@@ -2963,8 +3946,8 @@
         "elections_fought": 0,
         "swing_trend": null
       },
-      "data_completeness_pct": 55,
-      "identity_confidence": 40
+      "data_completeness_pct": 45,
+      "identity_confidence": 50
     }
   }
 }
