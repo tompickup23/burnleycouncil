@@ -63,6 +63,9 @@ vi.mock('recharts', () => {
     ScatterChart: MockChart,
     Scatter: () => null,
     ZAxis: () => null,
+    AreaChart: MockChart,
+    Area: () => null,
+    Treemap: () => null,
   }
 })
 
@@ -153,6 +156,18 @@ vi.mock('../utils/savingsEngine', () => ({
   wasteDisposalComparison: vi.fn(() => ({ current_cost: 0, scenarios: [], food_waste_impact: 0, efw_saving: 0, landfill_tax_5yr: [], landfill_rate_pct: 0, national_avg_landfill_pct: 0, ratio_to_national: 0, market_hhi: 0, duopoly_pct: 0, strategy_status: '' })),
   quantifyDemandPressures: vi.fn(() => ({ pressures: [], total_annual: 0, total_5yr: 0, net_after_savings: 0, coverage_pct: 0 })),
   netFiscalTrajectory: vi.fn(() => ({ yearly: [], breakeven_year: 0, trajectory: 'stable', total_demand_5yr: 0, total_savings_5yr: 0, net_5yr: 0 })),
+  spendingBudgetVariance: vi.fn(() => null),
+  spendingConcentration: vi.fn(() => null),
+  childrenCostProjection: vi.fn(() => ({ yearly: [], base_cost: 0, total_growth: 0, cost_breakdown: {} })),
+  childrenServiceDirectives: vi.fn(() => []),
+  publicHealthProjection: vi.fn(() => ({ yearly: [], prevention_roi_total: 0, monopoly_risk: 0, grant_trajectory: [] })),
+  publicHealthDirectives: vi.fn(() => []),
+  propertyEstateProjection: vi.fn(() => ({ yearly: [], maintenance_gap: 0, disposal_trajectory: [], co_location_savings: 0 })),
+  resourcesServiceDirectives: vi.fn(() => []),
+}))
+
+vi.mock('../hooks/useSpendingSummary', () => ({
+  useSpendingSummary: vi.fn(() => ({ summary: null, loading: false })),
 }))
 
 vi.mock('./PortfolioDetail.css', () => ({}))

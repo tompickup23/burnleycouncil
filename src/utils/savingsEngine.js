@@ -4217,7 +4217,7 @@ export function fiscalSystemOverview(portfolios) {
     let savingsCentral = 0
     if (p.savings_levers?.length) {
       for (const lever of p.savings_levers) {
-        const range = parseSavingRange(lever.saving)
+        const range = parseSavingRange(lever.est_saving || lever.saving)
         savingsCentral += (range.low + range.high) / 2
       }
     }

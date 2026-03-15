@@ -78,9 +78,9 @@ vi.mock('../utils/savingsEngine', () => ({
   aggregateSavings: vi.fn(() => ({ total_identified: 30000000 })),
   generateDirectives: vi.fn(() => []),
   generateAllDirectives: vi.fn(() => [
-    { action: 'Renegotiate home care framework contracts', save_range: '£3-5M', lever_name: 'Home care framework', portfolio_id: 'adult_social_care', portfolio_title: 'Adult Social Care' },
-    { action: 'Submit CHC recovery claims to ICB', save_range: '£5-12M', lever_name: 'CHC cost recovery', portfolio_id: 'adult_social_care', portfolio_title: 'Adult Social Care' },
-    { action: 'Optimise SEND transport routes', save_range: '£2-3M', lever_name: 'SEND transport', portfolio_id: 'children_families', portfolio_title: "Children & Families" },
+    { action: 'Renegotiate home care framework contracts', save_range: '£3-5M', save_low: 3000000, save_central: 4000000, save_high: 5000000, lever_name: 'Home care framework', portfolio_id: 'adult_social_care', portfolio_title: 'Adult Social Care' },
+    { action: 'Submit CHC recovery claims to ICB', save_range: '£5-12M', save_low: 5000000, save_central: 8500000, save_high: 12000000, lever_name: 'CHC cost recovery', portfolio_id: 'adult_social_care', portfolio_title: 'Adult Social Care' },
+    { action: 'Optimise SEND transport routes', save_range: '£2-3M', save_low: 2000000, save_central: 2500000, save_high: 3000000, lever_name: 'SEND transport', portfolio_id: 'children_families', portfolio_title: "Children & Families" },
   ]),
   matchSpendingToPortfolio: vi.fn(() => []),
   formatCurrency: vi.fn((v) => {

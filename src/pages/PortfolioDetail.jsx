@@ -396,7 +396,7 @@ export default function PortfolioDetail() {
                         <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                         <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(0)}M`} />
                         <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={130} />
-                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v, n) => [n === 'total' ? formatCurrency(v) : v.toLocaleString(), n === 'total' ? 'Total Cost' : 'Count']} />
+                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v, n) => [n === 'total' ? formatCurrency(v) : (v != null ? v.toLocaleString() : '—'), n === 'total' ? 'Total Cost' : 'Count']} />
                         <Bar dataKey="total" fill={CHART_COLORS[0]} {...CHART_ANIMATION} name="Total Cost" />
                       </BarChart>
                     </ResponsiveContainer>
@@ -633,7 +633,7 @@ export default function PortfolioDetail() {
                         <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                         <XAxis dataKey="label" tick={AXIS_TICK_STYLE} />
                         <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `${(v / 1000).toFixed(0)}K`} />
-                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => v.toLocaleString()} />
+                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => v != null ? v.toLocaleString() : '—'} />
                         <Line type="monotone" dataKey="over_65" stroke={CHART_COLORS[3]} strokeWidth={2} name="Over 65" {...CHART_ANIMATION} />
                         <Line type="monotone" dataKey="over_85" stroke="#dc3545" strokeWidth={2} name="Over 85" {...CHART_ANIMATION} />
                         <Legend />
@@ -789,7 +789,7 @@ export default function PortfolioDetail() {
                 {highwayTrajectory.led && (
                   <div className="service-roi-card" style={{ marginTop: '12px' }}>
                     <div className="service-roi-header">
-                      <strong>LED Programme: {((highwayTrajectory.led.converted || 0)).toLocaleString()} of {((highwayTrajectory.led.total_columns || 0)).toLocaleString()} converted ({Math.round((highwayTrajectory.led.converted / highwayTrajectory.led.total_columns) * 100)}%)</strong>
+                      <strong>LED Programme: {((highwayTrajectory.led.converted || 0)).toLocaleString()} of {((highwayTrajectory.led.total_columns || 0)).toLocaleString()} converted ({highwayTrajectory.led.total_columns ? Math.round((highwayTrajectory.led.converted / highwayTrajectory.led.total_columns) * 100) : 0}%)</strong>
                       <span className="service-roi-net">{highwayTrajectory.led.energy_saving_pct}% energy saving</span>
                     </div>
                   </div>
@@ -829,7 +829,7 @@ export default function PortfolioDetail() {
                         <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                         <XAxis dataKey="label" tick={AXIS_TICK_STYLE} />
                         <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(0)}M`} />
-                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => typeof v === 'number' && v > 1000 ? formatCurrency(v) : `£${v}/t`} />
+                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => v == null ? '—' : (typeof v === 'number' && v > 1000 ? formatCurrency(v) : `£${v}/t`)} />
                         <Bar dataKey="annual_cost" fill="#dc3545" {...CHART_ANIMATION} name="Annual Landfill Cost" />
                       </BarChart>
                     </ResponsiveContainer>
@@ -854,7 +854,7 @@ export default function PortfolioDetail() {
                   {wasteComparison.scenarios.map((s, i) => (
                     <div key={i} className="service-roi-card" style={{ marginTop: '8px' }}>
                       <div className="service-roi-header">
-                        <strong>{s.name}: Landfill {s.landfill_rate.toFixed(0)}%</strong>
+                        <strong>{s.name}: Landfill {(s.landfill_rate ?? 0).toFixed(0)}%</strong>
                         <span className="service-roi-net">{formatCurrency(s.annual_cost)}/yr</span>
                       </div>
                       <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.5)', marginTop: '4px' }}>{s.description}</div>
@@ -866,7 +866,7 @@ export default function PortfolioDetail() {
               {/* Market + Mandates */}
               <CollapsibleSection title="Market & Mandates" icon={<AlertTriangle size={18} />}>
                 <div className="service-stat-row">
-                  <StatCard label="Market HHI" value={wasteComparison.market_hhi.toLocaleString()} color={wasteComparison.market_hhi > 2500 ? '#dc3545' : '#fd7e14'} icon={<PieChart size={18} />} />
+                  <StatCard label="Market HHI" value={(wasteComparison.market_hhi ?? 0).toLocaleString()} color={(wasteComparison.market_hhi ?? 0) > 2500 ? '#dc3545' : '#fd7e14'} icon={<PieChart size={18} />} />
                   <StatCard label="Duopoly Share" value={`${wasteComparison.duopoly_pct}%`} color="#dc3545" icon={<AlertTriangle size={18} />} />
                   <StatCard label="Strategy Status" value={wasteComparison.strategy_status} color="#fd7e14" icon={<FileText size={18} />} />
                   {wasteComparison.efw_saving > 0 && (

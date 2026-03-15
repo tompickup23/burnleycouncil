@@ -99,7 +99,7 @@ export default function DirectorateDashboard() {
     if (!portfolioData?.portfolios || !findingsData) return []
     const allDirectives = generateAllDirectives(portfolioData.portfolios, findingsData, [], portfolioData, { spendingSummary })
     return allDirectives
-      .filter(d => d.save_range && d.save_range !== '£0' || d.category === 'spending_intelligence')
+      .filter(d => d.save_central > 0 || d.save_high > 0 || d.category === 'spending_intelligence')
       .sort((a, b) => {
         const aScore = evidenceChainStrength(portfolioData.portfolios.flatMap(p => p.savings_levers || []).find(l => l.lever === a.lever_name) || {})
         const bScore = evidenceChainStrength(portfolioData.portfolios.flatMap(p => p.savings_levers || []).find(l => l.lever === b.lever_name) || {})
@@ -424,7 +424,7 @@ export default function DirectorateDashboard() {
                 <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                 <XAxis type="number" tick={AXIS_TICK_STYLE} />
                 <YAxis dataKey="name" type="category" tick={AXIS_TICK_STYLE} width={100} />
-                <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v) => `£${v.toFixed(1)}M`} />
+                <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v) => v != null ? `£${Number(v).toFixed(1)}M` : '—'} />
                 <Legend />
                 <Bar dataKey="mtfs" name="MTFS Target" fill="#dc3545" {...CHART_ANIMATION} />
                 <Bar dataKey="identified_low" name="Identified (low)" stackId="identified" fill="#12B6CF" {...CHART_ANIMATION} />
@@ -439,7 +439,7 @@ export default function DirectorateDashboard() {
                 <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                 <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
                 <YAxis tick={AXIS_TICK_STYLE} />
-                <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v) => `£${v.toFixed(1)}M`} />
+                <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v) => v != null ? `£${Number(v).toFixed(1)}M` : '—'} />
                 <Bar dataKey="value" name="Savings (£M)" {...CHART_ANIMATION}>
                   {timelineData.map((_, idx) => (
                     <Cell key={idx} fill={CHART_COLORS[idx % CHART_COLORS.length]} />

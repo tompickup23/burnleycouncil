@@ -141,14 +141,14 @@ export default function Executive() {
       <div className="executive-hero">
         <h1>Cabinet & Executive</h1>
         <p className="executive-subtitle">
-          {config.council_full_name || config.council_name} — {administration.party} administration
-          ({administration.seats}/{administration.total} seats, majority of {administration.seats - administration.majority_threshold})
+          {config.council_full_name || config.council_name} — {administration.party || 'Unknown'} administration
+          {administration.seats != null && administration.total != null && `(${administration.seats}/${administration.total} seats${administration.majority_threshold != null ? `, majority of ${administration.seats - administration.majority_threshold}` : ''})`}
         </p>
         <div className="executive-hero-stats">
-          <StatCard label="Cabinet Members" value={portfolios.length} icon={Users} />
-          <StatCard label="Net Budget" value={formatCurrency(totalBudget)} icon={PieChart} />
-          <StatCard label="Committees" value={committees.length} icon={Landmark} />
-          <StatCard label="Control Since" value={administration.control_since?.slice(0, 4) || 'N/A'} icon={Calendar} />
+          <StatCard label="Cabinet Members" value={portfolios.length} icon={<Users size={24} />} />
+          <StatCard label="Net Budget" value={formatCurrency(totalBudget)} icon={<PieChart size={24} />} />
+          <StatCard label="Committees" value={committees.length} icon={<Landmark size={24} />} />
+          <StatCard label="Control Since" value={administration.control_since?.slice(0, 4) || 'N/A'} icon={<Calendar size={24} />} />
         </div>
       </div>
 
