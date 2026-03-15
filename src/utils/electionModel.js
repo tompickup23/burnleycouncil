@@ -51,9 +51,11 @@ function getBaseline(wardData, electionType = 'borough') {
 
   const parties = {};
   for (const c of election.candidates) {
+    // Normalize party names so UKIP→Reform UK continuity is preserved
+    const partyName = normalizePartyName(c.party);
     // Take the best candidate per party
-    if (!parties[c.party] || c.pct > parties[c.party]) {
-      parties[c.party] = c.pct != null ? c.pct : (c.votes || 0) / (election.turnout_votes || 1);
+    if (!parties[partyName] || c.pct > parties[partyName]) {
+      parties[partyName] = c.pct != null ? c.pct : (c.votes || 0) / (election.turnout_votes || 1);
     }
   }
 
@@ -133,7 +135,7 @@ function calculateDemographicAdjustments(demographics, deprivation, params) {
     over65_conservative_bonus: 0.015,
     over65_reform_bonus: 0.02,
     asian_heritage_independent_bonus: 0.02,
-    asian_heritage_reform_penalty: -0.08,
+    asian_heritage_reform_penalty: -0.04,
     high_white_british_reform_bonus: 0.03,
     rural_conservative_bonus: 0.01,
   };
@@ -185,22 +187,24 @@ function calculateDemographicAdjustments(demographics, deprivation, params) {
 
   // Asian heritage > 20% (East Lancashire specific) — Reform penalty + Independent bonus
   // Scaled by concentration: higher Asian % → stronger effect (community bloc voting)
+  // Penalties reduced from original model — UKIP proved 40-50% achievable in
+  // majority-Asian wards (Daneshouse 49.2% 2015, 43.5% 2019) by mobilising non-Asian vote
   if (demographics?.asian_pct && demographics.asian_pct > 0.20) {
     const asianPct = demographics.asian_pct;
     let reformPenalty, indBonus, labBonus;
 
     if (asianPct > 0.60) {
-      // Majority-Asian wards (e.g. Daneshouse 78%): Muslim community candidates dominate
-      reformPenalty = -0.20;
-      indBonus = 0.12;
-      labBonus = 0.05;
-    } else if (asianPct > 0.40) {
-      // Heavily Asian wards: strong community influence
-      reformPenalty = -0.15;
-      indBonus = 0.06;
+      // Majority-Asian wards: community candidates strong but Reform heritage proven
+      reformPenalty = -0.10;
+      indBonus = 0.08;
       labBonus = 0.03;
+    } else if (asianPct > 0.40) {
+      // Heavily Asian wards: moderate community influence
+      reformPenalty = -0.06;
+      indBonus = 0.04;
+      labBonus = 0.02;
     } else {
-      // 20-40% Asian: moderate influence
+      // 20-40% Asian: modest influence
       reformPenalty = demoParams.asian_heritage_reform_penalty;
       indBonus = demoParams.asian_heritage_independent_bonus;
       labBonus = 0;
@@ -1006,8 +1010,9 @@ export function normalizePartyName(party) {
   if (/^(The\s+)?Conservative/i.test(p)) return 'Conservative'
   // Green variants
   if (/^Green/i.test(p)) return 'Green Party'
-  // Reform variants
+  // Reform / UKIP variants — UKIP is the electoral predecessor to Reform UK
   if (/^Reform/i.test(p)) return 'Reform UK'
+  if (/^UKIP|^UK\s*Independence/i.test(p)) return 'Reform UK'
   // Local independents — group under "Independent" umbrella for LGR modelling
   if (/independent/i.test(p) || p === 'Our West Lancashire' || p === '4 BwD' ||
       p === 'Morecambe Bay Independents' || p === 'Wyre Independent Group' ||

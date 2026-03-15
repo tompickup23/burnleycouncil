@@ -560,9 +560,11 @@ describe('normalizePartyName', () => {
     expect(normalizePartyName('Greens')).toBe('Green Party')
   })
 
-  it('normalizes Reform variants', () => {
+  it('normalizes Reform / UKIP variants', () => {
     expect(normalizePartyName('Reform UK')).toBe('Reform UK')
     expect(normalizePartyName('Reform')).toBe('Reform UK')
+    expect(normalizePartyName('UKIP')).toBe('Reform UK')
+    expect(normalizePartyName('UK Independence Party')).toBe('Reform UK')
   })
 
   it('normalizes local independent groups to Independent', () => {
@@ -576,9 +578,9 @@ describe('normalizePartyName', () => {
   })
 
   it('passes through unknown parties unchanged', () => {
-    expect(normalizePartyName('UKIP')).toBe('UKIP')
     expect(normalizePartyName('Plaid Cymru')).toBe('Plaid Cymru')
     expect(normalizePartyName('Your Party')).toBe('Your Party')
+    expect(normalizePartyName('BNP')).toBe('BNP')
   })
 
   it('trims whitespace', () => {
