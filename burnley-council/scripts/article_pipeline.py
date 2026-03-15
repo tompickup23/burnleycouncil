@@ -276,7 +276,26 @@ def load_spending_stats(council_id):
 
 
 def _compute_stats_from_spending(council_id):
-    """Compute stats from full spending.json — only used when pre-computed stats unavailable."""
+    """Compute stats from full spending.json — only used when pre-computed stats unavailable.
+    For v4 councils (LCC, Blackpool, Blackburn) with >50MB monoliths, computes stats
+    from the lightweight spending-index.json + a sample of monthly chunk files."""
+    # Try v4 index-based computation first (for large councils)
+    index_path = DATA_DIR / council_id / 'spending-index.json'
+    if index_path.exists():
+        try:
+            index_data = json.loads(index_path.read_text())
+            meta = index_data.get('meta', {})
+            if meta.get('version', 0) >= 4 and meta.get('monthly'):
+                stats = _compute_stats_from_v4_index(council_id, index_data)
+                if stats:
+                    # Cache for next time
+                    stats_path = DATA_DIR / council_id / 'spending-stats.json'
+                    stats_path.write_text(json.dumps(stats, indent=2, default=str))
+                    log.info(f'Cached v4 stats to {stats_path}')
+                    return stats
+        except (json.JSONDecodeError, IOError) as e:
+            log.warning(f'Failed to read v4 index for {council_id}: {e}')
+
     path = DATA_DIR / council_id / 'spending.json'
     if not path.exists():
         return None
@@ -303,6 +322,96 @@ def _compute_stats_from_spending(council_id):
             pass
 
     return stats
+
+
+def _compute_stats_from_v4_index(council_id, index_data):
+    """Compute spending stats from v4 spending-index.json + monthly chunks.
+    Loads aggregate totals from the index, then samples recent chunks for
+    top suppliers/departments without loading the full monolith."""
+    years = index_data.get('years', {})
+    if not years:
+        return None
+
+    # Aggregate totals from index metadata
+    total_spend = sum(y.get('total_spend', 0) for y in years.values())
+    total_records = sum(y.get('record_count', 0) for y in years.values())
+    financial_years = sorted(years.keys())
+    monthly_spend = {}
+
+    for fy, fy_data in years.items():
+        for month_key, month_data in (fy_data.get('months', {}) or {}).items():
+            monthly_spend[month_key] = month_data.get('total_spend', 0)
+
+    # Load recent monthly chunks for supplier/department breakdown (max 3 months, ~30-50MB)
+    suppliers = {}
+    departments = {}
+    payment_types = {}
+    all_months = sorted(monthly_spend.keys(), reverse=True)
+    chunks_loaded = 0
+
+    for month_key in all_months[:3]:
+        chunk_path = DATA_DIR / council_id / f'spending-{month_key}.json'
+        if not chunk_path.exists():
+            continue
+        try:
+            chunk_size = chunk_path.stat().st_size
+            if chunk_size > 25_000_000:  # Skip chunks >25MB
+                continue
+            records = json.loads(chunk_path.read_text())
+            if isinstance(records, dict):
+                records = records.get('records', [])
+            for r in records:
+                amount = abs(float(r.get('amount', r.get('a', 0))))
+                supplier = r.get('supplier', r.get('s', r.get('supplier_canonical', 'Unknown')))
+                dept = r.get('department', r.get('d', r.get('service_area', 'Unknown')))
+                ptype = r.get('expense_type', r.get('payment_type', 'Unknown'))
+                suppliers[supplier] = suppliers.get(supplier, 0) + amount
+                departments[dept] = departments.get(dept, 0) + amount
+                if ptype:
+                    payment_types[ptype] = payment_types.get(ptype, 0) + amount
+            chunks_loaded += 1
+            log.info(f'  Loaded {month_key} chunk ({len(records)} records, {chunk_size // 1024}KB)')
+        except (json.JSONDecodeError, IOError) as e:
+            log.warning(f'  Failed to load chunk {month_key}: {e}')
+
+    if chunks_loaded == 0:
+        log.warning(f'No v4 chunks loaded for {council_id} — cannot compute supplier/department stats')
+
+    top_suppliers = sorted(suppliers.items(), key=lambda x: -x[1])[:20]
+    top_depts = sorted(departments.items(), key=lambda x: -x[1])[:10]
+    top_types = sorted(payment_types.items(), key=lambda x: -x[1])[:10]
+
+    year_totals = {}
+    for m, amount in monthly_spend.items():
+        year = m[:4]
+        year_totals[year] = year_totals.get(year, 0) + amount
+
+    all_supplier_vals = list(suppliers.values())
+    size_dist = {
+        'under_1k': len([v for v in all_supplier_vals if v < 1000]),
+        '1k_to_10k': len([v for v in all_supplier_vals if 1000 <= v < 10000]),
+        '10k_to_100k': len([v for v in all_supplier_vals if 10000 <= v < 100000]),
+        '100k_to_1m': len([v for v in all_supplier_vals if 100000 <= v < 1000000]),
+        'over_1m': len([v for v in all_supplier_vals if v >= 1000000]),
+    }
+
+    log.info(f'Computed v4 stats for {council_id}: £{total_spend/1e6:.0f}M, {total_records} txns, '
+             f'{len(suppliers)} suppliers from {chunks_loaded} monthly chunks')
+
+    return {
+        'total_spend': total_spend,
+        'transaction_count': total_records,
+        'unique_suppliers': len(suppliers),
+        'financial_years': financial_years,
+        'top_suppliers': top_suppliers,
+        'top_departments': top_depts,
+        'top_payment_types': top_types,
+        'monthly_spend': monthly_spend,
+        'year_totals': year_totals,
+        'supplier_size_distribution': size_dist,
+        'source': 'v4_index',
+        'chunks_sampled': chunks_loaded,
+    }
 
 
 def load_doge_findings(council_id):
