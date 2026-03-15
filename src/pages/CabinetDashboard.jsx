@@ -63,7 +63,7 @@ export default function CabinetDashboard() {
   }, [portfolios, authCtx])
 
   // Aggregate savings across all portfolios
-  const savings = useMemo(() => aggregateSavings(portfolios, findings), [portfolios, findings])
+  const savings = useMemo(() => aggregateSavings(portfolios, findings, portfolioData), [portfolios, findings, portfolioData])
 
   // Generate all directives across portfolios
   const allDirectives = useMemo(() => {
@@ -250,7 +250,24 @@ export default function CabinetDashboard() {
           </div>
 
           {/* Savings timeline */}
-          <CollapsibleSection title="Savings Timeline" icon={<TrendingUp size={18} />}>
+          <CollapsibleSection title="Savings Pipeline" icon={<TrendingUp size={18} />}>
+            {/* Centralised vs Portfolio breakdown */}
+            {savings.centralised > 0 && (
+              <div className="cabinet-savings-breakdown">
+                <div className="cabinet-savings-row">
+                  <span className="cabinet-savings-label">Centralised Reform Operations</span>
+                  <span className="cabinet-savings-value">{formatCurrency(savings.centralised)}</span>
+                </div>
+                <div className="cabinet-savings-row">
+                  <span className="cabinet-savings-label">Portfolio-Specific Levers</span>
+                  <span className="cabinet-savings-value">{formatCurrency(savings.portfolio_specific)}</span>
+                </div>
+                <div className="cabinet-savings-row cabinet-savings-total">
+                  <span className="cabinet-savings-label">Total Identified</span>
+                  <span className="cabinet-savings-value">{formatCurrency(savings.total_identified)}</span>
+                </div>
+              </div>
+            )}
             <div className="cabinet-timeline-grid">
               <div className="cabinet-timeline-item">
                 <span className="cabinet-timeline-label">Immediate (0-3m)</span>
@@ -269,6 +286,24 @@ export default function CabinetDashboard() {
                 <span className="cabinet-timeline-value">{formatCurrency(savings.by_timeline.long_term)}</span>
               </div>
             </div>
+            {/* MTFS comparison */}
+            {savings.vs_mtfs && (
+              <div className="cabinet-mtfs-comparison">
+                <h4>vs MTFS Savings Target</h4>
+                <div className="cabinet-mtfs-row">
+                  <span>2026/27 MTFS Target</span>
+                  <span>{formatCurrency(savings.vs_mtfs.target_year1)}</span>
+                </div>
+                <div className="cabinet-mtfs-row">
+                  <span>Two-Year Target</span>
+                  <span>{formatCurrency(savings.vs_mtfs.target_two_year)}</span>
+                </div>
+                <div className="cabinet-mtfs-row cabinet-mtfs-coverage">
+                  <span>Year 1 Coverage</span>
+                  <span className={savings.vs_mtfs.coverage_year1_pct >= 100 ? 'cabinet-mtfs-good' : 'cabinet-mtfs-gap'}>{savings.vs_mtfs.coverage_year1_pct}%</span>
+                </div>
+              </div>
+            )}
           </CollapsibleSection>
         </div>
       )}

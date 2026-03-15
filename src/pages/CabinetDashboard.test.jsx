@@ -328,7 +328,7 @@ describe('CabinetDashboard', () => {
   it('shows savings timeline', () => {
     setupMocks()
     renderComponent()
-    expect(screen.getByText('Savings Timeline')).toBeInTheDocument()
+    expect(screen.getByText('Savings Pipeline')).toBeInTheDocument()
     expect(screen.getByText(/Immediate \(0-3m\)/)).toBeInTheDocument()
     expect(screen.getByText(/Short-term \(3-12m\)/)).toBeInTheDocument()
     expect(screen.getByText(/Medium-term \(12-24m\)/)).toBeInTheDocument()

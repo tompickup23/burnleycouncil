@@ -124,6 +124,47 @@
 .cabinet-timeline-label { font-size: 0.72rem; color: rgba(255,255,255,0.4); margin-bottom: 0.35rem; }
 .cabinet-timeline-value { font-size: 1.3rem; font-weight: 800; color: #28a745; }
 
+/* Savings breakdown */
+.cabinet-savings-breakdown {
+  margin-bottom: 1rem;
+  padding: 0.75rem;
+  background: rgba(255,255,255,0.02);
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.06);
+}
+.cabinet-savings-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.7);
+}
+.cabinet-savings-row .cabinet-savings-value { font-weight: 600; color: #28a745; }
+.cabinet-savings-total { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 0.25rem; padding-top: 0.5rem; }
+.cabinet-savings-total .cabinet-savings-label { font-weight: 700; color: rgba(255,255,255,0.9); }
+.cabinet-savings-total .cabinet-savings-value { font-size: 1rem; font-weight: 800; }
+
+/* MTFS comparison */
+.cabinet-mtfs-comparison {
+  margin-top: 1rem;
+  padding: 0.75rem;
+  background: rgba(18,182,207,0.05);
+  border-radius: 8px;
+  border: 1px solid rgba(18,182,207,0.15);
+}
+.cabinet-mtfs-comparison h4 { font-size: 0.78rem; color: rgba(255,255,255,0.5); margin: 0 0 0.5rem; text-transform: uppercase; letter-spacing: 0.5px; }
+.cabinet-mtfs-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.3rem 0;
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+}
+.cabinet-mtfs-row span:last-child { font-weight: 600; }
+.cabinet-mtfs-coverage span:last-child { font-size: 1.1rem; }
+.cabinet-mtfs-good { color: #28a745 !important; }
+.cabinet-mtfs-gap { color: #ffc107 !important; }
+
 /* Portfolio grid */
 .cabinet-portfolio-grid {
   display: grid;
