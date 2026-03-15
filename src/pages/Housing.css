@@ -400,3 +400,31 @@
     font-size: 0.85rem;
   }
 }
+
+/* Card detail line */
+.housing-card .card-detail {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.45);
+  margin-top: 2px;
+}
+
+/* Concerns list */
+.concerns-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.concerns-list li {
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+.concerns-list li::before {
+  content: '\26A0\FE0F';
+  margin-right: 8px;
+}
+.concerns-list li:last-child {
+  border-bottom: none;
+}

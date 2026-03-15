@@ -169,6 +169,28 @@ export function generateHMOTalkingPoints(wardName, hmoData) {
     });
   }
 
+  // Modelling data (estimated HMOs from council modelling)
+  const modelling = hmoData.modelling;
+  if (modelling?.hotspot_wards?.length) {
+    const wardModelling = modelling.hotspot_wards.find(w => w.ward === wardName);
+    if (wardModelling && wardModelling.estimated_hmos > 20) {
+      points.push({
+        category: 'Housing',
+        icon: 'Building',
+        priority: wardModelling.risk_level === 'high' ? 1 : 2,
+        text: `Council modelling estimates ${wardModelling.estimated_hmos} HMOs in this ward (${wardModelling.pct_of_ward_stock}% of stock). ${wardModelling.risk_level === 'high' ? 'HIGH concentration — housing quality, anti-social behaviour, parking pressure, transient populations are key local issues.' : 'Article 4 Direction applies — new HMO conversions need planning permission.'}`,
+      });
+    }
+    if (modelling.estimated_total_hmos > 500 && !wardModelling) {
+      points.push({
+        category: 'Housing',
+        icon: 'MapPin',
+        priority: 3,
+        text: `Council-wide: an estimated ${modelling.estimated_total_hmos.toLocaleString()} HMOs (${modelling.pct_of_housing_stock}% of stock). Inner wards bear the heaviest concentration.`,
+      });
+    }
+  }
+
   return points;
 }
 
@@ -877,6 +899,40 @@ export function generateHousingTalkingPoints(wardName, housingData) {
       category: 'Housing', icon: 'AlertTriangle', priority: 1,
       text: `${Math.round(overcrowdedCount / totalOccupancy * 100)}% overcrowded. Housing crisis visible on doorsteps — new builds, conversions, and allocation policy key.`,
     })
+  }
+
+  // Homelessness data (council-wide, adds context for all wards)
+  const homelessness = housingData?.homelessness
+  if (homelessness) {
+    if (homelessness.enquiries?.total > 1000) {
+      points.push({
+        category: 'Housing', icon: 'AlertTriangle', priority: 1,
+        text: `${homelessness.enquiries.total.toLocaleString()} homelessness enquiries (${homelessness.enquiries.period || homelessness.period}). ${homelessness.active_cases?.total || 0} active cases. Rough sleeping up ${homelessness.rough_sleeping?.change_pct || 0}%. Housing crisis is real and worsening.`,
+      })
+    }
+    if (homelessness.waiting_list?.households > 2000) {
+      points.push({
+        category: 'Housing', icon: 'Users', priority: 2,
+        text: `${homelessness.waiting_list.households.toLocaleString()} on housing waiting list. Social housing demand far outstrips supply — pitch allocation reform, empty homes conversion.`,
+      })
+    }
+  }
+
+  // Housing pressure data
+  const pressure = housingData?.housing_pressure
+  if (pressure) {
+    if (pressure.empty_homes?.total > 500) {
+      points.push({
+        category: 'Housing', icon: 'Building', priority: 2,
+        text: `${pressure.empty_homes.total.toLocaleString()} empty homes (${pressure.empty_homes.long_term_vacant || 0} long-term vacant) while ${homelessness?.waiting_list?.households?.toLocaleString() || 'thousands'} wait. Empty homes levy and compulsory purchase orders resonate strongly.`,
+      })
+    }
+    if (pressure.lha_gap?.monthly_shortfall > 50) {
+      points.push({
+        category: 'Housing', icon: 'TrendingUp', priority: 2,
+        text: `LHA shortfall of £${pressure.lha_gap.monthly_shortfall}/month on ${pressure.lha_gap.benchmark} benchmark. Tenants forced to top up from benefits. Average rent £${pressure.private_rent?.average_monthly}/mo (+${pressure.private_rent?.yoy_change_pct}% YoY).`,
+      })
+    }
   }
 
   return points.sort((a, b) => a.priority - b.priority)

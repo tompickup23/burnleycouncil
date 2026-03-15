@@ -130,6 +130,9 @@ function Housing() {
       licensed: hmoData.summary?.total_licensed || 0,
       planning: hmoData.summary?.total_planning_apps || 0,
       bedSpaces: hmoData.summary?.total_bed_spaces || 0,
+      estimated: hmoData.modelling?.estimated_total_hmos || hmoData.summary?.total_estimated || 0,
+      estimatedPct: hmoData.modelling?.pct_of_housing_stock || hmoData.summary?.estimated_pct_of_stock || 0,
+      hasModelling: !!hmoData.modelling,
     }
   }, [hmoData])
 
@@ -304,6 +307,71 @@ function Housing() {
             </ChartCard>
           </div>
 
+          {/* Homelessness & Housing Pressure */}
+          {housing?.homelessness && (
+            <CollapsibleSection
+              title="Homelessness & Housing Pressure"
+              subtitle={`${fmt(housing.homelessness.enquiries?.total)} enquiries in ${housing.homelessness.enquiries?.period || housing.homelessness.period}`}
+              defaultOpen={true}
+              icon={<AlertTriangle size={20} />}
+            >
+              <div className="stat-grid stat-grid-4">
+                <div className="housing-card">
+                  <div className="card-icon"><AlertTriangle size={20} /></div>
+                  <div className="card-value">{fmt(housing.homelessness.enquiries?.total)}</div>
+                  <div className="card-label">Homelessness Enquiries</div>
+                  <div className="card-detail">{housing.homelessness.enquiries?.period}</div>
+                </div>
+                <div className="housing-card">
+                  <div className="card-icon"><Users size={20} /></div>
+                  <div className="card-value">{fmt(housing.homelessness.active_cases?.total)}</div>
+                  <div className="card-label">Active Cases</div>
+                  <div className="card-detail">{housing.homelessness.active_cases?.quarter}</div>
+                </div>
+                <div className="housing-card">
+                  <div className="card-icon"><Home size={20} /></div>
+                  <div className="card-value">{fmt(housing.homelessness.temporary_accommodation?.households)}</div>
+                  <div className="card-label">In Temp Accommodation</div>
+                  <div className="card-detail">Snapshot {housing.homelessness.temporary_accommodation?.snapshot_date}</div>
+                </div>
+                <div className="housing-card">
+                  <div className="card-icon"><TrendingUp size={20} /></div>
+                  <div className="card-value">{fmt(housing.homelessness.rough_sleeping?.count_2025)}</div>
+                  <div className="card-label">Rough Sleepers</div>
+                  <div className="card-detail">Up from {housing.homelessness.rough_sleeping?.count_2024} in 2024</div>
+                </div>
+              </div>
+              {housing.housing_pressure && (
+                <div className="stat-grid stat-grid-4" style={{ marginTop: '16px' }}>
+                  <div className="housing-card">
+                    <div className="card-icon"><Building2 size={20} /></div>
+                    <div className="card-value">{fmt(housing.housing_pressure.empty_homes?.total)}</div>
+                    <div className="card-label">Empty Homes</div>
+                    <div className="card-detail">{fmt(housing.housing_pressure.empty_homes?.long_term_vacant)} long-term vacant</div>
+                  </div>
+                  <div className="housing-card">
+                    <div className="card-icon"><FileText size={20} /></div>
+                    <div className="card-value">£{housing.housing_pressure.private_rent?.average_monthly}/mo</div>
+                    <div className="card-label">Average Private Rent</div>
+                    <div className="card-detail">+{housing.housing_pressure.private_rent?.yoy_change_pct}% YoY</div>
+                  </div>
+                  <div className="housing-card">
+                    <div className="card-icon"><AlertTriangle size={20} /></div>
+                    <div className="card-value">£{housing.housing_pressure.lha_gap?.monthly_shortfall}</div>
+                    <div className="card-label">LHA Shortfall/Month</div>
+                    <div className="card-detail">{housing.housing_pressure.lha_gap?.benchmark} benchmark</div>
+                  </div>
+                  <div className="housing-card">
+                    <div className="card-icon"><Users size={20} /></div>
+                    <div className="card-value">{fmt(housing.homelessness.waiting_list?.households)}</div>
+                    <div className="card-label">On Waiting List</div>
+                    <div className="card-detail">{housing.homelessness.waiting_list?.year}</div>
+                  </div>
+                </div>
+              )}
+            </CollapsibleSection>
+          )}
+
           {/* Policy Section */}
           <CollapsibleSection
             title="Housing Policy"
@@ -471,6 +539,14 @@ function Housing() {
           {hmoSummary ? (
             <>
               <div className="housing-summary-grid small">
+                {hmoSummary.estimated > 0 && (
+                  <div className="housing-card">
+                    <div className="card-icon"><Building2 size={20} /></div>
+                    <div className="card-value">{fmt(hmoSummary.estimated)}</div>
+                    <div className="card-label">Estimated HMOs</div>
+                    <div className="card-detail">{hmoSummary.estimatedPct}% of housing stock</div>
+                  </div>
+                )}
                 <div className="housing-card">
                   <div className="card-value">{fmt(hmoSummary.licensed)}</div>
                   <div className="card-label">Licensed HMOs</div>
@@ -486,6 +562,48 @@ function Housing() {
                   </div>
                 )}
               </div>
+
+              {/* Modelling Hotspot Chart */}
+              {hmoData?.modelling?.hotspot_wards?.length > 0 && (
+                <ChartCard title="Estimated HMOs by Ward" description={`${hmoData.modelling.modelling_year} council modelling — highest concentrations in inner wards`}>
+                  <ResponsiveContainer width="100%" height={Math.max(300, hmoData.modelling.hotspot_wards.length * 28)}>
+                    <BarChart
+                      data={hmoData.modelling.hotspot_wards.sort((a, b) => b.estimated_hmos - a.estimated_hmos)}
+                      layout="vertical"
+                      margin={{ left: 10, right: 30 }}
+                    >
+                      <CartesianGrid stroke={GRID_STROKE} horizontal={false} />
+                      <XAxis type="number" tick={AXIS_TICK_STYLE} />
+                      <YAxis type="category" dataKey="ward" tick={{ ...AXIS_TICK_STYLE, fontSize: 11 }} width={170} />
+                      <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v, n) => [n === 'estimated_hmos' ? fmt(v) : `${v}%`, n === 'estimated_hmos' ? 'Estimated HMOs' : '% of Ward Stock']} />
+                      <Bar dataKey="estimated_hmos" name="Estimated HMOs" fill="#12B6CF" {...CHART_ANIMATION} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </ChartCard>
+              )}
+
+              {/* Article 4 context */}
+              {hmoData?.modelling?.article_4_direction && (
+                <div className="policy-card active" style={{ marginBottom: '16px' }}>
+                  <h4>Article 4 Direction</h4>
+                  <div className="policy-status yes">{hmoData.modelling.article_4_direction.status === 'in_force' ? 'In Force' : 'Proposed'}</div>
+                  <p className="policy-detail">{hmoData.modelling.article_4_direction.scope}</p>
+                  <p className="policy-detail">
+                    Designated wards: {hmoData.modelling.article_4_direction.designated_wards?.join(', ')}
+                  </p>
+                </div>
+              )}
+
+              {/* Housing quality concerns */}
+              {hmoData?.modelling?.housing_quality_concerns?.length > 0 && (
+                <CollapsibleSection title="Housing Quality Concerns" icon={<AlertTriangle size={18} />}>
+                  <ul className="concerns-list">
+                    {hmoData.modelling.housing_quality_concerns.map((c, i) => (
+                      <li key={i}>{c}</li>
+                    ))}
+                  </ul>
+                </CollapsibleSection>
+              )}
 
               {/* Ward-level HMO density */}
               {hmoData?.summary?.by_ward && (
@@ -556,7 +674,9 @@ function Housing() {
       <div className="housing-source">
         <p>
           Source: ONS Census 2021 via Nomis API. Housing policy data compiled from council publications.
-          {hmoData && ' HMO data from council registers and planning applications.'}
+          {hmoData && ' HMO data from council registers, planning applications and modelling.'}
+          {housing?.homelessness && ' Homelessness data from council strategic progress reports and MHCLG rough sleeping statistics.'}
+          {housing?.housing_pressure && ' Housing market data from ONS rent series and Annual Monitoring Reports.'}
         </p>
       </div>
     </div>

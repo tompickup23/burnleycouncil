@@ -1,6 +1,6 @@
 {
   "meta": {
-    "source": "ONS Census 2021 via Nomis API + policy compilation",
+    "source": "ONS Census 2021 via Nomis API + policy compilation + Burnley Council homelessness data + ONS rent series + MHCLG rough sleeping + Burnley HMO modelling",
     "council_id": "burnley",
     "council_name": "Burnley",
     "ons_code": "E07000117",
@@ -986,5 +986,73 @@
     "avg_household_size": 2.35,
     "has_article_4": true,
     "has_selective_licensing": true
+  },
+  "homelessness": {
+    "source": "Burnley Council Full Council strategic progress update Jan 2026 + MHCLG rough sleeping statistics",
+    "period": "2025-26",
+    "enquiries": {
+      "total": 2058,
+      "period": "Apr 2025 - Jan 2026",
+      "annualised_rate": 2470
+    },
+    "active_cases": {
+      "total": 428,
+      "quarter": "Q3 2025-26"
+    },
+    "households_accommodated": {
+      "total": 103,
+      "period": "Since Apr 2025"
+    },
+    "temporary_accommodation": {
+      "households": 33,
+      "snapshot_date": "2026-01-15"
+    },
+    "rough_sleeping": {
+      "count_2024": 1,
+      "count_2025": 6,
+      "change_pct": 500,
+      "source": "MHCLG autumn snapshot"
+    },
+    "winter_pressure": {
+      "single_people_assisted": 53,
+      "period": "Since Apr 2025",
+      "gateway_beds_full": true
+    },
+    "waiting_list": {
+      "households": 2657,
+      "year": "2023-24"
+    }
+  },
+  "housing_pressure": {
+    "source": "ONS local housing rent series + Burnley Annual Monitoring Report 2023-24 + Lancashire housing baseline",
+    "empty_homes": {
+      "total": 1750,
+      "long_term_vacant": 638,
+      "date": "Oct 2024",
+      "source": "Burnley Annual Monitoring Report 2023-24"
+    },
+    "private_rent": {
+      "average_monthly": 624,
+      "yoy_change_pct": 6.6,
+      "date": "Jan 2026",
+      "source": "ONS local housing rent series"
+    },
+    "lha_gap": {
+      "monthly_shortfall": 96.76,
+      "benchmark": "2-bed",
+      "date": "Sep 2025",
+      "source": "Lancashire housing baseline"
+    },
+    "prs_growth_2011_2021_pct": 25.1,
+    "fuel_poverty_pct": 16.2,
+    "fuel_poverty_year": 2023,
+    "universal_credit_pct": 29.8,
+    "universal_credit_date": "Aug 2025",
+    "deprivation_rank": 4,
+    "deprivation_measure": "IMD 2025 average-rank",
+    "lsoas_in_most_deprived_10pct": 24,
+    "lsoas_in_most_deprived_10pct_share": 40.0,
+    "hmo_estimated": 916,
+    "hmo_pct_of_stock": 2.17
   }
 }
