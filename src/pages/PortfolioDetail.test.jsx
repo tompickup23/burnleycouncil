@@ -143,6 +143,12 @@ vi.mock('../utils/savingsEngine', () => ({
     const m = Math.round(v / 1000000)
     return m >= 1 ? `£${m}M` : `£${Math.round(v / 1000).toLocaleString()}K`
   }),
+  sendCostProjection: vi.fn(() => ({ yearly: [], growth_rate: 0, cost_driver_breakdown: {}, total_5yr_cost: 0, base_year_cost: 0, dsg_trajectory: [] })),
+  earlyInterventionROI: vi.fn(() => ({ current_reactive_cost: 0, intervention_cost: 0, total_saving: 0, net_saving: 0, payback_years: 0, children_diverted: 0, programmes: [] })),
+  lacPlacementOptimisation: vi.fn(() => ({ current_cost: 0, optimised_cost: 0, saving: 0, saving_pct: 0, placements_moved: [], wocl_roi: null, timeline: [] })),
+  ascDemandProjection: vi.fn(() => ({ yearly: [], base_cost: 0, total_growth: 0, blended_growth_rate: 0, cost_breakdown: {} })),
+  ascMarketRisk: vi.fn(() => ({ provider_count: 0, vacancy_rate: 0, closure_trend: 0, fair_cost_gap: 0, inflation_pressure: 0, risk_score: 0, risk_level: 'low', off_framework_pct: 0, mitigation_options: [] })),
+  chcRecoveryModel: vi.fn(() => ({ current_income: 0, target_income: 0, gap: 0, net_benefit: 0, implementation_cost: 0, timeline: [] })),
 }))
 
 vi.mock('./PortfolioDetail.css', () => ({}))

@@ -983,7 +983,75 @@
           "day_centres_operating": 3,
           "day_centres_closed_since_pandemic": 2
         },
-        "shared_lives": "Outstanding — 9% of total national LD Shared Lives placements. Crown jewel of LCC ASC."
+        "shared_lives": "Outstanding — 9% of total national LD Shared Lives placements. Crown jewel of LCC ASC.",
+        "service_model": {
+          "asc_demand_model": {
+            "demographics": {
+              "over_65": { "2024": 248000, "2029": 274000, "2034": 298000, "growth_pct_pa": 2.1 },
+              "over_85": { "2024": 32000, "2029": 38000, "2034": 45000, "growth_pct_pa": 3.5 },
+              "working_age_ld": { "current": 4200, "growth_pct_pa": 1.8 }
+            },
+            "care_type_costs": {
+              "residential_older_people": { "beds": 3000, "avg_weekly_cost": 850, "fair_cost_of_care": 987, "gap_per_week": 137, "providers": 413, "vacancy_pct": 10 },
+              "residential_nursing": { "beds": 1800, "avg_weekly_cost": 1050 },
+              "home_care_framework": { "hours_per_week": 60700, "hourly_rate": 21.50, "providers": 30 },
+              "home_care_off_framework": { "hours_per_week": 27300, "hourly_rate": 25.80, "providers": 45, "pct_of_total": 31 },
+              "ld_supported_living": { "people": 1830, "providers": 42, "properties": 700, "annual_cost": 70000000, "avg_per_person": 38251 },
+              "direct_payments": { "recipients": 2800, "avg_annual": 18000, "total_20mo": 161000000 },
+              "day_services": { "centres": 5, "under_60_pct_capacity": 3 },
+              "shared_lives": { "placements": 180, "cqc_rating": "Outstanding", "avg_cost": 15000, "vs_residential": 28000 }
+            },
+            "demand_pressures": {
+              "assessment_backlog": { "waiting": 1075, "max_wait_days": 226, "improvement_pct": 48 },
+              "annual_reviews_overdue": 3500,
+              "ot_waiting": { "waiting": 1100, "max_wait_days": 262 },
+              "dols_applications_pa": 8500,
+              "dols_processed_in_time_pct": 19,
+              "safeguarding_referrals_pa": 12000
+            },
+            "chc_model": {
+              "current_recovery_rate_pct": 5,
+              "national_avg_pct": 10,
+              "bcf_total": 200000000,
+              "cases_reviewed_pa": 3600,
+              "successful_claims": 180,
+              "avg_claim_value": 28000,
+              "target_recovery_rate_pct": 10,
+              "projected_additional_income": 9000000
+            },
+            "market_sustainability": {
+              "care_home_closures_3yr": 12,
+              "provider_failure_risk": "medium",
+              "nlw_increase_pct": 6.7,
+              "employer_ni_increase_pp": 1.2,
+              "annual_cost_inflation": 42000000,
+              "in_house_homes": 16,
+              "in_house_maintenance_backlog": 5000000,
+              "closure_commitment": "No closures confirmed Feb 2026"
+            },
+            "reablement": {
+              "success_rate_pct": 87.3,
+              "national_avg_pct": 81.8,
+              "offered_after_discharge_pct": 2.6,
+              "national_offered_pct": 2.8,
+              "cost_per_episode": 3500,
+              "residential_avoided_saving": 35000,
+              "potential_expansion": { "additional_episodes_pa": 500, "net_saving": 4500000 }
+            }
+          },
+          "inspection_remediation": {
+            "cqc_rating": "Requires Improvement",
+            "date": "2025-08-01",
+            "key_findings": ["Assessment backlogs", "Unreliable electronic records", "Strained NHS partnerships"],
+            "improvement_plan_cost": 3200000,
+            "expected_reinspection": "2026-Q4",
+            "target_rating": "Good",
+            "cost_of_intervention_if_inadequate": 15000000,
+            "historical_ratings": [
+              { "date": "2023", "rating": "Requires Improvement" }
+            ]
+          }
+        }
       },
       "cross_portfolio_dependencies": [
         { "portfolio": "health_wellbeing", "dependency": "Falls prevention investment in Public Health saves £3.50 per £1 in ASC residential avoidance" },
@@ -1328,7 +1396,92 @@
         "send_capital_investment": 57000000,
         "new_special_schools": 2,
         "new_places_planned": 400,
-        "ai_in_ehcp": true
+        "ai_in_ehcp": true,
+        "service_model": {
+          "send_cost_model": {
+            "ehcp_pipeline": {
+              "total_ehcps": 12317,
+              "annual_growth_rate": 0.105,
+              "new_requests_per_month": 300,
+              "assessment_capacity_per_month": 53,
+              "backlog_current": 360,
+              "backlog_peak": 1801,
+              "median_weeks_to_issue": 32,
+              "statutory_target_weeks": 20,
+              "timeliness_pct": 18.2
+            },
+            "placement_costs": {
+              "mainstream": { "count": 9800, "avg_cost": 9100, "total": 89180000 },
+              "special_school_maintained": { "count": 3200, "avg_cost": 22000, "total": 70400000 },
+              "special_school_independent": { "count": 630, "avg_cost": 57000, "total": 35910000 },
+              "residential_special": { "count": 120, "avg_cost": 156000, "total": 18720000 },
+              "residential_childrens_home": { "count": 262, "avg_cost": 250000, "total": 65500000 },
+              "alternative_provision": { "count": 180, "avg_cost": 18000, "total": 3240000 },
+              "post_16_specialist": { "count": 410, "avg_cost": 32000, "total": 13120000 },
+              "independent_sector_pct": 5.1,
+              "national_independent_pct": 4.2
+            },
+            "tribunals": {
+              "appeals_registered_pa": 185,
+              "parent_win_rate_pct": 94,
+              "national_parent_win_rate_pct": 96,
+              "avg_cost_per_tribunal": 12000,
+              "avg_cost_if_lost": 45000,
+              "mediation_rate_pct": 42,
+              "mediation_success_pct": 65,
+              "annual_tribunal_cost": 2220000,
+              "annual_placement_cost_from_losses": 7800000
+            },
+            "transport": {
+              "total_cost": 61000000,
+              "growth_2026_27": 17700000,
+              "eligible_pupils": 8900,
+              "cost_per_pupil": 6854,
+              "minibus_programme": { "vehicles": 50, "saving_per_passenger_pct": 30 },
+              "personal_travel_budgets": { "current": 400, "target": 750, "avg_saving": 2800 },
+              "transport_assistant_grants": { "current": 488, "target": 750, "avg_saving": 3200 }
+            },
+            "dsg_deficit": {
+              "current": 22400000,
+              "projected_2028": 545000000,
+              "statutory_override_ends": "2028-03-31",
+              "annual_growth_rate": 0.38,
+              "high_needs_block": 215000000
+            },
+            "workforce": {
+              "educational_psychologists": { "permanent": 11, "agency": 110, "agency_day_rate": 800, "permanent_equivalent_day": 300, "annual_agency_cost": 21120000 },
+              "social_workers": { "permanent": 385, "agency": 97, "apprentices_on_programme": 97, "nqsw_started_jan_2025": 20 },
+              "agency_premium_pct": 167
+            },
+            "early_intervention": {
+              "troubled_families_programme": { "families_supported": 4200, "avg_cost": 3500, "estimated_saving_per_family": 18000 },
+              "family_safeguarding_model": { "implemented": false, "potential_saving_low": 8000000, "potential_saving_high": 15000000, "evidence_base": "Hertfordshire: 46% reduction in children in care" },
+              "lac_avoidance_saving_per_child": 55000
+            }
+          },
+          "lac_cost_model": {
+            "total_lac": 1699,
+            "by_placement": {
+              "foster_in_house": { "count": 580, "avg_cost": 28000 },
+              "foster_independent": { "count": 420, "avg_cost": 45000 },
+              "residential_in_house": { "count": 95, "avg_cost": 180000 },
+              "residential_independent": { "count": 167, "avg_cost": 312000 },
+              "kinship": { "count": 285, "avg_cost": 15000 },
+              "other": { "count": 152, "avg_cost": 22000 }
+            },
+            "wocl_programme": {
+              "current_in_house_homes": 15,
+              "target_in_house_homes": 30,
+              "saving_per_placement_pa": 100000,
+              "capital_cost_per_home": 1200000,
+              "annual_running_cost": 450000
+            },
+            "residential_growth": {
+              "2021": 180, "2022": 210, "2023": 238, "2024": 262,
+              "growth_pct_pa": 13.3
+            }
+          }
+        }
       },
       "cross_portfolio_dependencies": [
         { "portfolio": "resources", "dependency": "Energy contracts (£170.8M combined) need central procurement review. BSF PFI indexation review." },

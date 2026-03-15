@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { useParams, Link, useLocation } from 'react-router-dom'
-import { Users, PieChart, Target, ChevronRight, Calendar, TrendingUp, Shield, Zap, Briefcase, FileText, AlertTriangle, Scale, Building2, Wrench, MapPin, Download } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, Legend, PieChart as RechartsPie, Pie, Cell, ScatterChart, Scatter, ZAxis } from 'recharts'
+import { Users, PieChart, Target, ChevronRight, Calendar, TrendingUp, Shield, Zap, Briefcase, FileText, AlertTriangle, Scale, Building2, Wrench, MapPin, Download, Activity, Truck, GraduationCap, Heart } from 'lucide-react'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, Legend, PieChart as RechartsPie, Pie, Cell, ScatterChart, Scatter, ZAxis, AreaChart, Area, Treemap } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { isFirebaseEnabled } from '../firebase'
@@ -27,6 +27,12 @@ import {
   contractPipeline,
   fundingConstraints,
   formatCurrency,
+  sendCostProjection,
+  earlyInterventionROI,
+  lacPlacementOptimisation,
+  ascDemandProjection,
+  ascMarketRisk,
+  chcRecoveryModel,
 } from '../utils/savingsEngine'
 import './PortfolioDetail.css'
 
@@ -92,6 +98,15 @@ export default function PortfolioDetail() {
   const dependencies = useMemo(() => crossPortfolioDependencies(portfolios), [portfolios])
   const contractData = useMemo(() => contractPipeline(procurement, portfolio), [procurement, portfolio])
   const fundingData = useMemo(() => fundingConstraints(portfolio, portfolioData?.administration?.funding_model), [portfolio, portfolioData])
+
+  // Service Intelligence: SEND cost model projections
+  const serviceModel = portfolio?.operational_context?.service_model
+  const sendProjection = useMemo(() => sendCostProjection(serviceModel?.send_cost_model), [serviceModel])
+  const interventionROI = useMemo(() => earlyInterventionROI(serviceModel?.send_cost_model, serviceModel?.lac_cost_model), [serviceModel])
+  const lacOptimisation = useMemo(() => lacPlacementOptimisation(serviceModel?.lac_cost_model), [serviceModel])
+  const ascProjection = useMemo(() => ascDemandProjection(serviceModel?.asc_demand_model), [serviceModel])
+  const ascMarket = useMemo(() => ascMarketRisk(serviceModel?.asc_demand_model), [serviceModel])
+  const chcRecovery = useMemo(() => chcRecoveryModel(serviceModel?.asc_demand_model?.chc_model), [serviceModel])
 
   // Scatter data for priority matrix
   const scatterData = useMemo(() =>
@@ -236,6 +251,374 @@ export default function PortfolioDetail() {
               </ul>
             </div>
           </div>
+
+          {/* Service Intelligence: SEND Cost Cascade */}
+          {serviceModel?.send_cost_model && (
+            <div className="service-intelligence-section">
+              <h2 className="service-intelligence-title"><Activity size={20} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Service Intelligence: SEND Cost Cascade</h2>
+              <p className="service-intelligence-subtitle">Modelling the cascade: EHCP identification → assessment → placement → transport → tribunal → DSG deficit</p>
+
+              {/* EHCP Pipeline */}
+              <CollapsibleSection title={`EHCP Pipeline (${serviceModel.send_cost_model.ehcp_pipeline?.total_ehcps?.toLocaleString()} EHCPs, ${(serviceModel.send_cost_model.ehcp_pipeline?.annual_growth_rate * 100 || 0).toFixed(1)}% annual growth)`} icon={<GraduationCap size={18} />} defaultOpen>
+                <div className="service-stat-row">
+                  <StatCard label="Total EHCPs" value={(serviceModel.send_cost_model.ehcp_pipeline?.total_ehcps || 0).toLocaleString()} icon={<GraduationCap size={18} />} />
+                  <StatCard label="Requests/Month" value={serviceModel.send_cost_model.ehcp_pipeline?.new_requests_per_month || 0} icon={<TrendingUp size={18} />} />
+                  <StatCard label="Assessment Capacity" value={`${serviceModel.send_cost_model.ehcp_pipeline?.assessment_capacity_per_month || 0}/month`} color="#dc3545" icon={<AlertTriangle size={18} />} />
+                  <StatCard label="Timeliness" value={`${serviceModel.send_cost_model.ehcp_pipeline?.timeliness_pct || 0}%`} color="#dc3545" icon={<Target size={18} />} />
+                </div>
+                <div className="service-stat-row" style={{ marginTop: '12px' }}>
+                  <StatCard label="Backlog (Current)" value={serviceModel.send_cost_model.ehcp_pipeline?.backlog_current || 0} icon={<AlertTriangle size={18} />} />
+                  <StatCard label="Backlog (Peak)" value={(serviceModel.send_cost_model.ehcp_pipeline?.backlog_peak || 0).toLocaleString()} color="#dc3545" icon={<AlertTriangle size={18} />} />
+                  <StatCard label="Median Weeks" value={`${serviceModel.send_cost_model.ehcp_pipeline?.median_weeks_to_issue || 0}w`} color="#fd7e14" icon={<Calendar size={18} />} />
+                  <StatCard label="Statutory Target" value={`${serviceModel.send_cost_model.ehcp_pipeline?.statutory_target_weeks || 20}w`} icon={<Target size={18} />} />
+                </div>
+              </CollapsibleSection>
+
+              {/* Placement Cost Pyramid */}
+              {serviceModel.send_cost_model.placement_costs && (
+                <CollapsibleSection title="Placement Cost Pyramid" icon={<Building2 size={18} />} defaultOpen>
+                  <ChartCard title="Placement Count × Cost by Type" subtitle="Higher cost types at top — independent sector drives cost growth">
+                    <ResponsiveContainer width="100%" height={320}>
+                      <BarChart
+                        data={Object.entries(serviceModel.send_cost_model.placement_costs)
+                          .filter(([k, v]) => v?.count && v?.avg_cost)
+                          .map(([k, v]) => ({ name: k.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), count: v.count, avg_cost: v.avg_cost, total: v.total || v.count * v.avg_cost }))
+                          .sort((a, b) => a.avg_cost - b.avg_cost)}
+                        layout="vertical"
+                        margin={{ top: 5, right: 30, left: 140, bottom: 5 }}
+                      >
+                        <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                        <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(0)}M`} />
+                        <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={130} />
+                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v, n) => [n === 'total' ? formatCurrency(v) : v.toLocaleString(), n === 'total' ? 'Total Cost' : 'Count']} />
+                        <Bar dataKey="total" fill={CHART_COLORS[0]} {...CHART_ANIMATION} name="Total Cost" />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                </CollapsibleSection>
+              )}
+
+              {/* 5-Year Cost Projection */}
+              {sendProjection.yearly.length > 0 && (
+                <CollapsibleSection title={`5-Year Cost Projection (${formatCurrency(sendProjection.total_5yr_cost)} cumulative)`} icon={<TrendingUp size={18} />} defaultOpen>
+                  <div className="service-stat-row" style={{ marginBottom: '16px' }}>
+                    <StatCard label="Base Year Cost" value={formatCurrency(sendProjection.base_year_cost)} icon={<PieChart size={18} />} />
+                    <StatCard label="Year 5 Cost" value={formatCurrency(sendProjection.yearly[sendProjection.yearly.length - 1]?.total || 0)} color="#dc3545" icon={<TrendingUp size={18} />} />
+                    <StatCard label="Growth Rate" value={`${(sendProjection.growth_rate * 100).toFixed(1)}%/yr`} color="#fd7e14" icon={<TrendingUp size={18} />} />
+                  </div>
+                  <ChartCard title="Cost Trajectory" subtitle="Placement + transport + tribunal costs compound annually">
+                    <ResponsiveContainer width="100%" height={300}>
+                      <AreaChart data={sendProjection.yearly} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                        <XAxis dataKey="label" tick={AXIS_TICK_STYLE} />
+                        <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(0)}M`} />
+                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => formatCurrency(v)} />
+                        <Area type="monotone" dataKey="placement_cost" stackId="1" stroke={CHART_COLORS[0]} fill={CHART_COLORS[0]} fillOpacity={0.6} name="Placements" {...CHART_ANIMATION} />
+                        <Area type="monotone" dataKey="transport" stackId="1" stroke={CHART_COLORS[1]} fill={CHART_COLORS[1]} fillOpacity={0.6} name="Transport" {...CHART_ANIMATION} />
+                        <Area type="monotone" dataKey="tribunals" stackId="1" stroke={CHART_COLORS[2]} fill={CHART_COLORS[2]} fillOpacity={0.6} name="Tribunals" {...CHART_ANIMATION} />
+                        <Legend />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+
+                  {/* DSG Deficit Trajectory */}
+                  {sendProjection.dsg_trajectory?.some(d => d.deficit > 0) && (
+                    <ChartCard title="DSG Deficit Trajectory" subtitle={`Statutory override ends ${serviceModel.send_cost_model.dsg_deficit?.statutory_override_ends || 'March 2028'}`}>
+                      <ResponsiveContainer width="100%" height={200}>
+                        <LineChart data={sendProjection.dsg_trajectory} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                          <XAxis dataKey="year" tick={AXIS_TICK_STYLE} tickFormatter={v => `Year ${v}`} />
+                          <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(0)}M`} />
+                          <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => formatCurrency(v)} />
+                          <Line type="monotone" dataKey="deficit" stroke="#dc3545" strokeWidth={2} dot={{ fill: '#dc3545' }} name="DSG Deficit" {...CHART_ANIMATION} />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </ChartCard>
+                  )}
+                </CollapsibleSection>
+              )}
+
+              {/* Transport */}
+              {serviceModel.send_cost_model.transport && (
+                <CollapsibleSection title={`SEND Transport (${formatCurrency(serviceModel.send_cost_model.transport.total_cost)})`} icon={<Truck size={18} />}>
+                  <div className="service-stat-row">
+                    <StatCard label="Transport Cost" value={formatCurrency(serviceModel.send_cost_model.transport.total_cost)} color="#dc3545" icon={<Truck size={18} />} />
+                    <StatCard label="Eligible Pupils" value={(serviceModel.send_cost_model.transport.eligible_pupils || 0).toLocaleString()} icon={<Users size={18} />} />
+                    <StatCard label="Cost/Pupil" value={`£${(serviceModel.send_cost_model.transport.cost_per_pupil || 0).toLocaleString()}`} icon={<PieChart size={18} />} />
+                    <StatCard label="Growth 26/27" value={`+${formatCurrency(serviceModel.send_cost_model.transport.growth_2026_27)}`} color="#fd7e14" icon={<TrendingUp size={18} />} />
+                  </div>
+                  <div className="service-transport-levers" style={{ marginTop: '16px' }}>
+                    <h4 style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '8px', fontSize: '0.85rem' }}>Cost Reduction Levers</h4>
+                    <div className="service-lever-cards">
+                      {serviceModel.send_cost_model.transport.personal_travel_budgets && (
+                        <div className="service-lever-card">
+                          <strong>Personal Travel Budgets</strong>
+                          <span>{serviceModel.send_cost_model.transport.personal_travel_budgets.current} → {serviceModel.send_cost_model.transport.personal_travel_budgets.target}</span>
+                          <span className="service-lever-saving">£{serviceModel.send_cost_model.transport.personal_travel_budgets.avg_saving?.toLocaleString()} avg saving each</span>
+                        </div>
+                      )}
+                      {serviceModel.send_cost_model.transport.transport_assistant_grants && (
+                        <div className="service-lever-card">
+                          <strong>Transport Assistant Grants</strong>
+                          <span>{serviceModel.send_cost_model.transport.transport_assistant_grants.current} → {serviceModel.send_cost_model.transport.transport_assistant_grants.target}</span>
+                          <span className="service-lever-saving">£{serviceModel.send_cost_model.transport.transport_assistant_grants.avg_saving?.toLocaleString()} avg saving each</span>
+                        </div>
+                      )}
+                      {serviceModel.send_cost_model.transport.minibus_programme && (
+                        <div className="service-lever-card">
+                          <strong>Ford Minibus Fleet</strong>
+                          <span>{serviceModel.send_cost_model.transport.minibus_programme.vehicles} vehicles</span>
+                          <span className="service-lever-saving">{serviceModel.send_cost_model.transport.minibus_programme.saving_per_passenger_pct}% saving per passenger</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </CollapsibleSection>
+              )}
+
+              {/* Early Intervention ROI */}
+              {interventionROI.programmes.length > 0 && (
+                <CollapsibleSection title={`Early Intervention ROI (${formatCurrency(interventionROI.net_saving)} net saving)`} icon={<Heart size={18} />}>
+                  <div className="service-stat-row" style={{ marginBottom: '16px' }}>
+                    <StatCard label="Reactive Cost" value={formatCurrency(interventionROI.current_reactive_cost)} color="#dc3545" icon={<AlertTriangle size={18} />} />
+                    <StatCard label="Intervention Cost" value={formatCurrency(interventionROI.intervention_cost)} icon={<Heart size={18} />} />
+                    <StatCard label="Net Saving" value={formatCurrency(interventionROI.net_saving)} color="#28a745" icon={<TrendingUp size={18} />} />
+                    <StatCard label="Payback" value={`${interventionROI.payback_years} yrs`} icon={<Calendar size={18} />} />
+                  </div>
+                  <div className="service-roi-programmes">
+                    {interventionROI.programmes.map((p, i) => (
+                      <div key={i} className="service-roi-card">
+                        <div className="service-roi-header">
+                          <strong>{p.name}</strong>
+                          <span className="service-roi-net">{formatCurrency(p.net_saving)}/yr</span>
+                        </div>
+                        <div className="service-roi-detail">
+                          {p.evidence && <span className="service-roi-evidence">{p.evidence}</span>}
+                          {p.roi_ratio && <span className="service-roi-ratio">ROI: {p.roi_ratio.toFixed(1)}×</span>}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </CollapsibleSection>
+              )}
+
+              {/* LAC Placement Optimisation */}
+              {lacOptimisation.saving > 0 && (
+                <CollapsibleSection title={`LAC Placement Optimisation (${formatCurrency(lacOptimisation.saving)} saving)`} icon={<Users size={18} />}>
+                  <div className="service-stat-row" style={{ marginBottom: '16px' }}>
+                    <StatCard label="Current LAC Cost" value={formatCurrency(lacOptimisation.current_cost)} icon={<PieChart size={18} />} />
+                    <StatCard label="Optimised Cost" value={formatCurrency(lacOptimisation.optimised_cost)} color="#28a745" icon={<Target size={18} />} />
+                    <StatCard label="Saving" value={formatCurrency(lacOptimisation.saving)} color="#28a745" icon={<TrendingUp size={18} />} />
+                    <StatCard label="Saving %" value={`${lacOptimisation.saving_pct}%`} icon={<PieChart size={18} />} />
+                  </div>
+
+                  {/* Step-down moves */}
+                  {lacOptimisation.placements_moved.length > 0 && (
+                    <div className="service-stepdown-table">
+                      <h4 style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '8px', fontSize: '0.85rem' }}>Placement Step-Down Pathways</h4>
+                      <table className="service-table">
+                        <thead>
+                          <tr><th>From</th><th>To</th><th>Count</th><th>Saving/Place</th><th>Total</th></tr>
+                        </thead>
+                        <tbody>
+                          {lacOptimisation.placements_moved.map((m, i) => (
+                            <tr key={i}>
+                              <td>{m.from_label}</td>
+                              <td>{m.to_label}</td>
+                              <td>{m.count}</td>
+                              <td>{formatCurrency(m.unit_saving)}</td>
+                              <td className="service-table-highlight">{formatCurrency(m.total_saving)}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+
+                  {/* WOCL ROI */}
+                  {lacOptimisation.wocl_roi && (
+                    <div className="service-wocl-roi" style={{ marginTop: '16px' }}>
+                      <h4 style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '8px', fontSize: '0.85rem' }}>WOCL Programme ROI</h4>
+                      <div className="service-stat-row">
+                        <StatCard label="New Homes" value={lacOptimisation.wocl_roi.additional_homes} icon={<Building2 size={18} />} />
+                        <StatCard label="Capital Cost" value={formatCurrency(lacOptimisation.wocl_roi.capital_cost)} icon={<PieChart size={18} />} />
+                        <StatCard label="Net Annual" value={formatCurrency(lacOptimisation.wocl_roi.net_annual)} color="#28a745" icon={<TrendingUp size={18} />} />
+                        <StatCard label="Payback" value={`${lacOptimisation.wocl_roi.payback_years} yrs`} icon={<Calendar size={18} />} />
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Timeline */}
+                  {lacOptimisation.timeline.length > 0 && (
+                    <ChartCard title="Step-Down Timeline" subtitle="Phased saving accumulation over 4 years">
+                      <ResponsiveContainer width="100%" height={200}>
+                        <BarChart data={lacOptimisation.timeline} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                          <XAxis dataKey="year" tick={AXIS_TICK_STYLE} tickFormatter={v => `Year ${v}`} />
+                          <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(1)}M`} />
+                          <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => formatCurrency(v)} />
+                          <Bar dataKey="saving" fill="#28a745" {...CHART_ANIMATION} name="Cumulative Saving" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </ChartCard>
+                  )}
+                </CollapsibleSection>
+              )}
+
+              {/* Workforce */}
+              {serviceModel.send_cost_model.workforce && (
+                <CollapsibleSection title="SEND Workforce" icon={<Users size={18} />}>
+                  <div className="service-stat-row">
+                    {serviceModel.send_cost_model.workforce.educational_psychologists && (
+                      <>
+                        <StatCard label="Permanent EPs" value={serviceModel.send_cost_model.workforce.educational_psychologists.permanent} icon={<Users size={18} />} />
+                        <StatCard label="Agency EPs" value={serviceModel.send_cost_model.workforce.educational_psychologists.agency} color="#dc3545" icon={<Users size={18} />} />
+                        <StatCard label="Agency Cost/yr" value={formatCurrency(serviceModel.send_cost_model.workforce.educational_psychologists.annual_agency_cost)} color="#dc3545" icon={<PieChart size={18} />} />
+                        <StatCard label="Agency Premium" value={`${serviceModel.send_cost_model.workforce.agency_premium_pct || 167}%`} color="#fd7e14" icon={<AlertTriangle size={18} />} />
+                      </>
+                    )}
+                  </div>
+                  {serviceModel.send_cost_model.workforce.social_workers && (
+                    <div className="service-stat-row" style={{ marginTop: '12px' }}>
+                      <StatCard label="Permanent SWs" value={serviceModel.send_cost_model.workforce.social_workers.permanent} icon={<Users size={18} />} />
+                      <StatCard label="Agency SWs" value={serviceModel.send_cost_model.workforce.social_workers.agency} color="#fd7e14" icon={<Users size={18} />} />
+                      <StatCard label="Apprentices" value={serviceModel.send_cost_model.workforce.social_workers.apprentices_on_programme} color="#28a745" icon={<GraduationCap size={18} />} />
+                      <StatCard label="NQSWs (Jan 25)" value={serviceModel.send_cost_model.workforce.social_workers.nqsw_started_jan_2025} icon={<Users size={18} />} />
+                    </div>
+                  )}
+                </CollapsibleSection>
+              )}
+            </div>
+          )}
+
+          {/* Service Intelligence: ASC Demand Dashboard */}
+          {serviceModel?.asc_demand_model && (
+            <div className="service-intelligence-section">
+              <h2 className="service-intelligence-title"><Activity size={20} style={{ verticalAlign: 'middle', marginRight: '8px' }} />Service Intelligence: ASC Demand & Market</h2>
+              <p className="service-intelligence-subtitle">Demographic pressure, care market sustainability, and CHC recovery opportunity</p>
+
+              {/* Demographic Pressure */}
+              {ascProjection.yearly.length > 0 && (
+                <CollapsibleSection title={`Demographic Pressure (${(ascProjection.blended_growth_rate * 100).toFixed(1)}% blended growth)`} icon={<TrendingUp size={18} />} defaultOpen>
+                  <div className="service-stat-row" style={{ marginBottom: '16px' }}>
+                    <StatCard label="Base Year Cost" value={formatCurrency(ascProjection.base_cost)} icon={<PieChart size={18} />} />
+                    <StatCard label="Year 5 Cost" value={formatCurrency(ascProjection.yearly[ascProjection.yearly.length - 1]?.total || 0)} color="#dc3545" icon={<TrendingUp size={18} />} />
+                    <StatCard label="5yr Growth" value={formatCurrency(ascProjection.total_growth)} color="#fd7e14" icon={<TrendingUp size={18} />} />
+                  </div>
+                  <ChartCard title="ASC Cost Trajectory" subtitle="Residential + home care + LD costs compound with demographic growth and inflation">
+                    <ResponsiveContainer width="100%" height={300}>
+                      <AreaChart data={ascProjection.yearly} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                        <XAxis dataKey="label" tick={AXIS_TICK_STYLE} />
+                        <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(0)}M`} />
+                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => formatCurrency(v)} />
+                        <Area type="monotone" dataKey="residential_cost" stackId="1" stroke={CHART_COLORS[0]} fill={CHART_COLORS[0]} fillOpacity={0.6} name="Residential" {...CHART_ANIMATION} />
+                        <Area type="monotone" dataKey="home_care_cost" stackId="1" stroke={CHART_COLORS[1]} fill={CHART_COLORS[1]} fillOpacity={0.6} name="Home Care" {...CHART_ANIMATION} />
+                        <Area type="monotone" dataKey="ld_cost" stackId="1" stroke={CHART_COLORS[2]} fill={CHART_COLORS[2]} fillOpacity={0.6} name="Learning Disability" {...CHART_ANIMATION} />
+                        <Legend />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+
+                  {/* Population Growth */}
+                  <ChartCard title="Population Projections" subtitle="Over-85s growing fastest — driving residential demand">
+                    <ResponsiveContainer width="100%" height={200}>
+                      <LineChart data={ascProjection.yearly} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                        <XAxis dataKey="label" tick={AXIS_TICK_STYLE} />
+                        <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `${(v / 1000).toFixed(0)}K`} />
+                        <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => v.toLocaleString()} />
+                        <Line type="monotone" dataKey="over_65" stroke={CHART_COLORS[3]} strokeWidth={2} name="Over 65" {...CHART_ANIMATION} />
+                        <Line type="monotone" dataKey="over_85" stroke="#dc3545" strokeWidth={2} name="Over 85" {...CHART_ANIMATION} />
+                        <Legend />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                </CollapsibleSection>
+              )}
+
+              {/* Market Sustainability */}
+              {ascMarket.provider_count > 0 && (
+                <CollapsibleSection title={`Market Sustainability (Risk: ${ascMarket.risk_level})`} icon={<AlertTriangle size={18} />}>
+                  <div className="service-stat-row">
+                    <StatCard label="Providers" value={ascMarket.provider_count} icon={<Building2 size={18} />} />
+                    <StatCard label="Vacancy Rate" value={`${ascMarket.vacancy_rate}%`} icon={<PieChart size={18} />} />
+                    <StatCard label="Closures (3yr)" value={ascMarket.closure_trend} color={ascMarket.closure_trend > 5 ? '#dc3545' : undefined} icon={<AlertTriangle size={18} />} />
+                    <StatCard label="Fair Cost Gap" value={`£${ascMarket.fair_cost_gap}/wk`} color="#fd7e14" icon={<TrendingUp size={18} />} />
+                  </div>
+                  <div className="service-stat-row" style={{ marginTop: '12px' }}>
+                    <StatCard label="Off-Framework" value={`${ascMarket.off_framework_pct}%`} color={ascMarket.off_framework_pct > 25 ? '#dc3545' : undefined} icon={<PieChart size={18} />} />
+                    <StatCard label="Inflation Pressure" value={formatCurrency(ascMarket.inflation_pressure)} color="#dc3545" icon={<TrendingUp size={18} />} />
+                    <StatCard label="Risk Score" value={`${ascMarket.risk_score}/100`} color={ascMarket.risk_score >= 40 ? '#dc3545' : '#fd7e14'} icon={<AlertTriangle size={18} />} />
+                  </div>
+                  {ascMarket.mitigation_options.length > 0 && (
+                    <div style={{ marginTop: '16px' }}>
+                      <h4 style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '8px', fontSize: '0.85rem' }}>Mitigation Options</h4>
+                      {ascMarket.mitigation_options.map((m, i) => (
+                        <div key={i} className="service-roi-card" style={{ marginBottom: '8px' }}>
+                          <div className="service-roi-header">
+                            <strong>{m.action}</strong>
+                            <span className="service-roi-net">{m.saving ? formatCurrency(m.saving) + ' saving' : formatCurrency(m.cost) + ' cost'}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CollapsibleSection>
+              )}
+
+              {/* CHC Recovery Pipeline */}
+              {chcRecovery.gap > 0 && (
+                <CollapsibleSection title={`CHC Recovery Pipeline (${formatCurrency(chcRecovery.gap)} opportunity)`} icon={<Heart size={18} />}>
+                  <div className="service-stat-row" style={{ marginBottom: '16px' }}>
+                    <StatCard label="Current Income" value={formatCurrency(chcRecovery.current_income)} icon={<PieChart size={18} />} />
+                    <StatCard label="Target Income" value={formatCurrency(chcRecovery.target_income)} color="#28a745" icon={<Target size={18} />} />
+                    <StatCard label="Recovery Gap" value={formatCurrency(chcRecovery.gap)} color="#12B6CF" icon={<TrendingUp size={18} />} />
+                    <StatCard label="Net Benefit" value={formatCurrency(chcRecovery.net_benefit)} color="#28a745" icon={<TrendingUp size={18} />} />
+                  </div>
+                  <div className="service-stat-row">
+                    <StatCard label="Current Rate" value={`${chcRecovery.current_rate}%`} color="#dc3545" icon={<PieChart size={18} />} />
+                    <StatCard label="Target Rate" value={`${chcRecovery.target_rate}%`} icon={<Target size={18} />} />
+                    <StatCard label="Additional Claims" value={chcRecovery.additional_claims} icon={<FileText size={18} />} />
+                    <StatCard label="Add'l Reviewers" value={chcRecovery.additional_reviewers} icon={<Users size={18} />} />
+                  </div>
+                  {chcRecovery.timeline.length > 0 && (
+                    <ChartCard title="CHC Recovery Timeline" subtitle="Phased increase in recovery rate">
+                      <ResponsiveContainer width="100%" height={200}>
+                        <BarChart data={chcRecovery.timeline} margin={{ top: 10, right: 30, left: 10, bottom: 0 }}>
+                          <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                          <XAxis dataKey="year" tick={AXIS_TICK_STYLE} tickFormatter={v => `Year ${v}`} />
+                          <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(1)}M`} />
+                          <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => formatCurrency(v)} />
+                          <Bar dataKey="income" fill="#28a745" {...CHART_ANIMATION} name="CHC Income" />
+                        </BarChart>
+                      </ResponsiveContainer>
+                    </ChartCard>
+                  )}
+                </CollapsibleSection>
+              )}
+
+              {/* Reablement Performance */}
+              {serviceModel.asc_demand_model.reablement && (
+                <CollapsibleSection title="Reablement Performance" icon={<Heart size={18} />}>
+                  <div className="service-stat-row">
+                    <StatCard label="Success Rate" value={`${serviceModel.asc_demand_model.reablement.success_rate_pct}%`} color="#28a745" icon={<Target size={18} />} />
+                    <StatCard label="National Avg" value={`${serviceModel.asc_demand_model.reablement.national_avg_pct}%`} icon={<Target size={18} />} />
+                    <StatCard label="Cost/Episode" value={formatCurrency(serviceModel.asc_demand_model.reablement.cost_per_episode)} icon={<PieChart size={18} />} />
+                    <StatCard label="Residential Avoided" value={formatCurrency(serviceModel.asc_demand_model.reablement.residential_avoided_saving)} color="#28a745" icon={<TrendingUp size={18} />} />
+                  </div>
+                  {serviceModel.asc_demand_model.reablement.potential_expansion && (
+                    <div className="service-roi-card" style={{ marginTop: '12px' }}>
+                      <div className="service-roi-header">
+                        <strong>Expansion Opportunity: +{serviceModel.asc_demand_model.reablement.potential_expansion.additional_episodes_pa} episodes/year</strong>
+                        <span className="service-roi-net">{formatCurrency(serviceModel.asc_demand_model.reablement.potential_expansion.net_saving)}/yr</span>
+                      </div>
+                    </div>
+                  )}
+                </CollapsibleSection>
+              )}
+            </div>
+          )}
         </div>
       )}
 

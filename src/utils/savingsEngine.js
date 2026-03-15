@@ -676,7 +676,18 @@ export function generateDirectives(portfolio, findings, spending, options = {}) 
     }
   }
 
-  // 5. Funding constraint metadata on existing directives
+  // 5. Service-model-driven directives (SEND, ASC, etc.)
+  const serviceModel = portfolio.operational_context?.service_model
+  if (serviceModel?.send_cost_model) {
+    const sendDirectives = sendServiceDirectives(serviceModel.send_cost_model, serviceModel.lac_cost_model)
+    directives.push(...sendDirectives.map(d => ({ ...d, portfolio_id: portfolio.id, officer: portfolio.executive_director })))
+  }
+  if (serviceModel?.asc_demand_model) {
+    const ascDirectives = ascServiceDirectives(serviceModel.asc_demand_model)
+    directives.push(...ascDirectives.map(d => ({ ...d, portfolio_id: portfolio.id, officer: portfolio.executive_director })))
+  }
+
+  // 6. Funding constraint metadata on existing directives
   if (options.fundingModel) {
     const constraints = fundingConstraints(portfolio, options.fundingModel)
     if (constraints && constraints.addressable_pct < 50) {
@@ -2502,5 +2513,1165 @@ export function directorateRiskProfile(directorate, portfolios, spending, option
     risk_color: riskColor,
     risks: allRisks,
     portfolio_risks: portfolioRisks,
+  }
+}
+
+// ──────────────────────────────────────────────────────────────
+// SEND & Children's Service Intelligence Functions
+// ──────────────────────────────────────────────────────────────
+
+/**
+ * Project EHCP growth + placement costs over N years.
+ * Models the cascade: EHCP identification → assessment → placement → transport → tribunal → DSG deficit.
+ *
+ * @param {Object} sendModel - send_cost_model from cabinet_portfolios.json
+ * @param {number} years - Projection horizon (default 5)
+ * @returns {Object} { yearly: [], growth_rate, cost_driver_breakdown, total_5yr_cost }
+ */
+export function sendCostProjection(sendModel, years = 5) {
+  if (!sendModel?.ehcp_pipeline) return { yearly: [], growth_rate: 0, cost_driver_breakdown: {}, total_5yr_cost: 0 }
+
+  const pipeline = sendModel.ehcp_pipeline
+  const placements = sendModel.placement_costs || {}
+  const transport = sendModel.transport || {}
+  const tribunals = sendModel.tribunals || {}
+  const dsg = sendModel.dsg_deficit || {}
+  const growthRate = pipeline.annual_growth_rate ?? 0.105
+
+  // Calculate base placement cost
+  const placementTypes = ['mainstream', 'special_school_maintained', 'special_school_independent',
+    'residential_special', 'residential_childrens_home', 'alternative_provision', 'post_16_specialist']
+  const basePlacementCost = placementTypes.reduce((sum, type) => sum + (placements[type]?.total || 0), 0)
+  const baseEhcps = pipeline.total_ehcps || 12317
+  const baseTransport = transport.total_cost || 0
+  const baseTribunalCost = (tribunals.annual_tribunal_cost || 0) + (tribunals.annual_placement_cost_from_losses || 0)
+
+  const yearly = []
+  let cumulativeCost = 0
+
+  for (let y = 0; y < years; y++) {
+    const factor = Math.pow(1 + growthRate, y)
+    const ehcps = Math.round(baseEhcps * factor)
+    const yearPlacementCost = Math.round(basePlacementCost * factor)
+
+    // Transport grows faster than EHCPs (route complexity, distance)
+    const transportGrowth = y === 0 ? baseTransport : Math.round(baseTransport * Math.pow(1 + growthRate * 1.15, y))
+
+    // Tribunal costs grow with EHCP volume
+    const yearTribunalCost = Math.round(baseTribunalCost * factor)
+
+    // DSG deficit compounds at its own rate
+    const dsgDeficit = dsg.current ? Math.round(dsg.current * Math.pow(1 + (dsg.annual_growth_rate || 0.38), y)) : 0
+
+    // Per-placement breakdown for the year
+    const placementBreakdown = {}
+    for (const type of placementTypes) {
+      if (!placements[type]) continue
+      const count = Math.round((placements[type].count || 0) * factor)
+      const cost = placements[type].avg_cost || 0
+      placementBreakdown[type] = { count, cost: cost, total: count * cost }
+    }
+
+    const yearTotal = yearPlacementCost + transportGrowth + yearTribunalCost
+    cumulativeCost += yearTotal
+
+    yearly.push({
+      year: y + 1,
+      label: `Year ${y + 1}`,
+      ehcps,
+      placements: placementBreakdown,
+      placement_cost: yearPlacementCost,
+      transport: transportGrowth,
+      tribunals: yearTribunalCost,
+      dsg_deficit: dsgDeficit,
+      total: yearTotal,
+    })
+  }
+
+  // Cost driver breakdown (% of base year)
+  const baseTotal = basePlacementCost + baseTransport + baseTribunalCost
+  const costDriverBreakdown = {
+    placements: { value: basePlacementCost, pct: baseTotal > 0 ? Math.round(basePlacementCost / baseTotal * 100) : 0 },
+    transport: { value: baseTransport, pct: baseTotal > 0 ? Math.round(baseTransport / baseTotal * 100) : 0 },
+    tribunals: { value: baseTribunalCost, pct: baseTotal > 0 ? Math.round(baseTribunalCost / baseTotal * 100) : 0 },
+  }
+
+  return {
+    yearly,
+    growth_rate: growthRate,
+    cost_driver_breakdown: costDriverBreakdown,
+    total_5yr_cost: cumulativeCost,
+    base_year_cost: baseTotal,
+    dsg_trajectory: yearly.map(y => ({ year: y.year, deficit: y.dsg_deficit })),
+  }
+}
+
+/**
+ * Calculate ROI of early intervention vs reactive placement.
+ * Compares cost of preventive programmes against reactive residential/foster care.
+ *
+ * @param {Object} sendModel - send_cost_model from cabinet_portfolios.json
+ * @param {Object} lacModel - lac_cost_model from cabinet_portfolios.json
+ * @returns {Object} { current_reactive_cost, intervention_cost, net_saving, payback_years, children_diverted, programmes }
+ */
+export function earlyInterventionROI(sendModel, lacModel) {
+  if (!sendModel?.early_intervention && !lacModel) {
+    return { current_reactive_cost: 0, intervention_cost: 0, net_saving: 0, payback_years: 0, children_diverted: 0, programmes: [] }
+  }
+
+  const ei = sendModel?.early_intervention || {}
+  const lac = lacModel || {}
+  const programmes = []
+
+  // 1. Troubled Families programme ROI
+  const tf = ei.troubled_families_programme || {}
+  if (tf.families_supported && tf.avg_cost && tf.estimated_saving_per_family) {
+    const cost = tf.families_supported * tf.avg_cost
+    const saving = tf.families_supported * tf.estimated_saving_per_family
+    programmes.push({
+      name: 'Troubled Families Programme',
+      families: tf.families_supported,
+      cost_pa: cost,
+      saving_pa: saving,
+      net_saving: saving - cost,
+      roi_ratio: saving / cost,
+      evidence: 'DCLG evaluation: £2.28 fiscal benefit per £1 invested',
+    })
+  }
+
+  // 2. Family Safeguarding Model
+  const fsm = ei.family_safeguarding_model || {}
+  if (fsm.potential_saving_low || fsm.potential_saving_high) {
+    const savingLow = fsm.potential_saving_low || 0
+    const savingHigh = fsm.potential_saving_high || 0
+    const implementationCost = 2500000 // Typical setup cost based on Hertfordshire model
+    programmes.push({
+      name: 'Family Safeguarding Model',
+      implemented: fsm.implemented || false,
+      cost_pa: implementationCost,
+      saving_low: savingLow,
+      saving_high: savingHigh,
+      saving_pa: (savingLow + savingHigh) / 2,
+      net_saving: ((savingLow + savingHigh) / 2) - implementationCost,
+      evidence: fsm.evidence_base || 'Hertfordshire: 46% reduction in children in care',
+    })
+  }
+
+  // 3. LAC avoidance through early help
+  const avoidanceSaving = ei.lac_avoidance_saving_per_child || 55000
+  const lacTotal = lac.total_lac || 0
+  // Conservative: divert 5% of LAC through early intervention
+  const diversionRate = 0.05
+  const childrenDiverted = Math.round(lacTotal * diversionRate)
+  const lacAvoidanceSaving = childrenDiverted * avoidanceSaving
+
+  if (childrenDiverted > 0) {
+    programmes.push({
+      name: 'LAC Avoidance (Edge of Care)',
+      children_diverted: childrenDiverted,
+      saving_per_child: avoidanceSaving,
+      cost_pa: childrenDiverted * 12000, // Edge of care support cost
+      saving_pa: lacAvoidanceSaving,
+      net_saving: lacAvoidanceSaving - (childrenDiverted * 12000),
+      evidence: `Diverting ${childrenDiverted} children from care at ${formatCurrency(avoidanceSaving)} each`,
+    })
+  }
+
+  // 4. EP workforce conversion (agency → permanent)
+  const wf = sendModel?.workforce || {}
+  const ep = wf.educational_psychologists || {}
+  if (ep.agency && ep.agency_day_rate && ep.permanent_equivalent_day) {
+    const agencyDays = ep.agency * 220 // Working days per year
+    const agencyCost = agencyDays * ep.agency_day_rate
+    const permanentCost = agencyDays * ep.permanent_equivalent_day
+    const conversionSaving = agencyCost - permanentCost
+    const conversionTarget = Math.round(ep.agency * 0.3) // Convert 30% over time
+    const saving = Math.round(conversionSaving * 0.3)
+    programmes.push({
+      name: 'EP Agency→Permanent Conversion',
+      agency_eps: ep.agency,
+      conversion_target: conversionTarget,
+      cost_pa: 0, // Recruitment cost offset by salary saving
+      saving_pa: saving,
+      net_saving: saving,
+      evidence: `${ep.agency} agency EPs at £${ep.agency_day_rate}/day vs £${ep.permanent_equivalent_day}/day permanent`,
+    })
+  }
+
+  const totalInterventionCost = programmes.reduce((sum, p) => sum + (p.cost_pa || 0), 0)
+  const totalSaving = programmes.reduce((sum, p) => sum + (p.saving_pa || 0), 0)
+  const totalNetSaving = programmes.reduce((sum, p) => sum + (p.net_saving || 0), 0)
+
+  // Current reactive cost = residential placements + tribunal losses
+  const residentialCost = Object.values(lac.by_placement || {}).reduce((sum, p) => sum + ((p.count || 0) * (p.avg_cost || 0)), 0)
+  const tribunalCost = (sendModel?.tribunals?.annual_tribunal_cost || 0) + (sendModel?.tribunals?.annual_placement_cost_from_losses || 0)
+  const currentReactiveCost = residentialCost + tribunalCost
+
+  return {
+    current_reactive_cost: currentReactiveCost,
+    intervention_cost: totalInterventionCost,
+    total_saving: totalSaving,
+    net_saving: totalNetSaving,
+    payback_years: totalNetSaving > 0 ? Math.round(totalInterventionCost / totalNetSaving * 10) / 10 : 0,
+    children_diverted: childrenDiverted,
+    programmes,
+  }
+}
+
+/**
+ * Model LAC placement step-down savings (WOCL programme).
+ * Calculates savings from moving children from expensive independent placements to in-house.
+ *
+ * @param {Object} lacModel - lac_cost_model from cabinet_portfolios.json
+ * @returns {Object} { current_cost, optimised_cost, saving, placements_moved, wocl_roi, timeline }
+ */
+export function lacPlacementOptimisation(lacModel) {
+  if (!lacModel?.by_placement) return { current_cost: 0, optimised_cost: 0, saving: 0, placements_moved: [], wocl_roi: null, timeline: [] }
+
+  const bp = lacModel.by_placement
+  const wocl = lacModel.wocl_programme || {}
+
+  // Current total cost
+  const currentCost = Object.values(bp).reduce((sum, p) => sum + ((p.count || 0) * (p.avg_cost || 0)), 0)
+
+  // Step-down opportunities (move from expensive → cheaper placements)
+  const moves = []
+
+  // 1. Independent fostering → In-house fostering (convert 20%)
+  if (bp.foster_independent && bp.foster_in_house) {
+    const moveCount = Math.round((bp.foster_independent.count || 0) * 0.2)
+    const unitSaving = (bp.foster_independent.avg_cost || 0) - (bp.foster_in_house.avg_cost || 0)
+    if (moveCount > 0 && unitSaving > 0) {
+      moves.push({
+        from: 'foster_independent',
+        from_label: 'Independent Fostering',
+        to: 'foster_in_house',
+        to_label: 'In-house Fostering',
+        count: moveCount,
+        unit_saving: unitSaving,
+        total_saving: moveCount * unitSaving,
+        feasibility: 7,
+        timeline: 'Medium-term (12-24 months)',
+      })
+    }
+  }
+
+  // 2. Independent residential → In-house residential (WOCL programme)
+  if (bp.residential_independent && bp.residential_in_house && wocl.target_in_house_homes) {
+    const additionalHomes = (wocl.target_in_house_homes || 0) - (wocl.current_in_house_homes || 0)
+    const moveCount = Math.min(additionalHomes * 3, bp.residential_independent.count || 0) // ~3 children per home
+    const unitSaving = wocl.saving_per_placement_pa || ((bp.residential_independent.avg_cost || 0) - (bp.residential_in_house.avg_cost || 0))
+    if (moveCount > 0 && unitSaving > 0) {
+      moves.push({
+        from: 'residential_independent',
+        from_label: 'Independent Residential',
+        to: 'residential_in_house',
+        to_label: 'In-house Residential (WOCL)',
+        count: moveCount,
+        unit_saving: unitSaving,
+        total_saving: moveCount * unitSaving,
+        feasibility: 6,
+        timeline: 'Long-term (24-48 months)',
+      })
+    }
+  }
+
+  // 3. Residential → Specialist fostering (step-down)
+  if (bp.residential_independent && bp.foster_independent) {
+    const moveCount = Math.round((bp.residential_independent.count || 0) * 0.1) // 10% step-down
+    const unitSaving = (bp.residential_independent.avg_cost || 0) - (bp.foster_independent.avg_cost || 0)
+    if (moveCount > 0 && unitSaving > 0) {
+      moves.push({
+        from: 'residential_independent',
+        from_label: 'Independent Residential',
+        to: 'foster_independent',
+        to_label: 'Specialist Foster Care',
+        count: moveCount,
+        unit_saving: unitSaving,
+        total_saving: moveCount * unitSaving,
+        feasibility: 5,
+        timeline: 'Medium-term (12-24 months)',
+      })
+    }
+  }
+
+  const totalSaving = moves.reduce((sum, m) => sum + m.total_saving, 0)
+  const optimisedCost = currentCost - totalSaving
+
+  // WOCL ROI calculation
+  // saving_per_placement_pa is the NET saving (independent cost minus in-house cost, running costs already included)
+  let woclROI = null
+  if (wocl.target_in_house_homes && wocl.current_in_house_homes) {
+    const additionalHomes = wocl.target_in_house_homes - wocl.current_in_house_homes
+    const capitalCost = additionalHomes * (wocl.capital_cost_per_home || 1200000)
+    const annualRunning = additionalHomes * (wocl.annual_running_cost || 450000)
+    const annualSaving = additionalHomes * 3 * (wocl.saving_per_placement_pa || 100000) // 3 children per home
+    woclROI = {
+      additional_homes: additionalHomes,
+      capital_cost: capitalCost,
+      annual_running_cost: annualRunning,
+      annual_saving: annualSaving,
+      net_annual: annualSaving, // saving_per_placement_pa already accounts for running costs vs independent placement
+      payback_years: annualSaving > 0 ? Math.round(capitalCost / annualSaving * 10) / 10 : 0,
+    }
+  }
+
+  // Timeline: 4 years of step-down
+  const timeline = [
+    { year: 1, label: 'Year 1: Recruit foster carers + plan first WOCL homes', saving: Math.round(totalSaving * 0.15) },
+    { year: 2, label: 'Year 2: First step-downs + 5 WOCL homes operational', saving: Math.round(totalSaving * 0.35) },
+    { year: 3, label: 'Year 3: Full foster pipeline + 10 WOCL homes', saving: Math.round(totalSaving * 0.7) },
+    { year: 4, label: 'Year 4: Programme maturity + 15 WOCL homes', saving: totalSaving },
+  ]
+
+  return {
+    current_cost: currentCost,
+    optimised_cost: optimisedCost,
+    saving: totalSaving,
+    saving_pct: currentCost > 0 ? Math.round(totalSaving / currentCost * 1000) / 10 : 0,
+    placements_moved: moves,
+    wocl_roi: woclROI,
+    timeline,
+    residential_growth: lacModel.residential_growth || null,
+  }
+}
+
+/**
+ * Generate SEND-specific savings directives from cost model data.
+ * Returns directive[] matching the standard schema for integration with generateDirectives.
+ *
+ * @param {Object} sendModel - send_cost_model from cabinet_portfolios.json
+ * @param {Object} lacModel - lac_cost_model from cabinet_portfolios.json
+ * @returns {Array} directive objects
+ */
+export function sendServiceDirectives(sendModel, lacModel) {
+  if (!sendModel) return []
+  const directives = []
+
+  // 1. EP Workforce Conversion
+  const wf = sendModel.workforce || {}
+  const ep = wf.educational_psychologists || {}
+  if (ep.agency > 0 && ep.agency_day_rate && ep.permanent_equivalent_day) {
+    const agencyCostPA = ep.agency * 220 * ep.agency_day_rate
+    const permanentCostPA = ep.agency * 220 * ep.permanent_equivalent_day
+    const maxSaving = agencyCostPA - permanentCostPA
+    const targetConversion = 0.3
+    const saveLow = Math.round(maxSaving * 0.2)
+    const saveHigh = Math.round(maxSaving * 0.4)
+    directives.push({
+      id: 'send_ep_conversion',
+      type: 'service_model',
+      tier: 'demand_management',
+      owner: 'portfolio',
+      action: `Convert ${Math.round(ep.agency * targetConversion)} of ${ep.agency} agency EPs to permanent. Agency premium is ${wf.agency_premium_pct || 167}%. Builds capacity AND cuts cost.`,
+      save_low: saveLow,
+      save_high: saveHigh,
+      save_central: Math.round((saveLow + saveHigh) / 2),
+      timeline: 'Medium-term (6-18 months)',
+      legal_basis: 'Children and Families Act 2014 — duty to provide educational psychology assessments',
+      risk: 'Medium',
+      risk_detail: 'Recruitment market competitive. Permanent EPs require 3-year doctorate. Consider grow-your-own via trainee programme.',
+      steps: [
+        'Benchmark permanent EP salary against agency day rate',
+        'Launch "Grow Your Own" EP trainee programme (3 per year)',
+        'Offer golden hellos (£10K) for permanent EP recruitment',
+        'Negotiate volume agency rate reduction during transition',
+        'Target 30% conversion in 18 months',
+      ],
+      governance_route: 'cabinet_decision',
+      evidence: `${ep.agency} agency EPs at £${ep.agency_day_rate}/day vs £${ep.permanent_equivalent_day}/day permanent. Annual agency cost: ${formatCurrency(agencyCostPA)}`,
+      priority: 'high',
+      feasibility: 6,
+      impact: 8,
+    })
+  }
+
+  // 2. Transport Optimisation
+  const transport = sendModel.transport || {}
+  if (transport.total_cost > 0) {
+    const ptb = transport.personal_travel_budgets || {}
+    const tag = transport.transport_assistant_grants || {}
+    const minibus = transport.minibus_programme || {}
+
+    const ptbSaving = ((ptb.target || 0) - (ptb.current || 0)) * (ptb.avg_saving || 0)
+    const tagSaving = ((tag.target || 0) - (tag.current || 0)) * (tag.avg_saving || 0)
+    const minibusSaving = Math.round(transport.total_cost * (minibus.saving_per_passenger_pct || 0) / 100 * 0.1) // 10% of routes
+
+    const saveLow = ptbSaving + tagSaving
+    const saveHigh = ptbSaving + tagSaving + minibusSaving
+
+    if (saveLow > 0) {
+      directives.push({
+        id: 'send_transport_optimisation',
+        type: 'service_model',
+        tier: 'demand_management',
+        owner: 'portfolio',
+        action: `Expand personal travel budgets (${ptb.current}→${ptb.target}) and transport assistant grants (${tag.current}→${tag.target}). Deploy ${minibus.vehicles || 0} Ford minibuses on highest-cost routes.`,
+        save_low: saveLow,
+        save_high: saveHigh,
+        save_central: Math.round((saveLow + saveHigh) / 2),
+        timeline: 'Short-term (3-6 months)',
+        legal_basis: 'Education Act 1996 s.508B — home to school transport duty for EHCP pupils',
+        risk: 'Low',
+        risk_detail: 'Personal travel budgets are voluntary. Parents must consent. Some routes are too complex for independent travel.',
+        steps: [
+          `Identify ${(ptb.target || 0) - (ptb.current || 0)} additional families suitable for personal travel budgets`,
+          `Recruit ${(tag.target || 0) - (tag.current || 0)} additional transport assistant grant recipients`,
+          `Deploy Ford minibus fleet on top 10 highest cost-per-pupil routes`,
+          'Negotiate volume taxi contract rates for remaining routes',
+          'Implement route optimisation software across all SEND transport',
+        ],
+        governance_route: 'officer_delegation',
+        evidence: `Total transport: ${formatCurrency(transport.total_cost)}, £${transport.cost_per_pupil}/pupil. Growth projection: +${formatCurrency(transport.growth_2026_27)} in 2026/27`,
+        priority: 'high',
+        feasibility: 8,
+        impact: 7,
+      })
+    }
+  }
+
+  // 3. Placement Step-Down
+  if (lacModel?.by_placement) {
+    const optimisation = lacPlacementOptimisation(lacModel)
+    if (optimisation.saving > 0) {
+      directives.push({
+        id: 'send_lac_placement_stepdown',
+        type: 'service_model',
+        tier: 'service_redesign',
+        owner: 'portfolio',
+        action: `Step-down ${optimisation.placements_moved.reduce((s, m) => s + m.count, 0)} LAC placements from independent to in-house. WOCL programme: ${lacModel.wocl_programme?.target_in_house_homes || 0} homes target.`,
+        save_low: Math.round(optimisation.saving * 0.6),
+        save_high: optimisation.saving,
+        save_central: Math.round(optimisation.saving * 0.8),
+        timeline: 'Long-term (18+ months)',
+        legal_basis: 'Children Act 1989 — sufficiency duty. Statutory guidance: in-house placements preferred.',
+        risk: 'Medium',
+        risk_detail: 'Requires capital investment in WOCL homes. Foster carer recruitment pipeline must expand. Ofsted registration timeline.',
+        steps: optimisation.placements_moved.map(m => `Move ${m.count} from ${m.from_label} to ${m.to_label} (saving ${formatCurrency(m.unit_saving)}/placement)`),
+        governance_route: 'cabinet_decision',
+        evidence: `Current LAC cost: ${formatCurrency(optimisation.current_cost)}. ${optimisation.placements_moved.length} step-down pathways identified.`,
+        priority: 'high',
+        feasibility: 5,
+        impact: 9,
+      })
+    }
+  }
+
+  // 4. Tribunal Reduction
+  const tribunals = sendModel.tribunals || {}
+  if (tribunals.appeals_registered_pa > 0) {
+    const currentCost = (tribunals.annual_tribunal_cost || 0) + (tribunals.annual_placement_cost_from_losses || 0)
+    const mediationTarget = 0.7 // Increase mediation to 70%
+    const mediationSuccess = (tribunals.mediation_success_pct || 65) / 100
+    const currentMediation = (tribunals.mediation_rate_pct || 0) / 100
+    const additionalMediated = Math.round(tribunals.appeals_registered_pa * (mediationTarget - currentMediation))
+    const appealsAvoided = Math.round(additionalMediated * mediationSuccess)
+    const costPerAppealAvoided = (tribunals.avg_cost_per_tribunal || 0) + ((tribunals.parent_win_rate_pct || 94) / 100 * (tribunals.avg_cost_if_lost || 0))
+    const saving = appealsAvoided * costPerAppealAvoided
+
+    if (saving > 0) {
+      directives.push({
+        id: 'send_tribunal_reduction',
+        type: 'service_model',
+        tier: 'demand_management',
+        owner: 'portfolio',
+        action: `Increase mediation rate from ${tribunals.mediation_rate_pct}% to 70%, avoiding ~${appealsAvoided} tribunal appeals/year. Parents win ${tribunals.parent_win_rate_pct}% — early resolution is cheaper.`,
+        save_low: Math.round(saving * 0.6),
+        save_high: saving,
+        save_central: Math.round(saving * 0.8),
+        timeline: 'Medium-term (6-18 months)',
+        legal_basis: 'SEND Code of Practice 2015 — duty to resolve disputes without tribunal where possible',
+        risk: 'Low',
+        risk_detail: 'Mediation requires parental consent. Investment in SEND casework quality reduces appeals at source.',
+        steps: [
+          `Train ${Math.round(additionalMediated * 0.5)} additional mediators`,
+          'Implement "early resolution" triage at EHCP annual review stage',
+          'Publish transparent placement decision criteria',
+          'Establish parent partnership service with dedicated caseworkers',
+          'Monitor tribunal feedback to identify systemic decision failures',
+        ],
+        governance_route: 'officer_delegation',
+        evidence: `${tribunals.appeals_registered_pa} appeals/year, parents win ${tribunals.parent_win_rate_pct}%. Cost: ${formatCurrency(currentCost)}/year`,
+        priority: 'medium',
+        feasibility: 7,
+        impact: 6,
+      })
+    }
+  }
+
+  // 5. Early Intervention ROI-backed directive
+  if (sendModel.early_intervention?.family_safeguarding_model) {
+    const fsm = sendModel.early_intervention.family_safeguarding_model
+    const saveLow = fsm.potential_saving_low || 8000000
+    const saveHigh = fsm.potential_saving_high || 15000000
+    directives.push({
+      id: 'send_early_intervention',
+      type: 'service_model',
+      tier: 'service_redesign',
+      owner: 'portfolio',
+      action: `Implement Family Safeguarding Model. ${fsm.evidence_base}. Prevents children entering care system.`,
+      save_low: saveLow,
+      save_high: saveHigh,
+      save_central: Math.round((saveLow + saveHigh) / 2),
+      timeline: 'Long-term (18+ months)',
+      legal_basis: 'Children Act 1989 — preventive duty. DfE Innovation Programme evidence.',
+      risk: 'Medium',
+      risk_detail: 'Requires whole-system transformation. 2-3 year implementation. Evidence from Hertfordshire may not fully transfer.',
+      steps: [
+        'Commission feasibility study based on Hertfordshire model',
+        'Recruit multi-disciplinary team (adult mental health, substance misuse, domestic abuse workers)',
+        'Pilot in 2 districts with highest LAC rates',
+        'Measure child safety outcomes at 6 and 12 months',
+        'Scale across county if pilot shows >25% LAC reduction',
+      ],
+      governance_route: 'cabinet_decision',
+      evidence: fsm.evidence_base || 'Hertfordshire: 46% reduction in children in care',
+      priority: 'high',
+      feasibility: 5,
+      impact: 9,
+    })
+  }
+
+  return directives
+}
+
+// ──────────────────────────────────────────────────────────────
+// Adult Social Care Service Intelligence Functions
+// ──────────────────────────────────────────────────────────────
+
+/**
+ * 5-year ASC demand projection based on demographics.
+ * Models cost growth from ageing population, care type inflation, and market pressures.
+ *
+ * @param {Object} ascModel - asc_demand_model from cabinet_portfolios.json
+ * @param {number} years - Projection horizon (default 5)
+ * @returns {Object} { yearly: [], total_growth, demand_vs_savings_gap }
+ */
+export function ascDemandProjection(ascModel, years = 5) {
+  if (!ascModel?.demographics) return { yearly: [], total_growth: 0, demand_vs_savings_gap: 0 }
+
+  const demo = ascModel.demographics
+  const costs = ascModel.care_type_costs || {}
+  const market = ascModel.market_sustainability || {}
+  const inflation = market.annual_cost_inflation || 42000000
+
+  // Base year costs from care type data
+  const residentialOlderCost = (costs.residential_older_people?.beds || 0) * (costs.residential_older_people?.avg_weekly_cost || 0) * 52
+  const residentialNursingCost = (costs.residential_nursing?.beds || 0) * (costs.residential_nursing?.avg_weekly_cost || 0) * 52
+  const homeCareFrameworkCost = (costs.home_care_framework?.hours_per_week || 0) * (costs.home_care_framework?.hourly_rate || 0) * 52
+  const homeCareOffFrameworkCost = (costs.home_care_off_framework?.hours_per_week || 0) * (costs.home_care_off_framework?.hourly_rate || 0) * 52
+  const ldCost = costs.ld_supported_living?.annual_cost || 0
+  const dpCost = (costs.direct_payments?.recipients || 0) * (costs.direct_payments?.avg_annual || 0)
+  const sharedLivesCost = (costs.shared_lives?.placements || 0) * (costs.shared_lives?.avg_cost || 0)
+
+  const baseCost = residentialOlderCost + residentialNursingCost + homeCareFrameworkCost + homeCareOffFrameworkCost + ldCost + dpCost + sharedLivesCost
+
+  const over65Growth = (demo.over_65?.growth_pct_pa || 2.1) / 100
+  const over85Growth = (demo.over_85?.growth_pct_pa || 3.5) / 100
+  const ldGrowth = (demo.working_age_ld?.growth_pct_pa || 1.8) / 100
+  // Blended growth rate: 65+ drives home care, 85+ drives residential, LD has separate rate
+  const blendedGrowth = (over65Growth * 0.4) + (over85Growth * 0.4) + (ldGrowth * 0.2)
+
+  const yearly = []
+  let cumulativeGrowth = 0
+
+  for (let y = 0; y < years; y++) {
+    const factor = Math.pow(1 + blendedGrowth, y)
+    const inflationFactor = Math.pow(1.04, y) // 4% annual care cost inflation
+
+    const over65 = Math.round((demo.over_65?.['2024'] || 248000) * Math.pow(1 + over65Growth, y))
+    const over85 = Math.round((demo.over_85?.['2024'] || 32000) * Math.pow(1 + over85Growth, y))
+    const wkAgLD = Math.round((demo.working_age_ld?.current || 4200) * Math.pow(1 + ldGrowth, y))
+
+    const residentialCost = Math.round((residentialOlderCost + residentialNursingCost) * factor * inflationFactor)
+    const homeCareCost = Math.round((homeCareFrameworkCost + homeCareOffFrameworkCost) * factor * inflationFactor)
+    const ldCostYear = Math.round(ldCost * Math.pow(1 + ldGrowth, y) * inflationFactor)
+    const yearTotal = residentialCost + homeCareCost + ldCostYear + Math.round((dpCost + sharedLivesCost) * factor * inflationFactor)
+
+    const growthFromBase = yearTotal - baseCost
+    cumulativeGrowth += growthFromBase
+
+    yearly.push({
+      year: y + 1,
+      label: `Year ${y + 1}`,
+      over_65: over65,
+      over_85: over85,
+      working_age_ld: wkAgLD,
+      residential_cost: residentialCost,
+      home_care_cost: homeCareCost,
+      ld_cost: ldCostYear,
+      total: yearTotal,
+      inflation_adjustment: Math.round(yearTotal * 0.04),
+      growth_from_base: growthFromBase,
+    })
+  }
+
+  return {
+    yearly,
+    base_cost: baseCost,
+    total_growth: cumulativeGrowth,
+    blended_growth_rate: blendedGrowth,
+    cost_breakdown: {
+      residential: { value: residentialOlderCost + residentialNursingCost, pct: baseCost > 0 ? Math.round((residentialOlderCost + residentialNursingCost) / baseCost * 100) : 0 },
+      home_care: { value: homeCareFrameworkCost + homeCareOffFrameworkCost, pct: baseCost > 0 ? Math.round((homeCareFrameworkCost + homeCareOffFrameworkCost) / baseCost * 100) : 0 },
+      ld: { value: ldCost, pct: baseCost > 0 ? Math.round(ldCost / baseCost * 100) : 0 },
+      other: { value: dpCost + sharedLivesCost, pct: baseCost > 0 ? Math.round((dpCost + sharedLivesCost) / baseCost * 100) : 0 },
+    },
+  }
+}
+
+/**
+ * Analyse provider market risks and concentration.
+ *
+ * @param {Object} ascModel - asc_demand_model from cabinet_portfolios.json
+ * @returns {Object} { provider_count, vacancy_rate, closure_trend, fair_cost_gap, inflation_pressure, risk_score, mitigation_options }
+ */
+export function ascMarketRisk(ascModel) {
+  if (!ascModel?.market_sustainability && !ascModel?.care_type_costs) {
+    return { provider_count: 0, vacancy_rate: 0, closure_trend: 0, fair_cost_gap: 0, inflation_pressure: 0, risk_score: 0, risk_level: 'low', mitigation_options: [] }
+  }
+
+  const market = ascModel.market_sustainability || {}
+  const costs = ascModel.care_type_costs || {}
+  const rop = costs.residential_older_people || {}
+
+  const providerCount = (rop.providers || 0) + (costs.home_care_framework?.providers || 0) + (costs.home_care_off_framework?.providers || 0)
+  const vacancyRate = rop.vacancy_pct || 0
+  const closures = market.care_home_closures_3yr || 0
+  const fairCostGap = rop.gap_per_week || 0
+  const inflationPressure = market.annual_cost_inflation || 0
+
+  // Risk scoring (0-100)
+  let riskScore = 0
+  if (closures > 10) riskScore += 25
+  else if (closures > 5) riskScore += 15
+  else if (closures > 0) riskScore += 5
+
+  if (vacancyRate > 15) riskScore += 20
+  else if (vacancyRate > 10) riskScore += 10
+  else if (vacancyRate > 5) riskScore += 5
+
+  if (fairCostGap > 100) riskScore += 25
+  else if (fairCostGap > 50) riskScore += 15
+
+  if (market.provider_failure_risk === 'high') riskScore += 20
+  else if (market.provider_failure_risk === 'medium') riskScore += 10
+
+  const offFrameworkPct = costs.home_care_off_framework?.pct_of_total || 0
+  if (offFrameworkPct > 30) riskScore += 10
+  else if (offFrameworkPct > 20) riskScore += 5
+
+  riskScore = Math.min(100, riskScore)
+  const riskLevel = riskScore >= 60 ? 'critical' : riskScore >= 40 ? 'high' : riskScore >= 20 ? 'medium' : 'low'
+
+  const mitigations = []
+  if (fairCostGap > 0) mitigations.push({ action: `Close fair cost gap (£${fairCostGap}/week) to stabilise provider market`, impact: 'high', cost: Math.round(rop.beds * fairCostGap * 52) })
+  if (offFrameworkPct > 20) mitigations.push({ action: `Reduce off-framework home care from ${offFrameworkPct}% to <20%`, impact: 'medium', saving: Math.round((costs.home_care_off_framework?.hours_per_week || 0) * ((costs.home_care_off_framework?.hourly_rate || 0) - (costs.home_care_framework?.hourly_rate || 0)) * 52 * 0.5) })
+  if (costs.shared_lives?.placements) mitigations.push({ action: `Expand Shared Lives from ${costs.shared_lives.placements} to ${costs.shared_lives.placements + 50} placements`, impact: 'medium', saving: 50 * ((costs.shared_lives.vs_residential || 28000) - (costs.shared_lives.avg_cost || 15000)) })
+  if (market.in_house_maintenance_backlog) mitigations.push({ action: `Address £${(market.in_house_maintenance_backlog / 1000000).toFixed(1)}M maintenance backlog in ${market.in_house_homes} in-house homes`, impact: 'high', cost: market.in_house_maintenance_backlog })
+
+  return {
+    provider_count: providerCount,
+    vacancy_rate: vacancyRate,
+    closure_trend: closures,
+    fair_cost_gap: fairCostGap,
+    inflation_pressure: inflationPressure,
+    risk_score: riskScore,
+    risk_level: riskLevel,
+    off_framework_pct: offFrameworkPct,
+    mitigation_options: mitigations,
+  }
+}
+
+/**
+ * Model CHC (Continuing Healthcare) recovery potential.
+ *
+ * @param {Object} chcModel - asc_demand_model.chc_model from cabinet_portfolios.json
+ * @returns {Object} { current_income, target_income, gap, net_benefit, timeline }
+ */
+export function chcRecoveryModel(chcModel) {
+  if (!chcModel) return { current_income: 0, target_income: 0, gap: 0, net_benefit: 0, implementation_cost: 0, timeline: [] }
+
+  const currentRate = chcModel.current_recovery_rate_pct || 0
+  const targetRate = chcModel.target_recovery_rate_pct || 10
+  const avgClaim = chcModel.avg_claim_value || 28000
+  const casesPA = chcModel.cases_reviewed_pa || 0
+  const currentSuccessful = chcModel.successful_claims || 0
+
+  const currentIncome = currentSuccessful * avgClaim
+  const targetSuccessful = Math.round(casesPA * targetRate / 100)
+  const targetIncome = targetSuccessful * avgClaim
+  const gap = targetIncome - currentIncome
+
+  // Implementation: CHC review team
+  const additionalReviewers = Math.ceil((targetSuccessful - currentSuccessful) / 120) // 120 cases per reviewer per year
+  const reviewerCost = 45000 // Average salary
+  const implementationCost = additionalReviewers * reviewerCost
+  const legalCost = Math.round(gap * 0.05) // 5% legal costs for contested claims
+
+  const netBenefit = gap - implementationCost - legalCost
+
+  const timeline = [
+    { year: 1, label: 'Year 1: Recruit CHC team + process review', recovery_rate: currentRate + (targetRate - currentRate) * 0.3, income: Math.round(currentIncome + gap * 0.3) },
+    { year: 2, label: 'Year 2: Backlog clearance + systematic reviews', recovery_rate: currentRate + (targetRate - currentRate) * 0.6, income: Math.round(currentIncome + gap * 0.6) },
+    { year: 3, label: 'Year 3: Full target rate achieved', recovery_rate: targetRate, income: targetIncome },
+  ]
+
+  return {
+    current_income: currentIncome,
+    current_rate: currentRate,
+    target_income: targetIncome,
+    target_rate: targetRate,
+    gap,
+    additional_claims: targetSuccessful - currentSuccessful,
+    implementation_cost: implementationCost + legalCost,
+    net_benefit: netBenefit,
+    additional_reviewers: additionalReviewers,
+    timeline,
+  }
+}
+
+/**
+ * Generate ASC-specific savings directives from demand model.
+ *
+ * @param {Object} ascModel - asc_demand_model from cabinet_portfolios.json
+ * @returns {Array} directive objects
+ */
+export function ascServiceDirectives(ascModel) {
+  if (!ascModel) return []
+  const directives = []
+
+  // 1. CHC Recovery
+  const chc = ascModel.chc_model
+  if (chc && chc.current_recovery_rate_pct < (chc.target_recovery_rate_pct || 10)) {
+    const recovery = chcRecoveryModel(chc)
+    if (recovery.gap > 0) {
+      directives.push({
+        id: 'asc_chc_recovery',
+        type: 'service_model',
+        tier: 'income_generation',
+        owner: 'portfolio',
+        action: `Increase CHC recovery rate from ${chc.current_recovery_rate_pct}% to ${chc.target_recovery_rate_pct}%. National average is ${chc.national_avg_pct}%. Currently leaving ${formatCurrency(recovery.gap)}/year on the table.`,
+        save_low: Math.round(recovery.gap * 0.5),
+        save_high: recovery.gap,
+        save_central: Math.round(recovery.gap * 0.75),
+        timeline: 'Medium-term (6-18 months)',
+        legal_basis: 'National Framework for NHS Continuing Healthcare (2022) — ICB duty to assess and fund',
+        risk: 'Low',
+        risk_detail: 'NHS will contest claims. Requires dedicated CHC review team and legal support.',
+        steps: [
+          `Recruit ${recovery.additional_reviewers} additional CHC reviewers`,
+          'Implement systematic screening at care package review',
+          'Commission independent CHC assessment expertise',
+          `Clear backlog of ${chc.cases_reviewed_pa || 0} cases per year`,
+          'Challenge NHS ICB refusals through dispute resolution',
+        ],
+        governance_route: 'officer_delegation',
+        evidence: `Recovery rate ${chc.current_recovery_rate_pct}% vs national ${chc.national_avg_pct}%. ${chc.successful_claims} claims at ${formatCurrency(chc.avg_claim_value)} each`,
+        priority: 'high',
+        feasibility: 8,
+        impact: 8,
+      })
+    }
+  }
+
+  // 2. Off-Framework Home Care Reduction
+  const offFw = ascModel.care_type_costs?.home_care_off_framework
+  const onFw = ascModel.care_type_costs?.home_care_framework
+  if (offFw && onFw && offFw.pct_of_total > 20) {
+    const rateGap = (offFw.hourly_rate || 0) - (onFw.hourly_rate || 0)
+    const hoursToConvert = Math.round((offFw.hours_per_week || 0) * 0.5) // Convert 50% to framework
+    const annualSaving = hoursToConvert * rateGap * 52
+    if (annualSaving > 0) {
+      directives.push({
+        id: 'asc_off_framework_reduction',
+        type: 'service_model',
+        tier: 'procurement_reform',
+        owner: 'portfolio',
+        action: `Reduce off-framework home care from ${offFw.pct_of_total}% to <20%. Rate gap: £${rateGap.toFixed(2)}/hour. Convert ${hoursToConvert.toLocaleString()} hours/week to framework providers.`,
+        save_low: Math.round(annualSaving * 0.6),
+        save_high: annualSaving,
+        save_central: Math.round(annualSaving * 0.8),
+        timeline: 'Medium-term (6-18 months)',
+        legal_basis: 'Care Act 2014 — market shaping duty. Public Contracts Regulations 2015',
+        risk: 'Medium',
+        risk_detail: 'Off-framework providers fill gaps where framework cannot. Rapid switch risks service disruption.',
+        steps: [
+          'Map off-framework hours by area and provider',
+          'Negotiate framework expansion with top 10 providers',
+          'Incentivise framework compliance (guaranteed hours)',
+          'Phase transition: 6-month switchover per area',
+          'Monitor service quality during transition',
+        ],
+        governance_route: 'cabinet_decision',
+        evidence: `${offFw.pct_of_total}% off-framework at £${offFw.hourly_rate}/hr vs framework £${onFw.hourly_rate}/hr. ${offFw.providers} providers`,
+        priority: 'high',
+        feasibility: 6,
+        impact: 7,
+      })
+    }
+  }
+
+  // 3. Reablement Expansion
+  const reab = ascModel.reablement
+  if (reab?.potential_expansion) {
+    const netSaving = reab.potential_expansion.net_saving || 0
+    if (netSaving > 0) {
+      directives.push({
+        id: 'asc_reablement_expansion',
+        type: 'service_model',
+        tier: 'demand_management',
+        owner: 'portfolio',
+        action: `Expand reablement by ${reab.potential_expansion.additional_episodes_pa} episodes/year. ${reab.success_rate_pct}% success rate (national: ${reab.national_avg_pct}%). Each successful episode avoids ${formatCurrency(reab.residential_avoided_saving)} residential care.`,
+        save_low: Math.round(netSaving * 0.7),
+        save_high: netSaving,
+        save_central: Math.round(netSaving * 0.85),
+        timeline: 'Short-term (3-6 months)',
+        legal_basis: 'Care Act 2014 s.2 — prevention duty',
+        risk: 'Low',
+        risk_detail: 'Reablement is proven. Success rate already above national average. Risk is capacity, not effectiveness.',
+        steps: [
+          `Recruit additional reablement workers for ${reab.potential_expansion.additional_episodes_pa} episodes`,
+          'Negotiate hospital discharge pathway priority',
+          `Increase discharge reablement offer from ${reab.offered_after_discharge_pct}% to 5%`,
+          'Integrate with NHS intermediate care teams',
+          'Track 91-day outcomes for quality assurance',
+        ],
+        governance_route: 'officer_delegation',
+        evidence: `Success rate ${reab.success_rate_pct}% vs national ${reab.national_avg_pct}%. ${formatCurrency(reab.cost_per_episode)}/episode vs ${formatCurrency(reab.residential_avoided_saving)} residential avoided`,
+        priority: 'high',
+        feasibility: 8,
+        impact: 7,
+      })
+    }
+  }
+
+  // 4. Shared Lives Expansion
+  const sl = ascModel.care_type_costs?.shared_lives
+  if (sl && sl.vs_residential && sl.avg_cost) {
+    const expansionTarget = 50
+    const saving = expansionTarget * (sl.vs_residential - sl.avg_cost)
+    directives.push({
+      id: 'asc_shared_lives_expansion',
+      type: 'service_model',
+      tier: 'service_redesign',
+      owner: 'portfolio',
+      action: `Expand Shared Lives from ${sl.placements} to ${sl.placements + expansionTarget} placements. CQC Outstanding. Saves ${formatCurrency(sl.vs_residential - sl.avg_cost)} per placement vs residential.`,
+      save_low: Math.round(saving * 0.6),
+      save_high: saving,
+      save_central: Math.round(saving * 0.8),
+      timeline: 'Medium-term (6-18 months)',
+      legal_basis: 'Care Act 2014 — market shaping duty. Shared Lives Plus quality framework.',
+      risk: 'Low',
+      risk_detail: 'CQC Outstanding scheme. Main barrier is carer recruitment and matching.',
+      steps: [
+        'Launch Shared Lives recruitment campaign',
+        `Identify ${expansionTarget} suitable service users from residential/supported living`,
+        'Train new Shared Lives carers (12-week programme)',
+        'Match and transition with 4-week supported placement',
+        'Monitor outcomes and maintain CQC Outstanding rating',
+      ],
+      governance_route: 'officer_delegation',
+      evidence: `CQC: ${sl.cqc_rating}. ${sl.placements} placements at ${formatCurrency(sl.avg_cost)} vs ${formatCurrency(sl.vs_residential)} residential`,
+      priority: 'medium',
+      feasibility: 7,
+      impact: 6,
+    })
+  }
+
+  // 5. Digital Care & Technology
+  const demandPressures = ascModel.demand_pressures
+  if (demandPressures?.assessment_backlog || demandPressures?.annual_reviews_overdue) {
+    const backlogSaving = Math.round(((demandPressures.assessment_backlog?.waiting || 0) + (demandPressures.annual_reviews_overdue || 0)) * 500) // £500 per digitally-assisted review
+    directives.push({
+      id: 'asc_digital_care',
+      type: 'service_model',
+      tier: 'service_redesign',
+      owner: 'portfolio',
+      action: `Deploy digital care technology to clear ${(demandPressures.assessment_backlog?.waiting || 0).toLocaleString()} assessment backlog + ${(demandPressures.annual_reviews_overdue || 0).toLocaleString()} overdue reviews. Self-service portals for lower-complexity cases.`,
+      save_low: Math.round(backlogSaving * 0.3),
+      save_high: backlogSaving,
+      save_central: Math.round(backlogSaving * 0.5),
+      timeline: 'Medium-term (6-18 months)',
+      legal_basis: 'Care Act 2014 — duty to assess. Digital transformation does not remove statutory obligations.',
+      risk: 'Medium',
+      risk_detail: 'CQC flagged unreliable electronic records. Must fix foundation before building digital services.',
+      steps: [
+        'Replace/upgrade unreliable electronic records system',
+        'Deploy self-service portal for lower-complexity assessments',
+        'Implement digital triage for new referrals',
+        'Automate annual review scheduling and tracking',
+        'Use predictive analytics for demand management',
+      ],
+      governance_route: 'cabinet_decision',
+      evidence: `${(demandPressures.assessment_backlog?.waiting || 0).toLocaleString()} waiting assessment (max ${demandPressures.assessment_backlog?.max_wait_days || 0} days), ${(demandPressures.annual_reviews_overdue || 0).toLocaleString()} overdue reviews`,
+      priority: 'medium',
+      feasibility: 5,
+      impact: 7,
+    })
+  }
+
+  return directives
+}
+
+// ──────────────────────────────────────────────────────────────
+// Cross-Cutting Intelligence Engine Functions
+// ──────────────────────────────────────────────────────────────
+
+/**
+ * Convert demand pressures to £M trajectories.
+ * Quantifies qualitative "known_pressures" and "demand_pressures" into financial impact.
+ *
+ * @param {Object} portfolio - Portfolio object from cabinet_portfolios.json
+ * @returns {Object} { pressures: [], total_annual, total_5yr, net_after_savings }
+ */
+export function quantifyDemandPressures(portfolio) {
+  if (!portfolio) return { pressures: [], total_annual: 0, total_5yr: 0, net_after_savings: 0 }
+
+  const pressures = []
+  const serviceModel = portfolio.operational_context?.service_model
+
+  // From demand_pressures array (text + estimated severity)
+  for (const dp of (portfolio.demand_pressures || [])) {
+    const text = typeof dp === 'string' ? dp : dp.pressure || dp.description || ''
+    const severity = typeof dp === 'object' && dp.severity ? dp.severity : 'medium'
+
+    // Estimate annual cost impact from text patterns
+    let annualImpact = 0
+    const match = text.match(/£([\d.]+)\s*(M|m|million)/i)
+    if (match) {
+      annualImpact = parseFloat(match[1]) * 1000000
+    } else if (text.match(/demographic|population|ageing|growth/i)) {
+      annualImpact = (portfolio.budget_latest?.net_expenditure || 0) * 0.02 // 2% of budget
+    } else if (text.match(/inflation|cost pressure|pay award|NLW|NI/i)) {
+      annualImpact = (portfolio.budget_latest?.net_expenditure || 0) * 0.04 // 4% inflation
+    } else if (text.match(/backlog|waiting|overdue/i)) {
+      annualImpact = 2000000 // Default backlog cost
+    } else {
+      annualImpact = 1000000 // Minimum for unquantified
+    }
+
+    pressures.push({
+      name: text.length > 80 ? text.substring(0, 80) + '...' : text,
+      severity,
+      annual_impact: Math.round(annualImpact),
+      '5yr_impact': Math.round(annualImpact * 5),
+    })
+  }
+
+  // From service model quantified data
+  if (serviceModel?.send_cost_model) {
+    const send = serviceModel.send_cost_model
+    if (send.ehcp_pipeline?.annual_growth_rate) {
+      const baseCost = Object.values(send.placement_costs || {}).reduce((s, p) => s + (p?.total || 0), 0)
+      pressures.push({ name: 'EHCP growth (10.5% pa)', severity: 'critical', annual_impact: Math.round(baseCost * send.ehcp_pipeline.annual_growth_rate), '5yr_impact': Math.round(baseCost * send.ehcp_pipeline.annual_growth_rate * 5) })
+    }
+    if (send.transport?.growth_2026_27) {
+      pressures.push({ name: 'SEND transport growth', severity: 'critical', annual_impact: send.transport.growth_2026_27, '5yr_impact': send.transport.growth_2026_27 * 5 })
+    }
+    if (send.dsg_deficit?.current) {
+      pressures.push({ name: 'DSG deficit (statutory override ends 2028)', severity: 'critical', annual_impact: send.dsg_deficit.current, '5yr_impact': send.dsg_deficit.projected_2028 || send.dsg_deficit.current * 5 })
+    }
+  }
+
+  if (serviceModel?.asc_demand_model) {
+    const asc = serviceModel.asc_demand_model
+    if (asc.market_sustainability?.annual_cost_inflation) {
+      pressures.push({ name: 'ASC cost inflation (NLW + NI)', severity: 'critical', annual_impact: asc.market_sustainability.annual_cost_inflation, '5yr_impact': asc.market_sustainability.annual_cost_inflation * 5 })
+    }
+    if (asc.demographics?.over_85?.growth_pct_pa) {
+      const demandGrowth = (portfolio.budget_latest?.net_expenditure || 0) * (asc.demographics.over_85.growth_pct_pa / 100)
+      pressures.push({ name: 'Over-85 demographic growth (3.5% pa)', severity: 'high', annual_impact: Math.round(demandGrowth), '5yr_impact': Math.round(demandGrowth * 5) })
+    }
+  }
+
+  // Sort by annual impact descending
+  pressures.sort((a, b) => b.annual_impact - a.annual_impact)
+
+  const totalAnnual = pressures.reduce((s, p) => s + p.annual_impact, 0)
+  const total5yr = pressures.reduce((s, p) => s + p['5yr_impact'], 0)
+
+  // Compare against savings
+  const totalSavings = (portfolio.savings_levers || []).reduce((s, l) => {
+    const parsed = parseSavingRange(l.est_saving)
+    return s + ((parsed.low + parsed.high) / 2)
+  }, 0)
+
+  return {
+    pressures,
+    total_annual: totalAnnual,
+    total_5yr: total5yr,
+    total_savings: totalSavings,
+    net_after_savings: totalAnnual - totalSavings,
+    coverage_pct: totalAnnual > 0 ? Math.round(totalSavings / totalAnnual * 100) : 0,
+  }
+}
+
+/**
+ * Validate lever savings against portfolio budget (reality check).
+ *
+ * @param {Object} portfolio - Portfolio object
+ * @param {Array} levers - savings_levers array
+ * @returns {Object} { total_budget, total_savings_low/high, savings_as_pct, flags, credibility_score }
+ */
+export function budgetRealismCheck(portfolio, levers) {
+  if (!portfolio) return { total_budget: 0, total_savings_low: 0, total_savings_high: 0, savings_as_pct: 0, flags: [], credibility_score: 100 }
+
+  const allLevers = levers || portfolio.savings_levers || []
+  const budget = portfolio.budget_latest?.net_expenditure || 0
+  const flags = []
+  let credibilityPenalty = 0
+
+  let totalLow = 0, totalHigh = 0
+  for (const lever of allLevers) {
+    const parsed = parseSavingRange(lever.est_saving)
+    totalLow += parsed.low
+    totalHigh += parsed.high
+
+    // Flag individual levers that claim too much
+    const leverPct = budget > 0 ? (parsed.high / budget * 100) : 0
+    if (leverPct > 10) {
+      flags.push(`${lever.lever}: claims ${leverPct.toFixed(1)}% of budget (${formatCurrency(parsed.high)})`)
+      credibilityPenalty += 15
+    }
+
+    // Flag levers without evidence
+    if (!lever.evidence_chain && !lever.evidence) {
+      flags.push(`${lever.lever}: no evidence chain`)
+      credibilityPenalty += 5
+    }
+
+    // Flag long-term levers counted at face value
+    if (lever.timeline && lever.timeline.match(/long|24|36|48/i) && parsed.high > 5000000) {
+      flags.push(`${lever.lever}: £${(parsed.high / 1000000).toFixed(0)}M claimed on long-term timeline`)
+      credibilityPenalty += 10
+    }
+  }
+
+  const totalPct = budget > 0 ? (totalHigh / budget * 100) : 0
+  if (totalPct > 25) {
+    flags.push(`Total savings (${formatCurrency(totalHigh)}) = ${totalPct.toFixed(1)}% of net budget — verify feasibility`)
+    credibilityPenalty += 20
+  }
+
+  const credibilityScore = Math.max(0, 100 - credibilityPenalty)
+
+  return {
+    total_budget: budget,
+    total_savings_low: totalLow,
+    total_savings_high: totalHigh,
+    savings_central: Math.round((totalLow + totalHigh) / 2),
+    savings_as_pct: Math.round(totalPct * 10) / 10,
+    flags,
+    credibility_score: credibilityScore,
+    credibility_level: credibilityScore >= 75 ? 'high' : credibilityScore >= 50 ? 'medium' : 'low',
+    lever_count: allLevers.length,
+    evidence_coverage: allLevers.length > 0 ? Math.round(allLevers.filter(l => l.evidence_chain || l.evidence).length / allLevers.length * 100) : 0,
+  }
+}
+
+/**
+ * Model inspection improvement timeline and cost.
+ *
+ * @param {Object} remediation - inspection_remediation object from service_model
+ * @returns {Object} { current_rating, target_rating, est_months, improvement_cost, cost_of_intervention, roi }
+ */
+export function inspectionRemediationTimeline(remediation) {
+  if (!remediation) return { current_rating: null, target_rating: null, est_months: 0, improvement_cost: 0, cost_of_intervention: 0, roi: '' }
+
+  const current = remediation.cqc_rating || remediation.rating || 'Unknown'
+  const target = remediation.target_rating || 'Good'
+  const cost = remediation.improvement_plan_cost || 0
+  const interventionCost = remediation.cost_of_intervention_if_inadequate || 0
+
+  // Estimate months based on improvement path
+  let estMonths = 18
+  if (current === 'Inadequate') estMonths = 24
+  else if (current === 'Requires Improvement') estMonths = 15
+  else if (current === 'Good') estMonths = 12
+
+  const roi = interventionCost > 0
+    ? `${formatCurrency(cost)} spent to avoid ${formatCurrency(interventionCost)} intervention (${Math.round(interventionCost / cost)}× return)`
+    : `${formatCurrency(cost)} improvement programme`
+
+  return {
+    current_rating: current,
+    target_rating: target,
+    est_months: estMonths,
+    improvement_cost: cost,
+    expected_reinspection: remediation.expected_reinspection || null,
+    cost_of_intervention: interventionCost,
+    risk_of_decline: current === 'Requires Improvement' ? 'medium' : current === 'Inadequate' ? 'high' : 'low',
+    roi,
+    key_findings: remediation.key_findings || [],
+    historical: remediation.historical_ratings || [],
+  }
+}
+
+/**
+ * Net fiscal trajectory: demand growth - savings + cascades over N years.
+ *
+ * @param {Object} portfolio - Portfolio object
+ * @param {Object} demandData - Output from quantifyDemandPressures
+ * @param {Array} directives - Array of savings directives
+ * @param {number} years - Projection horizon
+ * @returns {Object} { yearly: [], breakeven_year, trajectory }
+ */
+export function netFiscalTrajectory(portfolio, demandData, directives, years = 5) {
+  if (!portfolio) return { yearly: [], breakeven_year: null, trajectory: 'unknown' }
+
+  const annualDemand = demandData?.total_annual || 0
+  const totalSavings = (directives || []).reduce((s, d) => s + (d.save_central || 0), 0)
+
+  // Categorize directives by timeline for phased saving delivery
+  const immediateSavings = (directives || []).filter(d => d.timeline?.match(/immediate|0-3/i)).reduce((s, d) => s + (d.save_central || 0), 0)
+  const shortTermSavings = (directives || []).filter(d => d.timeline?.match(/short|3-6/i)).reduce((s, d) => s + (d.save_central || 0), 0)
+  const mediumTermSavings = (directives || []).filter(d => d.timeline?.match(/medium|6-18/i)).reduce((s, d) => s + (d.save_central || 0), 0)
+  const longTermSavings = (directives || []).filter(d => d.timeline?.match(/long|18/i)).reduce((s, d) => s + (d.save_central || 0), 0)
+
+  const yearly = []
+  let breakeven = null
+  let cumulativeNet = 0
+
+  for (let y = 0; y < years; y++) {
+    const demandCost = Math.round(annualDemand * Math.pow(1.03, y)) // 3% annual demand escalation
+    let savingsAchieved = 0
+    if (y === 0) savingsAchieved = immediateSavings
+    else if (y === 1) savingsAchieved = immediateSavings + shortTermSavings
+    else if (y === 2) savingsAchieved = immediateSavings + shortTermSavings + mediumTermSavings * 0.5
+    else if (y === 3) savingsAchieved = immediateSavings + shortTermSavings + mediumTermSavings + longTermSavings * 0.3
+    else savingsAchieved = totalSavings * 0.85 // 85% realisation at maturity
+
+    savingsAchieved = Math.round(savingsAchieved)
+    const netPosition = savingsAchieved - demandCost
+    cumulativeNet += netPosition
+
+    if (netPosition >= 0 && breakeven === null) breakeven = y + 1
+
+    yearly.push({
+      year: y + 1,
+      label: `Year ${y + 1}`,
+      demand_cost: demandCost,
+      savings_achieved: savingsAchieved,
+      net_position: netPosition,
+      cumulative_net: cumulativeNet,
+    })
+  }
+
+  // Determine trajectory
+  const lastTwo = yearly.slice(-2)
+  let trajectory = 'stable'
+  if (lastTwo.length === 2) {
+    if (lastTwo[1].net_position > lastTwo[0].net_position) trajectory = 'improving'
+    else if (lastTwo[1].net_position < lastTwo[0].net_position) trajectory = 'declining'
+  }
+
+  return {
+    yearly,
+    breakeven_year: breakeven,
+    trajectory,
+    total_demand_5yr: yearly.reduce((s, y) => s + y.demand_cost, 0),
+    total_savings_5yr: yearly.reduce((s, y) => s + y.savings_achieved, 0),
+    net_5yr: cumulativeNet,
   }
 }

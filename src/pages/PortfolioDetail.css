@@ -214,7 +214,32 @@
 
 .portfolio-directive-constraint { font-size: 0.72rem; color: rgba(228,0,43,0.8); padding: 0.3rem 0.5rem; background: rgba(228,0,43,0.06); border-left: 2px solid rgba(228,0,43,0.3); border-radius: 0 3px 3px 0; margin-top: 0.3rem; }
 
+/* Service Intelligence */
+.service-intelligence-section { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); }
+.service-intelligence-title { font-size: 1.1rem; color: #12B6CF; margin-bottom: 0.3rem; }
+.service-intelligence-subtitle { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-bottom: 1.5rem; }
+.service-stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 0.75rem; }
+.service-lever-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 0.75rem; }
+.service-lever-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 0.75rem; display: flex; flex-direction: column; gap: 0.3rem; }
+.service-lever-card strong { font-size: 0.82rem; color: rgba(255,255,255,0.8); }
+.service-lever-card span { font-size: 0.75rem; color: rgba(255,255,255,0.5); }
+.service-lever-saving { color: #28a745 !important; font-weight: 600; }
+.service-roi-programmes { display: grid; gap: 0.75rem; }
+.service-roi-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 0.75rem; }
+.service-roi-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
+.service-roi-header strong { font-size: 0.85rem; color: rgba(255,255,255,0.85); }
+.service-roi-net { font-size: 0.85rem; font-weight: 700; color: #28a745; }
+.service-roi-detail { display: flex; gap: 1rem; flex-wrap: wrap; }
+.service-roi-evidence { font-size: 0.72rem; color: rgba(255,255,255,0.45); }
+.service-roi-ratio { font-size: 0.72rem; color: #12B6CF; font-weight: 600; }
+.service-table { width: 100%; border-collapse: collapse; font-size: 0.78rem; }
+.service-table th { text-align: left; padding: 0.5rem; color: rgba(255,255,255,0.5); border-bottom: 1px solid rgba(255,255,255,0.08); font-weight: 600; }
+.service-table td { padding: 0.5rem; color: rgba(255,255,255,0.7); border-bottom: 1px solid rgba(255,255,255,0.04); }
+.service-table-highlight { color: #28a745; font-weight: 700; }
+
 @media (max-width: 768px) {
   .portfolio-contracts-table { font-size: 0.72rem; }
   .expiry-card { grid-template-columns: 1fr; }
+  .service-stat-row { grid-template-columns: repeat(2, 1fr); }
+  .service-lever-cards { grid-template-columns: 1fr; }
 }

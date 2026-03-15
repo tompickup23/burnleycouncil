@@ -35,6 +35,18 @@ import {
   benchmarkDirectorate,
   directorateRiskProfile,
   fundingConstraints,
+  sendCostProjection,
+  earlyInterventionROI,
+  lacPlacementOptimisation,
+  sendServiceDirectives,
+  ascDemandProjection,
+  ascMarketRisk,
+  chcRecoveryModel,
+  ascServiceDirectives,
+  quantifyDemandPressures,
+  budgetRealismCheck,
+  inspectionRemediationTimeline,
+  netFiscalTrajectory,
 } from './savingsEngine.js'
 
 // ─── Test fixtures ───
@@ -1662,5 +1674,1038 @@ describe('directorateRiskProfile', () => {
     const result = directorateRiskProfile(eduDir, portfoliosWithSEND, [])
     const sendRisk = result.risks.find(r => r.detail?.includes('SEND'))
     expect(sendRisk).toBeDefined()
+  })
+})
+
+// ──────────────────────────────────────────────────────────────
+// SEND & Children's Service Intelligence Tests
+// ──────────────────────────────────────────────────────────────
+
+const mockSendModel = {
+  ehcp_pipeline: {
+    total_ehcps: 12317,
+    annual_growth_rate: 0.105,
+    new_requests_per_month: 300,
+    assessment_capacity_per_month: 53,
+    backlog_current: 360,
+    backlog_peak: 1801,
+    median_weeks_to_issue: 32,
+    statutory_target_weeks: 20,
+    timeliness_pct: 18.2,
+  },
+  placement_costs: {
+    mainstream: { count: 9800, avg_cost: 9100, total: 89180000 },
+    special_school_maintained: { count: 3200, avg_cost: 22000, total: 70400000 },
+    special_school_independent: { count: 630, avg_cost: 57000, total: 35910000 },
+    residential_special: { count: 120, avg_cost: 156000, total: 18720000 },
+    residential_childrens_home: { count: 262, avg_cost: 250000, total: 65500000 },
+    alternative_provision: { count: 180, avg_cost: 18000, total: 3240000 },
+    post_16_specialist: { count: 410, avg_cost: 32000, total: 13120000 },
+    independent_sector_pct: 5.1,
+    national_independent_pct: 4.2,
+  },
+  tribunals: {
+    appeals_registered_pa: 185,
+    parent_win_rate_pct: 94,
+    national_parent_win_rate_pct: 96,
+    avg_cost_per_tribunal: 12000,
+    avg_cost_if_lost: 45000,
+    mediation_rate_pct: 42,
+    mediation_success_pct: 65,
+    annual_tribunal_cost: 2220000,
+    annual_placement_cost_from_losses: 7800000,
+  },
+  transport: {
+    total_cost: 61000000,
+    growth_2026_27: 17700000,
+    eligible_pupils: 8900,
+    cost_per_pupil: 6854,
+    minibus_programme: { vehicles: 50, saving_per_passenger_pct: 30 },
+    personal_travel_budgets: { current: 400, target: 750, avg_saving: 2800 },
+    transport_assistant_grants: { current: 488, target: 750, avg_saving: 3200 },
+  },
+  dsg_deficit: {
+    current: 22400000,
+    projected_2028: 545000000,
+    statutory_override_ends: '2028-03-31',
+    annual_growth_rate: 0.38,
+    high_needs_block: 215000000,
+  },
+  workforce: {
+    educational_psychologists: { permanent: 11, agency: 110, agency_day_rate: 800, permanent_equivalent_day: 300, annual_agency_cost: 21120000 },
+    social_workers: { permanent: 385, agency: 97, apprentices_on_programme: 97, nqsw_started_jan_2025: 20 },
+    agency_premium_pct: 167,
+  },
+  early_intervention: {
+    troubled_families_programme: { families_supported: 4200, avg_cost: 3500, estimated_saving_per_family: 18000 },
+    family_safeguarding_model: { implemented: false, potential_saving_low: 8000000, potential_saving_high: 15000000, evidence_base: 'Hertfordshire: 46% reduction in children in care' },
+    lac_avoidance_saving_per_child: 55000,
+  },
+}
+
+const mockLacModel = {
+  total_lac: 1699,
+  by_placement: {
+    foster_in_house: { count: 580, avg_cost: 28000 },
+    foster_independent: { count: 420, avg_cost: 45000 },
+    residential_in_house: { count: 95, avg_cost: 180000 },
+    residential_independent: { count: 167, avg_cost: 312000 },
+    kinship: { count: 285, avg_cost: 15000 },
+    other: { count: 152, avg_cost: 22000 },
+  },
+  wocl_programme: {
+    current_in_house_homes: 15,
+    target_in_house_homes: 30,
+    saving_per_placement_pa: 100000,
+    capital_cost_per_home: 1200000,
+    annual_running_cost: 450000,
+  },
+  residential_growth: {
+    '2021': 180, '2022': 210, '2023': 238, '2024': 262,
+    growth_pct_pa: 13.3,
+  },
+}
+
+describe('sendCostProjection', () => {
+  it('returns empty for null input', () => {
+    const result = sendCostProjection(null)
+    expect(result.yearly).toEqual([])
+    expect(result.growth_rate).toBe(0)
+    expect(result.total_5yr_cost).toBe(0)
+  })
+
+  it('returns empty for missing pipeline', () => {
+    const result = sendCostProjection({})
+    expect(result.yearly).toEqual([])
+  })
+
+  it('projects 5 years by default', () => {
+    const result = sendCostProjection(mockSendModel)
+    expect(result.yearly).toHaveLength(5)
+  })
+
+  it('projects custom number of years', () => {
+    const result = sendCostProjection(mockSendModel, 3)
+    expect(result.yearly).toHaveLength(3)
+  })
+
+  it('base year cost is sum of placements + transport + tribunals', () => {
+    const result = sendCostProjection(mockSendModel)
+    const expectedPlacements = 89180000 + 70400000 + 35910000 + 18720000 + 65500000 + 3240000 + 13120000
+    const expectedTransport = 61000000
+    const expectedTribunals = 2220000 + 7800000
+    expect(result.base_year_cost).toBe(expectedPlacements + expectedTransport + expectedTribunals)
+  })
+
+  it('year 1 total equals base year cost (no growth)', () => {
+    const result = sendCostProjection(mockSendModel)
+    // Year 1 has growth factor of (1 + 0.105)^0 = 1 for placements/tribunals
+    // Transport year 0 uses baseTransport directly
+    expect(result.yearly[0].total).toBe(result.base_year_cost)
+  })
+
+  it('costs grow year-on-year', () => {
+    const result = sendCostProjection(mockSendModel)
+    for (let i = 1; i < result.yearly.length; i++) {
+      expect(result.yearly[i].total).toBeGreaterThan(result.yearly[i - 1].total)
+    }
+  })
+
+  it('EHCP count grows at specified rate', () => {
+    const result = sendCostProjection(mockSendModel)
+    expect(result.yearly[0].ehcps).toBe(12317)
+    expect(result.yearly[1].ehcps).toBe(Math.round(12317 * 1.105))
+  })
+
+  it('returns growth rate from model', () => {
+    const result = sendCostProjection(mockSendModel)
+    expect(result.growth_rate).toBe(0.105)
+  })
+
+  it('cost driver breakdown sums to 100%', () => {
+    const result = sendCostProjection(mockSendModel)
+    const bd = result.cost_driver_breakdown
+    // Allow 1% rounding tolerance
+    expect(bd.placements.pct + bd.transport.pct + bd.tribunals.pct).toBeGreaterThanOrEqual(99)
+    expect(bd.placements.pct + bd.transport.pct + bd.tribunals.pct).toBeLessThanOrEqual(101)
+  })
+
+  it('DSG trajectory tracks deficit growth', () => {
+    const result = sendCostProjection(mockSendModel)
+    expect(result.dsg_trajectory).toHaveLength(5)
+    expect(result.dsg_trajectory[0].deficit).toBe(22400000)
+    // Year 2 should be ~38% larger
+    expect(result.dsg_trajectory[1].deficit).toBeGreaterThan(result.dsg_trajectory[0].deficit)
+  })
+
+  it('5yr cumulative is sum of yearly totals', () => {
+    const result = sendCostProjection(mockSendModel)
+    const sum = result.yearly.reduce((s, y) => s + y.total, 0)
+    expect(result.total_5yr_cost).toBe(sum)
+  })
+
+  it('placement breakdown per year has correct types', () => {
+    const result = sendCostProjection(mockSendModel)
+    const y1 = result.yearly[0]
+    expect(y1.placements.mainstream).toBeDefined()
+    expect(y1.placements.special_school_independent).toBeDefined()
+    expect(y1.placements.residential_childrens_home).toBeDefined()
+  })
+
+  it('handles zero growth rate gracefully', () => {
+    const noGrowth = { ...mockSendModel, ehcp_pipeline: { ...mockSendModel.ehcp_pipeline, annual_growth_rate: 0 } }
+    const result = sendCostProjection(noGrowth)
+    // All years should have same EHCP count
+    expect(result.yearly[0].ehcps).toBe(result.yearly[4].ehcps)
+  })
+})
+
+describe('earlyInterventionROI', () => {
+  it('returns zeros for null input', () => {
+    const result = earlyInterventionROI(null, null)
+    expect(result.current_reactive_cost).toBe(0)
+    expect(result.net_saving).toBe(0)
+    expect(result.programmes).toEqual([])
+  })
+
+  it('includes Troubled Families programme', () => {
+    const result = earlyInterventionROI(mockSendModel, mockLacModel)
+    const tf = result.programmes.find(p => p.name === 'Troubled Families Programme')
+    expect(tf).toBeDefined()
+    expect(tf.cost_pa).toBe(4200 * 3500)
+    expect(tf.saving_pa).toBe(4200 * 18000)
+    expect(tf.roi_ratio).toBeGreaterThan(1)
+  })
+
+  it('includes Family Safeguarding Model', () => {
+    const result = earlyInterventionROI(mockSendModel, mockLacModel)
+    const fsm = result.programmes.find(p => p.name === 'Family Safeguarding Model')
+    expect(fsm).toBeDefined()
+    expect(fsm.saving_pa).toBe((8000000 + 15000000) / 2)
+    expect(fsm.implemented).toBe(false)
+  })
+
+  it('includes LAC avoidance programme', () => {
+    const result = earlyInterventionROI(mockSendModel, mockLacModel)
+    const lac = result.programmes.find(p => p.name === 'LAC Avoidance (Edge of Care)')
+    expect(lac).toBeDefined()
+    expect(lac.children_diverted).toBe(Math.round(1699 * 0.05))
+    expect(lac.saving_per_child).toBe(55000)
+  })
+
+  it('includes EP agency conversion', () => {
+    const result = earlyInterventionROI(mockSendModel, mockLacModel)
+    const ep = result.programmes.find(p => p.name === 'EP Agency→Permanent Conversion')
+    expect(ep).toBeDefined()
+    expect(ep.agency_eps).toBe(110)
+    expect(ep.net_saving).toBeGreaterThan(0)
+  })
+
+  it('total saving is sum of programme savings', () => {
+    const result = earlyInterventionROI(mockSendModel, mockLacModel)
+    const totalFromProgrammes = result.programmes.reduce((s, p) => s + (p.saving_pa || 0), 0)
+    expect(result.total_saving).toBe(totalFromProgrammes)
+  })
+
+  it('net saving is total minus intervention cost', () => {
+    const result = earlyInterventionROI(mockSendModel, mockLacModel)
+    const netFromProgrammes = result.programmes.reduce((s, p) => s + (p.net_saving || 0), 0)
+    expect(result.net_saving).toBe(netFromProgrammes)
+  })
+
+  it('payback years is positive when net saving positive', () => {
+    const result = earlyInterventionROI(mockSendModel, mockLacModel)
+    expect(result.payback_years).toBeGreaterThan(0)
+  })
+
+  it('reactive cost includes LAC placements + tribunals', () => {
+    const result = earlyInterventionROI(mockSendModel, mockLacModel)
+    const lacCost = Object.values(mockLacModel.by_placement).reduce((s, p) => s + p.count * p.avg_cost, 0)
+    const tribunalCost = mockSendModel.tribunals.annual_tribunal_cost + mockSendModel.tribunals.annual_placement_cost_from_losses
+    expect(result.current_reactive_cost).toBe(lacCost + tribunalCost)
+  })
+
+  it('handles missing early intervention data', () => {
+    const minimalSend = { ehcp_pipeline: mockSendModel.ehcp_pipeline, workforce: mockSendModel.workforce }
+    const result = earlyInterventionROI(minimalSend, mockLacModel)
+    // Should still get LAC avoidance and EP conversion at minimum
+    expect(result.programmes.length).toBeGreaterThan(0)
+  })
+})
+
+describe('lacPlacementOptimisation', () => {
+  it('returns zeros for null input', () => {
+    const result = lacPlacementOptimisation(null)
+    expect(result.current_cost).toBe(0)
+    expect(result.saving).toBe(0)
+    expect(result.placements_moved).toEqual([])
+  })
+
+  it('returns zeros for empty placements', () => {
+    const result = lacPlacementOptimisation({ by_placement: {} })
+    expect(result.saving).toBe(0)
+  })
+
+  it('calculates current cost correctly', () => {
+    const result = lacPlacementOptimisation(mockLacModel)
+    const expected = Object.values(mockLacModel.by_placement).reduce((s, p) => s + p.count * p.avg_cost, 0)
+    expect(result.current_cost).toBe(expected)
+  })
+
+  it('identifies foster step-down (independent → in-house)', () => {
+    const result = lacPlacementOptimisation(mockLacModel)
+    const fosterMove = result.placements_moved.find(m => m.from === 'foster_independent' && m.to === 'foster_in_house')
+    expect(fosterMove).toBeDefined()
+    expect(fosterMove.count).toBe(Math.round(420 * 0.2)) // 20% of independent
+    expect(fosterMove.unit_saving).toBe(45000 - 28000)
+  })
+
+  it('identifies WOCL residential step-down', () => {
+    const result = lacPlacementOptimisation(mockLacModel)
+    const woclMove = result.placements_moved.find(m => m.to === 'residential_in_house')
+    expect(woclMove).toBeDefined()
+    expect(woclMove.total_saving).toBeGreaterThan(0)
+  })
+
+  it('identifies residential → foster step-down', () => {
+    const result = lacPlacementOptimisation(mockLacModel)
+    const stepDown = result.placements_moved.find(m => m.from === 'residential_independent' && m.to === 'foster_independent')
+    expect(stepDown).toBeDefined()
+    expect(stepDown.unit_saving).toBe(312000 - 45000)
+  })
+
+  it('saving is positive', () => {
+    const result = lacPlacementOptimisation(mockLacModel)
+    expect(result.saving).toBeGreaterThan(0)
+  })
+
+  it('optimised cost equals current minus saving', () => {
+    const result = lacPlacementOptimisation(mockLacModel)
+    expect(result.optimised_cost).toBe(result.current_cost - result.saving)
+  })
+
+  it('saving percentage is reasonable', () => {
+    const result = lacPlacementOptimisation(mockLacModel)
+    expect(result.saving_pct).toBeGreaterThan(0)
+    expect(result.saving_pct).toBeLessThan(50) // Shouldn't be unrealistically high
+  })
+
+  it('WOCL ROI has payback period', () => {
+    const result = lacPlacementOptimisation(mockLacModel)
+    expect(result.wocl_roi).toBeDefined()
+    expect(result.wocl_roi.additional_homes).toBe(15)
+    expect(result.wocl_roi.capital_cost).toBe(15 * 1200000)
+    expect(result.wocl_roi.payback_years).toBeGreaterThan(0)
+  })
+
+  it('timeline has 4 years', () => {
+    const result = lacPlacementOptimisation(mockLacModel)
+    expect(result.timeline).toHaveLength(4)
+    expect(result.timeline[0].year).toBe(1)
+    expect(result.timeline[3].year).toBe(4)
+  })
+
+  it('timeline savings increase year on year', () => {
+    const result = lacPlacementOptimisation(mockLacModel)
+    for (let i = 1; i < result.timeline.length; i++) {
+      expect(result.timeline[i].saving).toBeGreaterThanOrEqual(result.timeline[i - 1].saving)
+    }
+  })
+
+  it('returns residential growth data', () => {
+    const result = lacPlacementOptimisation(mockLacModel)
+    expect(result.residential_growth).toEqual(mockLacModel.residential_growth)
+  })
+})
+
+describe('sendServiceDirectives', () => {
+  it('returns empty array for null input', () => {
+    expect(sendServiceDirectives(null)).toEqual([])
+    expect(sendServiceDirectives(undefined)).toEqual([])
+  })
+
+  it('generates EP conversion directive', () => {
+    const result = sendServiceDirectives(mockSendModel, mockLacModel)
+    const ep = result.find(d => d.id === 'send_ep_conversion')
+    expect(ep).toBeDefined()
+    expect(ep.type).toBe('service_model')
+    expect(ep.save_low).toBeGreaterThan(0)
+    expect(ep.save_high).toBeGreaterThan(ep.save_low)
+    expect(ep.steps).toHaveLength(5)
+  })
+
+  it('generates transport optimisation directive', () => {
+    const result = sendServiceDirectives(mockSendModel, mockLacModel)
+    const transport = result.find(d => d.id === 'send_transport_optimisation')
+    expect(transport).toBeDefined()
+    expect(transport.action).toContain('personal travel budgets')
+    expect(transport.priority).toBe('high')
+  })
+
+  it('generates LAC placement step-down directive', () => {
+    const result = sendServiceDirectives(mockSendModel, mockLacModel)
+    const lac = result.find(d => d.id === 'send_lac_placement_stepdown')
+    expect(lac).toBeDefined()
+    expect(lac.tier).toBe('service_redesign')
+    expect(lac.governance_route).toBe('cabinet_decision')
+  })
+
+  it('generates tribunal reduction directive', () => {
+    const result = sendServiceDirectives(mockSendModel, mockLacModel)
+    const tribunal = result.find(d => d.id === 'send_tribunal_reduction')
+    expect(tribunal).toBeDefined()
+    expect(tribunal.action).toContain('mediation')
+    expect(tribunal.risk).toBe('Low')
+  })
+
+  it('generates early intervention directive', () => {
+    const result = sendServiceDirectives(mockSendModel, mockLacModel)
+    const ei = result.find(d => d.id === 'send_early_intervention')
+    expect(ei).toBeDefined()
+    expect(ei.save_low).toBe(8000000)
+    expect(ei.save_high).toBe(15000000)
+    expect(ei.evidence).toContain('Hertfordshire')
+  })
+
+  it('all directives have standard schema fields', () => {
+    const result = sendServiceDirectives(mockSendModel, mockLacModel)
+    for (const d of result) {
+      expect(d.id).toBeTruthy()
+      expect(d.type).toBe('service_model')
+      expect(d.tier).toBeTruthy()
+      expect(d.action).toBeTruthy()
+      expect(d.save_low).toBeGreaterThanOrEqual(0)
+      expect(d.save_high).toBeGreaterThanOrEqual(d.save_low)
+      expect(d.save_central).toBeGreaterThanOrEqual(0)
+      expect(d.timeline).toBeTruthy()
+      expect(d.legal_basis).toBeTruthy()
+      expect(d.risk).toBeTruthy()
+      expect(d.steps).toBeDefined()
+      expect(d.governance_route).toBeTruthy()
+      expect(d.priority).toBeTruthy()
+      expect(typeof d.feasibility).toBe('number')
+      expect(typeof d.impact).toBe('number')
+    }
+  })
+
+  it('generates at least 4 directives with full data', () => {
+    const result = sendServiceDirectives(mockSendModel, mockLacModel)
+    expect(result.length).toBeGreaterThanOrEqual(4)
+  })
+
+  it('works without LAC model', () => {
+    const result = sendServiceDirectives(mockSendModel, null)
+    // Should still get EP, transport, tribunal, and early intervention
+    expect(result.length).toBeGreaterThanOrEqual(3)
+    const lacDirective = result.find(d => d.id === 'send_lac_placement_stepdown')
+    expect(lacDirective).toBeUndefined() // No LAC model → no LAC directive
+  })
+
+  it('works with minimal send model', () => {
+    const minimal = {
+      workforce: {
+        educational_psychologists: { agency: 50, agency_day_rate: 800, permanent_equivalent_day: 300 },
+        agency_premium_pct: 167,
+      },
+    }
+    const result = sendServiceDirectives(minimal, null)
+    expect(result.length).toBeGreaterThanOrEqual(1) // At least EP conversion
+  })
+
+  it('directive savings are realistic (not exceeding budget)', () => {
+    const result = sendServiceDirectives(mockSendModel, mockLacModel)
+    for (const d of result) {
+      // No single directive should claim more than £50M savings
+      expect(d.save_high).toBeLessThan(50000000)
+    }
+  })
+})
+
+describe('generateDirectives integration with service model', () => {
+  it('includes service model directives for education portfolio', () => {
+    const eduPortfolio = {
+      id: 'education_skills',
+      title: 'Education & Skills',
+      cabinet_member: { name: 'Test' },
+      executive_director: 'Jacqui Old',
+      spending_department_patterns: ['^Education'],
+      budget_latest: { net_expenditure: 265000000 },
+      savings_levers: [],
+      operational_context: {
+        service_model: {
+          send_cost_model: mockSendModel,
+          lac_cost_model: mockLacModel,
+        },
+      },
+    }
+    const result = generateDirectives(eduPortfolio, {}, [])
+    const serviceDirectives = result.filter(d => d.type === 'service_model')
+    expect(serviceDirectives.length).toBeGreaterThanOrEqual(4)
+    // All should have portfolio_id set
+    for (const d of serviceDirectives) {
+      expect(d.portfolio_id).toBe('education_skills')
+      expect(d.officer).toBe('Jacqui Old')
+    }
+  })
+
+  it('does not add service model directives when no service_model', () => {
+    const plainPortfolio = {
+      id: 'resources',
+      title: 'Resources',
+      cabinet_member: { name: 'Test' },
+      executive_director: 'Test',
+      spending_department_patterns: ['^Resources'],
+      budget_latest: { net_expenditure: 100000000 },
+      savings_levers: [],
+      operational_context: {},
+    }
+    const result = generateDirectives(plainPortfolio, {}, [])
+    const serviceDirectives = result.filter(d => d.type === 'service_model')
+    expect(serviceDirectives).toHaveLength(0)
+  })
+})
+
+// ──────────────────────────────────────────────────────────────
+// Adult Social Care Service Intelligence Tests
+// ──────────────────────────────────────────────────────────────
+
+const mockAscModel = {
+  demographics: {
+    over_65: { '2024': 248000, '2029': 274000, '2034': 298000, growth_pct_pa: 2.1 },
+    over_85: { '2024': 32000, '2029': 38000, '2034': 45000, growth_pct_pa: 3.5 },
+    working_age_ld: { current: 4200, growth_pct_pa: 1.8 },
+  },
+  care_type_costs: {
+    residential_older_people: { beds: 3000, avg_weekly_cost: 850, fair_cost_of_care: 987, gap_per_week: 137, providers: 413, vacancy_pct: 10 },
+    residential_nursing: { beds: 1800, avg_weekly_cost: 1050 },
+    home_care_framework: { hours_per_week: 60700, hourly_rate: 21.50, providers: 30 },
+    home_care_off_framework: { hours_per_week: 27300, hourly_rate: 25.80, providers: 45, pct_of_total: 31 },
+    ld_supported_living: { people: 1830, providers: 42, properties: 700, annual_cost: 70000000, avg_per_person: 38251 },
+    direct_payments: { recipients: 2800, avg_annual: 18000, total_20mo: 161000000 },
+    shared_lives: { placements: 180, cqc_rating: 'Outstanding', avg_cost: 15000, vs_residential: 28000 },
+  },
+  demand_pressures: {
+    assessment_backlog: { waiting: 1075, max_wait_days: 226, improvement_pct: 48 },
+    annual_reviews_overdue: 3500,
+    ot_waiting: { waiting: 1100, max_wait_days: 262 },
+    dols_applications_pa: 8500,
+    dols_processed_in_time_pct: 19,
+    safeguarding_referrals_pa: 12000,
+  },
+  chc_model: {
+    current_recovery_rate_pct: 5,
+    national_avg_pct: 10,
+    bcf_total: 200000000,
+    cases_reviewed_pa: 3600,
+    successful_claims: 180,
+    avg_claim_value: 28000,
+    target_recovery_rate_pct: 10,
+    projected_additional_income: 9000000,
+  },
+  market_sustainability: {
+    care_home_closures_3yr: 12,
+    provider_failure_risk: 'medium',
+    nlw_increase_pct: 6.7,
+    employer_ni_increase_pp: 1.2,
+    annual_cost_inflation: 42000000,
+    in_house_homes: 16,
+    in_house_maintenance_backlog: 5000000,
+    closure_commitment: 'No closures confirmed Feb 2026',
+  },
+  reablement: {
+    success_rate_pct: 87.3,
+    national_avg_pct: 81.8,
+    offered_after_discharge_pct: 2.6,
+    national_offered_pct: 2.8,
+    cost_per_episode: 3500,
+    residential_avoided_saving: 35000,
+    potential_expansion: { additional_episodes_pa: 500, net_saving: 4500000 },
+  },
+}
+
+describe('ascDemandProjection', () => {
+  it('returns empty for null input', () => {
+    const result = ascDemandProjection(null)
+    expect(result.yearly).toEqual([])
+    expect(result.total_growth).toBe(0)
+  })
+
+  it('returns empty for missing demographics', () => {
+    const result = ascDemandProjection({})
+    expect(result.yearly).toEqual([])
+  })
+
+  it('projects 5 years by default', () => {
+    const result = ascDemandProjection(mockAscModel)
+    expect(result.yearly).toHaveLength(5)
+  })
+
+  it('projects custom number of years', () => {
+    const result = ascDemandProjection(mockAscModel, 3)
+    expect(result.yearly).toHaveLength(3)
+  })
+
+  it('costs grow year on year', () => {
+    const result = ascDemandProjection(mockAscModel)
+    for (let i = 1; i < result.yearly.length; i++) {
+      expect(result.yearly[i].total).toBeGreaterThan(result.yearly[i - 1].total)
+    }
+  })
+
+  it('over-85 population grows faster than over-65', () => {
+    const result = ascDemandProjection(mockAscModel)
+    const y5 = result.yearly[4]
+    const over65Growth = y5.over_65 / 248000
+    const over85Growth = y5.over_85 / 32000
+    expect(over85Growth).toBeGreaterThan(over65Growth)
+  })
+
+  it('base cost is positive for full model', () => {
+    const result = ascDemandProjection(mockAscModel)
+    expect(result.base_cost).toBeGreaterThan(0)
+  })
+
+  it('total growth is cumulative', () => {
+    const result = ascDemandProjection(mockAscModel)
+    expect(result.total_growth).toBeGreaterThan(0)
+  })
+
+  it('cost breakdown components are positive', () => {
+    const result = ascDemandProjection(mockAscModel)
+    expect(result.cost_breakdown.residential.value).toBeGreaterThan(0)
+    expect(result.cost_breakdown.home_care.value).toBeGreaterThan(0)
+    expect(result.cost_breakdown.ld.value).toBeGreaterThan(0)
+  })
+
+  it('blended growth rate is between individual rates', () => {
+    const result = ascDemandProjection(mockAscModel)
+    expect(result.blended_growth_rate).toBeGreaterThan(0.018) // > LD rate
+    expect(result.blended_growth_rate).toBeLessThan(0.035)    // < over-85 rate
+  })
+})
+
+describe('ascMarketRisk', () => {
+  it('returns zeros for null input', () => {
+    const result = ascMarketRisk(null)
+    expect(result.risk_score).toBe(0)
+    expect(result.mitigation_options).toEqual([])
+  })
+
+  it('counts total providers', () => {
+    const result = ascMarketRisk(mockAscModel)
+    expect(result.provider_count).toBe(413 + 30 + 45)
+  })
+
+  it('detects high closure trend', () => {
+    const result = ascMarketRisk(mockAscModel)
+    expect(result.closure_trend).toBe(12)
+    expect(result.risk_score).toBeGreaterThan(0)
+  })
+
+  it('detects fair cost gap', () => {
+    const result = ascMarketRisk(mockAscModel)
+    expect(result.fair_cost_gap).toBe(137)
+  })
+
+  it('scores risk appropriately for full model', () => {
+    const result = ascMarketRisk(mockAscModel)
+    // 12 closures (25) + 10% vacancy (10) + 137 gap (25) + medium failure (10) + 31% off-fw (10) = 80
+    expect(result.risk_score).toBeGreaterThanOrEqual(60)
+    expect(result.risk_level).toBe('critical')
+  })
+
+  it('generates mitigation options', () => {
+    const result = ascMarketRisk(mockAscModel)
+    expect(result.mitigation_options.length).toBeGreaterThan(0)
+    const fairCostMitigation = result.mitigation_options.find(m => m.action.includes('fair cost gap'))
+    expect(fairCostMitigation).toBeDefined()
+  })
+
+  it('detects off-framework percentage', () => {
+    const result = ascMarketRisk(mockAscModel)
+    expect(result.off_framework_pct).toBe(31)
+  })
+
+  it('returns low risk for minimal model', () => {
+    const minimal = { care_type_costs: { residential_older_people: { providers: 100, vacancy_pct: 3, gap_per_week: 20 } } }
+    const result = ascMarketRisk(minimal)
+    expect(result.risk_level).toBe('low')
+  })
+})
+
+describe('chcRecoveryModel', () => {
+  it('returns zeros for null input', () => {
+    const result = chcRecoveryModel(null)
+    expect(result.current_income).toBe(0)
+    expect(result.gap).toBe(0)
+  })
+
+  it('calculates current income correctly', () => {
+    const result = chcRecoveryModel(mockAscModel.chc_model)
+    expect(result.current_income).toBe(180 * 28000)
+  })
+
+  it('calculates target income', () => {
+    const result = chcRecoveryModel(mockAscModel.chc_model)
+    const targetClaims = Math.round(3600 * 10 / 100) // 360 at 10%
+    expect(result.target_income).toBe(targetClaims * 28000)
+  })
+
+  it('gap is positive when target > current', () => {
+    const result = chcRecoveryModel(mockAscModel.chc_model)
+    expect(result.gap).toBeGreaterThan(0)
+  })
+
+  it('net benefit accounts for costs', () => {
+    const result = chcRecoveryModel(mockAscModel.chc_model)
+    expect(result.net_benefit).toBeLessThan(result.gap) // Costs reduce the net
+    expect(result.net_benefit).toBeGreaterThan(0)
+  })
+
+  it('timeline has 3 years', () => {
+    const result = chcRecoveryModel(mockAscModel.chc_model)
+    expect(result.timeline).toHaveLength(3)
+    expect(result.timeline[2].recovery_rate).toBe(10) // Reaches target
+  })
+
+  it('income increases through timeline', () => {
+    const result = chcRecoveryModel(mockAscModel.chc_model)
+    for (let i = 1; i < result.timeline.length; i++) {
+      expect(result.timeline[i].income).toBeGreaterThan(result.timeline[i - 1].income)
+    }
+  })
+
+  it('calculates additional reviewers needed', () => {
+    const result = chcRecoveryModel(mockAscModel.chc_model)
+    expect(result.additional_reviewers).toBeGreaterThan(0)
+  })
+})
+
+describe('ascServiceDirectives', () => {
+  it('returns empty for null input', () => {
+    expect(ascServiceDirectives(null)).toEqual([])
+  })
+
+  it('generates CHC recovery directive', () => {
+    const result = ascServiceDirectives(mockAscModel)
+    const chc = result.find(d => d.id === 'asc_chc_recovery')
+    expect(chc).toBeDefined()
+    expect(chc.tier).toBe('income_generation')
+    expect(chc.priority).toBe('high')
+  })
+
+  it('generates off-framework reduction directive', () => {
+    const result = ascServiceDirectives(mockAscModel)
+    const offFw = result.find(d => d.id === 'asc_off_framework_reduction')
+    expect(offFw).toBeDefined()
+    expect(offFw.action).toContain('31%')
+  })
+
+  it('generates reablement expansion directive', () => {
+    const result = ascServiceDirectives(mockAscModel)
+    const reab = result.find(d => d.id === 'asc_reablement_expansion')
+    expect(reab).toBeDefined()
+    expect(reab.action).toContain('500')
+    expect(reab.priority).toBe('high')
+  })
+
+  it('generates shared lives expansion directive', () => {
+    const result = ascServiceDirectives(mockAscModel)
+    const sl = result.find(d => d.id === 'asc_shared_lives_expansion')
+    expect(sl).toBeDefined()
+    expect(sl.action).toContain('Outstanding')
+  })
+
+  it('generates digital care directive', () => {
+    const result = ascServiceDirectives(mockAscModel)
+    const dc = result.find(d => d.id === 'asc_digital_care')
+    expect(dc).toBeDefined()
+    expect(dc.action).toContain('1,075')
+  })
+
+  it('generates at least 4 directives with full data', () => {
+    const result = ascServiceDirectives(mockAscModel)
+    expect(result.length).toBeGreaterThanOrEqual(4)
+  })
+
+  it('all directives have standard schema fields', () => {
+    const result = ascServiceDirectives(mockAscModel)
+    for (const d of result) {
+      expect(d.id).toBeTruthy()
+      expect(d.type).toBe('service_model')
+      expect(d.tier).toBeTruthy()
+      expect(d.action).toBeTruthy()
+      expect(d.save_low).toBeGreaterThanOrEqual(0)
+      expect(d.save_high).toBeGreaterThanOrEqual(d.save_low)
+      expect(d.timeline).toBeTruthy()
+      expect(d.legal_basis).toBeTruthy()
+      expect(d.steps).toBeDefined()
+      expect(d.governance_route).toBeTruthy()
+    }
+  })
+
+  it('integrates with generateDirectives for ASC portfolio', () => {
+    const ascPortfolio = {
+      id: 'adult_social_care',
+      title: 'Adult Social Care',
+      cabinet_member: { name: 'Graham Dalton' },
+      executive_director: 'Louise Taylor',
+      spending_department_patterns: ['^Adult'],
+      budget_latest: { net_expenditure: 420000000 },
+      savings_levers: [],
+      operational_context: { service_model: { asc_demand_model: mockAscModel } },
+    }
+    const result = generateDirectives(ascPortfolio, {}, [])
+    const serviceDirectives = result.filter(d => d.type === 'service_model')
+    expect(serviceDirectives.length).toBeGreaterThanOrEqual(4)
+    for (const d of serviceDirectives) {
+      expect(d.portfolio_id).toBe('adult_social_care')
+      expect(d.officer).toBe('Louise Taylor')
+    }
+  })
+})
+
+// ──────────────────────────────────────────────────────────────
+// Cross-Cutting Intelligence Engine Tests
+// ──────────────────────────────────────────────────────────────
+
+describe('quantifyDemandPressures', () => {
+  it('returns zeros for null input', () => {
+    const result = quantifyDemandPressures(null)
+    expect(result.pressures).toEqual([])
+    expect(result.total_annual).toBe(0)
+  })
+
+  it('quantifies demand pressures from text', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 100000000 },
+      demand_pressures: ['Demographic growth driving costs', '£5M inflation pressure', 'Backlog of assessments'],
+    }
+    const result = quantifyDemandPressures(portfolio)
+    expect(result.pressures.length).toBe(3)
+    expect(result.total_annual).toBeGreaterThan(0)
+  })
+
+  it('parses £M figures from text', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 100000000 },
+      demand_pressures: ['£12.5M growth in SEND transport'],
+    }
+    const result = quantifyDemandPressures(portfolio)
+    expect(result.pressures[0].annual_impact).toBe(12500000)
+  })
+
+  it('adds service model pressures for SEND', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 265000000 },
+      demand_pressures: [],
+      operational_context: { service_model: { send_cost_model: mockSendModel } },
+    }
+    const result = quantifyDemandPressures(portfolio)
+    const ehcpPressure = result.pressures.find(p => p.name.includes('EHCP'))
+    expect(ehcpPressure).toBeDefined()
+    expect(ehcpPressure.severity).toBe('critical')
+  })
+
+  it('adds service model pressures for ASC', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 420000000 },
+      demand_pressures: [],
+      operational_context: { service_model: { asc_demand_model: mockAscModel } },
+    }
+    const result = quantifyDemandPressures(portfolio)
+    const inflationPressure = result.pressures.find(p => p.name.includes('inflation'))
+    expect(inflationPressure).toBeDefined()
+  })
+
+  it('calculates coverage percentage', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 100000000 },
+      demand_pressures: ['£10M cost pressure'],
+      savings_levers: [{ est_saving: '£5-8M' }],
+    }
+    const result = quantifyDemandPressures(portfolio)
+    expect(result.coverage_pct).toBeGreaterThan(0)
+    expect(result.coverage_pct).toBeLessThanOrEqual(100)
+  })
+
+  it('sorts pressures by annual impact descending', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 100000000 },
+      demand_pressures: ['Small backlog', '£20M massive pressure', '£5M medium pressure'],
+    }
+    const result = quantifyDemandPressures(portfolio)
+    for (let i = 1; i < result.pressures.length; i++) {
+      expect(result.pressures[i].annual_impact).toBeLessThanOrEqual(result.pressures[i - 1].annual_impact)
+    }
+  })
+})
+
+describe('budgetRealismCheck', () => {
+  it('returns defaults for null input', () => {
+    const result = budgetRealismCheck(null)
+    expect(result.credibility_score).toBe(100)
+    expect(result.flags).toEqual([])
+  })
+
+  it('detects lever claiming too much of budget', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 50000000 },
+      savings_levers: [{ lever: 'Massive saving', est_saving: '£10-15M' }],
+    }
+    const result = budgetRealismCheck(portfolio)
+    expect(result.flags.length).toBeGreaterThan(0)
+    expect(result.credibility_score).toBeLessThan(100)
+  })
+
+  it('flags levers without evidence', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 100000000 },
+      savings_levers: [{ lever: 'No evidence lever', est_saving: '£1-2M' }],
+    }
+    const result = budgetRealismCheck(portfolio)
+    const noEvidence = result.flags.find(f => f.includes('no evidence'))
+    expect(noEvidence).toBeDefined()
+  })
+
+  it('calculates savings as percentage of budget', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 100000000 },
+      savings_levers: [{ lever: 'Test', est_saving: '£3-5M', evidence_chain: {} }],
+    }
+    const result = budgetRealismCheck(portfolio)
+    expect(result.savings_as_pct).toBeGreaterThan(0)
+    expect(result.savings_as_pct).toBeLessThan(100)
+  })
+
+  it('evidence coverage is 100% when all have evidence', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 100000000 },
+      savings_levers: [{ lever: 'A', est_saving: '£1-2M', evidence_chain: {} }, { lever: 'B', est_saving: '£2-3M', evidence: 'data' }],
+    }
+    const result = budgetRealismCheck(portfolio)
+    expect(result.evidence_coverage).toBe(100)
+  })
+
+  it('gives high credibility for well-evidenced moderate savings', () => {
+    const portfolio = {
+      budget_latest: { net_expenditure: 100000000 },
+      savings_levers: [
+        { lever: 'A', est_saving: '£1-2M', evidence_chain: {}, timeline: '3-6 months' },
+        { lever: 'B', est_saving: '£2-3M', evidence_chain: {}, timeline: '6-12 months' },
+      ],
+    }
+    const result = budgetRealismCheck(portfolio)
+    expect(result.credibility_level).toBe('high')
+  })
+})
+
+describe('inspectionRemediationTimeline', () => {
+  it('returns nulls for null input', () => {
+    const result = inspectionRemediationTimeline(null)
+    expect(result.current_rating).toBeNull()
+    expect(result.est_months).toBe(0)
+  })
+
+  it('estimates 15 months for Requires Improvement', () => {
+    const result = inspectionRemediationTimeline({ cqc_rating: 'Requires Improvement', target_rating: 'Good', improvement_plan_cost: 3200000 })
+    expect(result.est_months).toBe(15)
+    expect(result.current_rating).toBe('Requires Improvement')
+  })
+
+  it('estimates 24 months for Inadequate', () => {
+    const result = inspectionRemediationTimeline({ cqc_rating: 'Inadequate', target_rating: 'Requires Improvement' })
+    expect(result.est_months).toBe(24)
+  })
+
+  it('calculates ROI with intervention cost', () => {
+    const result = inspectionRemediationTimeline({
+      cqc_rating: 'Requires Improvement',
+      improvement_plan_cost: 3200000,
+      cost_of_intervention_if_inadequate: 15000000,
+    })
+    expect(result.roi).toContain('£3.2M')
+    expect(result.roi).toContain('£15')
+    expect(result.cost_of_intervention).toBe(15000000)
+  })
+
+  it('includes key findings', () => {
+    const result = inspectionRemediationTimeline({
+      cqc_rating: 'Requires Improvement',
+      key_findings: ['Backlogs', 'Poor records'],
+    })
+    expect(result.key_findings).toHaveLength(2)
+  })
+
+  it('assesses risk of decline', () => {
+    const ri = inspectionRemediationTimeline({ cqc_rating: 'Requires Improvement' })
+    expect(ri.risk_of_decline).toBe('medium')
+    const inad = inspectionRemediationTimeline({ cqc_rating: 'Inadequate' })
+    expect(inad.risk_of_decline).toBe('high')
+  })
+})
+
+describe('netFiscalTrajectory', () => {
+  it('returns empty for null input', () => {
+    const result = netFiscalTrajectory(null)
+    expect(result.yearly).toEqual([])
+    expect(result.trajectory).toBe('unknown')
+  })
+
+  it('projects 5 years by default', () => {
+    const portfolio = { budget_latest: { net_expenditure: 100000000 } }
+    const demand = { total_annual: 10000000 }
+    const directives = [{ save_central: 5000000, timeline: 'Short-term (3-6 months)' }]
+    const result = netFiscalTrajectory(portfolio, demand, directives)
+    expect(result.yearly).toHaveLength(5)
+  })
+
+  it('immediate savings appear in year 1', () => {
+    const portfolio = { budget_latest: { net_expenditure: 100000000 } }
+    const demand = { total_annual: 5000000 }
+    const directives = [{ save_central: 3000000, timeline: 'Immediate (0-3 months)' }]
+    const result = netFiscalTrajectory(portfolio, demand, directives)
+    expect(result.yearly[0].savings_achieved).toBe(3000000)
+  })
+
+  it('detects breakeven year', () => {
+    const portfolio = { budget_latest: { net_expenditure: 100000000 } }
+    const demand = { total_annual: 5000000 }
+    const directives = [
+      { save_central: 3000000, timeline: 'Immediate (0-3 months)' },
+      { save_central: 4000000, timeline: 'Short-term (3-6 months)' },
+    ]
+    const result = netFiscalTrajectory(portfolio, demand, directives)
+    // Year 2: immediate + short = 7M vs 5M demand → net positive
+    expect(result.breakeven_year).toBeDefined()
+  })
+
+  it('determines trajectory from last two years', () => {
+    const portfolio = { budget_latest: { net_expenditure: 100000000 } }
+    const demand = { total_annual: 2000000 }
+    const directives = [{ save_central: 5000000, timeline: 'Short-term (3-6 months)' }]
+    const result = netFiscalTrajectory(portfolio, demand, directives)
+    expect(['improving', 'stable', 'declining']).toContain(result.trajectory)
+  })
+
+  it('cumulative net tracks running total', () => {
+    const portfolio = { budget_latest: { net_expenditure: 100000000 } }
+    const demand = { total_annual: 5000000 }
+    const directives = [{ save_central: 3000000, timeline: 'Immediate (0-3 months)' }]
+    const result = netFiscalTrajectory(portfolio, demand, directives)
+    let running = 0
+    for (const y of result.yearly) {
+      running += y.net_position
+      expect(y.cumulative_net).toBe(running)
+    }
+  })
+
+  it('returns total demand and savings over projection period', () => {
+    const portfolio = { budget_latest: { net_expenditure: 100000000 } }
+    const demand = { total_annual: 5000000 }
+    const directives = [{ save_central: 3000000, timeline: 'Immediate (0-3 months)' }]
+    const result = netFiscalTrajectory(portfolio, demand, directives)
+    expect(result.total_demand_5yr).toBeGreaterThan(0)
+    expect(result.total_savings_5yr).toBeGreaterThan(0)
   })
 })
