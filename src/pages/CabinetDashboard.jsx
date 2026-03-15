@@ -54,6 +54,7 @@ export default function CabinetDashboard() {
   const administration = portfolioData?.administration || {}
   const findings = findingsData || {}
   const meetings = Array.isArray(meetingsData) ? meetingsData : meetingsData?.meetings || []
+  const documents = Array.isArray(documentsData) ? documentsData : documentsData?.decisions || []
 
   // Accessible portfolios for this user
   const accessiblePortfolios = useMemo(() => {
@@ -126,7 +127,7 @@ export default function CabinetDashboard() {
   const upcomingDecisions = useMemo(() => {
     const pipeline = []
     for (const p of portfolios) {
-      pipeline.push(...decisionPipeline(meetings, p))
+      pipeline.push(...decisionPipeline(meetings, p, documents))
     }
     return pipeline.sort((a, b) => (a.date || '').localeCompare(b.date || '')).slice(0, 10)
   }, [portfolios, meetings])

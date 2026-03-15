@@ -17,12 +17,10 @@ import {
   generateDirectives,
   generateReformPlaybook,
   decisionPathway,
-  supplierPortfolioAnalysis,
   decisionPipeline,
   meetingBriefing,
   politicalContext,
   departmentOperationsProfile,
-  processEfficiency,
   priorityMatrix,
   generatePortfolioFOI,
   crossPortfolioDependencies,
@@ -75,10 +73,10 @@ export default function PortfolioDetail() {
   const directives = useMemo(() => generateDirectives(portfolio, findings, []), [portfolio, findings])
   const playbook = useMemo(() => generateReformPlaybook(portfolio, directives), [portfolio, directives])
   const matrix = useMemo(() => priorityMatrix(directives), [directives])
-  const supplierAnalysis = useMemo(() => supplierPortfolioAnalysis([]), [])
   const upcomingDecisions = useMemo(() => decisionPipeline(meetings, portfolio, documents), [meetings, portfolio, documents])
-  const politicalCtx = useMemo(() => politicalContext(portfolio), [portfolio])
-  const efficiency = useMemo(() => processEfficiency([]), [])
+  const politicalCtx = useMemo(() => politicalContext(portfolio, {
+    dogeFindings: findings,
+  }), [portfolio, findings])
   const dependencies = useMemo(() => crossPortfolioDependencies(portfolios), [portfolios])
 
   // Scatter data for priority matrix

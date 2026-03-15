@@ -137,8 +137,7 @@ function DogeInvestigation() {
   const { data: documentsData } = useData(dataSources.council_documents ? '/data/council_documents.json' : null)
   // Cross-council data for peer benchmarking
   const { data: crossCouncilData } = useData('/data/cross_council.json')
-  // Elections reference for fiscal stress adjustment
-  const { data: electionsRefData } = useData('/data/shared/elections_reference.json')
+  // Elections reference removed — was loaded but never used
 
   // Live Forensic Screening computations — use data[N] directly since
   // destructured names (insights, dogeFindings) aren't available until after conditional returns

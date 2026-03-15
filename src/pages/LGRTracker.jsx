@@ -10,8 +10,8 @@ import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, Trend
 
 const LancashireMap = lazy(() => import('../components/LancashireMap'))
 import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP, computeDemographicFiscalProfile,
-  computeServiceLineSavings, computeAuthorityBudgetComposition, computeCouncilTaxHarmonisationTimeline,
-  computeStaffTransitionCosts, computeITIntegrationCosts, computePrecedentBenchmark,
+  computeAuthorityBudgetComposition, computeCouncilTaxHarmonisationTimeline,
+  computePrecedentBenchmark,
   computeAlternativeTimeline, computeServiceContinuityRisk, computeNorthernMillTownComparison,
   computeEqualPayRisk, computeCollectionRateImpact, computeThreatAssessment,
   adjustForCCATransfers, adjustSavingsForDeprivation, estimatePlanningConsolidationSavings,
@@ -481,15 +481,6 @@ function LGRTracker() {
     return budgetModel?.per_service_savings?.[activeModel]?.total_annual_savings || 0
   }, [budgetModel, activeModel])
 
-  // V7: Service-line savings for active model
-  const serviceLineSavings = useMemo(() => {
-    if (!budgetModel?.authority_composition?.[activeModel]) return null
-    const authorities = budgetModel.authority_composition[activeModel]
-    const firstAuth = Object.values(authorities || {})[0]
-    if (!firstAuth?.services) return null
-    return computeServiceLineSavings(firstAuth.services)
-  }, [budgetModel, activeModel])
-
   // V7: Alternative timeline analysis
   const alternativeTimeline = useMemo(() => {
     const timeline = lgrEnhanced?.timeline_analysis
@@ -514,17 +505,6 @@ function LGRTracker() {
     if (!activeFiscalProfile?.length) return computeNorthernMillTownComparison([])
     return computeNorthernMillTownComparison(activeFiscalProfile)
   }, [activeFiscalProfile])
-
-  // V7: Staff transition costs
-  const staffCosts = useMemo(() => {
-    const numAuth = lgrData?.proposed_models?.find(m => m.id === activeModel)?.authorities?.length || 2
-    return computeStaffTransitionCosts({ totalStaff: 30000, numAuthorities: numAuth })
-  }, [lgrData, activeModel])
-
-  // V7: IT integration costs
-  const itCosts = useMemo(() => {
-    return computeITIntegrationCosts({ numCouncils: 15 })
-  }, [])
 
   // Phase 20: Council Tax Harmonisation Timeline
   const ctHarmonisation = useMemo(() => {
