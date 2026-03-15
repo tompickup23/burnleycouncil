@@ -52,6 +52,8 @@ import {
   assetServiceDirectives,
   highwaysIntelligenceSummary,
   fiscalSystemOverview,
+  spendingBudgetVariance,
+  spendingConcentration,
 } from './savingsEngine.js'
 
 // ─── Test fixtures ───
@@ -3208,5 +3210,180 @@ describe('fiscalSystemOverview', () => {
     expect(result.portfolios).toHaveLength(1)
     expect(result.portfolios[0].demand_annual).toBe(0)
     expect(result.portfolios[0].savings_central).toBe(0)
+  })
+})
+
+// ─── Spending Intelligence Tests ───
+
+describe('spendingBudgetVariance', () => {
+  const mockSummary = {
+    by_portfolio: {
+      adult_social_care: { total: 120_000_000, count: 5000, by_month: [
+        { month: '2024-04', total: 10_000_000 },
+        { month: '2024-05', total: 10_000_000 },
+        { month: '2024-06', total: 10_000_000 },
+        { month: '2024-07', total: 10_000_000 },
+        { month: '2024-08', total: 10_000_000 },
+        { month: '2024-09', total: 10_000_000 },
+        { month: '2024-10', total: 10_000_000 },
+        { month: '2024-11', total: 10_000_000 },
+        { month: '2024-12', total: 10_000_000 },
+        { month: '2025-01', total: 10_000_000 },
+        { month: '2025-02', total: 10_000_000 },
+        { month: '2025-03', total: 10_000_000 },
+      ] },
+    },
+  }
+
+  it('returns null when no spending summary', () => {
+    expect(spendingBudgetVariance(mockPortfolio, null)).toBeNull()
+    expect(spendingBudgetVariance(mockPortfolio, {})).toBeNull()
+  })
+
+  it('returns null when portfolio has no budget', () => {
+    const noBudgetPortfolio = { id: 'adult_social_care', budget_latest: {} }
+    expect(spendingBudgetVariance(noBudgetPortfolio, mockSummary)).toBeNull()
+  })
+
+  it('computes variance correctly', () => {
+    const portfolio = {
+      id: 'adult_social_care',
+      budget_latest: { gross_expenditure: 100_000_000 },
+    }
+    const result = spendingBudgetVariance(portfolio, mockSummary)
+    expect(result).not.toBeNull()
+    expect(result.budget).toBe(100_000_000)
+    expect(result.actual).toBe(120_000_000)
+    expect(result.variance).toBe(20_000_000)
+    expect(result.variance_pct).toBeCloseTo(20, 0)
+  })
+
+  it('sets red alert for variance > 15%', () => {
+    const portfolio = {
+      id: 'adult_social_care',
+      budget_latest: { gross_expenditure: 100_000_000 },
+    }
+    const result = spendingBudgetVariance(portfolio, mockSummary)
+    expect(result.alert_level).toBe('red')
+  })
+
+  it('sets green alert for small variance', () => {
+    const portfolio = {
+      id: 'adult_social_care',
+      budget_latest: { gross_expenditure: 115_000_000 },
+    }
+    const result = spendingBudgetVariance(portfolio, mockSummary)
+    expect(result.alert_level).toBe('green')
+  })
+
+  it('returns months_of_data count', () => {
+    const portfolio = {
+      id: 'adult_social_care',
+      budget_latest: { gross_expenditure: 100_000_000 },
+    }
+    const result = spendingBudgetVariance(portfolio, mockSummary)
+    expect(result.months_of_data).toBe(12)
+  })
+})
+
+describe('spendingConcentration', () => {
+  it('returns null for null/undefined input', () => {
+    expect(spendingConcentration(null)).toBeNull()
+    expect(spendingConcentration(undefined)).toBeNull()
+  })
+
+  it('returns low risk for empty portfolio data', () => {
+    const result = spendingConcentration({})
+    expect(result.hhi).toBe(0)
+    expect(result.risk_level).toBe('low')
+    expect(result.unique_suppliers).toBe(0)
+  })
+
+  it('reads pre-computed HHI for monopoly', () => {
+    const ps = {
+      total: 100000,
+      hhi: 10000,
+      top_suppliers: [{ name: 'Sole', total: 100000, pct: 100 }],
+      unique_suppliers: 1,
+    }
+    const result = spendingConcentration(ps)
+    expect(result.hhi).toBe(10000)
+    expect(result.risk_level).toBe('high')
+    expect(result.top_supplier_pct).toBe(100)
+  })
+
+  it('reads pre-computed HHI for two equal suppliers', () => {
+    const ps = {
+      total: 100000,
+      hhi: 5000,
+      top_suppliers: [
+        { name: 'A', total: 50000, pct: 50 },
+        { name: 'B', total: 50000, pct: 50 },
+      ],
+      unique_suppliers: 2,
+    }
+    const result = spendingConcentration(ps)
+    expect(result.hhi).toBe(5000)
+    expect(result.risk_level).toBe('high')
+  })
+
+  it('classifies low risk for HHI below 1500', () => {
+    const ps = {
+      total: 100000,
+      hhi: 1000,
+      top_suppliers: Array.from({ length: 10 }, (_, i) => ({ name: `S${i}`, total: 10000, pct: 10 })),
+      unique_suppliers: 10,
+    }
+    const result = spendingConcentration(ps)
+    expect(result.hhi).toBe(1000)
+    expect(result.risk_level).toBe('low')
+  })
+
+  it('classifies moderate risk for HHI between 1500 and 2500', () => {
+    const ps = {
+      total: 100000,
+      hhi: 2000,
+      top_suppliers: [{ name: 'A', total: 40000, pct: 40 }],
+      unique_suppliers: 5,
+    }
+    const result = spendingConcentration(ps)
+    expect(result.risk_level).toBe('moderate')
+  })
+
+  it('returns top 3 suppliers with pct', () => {
+    const ps = {
+      total: 100000,
+      hhi: 3400,
+      top_suppliers: [
+        { name: 'A', total: 50000, pct: 50 },
+        { name: 'B', total: 30000, pct: 30 },
+        { name: 'C', total: 15000, pct: 15 },
+        { name: 'D', total: 5000, pct: 5 },
+      ],
+      unique_suppliers: 4,
+    }
+    const result = spendingConcentration(ps)
+    expect(result.top_3).toHaveLength(3)
+    expect(result.top_3[0].name).toBe('A')
+    expect(result.top_3[0].pct).toBe(50)
+  })
+})
+
+describe('matchSpendingToPortfolio — summary mode', () => {
+  it('returns portfolio aggregates from summary when provided', () => {
+    const summary = {
+      by_portfolio: {
+        adult_social_care: { total: 50000, count: 100, unique_suppliers: 10 },
+      },
+    }
+    const result = matchSpendingToPortfolio([], mockPortfolio, summary)
+    expect(result.total).toBe(50000)
+    expect(result.count).toBe(100)
+  })
+
+  it('falls back to record matching when no summary for portfolio', () => {
+    const summary = { by_portfolio: {} }
+    const result = matchSpendingToPortfolio([], mockPortfolio, summary)
+    expect(result).toEqual([]) // no records match
   })
 })

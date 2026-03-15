@@ -884,6 +884,16 @@
 .legal-card.legal-financial { border-left: 3px solid rgba(255, 204, 2, 0.4); }
 .legal-card.legal-accountability { border-left: 3px solid rgba(255, 69, 58, 0.4); }
 
+/* Spend category intelligence */
+.doge-spend-categories { display: flex; flex-direction: column; gap: 4px; }
+.doge-spend-cat-row { display: flex; align-items: center; gap: 8px; padding: 4px 0; }
+.doge-spend-cat-name { min-width: 180px; font-size: 0.78rem; color: rgba(255,255,255,0.65); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.doge-spend-cat-bar-track { flex: 1; height: 8px; background: rgba(255,255,255,0.05); border-radius: 4px; overflow: hidden; }
+.doge-spend-cat-bar { height: 100%; background: linear-gradient(90deg, #12B6CF, rgba(18,182,207,0.5)); border-radius: 4px; transition: width 0.4s ease; }
+.doge-spend-cat-val { min-width: 80px; text-align: right; font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.7); font-variant-numeric: tabular-nums; }
+.doge-spend-cat-pct { min-width: 40px; text-align: right; font-size: 0.72rem; color: rgba(255,255,255,0.4); }
+.doge-spend-cat-alert { color: #fd7e14; font-size: 0.85rem; }
+
 /* Action section */
 .doge-action-section {
   margin-bottom: var(--space-2xl);

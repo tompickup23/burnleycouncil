@@ -37,7 +37,10 @@ import {
   wasteDisposalComparison,
   quantifyDemandPressures,
   netFiscalTrajectory,
+  spendingBudgetVariance,
+  spendingConcentration,
 } from '../utils/savingsEngine'
+import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import './PortfolioDetail.css'
 
 const TABS = [
@@ -62,6 +65,7 @@ export default function PortfolioDetail() {
 
   const hasAccess = authCtx?.isCouncillor || !isFirebaseEnabled
   const isCabinetLevel = authCtx?.isCabinetLevel || !isFirebaseEnabled
+  const { summary: spendingSummary } = useSpendingSummary()
 
   // Context-aware back navigation
   const referrer = location.state?.from
@@ -92,7 +96,7 @@ export default function PortfolioDetail() {
 
   // Compute all derived data with useMemo hooks BEFORE conditional returns
   const pFindings = useMemo(() => mapFindingsToPortfolio(findings, portfolio), [findings, portfolio])
-  const directives = useMemo(() => generateDirectives(portfolio, findings, [], { procurement, fundingModel: portfolioData?.administration?.funding_model }), [portfolio, findings, procurement, portfolioData])
+  const directives = useMemo(() => generateDirectives(portfolio, findings, [], { procurement, fundingModel: portfolioData?.administration?.funding_model, spendingSummary }), [portfolio, findings, procurement, portfolioData, spendingSummary])
   const playbook = useMemo(() => generateReformPlaybook(portfolio, directives), [portfolio, directives])
   const matrix = useMemo(() => priorityMatrix(directives), [directives])
   const upcomingDecisions = useMemo(() => decisionPipeline(meetings, portfolio, documents), [meetings, portfolio, documents])
@@ -300,6 +304,53 @@ export default function PortfolioDetail() {
               </div>
             </div>
           )}
+
+          {/* Portfolio Spending Intelligence */}
+          {spendingSummary?.by_portfolio?.[portfolioId] && (() => {
+            const ps = spendingSummary.by_portfolio[portfolioId]
+            const variance = spendingBudgetVariance(portfolio, spendingSummary)
+            const concentration = spendingConcentration(ps)
+            return (
+              <CollapsibleSection title={`Spending Intelligence — ${formatCurrency(ps.total)} across ${ps.unique_suppliers} suppliers`} icon={<TrendingUp size={18} />} defaultOpen>
+                <div className="service-stat-row">
+                  <StatCard label="Total Spend" value={formatCurrency(ps.total)} icon={<TrendingUp size={18} />} />
+                  <StatCard label="Transactions" value={ps.count?.toLocaleString()} icon={<Target size={18} />} />
+                  <StatCard label="Suppliers" value={ps.unique_suppliers} icon={<Users size={18} />} />
+                  {variance && <StatCard label="Budget Variance" value={`${variance.variance_pct > 0 ? '+' : ''}${variance.variance_pct}%`} color={variance.alert_level === 'red' ? '#dc3545' : variance.alert_level === 'amber' ? '#fd7e14' : '#28a745'} icon={<AlertTriangle size={18} />} />}
+                </div>
+
+                {/* Top Suppliers */}
+                {ps.top_suppliers?.length > 0 && (
+                  <div style={{ marginTop: '12px' }}>
+                    <h4 style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', marginBottom: '8px' }}>Top Suppliers</h4>
+                    <div className="portfolio-spending-suppliers">
+                      {ps.top_suppliers.slice(0, 5).map((s, i) => (
+                        <div key={i} className="portfolio-spending-supplier-row">
+                          <span className="portfolio-spending-supplier-name">{s.name}</span>
+                          <span className="portfolio-spending-supplier-total">{formatCurrency(s.total)}</span>
+                          <span className="portfolio-spending-supplier-pct">{s.pct?.toFixed(1)}%</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Concentration Warning */}
+                {concentration?.risk_level === 'high' && (
+                  <div className="spending-concentration-warning">
+                    <AlertTriangle size={14} /> High supplier concentration (HHI: {concentration.hhi}) — top supplier holds {concentration.top_supplier_pct}% of portfolio spend
+                  </div>
+                )}
+
+                {/* Deep link to Spending page */}
+                <div style={{ marginTop: '12px' }}>
+                  <Link to={`/spending?spend_category=${ps.label || ''}`} className="spending-deep-link">
+                    View all {ps.count?.toLocaleString()} transactions →
+                  </Link>
+                </div>
+              </CollapsibleSection>
+            )
+          })()}
 
           {/* Service Intelligence: SEND Cost Cascade */}
           {serviceModel?.send_cost_model && (

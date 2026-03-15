@@ -19,6 +19,7 @@ import {
   computeAll,
   generateCSV,
   hydrateRecord,
+  computeSpendingSummary,
 } from './spending.utils.js'
 
 // --- Worker State ---
@@ -381,6 +382,19 @@ function handleExport({ filters, search, sortField, sortDir }) {
   }
 }
 
+/**
+ * Handle COMPUTE_SUMMARY: compute lightweight spending summary from all loaded records.
+ * Returns a ~50KB object suitable for cross-page consumption.
+ */
+function handleComputeSummary() {
+  try {
+    const summary = computeSpendingSummary(allRecords)
+    self.postMessage({ type: 'SUMMARY_RESULT', summary })
+  } catch (err) {
+    self.postMessage({ type: 'ERROR', message: `Summary computation failed: ${err.message}` })
+  }
+}
+
 // --- Message Queue ---
 // INIT is async (fetches data). Messages arriving before INIT completes
 // must be queued, otherwise QUERY runs against empty allRecords.
@@ -403,6 +417,9 @@ function processMessage({ type, ...payload }) {
       break
     case 'LOAD_MONTH':
       handleLoadMonth(payload)
+      break
+    case 'COMPUTE_SUMMARY':
+      handleComputeSummary()
       break
     default:
       console.warn('Unknown worker message type:', type)

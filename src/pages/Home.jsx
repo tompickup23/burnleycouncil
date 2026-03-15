@@ -20,6 +20,7 @@ import SparkLine from '../components/ui/SparkLine'
 import ReformShowcase from '../components/ReformShowcase'
 import { useCountUp } from '../hooks/useCountUp'
 import { useReveal } from '../hooks/useReveal'
+import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import './Home.css'
 
 const WardMap = lazy(() => import('../components/WardMap'))
@@ -69,6 +70,7 @@ function Home() {
   const { data: deprivationData } = useData(dataSources.deprivation ? '/data/deprivation.json' : null)
   const { data: demoFiscalData } = useData('/data/demographic_fiscal.json')
   const { data: pipelineStateData } = useData('/data/shared/pipeline_state.json')
+  const { summary: spendingSummary } = useSpendingSummary()
 
   useEffect(() => {
     document.title = `Home | ${councilName} Council Transparency`
@@ -299,6 +301,23 @@ function Home() {
             </Link>
           )
         })()}
+
+        {/* Spending Intelligence Summary */}
+        {spendingSummary && spendingSummary.record_count > 0 && (
+          <Link to="/spending" className="spending-summary-banner">
+            <BarChart3 size={18} className="spending-summary-icon" />
+            <div className="spending-summary-content">
+              <span className="spending-summary-title">
+                Spending Intelligence: {formatCurrency(spendingSummary.total_spend)} across {spendingSummary.record_count?.toLocaleString()} transactions
+              </span>
+              <span className="spending-summary-detail">
+                {spendingSummary.coverage?.pct || 0}% classified into {Object.keys(spendingSummary.by_portfolio || {}).length} portfolio categories
+                {spendingSummary.top_suppliers?.[0] && ` · Top supplier: ${spendingSummary.top_suppliers[0].name}`}
+              </span>
+            </div>
+            <span className="spending-summary-link">Explore →</span>
+          </Link>
+        )}
 
         <div className="hero-actions">
           <Link to={spendingLink} className="btn-primary">

@@ -668,6 +668,36 @@
   vertical-align: middle;
 }
 
+.spend-cat-col {
+  max-width: 140px;
+  font-size: 0.75rem;
+}
+
+.spend-cat-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.6875rem;
+  font-weight: 500;
+  white-space: nowrap;
+  background: rgba(18, 182, 207, 0.12);
+  color: #12B6CF;
+}
+
+.spend-cat-badge.cat-adult_social_care { background: rgba(239, 68, 68, 0.12); color: #ef4444; }
+.spend-cat-badge.cat-children_services { background: rgba(249, 115, 22, 0.12); color: #f97316; }
+.spend-cat-badge.cat-education_skills { background: rgba(59, 130, 246, 0.12); color: #3b82f6; }
+.spend-cat-badge.cat-highways_transport { background: rgba(107, 114, 128, 0.12); color: #9ca3af; }
+.spend-cat-badge.cat-environment_communities { background: rgba(34, 197, 94, 0.12); color: #22c55e; }
+.spend-cat-badge.cat-public_health { background: rgba(168, 85, 247, 0.12); color: #a855f7; }
+.spend-cat-badge.cat-resources { background: rgba(100, 116, 139, 0.12); color: #94a3b8; }
+.spend-cat-badge.cat-ict_digital { background: rgba(6, 182, 212, 0.12); color: #06b6d4; }
+.spend-cat-badge.cat-economic_development { background: rgba(234, 179, 8, 0.12); color: #eab308; }
+.spend-cat-badge.cat-leader_cabinet { background: rgba(236, 72, 153, 0.12); color: #ec4899; }
+.spend-cat-badge.cat-schools_delegated { background: rgba(99, 102, 241, 0.12); color: #6366f1; }
+.spend-cat-badge.cat-capital_projects { background: rgba(20, 184, 166, 0.12); color: #14b8a6; }
+.spend-cat-badge.cat-other { background: rgba(75, 85, 99, 0.12); color: #6b7280; }
+
 .service-col,
 .category-col {
   max-width: 150px;

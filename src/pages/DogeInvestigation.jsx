@@ -27,6 +27,7 @@ import CollapsibleSection from '../components/CollapsibleSection'
 import StatCard from '../components/ui/StatCard'
 import GaugeChart from '../components/ui/GaugeChart'
 import SparkLine from '../components/ui/SparkLine'
+import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import '../components/ui/AdvancedCharts.css'
 import './DogeInvestigation.css'
 
@@ -139,6 +140,7 @@ function DogeInvestigation() {
   const { data: crossCouncilData } = useData('/data/cross_council.json')
   // Procurement data for contract coverage analysis
   const { data: procurementRaw } = useData('/data/procurement.json')
+  const { summary: spendingSummary } = useSpendingSummary()
   const procurementContracts = Array.isArray(procurementRaw) ? procurementRaw : procurementRaw?.contracts || []
   const procurementStats = procurementRaw?.stats || null
 
@@ -2780,6 +2782,53 @@ function DogeInvestigation() {
                 </ul>
               )}
             </div>
+          )}
+        </CollapsibleSection>
+      )}
+
+      {/* Spend Category Intelligence */}
+      {spendingSummary && Object.keys(spendingSummary.by_portfolio || {}).length > 0 && (
+        <CollapsibleSection
+          title="Spend Category Intelligence"
+          icon={<Target size={18} />}
+          subtitle={`${spendingSummary.coverage?.pct || 0}% of ${spendingSummary.record_count?.toLocaleString()} transactions classified`}
+        >
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 16 }}>
+            <div className="proc-stat">
+              <span className="proc-stat-value">{formatCurrency(spendingSummary.total_spend)}</span>
+              <span className="proc-stat-label">Total Spend</span>
+            </div>
+            <div className="proc-stat">
+              <span className="proc-stat-value">{Object.keys(spendingSummary.by_portfolio || {}).length}</span>
+              <span className="proc-stat-label">Categories</span>
+            </div>
+            <div className="proc-stat">
+              <span className="proc-stat-value">{spendingSummary.coverage?.pct || 0}%</span>
+              <span className="proc-stat-label">Classified</span>
+            </div>
+          </div>
+          <div className="doge-spend-categories">
+            {Object.entries(spendingSummary.by_portfolio || {})
+              .sort(([, a], [, b]) => (b.total || 0) - (a.total || 0))
+              .map(([cat, data]) => {
+                const pct = spendingSummary.total_spend > 0 ? ((data.total / spendingSummary.total_spend) * 100).toFixed(1) : '0'
+                return (
+                  <div key={cat} className="doge-spend-cat-row">
+                    <span className="doge-spend-cat-name">{data.label || cat}</span>
+                    <div className="doge-spend-cat-bar-track">
+                      <div className="doge-spend-cat-bar" style={{ width: `${Math.min(100, pct)}%` }} />
+                    </div>
+                    <span className="doge-spend-cat-val">{formatCurrency(data.total)}</span>
+                    <span className="doge-spend-cat-pct">{pct}%</span>
+                    {data.hhi > 2500 && <span className="doge-spend-cat-alert" title="High supplier concentration">⚠</span>}
+                  </div>
+                )
+              })}
+          </div>
+          {hasSpending && (
+            <Link to="/spending" style={{ fontSize: '0.78rem', color: '#12B6CF', marginTop: 12, display: 'inline-block' }}>
+              View full Spending Explorer →
+            </Link>
           )}
         </CollapsibleSection>
       )}

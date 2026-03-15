@@ -656,3 +656,58 @@
 .dd-funding-portfolio h4 { font-size: 0.82rem; margin-bottom: 0.3rem; color: rgba(255,255,255,0.7); }
 .dd-funding-grant { display: flex; justify-content: space-between; padding: 0.3rem 0.6rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.04); border-radius: 4px; margin-bottom: 0.2rem; font-size: 0.78rem; }
 .dd-funding-grant span:last-child { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* Spending intelligence section */
+.dd-spending-portfolio-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 12px;
+}
+.dd-spending-portfolio-row {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+.dd-sp-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.dd-sp-title {
+  font-size: 0.82rem;
+  color: #12B6CF;
+  text-decoration: none;
+  font-weight: 600;
+}
+.dd-sp-title:hover { text-decoration: underline; }
+.dd-sp-total {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #e8e8e8;
+  font-variant-numeric: tabular-nums;
+}
+.dd-sp-meta {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+.dd-sp-variance-red { color: #dc3545; font-weight: 600; }
+.dd-sp-variance-amber { color: #fd7e14; font-weight: 600; }
+.dd-sp-variance-green { color: #28a745; }
+.dd-sp-concentration-alert {
+  color: #fd7e14;
+  font-weight: 600;
+}
+.dd-spending-deep-link {
+  display: inline-block;
+  font-size: 0.78rem;
+  color: #12B6CF;
+  text-decoration: none;
+  padding: 6px 0;
+}
+.dd-spending-deep-link:hover { text-decoration: underline; }

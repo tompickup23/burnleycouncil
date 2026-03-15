@@ -11,6 +11,7 @@ import GaugeChart from '../components/ui/GaugeChart'
 import WaterfallChart from '../components/ui/WaterfallChart'
 import { cipfaResilience, reservesAdequacy, realGrowthRate, materialityThreshold } from '../utils/analytics'
 import { financialHealthAssessment } from '../utils/savingsEngine'
+import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import '../components/ui/AdvancedCharts.css'
 import './Budgets.css'
 
@@ -97,6 +98,7 @@ function Budgets() {
   const hasCabinetPortfolios = config.data_sources?.cabinet_portfolios
   const { data: cabinetPortfoliosData } = useData(hasCabinetPortfolios ? '/data/cabinet_portfolios.json' : null)
   const fundingModel = cabinetPortfoliosData?.administration?.funding_model || null
+  const { summary: spendingSummary } = useSpendingSummary()
 
   const [activeTab, setActiveTab] = useState('revenue')
   const [expandedDept, setExpandedDept] = useState(null)
@@ -398,6 +400,22 @@ function Budgets() {
                 <span className="metric-label">Average Annual Growth</span>
               </div>
             </div>
+
+            {spendingSummary && spendingSummary.total_spend > 0 && (
+              <div className="metric-card">
+                <div className="metric-icon" style={{ background: 'rgba(253, 126, 20, 0.12)' }}>
+                  <Wallet size={24} style={{ color: '#fd7e14' }} />
+                </div>
+                <div className="metric-content">
+                  <span className="metric-value" style={{ color: '#fd7e14' }}>{formatCurrency(spendingSummary.total_spend, true)}</span>
+                  <span className="metric-label">Actual Spend ({spendingSummary.record_count?.toLocaleString()} txns)</span>
+                  {efficiency.latest_budget > 0 && (() => {
+                    const variancePct = ((spendingSummary.total_spend - efficiency.latest_budget) / efficiency.latest_budget * 100).toFixed(1)
+                    return <span className="metric-label" style={{ fontSize: '0.68rem', color: variancePct > 10 ? '#dc3545' : variancePct < -10 ? '#28a745' : 'rgba(255,255,255,0.4)' }}>{variancePct > 0 ? '+' : ''}{variancePct}% vs budget</span>
+                  })()}
+                </div>
+              </div>
+            )}
           </section>
 
           {/* Property Estate Overview — when data available */}

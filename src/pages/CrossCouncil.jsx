@@ -14,6 +14,7 @@ import GaugeChart from '../components/ui/GaugeChart'
 import ChartCard from '../components/ui/ChartCard'
 import BumpChart from '../components/ui/BumpChart'
 import SparkLine from '../components/ui/SparkLine'
+import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import '../components/ui/AdvancedCharts.css'
 import './CrossCouncil.css'
 
@@ -57,6 +58,7 @@ function CrossCouncil() {
   const { data, loading, error } = useData('/data/cross_council.json')
   const { data: councilBoundaries } = useData('/data/shared/council_boundaries.json')
   const { data: ccaData } = useData('/data/shared/cca_tracker.json')
+  const { summary: spendingSummary } = useSpendingSummary()
   const comparison = data
   const allCouncils = comparison?.councils || []
   // For county/unitary tiers with very few peer councils, default to showing all
@@ -1013,6 +1015,32 @@ function CrossCouncil() {
           </ResponsiveContainer>
         </div>
       </CollapsibleSection>
+
+      {/* Spending Category Breakdown (when spending summary available for this council) */}
+      {spendingSummary && Object.keys(spendingSummary.by_portfolio || {}).length > 0 && (
+        <CollapsibleSection
+          title={`${councilName} Spending by Category`}
+          icon={<Wallet size={18} />}
+          defaultOpen={false}
+        >
+          <p className="section-intro">
+            Actual spending classified into {Object.keys(spendingSummary.by_portfolio).length} categories
+            from {spendingSummary.record_count?.toLocaleString()} transactions ({spendingSummary.coverage?.pct || 0}% classified).
+          </p>
+          <div className="cross-spend-cat-grid">
+            {Object.entries(spendingSummary.by_portfolio || {})
+              .sort(([, a], [, b]) => (b.total || 0) - (a.total || 0))
+              .slice(0, 10)
+              .map(([cat, d]) => (
+                <div key={cat} className="cross-spend-cat-item">
+                  <span className="cross-spend-cat-name">{d.label || cat}</span>
+                  <span className="cross-spend-cat-val">{formatCurrency(d.total)}</span>
+                  <span className="cross-spend-cat-count">{(d.count || 0).toLocaleString()} txns</span>
+                </div>
+              ))}
+          </div>
+        </CollapsibleSection>
+      )}
 
       {/* Service Expenditure Per Head */}
       {serviceData.length > 0 && (

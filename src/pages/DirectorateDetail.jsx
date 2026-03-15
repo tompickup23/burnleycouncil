@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import {
   Target, TrendingUp, Shield, Zap, BarChart3, AlertTriangle, Scale,
-  ChevronRight, Clock, Users, Calendar, FileText, Download, Eye,
+  ChevronRight, Clock, Users, Calendar, FileText, Download, Eye, DollarSign,
 } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
@@ -32,7 +32,10 @@ import {
   parseSavingRange,
   timelineBucket,
   fundingConstraints,
+  spendingBudgetVariance,
+  spendingConcentration,
 } from '../utils/savingsEngine'
+import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import './DirectorateDetail.css'
 
 const TIMELINE_ORDER = { immediate: 0, short_term: 1, medium_term: 2, long_term: 3 }
@@ -64,6 +67,7 @@ export default function DirectorateDetail() {
 
   const isCouncillor = authCtx?.isCouncillor || !isFirebaseEnabled
   const isCabinetLevel = authCtx?.isCabinetLevel || !isFirebaseEnabled
+  const { summary: spendingSummary } = useSpendingSummary()
 
   const { data: allData, loading, error } = useData(
     dataSources.cabinet_portfolios
@@ -106,6 +110,26 @@ export default function DirectorateDetail() {
     if (!directorate) return null
     return benchmarkDirectorate(directorate, portfolios, budgetsData)
   }, [directorate, portfolios, budgetsData])
+
+  // Directorate-level spending intelligence
+  const directorateSpending = useMemo(() => {
+    if (!spendingSummary?.by_portfolio || !portfolios.length) return null
+    let total = 0, suppliers = 0, transactions = 0
+    const portfolioBreakdown = []
+    for (const p of portfolios) {
+      const ps = spendingSummary.by_portfolio[p.id]
+      if (ps) {
+        total += ps.total || 0
+        suppliers += ps.unique_suppliers || 0
+        transactions += ps.count || 0
+        const variance = spendingBudgetVariance(p, spendingSummary)
+        const concentration = spendingConcentration(ps)
+        portfolioBreakdown.push({ id: p.id, title: p.title, total: ps.total, suppliers: ps.unique_suppliers, variance, concentration })
+      }
+    }
+    if (total === 0) return null
+    return { total, suppliers, transactions, portfolioBreakdown }
+  }, [spendingSummary, portfolios])
 
   // All levers with evidence scores
   const allLevers = useMemo(() => {
@@ -363,6 +387,41 @@ export default function DirectorateDetail() {
           {directorate.savings_narrative && (
             <CollapsibleSection title="Savings Context" icon={<FileText size={18} />}>
               <p className="dd-narrative">{directorate.savings_narrative}</p>
+            </CollapsibleSection>
+          )}
+
+          {/* Directorate Spending Intelligence */}
+          {directorateSpending && (
+            <CollapsibleSection title="Spending Intelligence" defaultOpen icon={<DollarSign size={18} />}>
+              <div className="stat-grid stat-grid-3" style={{ marginBottom: '1rem' }}>
+                <StatCard title="Actual Spend" value={formatCurrency(directorateSpending.total)} icon={<DollarSign size={24} />} />
+                <StatCard title="Transactions" value={directorateSpending.transactions.toLocaleString()} icon={<BarChart3 size={24} />} />
+                <StatCard title="Unique Suppliers" value={directorateSpending.suppliers.toLocaleString()} icon={<Users size={24} />} />
+              </div>
+              <div className="dd-spending-portfolio-breakdown">
+                {directorateSpending.portfolioBreakdown.map(pb => (
+                  <div key={pb.id} className="dd-spending-portfolio-row">
+                    <div className="dd-sp-header">
+                      <Link to={`/cabinet/${pb.id}`} className="dd-sp-title">{pb.title}</Link>
+                      <span className="dd-sp-total">{formatCurrency(pb.total)}</span>
+                    </div>
+                    <div className="dd-sp-meta">
+                      <span>{pb.suppliers} suppliers</span>
+                      {pb.variance && pb.variance.alert_level !== 'none' && (
+                        <span className={`dd-sp-variance dd-sp-variance-${pb.variance.alert_level}`}>
+                          {pb.variance.variance_pct > 0 ? '+' : ''}{pb.variance.variance_pct?.toFixed(1)}% vs budget
+                        </span>
+                      )}
+                      {pb.concentration?.risk_level === 'high' && (
+                        <span className="dd-sp-concentration-alert">⚠ High concentration (HHI {pb.concentration.hhi})</span>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <Link to="/spending" className="dd-spending-deep-link">
+                View all transactions → Spending Explorer
+              </Link>
             </CollapsibleSection>
           )}
 

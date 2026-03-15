@@ -31,7 +31,7 @@ function useIsMobile() {
 
 const typeLabel = (t) => SPENDING_TYPE_LABELS[t] || t
 
-const FILTER_KEYS = ['financial_year', 'quarter', 'month', 'type', 'service_division', 'expenditure_category', 'capital_revenue', 'supplier', 'min_amount', 'max_amount']
+const FILTER_KEYS = ['financial_year', 'quarter', 'month', 'type', 'spend_category', 'service_division', 'expenditure_category', 'capital_revenue', 'supplier', 'min_amount', 'max_amount']
 
 function SortIcon({ field, sortField, sortDir }) {
   if (sortField !== field) return <ChevronDown size={14} className="sort-inactive" />
@@ -398,6 +398,7 @@ function Spending() {
             <SearchableSelect label="Quarter" value={filters.quarter} options={filterOptions?.quarters || []} onChange={(v) => updateFilter('quarter', v)} placeholder="All Quarters" />
             <SearchableSelect label="Month" value={filters.month} options={filterOptions?.months || []} onChange={(v) => updateFilter('month', v)} placeholder="All Months" />
             <SearchableSelect label="Data Type" value={filters.type} options={filterOptions?.types || []} onChange={(v) => updateFilter('type', v)} placeholder="All Types" />
+            <SearchableSelect label="Spend Category" value={filters.spend_category} options={filterOptions?.spend_categories || []} onChange={(v) => updateFilter('spend_category', v)} placeholder="All Categories" />
             <SearchableSelect label="Service Division" value={filters.service_division} options={filterOptions?.service_divisions || []} onChange={(v) => updateFilter('service_division', v)} placeholder="All Services" />
             <SearchableSelect label="Expenditure Category" value={filters.expenditure_category} options={filterOptions?.expenditure_categories || []} onChange={(v) => updateFilter('expenditure_category', v)} placeholder="All Categories" />
             <SearchableSelect label="Capital/Revenue" value={filters.capital_revenue} options={filterOptions?.capital_revenue || []} onChange={(v) => updateFilter('capital_revenue', v)} placeholder="All" />
@@ -563,6 +564,7 @@ function Spending() {
                   <th scope="col" className="sortable" onClick={() => handleSort('supplier')} aria-label="Sort by supplier">
                     Supplier <SortIcon field="supplier" sortField={sortField} sortDir={sortDir} />
                   </th>
+                  <th scope="col">Spend Category</th>
                   <th scope="col">Service</th>
                   <th scope="col">Category</th>
                   <th scope="col" className="sortable amount-col" onClick={() => handleSort('amount')} aria-label="Sort by amount">
@@ -587,6 +589,7 @@ function Spending() {
                       </Link>
                       {item.is_covid_related && <span className="covid-badge">COVID</span>}
                     </td>
+                    <td className="spend-cat-col"><span className={`spend-cat-badge cat-${item.spend_category || 'other'}`}>{item.spend_category_label || 'Unclassified'}</span></td>
                     <td className="service-col text-secondary">{truncate(item.service_division?.split(' - ')[1] || item.service_division, 20)}</td>
                     <td className="category-col text-secondary">{truncate(item.expenditure_category, 25)}</td>
                     <td className="amount-col">
@@ -820,6 +823,33 @@ function Spending() {
               })}
             </div>
           </div>
+
+          {/* Spend Categories */}
+          {chartData?.spendCategoryData?.length > 0 && (
+            <div className="chart-card">
+              <div className="chart-header">
+                <h3>Spending by Portfolio Category</h3>
+              </div>
+              <div className="inline-bar-list">
+                {chartData.spendCategoryData.slice(0, 13).map((cat, i) => {
+                  const maxVal = chartData.spendCategoryData[0]?.value || 1
+                  const pct = (cat.value / maxVal) * 100
+                  return (
+                    <div key={cat.name} className="inline-bar-item">
+                      <span className="inline-bar-label" title={cat.name}>{truncate(cat.name, 25)}</span>
+                      <div className="inline-bar-track">
+                        <div
+                          className="inline-bar-fill"
+                          style={{ width: `${pct}%`, background: CHART_COLORS[i % CHART_COLORS.length] }}
+                        />
+                      </div>
+                      <span className="inline-bar-value">{formatCurrency(cat.value, true)}</span>
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
 
           {/* Services */}
           <div className="chart-card">

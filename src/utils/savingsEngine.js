@@ -265,13 +265,96 @@ export function timelineBucket(tl) {
  * @param {Object} portfolio - Portfolio from cabinet_portfolios.json
  * @returns {Array} Matched spending records
  */
-export function matchSpendingToPortfolio(records, portfolio) {
+export function matchSpendingToPortfolio(records, portfolio, summary) {
+  // If a spending summary is available, return portfolio-level aggregates from it
+  if (summary?.by_portfolio?.[portfolio?.id]) {
+    return summary.by_portfolio[portfolio.id]
+  }
   if (!records || !portfolio?.spending_department_patterns?.length) return []
   const patterns = portfolio.spending_department_patterns.map(p => new RegExp(p, 'i'))
   return records.filter(r => {
     const dept = r.department || r.service_division || r.service_area || ''
     return patterns.some(p => p.test(dept))
   })
+}
+
+/**
+ * Compare actual spend from summary against budget allocation.
+ *
+ * @param {Object} portfolio - Portfolio from cabinet_portfolios.json
+ * @param {Object} spendingSummary - From computeSpendingSummary()
+ * @returns {{ budget: number, actual: number, variance: number, variance_pct: number, alert_level: string, months_data: Object[] }|null}
+ */
+export function spendingBudgetVariance(portfolio, spendingSummary) {
+  if (!portfolio || !spendingSummary?.by_portfolio) return null
+
+  const portfolioSpend = spendingSummary.by_portfolio[portfolio.id]
+  if (!portfolioSpend) return null
+
+  // Determine budget from portfolio data
+  const budget = portfolio.budget_latest?.gross_expenditure
+    || portfolio.budget_latest?.allocation
+    || portfolio.budget_latest?.allocation_2026_27
+    || 0
+
+  if (!budget) return null
+
+  const actual = portfolioSpend.total || 0
+
+  // Annualise actual if data covers less than 12 months
+  const monthCount = portfolioSpend.by_month?.length || 1
+  const annualised = monthCount < 12 ? (actual / monthCount) * 12 : actual
+
+  const variance = annualised - budget
+  const variance_pct = budget > 0 ? (variance / budget) * 100 : 0
+
+  let alert_level = 'green'
+  if (Math.abs(variance_pct) > 15) alert_level = 'red'
+  else if (Math.abs(variance_pct) > 5) alert_level = 'amber'
+
+  return {
+    budget,
+    actual,
+    annualised,
+    months_of_data: monthCount,
+    variance,
+    variance_pct: Math.round(variance_pct * 10) / 10,
+    alert_level,
+    months_data: portfolioSpend.by_month || [],
+  }
+}
+
+/**
+ * Compute supplier concentration metrics within a portfolio.
+ *
+ * @param {Object} portfolioSpending - Portfolio spending from summary.by_portfolio[id]
+ * @returns {{ hhi: number, top_supplier_pct: number, unique_suppliers: number, risk_level: string, top_3: Object[] }|null}
+ */
+export function spendingConcentration(portfolioSpending) {
+  if (!portfolioSpending) return null
+
+  const hhi = portfolioSpending.hhi || 0
+  const topSuppliers = portfolioSpending.top_suppliers || []
+  const uniqueSuppliers = portfolioSpending.unique_suppliers || 0
+  const total = portfolioSpending.total || 0
+
+  const topPct = topSuppliers[0] && total > 0 ? (topSuppliers[0].total / total * 100) : 0
+
+  let risk_level = 'low'
+  if (hhi > 2500) risk_level = 'high'
+  else if (hhi > 1500) risk_level = 'moderate'
+
+  return {
+    hhi,
+    top_supplier_pct: Math.round(topPct * 10) / 10,
+    unique_suppliers: uniqueSuppliers,
+    risk_level,
+    top_3: topSuppliers.slice(0, 3).map(s => ({
+      name: s.name,
+      total: s.total,
+      pct: Math.round(s.pct * 10) / 10,
+    })),
+  }
 }
 
 /**
@@ -397,6 +480,7 @@ export function generateDirectives(portfolio, findings, spending, options = {}) 
   if (!portfolio) return []
   const directives = []
   const isResourcesPortfolio = portfolio.id === 'resources'
+  const spendingSummary = options.spendingSummary || null
 
   // 1. Cross-cutting DOGE directives — ONLY on Resources portfolio (centralised)
   // Duplicates, splits, and CH compliance are system-wide financial management
@@ -705,6 +789,54 @@ export function generateDirectives(portfolio, findings, spending, options = {}) 
     }
   }
 
+  // 7. Spending-intelligence directives (when summary available)
+  if (spendingSummary?.by_portfolio?.[portfolio.id]) {
+    const variance = spendingBudgetVariance(portfolio, spendingSummary)
+    const concentration = spendingConcentration(spendingSummary.by_portfolio[portfolio.id])
+
+    // Budget variance alert
+    if (variance && variance.alert_level === 'red') {
+      directives.push({
+        category: 'spending_intelligence',
+        action: `INVESTIGATE: ${portfolio.title} actual spend ${variance.variance_pct > 0 ? 'exceeds' : 'under'} budget by ${Math.abs(variance.variance_pct).toFixed(1)}%`,
+        evidence: `Annualised spend ${formatCurrency(variance.annualised)} vs budget ${formatCurrency(variance.budget)} (${variance.months_of_data} months data)`,
+        save_low: 0,
+        save_high: Math.abs(variance.variance) > 0 ? Math.abs(variance.variance) : 0,
+        save_central: Math.abs(variance.variance) * 0.5,
+        timeline: 'immediate',
+        priority: 'high',
+        feasibility: 7,
+        impact: 8,
+        portfolio_id: portfolio.id,
+      })
+    }
+
+    // Supplier concentration warning
+    if (concentration && concentration.risk_level === 'high') {
+      directives.push({
+        category: 'spending_intelligence',
+        action: `REVIEW: High supplier concentration in ${portfolio.title} (HHI ${concentration.hhi})`,
+        evidence: `Top supplier: ${concentration.top_3[0]?.name || 'Unknown'} (${concentration.top_supplier_pct}% of portfolio spend). ${concentration.unique_suppliers} unique suppliers.`,
+        save_low: 0,
+        save_high: 0,
+        save_central: 0,
+        timeline: 'short_term',
+        priority: 'medium',
+        feasibility: 6,
+        impact: 5,
+        portfolio_id: portfolio.id,
+      })
+    }
+
+    // Enrich existing directives with actual spend evidence
+    for (const d of directives) {
+      if (!d.actual_spend && spendingSummary.by_portfolio[portfolio.id]) {
+        d.actual_spend = spendingSummary.by_portfolio[portfolio.id].total
+        d.actual_suppliers = spendingSummary.by_portfolio[portfolio.id].unique_suppliers
+      }
+    }
+  }
+
   // Sort: high priority + high feasibility first
   const priorityOrder = { high: 3, medium: 2, low: 1 }
   directives.sort((a, b) => {
@@ -726,12 +858,12 @@ export function generateDirectives(portfolio, findings, spending, options = {}) 
  * @param {Object} cabinetData - Full cabinet_portfolios.json
  * @returns {Array} All directives, de-duplicated, sorted by impact
  */
-export function generateAllDirectives(portfolios, findings, allSpending, cabinetData) {
+export function generateAllDirectives(portfolios, findings, allSpending, cabinetData, options = {}) {
   if (!portfolios?.length) return []
   const all = []
   for (const p of portfolios) {
     const spending = allSpending?.[p.id] || []
-    const directives = generateDirectives(p, findings, spending, { cabinetData })
+    const directives = generateDirectives(p, findings, spending, { cabinetData, spendingSummary: options.spendingSummary })
     all.push(...directives)
   }
   // Sort by save_central descending for the overall priority view

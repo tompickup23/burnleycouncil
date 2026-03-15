@@ -434,4 +434,66 @@
   .fiscal-coverage-badges { gap: 4px; }
   .fiscal-badge { padding: 4px 8px; font-size: 0.7rem; }
   .fiscal-system-grid { grid-template-columns: 1fr; }
+  .spending-intel-grid { grid-template-columns: 1fr; }
+}
+
+/* ─── Spending Intelligence ───────────────────────────────────────────────────── */
+.spending-intel-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.spending-directorate-card {
+  background: rgba(18, 182, 207, 0.06);
+  border: 1px solid rgba(18, 182, 207, 0.12);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.spending-directorate-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.spending-directorate-header a {
+  color: #12B6CF;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.spending-directorate-total {
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.spending-directorate-meta {
+  display: flex;
+  gap: 12px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 8px;
+}
+
+.spending-directorate-alerts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.spending-alert-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: #fd7e14;
+  background: rgba(253, 126, 20, 0.08);
+  padding: 4px 8px;
+  border-radius: 6px;
 }

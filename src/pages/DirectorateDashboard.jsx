@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Target, TrendingUp, AlertTriangle, ChevronRight, Zap, BarChart3, Shield, Users, Clock } from 'lucide-react'
+import { Target, TrendingUp, AlertTriangle, ChevronRight, Zap, BarChart3, Shield, Users, Clock, DollarSign } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend, Cell } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -25,7 +25,10 @@ import {
   fiscalSystemOverview,
   quantifyDemandPressures,
   budgetRealismCheck,
+  spendingBudgetVariance,
+  spendingConcentration,
 } from '../utils/savingsEngine'
+import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import './DirectorateDashboard.css'
 
 const RISK_COLORS = { critical: '#dc3545', high: '#fd7e14', medium: '#ffc107', low: '#28a745' }
@@ -48,6 +51,7 @@ export default function DirectorateDashboard() {
   const [activeTab, setActiveTab] = useState('command')
 
   const hasAccess = authCtx?.isCouncillor || !isFirebaseEnabled
+  const { summary: spendingSummary, loading: spendingLoading } = useSpendingSummary()
 
   const { data: allData, loading, error } = useData(
     dataSources.cabinet_portfolios
@@ -93,16 +97,39 @@ export default function DirectorateDashboard() {
   // Monday Morning List — top directives across all directorates
   const mondayList = useMemo(() => {
     if (!portfolioData?.portfolios || !findingsData) return []
-    const allDirectives = generateAllDirectives(portfolioData.portfolios, findingsData, [], portfolioData)
+    const allDirectives = generateAllDirectives(portfolioData.portfolios, findingsData, [], portfolioData, { spendingSummary })
     return allDirectives
-      .filter(d => d.save_range && d.save_range !== '£0')
+      .filter(d => d.save_range && d.save_range !== '£0' || d.category === 'spending_intelligence')
       .sort((a, b) => {
         const aScore = evidenceChainStrength(portfolioData.portfolios.flatMap(p => p.savings_levers || []).find(l => l.lever === a.lever_name) || {})
         const bScore = evidenceChainStrength(portfolioData.portfolios.flatMap(p => p.savings_levers || []).find(l => l.lever === b.lever_name) || {})
         return bScore - aScore
       })
-      .slice(0, 10)
-  }, [portfolioData, findingsData])
+      .slice(0, 15)
+  }, [portfolioData, findingsData, spendingSummary])
+
+  // Spending intelligence per directorate
+  const spendingByDirectorate = useMemo(() => {
+    if (!spendingSummary?.by_portfolio || !portfolioData?.directorates) return {}
+    const result = {}
+    for (const d of portfolioData.directorates) {
+      const portfolios = portfolioData.portfolios?.filter(p => d.portfolio_ids?.includes(p.id)) || []
+      let total = 0, suppliers = 0, alerts = []
+      for (const p of portfolios) {
+        const ps = spendingSummary.by_portfolio[p.id]
+        if (ps) {
+          total += ps.total || 0
+          suppliers += ps.unique_suppliers || 0
+          const conc = spendingConcentration(ps)
+          if (conc?.risk_level === 'high') alerts.push({ portfolio: p.title, hhi: conc.hhi, top: conc.top_3[0]?.name })
+          const variance = spendingBudgetVariance(p, spendingSummary)
+          if (variance?.alert_level === 'red') alerts.push({ portfolio: p.title, type: 'variance', pct: variance.variance_pct })
+        }
+      }
+      result[d.id] = { total, suppliers, alerts, portfolio_count: portfolios.length }
+    }
+    return result
+  }, [spendingSummary, portfolioData])
 
   // Contract expiry counts per directorate
   const contractCounts = useMemo(() => {
@@ -290,6 +317,41 @@ export default function DirectorateDashboard() {
               {mondayList.length === 0 && <p className="empty-message">No directives generated yet.</p>}
             </div>
           </CollapsibleSection>
+
+          {/* Spending Intelligence */}
+          {spendingSummary && Object.keys(spendingByDirectorate).length > 0 && (
+            <CollapsibleSection title={`Spending Intelligence — ${formatCurrency(spendingSummary.total_spend)} tracked (${spendingSummary.coverage?.pct || 0}% classified)`} icon={<DollarSign size={18} />}>
+              <div className="spending-intel-grid">
+                {portfolioData?.directorates?.map(d => {
+                  const ds = spendingByDirectorate[d.id]
+                  if (!ds || ds.total === 0) return null
+                  return (
+                    <div key={d.id} className="spending-directorate-card">
+                      <div className="spending-directorate-header">
+                        <Link to={`/directorate/${d.id}`}>{d.title.split(',')[0]}</Link>
+                        <span className="spending-directorate-total">{formatCurrency(ds.total)}</span>
+                      </div>
+                      <div className="spending-directorate-meta">
+                        <span>{ds.suppliers} suppliers</span>
+                        <span>{ds.portfolio_count} portfolios</span>
+                      </div>
+                      {ds.alerts.length > 0 && (
+                        <div className="spending-directorate-alerts">
+                          {ds.alerts.map((a, i) => (
+                            <div key={i} className="spending-alert-item">
+                              <AlertTriangle size={12} />
+                              {a.type === 'variance' ? `${a.portfolio}: ${a.pct > 0 ? '+' : ''}${a.pct}% budget variance` : `${a.portfolio}: HHI ${a.hhi} (${a.top})`}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+              {spendingLoading && <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.8rem', marginTop: '8px' }}>Loading full spending data...</p>}
+            </CollapsibleSection>
+          )}
 
           {/* Fiscal System Overview */}
           {fiscalSystem && (

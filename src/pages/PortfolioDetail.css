@@ -289,6 +289,72 @@
   color: rgba(255,255,255,0.4);
 }
 
+/* ─── Portfolio Spending Intelligence ──────────────────────────────────────────── */
+.portfolio-spending-suppliers {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.portfolio-spending-supplier-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 10px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+  font-size: 0.8rem;
+}
+
+.portfolio-spending-supplier-name {
+  flex: 1;
+  color: rgba(255, 255, 255, 0.9);
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.portfolio-spending-supplier-total {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  min-width: 80px;
+  text-align: right;
+}
+
+.portfolio-spending-supplier-pct {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+  min-width: 40px;
+  text-align: right;
+}
+
+.spending-concentration-warning {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 12px;
+  padding: 8px 12px;
+  background: rgba(253, 126, 20, 0.08);
+  border: 1px solid rgba(253, 126, 20, 0.2);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  color: #fd7e14;
+}
+
+.spending-deep-link {
+  display: inline-block;
+  color: #12B6CF;
+  text-decoration: none;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.spending-deep-link:hover {
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .portfolio-contracts-table { font-size: 0.72rem; }
   .expiry-card { grid-template-columns: 1fr; }

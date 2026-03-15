@@ -12,6 +12,7 @@ import { ChartCard, CHART_TOOLTIP_STYLE } from '../components/ui/ChartCard'
 import CollapsibleSection from '../components/CollapsibleSection'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { formatCurrency, contractPipeline } from '../utils/savingsEngine'
+import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import './Executive.css'
 
 /**
@@ -30,6 +31,7 @@ export default function Executive() {
   const authCtx = useAuth()
   const hasCouncillorAccess = authCtx?.isCouncillor || !isFirebaseEnabled
   const [selectedMember, setSelectedMember] = useState(null)
+  const { summary: spendingSummary } = useSpendingSummary()
 
   const { data: allData, loading, error } = useData(
     dataSources.cabinet_portfolios
@@ -67,13 +69,17 @@ export default function Executive() {
     if (!portfolios.length) return []
     return portfolios
       .filter(p => p.budget_latest?.net_expenditure)
-      .map(p => ({
-        name: p.short_title || p.title,
-        net: Math.round((p.budget_latest.net_expenditure || 0) / 1000000),
-        gross: Math.round((p.budget_latest.gross_expenditure || 0) / 1000000),
-      }))
+      .map(p => {
+        const ps = spendingSummary?.by_portfolio?.[p.id]
+        return {
+          name: p.short_title || p.title,
+          net: Math.round((p.budget_latest.net_expenditure || 0) / 1000000),
+          gross: Math.round((p.budget_latest.gross_expenditure || 0) / 1000000),
+          actual: ps ? Math.round((ps.total || 0) / 1000000) : null,
+        }
+      })
       .sort((a, b) => b.net - a.net)
-  }, [portfolios])
+  }, [portfolios, spendingSummary])
 
   // Recent cabinet decisions
   const recentDecisions = useMemo(() => {
@@ -208,6 +214,12 @@ export default function Executive() {
                       <strong>Champions:</strong> {p.champions.map(c => `${c.name} (${c.area})`).join(', ')}
                     </div>
                   )}
+                  {spendingSummary?.by_portfolio?.[p.id] && (
+                    <div className="executive-card-detail-row">
+                      <strong>Actual Spend:</strong> {formatCurrency(spendingSummary.by_portfolio[p.id].total)}
+                      <span className="executive-card-spend-count"> ({spendingSummary.by_portfolio[p.id].count?.toLocaleString()} txns)</span>
+                    </div>
+                  )}
                   <Link to={`/cabinet/${p.id}`} state={{ from: '/executive' }} className="executive-card-link">
                     View Portfolio Detail <ChevronRight size={14} />
                   </Link>
@@ -245,7 +257,10 @@ export default function Executive() {
                   <XAxis type="number" tick={AXIS_TICK_STYLE} />
                   <YAxis type="category" dataKey="name" tick={AXIS_TICK_STYLE} width={95} />
                   <RechartsTooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [`£${v}M`]} />
-                  <Bar dataKey="net" fill="#12B6CF" radius={[0, 4, 4, 0]} {...CHART_ANIMATION} />
+                  <Bar dataKey="net" name="Budget (Net)" fill="#12B6CF" radius={[0, 4, 4, 0]} {...CHART_ANIMATION} />
+                  {budgetBars.some(b => b.actual !== null) && (
+                    <Bar dataKey="actual" name="Actual Spend" fill="rgba(253, 126, 20, 0.7)" radius={[0, 4, 4, 0]} {...CHART_ANIMATION} />
+                  )}
                 </BarChart>
               </ResponsiveContainer>
             </ChartCard>
