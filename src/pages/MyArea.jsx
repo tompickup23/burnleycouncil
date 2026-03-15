@@ -222,6 +222,25 @@ function MyArea() {
     const cards = []
     const ds = config.data_sources || {}
 
+    // Helper — find ward-level housing data
+    const wardHousingKey = housingRaw ? Object.keys(housingRaw?.census?.wards || {}).find(
+      k => (housingRaw.census.wards[k].name || k).toLowerCase() === selectedWard.toLowerCase()
+    ) : null
+    const wardHousing = wardHousingKey ? housingRaw.census.wards[wardHousingKey] : null
+
+    // Helper — find ward-level health data
+    const wardHealthKey = healthRaw ? Object.keys(healthRaw?.census?.wards || {}).find(
+      k => (healthRaw.census.wards[k].name || k).toLowerCase() === selectedWard.toLowerCase()
+    ) : null
+    const wardHealth = wardHealthKey ? healthRaw.census.wards[wardHealthKey] : null
+
+    // Helper — find ward-level economy data
+    const wardClaimant = economyRaw?.claimant_count?.wards
+      ? Object.values(economyRaw.claimant_count.wards).find(
+          w => (w.name || '').toLowerCase() === selectedWard.toLowerCase()
+        )
+      : null
+
     // Crime — use total_crimes from crime summary if we had it; show generic link since we don't load crime_stats
     if (ds.crime_stats) {
       cards.push({
@@ -235,20 +254,27 @@ function MyArea() {
       })
     }
 
-    // Housing — extract dominant tenure from housing census wards
+    // Housing — extract dominant tenure + overcrowding from housing census wards
     if (ds.housing && housingRaw) {
-      const wardKey = Object.keys(housingRaw?.census?.wards || {}).find(
-        k => (housingRaw.census.wards[k].name || k).toLowerCase() === selectedWard.toLowerCase()
-      )
-      const wardHousing = wardKey ? housingRaw.census.wards[wardKey] : null
       let stat = null
       let label = 'View housing data'
+      let stat2 = null
+      let label2 = null
       if (wardHousing?.tenure) {
         const owned = wardHousing.tenure['Owned'] || 0
-        const total = Object.values(wardHousing.tenure).reduce((s, v) => s + (typeof v === 'number' ? v : 0), 0)
+        const total = wardHousing.tenure['Total: All households'] || Object.values(wardHousing.tenure).reduce((s, v) => s + (typeof v === 'number' ? v : 0), 0)
         if (total > 0) {
           stat = `${Math.round((owned / total) * 100)}% owned`
           label = 'Owner-occupied'
+        }
+      }
+      if (wardHousing?.overcrowding) {
+        const overcrowded = (wardHousing.overcrowding['Occupancy rating of bedrooms: -1'] || 0) + (wardHousing.overcrowding['Occupancy rating of bedrooms: -2 or less'] || 0)
+        const total = wardHousing.overcrowding['Total: All households'] || 1
+        if (overcrowded > 0) {
+          const pct = Math.round((overcrowded / total) * 100)
+          stat2 = `${pct}% overcrowded`
+          label2 = 'Bedroom deficit'
         }
       }
       cards.push({
@@ -259,16 +285,28 @@ function MyArea() {
         color: '#af82ff',
         stat,
         label,
+        stat2,
+        label2,
       })
     }
 
-    // Health — extract life expectancy from health summary
+    // Health — life expectancy + ward bad health %
     if (ds.health && healthRaw) {
       let stat = null
       let label = 'View health data'
+      let stat2 = null
+      let label2 = null
       if (healthRaw?.summary?.life_expectancy_male != null) {
         stat = `LE: ${healthRaw.summary.life_expectancy_male.toFixed(1)}M`
         label = 'Male life expectancy'
+      }
+      if (wardHealth?.general_health) {
+        const bad = (wardHealth.general_health['Bad health'] || 0) + (wardHealth.general_health['Very bad health'] || 0)
+        const total = Object.values(wardHealth.general_health).reduce((s, v) => s + (typeof v === 'number' ? v : 0), 0)
+        if (total > 0 && bad > 0) {
+          stat2 = `${((bad / total) * 100).toFixed(1)}% poor health`
+          label2 = 'Bad/very bad'
+        }
       }
       cards.push({
         key: 'health',
@@ -278,24 +316,28 @@ function MyArea() {
         color: '#30d158',
         stat,
         label,
+        stat2,
+        label2,
       })
     }
 
-    // Economy — extract claimant rate
+    // Economy — claimant rate (council-level + ward-level)
     if (ds.economy && economyRaw) {
       let stat = null
       let label = 'View economy data'
+      let stat2 = null
+      let label2 = null
       if (economyRaw?.summary?.claimant_rate_pct != null) {
         stat = `${economyRaw.summary.claimant_rate_pct}% claimant`
-        label = 'Claimant count rate'
-      } else if (economyRaw?.claimant_count?.wards) {
-        // Try ward-level claimant data
-        const wardClaimant = Object.values(economyRaw.claimant_count.wards).find(
-          w => (w.name || '').toLowerCase() === selectedWard.toLowerCase()
-        )
-        if (wardClaimant?.rate_pct != null) {
+        label = 'Council-wide rate'
+      }
+      if (wardClaimant?.rate_pct != null) {
+        if (!stat) {
           stat = `${wardClaimant.rate_pct}% claimant`
           label = `${selectedWard} claimant rate`
+        } else {
+          stat2 = `${wardClaimant.rate_pct}% ward`
+          label2 = `${selectedWard}`
         }
       }
       cards.push({
@@ -306,6 +348,8 @@ function MyArea() {
         color: '#ff9f0a',
         stat,
         label,
+        stat2,
+        label2,
       })
     }
 
@@ -534,6 +578,63 @@ function MyArea() {
             )
           })()}
 
+          {/* === Ward Summary Header === */}
+          {(() => {
+            const depData = getDeprivationForWard(selectedWard)
+            const wardCouncillors = getWardCouncillors(selectedWard)
+            const wardDemo = demographicsWards[selectedWard]
+            const pop = wardDemo?.population?.total
+            const wardClaimantData = economyRaw?.claimant_count?.wards
+              ? Object.values(economyRaw.claimant_count.wards).find(
+                  w => (w.name || '').toLowerCase() === selectedWard.toLowerCase()
+                )
+              : null
+            const ward = wards[selectedWard] || Object.values(wards).find(w => w.name === selectedWard)
+            // Only show if we have at least 2 data points
+            const hasData = [pop, depData, wardClaimantData, ward?.parties?.length].filter(Boolean).length >= 2
+            if (!hasData) return null
+            return (
+              <div className="ward-summary-header" data-testid="ward-summary-header">
+                {pop && (
+                  <div className="ward-summary-stat">
+                    <span className="ward-summary-value">{pop.toLocaleString()}</span>
+                    <span className="ward-summary-label">Population</span>
+                  </div>
+                )}
+                {wardCouncillors.length > 0 && (
+                  <div className="ward-summary-stat">
+                    <span className="ward-summary-value">{wardCouncillors.length}</span>
+                    <span className="ward-summary-label">Councillor{wardCouncillors.length > 1 ? 's' : ''}</span>
+                  </div>
+                )}
+                {depData && (
+                  <div className="ward-summary-stat">
+                    <span className="ward-summary-value" style={{ color: getDeprivationColor(depData.deprivation_level) }}>
+                      {depData.avg_imd_score}
+                    </span>
+                    <span className="ward-summary-label">IMD Score</span>
+                  </div>
+                )}
+                {wardClaimantData?.rate_pct != null && (
+                  <div className="ward-summary-stat">
+                    <span className="ward-summary-value" style={{ color: wardClaimantData.rate_pct > 5 ? '#ff9f0a' : '#30d158' }}>
+                      {wardClaimantData.rate_pct}%
+                    </span>
+                    <span className="ward-summary-label">Claimant Rate</span>
+                  </div>
+                )}
+                {ward?.parties?.length > 0 && (
+                  <div className="ward-summary-stat">
+                    <span className="ward-summary-value" style={{ color: ward.color || '#fff' }}>
+                      {ward.parties[0]}
+                    </span>
+                    <span className="ward-summary-label">Held by</span>
+                  </div>
+                )}
+              </div>
+            )
+          })()}
+
           {/* === Ward Hub Dashboard === */}
           {hubCards.length > 0 && (
             <div className="ward-hub-dashboard" data-testid="ward-hub-dashboard">
@@ -554,6 +655,12 @@ function MyArea() {
                           <div className="ward-hub-card-stat" style={{ color: card.color }}>{card.stat}</div>
                         )}
                         <div className="ward-hub-card-label">{card.label}</div>
+                        {card.stat2 && (
+                          <div className="ward-hub-card-stat2">{card.stat2}</div>
+                        )}
+                        {card.label2 && (
+                          <div className="ward-hub-card-label2">{card.label2}</div>
+                        )}
                       </div>
                       {card.to && (
                         <ArrowRight size={16} className="ward-hub-card-arrow" />

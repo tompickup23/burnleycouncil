@@ -292,7 +292,8 @@ describe('MyArea', () => {
     const select = screen.getByLabelText(/select your ward/i)
     fireEvent.change(select, { target: { value: 'Cliviger with Worsthorne' } })
     expect(screen.getByText('Deprivation Index')).toBeInTheDocument()
-    expect(screen.getByText('12.5')).toBeInTheDocument()
+    // 12.5 may appear in both summary header and deprivation panel
+    expect(screen.getAllByText('12.5').length).toBeGreaterThanOrEqual(1)
     expect(screen.getByText('7')).toBeInTheDocument()
     expect(screen.getByText('65%')).toBeInTheDocument()
   })
@@ -615,7 +616,8 @@ describe('MyArea', () => {
       wards: {
         'ward-code-1': {
           name: 'Cliviger with Worsthorne',
-          tenure: { 'Owned': 800, 'Social rented': 100, 'Private rented': 100 },
+          tenure: { 'Total: All households': 1000, 'Owned': 800, 'Social rented': 100, 'Private rented': 100 },
+          overcrowding: { 'Total: All households': 1000, 'Occupancy rating of bedrooms: -1': 80, 'Occupancy rating of bedrooms: -2 or less': 20 },
         },
       },
     },
@@ -626,12 +628,23 @@ describe('MyArea', () => {
       life_expectancy_male: 78.2,
       life_expectancy_female: 82.1,
     },
-    census: { wards: {} },
+    census: {
+      wards: {
+        'ward-code-h1': {
+          name: 'Cliviger with Worsthorne',
+          general_health: { 'Very good health': 500, 'Good health': 300, 'Fair health': 100, 'Bad health': 70, 'Very bad health': 30 },
+        },
+      },
+    },
   }
 
   const mockEconomyData = {
     summary: { claimant_rate_pct: 4.2 },
-    claimant_count: { wards: {} },
+    claimant_count: {
+      wards: {
+        'ward-code-e1': { name: 'Cliviger with Worsthorne', count: 120, rate_pct: 3.8 },
+      },
+    },
     census: { wards: {} },
   }
 
@@ -710,5 +723,94 @@ describe('MyArea', () => {
     expect(screen.getByText('Pop: 12,340')).toBeInTheDocument()
     // Elections: party holder from wards data
     expect(screen.getByTestId('hub-card-elections')).toBeInTheDocument()
+  })
+
+  // --- Second stat lines on hub cards ---
+  it('housing hub card shows overcrowding second stat', () => {
+    setupHubMocks()
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Cliviger with Worsthorne' } })
+    // 80+20 = 100 overcrowded out of 1000 = 10%
+    expect(screen.getByText('10% overcrowded')).toBeInTheDocument()
+  })
+
+  it('health hub card shows poor health second stat', () => {
+    setupHubMocks()
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Cliviger with Worsthorne' } })
+    // 70+30 = 100 bad out of 1000 total = 10.0%
+    expect(screen.getByText('10.0% poor health')).toBeInTheDocument()
+  })
+
+  it('economy hub card shows ward-level claimant rate as second stat', () => {
+    setupHubMocks()
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Cliviger with Worsthorne' } })
+    // Ward-level rate shown as second stat
+    expect(screen.getByText('3.8% ward')).toBeInTheDocument()
+  })
+
+  // --- Ward Summary Header ---
+  it('renders ward summary header with population and IMD', () => {
+    useCouncilConfig.mockReturnValue(mockConfigWithDS)
+    useData.mockImplementation((urls) => {
+      if (urls === '/data/deprivation.json') {
+        return { data: mockDeprivation, loading: false, error: null }
+      }
+      if (urls === '/data/demographics.json') {
+        return { data: { wards: { 'Cliviger with Worsthorne': { population: { total: 12340 } } } }, loading: false, error: null }
+      }
+      if (Array.isArray(urls)) {
+        return { data: [mockWards, mockCouncillors, null], loading: false, error: null }
+      }
+      if (urls === '/data/housing.json') return { data: mockHousingData, loading: false, error: null }
+      if (urls === '/data/health.json') return { data: mockHealthData, loading: false, error: null }
+      if (urls === '/data/economy.json') return { data: mockEconomyData, loading: false, error: null }
+      return { data: null, loading: false, error: null }
+    })
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Cliviger with Worsthorne' } })
+    const header = screen.getByTestId('ward-summary-header')
+    expect(header).toBeInTheDocument()
+    // Population
+    expect(screen.getByText('12,340')).toBeInTheDocument()
+    expect(screen.getByText('Population')).toBeInTheDocument()
+    // IMD score appears in both summary header and deprivation panel
+    expect(screen.getAllByText('12.5').length).toBeGreaterThanOrEqual(1)
+    expect(screen.getAllByText('IMD Score').length).toBeGreaterThanOrEqual(1)
+  })
+
+  it('ward summary header shows claimant rate when economy data available', () => {
+    useCouncilConfig.mockReturnValue(mockConfigWithDS)
+    useData.mockImplementation((urls) => {
+      if (Array.isArray(urls)) return { data: [mockWards, mockCouncillors, null], loading: false, error: null }
+      if (urls === '/data/deprivation.json') return { data: mockDeprivation, loading: false, error: null }
+      if (urls === '/data/economy.json') return { data: mockEconomyData, loading: false, error: null }
+      if (urls === '/data/demographics.json') return { data: { wards: { 'Cliviger with Worsthorne': { population: { total: 12340 } } } }, loading: false, error: null }
+      if (urls === '/data/housing.json') return { data: mockHousingData, loading: false, error: null }
+      if (urls === '/data/health.json') return { data: mockHealthData, loading: false, error: null }
+      return { data: null, loading: false, error: null }
+    })
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Cliviger with Worsthorne' } })
+    const header = screen.getByTestId('ward-summary-header')
+    expect(header).toBeInTheDocument()
+    // Claimant rate
+    expect(screen.getByText('3.8%')).toBeInTheDocument()
+    expect(screen.getByText('Claimant Rate')).toBeInTheDocument()
+  })
+
+  it('ward summary header not shown with insufficient data', () => {
+    setupMocks()
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Brunshaw' } })
+    // Brunshaw has no demographics, no economy ward data — only deprivation for some wards
+    expect(screen.queryByTestId('ward-summary-header')).not.toBeInTheDocument()
   })
 })
