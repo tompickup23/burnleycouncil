@@ -1,6 +1,7 @@
 .layout {
   display: flex;
   min-height: 100vh;
+  min-height: 100dvh;
 }
 
 /* Sidebar */
@@ -301,6 +302,7 @@
   flex: 1;
   margin-left: 260px;
   min-height: 100vh;
+  min-height: 100dvh;
   padding: var(--space-xl);
   background: var(--bg-primary);
   position: relative;
@@ -368,7 +370,8 @@
   .main-content {
     margin-left: 0;
     padding: var(--space-md);
-    padding-top: calc(60px + var(--space-md));
+    padding-top: calc(60px + env(safe-area-inset-top, 0px) + var(--space-md));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
   }
 
   .mobile-header {
@@ -379,8 +382,8 @@
     top: 0;
     left: 0;
     right: 0;
-    height: 60px;
-    padding: 0 var(--space-md);
+    height: calc(60px + env(safe-area-inset-top, 0px));
+    padding: env(safe-area-inset-top, 0px) var(--space-md) 0;
     background: rgba(28, 28, 30, 0.95);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
