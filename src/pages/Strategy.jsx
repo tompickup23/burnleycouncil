@@ -4,6 +4,7 @@ const WardMap = lazy(() => import('../components/WardMap'))
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatNumber } from '../utils/format'
+import { usePDFExport } from '../components/pdf/usePDFExport'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM, PARTY_COLORS } from '../utils/constants'
 import {
   DEFAULT_ASSUMPTIONS,
@@ -469,6 +470,81 @@ export default function Strategy() {
     setTimeout(() => URL.revokeObjectURL(url), 1000)
   }
 
+  // --- PDF Export Handlers ---
+  const { generatePDF, isGenerating: pdfGenerating } = usePDFExport()
+
+  const buildAllData = useCallback(() => ({
+    electionsData, referenceData, politicsSummary,
+    demographicsData, deprivationData,
+    councillorsData, integrityData, interestsData,
+    dogeFindings, budgetSummary, collectionRates,
+    constituenciesData, wardConstituencyMap,
+    councilPrediction, meetingsData, hmoData, fiscalData, pollingData,
+    propertyAssets, planningData,
+    housingData, economyData, healthData, votingData, politicalHistoryData,
+  }), [electionsData, referenceData, politicsSummary, demographicsData, deprivationData,
+    councillorsData, integrityData, interestsData, dogeFindings, budgetSummary, collectionRates,
+    constituenciesData, wardConstituencyMap, councilPrediction, meetingsData, hmoData, fiscalData,
+    pollingData, propertyAssets, planningData, housingData, economyData, healthData, votingData, politicalHistoryData])
+
+  const handleExportCanvassingPDF = useCallback(async () => {
+    if (pdfGenerating || !selectedDossierWard) return
+    const { CanvassingSheetPDF } = await import('../components/pdf/CanvassingSheetPDF.jsx')
+    const elDate = electionsData?.meta?.next_election?.date || '2026-05-07'
+    const doc = <CanvassingSheetPDF
+      wardName={selectedDossierWard}
+      playbook={activePlaybook}
+      dossier={activeDossier}
+      councilName={councilName}
+      electionDate={elDate}
+    />
+    generatePDF(doc, `canvassing-${selectedDossierWard.toLowerCase().replace(/\s+/g, '-')}.pdf`)
+  }, [pdfGenerating, selectedDossierWard, activePlaybook, activeDossier, councilName, electionsData, generatePDF])
+
+  const handleExportStrategistPDF = useCallback(async () => {
+    if (pdfGenerating || !selectedDossierWard) return
+    const { StrategistSheetPDF } = await import('../components/pdf/StrategistSheetPDF.jsx')
+    const elDate = electionsData?.meta?.next_election?.date || '2026-05-07'
+    const doc = <StrategistSheetPDF
+      wardName={selectedDossierWard}
+      dossier={activeDossier}
+      playbook={activePlaybook}
+      councilName={councilName}
+      electionDate={elDate}
+      rawData={{ housingData, hmoData, economyData, healthData, electionsData }}
+    />
+    generatePDF(doc, `strategist-${selectedDossierWard.toLowerCase().replace(/\s+/g, '-')}.pdf`)
+  }, [pdfGenerating, selectedDossierWard, activeDossier, activePlaybook, councilName, electionsData,
+    housingData, hmoData, economyData, healthData, generatePDF])
+
+  const handleExportAllWardsPDF = useCallback(async () => {
+    if (pdfGenerating) return
+    const { AllWardsStrategyPDF } = await import('../components/pdf/AllWardsStrategyPDF.jsx')
+    const allData = buildAllData()
+    const dossiers = {}
+    for (const ward of wardsUp) {
+      try {
+        dossiers[ward] = generateWardDossier(ward, { ...allData, rankedWard: rankedWards.find(w => w.ward === ward) }, ourParty)
+      } catch (e) { console.error('[PDF] Dossier error for', ward, e) }
+    }
+    const elDate = electionsData?.meta?.next_election?.date || '2026-05-07'
+    const doc = <AllWardsStrategyPDF
+      councilName={councilName}
+      electionDate={elDate}
+      wardsUp={wardsUp}
+      dossiers={dossiers}
+      rankedWards={rankedWards}
+      pathToControl={pathToControl}
+      resourceAllocation={Object.fromEntries(resourceAllocation.map(r => [r.ward, r]))}
+      politicsSummary={politicsSummary}
+      councilPrediction={councilPrediction}
+      electionBriefing={null}
+      ourParty={ourParty}
+    />
+    generatePDF(doc, `strategy-all-wards-${config.council_id}.pdf`)
+  }, [pdfGenerating, buildAllData, wardsUp, rankedWards, pathToControl, resourceAllocation,
+    politicsSummary, councilPrediction, ourParty, councilName, electionsData, config.council_id, generatePDF])
+
   // --- Loading/error ---
   if (loading) return <LoadingState message="Loading strategy data..." />
 
@@ -686,17 +762,27 @@ export default function Strategy() {
       {activeSection === 'dossiers' && (
         <section className="strategy-section">
           {selectedDossierWard && activeDossier ? (
-            <WardDossierView
-              ref={dossierRef}
-              dossier={activeDossier}
-              playbook={activePlaybook}
-              councillorProfiles={councillorProfilesData}
-              ourParty={ourParty}
-              wardLabel={wardLabel}
-              activeTab={dossierTab}
-              onTabChange={handleDossierTabChange}
-              onBack={() => setSelectedDossierWard(null)}
-            />
+            <>
+              <div className="dossier-pdf-actions">
+                <button className="strategy-export-btn" onClick={handleExportCanvassingPDF} disabled={pdfGenerating}>
+                  <Printer size={14} /> {pdfGenerating ? 'Generating...' : 'Canvassing PDF'}
+                </button>
+                <button className="strategy-export-btn" onClick={handleExportStrategistPDF} disabled={pdfGenerating}>
+                  <Printer size={14} /> {pdfGenerating ? 'Generating...' : 'Strategist PDF'}
+                </button>
+              </div>
+              <WardDossierView
+                ref={dossierRef}
+                dossier={activeDossier}
+                playbook={activePlaybook}
+                councillorProfiles={councillorProfilesData}
+                ourParty={ourParty}
+                wardLabel={wardLabel}
+                activeTab={dossierTab}
+                onTabChange={handleDossierTabChange}
+                onBack={() => setSelectedDossierWard(null)}
+              />
+            </>
           ) : (
             <>
               <h2><FileText size={20} /> {wardLabel} Dossiers</h2>
@@ -949,6 +1035,9 @@ export default function Strategy() {
             <button className="strategy-export-btn" onClick={handleExportCSV} title="Export strategy data as CSV">
               <Download size={14} /> Export CSV
             </button>
+            <button className="strategy-export-btn" onClick={handleExportAllWardsPDF} disabled={pdfGenerating} title="Export all-wards strategist PDF">
+              <Printer size={14} /> {pdfGenerating ? 'Generating...' : 'All Wards PDF'}
+            </button>
           </div>
           <p className="resource-hint">
             Click any hours value in the table to manually adjust. Remaining hours redistribute automatically.
@@ -1188,6 +1277,9 @@ export default function Strategy() {
                 </div>
                 <button className="canvassing-export-btn" onClick={handleExportCanvassingCSV}>
                   <Download size={14} /> Export CSV
+                </button>
+                <button className="canvassing-export-btn" onClick={handleExportAllWardsPDF} disabled={pdfGenerating}>
+                  <Printer size={14} /> {pdfGenerating ? 'Generating...' : 'All Wards PDF'}
                 </button>
               </div>
 

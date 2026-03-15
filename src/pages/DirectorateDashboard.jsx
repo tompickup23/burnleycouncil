@@ -29,6 +29,7 @@ import {
   spendingConcentration,
 } from '../utils/savingsEngine'
 import { useSpendingSummary } from '../hooks/useSpendingSummary'
+import { usePDFExport } from '../components/pdf/usePDFExport'
 import './DirectorateDashboard.css'
 
 const RISK_COLORS = { critical: '#dc3545', high: '#fd7e14', medium: '#ffc107', low: '#28a745' }
@@ -179,6 +180,22 @@ export default function DirectorateDashboard() {
     return fiscalSystemOverview(portfolioData.portfolios)
   }, [portfolioData])
 
+  // --- PDF Export: Leader Briefing ---
+  const { generatePDF, isGenerating: pdfGenerating } = usePDFExport()
+  const handleExportLeaderPDF = async () => {
+    if (pdfGenerating) return
+    const { LeaderBriefingPDF } = await import('../components/pdf/LeaderBriefingPDF.jsx')
+    const doc = <LeaderBriefingPDF
+      portfolios={portfolioData?.portfolios || []}
+      directorates={directorateProfiles}
+      allDirectives={mondayList}
+      fiscalOverview={fiscalSystem}
+      mondayMorningList={mondayList}
+      councilName={config.council_name || 'Lancashire County Council'}
+    />
+    generatePDF(doc, `leader-briefing-${new Date().toISOString().slice(0, 10)}.pdf`)
+  }
+
   if (!dataSources.cabinet_portfolios) return <div className="page-empty"><p>Cabinet portfolios not available for this council.</p></div>
   if (!hasAccess) return <div className="page-empty"><p>Councillor access required.</p></div>
   if (loading) return <LoadingState message="Loading Savings Command Centre..." />
@@ -196,7 +213,13 @@ export default function DirectorateDashboard() {
       <div className="page-hero reform-hero">
         <h1><Zap size={28} /> Reform Savings Command Centre</h1>
         <p className="hero-subtitle">Evidence-backed savings intelligence across {directorateProfiles.length} directorates</p>
-        <Link to="/executive" className="dd-cross-link"><Users size={14} /> View Cabinet & Executive</Link>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginTop: '0.5rem' }}>
+          <Link to="/executive" className="dd-cross-link"><Users size={14} /> View Cabinet & Executive</Link>
+          <button onClick={handleExportLeaderPDF} disabled={pdfGenerating} style={{ padding: '0.4rem 1rem', background: 'rgba(18,182,207,0.15)', border: '1px solid #12B6CF', borderRadius: '6px', color: '#12B6CF', cursor: 'pointer', fontSize: '0.85rem' }}>
+            <DollarSign size={14} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+            {pdfGenerating ? 'Generating...' : "Leader's Briefing PDF"}
+          </button>
+        </div>
       </div>
 
       {/* Hero stats */}

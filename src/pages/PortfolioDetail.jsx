@@ -44,6 +44,8 @@ import {
   propertyEstateProjection,
 } from '../utils/savingsEngine'
 import { useSpendingSummary } from '../hooks/useSpendingSummary'
+import { reformNarrativeEngine } from '../utils/savingsEngine'
+import { usePDFExport } from '../components/pdf/usePDFExport'
 import './PortfolioDetail.css'
 
 const TABS = [
@@ -136,6 +138,23 @@ export default function PortfolioDetail() {
     })),
   [directives])
 
+  // --- PDF Export ---
+  const { generatePDF, isGenerating: pdfGenerating } = usePDFExport()
+  const handleExportPortfolioPDF = async () => {
+    if (pdfGenerating || !portfolio) return
+    const { PortfolioBriefingPDF } = await import('../components/pdf/PortfolioBriefingPDF.jsx')
+    const narrative = reformNarrativeEngine(portfolio, directives)
+    const serviceIntel = { sendProjection, ascProjection: ascProjection, highwayTrajectory, wasteComparison }
+    const doc = <PortfolioBriefingPDF
+      portfolio={portfolio}
+      directives={directives}
+      narrative={narrative}
+      serviceIntel={serviceIntel}
+      councilName={config.council_name || 'Lancashire County Council'}
+    />
+    generatePDF(doc, `portfolio-${portfolioId}.pdf`)
+  }
+
   if (!dataSources.cabinet_portfolios) {
     return <div className="portfolio-detail"><h1>Portfolio Detail</h1><p>Not available for this council.</p></div>
   }
@@ -191,6 +210,12 @@ export default function PortfolioDetail() {
           <StatCard label="Savings Identified" value={formatCurrency(totalSavings)} icon={<TrendingUp size={24} />} />
           <StatCard label="Do Now" value={matrix.do_now.length} icon={<Zap size={24} />} />
         </div>
+        {isCabinetLevel && (
+          <button className="portfolio-pdf-btn" onClick={handleExportPortfolioPDF} disabled={pdfGenerating} style={{ marginTop: '0.5rem', padding: '0.4rem 1rem', background: 'rgba(18,182,207,0.15)', border: '1px solid #12B6CF', borderRadius: '6px', color: '#12B6CF', cursor: 'pointer', fontSize: '0.85rem' }}>
+            <Download size={14} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+            {pdfGenerating ? 'Generating PDF...' : 'Export Portfolio PDF'}
+          </button>
+        )}
       </div>
 
       {/* Tab navigation */}

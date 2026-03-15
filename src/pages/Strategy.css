@@ -804,6 +804,18 @@
   background: #12B6CF33;
 }
 
+.strategy-export-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.dossier-pdf-actions {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 8px 0;
+}
+
 .resource-hours {
   font-weight: 700;
   color: #12B6CF;
