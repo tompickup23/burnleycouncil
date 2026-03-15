@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useParams, Link, useLocation } from 'react-router-dom'
-import { Users, PieChart, Target, ChevronRight, Calendar, TrendingUp, Shield, Zap, Briefcase, FileText, AlertTriangle, Scale, Building2, Wrench, MapPin, Download, Activity, Truck, GraduationCap, Heart, Recycle } from 'lucide-react'
+import { Users, PieChart, Target, ChevronRight, Calendar, TrendingUp, TrendingDown, Shield, Zap, Briefcase, FileText, AlertTriangle, Scale, Building, Building2, Wrench, MapPin, Download, Activity, Truck, GraduationCap, Heart, Recycle, Home, DollarSign, Layers, BarChart2 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, Legend, PieChart as RechartsPie, Pie, Cell, ScatterChart, Scatter, ZAxis, AreaChart, Area, Treemap } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -39,6 +39,9 @@ import {
   netFiscalTrajectory,
   spendingBudgetVariance,
   spendingConcentration,
+  childrenCostProjection,
+  publicHealthProjection,
+  propertyEstateProjection,
 } from '../utils/savingsEngine'
 import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import './PortfolioDetail.css'
@@ -117,6 +120,9 @@ export default function PortfolioDetail() {
   const chcRecovery = useMemo(() => chcRecoveryModel(serviceModel?.asc_demand_model?.chc_model), [serviceModel])
   const highwayTrajectory = useMemo(() => highwayAssetTrajectory(serviceModel?.highway_asset_model), [serviceModel])
   const wasteComparison = useMemo(() => wasteDisposalComparison(serviceModel?.waste_model), [serviceModel])
+  const childrenProjection = useMemo(() => childrenCostProjection(serviceModel?.children_cost_model), [serviceModel])
+  const phProjection = useMemo(() => publicHealthProjection(serviceModel?.public_health_model), [serviceModel])
+  const propertyProjection = useMemo(() => propertyEstateProjection(serviceModel?.property_cost_model), [serviceModel])
   const demandPressures = useMemo(() => quantifyDemandPressures(portfolio), [portfolio])
   const fiscalTrajectory = useMemo(() => netFiscalTrajectory(portfolio, demandPressures, directives), [portfolio, demandPressures, directives])
 
@@ -876,6 +882,252 @@ export default function PortfolioDetail() {
                   </div>
                 )}
               </CollapsibleSection>
+            </div>
+          )}
+
+          {/* Service Intelligence: Children's Services */}
+          {serviceModel?.children_cost_model && childrenProjection.yearly.length > 0 && (
+            <div className="service-intelligence-section">
+              <h2 className="service-intelligence-title">
+                <Users size={20} style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+                Service Intelligence: Children&apos;s Services
+              </h2>
+              <p className="service-intelligence-subtitle">
+                LAC placement costs, residential market capacity, workforce conversion, UASC recovery, WOCL programme trajectory
+              </p>
+
+              <CollapsibleSection title="Placement Cost Trajectory" icon={<TrendingUp size={16} />} defaultOpen>
+                <div className="service-stat-row">
+                  <StatCard label="LAC Population" value={(serviceModel.children_cost_model.lac_population?.current || 0).toLocaleString()} icon={<Users size={16} />} />
+                  <StatCard label="In Residential" value={(serviceModel.children_cost_model.lac_population?.in_residential || 0).toLocaleString()} icon={<AlertTriangle size={16} />} />
+                  <StatCard label="Base Year Cost" value={formatCurrency(childrenProjection.base_cost)} icon={<DollarSign size={16} />} />
+                  <StatCard label="5yr Cumulative" value={formatCurrency(childrenProjection.total_5yr_cost)} icon={<TrendingUp size={16} />} />
+                </div>
+                <ChartCard title="Children's Services Cost Trajectory" subtitle="Residential growth drives cost escalation">
+                  <ResponsiveContainer width="100%" height={280}>
+                    <AreaChart data={childrenProjection.yearly}>
+                      <defs>
+                        <linearGradient id="childResidential" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#ff6b6b" stopOpacity={0.3} />
+                          <stop offset="100%" stopColor="#ff6b6b" stopOpacity={0.05} />
+                        </linearGradient>
+                        <linearGradient id="childFostering" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#12B6CF" stopOpacity={0.3} />
+                          <stop offset="100%" stopColor="#12B6CF" stopOpacity={0.05} />
+                        </linearGradient>
+                      </defs>
+                      <XAxis dataKey="label" tick={{ fill: '#999', fontSize: 11 }} />
+                      <YAxis tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} tick={{ fill: '#999', fontSize: 11 }} />
+                      <Tooltip formatter={v => formatCurrency(v)} labelStyle={{ color: '#fff' }} contentStyle={{ background: 'rgba(30,30,40,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                      <Area type="monotone" dataKey="residential_cost" name="Residential" fill="url(#childResidential)" stroke="#ff6b6b" stackId="1" />
+                      <Area type="monotone" dataKey="fostering_cost" name="Fostering" fill="url(#childFostering)" stroke="#12B6CF" stackId="1" />
+                      <Area type="monotone" dataKey="agency_premium" name="Agency Premium" fill="rgba(255,193,7,0.15)" stroke="#ffc107" stackId="1" />
+                      <Area type="monotone" dataKey="uasc_shortfall" name="UASC Shortfall" fill="rgba(168,85,247,0.15)" stroke="#a855f7" stackId="1" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </ChartCard>
+              </CollapsibleSection>
+
+              <CollapsibleSection title="WOCL Programme" icon={<Home size={16} />}>
+                <div className="service-stat-row">
+                  <StatCard label="Current Homes" value={serviceModel.children_cost_model.wocl_programme?.current_homes || 0} icon={<Home size={16} />} />
+                  <StatCard label="Target Homes" value={serviceModel.children_cost_model.wocl_programme?.target_homes || 0} icon={<Target size={16} />} />
+                  <StatCard label="Net Saving at Capacity" value={formatCurrency(serviceModel.children_cost_model.wocl_programme?.net_saving_at_capacity || 0)} icon={<TrendingDown size={16} />} />
+                  <StatCard label="Residential Growth" value={`${serviceModel.children_cost_model.lac_population?.residential_growth_pct_pa || 0}% pa`} icon={<TrendingUp size={16} />} />
+                </div>
+                {childrenProjection.wocl_trajectory.length > 0 && (
+                  <ChartCard title="WOCL Expansion Trajectory" subtitle="In-house homes growth and savings">
+                    <ResponsiveContainer width="100%" height={220}>
+                      <BarChart data={childrenProjection.wocl_trajectory}>
+                        <XAxis dataKey="year" tickFormatter={v => `Yr ${v}`} tick={{ fill: '#999', fontSize: 11 }} />
+                        <YAxis yAxisId="left" tickFormatter={v => v} tick={{ fill: '#999', fontSize: 11 }} />
+                        <YAxis yAxisId="right" orientation="right" tickFormatter={v => `£${(v / 1e6).toFixed(1)}M`} tick={{ fill: '#999', fontSize: 11 }} />
+                        <Tooltip formatter={(v, name) => name === 'Saving' ? formatCurrency(v) : v} contentStyle={{ background: 'rgba(30,30,40,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                        <Bar yAxisId="left" dataKey="homes" name="Homes" fill="#12B6CF" radius={[4, 4, 0, 0]} />
+                        <Bar yAxisId="right" dataKey="saving" name="Saving" fill="#28a745" radius={[4, 4, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                )}
+              </CollapsibleSection>
+
+              <CollapsibleSection title="Workforce & Market" icon={<Briefcase size={16} />}>
+                <div className="service-stat-row">
+                  <StatCard label="Agency SWs" value={serviceModel.children_cost_model.agency_workforce?.apprentices_uclan || 0} icon={<Users size={16} />} sub="on UCLan programme" />
+                  <StatCard label="Agency EPs (SEND)" value={serviceModel.children_cost_model.agency_workforce?.agency_eps_send || 0} icon={<AlertTriangle size={16} />} sub={`£${serviceModel.children_cost_model.agency_workforce?.ep_agency_daily || 0}/day`} />
+                  <StatCard label="UASC in Care" value={serviceModel.children_cost_model.uasc_model?.uasc_in_care || 0} icon={<Users size={16} />} sub={`£${formatCurrency(serviceModel.children_cost_model.uasc_model?.annual_shortfall_total || 0)} shortfall`} />
+                  <StatCard label="IFA Framework" value={formatCurrency(serviceModel.children_cost_model.ifa_contract?.value_total || 0)} icon={<FileText size={16} />} sub={`${serviceModel.children_cost_model.ifa_contract?.through_lancashire_pct || 0}% through Lancashire`} />
+                </div>
+              </CollapsibleSection>
+            </div>
+          )}
+
+          {/* Service Intelligence: Public Health */}
+          {serviceModel?.public_health_model && phProjection.yearly.length > 0 && (
+            <div className="service-intelligence-section">
+              <h2 className="service-intelligence-title">
+                <Heart size={20} style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+                Service Intelligence: Public Health
+              </h2>
+              <p className="service-intelligence-subtitle">
+                Grant trajectory, prevention ROI, HCRG monopoly risk, substance misuse funding cliff, health inequalities
+              </p>
+
+              <CollapsibleSection title="Grant & Prevention Trajectory" icon={<TrendingDown size={16} />} defaultOpen>
+                <div className="service-stat-row">
+                  <StatCard label="PH Grant" value={formatCurrency(phProjection.base_grant)} icon={<DollarSign size={16} />} />
+                  <StatCard label="5yr Real-Terms Decline" value={formatCurrency(phProjection.grant_decline_5yr)} icon={<TrendingDown size={16} />} />
+                  <StatCard label="Prevention ROI" value={`${phProjection.total_prevention_roi}:1`} icon={<TrendingUp size={16} />} />
+                  <StatCard label="Monopoly Risk" value={formatCurrency(phProjection.monopoly_risk_value)} icon={<AlertTriangle size={16} />} sub={`HHI ${serviceModel.public_health_model.hcrg_monopoly?.hhi || 0}`} />
+                </div>
+                <ChartCard title="Public Health Grant Real-Terms Trajectory" subtitle={`Declining ${serviceModel.public_health_model.grant?.real_terms_decline_pct_pa || 2.5}% pa in real terms`}>
+                  <ResponsiveContainer width="100%" height={260}>
+                    <AreaChart data={phProjection.yearly}>
+                      <defs>
+                        <linearGradient id="phGrant" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stopColor="#12B6CF" stopOpacity={0.3} />
+                          <stop offset="100%" stopColor="#12B6CF" stopOpacity={0.05} />
+                        </linearGradient>
+                      </defs>
+                      <XAxis dataKey="label" tick={{ fill: '#999', fontSize: 11 }} />
+                      <YAxis tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} tick={{ fill: '#999', fontSize: 11 }} />
+                      <Tooltip formatter={v => formatCurrency(v)} labelStyle={{ color: '#fff' }} contentStyle={{ background: 'rgba(30,30,40,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                      <Area type="monotone" dataKey="grant_real_terms" name="Grant (Real Terms)" fill="url(#phGrant)" stroke="#12B6CF" />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </ChartCard>
+              </CollapsibleSection>
+
+              <CollapsibleSection title="Prevention ROI Dashboard" icon={<TrendingUp size={16} />}>
+                <div className="service-roi-programmes">
+                  {['falls', 'smoking', 'obesity', 'physical_activity'].map(cat => {
+                    const p = serviceModel.public_health_model.prevention_roi?.[cat]
+                    if (!p) return null
+                    const avoidance = p.asc_avoidance_pa || p.nhs_avoidance_pa || p.health_saving_pa || 0
+                    return (
+                      <div key={cat} className="service-roi-card">
+                        <div className="service-roi-header">
+                          <strong style={{ textTransform: 'capitalize' }}>{cat.replace('_', ' ')}</strong>
+                          <span className="service-roi-net">{formatCurrency(avoidance)}/yr avoidance</span>
+                        </div>
+                        <div className="service-roi-detail">
+                          <span className="service-roi-evidence">Spend: {formatCurrency(p.annual_spend || 0)} pa</span>
+                          <span className="service-roi-ratio">ROI {p.roi_ratio || 0}:1</span>
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </CollapsibleSection>
+
+              <CollapsibleSection title="HCRG Monopoly & Substance Misuse" icon={<AlertTriangle size={16} />}>
+                <div className="service-stat-row">
+                  <StatCard label="HCRG Annual" value={formatCurrency(serviceModel.public_health_model.hcrg_monopoly?.annual_equivalent || 0)} icon={<DollarSign size={16} />} sub={`HHI ${serviceModel.public_health_model.hcrg_monopoly?.hhi || 0}`} />
+                  <StatCard label="CF Published" value={serviceModel.public_health_model.hcrg_monopoly?.contracts_finder_published ?? 'N/A'} icon={<FileText size={16} />} />
+                  <StatCard label="CGL Annual" value={formatCurrency(serviceModel.public_health_model.substance_misuse?.cgl_annual || 0)} icon={<DollarSign size={16} />} />
+                  <StatCard label="SSMTR/ADDER" value={formatCurrency(serviceModel.public_health_model.substance_misuse?.ssmtr_adder_value || 0)} icon={<AlertTriangle size={16} />} sub="Time-limited" />
+                </div>
+                {phProjection.supplemental_cliff && (
+                  <div className="service-roi-card" style={{ marginTop: '12px', borderLeft: '3px solid #ff6b6b' }}>
+                    <div className="service-roi-header">
+                      <strong>⚠️ Funding Cliff Edge</strong>
+                      <span style={{ color: '#ff6b6b', fontWeight: 700 }}>{formatCurrency(phProjection.supplemental_cliff.value)} at risk</span>
+                    </div>
+                    <div className="service-roi-detail">
+                      <span className="service-roi-evidence">SSMTR/ADDER supplemental funding ends {phProjection.supplemental_cliff.end_date || 'TBC'}</span>
+                    </div>
+                  </div>
+                )}
+              </CollapsibleSection>
+
+              {serviceModel.public_health_model.health_inequalities && (
+                <CollapsibleSection title="Health Inequalities" icon={<Heart size={16} />}>
+                  <div className="service-stat-row">
+                    <StatCard label="LE Gap (Male)" value={`${serviceModel.public_health_model.health_inequalities.life_expectancy_gap_male || 0} years`} icon={<TrendingDown size={16} />} />
+                    <StatCard label="LE Gap (Female)" value={`${serviceModel.public_health_model.health_inequalities.life_expectancy_gap_female || 0} years`} icon={<TrendingDown size={16} />} />
+                    <StatCard label="ASC Residential" value={formatCurrency(serviceModel.public_health_model.health_inequalities.asc_residential_annual || 0)} icon={<DollarSign size={16} />} />
+                    <StatCard label="Prevention Target" value={`${serviceModel.public_health_model.health_inequalities.prevention_asc_reduction_target_pct || 0}% reduction`} icon={<Target size={16} />} />
+                  </div>
+                </CollapsibleSection>
+              )}
+            </div>
+          )}
+
+          {/* Service Intelligence: Property & Procurement */}
+          {(serviceModel?.property_cost_model || serviceModel?.procurement_model) && (
+            <div className="service-intelligence-section">
+              <h2 className="service-intelligence-title">
+                <Building size={20} style={{ verticalAlign: 'middle', marginRight: '8px' }} />
+                Service Intelligence: Property &amp; Procurement
+              </h2>
+              <p className="service-intelligence-subtitle">
+                Estate management, disposal pipeline, co-location savings, procurement concentration, invoice automation
+              </p>
+
+              {serviceModel?.property_cost_model && propertyProjection.yearly.length > 0 && (
+                <CollapsibleSection title="Estate Cost Trajectory" icon={<Building size={16} />} defaultOpen>
+                  <div className="service-stat-row">
+                    <StatCard label="Total Properties" value={(serviceModel.property_cost_model.estate_summary?.total_properties || 0).toLocaleString()} icon={<Building size={16} />} />
+                    <StatCard label="Running Cost" value={formatCurrency(propertyProjection.base_cost)} icon={<DollarSign size={16} />} sub={`${serviceModel.property_cost_model.estate_summary?.pct_of_total_spend || 0}% of spend`} />
+                    <StatCard label="Disposal Target" value={formatCurrency(propertyProjection.disposal_pipeline)} icon={<TrendingUp size={16} />} />
+                    <StatCard label="Backlog (5yr)" value={formatCurrency(propertyProjection.backlog_trajectory)} icon={<AlertTriangle size={16} />} />
+                  </div>
+                  <ChartCard title="Property Estate Net Cost Trajectory" subtitle="Running costs, backlog growth, disposal receipts, co-location savings">
+                    <ResponsiveContainer width="100%" height={280}>
+                      <BarChart data={propertyProjection.yearly}>
+                        <XAxis dataKey="label" tick={{ fill: '#999', fontSize: 11 }} />
+                        <YAxis tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} tick={{ fill: '#999', fontSize: 11 }} />
+                        <Tooltip formatter={v => formatCurrency(v)} contentStyle={{ background: 'rgba(30,30,40,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                        <Bar dataKey="running_cost" name="Running Cost" fill="rgba(18,182,207,0.6)" stackId="cost" radius={[0, 0, 0, 0]} />
+                        <Bar dataKey="backlog" name="Backlog" fill="rgba(255,107,107,0.6)" stackId="cost" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="disposal_receipts" name="Disposal Receipts" fill="rgba(40,167,69,0.6)" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="co_location_saving" name="Co-Location Saving" fill="rgba(255,193,7,0.6)" radius={[4, 4, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </ChartCard>
+                </CollapsibleSection>
+              )}
+
+              {serviceModel?.property_cost_model?.co_location_opportunity && (
+                <CollapsibleSection title="Co-Location & Disposal" icon={<Home size={16} />}>
+                  <div className="service-stat-row">
+                    <StatCard label="Potential Merges" value={serviceModel.property_cost_model.co_location_opportunity.potential_consolidations || 0} icon={<Layers size={16} />} />
+                    <StatCard label="Saving Per Merge" value={formatCurrency(serviceModel.property_cost_model.co_location_opportunity.estimated_saving_per_merge || 0)} icon={<DollarSign size={16} />} />
+                    <StatCard label="Total Potential" value={formatCurrency(serviceModel.property_cost_model.co_location_opportunity.total_potential || 0)} icon={<TrendingUp size={16} />} />
+                    <StatCard label="Care Home Backlog" value={formatCurrency(propertyProjection.care_home_liability)} icon={<AlertTriangle size={16} />} />
+                  </div>
+                  {serviceModel.property_cost_model.disposal_programme?.active_disposals?.length > 0 && (
+                    <div className="service-roi-programmes" style={{ marginTop: '12px' }}>
+                      <div className="service-roi-card">
+                        <div className="service-roi-header">
+                          <strong>Active Disposals</strong>
+                          <span className="service-roi-net">{formatCurrency(serviceModel.property_cost_model.disposal_programme.target_receipts || 0)} target</span>
+                        </div>
+                        <div className="service-roi-detail">
+                          <span className="service-roi-evidence">{serviceModel.property_cost_model.disposal_programme.active_disposals.join(', ')}</span>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </CollapsibleSection>
+              )}
+
+              {serviceModel?.procurement_model && (
+                <CollapsibleSection title="Procurement Intelligence" icon={<FileText size={16} />}>
+                  <div className="service-stat-row">
+                    <StatCard label="HHI" value={(serviceModel.procurement_model.supplier_concentration?.overall_hhi || 0).toLocaleString()} icon={<BarChart2 size={16} />} />
+                    <StatCard label="CF Coverage" value={`${serviceModel.procurement_model.contracts_finder_coverage?.overall_pct || 0}%`} icon={<FileText size={16} />} />
+                    <StatCard label="Duplicate Risk" value={formatCurrency(serviceModel.procurement_model.duplicate_risk?.flagged_value || 0)} icon={<AlertTriangle size={16} />} />
+                    <StatCard label="Invoice Automation" value={formatCurrency(serviceModel.procurement_model.invoice_processing?.automation_saving_potential || 0)} icon={<Zap size={16} />} sub="potential saving" />
+                  </div>
+                  <div className="service-stat-row" style={{ marginTop: '8px' }}>
+                    <StatCard label="Top 10 Suppliers" value={`${serviceModel.procurement_model.supplier_concentration?.top_10_pct_of_spend || 0}%`} icon={<PieChart size={16} />} sub="of total spend" />
+                    <StatCard label="Off-Contract" value={`${serviceModel.procurement_model.supplier_concentration?.off_contract_estimate_pct || 0}%`} icon={<AlertTriangle size={16} />} />
+                    <StatCard label="Non-Compliant Value" value={formatCurrency(serviceModel.procurement_model.contracts_finder_coverage?.non_compliant_value || 0)} icon={<DollarSign size={16} />} />
+                    <StatCard label="Finance FTEs" value={serviceModel.procurement_model.finance_automation_potential?.finance_ftes || 0} icon={<Users size={16} />} sub={`${serviceModel.procurement_model.finance_automation_potential?.automation_pct || 0}% automatable`} />
+                  </div>
+                </CollapsibleSection>
+              )}
             </div>
           )}
         </div>
