@@ -1,5 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo, lazy, Suspense } from 'react'
-import { MapPin, User, Users, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building, FileText, Home, TrendingUp } from 'lucide-react'
+import { Link } from 'react-router-dom'
+import { MapPin, User, Users, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building, FileText, Home, TrendingUp, ShieldAlert, HeartPulse, Briefcase, Vote, ArrowRight } from 'lucide-react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -213,6 +214,158 @@ function MyArea() {
     return dep.avg_imd_score
   }, [selectedWard, deprivation])
 
+  // Hub dashboard summary stats for selected ward
+  const hubCards = useMemo(() => {
+    if (!selectedWard) return []
+    const cards = []
+    const ds = config.data_sources || {}
+
+    // Crime — use total_crimes from crime summary if we had it; show generic link since we don't load crime_stats
+    if (ds.crime_stats) {
+      cards.push({
+        key: 'crime',
+        title: 'Crime',
+        icon: <ShieldAlert size={22} />,
+        to: '/crime',
+        color: '#ff453a',
+        stat: null,
+        label: 'View crime data',
+      })
+    }
+
+    // Housing — extract dominant tenure from housing census wards
+    if (ds.housing && housingRaw) {
+      const wardKey = Object.keys(housingRaw?.census?.wards || {}).find(
+        k => (housingRaw.census.wards[k].name || k).toLowerCase() === selectedWard.toLowerCase()
+      )
+      const wardHousing = wardKey ? housingRaw.census.wards[wardKey] : null
+      let stat = null
+      let label = 'View housing data'
+      if (wardHousing?.tenure) {
+        const owned = wardHousing.tenure['Owned'] || 0
+        const total = Object.values(wardHousing.tenure).reduce((s, v) => s + (typeof v === 'number' ? v : 0), 0)
+        if (total > 0) {
+          stat = `${Math.round((owned / total) * 100)}% owned`
+          label = 'Owner-occupied'
+        }
+      }
+      cards.push({
+        key: 'housing',
+        title: 'Housing',
+        icon: <Home size={22} />,
+        to: '/housing',
+        color: '#af82ff',
+        stat,
+        label,
+      })
+    }
+
+    // Health — extract life expectancy from health summary
+    if (ds.health && healthRaw) {
+      let stat = null
+      let label = 'View health data'
+      if (healthRaw?.summary?.life_expectancy_male != null) {
+        stat = `LE: ${healthRaw.summary.life_expectancy_male.toFixed(1)}M`
+        label = 'Male life expectancy'
+      }
+      cards.push({
+        key: 'health',
+        title: 'Health',
+        icon: <HeartPulse size={22} />,
+        to: '/health',
+        color: '#30d158',
+        stat,
+        label,
+      })
+    }
+
+    // Economy — extract claimant rate
+    if (ds.economy && economyRaw) {
+      let stat = null
+      let label = 'View economy data'
+      if (economyRaw?.summary?.claimant_rate_pct != null) {
+        stat = `${economyRaw.summary.claimant_rate_pct}% claimant`
+        label = 'Claimant count rate'
+      } else if (economyRaw?.claimant_count?.wards) {
+        // Try ward-level claimant data
+        const wardClaimant = Object.values(economyRaw.claimant_count.wards).find(
+          w => (w.name || '').toLowerCase() === selectedWard.toLowerCase()
+        )
+        if (wardClaimant?.rate_pct != null) {
+          stat = `${wardClaimant.rate_pct}% claimant`
+          label = `${selectedWard} claimant rate`
+        }
+      }
+      cards.push({
+        key: 'economy',
+        title: 'Economy',
+        icon: <Briefcase size={22} />,
+        to: '/economy',
+        color: '#ff9f0a',
+        stat,
+        label,
+      })
+    }
+
+    // Demographics — extract ward population
+    if (ds.demographics) {
+      let stat = null
+      let label = 'View demographics'
+      const wardDemo = demographicsWards[selectedWard]
+      if (wardDemo?.population?.total) {
+        stat = `Pop: ${wardDemo.population.total.toLocaleString()}`
+        label = 'Ward population'
+      }
+      cards.push({
+        key: 'demographics',
+        title: 'Demographics',
+        icon: <Users size={22} />,
+        to: '/demographics',
+        color: '#12B6CF',
+        stat,
+        label,
+      })
+    }
+
+    // Elections — extract current party holder from ward data
+    if (ds.elections) {
+      const ward = wards[selectedWard] || Object.values(wards).find(w => w.name === selectedWard)
+      let stat = null
+      let label = 'View election data'
+      if (ward?.parties?.length) {
+        stat = ward.parties[0]
+        label = 'Current holder'
+      }
+      cards.push({
+        key: 'elections',
+        title: 'Elections',
+        icon: <Vote size={22} />,
+        to: '/elections',
+        color: ward?.color || '#636366',
+        stat,
+        label,
+      })
+    }
+
+    // Deprivation — IMD rank (no separate page, but show in dashboard)
+    const depData = deprivation[selectedWard] || Object.entries(deprivation).find(
+      ([k]) => k.toLowerCase() === selectedWard.toLowerCase()
+    )?.[1] || null
+    if (depData) {
+      cards.push({
+        key: 'deprivation',
+        title: 'Deprivation',
+        icon: <BarChart3 size={22} />,
+        to: null,
+        color: getDeprivationColor(depData.deprivation_level),
+        stat: depData.deprivation_level,
+        label: `IMD score: ${depData.avg_imd_score}`,
+      })
+    }
+
+    return cards
+  }, [selectedWard, config.data_sources, housingRaw, healthRaw, economyRaw, demographicsWards, wards, deprivation])
+
   // Ward Intelligence Briefing — aggregate all talking points
   const wardBriefingPoints = useMemo(() => {
     if (!selectedWard) return []
@@ -378,6 +531,49 @@ function MyArea() {
               </div>
             )
           })()}
+
+          {/* === Ward Hub Dashboard === */}
+          {hubCards.length > 0 && (
+            <div className="ward-hub-dashboard" data-testid="ward-hub-dashboard">
+              <h3 className="ward-hub-title">
+                <TrendingUp size={18} style={{ color: '#12B6CF' }} />
+                Explore {selectedWard}
+              </h3>
+              <div className="ward-hub-grid">
+                {hubCards.map(card => {
+                  const inner = (
+                    <>
+                      <div className="ward-hub-card-icon" style={{ color: card.color }}>
+                        {card.icon}
+                      </div>
+                      <div className="ward-hub-card-body">
+                        <div className="ward-hub-card-title">{card.title}</div>
+                        {card.stat && (
+                          <div className="ward-hub-card-stat" style={{ color: card.color }}>{card.stat}</div>
+                        )}
+                        <div className="ward-hub-card-label">{card.label}</div>
+                      </div>
+                      {card.to && (
+                        <ArrowRight size={16} className="ward-hub-card-arrow" />
+                      )}
+                    </>
+                  )
+                  if (card.to) {
+                    return (
+                      <Link key={card.key} to={card.to} className="ward-hub-card" data-testid={`hub-card-${card.key}`}>
+                        {inner}
+                      </Link>
+                    )
+                  }
+                  return (
+                    <div key={card.key} className="ward-hub-card ward-hub-card--static" data-testid={`hub-card-${card.key}`}>
+                      {inner}
+                    </div>
+                  )
+                })}
+              </div>
+            </div>
+          )}
 
           {(() => {
             const depData = getDeprivationForWard(selectedWard)

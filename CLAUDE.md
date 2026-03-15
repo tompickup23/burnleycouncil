@@ -66,8 +66,8 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 ### Frontend (React SPA)
 | File | Purpose |
 |------|---------|
-| `src/App.jsx` | Router with 41 lazy-loaded routes, 44 routes total |
-| `src/pages/` | 39 page components + 52 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, MPComparison, Integrity, Intelligence, Strategy, CouncillorDossier, PropertyPortfolio, PropertyDetail, LGRTracker, Demographics, Highways, Housing, Crime, Health, Economy, Executive, CabinetDashboard, PortfolioDetail, etc.) |
+| `src/App.jsx` | Router with 42 lazy-loaded routes |
+| `src/pages/` | 40 page components + 53 test files (Spending, Budgets, DOGE, News, Elections, Constituencies, MPComparison, Integrity, Intelligence, Strategy, CouncillorDossier, PropertyPortfolio, PropertyDetail, LGRTracker, Demographics, Highways, Roadworks, Housing, Crime, Health, Economy, Executive, CabinetDashboard, PortfolioDetail, etc.) |
 | `src/components/` | Shared UI components (Layout, ChartCard, StatCard, CouncillorLink, SupplierLink, EvidenceChain, IntegrityBadge, NetworkGraph, WardMap, HighwaysMap, GlobalSearch, Breadcrumb, DataFreshnessStamp, etc.) |
 | `src/context/CouncilConfig.jsx` | Council-specific config context provider |
 | `src/context/AuthContext.jsx` | Firebase auth state, Firestore RBAC, 8-level hierarchical roles, portfolio permissions |
@@ -102,7 +102,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `index.html` | Template with %PLACEHOLDER% tokens replaced at build time |
 | `src/components/lgr/` | LGR sub-components: LGRDemographicFiscalRisk, LGRTimelineChaos, LGRBoundaryMap, LGRDeprivationMap, LGRPropertyDivision, LGRCCAImpact (6 components + 6 test files) |
 | `e2e/` | Playwright E2E tests: smoke, news, spending, legal, navigation, elections (49 tests, 6 files) |
-| `src/**/*.test.{js,jsx}` | Unit tests: 2,584 tests across 53 files (vitest) |
+| `src/**/*.test.{js,jsx}` | Unit tests: 2,647 tests across 53 files (vitest) |
 
 ### Data Pipeline (Python)
 | File | Purpose |

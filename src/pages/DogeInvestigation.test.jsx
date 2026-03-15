@@ -33,8 +33,70 @@ vi.mock('recharts', () => ({
   Legend: () => null,
 }))
 
+vi.mock('../utils/analytics', () => ({
+  benfordSecondDigit: vi.fn(() => ({
+    observed: [120, 110, 105, 100, 98, 95, 90, 88, 85, 82],
+    expected: [120, 114, 109, 104, 100, 97, 93, 90, 88, 85],
+    chiSquared: 8.4,
+    df: 9,
+    n: 973,
+    significant: false,
+    pDescription: 'p > 0.05 (not significant)',
+  })),
+  giniCoefficient: vi.fn(() => 0.45),
+  computeDistributionStats: vi.fn(() => ({
+    mean: 52000,
+    median: 31000,
+    stdDev: 45000,
+    variance: 2025000000,
+    p10: 5000,
+    p25: 12000,
+    p75: 68000,
+    p90: 110000,
+    skewness: 1.8,
+    count: 500,
+    min: 100,
+    max: 500000,
+    iqr: 56000,
+  })),
+  peerBenchmark: vi.fn(() => ({
+    rank: 4,
+    total: 15,
+    percentile: 27,
+    median: 850,
+    rating: 'Low',
+    color: '#28a745',
+  })),
+}))
+
+vi.mock('../utils/electionModel', () => ({
+  calculateFiscalStressAdjustment: vi.fn(() => ({
+    adjustments: { Reform: 0.035, Labour: -0.02, Conservative: -0.015 },
+    methodology: {
+      step: 3.5,
+      name: 'Fiscal Stress',
+      description: 'Fiscal resilience score drives electoral adjustment',
+      factors: ['Low reserves coverage', 'High dependency ratio'],
+    },
+  })),
+}))
+
+vi.mock('../utils/lgrModel', () => ({
+  calculateDogeAdjustedRealisation: vi.fn(() => ({
+    realisationRate: 0.82,
+    procurementSaving: 0.045,
+    factors: ['High HHI increases procurement saving potential', 'Integrity findings improve audit trail'],
+    directiveCount: 12,
+    avgFeasibility: 0.7,
+    avgImpact: 0.65,
+  })),
+}))
+
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { benfordSecondDigit, giniCoefficient, computeDistributionStats, peerBenchmark } from '../utils/analytics'
+import { calculateFiscalStressAdjustment } from '../utils/electionModel'
+import { calculateDogeAdjustedRealisation } from '../utils/lgrModel'
 
 // --- Mock data ---
 const mockConfig = {
@@ -175,6 +237,20 @@ const mockDogeKnowledge = {
   },
 }
 
+const mockCrossCouncilData = {
+  councils: [
+    { council_id: 'burnley', council_name: 'Burnley', total_spend: 355000000, annual_spend: 71000000, population: 88000 },
+    { council_id: 'hyndburn', council_name: 'Hyndburn', total_spend: 211000000, annual_spend: 42200000, population: 81000 },
+    { council_id: 'pendle', council_name: 'Pendle', total_spend: 125000000, annual_spend: 25000000, population: 92000 },
+  ],
+}
+
+const mockDemoFiscalData = {
+  fiscal_resilience_score: 20,
+  service_demand_score: 80,
+  demographic_risk_category: 'Structurally Deficit',
+}
+
 // Helper to set up mocks — uses mockImplementation to handle multiple useData calls
 function setupMocks(overrides = {}) {
   useCouncilConfig.mockReturnValue(overrides.config || mockConfig)
@@ -183,6 +259,8 @@ function setupMocks(overrides = {}) {
     mockFindings, mockInsights, mockVerification, mockLegalFramework, mockOutcomes,
   ]
   const knowledgeData = overrides.knowledgeData !== undefined ? overrides.knowledgeData : mockDogeKnowledge
+  const crossCouncil = overrides.crossCouncilData !== undefined ? overrides.crossCouncilData : mockCrossCouncilData
+  const demoFiscal = overrides.demoFiscalData !== undefined ? overrides.demoFiscalData : mockDemoFiscalData
 
   useData.mockImplementation((urls) => {
     if (overrides.loading) return { data: null, loading: true, error: null }
@@ -190,6 +268,15 @@ function setupMocks(overrides = {}) {
     // Single URL = doge_knowledge.json
     if (typeof urls === 'string' && urls.includes('doge_knowledge')) {
       return { data: knowledgeData, loading: false, error: null }
+    }
+    if (typeof urls === 'string' && urls.includes('cross_council')) {
+      return { data: crossCouncil, loading: false, error: null }
+    }
+    if (typeof urls === 'string' && urls.includes('elections_reference')) {
+      return { data: { national_polling: { parties: {} } }, loading: false, error: null }
+    }
+    if (typeof urls === 'string' && urls.includes('demographic_fiscal')) {
+      return { data: demoFiscal, loading: false, error: null }
     }
     // Array = main data
     if (Array.isArray(urls)) {
@@ -1595,6 +1682,121 @@ describe('DogeInvestigation', () => {
       expect(screen.getByText('Duplicate detection')).toBeInTheDocument()
       expect(screen.getByText('Pump-and-dump')).toBeInTheDocument()
       expect(screen.getByText('Materiality (INTOSAI)')).toBeInTheDocument()
+    })
+  })
+
+  // --- Live Forensic Screening Section ---
+  describe('Live Forensic Screening Section', () => {
+    it('renders forensic screening section when data available', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.getByText('Live Forensic Screening')).toBeInTheDocument()
+    })
+
+    it('shows Benford second digit analysis results', () => {
+      setupMocks()
+      renderComponent()
+      const btn = screen.getByText('Live Forensic Screening').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('Benford Second Digit Analysis')).toBeInTheDocument()
+      expect(screen.getByText('Conforming')).toBeInTheDocument()
+      expect(screen.getByText('973')).toBeInTheDocument()
+    })
+
+    it('shows Gini coefficient gauge', () => {
+      setupMocks()
+      renderComponent()
+      const btn = screen.getByText('Live Forensic Screening').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('Gini Coefficient')).toBeInTheDocument()
+      expect(screen.getByText('Moderate')).toBeInTheDocument()
+    })
+
+    it('shows distribution stats cards', () => {
+      setupMocks()
+      renderComponent()
+      const btn = screen.getByText('Live Forensic Screening').closest('button')
+      fireEvent.click(btn)
+      const statsEl = document.querySelector('[data-testid="distribution-stats"]')
+      expect(statsEl).toBeTruthy()
+      expect(screen.getByText('Mean')).toBeInTheDocument()
+      expect(screen.getByText('Median')).toBeInTheDocument()
+      expect(screen.getByText('Skewness')).toBeInTheDocument()
+    })
+
+    it('handles missing forensic data gracefully', () => {
+      const emptyFindings = { ...mockFindings, supplier_concentration: null }
+      setupMocks({ mainData: [emptyFindings, mockInsights, mockVerification, mockLegalFramework, mockOutcomes] })
+      giniCoefficient.mockReturnValue(null)
+      renderComponent()
+      // Should not crash — forensic section may or may not render
+      expect(screen.getByText(/DOGE Spending Review/)).toBeInTheDocument()
+    })
+  })
+
+  // --- Peer Benchmarking Section ---
+  describe('Peer Benchmarking Section', () => {
+    it('renders peer benchmarking section when cross_council data available', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.getByText('Peer Benchmarking')).toBeInTheDocument()
+    })
+
+    it('shows peer rank and percentile', () => {
+      setupMocks()
+      renderComponent()
+      const btn = screen.getByText('Peer Benchmarking').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('4')).toBeInTheDocument()
+      expect(screen.getByText(/Rank \(of 15\)/)).toBeInTheDocument()
+      expect(screen.getByText('27%')).toBeInTheDocument()
+    })
+
+    it('does not render when cross_council data is null', () => {
+      setupMocks({ crossCouncilData: null })
+      renderComponent()
+      expect(screen.queryByText('Peer Benchmarking')).not.toBeInTheDocument()
+    })
+  })
+
+  // --- Electoral & Fiscal Impact Section ---
+  describe('Electoral & Fiscal Impact Section', () => {
+    it('renders fiscal impact section when demographic fiscal data available', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.getByText('Electoral & Fiscal Impact')).toBeInTheDocument()
+    })
+
+    it('shows fiscal stress adjustment details on expand', () => {
+      setupMocks()
+      renderComponent()
+      const btn = screen.getByText('Electoral & Fiscal Impact').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('Fiscal Stress Adjustment')).toBeInTheDocument()
+      expect(screen.getByText(/Fiscal resilience score drives/)).toBeInTheDocument()
+    })
+
+    it('shows DOGE realisation for LCC only', () => {
+      const lccConfig = { ...mockConfig, council_id: 'lancashire_cc', council_name: 'Lancashire' }
+      setupMocks({ config: lccConfig })
+      renderComponent()
+      const btn = screen.getByText('Electoral & Fiscal Impact').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('DOGE-Adjusted Savings Realisation (LCC)')).toBeInTheDocument()
+      expect(screen.getByText('82%')).toBeInTheDocument()
+    })
+
+    it('does not show DOGE realisation for non-LCC councils', () => {
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('DOGE-Adjusted Savings Realisation (LCC)')).not.toBeInTheDocument()
+    })
+
+    it('does not render fiscal section when no fiscal data', () => {
+      setupMocks({ demoFiscalData: null })
+      calculateFiscalStressAdjustment.mockReturnValue(null)
+      renderComponent()
+      expect(screen.queryByText('Electoral & Fiscal Impact')).not.toBeInTheDocument()
     })
   })
 })

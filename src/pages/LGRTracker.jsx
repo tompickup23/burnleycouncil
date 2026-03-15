@@ -6,14 +6,16 @@ import { formatCurrency, formatNumber } from '../utils/format'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM, PARTY_COLORS, CHART_ANIMATION } from '../utils/constants'
 import ChartGradient from '../components/ui/ChartGradient'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine, LineChart, Line, ComposedChart, Area } from 'recharts'
-import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw, Briefcase, FileWarning } from 'lucide-react'
+import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw, Briefcase, FileWarning, Scale, Target, Zap, Activity } from 'lucide-react'
 
 const LancashireMap = lazy(() => import('../components/LancashireMap'))
 import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP, computeDemographicFiscalProfile,
   computeServiceLineSavings, computeAuthorityBudgetComposition, computeCouncilTaxHarmonisationTimeline,
   computeStaffTransitionCosts, computeITIntegrationCosts, computePrecedentBenchmark,
   computeAlternativeTimeline, computeServiceContinuityRisk, computeNorthernMillTownComparison,
-  computeEqualPayRisk, computeCollectionRateImpact, SERVICE_LINE_SAVINGS_RATES, PRECEDENT_DATA, NORTHERN_MILL_TOWN_DATA } from '../utils/lgrModel'
+  computeEqualPayRisk, computeCollectionRateImpact, computeThreatAssessment,
+  adjustForCCATransfers, adjustSavingsForDeprivation, estimatePlanningConsolidationSavings,
+  SERVICE_LINE_SAVINGS_RATES, PRECEDENT_DATA, NORTHERN_MILL_TOWN_DATA } from '../utils/lgrModel'
 import { projectToLGRAuthority, normalizePartyName } from '../utils/electionModel'
 import LGRDemographicFiscalRisk from '../components/lgr/LGRDemographicFiscalRisk'
 import LGRTimelineChaos from '../components/lgr/LGRTimelineChaos'
@@ -471,7 +473,7 @@ function LGRTracker() {
   // Computed fiscal profile for maps/deprivation (array form)
   const activeFiscalProfile = useMemo(() => {
     if (!lgrEnhanced?.demographic_fiscal_profile) return []
-    return computeDemographicFiscalProfile(lgrEnhanced.demographic_fiscal_profile, activeModel)
+    return computeDemographicFiscalProfile(lgrEnhanced.demographic_fiscal_profile, activeModel) || []
   }, [lgrEnhanced, activeModel])
 
   // Gross savings for the active model (for deprivation adjustment)
@@ -524,6 +526,101 @@ function LGRTracker() {
     return computeITIntegrationCosts({ numCouncils: 15 })
   }, [])
 
+  // Phase 20: Council Tax Harmonisation Timeline
+  const ctHarmonisation = useMemo(() => {
+    if (!budgetModel?.council_tax_harmonisation?.[activeModel]) return null
+    const ctModel = budgetModel.council_tax_harmonisation[activeModel]
+    if (!ctModel?.authorities?.length) return null
+    return computeCouncilTaxHarmonisationTimeline(ctModel.authorities)
+  }, [budgetModel, activeModel])
+
+  // Phase 20: Equal Pay Risk Assessment
+  const equalPayRisk = useMemo(() => {
+    const numAuth = lgrData?.proposed_models?.find(m => m.id === activeModel)?.authorities?.length || 2
+    return computeEqualPayRisk({ totalStaff: 30000, payGapPct: 8 })
+  }, [lgrData, activeModel])
+
+  // Phase 20: Collection Rate Impact
+  const collectionRateImpact = useMemo(() => {
+    if (!crossCouncil) return null
+    const ccData = Array.isArray(crossCouncil) ? crossCouncil : crossCouncil.councils || []
+    const councils = ccData.filter(c => c.collection_rate != null).map(c => ({
+      id: c.council_id,
+      name: c.council_name,
+      collectionRate: c.collection_rate / 100,
+      bandD: c.budget_summary?.council_tax_requirement ? c.budget_summary.council_tax_requirement / ((c.budget_summary?.council_tax_requirement || 1) / (c.collection_rate || 95) * 100) : 1800,
+      population: c.population || 0,
+    }))
+    if (!councils.length) return null
+    return computeCollectionRateImpact(councils)
+  }, [crossCouncil])
+
+  // Phase 20: Authority Budget Composition
+  const authorityBudgetComp = useMemo(() => {
+    if (!budgetModel?.authority_composition?.[activeModel]) return null
+    const modelAuthorities = lgrData?.proposed_models?.find(m => m.id === activeModel)?.authorities
+    if (!modelAuthorities) return null
+    // Build per-council budget data from authority_composition
+    const councilBudgets = {}
+    const composition = budgetModel.authority_composition[activeModel]
+    if (Array.isArray(composition)) {
+      composition.forEach(auth => {
+        if (auth.name && auth.services) {
+          const servicesFlat = {}
+          for (const [k, v] of Object.entries(auth.services)) {
+            servicesFlat[k] = typeof v === 'object' ? (v.net || 0) : v
+          }
+          councilBudgets[auth.name] = { services: servicesFlat, reserves_total: 0 }
+        }
+      })
+    }
+    if (Object.keys(councilBudgets).length === 0) return null
+    return computeAuthorityBudgetComposition(councilBudgets, modelAuthorities)
+  }, [budgetModel, lgrData, activeModel])
+
+  // Phase 20: Threat Assessment from demographic fiscal data
+  const threatAssessment = useMemo(() => {
+    if (!lgrEnhanced?.per_council_fiscal) return null
+    // Use the current council's fiscal data
+    const fiscalData = lgrEnhanced.per_council_fiscal?.[config.council_id] || null
+    if (!fiscalData) return null
+    return computeThreatAssessment(fiscalData)
+  }, [lgrEnhanced, config.council_id])
+
+  // Phase 20: CCA Transfer Adjustment
+  const ccaAdjustment = useMemo(() => {
+    if (!lgrEnhanced?.cca_impact) return null
+    return adjustForCCATransfers(lgrEnhanced.cca_impact, { grossSavings: activeGrossSavings })
+  }, [lgrEnhanced, activeGrossSavings])
+
+  // Phase 20: Deprivation-Adjusted Savings (page-level)
+  const deprivationAdjusted = useMemo(() => {
+    if (!lgrEnhanced || !activeGrossSavings) return null
+    const depData = activeFiscalProfile?.length > 0 ? { avg_imd_score: activeFiscalProfile.reduce((s, p) => s + (p.avg_imd_score || 0), 0) / activeFiscalProfile.length } : null
+    if (!depData) return null
+    return adjustSavingsForDeprivation(depData, activeGrossSavings)
+  }, [lgrEnhanced, activeGrossSavings, activeFiscalProfile])
+
+  // Phase 20: Planning Consolidation Savings
+  const planningConsolidation = useMemo(() => {
+    // This requires planning data from multiple councils - use available cross-council data
+    if (!crossCouncil) return null
+    const ccData = Array.isArray(crossCouncil) ? crossCouncil : crossCouncil.councils || []
+    const planningMap = {}
+    ccData.forEach(c => {
+      if (c.planning_efficiency || c.planning_apps) {
+        planningMap[c.council_id] = {
+          efficiency: {
+            apps_per_year: c.planning_apps || 0,
+            development_control_spend: c.planning_spend || 0,
+          }
+        }
+      }
+    })
+    if (Object.keys(planningMap).length < 2) return null
+    return estimatePlanningConsolidationSavings(planningMap)
+  }, [crossCouncil])
+
   if (loading) {
     return <div className="lgr-page animate-fade-in"><div className="loading-state"><div className="spinner" /><p>Loading LGR Tracker...</p></div></div>
   }
@@ -559,6 +656,10 @@ function LGRTracker() {
     { id: 'property-division', label: 'Property', icon: Building },
     { id: 'cca-impact', label: 'CCA Adjust', icon: Globe },
     { id: 'deprivation', label: 'Deprivation', icon: BarChart3 },
+    { id: 'ct-harmonisation', label: 'CT Harmonisation', icon: Scale },
+    { id: 'implementation-risk', label: 'Impl. Risk', icon: Target },
+    { id: 'revenue-impact', label: 'Revenue Impact', icon: Zap },
+    { id: 'efficiency-adjustments', label: 'Efficiency Adj.', icon: Activity },
     { id: 'methodology', label: 'Methodology', icon: BookOpen },
   ]
 
@@ -2800,6 +2901,395 @@ function LGRTracker() {
             Source: LCC Cabinet March 2026 Procurement Pipeline Report, Contracts Finder API ({procurementPipeline.meta?.generated}).
             Upper tier contracts from LCC cabinet papers. Lower tier from Contracts Finder. Estimated totals include contracts below CF threshold.
           </p>
+        </CollapsibleSection>
+      )}
+
+      {/* Phase 20: Council Tax Harmonisation */}
+      {ctHarmonisation && Object.keys(ctHarmonisation).length > 0 && (
+        <CollapsibleSection id="lgr-ct-harmonisation" title="Council Tax Harmonisation Timeline" icon={<Scale size={20} />}>
+          <p className="section-desc">
+            Year-by-year council tax convergence paths for each proposed authority, constrained by the 5% referendum threshold.
+            Councils paying less today face multi-year above-inflation increases; those paying more get reductions.
+          </p>
+          {Object.entries(ctHarmonisation).map(([authName, authData]) => (
+            <div key={authName} className="lgr-ct-auth-block" style={{ marginBottom: 'var(--space-xl)' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-sm)' }}>{authName}</h3>
+              <div className="lgr-stat-cards" style={{ marginBottom: 'var(--space-md)' }}>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#12B6CF' }}>
+                    {formatCurrency(authData.target * 100, false, 0)}
+                  </span>
+                  <span className="lgr-stat-label">Target Band D</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: authData.feasible ? '#30d158' : '#ff453a' }}>
+                    {authData.maxYearsNeeded} yrs
+                  </span>
+                  <span className="lgr-stat-label">{authData.feasible ? 'Convergence' : 'Incomplete'}</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: authData.referendumRiskYears > 0 ? '#ff9f0a' : '#30d158' }}>
+                    {authData.referendumRiskYears}
+                  </span>
+                  <span className="lgr-stat-label">Referendum Risk Councils</span>
+                </div>
+              </div>
+              {authData.councils?.length > 0 && (
+                <div className="table-overflow">
+                  <table className="lgr-comparison-table">
+                    <thead>
+                      <tr>
+                        <th>Council</th>
+                        <th>Current Band D</th>
+                        <th>Target Band D</th>
+                        <th>Total Change</th>
+                        <th>Years</th>
+                        <th>Converged</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {authData.councils.map((c, i) => (
+                        <tr key={i} style={{ color: c.totalDelta > 5 ? '#ff9f0a' : c.totalDelta < -5 ? '#30d158' : 'inherit' }}>
+                          <td><strong>{c.council}</strong></td>
+                          <td>{formatCurrency(c.currentBandD * 100, false, 0)}</td>
+                          <td>{formatCurrency(c.targetBandD * 100, false, 0)}</td>
+                          <td style={{ color: c.totalDelta > 0 ? '#ff453a' : '#30d158' }}>
+                            {c.totalDelta > 0 ? '+' : ''}{formatCurrency(c.totalDelta * 100, false, 0)}
+                          </td>
+                          <td>{c.yearsToConverge}</td>
+                          <td>{c.converged ? <Check size={14} style={{ color: '#30d158' }} /> : <XIcon size={14} style={{ color: '#ff453a' }} />}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+              {authData.losers?.length > 0 && (
+                <p className="data-source-note" style={{ marginTop: 'var(--space-sm)', color: '#ff9f0a', fontSize: '0.8rem' }}>
+                  <AlertTriangle size={13} /> {authData.losers.length} council{authData.losers.length > 1 ? 's' : ''} face{authData.losers.length === 1 ? 's' : ''} above-target increases — potential referendum trigger.
+                </p>
+              )}
+              {authData.winners?.length > 0 && (
+                <p className="data-source-note" style={{ marginTop: 'var(--space-xs)', color: '#30d158', fontSize: '0.8rem' }}>
+                  <TrendingDown size={13} /> {authData.winners.length} council{authData.winners.length > 1 ? 's' : ''} benefit from rate reductions under harmonisation.
+                </p>
+              )}
+            </div>
+          ))}
+          <p className="data-source-note" style={{ fontSize: '0.75rem', color: '#636366', marginTop: 'var(--space-md)' }}>
+            Referendum threshold: 5% annual increase (current MHCLG cap). Convergence assumes maximum allowable annual adjustment.
+          </p>
+        </CollapsibleSection>
+      )}
+
+      {/* Phase 20: Implementation Risk Assessment */}
+      {(threatAssessment || equalPayRisk) && (
+        <CollapsibleSection id="lgr-implementation-risk" title="Implementation Risk Assessment" icon={<Target size={20} />}>
+          <p className="section-desc">
+            Combined fiscal threat analysis and equal pay exposure — the hidden costs that rarely appear in government savings estimates.
+          </p>
+
+          {/* Threat Assessment */}
+          {threatAssessment && threatAssessment.threats?.length > 0 && (
+            <div style={{ marginBottom: 'var(--space-xl)' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                <AlertTriangle size={16} style={{ verticalAlign: 'text-bottom', marginRight: 6 }} />
+                Fiscal Threat Assessment — {config.council_name || 'This Council'}
+              </h3>
+              <div className="lgr-stat-cards" style={{ marginBottom: 'var(--space-md)' }}>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: threatAssessment.fiscalScore >= 7 ? '#30d158' : threatAssessment.fiscalScore >= 4 ? '#ff9f0a' : '#ff453a' }}>
+                    {formatNumber(threatAssessment.fiscalScore, 1)}/10
+                  </span>
+                  <span className="lgr-stat-label">Fiscal Resilience</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: threatAssessment.demandScore >= 7 ? '#ff453a' : threatAssessment.demandScore >= 4 ? '#ff9f0a' : '#30d158' }}>
+                    {formatNumber(threatAssessment.demandScore, 1)}/10
+                  </span>
+                  <span className="lgr-stat-label">Demand Pressure</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: threatAssessment.riskCategory === 'High' ? '#ff453a' : threatAssessment.riskCategory === 'Medium' ? '#ff9f0a' : '#30d158' }}>
+                    {threatAssessment.riskCategory}
+                  </span>
+                  <span className="lgr-stat-label">Risk Category</span>
+                </div>
+              </div>
+              <div className="issues-list">
+                {threatAssessment.threats.slice(0, 8).map((t, i) => (
+                  <div key={i} className="issue-card" style={{ cursor: 'default' }}>
+                    <div className="issue-header">
+                      <div className="issue-severity" style={{ background: SEVERITY_COLORS[t.severity] || '#636366' }}>
+                        {t.severity || 'unknown'}
+                      </div>
+                      <h3 style={{ fontSize: '0.85rem' }}>{t.description || t.threat || 'Unspecified threat'}</h3>
+                      {t.model && <span className="issue-figure" style={{ fontSize: '0.7rem' }}>{t.model}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Equal Pay Risk */}
+          {equalPayRisk && (
+            <div>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                <Scale size={16} style={{ verticalAlign: 'text-bottom', marginRight: 6 }} />
+                Equal Pay Risk — Birmingham Precedent Analysis
+              </h3>
+              <div className="lgr-stat-cards" style={{ marginBottom: 'var(--space-md)' }}>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#ff9f0a' }}>
+                    {formatCurrency(equalPayRisk.estimatedCostM * 1000000, true)}
+                  </span>
+                  <span className="lgr-stat-label">Central Estimate</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#30d158' }}>
+                    {formatCurrency(equalPayRisk.range.bestM * 1000000, true)}
+                  </span>
+                  <span className="lgr-stat-label">Best Case</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#ff453a' }}>
+                    {formatCurrency(equalPayRisk.range.worstM * 1000000, true)}
+                  </span>
+                  <span className="lgr-stat-label">Worst Case</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: equalPayRisk.riskRating === 'high' ? '#ff453a' : equalPayRisk.riskRating === 'medium' ? '#ff9f0a' : '#30d158' }}>
+                    {equalPayRisk.riskRating.toUpperCase()}
+                  </span>
+                  <span className="lgr-stat-label">Risk Rating</span>
+                </div>
+              </div>
+              <ul className="lgr-evidence-list" style={{ listStyle: 'none', padding: 0 }}>
+                {equalPayRisk.factors.map((f, i) => (
+                  <li key={i} style={{ fontSize: '0.82rem', color: '#a1a1a6', padding: '4px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                    <span style={{ color: '#ff9f0a', marginRight: 6 }}>&bull;</span>{f}
+                  </li>
+                ))}
+              </ul>
+              <p className="data-source-note" style={{ fontSize: '0.75rem', color: '#636366', marginTop: 'var(--space-sm)' }}>
+                Based on Birmingham City Council equal pay settlement (£760M, 12,000 claims). Lancashire estimate assumes 15% claim rate with severity-adjusted per-claim cost.
+              </p>
+            </div>
+          )}
+        </CollapsibleSection>
+      )}
+
+      {/* Phase 20: Revenue Impact */}
+      {(collectionRateImpact || ccaAdjustment || authorityBudgetComp) && (
+        <CollapsibleSection id="lgr-revenue-impact" title="Revenue Impact Analysis" icon={<Zap size={20} />}>
+          <p className="section-desc">
+            Revenue risks from collection rate gaps, CCA double-counting, and authority-level budget composition. These factors reduce the realistic savings envelope.
+          </p>
+
+          {/* Collection Rate Impact */}
+          {collectionRateImpact && (
+            <div style={{ marginBottom: 'var(--space-xl)' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                <TrendingDown size={16} style={{ verticalAlign: 'text-bottom', marginRight: 6 }} />
+                Collection Rate Revenue Risk
+              </h3>
+              <div className="lgr-stat-cards" style={{ marginBottom: 'var(--space-md)' }}>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#ff9f0a' }}>
+                    {formatCurrency(collectionRateImpact.revenueAtRiskM * 1000000, true)}
+                  </span>
+                  <span className="lgr-stat-label">Revenue at Risk / Year</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#12B6CF' }}>
+                    {collectionRateImpact.convergenceYears} yrs
+                  </span>
+                  <span className="lgr-stat-label">Convergence Estimate</span>
+                </div>
+                {collectionRateImpact.worstCouncil && (
+                  <div className="lgr-stat-card">
+                    <span className="lgr-stat-value" style={{ color: '#ff453a', fontSize: '1.1rem' }}>
+                      {collectionRateImpact.worstCouncil.id}
+                    </span>
+                    <span className="lgr-stat-label">Worst ({collectionRateImpact.worstCouncil.gap}pp gap)</span>
+                  </div>
+                )}
+              </div>
+              <ul className="lgr-evidence-list" style={{ listStyle: 'none', padding: 0 }}>
+                {collectionRateImpact.factors.map((f, i) => (
+                  <li key={i} style={{ fontSize: '0.82rem', color: '#a1a1a6', padding: '4px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                    <span style={{ color: '#12B6CF', marginRight: 6 }}>&bull;</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* CCA Adjustment */}
+          {ccaAdjustment && ccaAdjustment.ccaDeduction > 0 && (
+            <div style={{ marginBottom: 'var(--space-xl)' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                <Globe size={16} style={{ verticalAlign: 'text-bottom', marginRight: 6 }} />
+                CCA Double-Counting Deduction
+              </h3>
+              <div className="lgr-stat-cards" style={{ marginBottom: 'var(--space-md)' }}>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#ff453a' }}>
+                    -{formatCurrency(ccaAdjustment.ccaDeduction, true)}
+                  </span>
+                  <span className="lgr-stat-label">CCA Deduction</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#30d158' }}>
+                    {formatCurrency(ccaAdjustment.adjustedSavings, true)}
+                  </span>
+                  <span className="lgr-stat-label">Net Savings After CCA</span>
+                </div>
+              </div>
+              <ul className="lgr-evidence-list" style={{ listStyle: 'none', padding: 0 }}>
+                {ccaAdjustment.factors.map((f, i) => (
+                  <li key={i} style={{ fontSize: '0.82rem', color: '#a1a1a6', padding: '4px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                    <span style={{ color: '#ff453a', marginRight: 6 }}>&bull;</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Authority Budget Composition */}
+          {authorityBudgetComp && Object.keys(authorityBudgetComp).length > 0 && (
+            <div>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                <Building size={16} style={{ verticalAlign: 'text-bottom', marginRight: 6 }} />
+                Authority Budget Composition
+              </h3>
+              <div className="table-overflow">
+                <table className="lgr-comparison-table">
+                  <thead>
+                    <tr>
+                      <th>Authority</th>
+                      <th>Councils</th>
+                      <th>Total Expenditure</th>
+                      <th>Reserves</th>
+                      <th>Top Service</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Object.entries(authorityBudgetComp).map(([name, auth]) => {
+                      const topService = Object.entries(auth.services || {}).sort((a, b) => b[1] - a[1])[0]
+                      return (
+                        <tr key={name}>
+                          <td><strong>{name}</strong></td>
+                          <td>{auth.councils}</td>
+                          <td>{formatCurrency(auth.totalExpenditure, true)}</td>
+                          <td>{formatCurrency(auth.reserves, true)}</td>
+                          <td style={{ fontSize: '0.78rem' }}>{topService ? `${topService[0]} (${formatCurrency(topService[1], true)})` : '—'}</td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </CollapsibleSection>
+      )}
+
+      {/* Phase 20: Efficiency Adjustments */}
+      {(deprivationAdjusted || planningConsolidation) && (
+        <CollapsibleSection id="lgr-efficiency-adjustments" title="Efficiency Adjustments" icon={<Activity size={20} />}>
+          <p className="section-desc">
+            Real-world adjustments to headline savings — deprivation complexity penalties and planning consolidation efficiencies.
+          </p>
+
+          {/* Deprivation-Adjusted Savings */}
+          {deprivationAdjusted && (
+            <div style={{ marginBottom: 'var(--space-xl)' }}>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                <BarChart3 size={16} style={{ verticalAlign: 'text-bottom', marginRight: 6 }} />
+                Deprivation-Adjusted Savings
+              </h3>
+              <div className="lgr-stat-cards" style={{ marginBottom: 'var(--space-md)' }}>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#ff9f0a' }}>
+                    {(deprivationAdjusted.deprivationMultiplier * 100).toFixed(0)}%
+                  </span>
+                  <span className="lgr-stat-label">Realisation Rate</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#30d158' }}>
+                    {formatCurrency(deprivationAdjusted.adjustedSavings, true)}
+                  </span>
+                  <span className="lgr-stat-label">Adjusted Net Savings</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#ff453a' }}>
+                    -{formatCurrency(activeGrossSavings - deprivationAdjusted.adjustedSavings, true)}
+                  </span>
+                  <span className="lgr-stat-label">Deprivation Penalty</span>
+                </div>
+                {deprivationAdjusted.nestedPenalty > 0 && (
+                  <div className="lgr-stat-card">
+                    <span className="lgr-stat-value" style={{ color: '#bf5af2' }}>
+                      -{(deprivationAdjusted.nestedPenalty * 100).toFixed(0)}%
+                    </span>
+                    <span className="lgr-stat-label">Nested Penalty</span>
+                  </div>
+                )}
+              </div>
+              <ul className="lgr-evidence-list" style={{ listStyle: 'none', padding: 0 }}>
+                {deprivationAdjusted.factors.map((f, i) => (
+                  <li key={i} style={{ fontSize: '0.82rem', color: '#a1a1a6', padding: '4px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                    <span style={{ color: '#ff9f0a', marginRight: 6 }}>&bull;</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Planning Consolidation */}
+          {planningConsolidation && planningConsolidation.totalApps > 0 && (
+            <div>
+              <h3 style={{ fontSize: '1rem', fontWeight: 700, marginBottom: 'var(--space-sm)' }}>
+                <FileText size={16} style={{ verticalAlign: 'text-bottom', marginRight: 6 }} />
+                Planning Department Consolidation
+              </h3>
+              <div className="lgr-stat-cards" style={{ marginBottom: 'var(--space-md)' }}>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#12B6CF' }}>
+                    {formatNumber(planningConsolidation.totalApps)}
+                  </span>
+                  <span className="lgr-stat-label">Total Apps / Year</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#ff9f0a' }}>
+                    {formatCurrency(planningConsolidation.avgCostPerApp)}
+                  </span>
+                  <span className="lgr-stat-label">Avg Cost / App</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#30d158' }}>
+                    {formatCurrency(planningConsolidation.bestCostPerApp)}
+                  </span>
+                  <span className="lgr-stat-label">Best Cost / App{planningConsolidation.bestCouncil ? ` (${planningConsolidation.bestCouncil})` : ''}</span>
+                </div>
+                <div className="lgr-stat-card">
+                  <span className="lgr-stat-value" style={{ color: '#30d158' }}>
+                    {formatCurrency(planningConsolidation.consolidationSaving, true)}
+                  </span>
+                  <span className="lgr-stat-label">Annual Saving</span>
+                </div>
+              </div>
+              <ul className="lgr-evidence-list" style={{ listStyle: 'none', padding: 0 }}>
+                {planningConsolidation.factors.map((f, i) => (
+                  <li key={i} style={{ fontSize: '0.82rem', color: '#a1a1a6', padding: '4px 0', borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                    <span style={{ color: '#30d158', marginRight: 6 }}>&bull;</span>{f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </CollapsibleSection>
       )}
 

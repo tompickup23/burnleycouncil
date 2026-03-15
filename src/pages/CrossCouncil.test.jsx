@@ -11,8 +11,52 @@ vi.mock('../context/CouncilConfig', () => ({
   useCouncilConfig: vi.fn(),
 }))
 
+vi.mock('../utils/analytics', () => ({
+  peerBenchmark: vi.fn((value, peers) => {
+    if (!peers || !peers.length || value == null) return { rank: 0, total: 0, percentile: 0, median: 0, rating: 'N/A', color: '#6c757d' }
+    const sorted = [...peers].sort((a, b) => a - b)
+    const rank = sorted.filter(v => v <= value).length
+    return { rank, total: peers.length, percentile: (rank / peers.length) * 100, median: sorted[Math.floor(sorted.length / 2)], rating: 'Average', color: '#fd7e14' }
+  }),
+  giniCoefficient: vi.fn((amounts) => {
+    if (!amounts || amounts.length <= 1) return 0
+    return 0.55
+  }),
+  reservesAdequacy: vi.fn((reserves, expenditure) => {
+    if (!reserves || !expenditure || expenditure <= 0) return null
+    const monthsCover = (reserves / expenditure) * 12
+    return { monthsCover, rating: monthsCover >= 6 ? 'Adequate' : 'Low', color: monthsCover >= 6 ? '#28a745' : '#fd7e14' }
+  }),
+}))
+
+vi.mock('../utils/lgrModel', () => ({
+  computeNorthernMillTownComparison: vi.fn(() => ({
+    comparisons: [
+      { name: 'Bradford', population: 546000, imdRank: 19, employmentRate: 67.2, collectionRate: 93.1 },
+      { name: 'Oldham', population: 237000, imdRank: 32, employmentRate: 68.5, collectionRate: 94.2 },
+      { name: 'Rochdale', population: 223000, imdRank: 25, employmentRate: 69.1, collectionRate: 93.8 },
+    ],
+    lancashireAuthorities: [
+      {
+        name: 'Burnley',
+        council_id: 'burnley',
+        similarities: [{ town: 'Bradford', similarity: 0.72 }],
+      },
+      {
+        name: 'Pendle',
+        council_id: 'pendle',
+        similarities: [{ town: 'Oldham', similarity: 0.68 }],
+      },
+    ],
+    deprivationPersistence: null,
+    factors: ['Weighted distance across deprivation, demographics, and fiscal capacity'],
+  })),
+}))
+
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { peerBenchmark, giniCoefficient, reservesAdequacy } from '../utils/analytics'
+import { computeNorthernMillTownComparison } from '../utils/lgrModel'
 
 const mockConfig = {
   council_id: 'burnley',
@@ -1233,9 +1277,9 @@ describe('CrossCouncil', () => {
 
     it('shows percentage values for score bars', () => {
       renderComponent()
-      // Burnley: 100%, 95%, 80%
-      expect(screen.getByText('100%')).toBeInTheDocument()
-      expect(screen.getByText('95%')).toBeInTheDocument()
+      // Burnley: 100%, 95%, 80% — may appear in multiple sections with benchmarking
+      expect(screen.getAllByText('100%').length).toBeGreaterThan(0)
+      expect(screen.getAllByText('95%').length).toBeGreaterThan(0)
     })
   })
 
@@ -1392,6 +1436,102 @@ describe('CrossCouncil', () => {
       useData.mockReturnValue({ data: noFiscalData, loading: false, error: null })
       renderComponent()
       expect(screen.queryByText('Demographic Fiscal Profile')).not.toBeInTheDocument()
+    })
+  })
+
+  // --- Analytical Benchmarking Section ---
+  describe('Analytical Benchmarking section', () => {
+    beforeEach(() => {
+      useData.mockReturnValue({ data: mockRichData, loading: false, error: null })
+    })
+
+    it('renders the analytical benchmarking heading', () => {
+      renderComponent()
+      expect(screen.getByText('Analytical Benchmarking')).toBeInTheDocument()
+    })
+
+    it('shows percentile rank cards on expand', () => {
+      renderComponent()
+      const btn = screen.getByText('Analytical Benchmarking').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getAllByText(/Spend\/Head/).length).toBeGreaterThan(0)
+    })
+
+    it('renders reserves adequacy gauge when budget data present', () => {
+      renderComponent()
+      const btn = screen.getByText('Analytical Benchmarking').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('Reserves Adequacy')).toBeInTheDocument()
+    })
+
+    it('renders Gini chart when service HHI data available', () => {
+      renderComponent()
+      const btn = screen.getByText('Analytical Benchmarking').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('Supplier Concentration Gini Across Councils')).toBeInTheDocument()
+    })
+
+    it('calls peerBenchmark for spend/head metric', () => {
+      renderComponent()
+      expect(peerBenchmark).toHaveBeenCalled()
+    })
+
+    it('calls giniCoefficient for supplier concentration', () => {
+      renderComponent()
+      expect(giniCoefficient).toHaveBeenCalled()
+    })
+
+    it('calls reservesAdequacy for current council', () => {
+      renderComponent()
+      expect(reservesAdequacy).toHaveBeenCalledWith(12000000, 14500000)
+    })
+  })
+
+  // --- Northern Mill Town Comparison Section ---
+  describe('Northern Mill Town Comparison section', () => {
+    beforeEach(() => {
+      useData.mockReturnValue({ data: mockRichData, loading: false, error: null })
+    })
+
+    it('renders the mill town comparison heading', () => {
+      renderComponent()
+      expect(screen.getByText('Northern Mill Town Comparison')).toBeInTheDocument()
+    })
+
+    it('shows reference towns table on expand', () => {
+      renderComponent()
+      const btn = screen.getByText('Northern Mill Town Comparison').closest('button')
+      fireEvent.click(btn)
+      // Bradford appears in both reference table and similarity section
+      expect(screen.getAllByText('Bradford').length).toBeGreaterThanOrEqual(1)
+      expect(screen.getAllByText('Oldham').length).toBeGreaterThanOrEqual(1)
+      expect(screen.getAllByText('Rochdale').length).toBeGreaterThanOrEqual(1)
+    })
+
+    it('shows most similar Lancashire authorities', () => {
+      renderComponent()
+      const btn = screen.getByText('Northern Mill Town Comparison').closest('button')
+      fireEvent.click(btn)
+      expect(screen.getByText('Most Similar Lancashire Authorities')).toBeInTheDocument()
+      // Similarity rendered as "Similarity: 72%" inside a div
+      expect(screen.getByText(/Similarity: 72%/)).toBeInTheDocument()
+    })
+
+    it('calls computeNorthernMillTownComparison', () => {
+      renderComponent()
+      expect(computeNorthernMillTownComparison).toHaveBeenCalled()
+    })
+
+    it('handles computeNorthernMillTownComparison returning null', () => {
+      computeNorthernMillTownComparison.mockReturnValue(null)
+      renderComponent()
+      expect(screen.queryByText('Northern Mill Town Comparison')).not.toBeInTheDocument()
+    })
+
+    it('does not render when no councils exist', () => {
+      useData.mockReturnValue({ data: { councils: [] }, loading: false, error: null })
+      renderComponent()
+      expect(screen.queryByText('Northern Mill Town Comparison')).not.toBeInTheDocument()
     })
   })
 })

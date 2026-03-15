@@ -83,6 +83,10 @@ vi.mock('../utils/lgrModel', () => ({
   computeNorthernMillTownComparison: vi.fn(() => null),
   computeEqualPayRisk: vi.fn(() => null),
   computeCollectionRateImpact: vi.fn(() => null),
+  computeThreatAssessment: vi.fn(() => null),
+  adjustForCCATransfers: vi.fn(() => null),
+  adjustSavingsForDeprivation: vi.fn(() => null),
+  estimatePlanningConsolidationSavings: vi.fn(() => null),
   DEFAULT_ASSUMPTIONS: {
     savingsRealisationRate: 0.75,
     transitionCostOverrun: 1.0,
@@ -93,6 +97,11 @@ vi.mock('../utils/lgrModel', () => ({
     'gov-2u': 'two_unitary',
     'bwd-3u': 'three_unitary',
   },
+  computeEducationSENDExposure: vi.fn(() => []),
+  computeAsylumCostImpact: vi.fn(() => []),
+  computeTimelineFeasibility: vi.fn(() => ({ score: 0, verdict: 'No Data', riskFactors: [], precedents: [], costOverrun: {}, monthsAvailable: 0, monthsShortfall: 0 })),
+  LGR_PRECEDENT_EXPERIENCES: {},
+  LGA_SEQUENCING_LETTER: {},
   SERVICE_LINE_SAVINGS_RATES: {},
   PRECEDENT_DATA: [],
   NORTHERN_MILL_TOWN_DATA: {},
@@ -116,6 +125,10 @@ vi.mock('../utils/electionModel', () => ({
 
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
+import { computeCouncilTaxHarmonisationTimeline, computeEqualPayRisk, computeCollectionRateImpact,
+  computeThreatAssessment, adjustForCCATransfers, adjustSavingsForDeprivation,
+  estimatePlanningConsolidationSavings, computeAuthorityBudgetComposition,
+  computeDemographicFiscalProfile } from '../utils/lgrModel'
 
 const mockConfig = {
   council_id: 'burnley',
@@ -483,7 +496,11 @@ function setupMocks(overrides = {}) {
   const lgr = overrides.lgrData !== undefined ? overrides.lgrData : mockLgrData
   const cc = overrides.crossCouncil !== undefined ? overrides.crossCouncil : mockCrossCouncil
   const bm = overrides.budgetModel !== undefined ? overrides.budgetModel : mockBudgetModel
-  useData.mockReturnValue({ data: [lgr, cc, bm], loading: false, error: null })
+  const cca = overrides.ccaData !== undefined ? overrides.ccaData : null
+  const enhanced = overrides.lgrEnhanced !== undefined ? overrides.lgrEnhanced : null
+  const boundaries = overrides.councilBoundaries !== undefined ? overrides.councilBoundaries : null
+  const procurement = overrides.procurementPipeline !== undefined ? overrides.procurementPipeline : null
+  useData.mockReturnValue({ data: [lgr, cc, bm, cca, enhanced, boundaries, procurement], loading: false, error: null })
 }
 
 function renderComponent() {
@@ -1390,6 +1407,301 @@ describe('LGRTracker', () => {
       fireEvent.change(sliders[0], { target: { value: '0.90' } })
       expect(screen.getByText('Custom')).toBeInTheDocument()
       expect(screen.getByText(/Reset to defaults/)).toBeInTheDocument()
+    })
+  })
+
+  // ==================== Phase 20: Council Tax Harmonisation ====================
+  describe('Council Tax Harmonisation section', () => {
+    it('renders CT harmonisation section when data available', () => {
+      computeCouncilTaxHarmonisationTimeline.mockReturnValue({
+        'East Lancashire': {
+          target: 18.50,
+          feasible: true,
+          maxYearsNeeded: 5,
+          referendumRiskYears: 2,
+          councils: [
+            { council: 'Burnley', currentBandD: 16.00, targetBandD: 18.50, totalDelta: 2.50, yearsToConverge: 5, converged: true, path: [] },
+            { council: 'Pendle', currentBandD: 20.00, targetBandD: 18.50, totalDelta: -1.50, yearsToConverge: 3, converged: true, path: [] },
+          ],
+          losers: [],
+          winners: [{ council: 'Pendle', totalDelta: -1.50 }],
+        },
+      })
+      setupMocks({
+        budgetModel: {
+          ...mockBudgetModel,
+          council_tax_harmonisation: {
+            'gov-2u': {
+              authorities: [
+                {
+                  name: 'East Lancashire',
+                  harmonised_band_d: 1850,
+                  targetBandD: 18.50,
+                  councils: [
+                    { council_id: 'burnley', id: 'burnley', name: 'Burnley', current_combined_element: 1600, bandD: 16.00, change: 250 },
+                    { council_id: 'pendle', id: 'pendle', name: 'Pendle', current_combined_element: 2000, bandD: 20.00, change: -150 },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      })
+      renderComponent()
+      expect(screen.getByText('Council Tax Harmonisation Timeline')).toBeInTheDocument()
+    })
+
+    it('does not render CT harmonisation when no data', () => {
+      computeCouncilTaxHarmonisationTimeline.mockReturnValue({})
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('Council Tax Harmonisation Timeline')).not.toBeInTheDocument()
+    })
+
+    it('shows referendum risk warning for losers', () => {
+      computeCouncilTaxHarmonisationTimeline.mockReturnValue({
+        'East Lancashire': {
+          target: 18.50,
+          feasible: true,
+          maxYearsNeeded: 6,
+          referendumRiskYears: 3,
+          councils: [
+            { council: 'Burnley', currentBandD: 12.00, targetBandD: 18.50, totalDelta: 6.50, yearsToConverge: 6, converged: true, path: [] },
+          ],
+          losers: [{ council: 'Burnley', totalDelta: 6.50 }],
+          winners: [],
+        },
+      })
+      setupMocks({
+        budgetModel: {
+          ...mockBudgetModel,
+          council_tax_harmonisation: {
+            'gov-2u': {
+              authorities: [
+                {
+                  name: 'East Lancashire',
+                  harmonised_band_d: 1850,
+                  targetBandD: 18.50,
+                  councils: [
+                    { council_id: 'burnley', id: 'burnley', name: 'Burnley', current_combined_element: 1200, bandD: 12.00, change: 650 },
+                  ],
+                },
+              ],
+            },
+          },
+        },
+      })
+      renderComponent()
+      expect(screen.getByText(/above-target increases/)).toBeInTheDocument()
+    })
+  })
+
+  // ==================== Phase 20: Implementation Risk Assessment ====================
+  describe('Implementation Risk Assessment section', () => {
+    it('renders threat assessment when fiscal data available', () => {
+      computeThreatAssessment.mockReturnValue({
+        threats: [
+          { type: 'lgr', severity: 'critical', description: 'DSG deficit transfer risk', model: 'gov-2u' },
+          { type: 'lgr', severity: 'high', description: 'Staff retention during transition', model: '' },
+        ],
+        fiscalScore: 4.2,
+        demandScore: 7.8,
+        riskCategory: 'High',
+      })
+      setupMocks({
+        lgrEnhanced: { per_council_fiscal: { burnley: { fiscal_resilience_score: 4.2, service_demand_pressure_score: 7.8, risk_category: 'High', threats: [], lgr_threats: [] } } },
+      })
+      renderComponent()
+      expect(screen.getByText('Implementation Risk Assessment')).toBeInTheDocument()
+      expect(screen.getByText('DSG deficit transfer risk')).toBeInTheDocument()
+      expect(screen.getByText('High')).toBeInTheDocument()
+    })
+
+    it('renders equal pay risk section', () => {
+      computeEqualPayRisk.mockReturnValue({
+        estimatedCostM: 85.5,
+        range: { bestM: 25.65, centralM: 85.5, worstM: 256.5 },
+        claimants: 4500,
+        severityFactor: 0.3,
+        riskRating: 'medium',
+        birminghamComparison: { totalM: 760, claims: 12000, perClaim: 63333 },
+        factors: [
+          '4,500 potential claimants (15% of 30,000 staff)',
+          'Birmingham precedent: £760M for 12,000 claims (£63K per claim)',
+        ],
+      })
+      setupMocks()
+      renderComponent()
+      expect(screen.getByText('Implementation Risk Assessment')).toBeInTheDocument()
+      expect(screen.getByText(/Equal Pay Risk/)).toBeInTheDocument()
+      expect(screen.getByText('MEDIUM')).toBeInTheDocument()
+      expect(screen.getAllByText(/Birmingham precedent/).length).toBeGreaterThanOrEqual(1)
+    })
+
+    it('does not render implementation risk when no data', () => {
+      computeThreatAssessment.mockReturnValue(null)
+      computeEqualPayRisk.mockReturnValue(null)
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('Implementation Risk Assessment')).not.toBeInTheDocument()
+    })
+  })
+
+  // ==================== Phase 20: Revenue Impact ====================
+  describe('Revenue Impact section', () => {
+    it('renders collection rate impact', () => {
+      computeCollectionRateImpact.mockReturnValue({
+        revenueAtRiskM: 3.2,
+        worstCouncil: { id: 'Burnley', rate: 0.938, gap: 3.2, atRiskM: 1.1 },
+        gapBasis: 0.97,
+        convergenceYears: 7,
+        factors: [
+          '14 councils assessed against 97.0% target',
+          'Worst: Burnley at 93.8% (3.2pp gap)',
+        ],
+      })
+      setupMocks()
+      renderComponent()
+      expect(screen.getByText('Revenue Impact Analysis')).toBeInTheDocument()
+      expect(screen.getByText('Collection Rate Revenue Risk')).toBeInTheDocument()
+      expect(screen.getByText('7 yrs')).toBeInTheDocument()
+    })
+
+    it('renders CCA double-counting deduction', () => {
+      adjustForCCATransfers.mockReturnValue({
+        adjustedSavings: 10000000,
+        ccaDeduction: 2000000,
+        transfers: [{ service: 'Transport', amount: 13000000 }],
+        factors: [
+          '1 services (£13M) already transferred to CCA',
+          'CCA deduction: £2M (15% of transferred amount)',
+        ],
+      })
+      setupMocks({
+        lgrEnhanced: { cca_impact: { transfers: [{ service: 'Transport', amount: 13000000 }] } },
+      })
+      renderComponent()
+      expect(screen.getByText('Revenue Impact Analysis')).toBeInTheDocument()
+      expect(screen.getByText('CCA Double-Counting Deduction')).toBeInTheDocument()
+    })
+
+    it('renders authority budget composition table', () => {
+      computeAuthorityBudgetComposition.mockReturnValue({
+        'East Lancashire': {
+          totalExpenditure: 450000000,
+          services: { 'Adult Social Care': 200000000, 'Education': 150000000 },
+          reserves: 30000000,
+          population: 820000,
+          councils: 5,
+        },
+      })
+      setupMocks({
+        budgetModel: {
+          ...mockBudgetModel,
+          authority_composition: {
+            'gov-2u': [{ name: 'East Lancashire', services: { 'Adult Social Care': 200000000, 'Education': 150000000 } }],
+          },
+        },
+      })
+      renderComponent()
+      expect(screen.getByText('Authority Budget Composition')).toBeInTheDocument()
+    })
+
+    it('does not render revenue impact when no data', () => {
+      computeCollectionRateImpact.mockReturnValue(null)
+      adjustForCCATransfers.mockReturnValue(null)
+      computeAuthorityBudgetComposition.mockReturnValue(null)
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('Revenue Impact Analysis')).not.toBeInTheDocument()
+    })
+  })
+
+  // ==================== Phase 20: Efficiency Adjustments ====================
+  describe('Efficiency Adjustments section', () => {
+    it('renders deprivation-adjusted savings', () => {
+      computeDemographicFiscalProfile.mockReturnValue([
+        { authority: 'East Lancashire', avg_imd_score: 32.5, population: 820000,
+          muslim_pct: 5.2, estimated_send_rate_pct: 3.8, collection_rate_weighted: 94.1,
+          fiscal_sustainability_score: 5.5, service_demand_pressure_score: 7.2,
+          pakistani_bangladeshi_pct: 4.1, grt_count: 120, roma_count: 80,
+          black_african_caribbean_pct: 1.2, mixed_heritage_pct: 2.1,
+          employment_rate_pct: 71.5, no_qualifications_pct: 22.3,
+          social_rented_pct: 18.5, economically_inactive_pct: 28.5,
+          risk_factors: ['High deprivation'], risk_category: 'High' },
+      ])
+      adjustSavingsForDeprivation.mockReturnValue({
+        adjustedSavings: 9000000,
+        deprivationMultiplier: 0.75,
+        nestedPenalty: 0,
+        factors: [
+          'High deprivation (IMD 32.5) \u2192 25% savings reduction',
+        ],
+      })
+      setupMocks({
+        lgrEnhanced: {
+          demographic_fiscal_profile: { 'gov-2u': [{ authority: 'East Lancashire', avg_imd_score: 32.5 }] },
+        },
+        budgetModel: {
+          ...mockBudgetModel,
+          per_service_savings: {
+            'gov-2u': { total_annual_savings: 12000000 },
+          },
+        },
+      })
+      renderComponent()
+      expect(screen.getByText('Efficiency Adjustments')).toBeInTheDocument()
+      expect(screen.getAllByText('Deprivation-Adjusted Savings').length).toBeGreaterThanOrEqual(1)
+      expect(screen.getByText('Realisation Rate')).toBeInTheDocument()
+    })
+
+    it('renders planning consolidation savings', () => {
+      estimatePlanningConsolidationSavings.mockReturnValue({
+        totalApps: 14000,
+        totalPlanningSpend: 8000000,
+        avgCostPerApp: 571,
+        bestCostPerApp: 380,
+        bestCouncil: 'chorley',
+        consolidationSaving: 1200000,
+        costPerAppByCouncil: { burnley: 650, chorley: 380 },
+        factors: [
+          '2 councils, 14,000 apps/year, \u00a38,000k total spend',
+          'Cost range: \u00a3380/app (chorley) to \u00a3650/app',
+        ],
+      })
+      const ccWithPlanning = {
+        councils: [
+          { ...mockCrossCouncil.councils[0], planning_apps: 7000, planning_spend: 4550000 },
+          { ...mockCrossCouncil.councils[1], planning_apps: 7000, planning_spend: 3450000 },
+          ...mockCrossCouncil.councils.slice(2),
+        ],
+        generated: mockCrossCouncil.generated,
+      }
+      setupMocks({ crossCouncil: ccWithPlanning })
+      renderComponent()
+      expect(screen.getByText('Efficiency Adjustments')).toBeInTheDocument()
+      expect(screen.getByText('Planning Department Consolidation')).toBeInTheDocument()
+    })
+
+    it('does not render efficiency adjustments when no data', () => {
+      adjustSavingsForDeprivation.mockReturnValue(null)
+      estimatePlanningConsolidationSavings.mockReturnValue(null)
+      setupMocks()
+      renderComponent()
+      expect(screen.queryByText('Efficiency Adjustments')).not.toBeInTheDocument()
+    })
+  })
+
+  // ==================== Phase 20: Section Navigation ====================
+  describe('Phase 20 section nav entries', () => {
+    it('renders navigation buttons for new Phase 20 sections', () => {
+      setupMocks()
+      renderComponent()
+      const nav = screen.getByRole('navigation', { name: /lgr tracker sections/i })
+      expect(within(nav).getByText('CT Harmonisation')).toBeInTheDocument()
+      expect(within(nav).getByText('Impl. Risk')).toBeInTheDocument()
+      expect(within(nav).getByText('Revenue Impact')).toBeInTheDocument()
+      expect(within(nav).getByText('Efficiency Adj.')).toBeInTheDocument()
     })
   })
 })

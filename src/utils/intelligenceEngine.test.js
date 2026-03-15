@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import {
   PARTY_ATTACK_DATABASE,
   REFORM_REBUTTALS,
@@ -13,6 +13,11 @@ import {
   buildReformDefenceLines,
   generatePrintBriefing,
 } from './intelligenceEngine'
+
+vi.mock('./analytics', () => ({
+  reservesAdequacy: vi.fn(() => ({ monthsCover: 8, rating: 'Adequate', color: '#28a745' })),
+  cipfaResilience: vi.fn(() => ({ overallRating: 'Sustainable', overallColor: '#28a745', components: [] })),
+}))
 
 // ── Test fixtures ──────────────────────────────────────────────────
 
@@ -670,6 +675,41 @@ describe('buildMeetingBriefing', () => {
     expect(briefing).not.toBeNull()
     expect(briefing.reformMembers).toEqual([])
     expect(briefing.oppositionMembers).toEqual([])
+  })
+
+  it('adds fiscal context when budget data is present and agenda has finance topics', () => {
+    const dataWithBudget = {
+      ...allData,
+      budgetData: {
+        reserves: { total_closing: 26500000 },
+        net_revenue_expenditure: 45000000,
+        council_tax: { dependency_pct: 55 },
+      },
+    }
+    const briefing = buildMeetingBriefing(mockMeeting, dataWithBudget)
+    expect(briefing.fiscalContext).not.toBeNull()
+    expect(briefing.fiscalContext.reserves).toBeDefined()
+    expect(briefing.fiscalContext.resilience).toBeDefined()
+  })
+
+  it('returns null fiscal context when no budget data is provided', () => {
+    const briefing = buildMeetingBriefing(mockMeeting, allData)
+    expect(briefing.fiscalContext).toBeNull()
+  })
+
+  it('includes fiscal data points in briefing when budget data present', () => {
+    const dataWithBudget = {
+      ...allData,
+      budgetData: {
+        reserves: { total_closing: 26500000 },
+        net_revenue_expenditure: 45000000,
+      },
+    }
+    const briefing = buildMeetingBriefing(mockMeeting, dataWithBudget)
+    expect(briefing.fiscalContext).not.toBeNull()
+    expect(briefing.fiscalContext.dataPoints.length).toBeGreaterThan(0)
+    expect(briefing.fiscalContext.dataPoints.some(dp => dp.includes('reserves'))).toBe(true)
+    expect(briefing.fiscalContext.dataPoints.some(dp => dp.includes('CIPFA'))).toBe(true)
   })
 })
 

@@ -7,7 +7,10 @@ import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import { COUNCIL_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, shortenCouncilName, COUNCIL_SLUG_MAP, PARTY_COLORS, CHART_ANIMATION } from '../utils/constants'
+import { peerBenchmark, giniCoefficient, reservesAdequacy } from '../utils/analytics'
+import { computeNorthernMillTownComparison } from '../utils/lgrModel'
 import CollapsibleSection from '../components/CollapsibleSection'
+import GaugeChart from '../components/ui/GaugeChart'
 import ChartCard from '../components/ui/ChartCard'
 import BumpChart from '../components/ui/BumpChart'
 import SparkLine from '../components/ui/SparkLine'
@@ -515,6 +518,75 @@ function CrossCouncil() {
       colorMap[shortenCouncilName(c.council_name)] = COUNCIL_COLORS[c.council_id] || '#48484a'
     })
     return colorMap
+  }, [councils])
+
+  // Analytical Benchmarking — peer percentiles per metric
+  const analyticalBenchmarks = useMemo(() => {
+    if (!councils.length || !current) return null
+    const metrics = []
+    const spendPerHead = Math.round((current.annual_spend || current.total_spend || 0) / (current.population || 1))
+    const peerSpends = councils.map(c => Math.round((c.annual_spend || c.total_spend || 0) / (c.population || 1)))
+    metrics.push({ label: 'Spend/Head', ...peerBenchmark(spendPerHead, peerSpends) })
+
+    if (current.collection_rate != null) {
+      const peerRates = councils.filter(c => c.collection_rate != null).map(c => c.collection_rate)
+      metrics.push({ label: 'Collection Rate', ...peerBenchmark(current.collection_rate, peerRates) })
+    }
+    if (current.overall_hhi > 0) {
+      const peerHhi = councils.filter(c => c.overall_hhi > 0).map(c => c.overall_hhi)
+      metrics.push({ label: 'HHI Concentration', ...peerBenchmark(current.overall_hhi, peerHhi) })
+    }
+    return metrics.length > 0 ? metrics : null
+  }, [councils, current])
+
+  // Reserves adequacy for current council
+  const currentReservesAdequacy = useMemo(() => {
+    if (!current?.budget_summary?.reserves_total || !current?.budget_summary?.net_revenue_expenditure) return null
+    return reservesAdequacy(current.budget_summary.reserves_total, current.budget_summary.net_revenue_expenditure)
+  }, [current])
+
+  // Gini coefficients across councils (supplier concentration)
+  const giniData = useMemo(() => {
+    return councils
+      .filter(c => c.service_hhi && Object.keys(c.service_hhi).length > 0)
+      .map(c => {
+        const hhiValues = Object.values(c.service_hhi).map(s => s.hhi || 0).filter(v => v > 0)
+        return {
+          name: shortenCouncilName(c.council_name),
+          gini: hhiValues.length >= 2 ? Math.round(giniCoefficient(hhiValues) * 100) / 100 : null,
+          isCurrent: c.council_name === councilName,
+        }
+      })
+      .filter(d => d.gini != null)
+      .sort((a, b) => b.gini - a.gini)
+  }, [councils, councilName])
+
+  // Northern Mill Town Comparison
+  const millTownComparison = useMemo(() => {
+    if (!councils.length) return null
+    const profiles = councils.map(c => ({
+      name: c.council_name,
+      council_id: c.council_id,
+      population: c.population,
+      avg_imd_score: c.avg_deprivation_score,
+      employment_rate_pct: c.employment_rate_pct,
+      collection_rate_weighted: c.collection_rate,
+      under_20_pct: c.youth_ratio ? c.youth_ratio : undefined,
+      over_65_pct: c.elderly_ratio ? c.elderly_ratio : undefined,
+      white_british_pct: c.white_british_pct,
+      asian_pct: c.asian_pct,
+      no_qualifications_pct: c.no_qualifications_pct,
+      child_poverty_pct: c.child_poverty_pct,
+      social_rented_pct: c.social_rented_pct,
+      estimated_send_rate_pct: c.estimated_send_rate_pct,
+      social_care_budget_pct: c.social_care_budget_pct,
+      fiscal_resilience_score: c.fiscal_resilience_score,
+    }))
+    try {
+      return computeNorthernMillTownComparison(profiles)
+    } catch {
+      return null
+    }
   }, [councils])
 
   if (loading) return <LoadingState message="Loading comparison data..." />
@@ -1934,6 +2006,163 @@ function CrossCouncil() {
               </tbody>
             </table>
           </div>
+        </CollapsibleSection>
+      )}
+
+      {/* Analytical Benchmarking */}
+      {(analyticalBenchmarks || currentReservesAdequacy || giniData.length > 0) && (
+        <CollapsibleSection
+          title="Analytical Benchmarking"
+          icon={<BarChart3 size={18} />}
+          subtitle={`${councilName} vs ${councils.length} Lancashire councils`}
+          severity="info"
+        >
+          <p style={{ fontSize: '0.82rem', color: '#999', marginBottom: 16 }}>
+            Percentile rankings computed from peer benchmarking across all Lancashire councils.
+          </p>
+
+          {analyticalBenchmarks && (
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: 12, marginBottom: 20 }}>
+              {analyticalBenchmarks.map((m, i) => (
+                <div key={i} style={{
+                  padding: '12px 16px',
+                  background: 'rgba(255,255,255,0.02)',
+                  border: '1px solid #222',
+                  borderRadius: 8,
+                  borderLeft: `3px solid ${m.color}`,
+                }}>
+                  <div style={{ fontSize: '0.72rem', color: '#888', marginBottom: 4 }}>{m.label}</div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
+                    <span style={{ fontSize: '1.3rem', fontWeight: 700, color: m.color }}>{Math.round(m.percentile)}%</span>
+                    <span style={{ fontSize: '0.75rem', color: '#aaa' }}>
+                      Rank {m.rank}/{m.total}
+                    </span>
+                  </div>
+                  <span style={{
+                    fontSize: '0.68rem', fontWeight: 600, padding: '2px 6px', borderRadius: 4,
+                    background: `${m.color}15`, color: m.color,
+                  }}>
+                    {m.rating}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {currentReservesAdequacy && (
+            <div className="gauge-grid" style={{ marginBottom: 16 }}>
+              <GaugeChart
+                value={Math.min(currentReservesAdequacy.monthsCover, 24)}
+                max={24}
+                label="Reserves Adequacy"
+                subtitle={`${currentReservesAdequacy.rating} (${currentReservesAdequacy.monthsCover.toFixed(1)} months)`}
+                format={v => v.toFixed(1) + ' mo'}
+                size={130}
+              />
+            </div>
+          )}
+
+          {giniData.length > 0 && (
+            <div>
+              <h4 style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                Supplier Concentration Gini Across Councils
+              </h4>
+              <div style={{ width: '100%', height: 220 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={giniData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="name" tick={AXIS_TICK_STYLE} angle={-35} textAnchor="end" height={60} />
+                    <YAxis tick={AXIS_TICK_STYLE} domain={[0, 1]} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} formatter={(v) => [v.toFixed(2), 'Gini']} />
+                    <Bar dataKey="gini" radius={[4, 4, 0, 0]} name="Gini" {...CHART_ANIMATION}>
+                      {giniData.map((entry, i) => (
+                        <Cell key={i} fill={entry.isCurrent ? '#12B6CF' : entry.gini > 0.6 ? '#ff453a' : '#48484a'} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <p style={{ fontSize: '0.72rem', color: '#666', marginTop: 8 }}>
+                Gini coefficient computed from per-service HHI values. 0 = equal distribution, 1 = complete monopoly. Values above 0.6 indicate high concentration.
+              </p>
+            </div>
+          )}
+        </CollapsibleSection>
+      )}
+
+      {/* Northern Mill Town Comparison */}
+      {millTownComparison && millTownComparison.comparisons?.length > 0 && (
+        <CollapsibleSection
+          title="Northern Mill Town Comparison"
+          icon={<Building size={18} />}
+          subtitle="Lancashire vs Bradford, Oldham, Rochdale"
+          severity="info"
+        >
+          <p style={{ fontSize: '0.82rem', color: '#999', marginBottom: 16 }}>
+            Comparison of Lancashire authorities against northern mill towns with similar socioeconomic
+            profiles. Uses weighted distance across deprivation, demographics, and fiscal capacity.
+          </p>
+
+          <div style={{ overflowX: 'auto' }}>
+            <table className="cross-table" style={{ width: '100%', fontSize: '0.78rem' }}>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: 'left' }}>Reference Town</th>
+                  <th>Population</th>
+                  <th>IMD Rank</th>
+                  <th>Employment</th>
+                  <th>Collection Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                {millTownComparison.comparisons.map((town, i) => (
+                  <tr key={i}>
+                    <td style={{ fontWeight: 600, color: '#ccc' }}>{town.name}</td>
+                    <td style={{ textAlign: 'center' }}>{town.population?.toLocaleString() || '—'}</td>
+                    <td style={{ textAlign: 'center' }}>{town.imdRank || '—'}</td>
+                    <td style={{ textAlign: 'center' }}>{town.employmentRate ? town.employmentRate + '%' : '—'}</td>
+                    <td style={{ textAlign: 'center' }}>{town.collectionRate ? town.collectionRate + '%' : '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {millTownComparison.lancashireAuthorities?.length > 0 && (
+            <div style={{ marginTop: 16 }}>
+              <h4 style={{ marginBottom: 8, fontSize: '0.85rem' }}>Most Similar Lancashire Authorities</h4>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 8 }}>
+                {millTownComparison.lancashireAuthorities
+                  .filter(a => a.similarities?.length > 0)
+                  .slice(0, 6)
+                  .map((auth, i) => {
+                    const topMatch = auth.similarities[0]
+                    return (
+                      <div key={i} style={{
+                        padding: '10px 12px',
+                        background: 'rgba(255,255,255,0.02)',
+                        border: '1px solid #222',
+                        borderRadius: 8,
+                      }}>
+                        <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#ccc' }}>{auth.name}</div>
+                        <div style={{ fontSize: '0.72rem', color: '#888', marginTop: 4 }}>
+                          Most similar to: <span style={{ color: '#12B6CF' }}>{topMatch.town}</span>
+                        </div>
+                        <div style={{ fontSize: '0.72rem', color: '#666' }}>
+                          Similarity: {Math.round((topMatch.similarity || 0) * 100)}%
+                        </div>
+                      </div>
+                    )
+                  })}
+              </div>
+            </div>
+          )}
+
+          {millTownComparison.factors?.length > 0 && (
+            <ul style={{ fontSize: '0.75rem', color: '#888', paddingLeft: 18, marginTop: 12 }}>
+              {millTownComparison.factors.map((f, i) => <li key={i}>{f}</li>)}
+            </ul>
+          )}
         </CollapsibleSection>
       )}
 

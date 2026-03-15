@@ -9,6 +9,7 @@
  */
 
 import { generateAttackLines, generateCouncilAttackLines } from './strategyEngine'
+import { reservesAdequacy, cipfaResilience } from './analytics'
 
 // ---------------------------------------------------------------------------
 // Policy Area Taxonomy (matches voting.json enrichment)
@@ -1181,6 +1182,41 @@ export function buildMeetingBriefing(meeting, allData) {
     url: typeof doc === 'object' ? doc.url : null,
   }))
 
+  // Fiscal context — enrich briefing when budget/finance topics are on the agenda
+  const allPolicyAreas = agendaIntel.flatMap(a => a.policyAreas)
+  const hasFiscalTopics = allPolicyAreas.includes('budget_finance') || allPolicyAreas.includes('council_tax')
+  const budgetData = allData?.budgetData || allData?.budgetSummary || null
+  let fiscalContext = null
+
+  if (hasFiscalTopics && budgetData) {
+    const reserves = budgetData.reserves?.total_closing || budgetData.reserves?.usable || 0
+    const expenditure = budgetData.net_revenue_expenditure || budgetData.net_expenditure || 0
+
+    if (reserves > 0 && expenditure > 0) {
+      const resResult = reservesAdequacy(reserves, expenditure)
+      const resilience = cipfaResilience({
+        reserves,
+        expenditure,
+        councilTaxDependency: budgetData.council_tax?.dependency_pct || null,
+        debtRatio: budgetData.debt_ratio || null,
+      })
+
+      const dataPoints = []
+      if (resResult) {
+        dataPoints.push(`Council reserves cover ${resResult.monthsCover.toFixed(1)} months of spending (${resResult.rating})`)
+      }
+      if (resilience) {
+        dataPoints.push(`CIPFA resilience rating: ${resilience.overallRating}`)
+      }
+
+      fiscalContext = {
+        reserves: resResult,
+        resilience,
+        dataPoints,
+      }
+    }
+  }
+
   return {
     meeting: {
       id: meeting.id,
@@ -1216,6 +1252,7 @@ export function buildMeetingBriefing(meeting, allData) {
       totalAgendaItems: (meeting.agenda_items || []).length,
       politicalItems: agendaIntel.filter(a => a.policyAreas.length > 0).length,
     },
+    fiscalContext,
   }
 }
 

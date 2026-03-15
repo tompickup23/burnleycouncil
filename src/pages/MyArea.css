@@ -452,6 +452,107 @@
   color: var(--text-secondary);
 }
 
+/* === Ward Hub Dashboard === */
+.ward-hub-dashboard {
+  margin-bottom: var(--space-xl);
+}
+
+.ward-hub-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: var(--space-md);
+}
+
+.ward-hub-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-md);
+}
+
+.ward-hub-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  background: rgba(28, 28, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: var(--radius-md);
+  padding: var(--space-md) var(--space-lg);
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  min-height: 72px;
+}
+
+.ward-hub-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 255, 255, 0.12);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+  background: rgba(28, 28, 30, 0.7);
+}
+
+.ward-hub-card--static {
+  cursor: default;
+}
+
+.ward-hub-card--static:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.ward-hub-card-icon {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ward-hub-card-body {
+  flex: 1;
+  min-width: 0;
+}
+
+.ward-hub-card-title {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--text-tertiary, #8e8e93);
+  margin-bottom: 2px;
+}
+
+.ward-hub-card-stat {
+  font-size: 1.1rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ward-hub-card-label {
+  font-size: 0.7rem;
+  color: var(--text-tertiary, #636366);
+  margin-top: 1px;
+}
+
+.ward-hub-card-arrow {
+  flex-shrink: 0;
+  color: var(--text-tertiary, #636366);
+  opacity: 0.5;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.ward-hub-card:hover .ward-hub-card-arrow {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
 /* CollapsibleSection spacing */
 .myarea-page .cs-section {
   scroll-margin-top: 4rem;
@@ -461,5 +562,15 @@
 @media (max-width: 768px) {
   .ward-councillors {
     grid-template-columns: 1fr;
+  }
+
+  .ward-hub-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .ward-hub-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 }

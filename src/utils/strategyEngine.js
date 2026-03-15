@@ -11,6 +11,8 @@
  * All functions are pure, unit-testable, and designed for the strategist role.
  */
 
+import { financialHealthAssessment } from './savingsEngine'
+
 // ---------------------------------------------------------------------------
 // Ward Classification
 // ---------------------------------------------------------------------------
@@ -2898,6 +2900,35 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
   // Property summary for this ward
   const propertySummary = generatePropertySummary(wardName, propertyAssets);
 
+  // Fiscal context — cross-engine bridge to savingsEngine financial health assessment
+  let fiscalContext = null;
+  if (budgetSummary) {
+    try {
+      const health = financialHealthAssessment(budgetSummary, null);
+      if (health) {
+        fiscalContext = {
+          reserves_rating: health.summary?.reserves_rating || 'Unknown',
+          reserves_months: health.summary?.reserves_months || 0,
+          collection_efficiency: councilPerformance.collectionRate?.latest || null,
+          overall_health: health.summary?.overall_resilience || 'Unknown',
+          overall_color: health.summary?.overall_color || '#6c757d',
+        };
+
+        // Critical reserves warning — add high-priority fiscal talking point
+        if (health.summary?.reserves_months > 0 && health.summary.reserves_months < 3) {
+          talkingPoints.council.unshift({
+            category: 'Fiscal',
+            icon: 'AlertTriangle',
+            priority: 0,
+            text: `CRITICAL: Council reserves cover only ${health.summary.reserves_months.toFixed(1)} months of spending. Risk of section 114 notice. Demand answers on financial sustainability.`,
+          });
+        }
+      }
+    } catch (e) {
+      console.error('[DOSSIER] fiscalContext error:', e);
+    }
+  }
+
   const dossier = {
     ward: wardName,
     ourParty,
@@ -2913,6 +2944,7 @@ export function generateWardDossier(wardName, allData, ourParty = 'Reform UK') {
     propertySummary,
     entrenchment,
     wardStrategy,
+    fiscalContext,
   };
 
   // Add cheat sheet

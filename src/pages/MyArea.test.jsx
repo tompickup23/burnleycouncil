@@ -596,4 +596,119 @@ describe('MyArea', () => {
     expect(generateHousingTalkingPoints).toHaveBeenCalled()
     expect(generateFiscalTalkingPoints).toHaveBeenCalled()
   })
+
+  // --- Ward Hub Dashboard ---
+  const mockConfigWithDS = {
+    ...mockConfig,
+    data_sources: {
+      crime_stats: true,
+      housing: true,
+      health: true,
+      economy: true,
+      demographics: true,
+      elections: true,
+    },
+  }
+
+  const mockHousingData = {
+    census: {
+      wards: {
+        'ward-code-1': {
+          name: 'Cliviger with Worsthorne',
+          tenure: { 'Owned': 800, 'Social rented': 100, 'Private rented': 100 },
+        },
+      },
+    },
+  }
+
+  const mockHealthData = {
+    summary: {
+      life_expectancy_male: 78.2,
+      life_expectancy_female: 82.1,
+    },
+    census: { wards: {} },
+  }
+
+  const mockEconomyData = {
+    summary: { claimant_rate_pct: 4.2 },
+    claimant_count: { wards: {} },
+    census: { wards: {} },
+  }
+
+  function setupHubMocks() {
+    useCouncilConfig.mockReturnValue(mockConfigWithDS)
+    useData.mockImplementation((urls) => {
+      if (Array.isArray(urls)) {
+        return {
+          data: [mockWards, mockCouncillors, null],
+          loading: false,
+          error: null,
+        }
+      }
+      if (urls === '/data/deprivation.json') {
+        return { data: mockDeprivation, loading: false, error: null }
+      }
+      if (urls === '/data/housing.json') {
+        return { data: mockHousingData, loading: false, error: null }
+      }
+      if (urls === '/data/health.json') {
+        return { data: mockHealthData, loading: false, error: null }
+      }
+      if (urls === '/data/economy.json') {
+        return { data: mockEconomyData, loading: false, error: null }
+      }
+      if (urls === '/data/demographics.json') {
+        return { data: { wards: { 'Cliviger with Worsthorne': { population: { total: 12340 } } } }, loading: false, error: null }
+      }
+      return { data: null, loading: false, error: null }
+    })
+  }
+
+  it('renders ward hub dashboard cards when ward is selected with data sources', () => {
+    setupHubMocks()
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Cliviger with Worsthorne' } })
+    const dashboard = screen.getByTestId('ward-hub-dashboard')
+    expect(dashboard).toBeInTheDocument()
+    expect(screen.getByText(/Explore Cliviger with Worsthorne/)).toBeInTheDocument()
+    // Should have cards for each data source
+    expect(screen.getByTestId('hub-card-crime')).toBeInTheDocument()
+    expect(screen.getByTestId('hub-card-housing')).toBeInTheDocument()
+    expect(screen.getByTestId('hub-card-health')).toBeInTheDocument()
+    expect(screen.getByTestId('hub-card-economy')).toBeInTheDocument()
+    expect(screen.getByTestId('hub-card-elections')).toBeInTheDocument()
+  })
+
+  it('hub cards link to correct specialist pages', () => {
+    setupHubMocks()
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Cliviger with Worsthorne' } })
+    const crimeCard = screen.getByTestId('hub-card-crime')
+    expect(crimeCard.closest('a')).toHaveAttribute('href', '/crime')
+    const housingCard = screen.getByTestId('hub-card-housing')
+    expect(housingCard.closest('a')).toHaveAttribute('href', '/housing')
+    const healthCard = screen.getByTestId('hub-card-health')
+    expect(healthCard.closest('a')).toHaveAttribute('href', '/health')
+    const economyCard = screen.getByTestId('hub-card-economy')
+    expect(economyCard.closest('a')).toHaveAttribute('href', '/economy')
+  })
+
+  it('hub cards show summary stats from loaded data', () => {
+    setupHubMocks()
+    renderComponent()
+    const select = screen.getByLabelText(/select your ward/i)
+    fireEvent.change(select, { target: { value: 'Cliviger with Worsthorne' } })
+    // Housing: 800 owned out of 1000 total = 80% owned
+    expect(screen.getByText('80% owned')).toBeInTheDocument()
+    // Health: life expectancy
+    expect(screen.getByText('LE: 78.2M')).toBeInTheDocument()
+    // Economy: claimant rate
+    expect(screen.getByText('4.2% claimant')).toBeInTheDocument()
+    // Demographics: population
+    expect(screen.getByText('Pop: 12,340')).toBeInTheDocument()
+    // Elections: party holder from wards data
+    expect(screen.getByTestId('hub-card-elections')).toBeInTheDocument()
+  })
 })

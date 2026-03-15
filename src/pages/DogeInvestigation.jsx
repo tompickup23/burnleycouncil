@@ -19,7 +19,12 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
 import CouncillorLink from '../components/CouncillorLink'
 import IntegrityBadge from '../components/IntegrityBadge'
-import { SEVERITY_COLORS as severityColors, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_COLORS } from '../utils/constants'
+import { SEVERITY_COLORS as severityColors, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_COLORS, CHART_ANIMATION } from '../utils/constants'
+import { benfordSecondDigit, giniCoefficient, computeDistributionStats, peerBenchmark } from '../utils/analytics'
+import { calculateFiscalStressAdjustment } from '../utils/electionModel'
+import { calculateDogeAdjustedRealisation } from '../utils/lgrModel'
+import CollapsibleSection from '../components/CollapsibleSection'
+import StatCard from '../components/ui/StatCard'
 import GaugeChart from '../components/ui/GaugeChart'
 import SparkLine from '../components/ui/SparkLine'
 import '../components/ui/AdvancedCharts.css'
@@ -130,6 +135,70 @@ function DogeInvestigation() {
   const { data: demoFiscalData } = useData('/data/demographic_fiscal.json')
   // Council documents for decision cross-reference (optional)
   const { data: documentsData } = useData(dataSources.council_documents ? '/data/council_documents.json' : null)
+  // Cross-council data for peer benchmarking
+  const { data: crossCouncilData } = useData('/data/cross_council.json')
+  // Elections reference for fiscal stress adjustment
+  const { data: electionsRefData } = useData('/data/shared/elections_reference.json')
+
+  // Live Forensic Screening computations — use data[N] directly since
+  // destructured names (insights, dogeFindings) aren't available until after conditional returns
+  const forensicAmounts = useMemo(() => {
+    const rawFindings = Array.isArray(data) ? data[0] : null
+    const rawInsights = Array.isArray(data) ? data[1] : null
+    if (!rawInsights?.summary) return []
+    const findingAmounts = (rawFindings?.findings || [])
+      .map(f => parseFloat(String(f.value || '0').replace(/[£,KkMm]/g, m => m === 'K' || m === 'k' ? '000' : m === 'M' || m === 'm' ? '000000' : '')))
+      .filter(v => !isNaN(v) && v > 0)
+    if (findingAmounts.length > 50) return findingAmounts
+    const supplierTotals = (rawFindings?.supplier_concentration?.top5?.suppliers || [])
+      .map(s => s.total)
+      .filter(v => v > 0)
+    return findingAmounts.length > 0 ? findingAmounts : supplierTotals
+  }, [data])
+
+  const benfordResult = useMemo(() => {
+    if (forensicAmounts.length === 0) return null
+    return benfordSecondDigit(forensicAmounts)
+  }, [forensicAmounts])
+
+  const giniResult = useMemo(() => {
+    const rawFindings = Array.isArray(data) ? data[0] : null
+    const supplierTotals = (rawFindings?.supplier_concentration?.top5?.suppliers || [])
+      .map(s => s.total)
+      .filter(v => v > 0)
+    if (supplierTotals.length < 2) return null
+    return giniCoefficient(supplierTotals)
+  }, [data])
+
+  const distributionStats = useMemo(() => {
+    if (forensicAmounts.length < 3) return null
+    return computeDistributionStats(forensicAmounts)
+  }, [forensicAmounts])
+
+  const peerBenchmarkResult = useMemo(() => {
+    const rawInsights = Array.isArray(data) ? data[1] : null
+    if (!crossCouncilData?.councils || !rawInsights?.summary?.total_spend) return null
+    const currentCouncil = crossCouncilData.councils.find(c =>
+      c.council_name?.toLowerCase() === (config.council_name || '').toLowerCase()
+    )
+    if (!currentCouncil) return null
+    const spendPerHead = Math.round((currentCouncil.annual_spend || currentCouncil.total_spend || 0) / (currentCouncil.population || 1))
+    const peerSpends = crossCouncilData.councils.map(c =>
+      Math.round((c.annual_spend || c.total_spend || 0) / (c.population || 1))
+    )
+    return peerBenchmark(spendPerHead, peerSpends)
+  }, [crossCouncilData, data, config])
+
+  const fiscalStressResult = useMemo(() => {
+    if (!demoFiscalData) return null
+    return calculateFiscalStressAdjustment(demoFiscalData)
+  }, [demoFiscalData])
+
+  const dogeRealisationResult = useMemo(() => {
+    const rawFindings = Array.isArray(data) ? data[0] : null
+    if (config.council_id !== 'lancashire_cc') return null
+    return calculateDogeAdjustedRealisation(rawFindings, integrityData)
+  }, [config, data, integrityData])
 
   // Build supplier→councillor map from integrity data for cross-reference badges
   const supplierCouncillorMap = useMemo(() => {
@@ -2486,6 +2555,195 @@ function DogeInvestigation() {
           }
         </div>
       </section>
+
+      {/* Live Forensic Screening */}
+      {(benfordResult || giniResult != null || distributionStats) && (
+        <CollapsibleSection
+          title="Live Forensic Screening"
+          icon={<Activity size={18} />}
+          subtitle="Real-time statistical analysis of spending patterns"
+          severity="info"
+        >
+          <p style={{ fontSize: '0.82rem', color: '#999', marginBottom: 16 }}>
+            Live computation of forensic accounting metrics using Benford's Law, Gini coefficient,
+            and distribution analysis. These are computed client-side from the underlying spending data.
+          </p>
+
+          {benfordResult && (
+            <div style={{ marginBottom: 24 }}>
+              <h4 style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+                <BarChart3 size={16} /> Benford Second Digit Analysis
+              </h4>
+              <p style={{ fontSize: '0.78rem', color: '#aaa', marginBottom: 12 }}>
+                Natural financial data follows a predictable second-digit distribution (Nigrini, 2012).
+                Deviations may indicate data manipulation or rounding.
+                {benfordResult.significant
+                  ? ' This dataset shows statistically significant deviation from expected patterns.'
+                  : ' This dataset conforms to expected Benford distribution.'}
+              </p>
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', marginBottom: 12 }}>
+                <div className="proc-stat">
+                  <span className="proc-stat-value">{benfordResult.chiSquared?.toFixed(1)}</span>
+                  <span className="proc-stat-label">Chi-Squared</span>
+                </div>
+                <div className="proc-stat">
+                  <span className="proc-stat-value">{benfordResult.n?.toLocaleString()}</span>
+                  <span className="proc-stat-label">Sample Size</span>
+                </div>
+                <div className="proc-stat">
+                  <span className="proc-stat-value" style={{ color: benfordResult.significant ? '#ff453a' : '#30d158' }}>
+                    {benfordResult.significant ? 'Significant' : 'Conforming'}
+                  </span>
+                  <span className="proc-stat-label">{benfordResult.pDescription}</span>
+                </div>
+              </div>
+              <div style={{ width: '100%', height: 220 }}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={benfordResult.observed?.map((obs, i) => ({
+                    digit: String(i),
+                    observed: obs,
+                    expected: Math.round(benfordResult.expected[i]),
+                  })) || []}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis dataKey="digit" tick={AXIS_TICK_STYLE} label={{ value: 'Second Digit', position: 'insideBottom', offset: -5, style: { fill: '#888', fontSize: 11 } }} />
+                    <YAxis tick={AXIS_TICK_STYLE} />
+                    <Tooltip contentStyle={TOOLTIP_STYLE} />
+                    <Legend />
+                    <Bar dataKey="observed" fill="#12B6CF" name="Observed" radius={[3, 3, 0, 0]} {...CHART_ANIMATION} />
+                    <Bar dataKey="expected" fill="#48484a" name="Expected (Benford)" radius={[3, 3, 0, 0]} {...CHART_ANIMATION} />
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+            </div>
+          )}
+
+          <div className="gauge-grid" style={{ marginBottom: 16 }}>
+            {giniResult != null && (
+              <GaugeChart
+                value={Math.round(giniResult * 100)}
+                max={100}
+                label="Gini Coefficient"
+                subtitle={giniResult > 0.6 ? 'High Concentration' : giniResult > 0.4 ? 'Moderate' : 'Competitive'}
+                format={v => (v / 100).toFixed(2)}
+                size={130}
+              />
+            )}
+          </div>
+
+          {distributionStats && (
+            <div data-testid="distribution-stats" style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 8 }}>
+              <StatCard label="Mean" value={formatCurrency(distributionStats.mean, true)} icon={<TrendingUp size={20} />} />
+              <StatCard label="Median" value={formatCurrency(distributionStats.median, true)} icon={<BarChart3 size={20} />} />
+              <StatCard label="Skewness" value={distributionStats.skewness != null ? distributionStats.skewness.toFixed(2) : 'N/A'} icon={<Activity size={20} />} />
+            </div>
+          )}
+        </CollapsibleSection>
+      )}
+
+      {/* Peer Benchmarking */}
+      {peerBenchmarkResult && peerBenchmarkResult.total > 0 && (
+        <CollapsibleSection
+          title="Peer Benchmarking"
+          icon={<GitCompareArrows size={18} />}
+          subtitle={`Ranked ${peerBenchmarkResult.rank} of ${peerBenchmarkResult.total} councils`}
+          severity="info"
+        >
+          <p style={{ fontSize: '0.82rem', color: '#999', marginBottom: 16 }}>
+            {councilName}&apos;s spending per head ranked against all {peerBenchmarkResult.total} Lancashire councils.
+          </p>
+          <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
+            <div className="proc-stat">
+              <span className="proc-stat-value" style={{ color: peerBenchmarkResult.color }}>{peerBenchmarkResult.rank}</span>
+              <span className="proc-stat-label">Rank (of {peerBenchmarkResult.total})</span>
+            </div>
+            <div className="proc-stat">
+              <span className="proc-stat-value">{Math.round(peerBenchmarkResult.percentile)}%</span>
+              <span className="proc-stat-label">Percentile</span>
+            </div>
+            <div className="proc-stat">
+              <span className="proc-stat-value" style={{ color: peerBenchmarkResult.color }}>{peerBenchmarkResult.rating}</span>
+              <span className="proc-stat-label">Rating</span>
+            </div>
+            <div className="proc-stat">
+              <span className="proc-stat-value">{formatCurrency(peerBenchmarkResult.median, true)}</span>
+              <span className="proc-stat-label">Peer Median</span>
+            </div>
+          </div>
+        </CollapsibleSection>
+      )}
+
+      {/* Electoral & Fiscal Impact */}
+      {(fiscalStressResult || dogeRealisationResult) && (
+        <CollapsibleSection
+          title="Electoral & Fiscal Impact"
+          icon={<Target size={18} />}
+          subtitle="DOGE findings mapped to electoral and fiscal outcomes"
+          severity="warning"
+        >
+          <p style={{ fontSize: '0.82rem', color: '#999', marginBottom: 16 }}>
+            How spending patterns and DOGE findings connect to electoral dynamics and fiscal resilience.
+          </p>
+
+          {fiscalStressResult && (
+            <div style={{ marginBottom: 20 }}>
+              <h4 style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                <AlertTriangle size={16} /> Fiscal Stress Adjustment
+              </h4>
+              <p style={{ fontSize: '0.78rem', color: '#aaa', marginBottom: 8 }}>
+                {fiscalStressResult.methodology?.description || 'Fiscal stress impact on electoral forecasting.'}
+              </p>
+              {fiscalStressResult.methodology?.factors?.length > 0 && (
+                <ul style={{ fontSize: '0.78rem', color: '#ccc', paddingLeft: 18 }}>
+                  {fiscalStressResult.methodology.factors.map((f, i) => (
+                    <li key={i}>{typeof f === 'string' ? f : f.description || f.factor || JSON.stringify(f)}</li>
+                  ))}
+                </ul>
+              )}
+              {Object.keys(fiscalStressResult.adjustments || {}).length > 0 && (
+                <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', marginTop: 8 }}>
+                  {Object.entries(fiscalStressResult.adjustments).map(([party, adj]) => (
+                    <div key={party} className="proc-stat">
+                      <span className="proc-stat-value" style={{ color: adj > 0 ? '#30d158' : adj < 0 ? '#ff453a' : '#888' }}>
+                        {adj > 0 ? '+' : ''}{(adj * 100).toFixed(1)}%
+                      </span>
+                      <span className="proc-stat-label">{party}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {dogeRealisationResult && (
+            <div>
+              <h4 style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
+                <Shield size={16} /> DOGE-Adjusted Savings Realisation (LCC)
+              </h4>
+              <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap' }}>
+                <div className="proc-stat">
+                  <span className="proc-stat-value">{(dogeRealisationResult.realisationRate * 100).toFixed(0)}%</span>
+                  <span className="proc-stat-label">Realisation Rate</span>
+                </div>
+                <div className="proc-stat">
+                  <span className="proc-stat-value">{(dogeRealisationResult.procurementSaving * 100).toFixed(1)}%</span>
+                  <span className="proc-stat-label">Procurement Saving</span>
+                </div>
+                {dogeRealisationResult.directiveCount > 0 && (
+                  <div className="proc-stat">
+                    <span className="proc-stat-value">{dogeRealisationResult.directiveCount}</span>
+                    <span className="proc-stat-label">Active Directives</span>
+                  </div>
+                )}
+              </div>
+              {dogeRealisationResult.factors?.length > 0 && (
+                <ul style={{ fontSize: '0.78rem', color: '#ccc', paddingLeft: 18, marginTop: 8 }}>
+                  {dogeRealisationResult.factors.map((f, i) => <li key={i}>{f}</li>)}
+                </ul>
+              )}
+            </div>
+          )}
+        </CollapsibleSection>
+      )}
 
       {/* Take Action */}
       <section className="doge-action-section">

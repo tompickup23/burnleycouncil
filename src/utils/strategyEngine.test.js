@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import {
   classifyWard,
   calculateSwingRequired,
@@ -27,6 +27,24 @@ import {
   isQuickWin,
   WARD_CLASSES,
 } from './strategyEngine'
+
+vi.mock('./savingsEngine', () => ({
+  financialHealthAssessment: vi.fn(() => ({
+    reserves: { monthsCover: 8, rating: 'Adequate', color: '#28a745' },
+    resilience: { overallRating: 'Sustainable', overallColor: '#28a745', components: [] },
+    materiality: { threshold: 250000 },
+    benford_screening: null,
+    summary: {
+      reserves_months: 8,
+      reserves_rating: 'Adequate',
+      overall_resilience: 'Sustainable',
+      overall_color: '#28a745',
+      materiality_threshold: 250000,
+    },
+  })),
+}))
+
+import { financialHealthAssessment } from './savingsEngine'
 
 // ---------------------------------------------------------------------------
 // Test fixtures
@@ -1654,6 +1672,58 @@ describe('generateWardDossier', () => {
   it('uses specified party name', () => {
     const dossier = generateWardDossier('Test Ward', minimalAllData, 'Labour')
     expect(dossier.ourParty).toBe('Labour')
+  })
+
+  it('includes fiscal context when budget data is present', () => {
+    const dataWithBudget = {
+      ...minimalAllData,
+      budgetSummary: {
+        reserves: { total_opening: 27000000, total_closing: 26500000 },
+        net_revenue_expenditure: 45000000,
+        council_tax: { dependency_pct: 55, band_d_by_year: { '2024-25': 268 } },
+      },
+    }
+    const dossier = generateWardDossier('Test Ward', dataWithBudget)
+    expect(dossier.fiscalContext).not.toBeNull()
+    expect(dossier.fiscalContext.reserves_rating).toBe('Adequate')
+    expect(dossier.fiscalContext.overall_health).toBe('Sustainable')
+  })
+
+  it('returns null fiscal context when no budget data', () => {
+    const dataWithoutBudget = { ...minimalAllData, budgetSummary: null }
+    const dossier = generateWardDossier('Test Ward', dataWithoutBudget)
+    expect(dossier.fiscalContext).toBeNull()
+  })
+
+  it('adds critical reserves warning when reserves are below 3 months', () => {
+    financialHealthAssessment.mockReturnValueOnce({
+      reserves: { monthsCover: 2.1, rating: 'Critical', color: '#dc3545' },
+      resilience: { overallRating: 'Critical', overallColor: '#dc3545', components: [] },
+      summary: {
+        reserves_months: 2.1,
+        reserves_rating: 'Critical',
+        overall_resilience: 'Critical',
+        overall_color: '#dc3545',
+        materiality_threshold: 250000,
+      },
+    })
+    const dataWithBudget = {
+      ...minimalAllData,
+      budgetSummary: {
+        reserves: { total_opening: 5000000, total_closing: 4000000 },
+        net_revenue_expenditure: 45000000,
+        council_tax: { band_d_by_year: { '2024-25': 268 } },
+      },
+    }
+    const dossier = generateWardDossier('Test Ward', dataWithBudget)
+    expect(dossier.fiscalContext).not.toBeNull()
+    expect(dossier.fiscalContext.reserves_rating).toBe('Critical')
+    // Check that a critical fiscal talking point was added
+    const fiscalWarning = dossier.talkingPoints.council.find(tp =>
+      tp.text.includes('CRITICAL') && tp.text.includes('reserves')
+    )
+    expect(fiscalWarning).toBeDefined()
+    expect(fiscalWarning.priority).toBe(0)
   })
 })
 
