@@ -35,7 +35,7 @@ else
     REMOTE=$(git rev-parse origin/main)
     
     if [ "$LOCAL" != "$REMOTE" ]; then
-        if git pull origin main --ff-only 2>>"$LOG"; then
+        if git pull origin main --rebase 2>>"$LOG"; then
             BEHIND=$(git log --oneline "$LOCAL".."$REMOTE" | wc -l)
             log INFO "Pulled $BEHIND new commits"
             send_alert "✅ Sync: vps-main pulled $BEHIND commits from GitHub"

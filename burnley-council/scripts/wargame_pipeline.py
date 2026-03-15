@@ -932,7 +932,7 @@ def git_commit_and_push(councils_updated):
 
         # Pull latest
         subprocess.run(
-            ['git', 'pull', '--ff-only', 'origin', 'main'],
+            ['git', 'pull', '--rebase', 'origin', 'main'],
             cwd=GIT_REPO, capture_output=True, timeout=60,
         )
 
