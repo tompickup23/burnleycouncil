@@ -92,7 +92,7 @@ export function classifyWard(wardPrediction, ourParty, defender = null) {
  * @param {string} ourParty - The party we're calculating for
  * @returns {number} Swing in pp (positive = we need to gain, negative = we're ahead)
  */
-export function calculateSwingRequired(wardPrediction, ourParty) {
+function calculateSwingRequired(wardPrediction, ourParty) {
   if (!wardPrediction?.prediction) return Infinity;
 
   const entries = Object.entries(wardPrediction.prediction);
@@ -263,7 +263,7 @@ export function generateFiscalTalkingPoints(fiscalData, deprivation) {
  * @param {Array|null} wardCouncillors - Councillors for this ward
  * @returns {Array<{ category: string, icon: string, priority: number, text: string }>}
  */
-export function generateMeetingsTalkingPoints(wardName, meetingsData, wardCouncillors) {
+function generateMeetingsTalkingPoints(wardName, meetingsData, wardCouncillors) {
   const points = [];
   if (!meetingsData?.meetings) return points;
 
@@ -317,7 +317,7 @@ export function generateMeetingsTalkingPoints(wardName, meetingsData, wardCounci
  * @param {string} ourParty - The party we're strategising for
  * @returns {Array<{ category: string, icon: string, priority: number, text: string }>}
  */
-export function generatePollingTalkingPoints(pollingData, ourParty) {
+function generatePollingTalkingPoints(pollingData, ourParty) {
   const points = [];
   if (!pollingData?.aggregate) return points;
 
@@ -376,7 +376,7 @@ export function generatePollingTalkingPoints(pollingData, ourParty) {
  * @param {Array} propertyAssets - Array of asset objects from property_assets.json
  * @returns {Array<{ category: string, icon: string, priority: number, text: string }>}
  */
-export function generateAssetTalkingPoints(cedName, propertyAssets) {
+function generateAssetTalkingPoints(cedName, propertyAssets) {
   const points = [];
   if (!cedName || !propertyAssets?.length) return points;
 
@@ -619,7 +619,7 @@ export function generateAssetTalkingPoints(cedName, propertyAssets) {
  * @param {Object} planningData - planning.json data for the council
  * @returns {Array<{ category: string, icon: string, priority: number, text: string }>}
  */
-export function generatePlanningTalkingPoints(wardName, planningData) {
+function generatePlanningTalkingPoints(wardName, planningData) {
   const points = [];
   if (!wardName || !planningData?.summary?.by_ward) return points;
 
@@ -686,7 +686,7 @@ export function generatePlanningTalkingPoints(wardName, planningData) {
  * @param {Array} propertyAssets - Array of asset objects from property_assets.json
  * @returns {Object|null} Summary object or null if no assets
  */
-export function generatePropertySummary(wardName, propertyAssets) {
+function generatePropertySummary(wardName, propertyAssets) {
   if (!wardName || !propertyAssets?.length) return null;
   const wardAssets = propertyAssets.filter(a => a.ced === wardName || a.ward === wardName);
   if (wardAssets.length === 0) return null;
@@ -1136,7 +1136,7 @@ export function scoreIncumbentEntrenchment(wardElection, wardCouncillors, integr
  * Returns a structured playbook: headline strategy, messaging pillars,
  * attack vectors, GOTV approach, and canvassing script guidance.
  */
-export function generateWardStrategy(wardName, allData, ourParty = 'Reform UK') {
+function generateWardStrategy(wardName, allData, ourParty = 'Reform UK') {
   const { demographicsData, deprivationData, housingData, economyData, healthData,
     electionsData, councillorsData, integrityData, votingData, politicalHistoryData } = allData
 
@@ -1403,7 +1403,7 @@ export function generateWardStrategy(wardName, allData, ourParty = 'Reform UK') 
  * @param {Object|null} wardPrediction - Output from predictWard()
  * @returns {Array<{ category: string, icon: string, priority: number, text: string }>}
  */
-export function generateTalkingPoints(wardElection, demographics, deprivation, wardPrediction) {
+function generateTalkingPoints(wardElection, demographics, deprivation, wardPrediction) {
   const points = [];
 
   // --- Demographics-based ---
@@ -2363,7 +2363,7 @@ export function generateCouncilAttackLines(dogeFindings, budgetSummary, collecti
  * @param {string} ourParty - Party name
  * @returns {Array<{ priority: number, category: string, icon: string, text: string }>}
  */
-export function generateNationalLines(constituencyData, demographics, deprivation, ourParty = 'Reform UK') {
+function generateNationalLines(constituencyData, demographics, deprivation, ourParty = 'Reform UK') {
   const points = [];
   const isReform = /reform/i.test(ourParty);
 
@@ -2504,7 +2504,7 @@ export function generateNationalLines(constituencyData, demographics, deprivatio
  * @param {string|null} constituencyName - Name of constituency this ward is in
  * @returns {Object} Ward profile summary
  */
-export function buildWardProfile(demographics, deprivation, wardElection, constituencyName) {
+function buildWardProfile(demographics, deprivation, wardElection, constituencyName) {
   const totalPop = demographics?.age?.['Total: All usual residents'] || 0;
   const over65 = (demographics?.age?.['Aged 65 to 74 years'] || 0) +
                  (demographics?.age?.['Aged 75 to 84 years'] || 0) +
@@ -2550,7 +2550,7 @@ export function buildWardProfile(demographics, deprivation, wardElection, consti
  * @param {Object} params - All scoring inputs
  * @returns {{ total: number, factors: Object }}
  */
-export function scoreWardPriority({
+function scoreWardPriority({
   swingRequired = Infinity,
   winProbability = 0,
   swingHistory = null,
@@ -2620,7 +2620,7 @@ export function scoreWardPriority({
  * @param {Object} dossier - Full ward dossier
  * @returns {Object} Cheat sheet data
  */
-export function generateCheatSheet(dossier) {
+function generateCheatSheet(dossier) {
   if (!dossier) return null;
 
   // Collect all talking points

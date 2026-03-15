@@ -731,7 +731,7 @@ export function findCommitteeForMeeting(meetingCommittee, committeesData) {
  * @param {Object} allData - Full data bundle including ward-level data
  * @returns {Array<{ attack: string, counter: string, source: string, type: string }>}
  */
-export function buildCouncillorCounterArguments(dossier, policyAreas, allData) {
+function buildCouncillorCounterArguments(dossier, policyAreas, allData) {
   if (!dossier || !policyAreas?.length) return []
   const counters = []
   const name = cleanCouncillorName(dossier.name)

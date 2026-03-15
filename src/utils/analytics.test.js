@@ -1,26 +1,13 @@
 import { describe, it, expect } from 'vitest'
 import {
-  CPI_H_INDEX, deflate, realGrowthRate, perCapita, zScore,
+  deflate, realGrowthRate, perCapita, zScore,
   computeDistributionStats, giniCoefficient, reservesAdequacy,
   benfordSecondDigit, peerBenchmark, normalizeFinancialYear,
   benfordFirstTwoDigits, benfordLastTwoDigits, benfordSummation,
   materialityThreshold, cipfaResilience,
 } from './analytics'
 
-describe('CPI_H_INDEX', () => {
-  it('contains all financial years from 2015/16 to 2025/26', () => {
-    expect(Object.keys(CPI_H_INDEX)).toHaveLength(11)
-    expect(CPI_H_INDEX['2015/16']).toBeDefined()
-    expect(CPI_H_INDEX['2025/26']).toBeDefined()
-  })
-
-  it('values increase over time (inflation)', () => {
-    const values = Object.values(CPI_H_INDEX)
-    for (let i = 1; i < values.length; i++) {
-      expect(values[i]).toBeGreaterThan(values[i - 1])
-    }
-  })
-})
+// CPI_H_INDEX test removed — constant unexported (internal to deflate())
 
 describe('deflate', () => {
   it('deflates nominal to real terms', () => {

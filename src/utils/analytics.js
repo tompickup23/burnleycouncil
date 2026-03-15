@@ -13,7 +13,7 @@
 // Source: ONS series L55O — Consumer Prices Index including owner occupiers' housing costs
 // Each value is the annual average index for that financial year (April–March)
 // Base: 2015 = 100
-export const CPI_H_INDEX = {
+const CPI_H_INDEX = {
   '2015/16': 100.6,
   '2016/17': 102.3,
   '2017/18': 105.1,
