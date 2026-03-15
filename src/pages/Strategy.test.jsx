@@ -915,6 +915,7 @@ describe('Strategy', () => {
       fireEvent.click(bankHallCard)
       const tabBar = document.querySelector('.dossier-tab-bar')
       expect(tabBar).toBeTruthy()
+      expect(within(tabBar).getByText('Canvassing')).toBeInTheDocument()
       expect(within(tabBar).getByText('Profile')).toBeInTheDocument()
       expect(within(tabBar).getByText('Election')).toBeInTheDocument()
       expect(within(tabBar).getByText('Councillors')).toBeInTheDocument()
@@ -1033,6 +1034,63 @@ describe('Strategy', () => {
       const tabBar = document.querySelector('.dossier-tab-bar')
       fireEvent.click(within(tabBar).getByText('Briefing Sheet'))
       expect(screen.getByText('Top 5 Discussion Points')).toBeInTheDocument()
+    })
+
+    it('shows canvassing tab and can switch to it', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      expect(within(tabBar).getByText('Canvassing')).toBeInTheDocument()
+      fireEvent.click(within(tabBar).getByText('Canvassing'))
+      expect(screen.getByText(/Doorstep Playbook/)).toBeInTheDocument()
+    })
+
+    it('canvassing tab shows opening lines section', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Canvassing'))
+      expect(screen.getByText('Opening Lines')).toBeInTheDocument()
+    })
+
+    it('canvassing tab shows objection handling section', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Canvassing'))
+      expect(screen.getByText('Objection Handling')).toBeInTheDocument()
+    })
+
+    it('canvassing tab shows closing techniques', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Canvassing'))
+      expect(screen.getByText('Closing the Ask')).toBeInTheDocument()
+    })
+
+    it('canvassing tab shows dos and donts', () => {
+      setupMocks()
+      renderComponent()
+      fireEvent.click(screen.getByText('Ward Dossiers'))
+      const bankHallCard = screen.getByText('Bank Hall').closest('.dossier-ward-card')
+      fireEvent.click(bankHallCard)
+      const tabBar = document.querySelector('.dossier-tab-bar')
+      fireEvent.click(within(tabBar).getByText('Canvassing'))
+      expect(screen.getByText('Do')).toBeInTheDocument()
+      expect(screen.getByText("Don't")).toBeInTheDocument()
     })
 
     it('shows score badge in dossier header', () => {

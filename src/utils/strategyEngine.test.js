@@ -12,6 +12,7 @@ import {
   generateAttackLines,
   generateCouncilAttackLines,
   generateWardDossier,
+  generateCanvassingPlaybook,
   computeWardCentroids,
   clusterWards,
   optimiseCanvassingRoute,
@@ -1466,5 +1467,194 @@ describe('isQuickWin', () => {
   it('handles missing fields gracefully', () => {
     expect(isQuickWin({})).toBe(false)
     expect(isQuickWin({ disposal_pathway: 'quick_win_auction' })).toBe(false)
+  })
+})
+
+// ---------------------------------------------------------------------------
+// generateCanvassingPlaybook
+// ---------------------------------------------------------------------------
+
+describe('generateCanvassingPlaybook', () => {
+  const playbookData = {
+    electionsData: {
+      meta: { next_election: { date: '2026-05-07', defenders: { 'Test Ward': { party: 'Labour', name: 'John Doe' } } } },
+      wards: {
+        'Test Ward': {
+          current_holders: [{ name: 'John Doe', party: 'Labour' }],
+          history: [
+            { date: '2024-05-02', year: 2024, electorate: 5000, turnout: 0.30, turnout_pct: 30, turnout_votes: 1500,
+              winner: 'John Doe', winning_party: 'Labour', margin_pct: 6.7,
+              candidates: [
+                { name: 'John Doe', party: 'Labour', votes: 600, pct: 0.40, elected: true },
+                { name: 'Jane Smith', party: 'Conservative', votes: 500, pct: 0.333, elected: false },
+                { name: 'Bob Reform', party: 'Reform UK', votes: 400, pct: 0.267, elected: false },
+              ],
+            },
+            { date: '2022-05-05', year: 2022, electorate: 5100, turnout: 0.35, turnout_pct: 35, turnout_votes: 1785,
+              winner: 'John Doe', winning_party: 'Labour', margin_pct: 15.2,
+              candidates: [
+                { name: 'John Doe', party: 'Labour', votes: 800, pct: 0.45, elected: true },
+                { name: 'Jane Smith', party: 'Conservative', votes: 530, pct: 0.297, elected: false },
+              ],
+            },
+          ],
+        },
+      },
+    },
+    referenceData: null,
+    politicsSummary: { coalition: { majority: false, type: 'NOC' } },
+    demographicsData: {
+      wards: {
+        'W01': {
+          name: 'Test Ward',
+          age: { 'Total: All usual residents': 5000, 'Aged 65 to 74 years': 400, 'Aged 75 to 84 years': 200, 'Aged 85 years and over': 50 },
+          ethnicity: { 'Total: All usual residents': 5000, 'White: English, Welsh, Scottish, Northern Irish or British': 4500 },
+          economic_activity: { 'Total: All usual residents aged 16 years and over': 4000, 'Unemployed': 200 },
+        },
+      },
+    },
+    deprivationData: { wards: { 'Test Ward': { avg_imd_decile: 3, deprivation_level: 'High', avg_imd_rank: 5000, avg_imd_score: 40 } } },
+    councillorsData: [{ id: 'c1', name: 'John Doe', party: 'Labour', ward: 'Test Ward', roles: [] }],
+    integrityData: { councillors: [{ councillor_id: 'c1', name: 'John Doe', integrity_score: 80, risk_level: 'low', red_flags: [], total_directorships: 1 }] },
+    interestsData: { councillors: { c1: { name: 'John Doe', declared_companies: ['Doe Ltd'], declared_employment: [], declared_securities: [] } } },
+    dogeFindings: { fraud_triangle: { overall_score: 71, risk_level: 'elevated' }, findings: [] },
+    budgetSummary: { reserves: { total_opening: 27000000, total_closing: 26500000 }, council_tax: { band_d_by_year: { '2023-24': 250, '2024-25': 268 } } },
+    collectionRates: { latest_rate: 94.04, trend_direction: 'declining', five_year_avg: 93.56 },
+    constituenciesData: { constituencies: [{ name: 'Burnley', mp: { name: 'Oliver Ryan', party: 'Labour' }, ge2024: { results: [{ party: 'Reform UK', pct: 0.248, votes: 9259 }] }, voting_record: { rebellions: 0 } }] },
+    wardConstituencyMap: { 'Test Ward': { constituency_name: 'Burnley' } },
+    councilPrediction: {
+      wards: {
+        'Test Ward': makePrediction(
+          { Labour: 0.38, 'Reform UK': 0.34, Conservative: 0.20, 'Liberal Democrats': 0.08 },
+          'Labour', 0.04, 'low'
+        ),
+      },
+    },
+    rankedWard: null,
+    meetingsData: null,
+  }
+
+  it('generates a complete playbook with all sections', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    expect(pb).not.toBeNull()
+    expect(pb.wardName).toBe('Test Ward')
+    expect(pb.archetype).toBeDefined()
+    expect(pb.openingLines).toBeDefined()
+    expect(pb.openingLines.length).toBeGreaterThanOrEqual(3)
+    expect(pb.issueResponses).toBeDefined()
+    expect(pb.issueResponses.length).toBeGreaterThanOrEqual(5)
+    expect(pb.objectionHandling).toBeDefined()
+    expect(pb.objectionHandling.length).toBeGreaterThanOrEqual(4)
+    expect(pb.closingTechniques).toBeDefined()
+    expect(pb.closingTechniques.length).toBeGreaterThanOrEqual(2)
+    expect(pb.doorstepDos).toBeDefined()
+    expect(pb.doorstepDos.length).toBeGreaterThanOrEqual(5)
+    expect(pb.doorstepDonts).toBeDefined()
+    expect(pb.doorstepDonts.length).toBeGreaterThanOrEqual(5)
+    expect(pb.bodyLanguageTips).toBeDefined()
+    expect(pb.bodyLanguageTips.length).toBeGreaterThanOrEqual(5)
+  })
+
+  it('opening lines include standard intro with ward name', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    const standardIntro = pb.openingLines.find(l => l.scenario === 'Standard introduction')
+    expect(standardIntro).toBeDefined()
+    expect(standardIntro.script).toContain('Test Ward')
+    expect(standardIntro.script).toContain('Reform UK')
+  })
+
+  it('opening lines include busy/interrupted scenario', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    const busy = pb.openingLines.find(l => l.scenario.includes('busy'))
+    expect(busy).toBeDefined()
+    expect(busy.script).toContain('leaflet')
+  })
+
+  it('issue responses cover key topics', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    const issues = pb.issueResponses.map(ir => ir.issue)
+    expect(issues).toContain('Council tax — is it good value?')
+    expect(issues).toContain('Roads and potholes')
+    expect(issues).toContain('NHS and health services')
+    expect(issues).toContain('Housing and planning')
+  })
+
+  it('objection handling includes "I always vote" response', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    const alwaysVote = pb.objectionHandling.find(o => o.objection.includes('always vote'))
+    expect(alwaysVote).toBeDefined()
+    expect(alwaysVote.response).toContain('takes your vote for granted')
+  })
+
+  it('objection handling includes "never heard of Reform"', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    const neverHeard = pb.objectionHandling.find(o => o.objection.includes('never heard'))
+    expect(neverHeard).toBeDefined()
+    expect(neverHeard.response).toContain('ground up')
+  })
+
+  it('objection handling includes "councillors cant change anything"', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    const cantChange = pb.objectionHandling.find(o => o.objection.includes('change anything'))
+    expect(cantChange).toBeDefined()
+    expect(cantChange.response).toContain('council tax')
+  })
+
+  it('closing techniques include direct ask with election date', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    const direct = pb.closingTechniques.find(ct => ct.technique === 'The direct ask')
+    expect(direct).toBeDefined()
+    expect(direct.script).toContain('vote')
+  })
+
+  it('defender briefing includes councillor information', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    expect(pb.defenderBriefing).toBeDefined()
+    expect(pb.defenderBriefing.party).toBe('Labour')
+  })
+
+  it('ward intelligence includes turnout history', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    expect(pb.wardIntelligence.turnoutHistory).toBeDefined()
+    expect(pb.wardIntelligence.turnoutHistory.length).toBeGreaterThanOrEqual(1)
+    expect(pb.wardIntelligence.turnoutHistory[0].year).toBeDefined()
+  })
+
+  it('GOTV strategy includes approach and target voters', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    expect(pb.gotv).toBeDefined()
+    expect(pb.gotv.approach).toBeDefined()
+    expect(pb.gotv.approach.length).toBeGreaterThan(20)
+    expect(pb.gotv.targetVoters).toBeDefined()
+    expect(pb.gotv.targetVoters.length).toBeGreaterThan(20)
+  })
+
+  it('returns playbook even for wards with no election data', () => {
+    const pb = generateCanvassingPlaybook('Nonexistent Ward', playbookData)
+    // generateWardDossier still creates a dossier, so playbook is generated
+    expect(pb).toBeDefined()
+    expect(pb.wardName).toBe('Nonexistent Ward')
+    expect(pb.openingLines.length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('handles sparse data gracefully', () => {
+    const sparse = { electionsData: { wards: {}, meta: {} }, demographicsData: null, deprivationData: null, councillorsData: [] }
+    const pb = generateCanvassingPlaybook('Test Ward', sparse)
+    // Should still generate something usable, even with minimal data
+    expect(pb).toBeDefined()
+    expect(pb.openingLines.length).toBeGreaterThanOrEqual(2)
+    expect(pb.bodyLanguageTips.length).toBeGreaterThanOrEqual(5)
+  })
+
+  it('dos list includes listening guidance', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    const listenDo = pb.doorstepDos.find(d => d.toLowerCase().includes('listen'))
+    expect(listenDo).toBeDefined()
+  })
+
+  it('donts list includes arguing warning', () => {
+    const pb = generateCanvassingPlaybook('Test Ward', playbookData)
+    const argDont = pb.doorstepDonts.find(d => d.toLowerCase().includes('argue'))
+    expect(argDont).toBeDefined()
   })
 })

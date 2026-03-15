@@ -3232,3 +3232,464 @@ export function generateCanvassingCSV(sessions, ourParty, councilName) {
 
   return rows.join('\n');
 }
+
+// ---------------------------------------------------------------------------
+// Canvassing Playbook — world-class doorstep scripts per ward
+// ---------------------------------------------------------------------------
+
+/** Body language tips — universal, not ward-specific */
+const BODY_LANGUAGE_TIPS = [
+  'Stand slightly back from the door — never lean in. Let them come to you.',
+  'Smile naturally. Make eye contact when they speak, look away occasionally when you speak.',
+  'Hold your clipboard/phone at waist level, never raised like a barrier.',
+  'Mirror their body language subtly — if they fold arms, slow down and soften tone.',
+  'If they step outside, take a small step back. Give them space.',
+  'If a dog barks, wait. Never talk over a barking dog.',
+  'If they\'re busy: "I can see you\'re busy — can I leave this leaflet? We\'re standing in this ward for the first time."',
+  'If children answer: "Is mum or dad in?" Never engage with children alone.',
+]
+
+/** Issue-specific doorstep responses — archetype-sensitive */
+const DOORSTEP_ISSUES = {
+  council_tax: {
+    question: 'Council tax — is it good value?',
+    responses: {
+      deprived_white: 'Your council tax goes up every year but what do you actually see for it? We want to audit every penny and cut the waste.',
+      deprived_diverse: 'Council tax hits hardest on people who can least afford it. We want to make sure every pound goes to frontline services, not back-office bureaucracy.',
+      affluent_retired: 'You\'ve paid council tax your whole life. You deserve to know exactly where it goes. We\'ll publish full transparency dashboards so you can see every spend.',
+      affluent_family: 'Between mortgage, bills, and council tax, families are stretched. We want to drive efficiency so your money goes further — better schools, better roads, less waste.',
+      middle_ground: 'Council tax keeps going up but services don\'t improve. We\'ll challenge every budget line and make sure your money works harder.',
+      default: 'We believe council tax should deliver visible results. We\'ll fight for transparency and value for money.',
+    },
+  },
+  roads_potholes: {
+    question: 'Roads and potholes',
+    responses: {
+      default: 'Lancashire\'s roads are a disgrace — we all know it. The council has the budget but won\'t prioritise properly. We\'ll push for a road-by-road repair plan with public tracking.',
+    },
+  },
+  nhs_health: {
+    question: 'NHS and health services',
+    responses: {
+      retirement: 'GP access is getting worse, not better. At county level we control adult social care — we\'ll make sure it works properly so hospitals aren\'t blocked by people who should be home with the right support.',
+      default: 'Health starts locally. We\'ll push for better social care, proper mental health support, and making sure council-funded services actually reach the people who need them.',
+    },
+  },
+  immigration: {
+    question: 'Immigration and asylum',
+    responses: {
+      deprived_white: 'I hear this a lot on doorsteps. The asylum system is broken and it\'s local areas like this that carry the cost. We\'ll push for full transparency on dispersal numbers and costs.',
+      deprived_diverse: 'Community cohesion matters. We want proper investment in local services that brings everyone together, not policies that set communities against each other.',
+      affluent_retired: 'It\'s a national issue but it has local impact. We want honest numbers, proper planning, and fair distribution — not dumping on areas without consultation.',
+      default: 'We want an honest conversation about immigration. Local councils should have a say, and communities deserve transparency about what\'s happening in their area.',
+    },
+  },
+  housing: {
+    question: 'Housing and planning',
+    responses: {
+      deprived_white: 'Social housing waiting lists are too long. We\'ll fight to prioritise local people who\'ve been waiting years, not newcomers who jump the queue.',
+      deprived_diverse: 'Good housing is the foundation of a good life. We\'ll push for more affordable homes, tougher enforcement on rogue landlords, and better maintenance of council properties.',
+      affluent_family: 'We understand the concern about overdevelopment. We\'ll fight to protect green spaces while making sure any new housing comes with the infrastructure — schools, roads, GP surgeries.',
+      default: 'Everyone deserves a decent home. We\'ll push for sensible housing policy that respects local communities and protects green spaces.',
+    },
+  },
+  cost_of_living: {
+    question: 'Cost of living',
+    responses: {
+      deprived_white: 'Energy bills, food, council tax — everything\'s going up but wages aren\'t. At council level we can cut waste and make services cheaper. That\'s real help, not empty promises.',
+      deprived_diverse: 'We know how hard it is. We\'ll push for council support services, fair procurement that keeps money local, and cutting the bureaucratic waste that drives up costs.',
+      middle_ground: 'Working people are being squeezed from every direction. We\'ll fight to keep council tax as low as possible while maintaining the services you rely on.',
+      default: 'The cost of living crisis hits everyone. We\'ll drive council efficiency so your taxes go further.',
+    },
+  },
+  crime_safety: {
+    question: 'Crime and anti-social behaviour',
+    responses: {
+      deprived_white: 'This area has been neglected for too long. We\'ll push for proper community policing, CCTV where it\'s needed, and council enforcement teams that actually turn up.',
+      default: 'Everyone deserves to feel safe in their own community. We\'ll push for proper enforcement, better street lighting, and holding the police to account.',
+    },
+  },
+  bins_waste: {
+    question: 'Bins and waste collection',
+    responses: {
+      default: 'It\'s basic but it matters. Your bins should be collected reliably. If there\'s fly-tipping, the council should clean it up fast. We\'ll hold them to account on the basics.',
+    },
+  },
+}
+
+/**
+ * Generate a comprehensive canvassing playbook for a specific ward.
+ *
+ * Produces ward-specific doorstep scripts, objection handling, opening lines,
+ * closing techniques, defender intelligence, and issue-by-issue responses —
+ * all shaped by the ward's demographics, election history, and archetype.
+ *
+ * @param {string} wardName
+ * @param {object} allData — same 22-source data bag as generateWardDossier
+ * @param {string} ourParty
+ * @returns {object|null} Full canvassing playbook
+ */
+export function generateCanvassingPlaybook(wardName, allData, ourParty = 'Reform UK') {
+  const dossier = generateWardDossier(wardName, allData, ourParty)
+  if (!dossier) return null
+
+  const { wardStrategy, profile, election, councillors, entrenchment, cheatSheet, talkingPoints } = dossier
+  const archetype = wardStrategy?.archetype || profile?.archetype?.id || 'mixed'
+  const defender = election?.defender?.party || election?.prediction?.winner || 'Unknown'
+  const defenderName = election?.defender?.name || councillors?.[0]?.name || 'the incumbent'
+
+  // --- Opening lines ---
+  const openingLines = _buildOpeningLines(archetype, wardName, defender, defenderName, profile, election)
+
+  // --- Issue responses ---
+  const issueResponses = _buildIssueResponses(archetype, talkingPoints, profile)
+
+  // --- Objection handling ---
+  const objectionHandling = _buildObjectionHandling(archetype, defender, defenderName, entrenchment, election, ourParty)
+
+  // --- Closing techniques ---
+  const closingTechniques = _buildClosingTechniques(archetype, election, ourParty)
+
+  // --- Defender briefing ---
+  const defenderBriefing = _buildDefenderBriefing(councillors, entrenchment, election, defender)
+
+  // --- Ward intelligence ---
+  const wardIntelligence = _buildWardIntelligence(profile, cheatSheet, election)
+
+  // --- GOTV strategy ---
+  const gotv = _buildGOTV(archetype, profile, election)
+
+  // --- Dos and Don'ts ---
+  const { dos, donts } = _buildDoorstepRules(archetype, profile, cheatSheet)
+
+  return {
+    wardName,
+    archetype,
+    archetypeLabel: wardStrategy?.archetype?.replace(/_/g, ' ') || profile?.archetype?.label || 'Mixed',
+    openingLines,
+    issueResponses,
+    objectionHandling,
+    closingTechniques,
+    doorstepDos: dos,
+    doorstepDonts: donts,
+    defenderBriefing,
+    wardIntelligence,
+    gotv,
+    bodyLanguageTips: BODY_LANGUAGE_TIPS,
+    messagingPillars: wardStrategy?.messagingPillars || [],
+    warnings: cheatSheet?.doNotSay || wardStrategy?.warnings || [],
+  }
+}
+
+// --- Playbook helpers (internal) ---
+
+function _buildOpeningLines(archetype, wardName, defender, defenderName, profile, election) {
+  const lines = []
+  const elecDate = election?.prediction?.date || 'May 7th'
+  const swingNeeded = election?.prediction?.swing_needed
+  const margin = election?.history?.[0]?.margin_pct
+
+  // Universal opener
+  lines.push({
+    scenario: 'Standard introduction',
+    script: `Hi there — I'm [YOUR NAME] and I'm standing for Reform UK in ${wardName} on ${elecDate}. We've never had a candidate here before, and I wanted to introduce myself and hear what matters to you.`,
+    note: 'Warm, non-confrontational. Establishes novelty — you\'re the new option.',
+  })
+
+  // If incumbent is very entrenched
+  if (margin && margin > 30) {
+    lines.push({
+      scenario: 'Long-standing incumbent ward',
+      script: `Hi — I'm standing for Reform UK. I know ${defenderName} has been here a long time, but honestly, that's part of why I'm standing. When someone's had the job for decades, they stop asking what you need. I'm here to listen.`,
+      note: 'Frames tenure as complacency, not experience.',
+    })
+  }
+
+  // Archetype-specific
+  if (['deprived_white', 'struggling'].includes(archetype)) {
+    lines.push({
+      scenario: 'Deprived/working-class area',
+      script: `Can I ask you honestly — has this area got better or worse in the last few years? Because from what I can see walking round, it's getting left behind. And nobody's doing anything about it.`,
+      note: 'Validates frustration. Let them talk — they will.',
+    })
+  } else if (archetype === 'deprived_diverse') {
+    lines.push({
+      scenario: 'Diverse community',
+      script: `I'm [NAME] from Reform UK. I'm not here to lecture anyone — I want to know what YOUR priorities are for this community. What's the one thing you'd want your councillor to fix?`,
+      note: 'Respectful, listening-first. Avoids culture-war framing.',
+    })
+  } else if (['affluent_retired', 'retirement'].includes(archetype)) {
+    lines.push({
+      scenario: 'Older/retired voter',
+      script: `Good [morning/afternoon] — I'm standing for Reform UK on ${elecDate}. You've paid council tax for a long time. Do you feel you're getting value for it? Because I don't think many people do.`,
+      note: 'Respectful but direct. Council tax value is the hook.',
+    })
+  } else if (archetype === 'affluent_family') {
+    lines.push({
+      scenario: 'Family/professional area',
+      script: `Hi — quick question. If you could change one thing about how this council runs, what would it be? I'm standing for Reform UK because I think we can do things properly.`,
+      note: 'Professional tone. Competence over anger.',
+    })
+  } else {
+    lines.push({
+      scenario: 'General/mixed ward',
+      script: `What one thing would you change about this area if you could? I'm standing because I think people deserve better from their local council.`,
+      note: 'Open-ended. Let them set the agenda.',
+    })
+  }
+
+  // Return-visit opener
+  lines.push({
+    scenario: 'Second visit / follow-up',
+    script: `Hi again — I called a few weeks ago. You mentioned [ISSUE]. I wanted to let you know what I've found out about that...`,
+    note: 'Shows you listened and followed through. Incredibly powerful.',
+  })
+
+  // Busy/interrupted
+  lines.push({
+    scenario: 'They\'re clearly busy',
+    script: `I can see you\'re in the middle of something — I won't keep you. Can I leave this leaflet? It's got my number on it. I'm the Reform UK candidate on ${elecDate}.`,
+    note: 'Respect their time. The leaflet does the work.',
+  })
+
+  return lines
+}
+
+function _buildIssueResponses(archetype, talkingPoints, profile) {
+  const responses = []
+
+  for (const [issueKey, issue] of Object.entries(DOORSTEP_ISSUES)) {
+    const response = issue.responses[archetype] || issue.responses.default
+    // Find ward-specific talking point evidence for this issue
+    const allTPs = [...(talkingPoints?.local || []), ...(talkingPoints?.council || []), ...(talkingPoints?.national || [])]
+    const wardEvidence = allTPs.filter(tp => {
+      const text = (tp.text || '').toLowerCase()
+      return issueKey === 'council_tax' ? text.includes('council tax') || text.includes('band d') :
+             issueKey === 'roads_potholes' ? text.includes('road') || text.includes('pothole') || text.includes('highway') :
+             issueKey === 'nhs_health' ? text.includes('health') || text.includes('gp') || text.includes('nhs') || text.includes('social care') :
+             issueKey === 'immigration' ? text.includes('immigration') || text.includes('asylum') || text.includes('dispersal') :
+             issueKey === 'housing' ? text.includes('housing') || text.includes('rent') || text.includes('tenant') || text.includes('social hous') :
+             issueKey === 'cost_of_living' ? text.includes('cost of living') || text.includes('energy') || text.includes('food bank') :
+             issueKey === 'crime_safety' ? text.includes('crime') || text.includes('anti-social') || text.includes('asb') :
+             issueKey === 'bins_waste' ? text.includes('bin') || text.includes('waste') || text.includes('recycling') || text.includes('fly-tip') :
+             false
+    }).slice(0, 2)
+
+    responses.push({
+      issue: issue.question,
+      response,
+      wardEvidence: wardEvidence.map(tp => tp.text),
+    })
+  }
+
+  return responses
+}
+
+function _buildObjectionHandling(archetype, defender, defenderName, entrenchment, election, ourParty) {
+  const objections = []
+  const tenure = entrenchment?.factors?.find(f => f?.factor === 'Individual tenure')
+  const tenureYears = tenure?.value || ''
+
+  // 1. "I always vote [defender party]"
+  objections.push({
+    objection: `"I always vote ${defender}"`,
+    response: `I respect that. But can I ask — when was the last time they knocked on your door and asked what you need? We're here because we think you deserve more than a party that takes your vote for granted.`,
+    tone: 'Respectful but pointed. Don\'t attack the voter — attack the party\'s complacency.',
+  })
+
+  // 2. "I've never heard of Reform locally"
+  objections.push({
+    objection: '"I\'ve never heard of Reform in this area"',
+    response: `That's exactly why I'm here. We're building from the ground up — no career politicians, no party machine. Just local people who've had enough of the same old parties delivering the same old results.`,
+    tone: 'Turn the weakness into a strength. Novelty = authenticity.',
+  })
+
+  // 3. "You can't change anything as a councillor"
+  objections.push({
+    objection: '"Councillors can\'t change anything"',
+    response: `Actually, councillors vote on your council tax, planning applications, road repairs, social housing — everything that affects your daily life. The problem isn't that councillors can't change things, it's that the ones we've got won't.`,
+    tone: 'Educate without condescending. Be specific.',
+  })
+
+  // 4. "I don't vote"
+  objections.push({
+    objection: '"I don\'t bother voting"',
+    response: `I get it — I used to think the same. But that's how they get away with wasting your money. Your council tax went up but did your services improve? If enough people like you vote, we can actually change things.`,
+    tone: 'Empathise first, then make it personal. "People like you" = empowerment.',
+  })
+
+  // 5. Long-serving incumbent
+  if (tenureYears || (entrenchment?.score || 0) > 60) {
+    objections.push({
+      objection: `"${defenderName} does a good job"`,
+      response: `They've been doing this a long time${tenureYears ? ` — ${tenureYears}` : ''}. But I'd ask: has the area got better? If you've had the same representative for years and things aren't improving, maybe it's time to try someone new.`,
+      tone: 'Don\'t attack the person — question the results. "Time for something new" is powerful.',
+    })
+  }
+
+  // 6. "Reform are just about immigration"
+  objections.push({
+    objection: '"Reform are just about immigration"',
+    response: `That's what people assume, but look at what I'm actually talking about — council tax, roads, local services, accountability. At local level it's about making sure your money is spent properly. That's what I'll focus on.`,
+    tone: 'Pivot to local. Never get defensive about the national party.',
+  })
+
+  // 7. Archetype-specific
+  if (archetype === 'deprived_diverse') {
+    objections.push({
+      objection: '"Reform doesn\'t represent my community"',
+      response: `I'm here to represent everyone in this ward, full stop. I want better services, safer streets, and proper investment for this community. If that's what you want too, we're on the same side.`,
+      tone: 'Universal values. Never engage with identity framing — stay on services.',
+    })
+  }
+
+  // 8. "I'm voting tactically"
+  if (election?.prediction?.classification?.id === 'battleground' || election?.prediction?.classification?.id === 'target') {
+    objections.push({
+      objection: '"I\'m voting tactically to keep [party] out"',
+      response: `I understand the instinct. But tactical voting just keeps the same parties in power. If you vote for what you actually believe in, you might be surprised how many of your neighbours feel the same way.`,
+      tone: 'Positive. Frame as liberation from the tactical trap.',
+    })
+  }
+
+  return objections
+}
+
+function _buildClosingTechniques(archetype, election, ourParty) {
+  const elecDate = election?.prediction?.date || 'May 7th'
+  const techniques = []
+
+  techniques.push({
+    technique: 'The direct ask',
+    script: `So — can I count on your vote on ${elecDate}? It\'s the first time ${ourParty} has stood here, and every single vote matters.`,
+  })
+
+  techniques.push({
+    technique: 'The soft commitment',
+    script: `I won't ask you to promise anything — but will you at least consider us? And if you do have any questions between now and ${elecDate}, my number\'s on the leaflet.`,
+  })
+
+  techniques.push({
+    technique: 'The follow-up close',
+    script: `I'm going to come back before election day. Is there anything specific you'd like me to find out about? I'll look into it and let you know.`,
+  })
+
+  if (['deprived_white', 'struggling', 'middle_ground'].includes(archetype)) {
+    techniques.push({
+      technique: 'The protest vote close',
+      script: `If you\'re fed up with the same old parties, this is your chance to send a message. We don\'t need to win this time — but a strong vote for Reform tells them this area won\'t be ignored any more.`,
+    })
+  }
+
+  return techniques
+}
+
+function _buildDefenderBriefing(councillors, entrenchment, election, defender) {
+  const defCouncillors = councillors?.filter(c => c.party === defender) || []
+  const primary = defCouncillors[0] || {}
+  const history = election?.history || []
+  const recent = history.slice(0, 5)
+  const margins = recent.map(h => h.margin_pct).filter(m => m != null)
+  const trend = margins.length >= 2 ? (margins[0] < margins[margins.length - 1] ? 'weakening' : 'strengthening') : 'unknown'
+
+  const vulnerabilities = []
+  if (entrenchment?.score > 70) vulnerabilities.push('Deeply entrenched — complacency is the angle')
+  if (trend === 'weakening') vulnerabilities.push(`Vote share declining — margins: ${margins.map(m => m.toFixed(1) + '%').join(' → ')}`)
+  if (primary.integrityIssues?.length) vulnerabilities.push(`${primary.integrityIssues.length} integrity flags`)
+  if (primary.attackLines?.length) vulnerabilities.push(...primary.attackLines.slice(0, 2).map(a => typeof a === 'string' ? a : a.line || a.attack || String(a)))
+  const strengths = []
+  if (entrenchment?.score < 40) strengths.push('Relatively new — less personal vote to overcome')
+  if (trend === 'strengthening') strengths.push('Growing vote share — don\'t underestimate')
+  if (primary.name) strengths.push(`Known locally as ${primary.name}`)
+
+  return {
+    name: primary.name || 'Unknown',
+    party: defender,
+    tenure: entrenchment?.factors?.find(f => f?.factor === 'Individual tenure')?.detail || 'Unknown',
+    marginTrend: trend,
+    recentMargins: margins,
+    vulnerabilities,
+    strengths,
+    doNotMention: primary.integrityIssues?.length ? [] : ['No known integrity issues — don\'t invent them'],
+  }
+}
+
+function _buildWardIntelligence(profile, cheatSheet, election) {
+  return {
+    keyStats: cheatSheet?.keyStats || [],
+    population: profile?.population,
+    electorate: profile?.electorate,
+    turnoutHistory: election?.history?.slice(0, 5).map(h => ({
+      year: h.year, turnout: h.turnout_pct, winner: h.winner, party: h.winning_party, margin: h.margin_pct,
+    })) || [],
+    deprivationNote: profile?.deprivation ? `IMD decile ${profile.deprivation.avg_imd_decile} — ${profile.deprivation.level || ''}` : null,
+    demographicNote: profile?.demographics
+      ? `${profile.demographics.white_british_pct ? Math.round(profile.demographics.white_british_pct) + '% White British' : ''}, ${profile.demographics.over_65_pct ? Math.round(profile.demographics.over_65_pct) + '% over 65' : ''}`
+      : null,
+  }
+}
+
+function _buildGOTV(archetype, profile, election) {
+  const elecDate = election?.prediction?.date || 'May 7th'
+  const turnout = election?.history?.[0]?.turnout_pct
+
+  const approach = ['deprived_white', 'deprived_diverse', 'struggling'].includes(archetype)
+    ? `Low-turnout ward${turnout ? ` (${turnout.toFixed(0)}% last time)` : ''}. Every vote is magnified. Focus on getting YOUR voters out, not converting opponents. Door-knock identified supporters on election day morning and afternoon.`
+    : ['affluent_retired', 'retirement'].includes(archetype)
+      ? `Higher-turnout ward. Postal vote sign-ups are critical — many older voters prefer them. Ask about postal votes during canvassing. Follow up with identified supporters by phone the weekend before.`
+      : `Target identified supporters with a reminder leaflet 3 days before ${elecDate}. Text/WhatsApp supporters on the morning. Have a visible presence at polling stations — rosette, smile, "Good morning".`
+
+  const targetVoters = ['deprived_white', 'struggling'].includes(archetype)
+    ? 'Previous non-voters who are angry but haven\'t had anyone to vote for. Also: former UKIP/BNP voters who\'ve stayed home since.'
+    : archetype === 'deprived_diverse'
+      ? 'Community leaders and their networks. One respected voice endorsing you can move dozens of votes.'
+      : ['affluent_retired', 'retirement'].includes(archetype)
+        ? 'Postal voters, regular voters frustrated with council tax rises, and anyone who mentioned value-for-money concerns.'
+        : 'Anyone who expressed frustration with the status quo. First-time voters. People who said "I\'ll think about it" — they\'re persuadable.'
+
+  return { approach, targetVoters, electionDate: elecDate }
+}
+
+function _buildDoorstepRules(archetype, profile, cheatSheet) {
+  const dos = [
+    'Listen more than you talk — aim for 70/30 in their favour',
+    'Note their name and issue for follow-up (shows you care)',
+    'Use local street names, landmarks, and businesses — shows you know the area',
+    'Carry a pen — you\'ll need to write things down',
+    'Dress smart-casual. Clean shoes. Reform rosette visible but not overbearing',
+    'Say "I don\'t know, but I\'ll find out" when you genuinely don\'t know',
+    'Thank them for their time even if they\'re hostile — you never know who\'s watching',
+  ]
+
+  const donts = [
+    'Never argue on the doorstep — if they\'re hostile, thank them and move on',
+    'Never promise what you can\'t deliver — "I\'ll fight for" is better than "I\'ll do"',
+    'Never criticise voters for their previous choices — "I understand why" is always better',
+    'Never spend more than 3-4 minutes per door — volume matters more than depth',
+    'Never canvass alone after dark',
+    'Never discuss your personal income, religion, or family situation',
+  ]
+
+  // Archetype-specific warnings
+  if (cheatSheet?.doNotSay?.length) {
+    for (const warning of cheatSheet.doNotSay) {
+      donts.push(warning)
+    }
+  }
+
+  if (['deprived_diverse'].includes(archetype)) {
+    donts.push('Never use immigration as an attack line in this ward — focus on services and community')
+    dos.push('Learn key community organisations and faith institutions — reference them when appropriate')
+  }
+
+  if (['affluent_retired', 'retirement'].includes(archetype)) {
+    donts.push('Don\'t be rushed or aggressive — older voters respond to patience and courtesy')
+    dos.push('Ask about postal votes — many prefer them')
+  }
+
+  if (['affluent_family'].includes(archetype)) {
+    dos.push('Have data ready — school performance, planning stats, council spending figures')
+  }
+
+  return { dos, donts }
+}

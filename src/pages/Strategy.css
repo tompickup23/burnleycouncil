@@ -2410,3 +2410,420 @@
   left: 0;
   top: 0;
 }
+
+/* ================================================================ */
+/* CANVASSING PLAYBOOK TAB                                          */
+/* ================================================================ */
+
+.canvassing-playbook-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.canvassing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.canvassing-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: #f5f5f7;
+}
+
+.canvassing-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.canvassing-meta .print-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(18, 182, 207, 0.15);
+  border: 1px solid rgba(18, 182, 207, 0.3);
+  color: #12B6CF;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: background 0.2s;
+}
+
+.canvassing-meta .print-btn:hover {
+  background: rgba(18, 182, 207, 0.25);
+}
+
+/* Opening Lines */
+.opening-lines-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.opening-line-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.opening-scenario {
+  font-size: 0.78rem;
+  color: #12B6CF;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.opening-script {
+  margin: 0;
+  padding: 12px 16px;
+  background: rgba(18, 182, 207, 0.06);
+  border-left: 3px solid #12B6CF;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.92rem;
+  color: #f5f5f7;
+  line-height: 1.5;
+  font-style: italic;
+}
+
+.opening-note {
+  font-size: 0.78rem;
+  color: #8e8e93;
+  margin-top: 8px;
+  padding-left: 19px;
+  position: relative;
+}
+
+.opening-note::before {
+  content: '💡';
+  position: absolute;
+  left: 0;
+}
+
+/* Issue Responses */
+.issue-responses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 12px;
+}
+
+.issue-response-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.issue-question {
+  font-weight: 600;
+  color: #f5f5f7;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+
+.issue-script {
+  margin: 0;
+  padding: 10px 14px;
+  background: rgba(48, 209, 88, 0.05);
+  border-left: 3px solid #30d158;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  line-height: 1.45;
+  font-style: italic;
+}
+
+.issue-evidence {
+  margin-top: 8px;
+  font-size: 0.78rem;
+  color: #8e8e93;
+}
+
+.issue-evidence strong {
+  color: #aeaeb2;
+}
+
+.issue-evidence ul {
+  margin: 4px 0 0;
+  padding-left: 16px;
+}
+
+.issue-evidence li {
+  margin-bottom: 2px;
+}
+
+/* Objection Handling */
+.objection-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.objection-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.objection-text {
+  font-weight: 600;
+  color: #ff9f0a;
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+}
+
+.objection-response {
+  margin: 0;
+  padding: 10px 14px;
+  background: rgba(18, 182, 207, 0.06);
+  border-left: 3px solid #12B6CF;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  line-height: 1.45;
+  font-style: italic;
+}
+
+.objection-tone {
+  font-size: 0.76rem;
+  color: #8e8e93;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+/* Closing Techniques */
+.closing-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 12px;
+}
+
+.closing-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.closing-technique {
+  font-size: 0.78rem;
+  color: #30d158;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+}
+
+.closing-script {
+  margin: 0;
+  padding: 10px 14px;
+  background: rgba(48, 209, 88, 0.05);
+  border-left: 3px solid #30d158;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.85rem;
+  color: #e5e5e7;
+  line-height: 1.45;
+  font-style: italic;
+}
+
+/* Defender Briefing */
+.defender-briefing {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.defender-meta {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  font-size: 0.85rem;
+  color: #aeaeb2;
+  margin-bottom: 12px;
+}
+
+.defender-vulns, .defender-strengths {
+  margin-top: 10px;
+  font-size: 0.85rem;
+}
+
+.defender-vulns strong {
+  color: #ff453a;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.defender-strengths strong {
+  color: #30d158;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.defender-vulns ul, .defender-strengths ul {
+  margin: 6px 0 0;
+  padding-left: 18px;
+}
+
+.defender-vulns li { color: #ff9f0a; }
+.defender-strengths li { color: #8e8e93; }
+
+/* Turnout History */
+.turnout-history .mini-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.turnout-history .mini-table th {
+  text-align: left;
+  padding: 6px 10px;
+  color: #8e8e93;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.turnout-history .mini-table td {
+  padding: 6px 10px;
+  color: #e5e5e7;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* GOTV */
+.gotv-target {
+  margin-top: 10px;
+  padding: 10px 14px;
+  background: rgba(48, 209, 88, 0.05);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: #aeaeb2;
+}
+
+.gotv-target strong { color: #30d158; }
+
+/* Do's and Don'ts */
+.dos-donts-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 640px) {
+  .dos-donts-grid { grid-template-columns: 1fr; }
+}
+
+.dos-column, .donts-column {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.dos-column h4 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #30d158;
+  margin: 0 0 10px;
+}
+
+.donts-column h4 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #ff453a;
+  margin: 0 0 10px;
+}
+
+.dos-list, .donts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dos-list li, .donts-list li {
+  font-size: 0.82rem;
+  color: #e5e5e7;
+  padding: 5px 0 5px 20px;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.dos-list li:last-child, .donts-list li:last-child { border-bottom: none; }
+
+.dos-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: #30d158;
+  font-weight: bold;
+}
+
+.donts-list li::before {
+  content: '✗';
+  position: absolute;
+  left: 0;
+  color: #ff453a;
+  font-weight: bold;
+}
+
+/* Body Language */
+.body-language-tips {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.body-language-tips li {
+  font-size: 0.82rem;
+  color: #e5e5e7;
+  padding: 6px 0 6px 22px;
+  position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.body-language-tips li:last-child { border-bottom: none; }
+
+.body-language-tips li::before {
+  content: '👋';
+  position: absolute;
+  left: 0;
+}
+
+/* Print styles for canvassing playbook */
+@media print {
+  .canvassing-playbook-panel {
+    color: #000 !important;
+    background: #fff !important;
+  }
+  .canvassing-playbook-panel .print-btn { display: none; }
+  .opening-script, .issue-script, .objection-response, .closing-script {
+    background: #f8f8f8 !important;
+    color: #000 !important;
+    border-left-color: #333 !important;
+  }
+  .opening-scenario, .closing-technique { color: #333 !important; }
+  .objection-text { color: #c60 !important; }
+  .dos-column, .donts-column, .defender-briefing,
+  .opening-line-card, .issue-response-card, .objection-card, .closing-card {
+    background: #fafafa !important;
+    border-color: #ddd !important;
+    color: #000 !important;
+  }
+  .canvassing-playbook-panel h3, .canvassing-playbook-panel h4 { color: #000 !important; }
+  .canvassing-playbook-panel li, .canvassing-playbook-panel td,
+  .canvassing-playbook-panel span, .canvassing-playbook-panel p { color: #333 !important; }
+}

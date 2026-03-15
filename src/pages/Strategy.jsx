@@ -22,6 +22,7 @@ import {
   clusterWards,
   optimiseCanvassingRoute,
   generateCanvassingCSV,
+  generateCanvassingPlaybook,
   WARD_CLASSES,
 } from '../utils/strategyEngine'
 import { LoadingState } from '../components/ui'
@@ -34,7 +35,7 @@ import {
   Crosshair, TrendingUp, TrendingDown, MapPin, Briefcase, Globe,
   CheckCircle, Swords, GraduationCap, Lock, Clock, BarChart3,
   Download, FileText, ArrowLeft, Printer, Eye, Map, Navigation, Building,
-  Heart, Leaf, Zap, PoundSterling, School,
+  Heart, Leaf, Zap, PoundSterling, School, MessageSquare, ThumbsUp, ThumbsDown,
 } from 'lucide-react'
 import './Strategy.css'
 
@@ -393,6 +394,27 @@ export default function Strategy() {
       ourParty, propertyAssets, planningData, hmoData, fiscalData, meetingsData, pollingData,
       housingData, economyData, healthData, votingData, politicalHistoryData])
 
+  // --- Derived: canvassing playbook for active ward ---
+  const activePlaybook = useMemo(() => {
+    if (!selectedDossierWard) return null
+    return generateCanvassingPlaybook(selectedDossierWard, {
+      electionsData, referenceData, politicsSummary,
+      demographicsData, deprivationData,
+      councillorsData, integrityData, interestsData,
+      dogeFindings, budgetSummary, collectionRates,
+      constituenciesData, wardConstituencyMap,
+      councilPrediction, rankedWard: rankedWards.find(w => w.ward === selectedDossierWard),
+      meetingsData, hmoData, fiscalData, pollingData,
+      propertyAssets, planningData,
+      housingData, economyData, healthData, votingData, politicalHistoryData,
+    }, ourParty)
+  }, [selectedDossierWard, electionsData, referenceData, politicsSummary,
+      demographicsData, deprivationData, councillorsData, integrityData,
+      interestsData, dogeFindings, budgetSummary, collectionRates,
+      constituenciesData, wardConstituencyMap, councilPrediction, rankedWards,
+      ourParty, propertyAssets, planningData, hmoData, fiscalData, meetingsData, pollingData,
+      housingData, economyData, healthData, votingData, politicalHistoryData])
+
   // --- Handlers ---
   const toggleWard = (wardName) => {
     setExpandedWards(prev => ({ ...prev, [wardName]: !prev[wardName] }))
@@ -665,6 +687,7 @@ export default function Strategy() {
             <WardDossierView
               ref={dossierRef}
               dossier={activeDossier}
+              playbook={activePlaybook}
               ourParty={ourParty}
               wardLabel={wardLabel}
               activeTab={dossierTab}
@@ -1301,6 +1324,7 @@ function WardRow({ rank, ward, ourParty, expanded, onToggle, onDossier }) {
 
 const DOSSIER_TABS = [
   { id: 'strategyPlaybook', label: 'Strategy', icon: Swords },
+  { id: 'canvassingPlaybook', label: 'Canvassing', icon: MessageSquare },
   { id: 'profile', label: 'Profile', icon: Users },
   { id: 'election', label: 'Election', icon: Target },
   { id: 'councillors', label: 'Councillors', icon: Eye },
@@ -1311,7 +1335,7 @@ const DOSSIER_TABS = [
   { id: 'cheatSheet', label: 'Briefing Sheet', icon: Printer },
 ]
 
-const WardDossierView = forwardRef(function WardDossierView({ dossier, ourParty, wardLabel, activeTab, onTabChange, onBack }, ref) {
+const WardDossierView = forwardRef(function WardDossierView({ dossier, playbook, ourParty, wardLabel, activeTab, onTabChange, onBack }, ref) {
   if (!dossier) return null
   const cls = dossier.election?.classification || {}
 
@@ -1354,6 +1378,7 @@ const WardDossierView = forwardRef(function WardDossierView({ dossier, ourParty,
       {/* Tab content */}
       <div className="dossier-content">
         {activeTab === 'strategyPlaybook' && <DossierStrategyPlaybook wardStrategy={dossier.wardStrategy} entrenchment={dossier.entrenchment} />}
+        {activeTab === 'canvassingPlaybook' && <DossierCanvassingPlaybook playbook={playbook} />}
         {activeTab === 'profile' && <DossierProfile profile={dossier.profile} />}
         {activeTab === 'election' && <DossierElection election={dossier.election} ourParty={ourParty} />}
         {activeTab === 'councillors' && <DossierCouncillors councillors={dossier.councillors} />}
@@ -1882,6 +1907,180 @@ function DossierStrategyPlaybook({ wardStrategy, entrenchment }) {
             {wardStrategy.warnings.map((w, i) => (
               <li key={i}>{w}</li>
             ))}
+          </ul>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function DossierCanvassingPlaybook({ playbook }) {
+  if (!playbook) return <p className="dossier-empty">No canvassing data — requires election and demographic data.</p>
+
+  const handlePrint = () => window.print()
+
+  return (
+    <div className="dossier-panel canvassing-playbook-panel">
+      <div className="canvassing-header">
+        <h3><MessageSquare size={16} /> Doorstep Playbook — {playbook.wardName}</h3>
+        <div className="canvassing-meta">
+          <span className="playbook-archetype">{playbook.archetypeLabel}</span>
+          <button className="print-btn" onClick={handlePrint}><Printer size={14} /> Print</button>
+        </div>
+      </div>
+
+      {/* Opening Lines */}
+      {playbook.openingLines?.length > 0 && (
+        <div className="playbook-section">
+          <h4><MessageSquare size={14} /> Opening Lines</h4>
+          <div className="opening-lines-grid">
+            {playbook.openingLines.map((line, i) => (
+              <div key={i} className="opening-line-card">
+                <div className="opening-scenario">{line.scenario}</div>
+                <blockquote className="opening-script">{line.script}</blockquote>
+                {line.note && <div className="opening-note">{line.note}</div>}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Issue-by-Issue Responses */}
+      {playbook.issueResponses?.length > 0 && (
+        <div className="playbook-section">
+          <h4><Briefcase size={14} /> Issue Responses</h4>
+          <div className="issue-responses-grid">
+            {playbook.issueResponses.map((ir, i) => (
+              <div key={i} className="issue-response-card">
+                <div className="issue-question">{ir.issue}</div>
+                <blockquote className="issue-script">{ir.response}</blockquote>
+                {ir.wardEvidence?.length > 0 && (
+                  <div className="issue-evidence">
+                    <strong>Local evidence:</strong>
+                    <ul>{ir.wardEvidence.map((e, j) => <li key={j}>{e}</li>)}</ul>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Objection Handling */}
+      {playbook.objectionHandling?.length > 0 && (
+        <div className="playbook-section">
+          <h4><Shield size={14} /> Objection Handling</h4>
+          <div className="objection-grid">
+            {playbook.objectionHandling.map((obj, i) => (
+              <div key={i} className="objection-card">
+                <div className="objection-text">{obj.objection}</div>
+                <blockquote className="objection-response">{obj.response}</blockquote>
+                <div className="objection-tone">{obj.tone}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Closing Techniques */}
+      {playbook.closingTechniques?.length > 0 && (
+        <div className="playbook-section">
+          <h4><CheckCircle size={14} /> Closing the Ask</h4>
+          <div className="closing-grid">
+            {playbook.closingTechniques.map((ct, i) => (
+              <div key={i} className="closing-card">
+                <div className="closing-technique">{ct.technique}</div>
+                <blockquote className="closing-script">{ct.script}</blockquote>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Defender Briefing */}
+      {playbook.defenderBriefing && (
+        <div className="playbook-section">
+          <h4><Eye size={14} /> Defending Councillor: {playbook.defenderBriefing.name}</h4>
+          <div className="defender-briefing">
+            <div className="defender-meta">
+              <span><strong>Party:</strong> {playbook.defenderBriefing.party}</span>
+              <span><strong>Tenure:</strong> {playbook.defenderBriefing.tenure}</span>
+              <span><strong>Trend:</strong> {playbook.defenderBriefing.marginTrend}</span>
+            </div>
+            {playbook.defenderBriefing.vulnerabilities?.length > 0 && (
+              <div className="defender-vulns">
+                <strong><ThumbsDown size={12} /> Vulnerabilities:</strong>
+                <ul>{playbook.defenderBriefing.vulnerabilities.map((v, i) => <li key={i}>{v}</li>)}</ul>
+              </div>
+            )}
+            {playbook.defenderBriefing.strengths?.length > 0 && (
+              <div className="defender-strengths">
+                <strong><ThumbsUp size={12} /> Strengths (be aware):</strong>
+                <ul>{playbook.defenderBriefing.strengths.map((s, i) => <li key={i}>{s}</li>)}</ul>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Ward Intelligence */}
+      {playbook.wardIntelligence?.turnoutHistory?.length > 0 && (
+        <div className="playbook-section">
+          <h4><Target size={14} /> Election History</h4>
+          <div className="turnout-history">
+            <table className="mini-table">
+              <thead><tr><th>Year</th><th>Winner</th><th>Party</th><th>Margin</th><th>Turnout</th></tr></thead>
+              <tbody>
+                {playbook.wardIntelligence.turnoutHistory.map((h, i) => (
+                  <tr key={i}>
+                    <td>{h.year}</td>
+                    <td>{h.winner}</td>
+                    <td>{h.party}</td>
+                    <td>{h.margin != null ? h.margin.toFixed(1) + '%' : '—'}</td>
+                    <td>{h.turnout != null ? h.turnout.toFixed(0) + '%' : '—'}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* GOTV Strategy */}
+      {playbook.gotv && (
+        <div className="playbook-section">
+          <h4><TrendingUp size={14} /> Get Out The Vote</h4>
+          <p className="gotv-text">{playbook.gotv.approach}</p>
+          <div className="gotv-target">
+            <strong>Target voters:</strong> {playbook.gotv.targetVoters}
+          </div>
+        </div>
+      )}
+
+      {/* Do's and Don'ts */}
+      <div className="playbook-section dos-donts">
+        <div className="dos-donts-grid">
+          {playbook.doorstepDos?.length > 0 && (
+            <div className="dos-column">
+              <h4><ThumbsUp size={14} /> Do</h4>
+              <ul className="dos-list">{playbook.doorstepDos.map((d, i) => <li key={i}>{d}</li>)}</ul>
+            </div>
+          )}
+          {playbook.doorstepDonts?.length > 0 && (
+            <div className="donts-column">
+              <h4><ThumbsDown size={14} /> Don't</h4>
+              <ul className="donts-list">{playbook.doorstepDonts.map((d, i) => <li key={i}>{d}</li>)}</ul>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Body Language */}
+      {playbook.bodyLanguageTips?.length > 0 && (
+        <div className="playbook-section">
+          <h4><Users size={14} /> Body Language</h4>
+          <ul className="body-language-tips">
+            {playbook.bodyLanguageTips.map((tip, i) => <li key={i}>{tip}</li>)}
           </ul>
         </div>
       )}
