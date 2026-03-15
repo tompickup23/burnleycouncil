@@ -2,9 +2,9 @@
 
 > Auto-maintained by `scripts/suggest_improvements.py`.
 > Manual entries are preserved; automated entries are marked `[auto]`.
-> Last updated: 2026-03-14
+> Last updated: 2026-03-15
 
-**Summary**: 9 open issues | Critical: 0 | High: 5 | Medium: 4 | Low: 0
+**Summary**: 10 open issues | Critical: 1 | High: 5 | Medium: 4 | Low: 0
 
 ---
 
@@ -30,12 +30,13 @@
 
 | ID | Severity | Issue | Detail | Status |
 |----|----------|-------|--------|--------|
+| A15 | Critical | React hooks after early return (Rules of Hooks violation) [auto] | Violations: PropertyPortfolio:925 (useMemo). Move ALL hooks before any `return` statements. | open |
 | A1 | High | 1 pages have no `useData` error handling [auto] | Pages: SupplierView. Add error fallback UI. | open |
 | A2 | High | 2 pages have zero tests [auto] | Untested: MPComparison (602L), Roadworks (1226L). | open |
-| A17 | Medium | Unguarded chained property access (203 instances) [auto] | At Budgets:463, Budgets:683, Budgets:711, Budgets:1630, Budgets:1658.... Use optional chaining or `|| {}` defaults. | open |
+| A17 | Medium | Unguarded chained property access (218 instances) [auto] | At Budgets:508, Budgets:728, Budgets:756, Budgets:1769, Budgets:1797.... Use optional chaining or `|| {}` defaults. | open |
 | A3 | Medium | Missing `useMemo` on data transforms [auto] | Pages with unmemoized data processing: PropertyDetail (7 data transforms, 2 useMemo). | open |
-| A4 | Medium | Accessibility gaps in 6 pages [auto] | Pages with no ARIA attributes: ConstituencyView, CouncillorDossier, Highways, MPComparison, PropertyDetail, PropertyPortfolio. | open |
-| A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Strategy.jsx:433`, `src/pages/Strategy.jsx:445`. Add clearTimeout in useEffect cleanup. | open |
+| A4 | Medium | Accessibility gaps in 11 pages [auto] | Pages with no ARIA attributes: CabinetDashboard, ConstituencyView, CouncillorDossier, DirectorateDashboard, DirectorateDetail, Executive. | open |
+| A5 | Medium | setTimeout without cleanup [auto] | Memory leak risk at `src/pages/Strategy.jsx:455`, `src/pages/Strategy.jsx:467`. Add clearTimeout in useEffect cleanup. | open |
 
 ---
 
@@ -74,3 +75,4 @@
 - **2026-03-12** — Auto-scan: 9 issues found
 - **2026-03-13** — Auto-scan: 9 issues found
 - **2026-03-14** — Auto-scan: 9 issues found
+- **2026-03-15** — Auto-scan: 10 issues found
