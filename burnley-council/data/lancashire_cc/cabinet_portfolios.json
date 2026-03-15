@@ -127,6 +127,115 @@
       "note": "AI DOGE savings pipeline exceeds MTFS target. MTFS is the floor, not the ceiling."
     }
   },
+  "directorates": [
+    {
+      "id": "adults_health",
+      "title": "Adults, Health & Wellbeing",
+      "executive_director": "Helen Coombes (Interim)",
+      "portfolio_ids": ["adult_social_care", "health_wellbeing"],
+      "net_budget": 558500000,
+      "mtfs_savings_target": 46700000,
+      "prior_year_target": 34800000,
+      "prior_year_achieved": 3800000,
+      "savings_narrative": "Adult Social Care is the council's largest budget (59.3% of net revenue) and the single biggest reform opportunity. The CQC 'Requires Improvement' rating exposes operational failures that directly drive excess costs: 31% of home care commissioned off-framework at 20% premium (£3-5M recoverable), CHC recovery running at half the national rate (£5-12M from NHS ICB), and a residential-heavy model (£172M/yr vs £57M/yr home care) that costs 3x what community care would. The 2024/25 savings target of £34.8M delivered only £3.8M — a £31M shortfall that proves the previous administration's approach failed. Public Health adds long-term ROI: every £1 in falls prevention saves £3.50 in ASC, but the HCRG near-monopoly (85% of category, HHI 3,615) and zero Contracts Finder visibility suggest procurement reform could yield £2-5M.",
+      "kpi_headline": "CQC 'Requires Improvement' — 2/4 across all 9 quality statements",
+      "performance_metrics": [
+        { "name": "CQC overall rating", "value": "Requires Improvement", "score": 2, "max": 4, "date": "2025-08-15", "trend": "first_assessment", "benchmark": "National: 37% Good+", "savings_link": "CQC RI exposes off-framework procurement (31% at 20% premium = £3-5M), assessment backlogs driving £1.6M agency costs, and strained NHS partnerships blocking CHC recovery (£5-12M)" },
+        { "name": "Off-framework home care", "value": 31, "unit": "%", "target": 15, "trend": "stable", "benchmark": "Best practice: <15%", "savings_link": "31% commissioned off-framework at ~20% premium. Moving to 15% = £3-5M recoverable. Zone-based contracts from Nov 2023 should enable this" },
+        { "name": "CHC recovery rate", "value": "4-6%", "benchmark": "National avg 8-12%", "trend": "declining", "savings_link": "Below national average. BCF >£200M p.a., ICB CEO acknowledged 'contribute more'. 180 cases × £28K/yr × 30-50% recovery = £1.5-2.5M. System-wide £5-12M" },
+        { "name": "Residential vs community spend ratio", "value": "3:1", "target": "1:1", "trend": "stable", "benchmark": "National direction: community-first", "savings_link": "OP residential £172M/yr vs home care £57M/yr. 10% shift from residential to community = £10-15M. Living Better Lives programme targets this" },
+        { "name": "Assessment waiting list", "value": 1075, "previous": 1850, "unit": "people", "trend": "improving", "benchmark": "Target: zero", "savings_link": "Reduced 48% but still 1,075 waiting. Backlogs drive agency costs (£1.6M saved since Apr by recruiting 53 SWs, 14 OTs, 18 SCOs)" },
+        { "name": "Reablement success rate", "value": 87.3, "unit": "%", "benchmark": "National 81.8%", "trend": "stable", "savings_link": "Lancashire outperforms nationally but only 2.6% offered reablement after discharge (national 2.8%). Every 1% shift from residential to community saves ~£3M" },
+        { "name": "HCRG market concentration (HHI)", "value": 3615, "threshold": 2500, "classification": "HIGH — near-monopoly", "savings_link": "85% of Public Health spend through single provider. Break monopoly through retender in lots = £2-5M. Zero Contracts Finder visibility" },
+        { "name": "Direct payment uptake", "value": "below_target", "benchmark": "Self-directed support 15-20% cheaper", "trend": "improving", "savings_link": "CQC found DPs deliver 64% more activities, 66% more control, 60% better health. Increasing uptake saves £2-4M" }
+      ]
+    },
+    {
+      "id": "education_children",
+      "title": "Education & Children's Services",
+      "executive_director": "Jacqui Old CBE",
+      "portfolio_ids": ["children_families", "education_skills"],
+      "net_budget": 265700000,
+      "mtfs_savings_target": 13300000,
+      "prior_year_target": null,
+      "prior_year_achieved": null,
+      "savings_narrative": "Children's Services has an Ofsted 'Good' rating but faces a SEND crisis (DfE Improvement Notice, DSG deficit spiralling from £22M to £545M) and a residential placement cost spiral (agency homes £6K/week, up £400 in 18 months). The biggest savings come from SEND transport reform (£5-10M through fleet expansion, route optimisation, Personal Travel Budgets), residential step-down (each child moved from £312K/yr residential to £30K/yr fostering = £282K saving), and the WOCL programme (30 in-house homes saving £2.1M/yr vs agency). The agency workforce crisis — 110 agency EPs vs 11 permanent (10:1 ratio) — is an immediate cost driver. Lancashire has 8% of all children's homes in England (347 total), creating a perverse market where the council pays premium rates for placements in its own county.",
+      "kpi_headline": "SEND DfE Improvement Notice — 'widespread and systemic failings' (3rd consecutive poor inspection)",
+      "performance_metrics": [
+        { "name": "Ofsted overall rating", "value": "Good", "date": "2022-12-09", "trend": "stable", "benchmark": "National: 80% Good+", "savings_link": "Good rating protects from intervention costs but masks SEND crisis. From Apr 2026, Ofsted stops headline ratings" },
+        { "name": "SEND inspection outcome", "value": "Widespread/systemic failings", "date": "2025-02-12", "trend": "declining", "benchmark": "DfE Improvement Notice issued", "savings_link": "Third consecutive poor inspection. 110 agency EPs (10:1 vs permanent) = £15M+ additional spend. EHCP backlog drives late assessments driving expensive placements" },
+        { "name": "DSG deficit", "value": 22400000, "forecast_2028": 545000000, "unit": "£", "trend": "rapidly_worsening", "benchmark": "DfE 90% write-off covers ~£126M pre-Mar 2026", "savings_link": "Statutory override ends Mar 2028. SEND reform plan required for write-off. Every child maintained in mainstream vs special saves £25-40K/yr + transport" },
+        { "name": "EHCP count", "value": 12317, "growth_rate": 10.5, "unit": "count", "trend": "rising", "benchmark": "300 requests/month vs 53 capacity", "savings_link": "Each EHCP potentially adds transport cost. 48.4% in special schools (national 38.6%). Every child in mainstream vs special = £25-40K/yr saving" },
+        { "name": "SEND transport cost", "value": 61000000, "increase_2026_27": 17700000, "unit": "£", "trend": "rising_20pct_pa", "savings_link": "£5-10M saveable: 50 new minibuses (cost per passenger -30%), Transport Assistant Grants (488→750, ~£2M/yr), Personal Travel Budgets (400+ families), route optimisation" },
+        { "name": "Children in care", "value": 1699, "peak": 2127, "trend": "improving", "benchmark": "Down 14% from peak but residential placements up 46%", "savings_link": "262 in children's homes at £312K/yr. Every step-down to fostering (£30K/yr) = £282K saving. Target 25-40 step-downs = £5-10M" },
+        { "name": "Agency EP ratio", "value": "10:1", "detail": "110 agency vs 11 permanent", "trend": "stable", "benchmark": "Normal ratio ~1:1", "savings_link": "Agency EPs at 40-60% premium. 97 apprentices on social work degree. Grow-your-own saves £3-5M as permanent staff replace agency" },
+        { "name": "Energy contract value", "value": 170800000, "unit": "£", "trend": "locked_in", "savings_link": "Npower £110.8M + TotalEnergies £60M both flagged weak competition (awarded 1 day after deadline). Market test could save £2-5M" }
+      ]
+    },
+    {
+      "id": "growth_environment",
+      "title": "Growth, Environment & Transport",
+      "executive_director": "Phil Green",
+      "portfolio_ids": ["highways_transport", "environment_communities", "economic_development"],
+      "net_budget": 261900000,
+      "mtfs_savings_target": 22000000,
+      "prior_year_target": null,
+      "prior_year_achieved": null,
+      "savings_narrative": "This directorate combines highways (the most visible public service), waste (the most locked-in contracts), and economic development (the most discretionary). The managed highway service model — just 6 months old — has already delivered 42% fewer defects at 50% lower cost per m-sq, with the first UK trial of asphalt recycling. Extending this model is the easiest win. Waste is the hardest challenge: Lancashire Renewables (£71M, wholly-owned) + Suez (£46M, 60.7% of category) = £117M with an expired waste strategy (2020) and no EfW decision. The energy contracts (£170.8M combined, both flagged weak competition) are a cross-cutting opportunity. S59 utility recharges and street lighting are low-risk income/efficiency plays. Economic development savings come from programme rationalisation and CCA leverage.",
+      "kpi_headline": "Highways DfT rating: AMBER — £650M maintenance backlog, A roads red doubled to 3.9%",
+      "performance_metrics": [
+        { "name": "Highway defects reduction", "value": 42, "unit": "% reduction", "period": "6 months", "trend": "improving", "benchmark": "Managed service pilot", "savings_link": "Defects 61K→35K, cost per m-sq £200→<£100. Extend model to more areas = £3-6M. 12-month warranty on all repairs" },
+        { "name": "Road condition — A roads red", "value": 3.9, "previous": 2.1, "unit": "%", "trend": "worsening", "benchmark": "Nearly doubled 2022→2025", "savings_link": "£650M backlog. AI inspections + managed service + asphalt recycling = more efficient spend per £. DfT incentive funding at risk if rating declines" },
+        { "name": "Waste to landfill", "value": 33.8, "unit": "%", "benchmark": "National avg 5.6%", "trend": "stable", "savings_link": "6x national average because no EfW. Expired strategy (2020). EfW decision could transform long-term costs. Current vacuum costs money" },
+        { "name": "Waste contract HHI", "value": 4141, "threshold": 2500, "classification": "HIGH — Suez dominance", "savings_link": "Lancashire Renewables £71M + Suez £46M = £117M duopoly. Even 5% saving = £5.8M. Review indexation, performance deductions. Suez contracts expire 2030" },
+        { "name": "LED street lighting conversion", "value": "152K of 170K+", "cumulative_savings": 40000000, "trend": "near_complete", "savings_link": "Part-night dimming in low-risk areas + 26,000 columns over 40 years replacement = £1-2M additional" },
+        { "name": "Contracts Finder coverage (Environment)", "value": 0.1, "unit": "%", "benchmark": "Should be ~80%+", "savings_link": "£99.5K of £94.3M outturn visible. Zero public scrutiny of waste contracts. Transparency fix enables future competition" },
+        { "name": "Ford fleet monopoly", "value": 5, "unit": "category monopolies", "trend": "stable", "savings_link": "18 contracts, £7.05M, all Ford. Multiple same-day awards. Market test through TPPL = £0.5-1M" }
+      ]
+    },
+    {
+      "id": "resources_digital",
+      "title": "Resources & Digital",
+      "executive_director": "Laurence Ainsworth",
+      "portfolio_ids": ["resources", "data_technology"],
+      "net_budget": 42000000,
+      "mtfs_savings_target": 7700000,
+      "centralised_savings_target": "£15-46M additional (cross-cutting reforms under reform_operations)",
+      "prior_year_target": null,
+      "prior_year_achieved": null,
+      "savings_narrative": "Resources & Digital is the reform engine room. Net budget is small (£42M) but centralised savings potential is massive: £93.6M in potential duplicates (most likely Oracle artifacts but must be confirmed), 3-5% on £400M+ addressable procurement spend (£5-15M), £3-8M from property rationalisation (1,200+ assets), and the Oracle transparency fix (100% empty descriptions) which is the single biggest enabler for all other savings. The DSG deficit time bomb (£22M→£545M by 2028) and reserves trajectory (£420M→£223M in 4 years) create existential risk. Reserves at 2.25% of general fund is dangerously close to S114 territory. Digital transformation (channel shift, AI automation, system consolidation) offers £4-11M. The Softcat £64M IT contract and Netcall £4.3M AI/CRM are recent investments that should now deliver returns.",
+      "kpi_headline": "Oracle transparency score: 0.0 — 100% of 713,596 transactions have empty descriptions",
+      "performance_metrics": [
+        { "name": "Transparency score", "value": 0.0, "target": 0.8, "benchmark": "District councils avg 0.7+", "savings_link": "100% empty descriptions blocks forensic analysis. Fix Oracle export = enables all other savings identification. Critical enabler, not direct saving" },
+        { "name": "Potential duplicates flagged", "value": 93600000, "unit": "£", "confidence": "high (same supplier, amount, date, reference, 3+ copies)", "savings_link": "Most likely Oracle/transparency artifacts but £2-10M genuine duplicates probable. Must confirm before recovery" },
+        { "name": "Reserves trajectory", "value": 223400000, "previous": 420000000, "unit": "£", "trend": "declining_6_years", "savings_link": "General fund at 2.25% — S114 risk. Every £1M saved improves reserves position. Reserves adequacy directly linked to credit rating and borrowing costs" },
+        { "name": "DSG deficit", "value": 22400000, "forecast_2028": 545000000, "unit": "£", "trend": "exponential", "savings_link": "Statutory override ends Mar 2028. If not extended, cannot set balanced budget. DfE 90% write-off covers £126M. Must submit SEND reform plan" },
+        { "name": "Property estate size", "value": 1200, "unit": "assets", "maintenance_backlog": "£5M+ (ASC homes alone)", "savings_link": "Every vacant property costs £30-100K/yr. Active disposals underway. Property/estates/facilities = 6.3% of total spend (~£132M)" },
+        { "name": "Staff over £100K", "value": 19, "trend": "stable", "savings_link": "Multiple interim directors (Finance, People, Strategy). Convert or eliminate. Corporate restructuring = £2-5M" },
+        { "name": "Procurement addressable spend", "value": 400000000, "unit": "£", "savings_link": "Devolved procurement model under review. Centralisation + category management target 3-5% = £5-15M. Procurement Act 2023 compliance needed" },
+        { "name": "Pension fund status", "value": 115, "unit": "% funded", "benchmark": "Top 3 nationally", "trend": "stable", "savings_link": "LCPF £10.8B, 115% funded. Pension contribution reduction = £20M windfall already captured in MTFS" }
+      ]
+    },
+    {
+      "id": "chief_executive",
+      "title": "Chief Executive's Office",
+      "executive_director": "Mark Wynn (Chief Executive)",
+      "portfolio_ids": ["leader"],
+      "net_budget": 1300000,
+      "mtfs_savings_target": 12900000,
+      "mtfs_savings_note": "Council-wide target — cross-cutting reform overseen from CE office",
+      "prior_year_target": 68600000,
+      "prior_year_achieved_pct": 48,
+      "savings_narrative": "The Chief Executive's office has the smallest direct budget (£1.3M) but owns the council-wide savings delivery target (£12.9M cross-cutting + oversight of all £103M). The 2024/25 performance — only 48% of £68.6M achieved — is the defining metric. Corporate restructuring (19 staff over £100K, multiple interim appointments), external partnerships audit, and LGR preparation are the direct levers. The real value of this directorate is driving delivery across all others: if savings delivery improves from 48% to 75%, that's an additional £17.5M on the current £65M target.",
+      "kpi_headline": "Prior year savings delivery: 48% — £31M ASC shortfall alone",
+      "performance_metrics": [
+        { "name": "Savings delivery rate", "value": 48, "unit": "%", "target": 100, "trend": "critical_failure", "benchmark": "Well-managed councils deliver 80-90%", "savings_link": "48% of £68.6M = £33M delivered, £35.6M missed. If improved to 75%, additional £17.5M on current £65M target" },
+        { "name": "Staff over £100K", "value": 19, "benchmark": "Review against comparable county councils", "savings_link": "Multiple interims (Finance, People, Strategy). Corporate restructuring target £2-5M" },
+        { "name": "Interim appointments", "value": 4, "detail": "Finance, People, Strategy, DASS", "trend": "reducing", "savings_link": "Each interim costs premium. Gary Fielding (S151) arriving Jun 2026. Convert or eliminate remaining = £0.5-1M" },
+        { "name": "LGR readiness", "value": "vesting Apr 2028", "recommendation": "Delay to Apr 2029", "savings_link": "Delay saves net £14-34M (Dorset/Buckinghamshire/North Yorkshire precedents). Shadow elections shift May 2027→2028" }
+      ]
+    }
+  ],
   "portfolios": [
     {
       "id": "leader",
@@ -178,7 +287,21 @@
         { "driver": "Devolution expectations", "detail": "CCA brings funding but also governance overhead. BSIP flows through CCA from 2025/26.", "severity": "medium" }
       ],
       "savings_levers": [
-        { "lever": "Corporate restructuring", "est_saving": "£2-5M", "timeline": "12-18 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Review corporate centre headcount. Multiple interim appointments (Sarah Reed, Brendan Arnold, Jacquie McGeachie, John Betts) — convert or eliminate. 19 staff over £100K.", "legal_constraints": null },
+        { "lever": "Corporate restructuring", "est_saving": "£2-5M", "timeline": "12-18 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Review corporate centre headcount. Multiple interim appointments (Sarah Reed, Brendan Arnold, Jacquie McGeachie, John Betts) — convert or eliminate. 19 staff over £100K.", "legal_constraints": null,
+          "evidence": {
+            "data_points": ["19 staff earning over £100K", "4 interim directors (Finance, People, Strategy, DASS)", "CE salary £236,960 (also partially seconded to CCA)", "Gary Fielding arriving Jun 2026 as permanent S151", "£11M redundancy provision in MTFS"],
+            "benchmark": "Comparable county councils (Surrey, Kent, Hampshire) have similar-sized senior teams but fewer interims. Interim premium typically 30-50% above permanent",
+            "calculation": "4 interims × £30K premium = £120K/yr on interims alone. Full restructuring of 19 posts over £100K: if 5 eliminated or reduced = £500K-£1M. Wider corporate centre review: £2-5M",
+            "kpi_link": "Organisational stability is implicit in all inspection frameworks. Multiple interims signal instability to CQC, Ofsted, and DfE",
+            "implementation_steps": [
+              { "step": "Complete senior management review — all posts over £80K", "month": "1-4" },
+              { "step": "Convert or eliminate 4 interim positions as permanents are recruited", "month": "1-12" },
+              { "step": "Benchmark senior team size against comparable county councils", "month": "2-4" },
+              { "step": "Implement restructuring using redundancy provision", "month": "6-18" }
+            ],
+            "political_framing": "Nineteen staff on over £100,000 and four interim directors at premium rates. We're stabilising the top of the organisation and making sure every senior post delivers value."
+          }
+        },
         { "lever": "External partnerships audit", "est_saving": "£0.5-1M", "timeline": "3-6 months", "risk": "Low", "tier": "immediate_recovery", "owner": "portfolio", "description": "Review all membership subscriptions, partnership contributions and secondments.", "legal_constraints": null }
       ],
       "operational_context": {
@@ -264,12 +387,113 @@
         { "name": "Foster With Us regional recruitment", "provider": "LCC + Blackpool + Blackburn + Cumberland + Westmorland", "value": "£1.2M bid", "duration": "Current", "note": "760 more foster carers needed across NW. 152 children waiting." }
       ],
       "savings_levers": [
-        { "lever": "WOCL programme (Where Our Children Live)", "est_saving": "£2-4M/year at full capacity", "timeline": "12-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Expanding from 15 to 30 in-house children's homes (up to 100 beds). First 4 opening in Lancaster, Ribble Valley, Burnley, Rossendale. Full programme cost £15.1M/yr vs agency £17.4M/yr = net £2.1M saving. Every child moved from agency (~£312K/yr) to in-house saves ~£100K/yr.", "legal_constraints": "Ofsted registration required. Must meet Children's Homes Regulations 2015." },
-        { "lever": "Agency social worker conversion", "est_saving": "£3-5M", "timeline": "6-12 months", "risk": "Medium", "tier": "procurement_reform", "owner": "portfolio", "description": "97 apprentices currently on social work degree programme (UCLan). 20 NQSWs started Jan 2025. Agency rates 40-60% premium. Grow-your-own strategy via Social Work Academy.", "legal_constraints": null },
-        { "lever": "Residential placement step-down", "est_saving": "£5-10M", "timeline": "12-18 months", "risk": "Medium", "tier": "demand_management", "owner": "portfolio", "description": "Family Safeguarding model already reduced children in care under FS from 388 to 286. For every child stepped down from residential (£312K/yr) to fostering (£30K/yr) = £282K saving. Target 25-40 step-downs.", "legal_constraints": "Care Planning Regulations 2010 — must demonstrate placement meets child's needs" },
-        { "lever": "In-house fostering expansion", "est_saving": "£2-4M", "timeline": "12-24 months", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Foster carer payments £399-523/week + £1,145.50 approval. Refer-a-friend £1,650. In-house costs 60% less than IFA. Target 50 additional carers.", "legal_constraints": null },
-        { "lever": "Edge of care prevention", "est_saving": "£3-6M", "timeline": "12-18 months", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Intensive family support to prevent children entering care. Family Safeguarding model shows proven results. Every child diverted from care = £40-70K annual saving.", "legal_constraints": null },
-        { "lever": "UASC cost recovery", "est_saving": "£2-4M", "timeline": "3-6 months", "risk": "Low", "tier": "immediate_recovery", "owner": "portfolio", "description": "Systematic review of Home Office funding claims for 180+ UASC + 58 care leavers. NTS rates often below actual cost. National expenditure £323M (+32% in 2 years).", "legal_constraints": null }
+        { "lever": "WOCL programme (Where Our Children Live)", "est_saving": "£2-4M/year at full capacity", "timeline": "12-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Expanding from 15 to 30 in-house children's homes (up to 100 beds). First 4 opening in Lancaster, Ribble Valley, Burnley, Rossendale. Full programme cost £15.1M/yr vs agency £17.4M/yr = net £2.1M saving. Every child moved from agency (~£312K/yr) to in-house saves ~£100K/yr.", "legal_constraints": "Ofsted registration required. Must meet Children's Homes Regulations 2015.",
+          "evidence": {
+            "data_points": ["15 in-house homes currently, target 30 (100 beds)", "Agency residential avg £6,000/week (up £400 in 18 months)", "In-house cost ~£4,000/week", "262 children in children's homes (+46% since 2021)", "347 children's homes in Lancashire (8% of England)"],
+            "benchmark": "In-house residential typically 30-40% cheaper than agency. Best councils achieve 60%+ in-house placement",
+            "calculation": "Full programme: 100 beds × 52 weeks × (£6,000 agency - £4,000 in-house) = £10.4M gross saving. Net of setup/running costs = £2-4M/yr. Each additional child in-house = ~£100K/yr saving",
+            "kpi_link": "Ofsted Good rating dependent on placement quality and sufficiency. WOCL homes are Ofsted-registered, closer to home (better outcomes), AND cheaper",
+            "implementation_steps": [
+              { "step": "Open 4 homes in pipeline (Lancaster, Ribble Valley, Burnley, Rossendale)", "month": "1-6" },
+              { "step": "Recruit and train residential staff (8 per home)", "month": "1-8", "cost": "£320K/home/yr" },
+              { "step": "Register each home with Ofsted", "month": "3-6" },
+              { "step": "Transfer children from agency to in-house as beds become available", "month": "6-12" },
+              { "step": "Phase 2: open remaining 11 homes to reach 30 total", "month": "12-24" }
+            ],
+            "political_framing": "We're bringing our children home. Instead of paying private companies £6,000 a week, we're building our own homes — better care, closer to families, and saving the taxpayer £100,000 per child per year."
+          }
+        },
+        { "lever": "Agency social worker conversion", "est_saving": "£3-5M", "timeline": "6-12 months", "risk": "Medium", "tier": "procurement_reform", "owner": "portfolio", "description": "97 apprentices currently on social work degree programme (UCLan). 20 NQSWs started Jan 2025. Agency rates 40-60% premium. Grow-your-own strategy via Social Work Academy.", "legal_constraints": null,
+          "evidence": {
+            "data_points": ["97 apprentices on social work degree (UCLan)", "20 NQSWs started Jan 2025", "Agency rates 40-60% premium", "ASC recruited 53 SWs, 14 OTs, 18 SCOs saving £1.6M since April", "110 agency EPs in SEND alone (10:1 ratio)"],
+            "benchmark": "Leading councils achieve <15% agency workforce. National avg ~20%. Lancashire significantly above",
+            "calculation": "If agency premium is 50% on £40K base = £20K extra per SW. Converting 50 agency SWs = £1M/yr. Including EPs (110 agency × £30K premium) = £3.3M. Total £3-5M",
+            "kpi_link": "Ofsted and CQC both assess workforce stability. High agency reliance = poor continuity for children/adults = worse inspection outcomes. Conversion improves quality AND cost",
+            "implementation_steps": [
+              { "step": "Accelerate UCLan apprenticeship programme — target 50 graduates/year", "month": "1-6" },
+              { "step": "Offer agency workers permanent contracts with retention bonuses", "month": "1-3", "cost": "£500K bonuses" },
+              { "step": "Competitive salary review vs agency rates — close the gap", "month": "3-6" },
+              { "step": "International recruitment campaign for qualified SWs and EPs", "month": "3-12" }
+            ],
+            "political_framing": "We're growing our own workforce instead of paying agencies a 50% premium. 97 apprentices are training right now. That's investment in Lancashire people AND savings for Lancashire taxpayers."
+          }
+        },
+        { "lever": "Residential placement step-down", "est_saving": "£5-10M", "timeline": "12-18 months", "risk": "Medium", "tier": "demand_management", "owner": "portfolio", "description": "Family Safeguarding model already reduced children in care under FS from 388 to 286. For every child stepped down from residential (£312K/yr) to fostering (£30K/yr) = £282K saving. Target 25-40 step-downs.", "legal_constraints": "Care Planning Regulations 2010 — must demonstrate placement meets child's needs",
+          "evidence": {
+            "data_points": ["Family Safeguarding: 388→286 children in FS (-26%)", "Residential cost ~£312K/yr per child", "Fostering cost ~£30K/yr per child", "262 children in children's homes (+46% since 2021)", "Hard-to-find placements declining: 43%→32%→25%"],
+            "benchmark": "National: residential costs £3.1B. Placements >£10K/week up from 120 to 1,510. Step-down programmes at best councils achieve 15-20% annual reduction",
+            "calculation": "25 step-downs × £282K saving per child = £7.05M. 40 step-downs = £11.3M. Conservative £5-10M allowing for transition costs and partial-year effects",
+            "kpi_link": "Ofsted judges sufficiency and matching. Better matching through step-down improves stability metrics AND saves money. Family Safeguarding model is the evidence base",
+            "implementation_steps": [
+              { "step": "Review all 262 residential placements — identify step-down candidates (target 50 reviews)", "month": "1-3" },
+              { "step": "Match candidates to foster carers (in-house priority, then IFA)", "month": "3-6" },
+              { "step": "Therapeutic support for transition (stepping stones packages)", "month": "3-12", "cost": "£500K" },
+              { "step": "Step-down 25 children in year 1, 15 additional in year 2", "month": "6-18" },
+              { "step": "Track placement stability — if step-down fails, learn and adjust", "month": "6+" }
+            ],
+            "political_framing": "Every child who moves from a children's home to a loving foster family saves £282,000 a year. That's better for the child AND better for the taxpayer. We're targeting 25-40 step-downs."
+          }
+        },
+        { "lever": "In-house fostering expansion", "est_saving": "£2-4M", "timeline": "12-24 months", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Foster carer payments £399-523/week + £1,145.50 approval. Refer-a-friend £1,650. In-house costs 60% less than IFA. Target 50 additional carers.", "legal_constraints": null,
+          "evidence": {
+            "data_points": ["In-house foster carer cost £399-523/week", "IFA cost ~£900-1,100/week", "Refer-a-friend £1,650 incentive", "Foster With Us regional campaign: 760 carers needed across NW, 152 children waiting", "IFA contract £150-160M over 9 years"],
+            "benchmark": "Best councils achieve 70%+ in-house fostering. IFA should be exception not norm",
+            "calculation": "50 additional in-house carers × avg 1.5 children each = 75 children. Saving per child: £500/week (IFA £1,000 - in-house £500). 75 × £500 × 52 = £1.95M. At 100 carers = £3.9M",
+            "kpi_link": "Ofsted judges sufficiency of foster placements. More in-house carers = better local matching = better stability outcomes AND lower cost",
+            "implementation_steps": [
+              { "step": "Intensify Foster With Us regional recruitment — targeted social media, community events", "month": "1-6", "cost": "£300K" },
+              { "step": "Streamline approval process (target 4 months, currently 6-8)", "month": "1-4" },
+              { "step": "Increase refer-a-friend payment and retention bonuses for experienced carers", "month": "2-6" },
+              { "step": "Specialist recruitment for UASC, complex needs, sibling groups", "month": "6-12" }
+            ],
+            "political_framing": "Every foster carer we recruit in Lancashire is a family that keeps a child local and saves the taxpayer £25,000 a year compared to agency placements."
+          }
+        },
+        { "lever": "Edge of care prevention", "est_saving": "£3-6M", "timeline": "12-18 months", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Intensive family support to prevent children entering care. Family Safeguarding model shows proven results. Every child diverted from care = £40-70K annual saving.", "legal_constraints": null,
+          "evidence": {
+            "data_points": ["Family Safeguarding reduced children under FS from 388→286 (-26%)", "1,699 children in care (down from 2,127 peak)", "Each child in care costs £40-70K/yr (fostering) or £312K/yr (residential)", "2024/25 overspend: £1.3M"],
+            "benchmark": "Hertfordshire model (originator of Family Safeguarding): 34% reduction in care entries. National average 4% increase",
+            "calculation": "100 children diverted from care × avg £55K/yr = £5.5M avoided. Family Safeguarding cost per family ~£15K. 100 families × £15K = £1.5M investment. Net £3-6M",
+            "kpi_link": "Ofsted rates early help effectiveness. Proven prevention reduces care numbers which reduces placement pressure and agency costs",
+            "implementation_steps": [
+              { "step": "Expand Family Safeguarding teams to cover all 12 districts", "month": "1-6" },
+              { "step": "Deploy edge-of-care intensive support workers (target 20 new posts)", "month": "3-9", "cost": "£800K/yr" },
+              { "step": "Embed adult workers (substance misuse, MH, DV) in children's teams", "month": "6-12" },
+              { "step": "Track cohort outcomes — children diverted vs entered care", "month": "6+" }
+            ],
+            "political_framing": "For every family we keep together safely, we save the taxpayer £55,000 a year in care costs. Family Safeguarding works — it's already cut our numbers by 26%."
+          }
+        },
+        { "lever": "Private children's home market intervention", "est_saving": "£2-5M", "timeline": "12-24 months", "risk": "High", "tier": "demand_management", "owner": "portfolio", "description": "Lancashire has 347 children's homes (8% of England). 330 are private, only 17 LCC-owned. Fylde: 24→52, Wyre: 23→44 homes. Only 149 Lancashire children placed in Lancashire agency homes (15% of 980 capacity). The rest are out-of-area children at premium rates. Use planning, licensing and sufficiency powers to regulate the market.",
+          "evidence": {
+            "data_points": ["347 children's homes in Lancashire (8% of England total)", "330 private, 17 LCC", "2-bed homes exploded 57→125", "Only 149 Lancashire children in Lancashire agency homes (15% of capacity)", "Fylde 24→52, Wyre 23→44 homes", "Average agency cost £6,000/week, complex £9,000, national extreme £60,000"],
+            "benchmark": "CMA investigation into children's social care market found 'excess profits' in private provision. ADCS calling for national regulation",
+            "calculation": "If 50 Lancashire children currently placed out-of-county (at £7K/week premium over local) are placed in-county: 50 × £1K/week saving × 52 = £2.6M. Market shaping to reduce prices: additional £1-3M",
+            "kpi_link": "Ofsted sufficiency assessment considers local placement availability. More local placements = better outcomes (closer to family/school) AND lower cost",
+            "implementation_steps": [
+              { "step": "Map all 347 homes: capacity, occupancy, placing authority, rates", "month": "1-4" },
+              { "step": "Engage with district planning authorities on Article 4 directions for children's homes", "month": "3-9" },
+              { "step": "Negotiate bulk-buy agreements with local providers for Lancashire children", "month": "6-12" },
+              { "step": "Support DfE/ADCS campaign for national rate regulation", "month": "1-24" }
+            ],
+            "political_framing": "Lancashire has more children's homes than almost anywhere in England — 347 of them. But 85% of the children in those homes aren't from Lancashire. Private companies are making excess profits while our children are sent miles away from their families."
+          },
+          "legal_constraints": "Limited direct regulatory powers — Ofsted regulates. Planning powers through districts. Market shaping through commissioning" },
+        { "lever": "UASC cost recovery", "est_saving": "£2-4M", "timeline": "3-6 months", "risk": "Low", "tier": "immediate_recovery", "owner": "portfolio", "description": "Systematic review of Home Office funding claims for 180+ UASC + 58 care leavers. NTS rates often below actual cost. National expenditure £323M (+32% in 2 years).", "legal_constraints": null,
+          "evidence": {
+            "data_points": ["180+ UASC in care, 58 care leavers 18+", "Home Office grants below actual cost", "NTS threshold 0.1% of child population", "National UASC expenditure £323M (+32% in 2 years)", "Out-of-area children requiring health assessments: 1,000+"],
+            "benchmark": "National Transfer Scheme rates: £143/day (under 16), £200/day (16-17). Actual costs often £200-400/day",
+            "calculation": "180 UASC × £100/day shortfall × 365 = £6.57M. Improved claiming could recover £2-4M of this gap through accurate cost recording and escalation",
+            "kpi_link": "UASC numbers affect overall children in care figures and placement sufficiency (Ofsted metric). Better funding = less pressure on general fund = more capacity for local children",
+            "implementation_steps": [
+              { "step": "Audit all UASC placement costs vs Home Office grant rates received", "month": "1-2" },
+              { "step": "Submit revised cost claims for all under-funded placements", "month": "2-4" },
+              { "step": "Escalate systematic underfunding to DfE/Home Office via LGA/ADCS", "month": "3-6" },
+              { "step": "Ensure all 1,000+ out-of-area health assessments are charged to placing authority", "month": "1-3" }
+            ],
+            "political_framing": "The Home Office is not paying the full cost of looking after unaccompanied children. Lancashire taxpayers are picking up the tab. We will recover every penny we're owed."
+          }
+        }
       ],
       "operational_context": {
         "ofsted_rating": "Good",
@@ -370,10 +594,70 @@
         { "name": "Beever & Struthers audit", "provider": "Beever and Struthers LLP", "value": "£131K", "duration": "Annual", "note": "94.4% of procurement threshold — threshold-adjacent flag" }
       ],
       "savings_levers": [
-        { "lever": "Property estate rationalisation", "est_saving": "£3-8M", "timeline": "12-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "centralised", "description": "1,200+ properties. Active disposals: Willow Lane Lancaster (£350K+), Golden Hill, Horncliffe Quarry, Garstang Pool. Property/estates/facilities = 6.3% of spend (~£132M). Every vacant property costs £30-100K/yr to maintain.", "legal_constraints": "S123 LGA 1972 — best consideration requirements for disposal" },
-        { "lever": "Support services consolidation", "est_saving": "£2-4M", "timeline": "6-12 months", "risk": "Low", "tier": "service_redesign", "owner": "centralised", "description": "Support services £123M gross. Review internal recharging model. Eliminate duplication between central and directorate-level admin. £11M redundancy provision already in budget.", "legal_constraints": null },
+        { "lever": "Property estate rationalisation", "est_saving": "£3-8M", "timeline": "12-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "centralised", "description": "1,200+ properties. Active disposals: Willow Lane Lancaster (£350K+), Golden Hill, Horncliffe Quarry, Garstang Pool. Property/estates/facilities = 6.3% of spend (~£132M). Every vacant property costs £30-100K/yr to maintain.", "legal_constraints": "S123 LGA 1972 — best consideration requirements for disposal",
+          "evidence": {
+            "data_points": ["1,200+ properties in estate", "Property/estates/facilities = 6.3% of spend (~£132M)", "Active disposals: Willow Lane (£350K+), Golden Hill, Horncliffe Quarry, Garstang Pool", "£56.3M disposal receipts target", "£5M+ maintenance backlog (ASC care homes alone)", "Simon Lawrence title changed to 'Director of Growth and Property'"],
+            "benchmark": "Best practice: estate utilisation review every 3 years. Leading councils achieve 20-30% estate reduction through rationalisation",
+            "calculation": "1,200 properties. If 10% surplus/underused = 120 properties × avg £50K/yr running cost = £6M. Disposal receipts additional. Conservative £3-8M including maintenance avoided + receipts",
+            "kpi_link": "No inspection metric but LGR preparation requires estate strategy. Pre-LGR rationalisation avoids transferring liabilities to successor authority",
+            "implementation_steps": [
+              { "step": "Complete full estate condition survey (currently unknown total backlog)", "month": "1-6" },
+              { "step": "Identify surplus/underutilised properties (target 120+)", "month": "3-6" },
+              { "step": "Accelerate disposal programme — list 50 properties for sale", "month": "6-12" },
+              { "step": "Co-location strategy: consolidate services into fewer buildings", "month": "6-18" },
+              { "step": "Publish estate strategy (currently none published)", "month": "3-6" }
+            ],
+            "political_framing": "We own over 1,200 properties costing £132 million a year. Every empty building is taxpayer money wasted on heating and security. We're selling what we don't need and consolidating what we do."
+          }
+        },
+        { "lever": "Support services consolidation", "est_saving": "£2-4M", "timeline": "6-12 months", "risk": "Low", "tier": "service_redesign", "owner": "centralised", "description": "Support services £123M gross. Review internal recharging model. Eliminate duplication between central and directorate-level admin. £11M redundancy provision already in budget.", "legal_constraints": null,
+          "evidence": {
+            "data_points": ["Support services £123M gross", "£11M redundancy provision in budget (400 estimated jobs)", "Multiple interim directors suggest structural instability", "Efficiency review initiated June 2025 covering 5 focus areas"],
+            "benchmark": "LGA peer review recommendation: support service costs should be 8-12% of net revenue. If Lancashire above this, scope for reduction",
+            "calculation": "£123M gross. If 5% efficiency through consolidation = £6.2M. After redundancy costs (£11M provision ÷ 3 years = £3.7M/yr amortised): net £2-4M",
+            "kpi_link": "Efficiency review already commissioned. Results should inform restructuring. LGR preparation requires lean central services",
+            "implementation_steps": [
+              { "step": "Complete efficiency review (5 focus areas: procurement, property, digital, workforce, partnerships)", "month": "1-4" },
+              { "step": "Map all support functions across directorates — identify duplicates", "month": "2-4" },
+              { "step": "Design consolidated support service model", "month": "4-6" },
+              { "step": "Implement restructuring using £11M redundancy provision", "month": "6-12" }
+            ],
+            "political_framing": "We've set aside £11 million for redundancy because we know the back office is too big. The efficiency review will tell us exactly where to cut — and we'll act on it."
+          }
+        },
         { "lever": "Digital transformation of back office", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Low", "tier": "service_redesign", "owner": "centralised", "description": "Automate finance processes (e-invoicing, three-way matching, automated reconciliation). Oracle Fusion stabilised after 2022 catastrophe. Reduce headcount through natural attrition.", "legal_constraints": null },
-        { "lever": "S151 transition efficiency", "est_saving": "£0.5-1M", "timeline": "6 months", "risk": "Low", "tier": "immediate_recovery", "owner": "portfolio", "description": "Three S151 holders in 18 months (O'Neill→Arnold→Betts→Fielding). Gary Fielding arrives from North Yorkshire Jun 2026. Stabilise structure, eliminate interim costs.", "legal_constraints": null }
+        { "lever": "S151 transition efficiency", "est_saving": "£0.5-1M", "timeline": "6 months", "risk": "Low", "tier": "immediate_recovery", "owner": "portfolio", "description": "Three S151 holders in 18 months (O'Neill→Arnold→Betts→Fielding). Gary Fielding arrives from North Yorkshire Jun 2026. Stabilise structure, eliminate interim costs.", "legal_constraints": null },
+        { "lever": "Shared services with district councils", "est_saving": "£2-5M", "timeline": "12-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "centralised", "description": "Back-office shared services (HR, finance, legal, IT, audit, procurement) with 12 district councils. Nationally, shared service centres have saved £1.34B. LGR preparation makes this natural — start now, formalise at vesting.",
+          "evidence": {
+            "data_points": ["12 district councils with duplicate back-office functions", "National shared services savings: £1.34B (NAO)", "LGR vesting Apr 2028 means integration inevitable", "Some districts already share services (e.g. Burnley/Pendle joint CEO 2015-2021)"],
+            "benchmark": "Orbis (Surrey/East Sussex/Brighton): £12.5M annual savings. LGSS (Cambs/Northants): £7.5M before collapse. Successful models achieve 15-25% back-office cost reduction",
+            "calculation": "12 districts × avg £5M back-office spend = £60M total. If LCC provides shared services at 10% lower cost = £6M saving across Lancashire. LCC share: £2-5M through economies of scale",
+            "kpi_link": "LGR preparation metric. Shared services now = smoother transition at vesting. Also demonstrates Reform commitment to cross-tier efficiency",
+            "implementation_steps": [
+              { "step": "Map all 12 district back-office functions and costs", "month": "1-4" },
+              { "step": "Identify 3 quick-win shared services (payroll, legal, internal audit)", "month": "3-6" },
+              { "step": "Negotiate shared service agreements with willing districts", "month": "6-12" },
+              { "step": "Deploy LCC systems (Oracle, Liquid Logic) as shared platform", "month": "12-18" },
+              { "step": "Formalise into LGR transition plan", "month": "18-24" }
+            ],
+            "political_framing": "Why should 12 district councils each run their own payroll, legal team, and audit function? Sharing back-office services saves millions — and it's exactly what LGR will require anyway."
+          },
+          "legal_constraints": "s101/s102 LGA 1972 — joint arrangements. Requires district agreement (voluntary pre-LGR)" },
+        { "lever": "E-invoicing and three-way matching", "est_saving": "£1-2M", "timeline": "6-12 months", "risk": "Low", "tier": "immediate_recovery", "owner": "centralised", "description": "Automate invoice processing with purchase order matching and goods receipt confirmation. Eliminates duplicate payments, reduces processing time, improves supplier payment terms.",
+          "evidence": {
+            "data_points": ["£93.6M potential duplicates flagged in DOGE data", "Oracle Fusion now stabilised after 2022 catastrophe", "100% empty transaction descriptions hamper manual checking", "Multiple suppliers with near-identical payment patterns"],
+            "benchmark": "NHS Shared Business Services: e-invoicing saved £500M over 10 years. Private sector benchmark: 60-80% processing cost reduction",
+            "calculation": "Current manual processing estimated 50,000 invoices/month. At £5/invoice manual vs £0.50 automated = £4.50 × 600,000/yr = £2.7M. Conservative £1-2M after implementation costs",
+            "kpi_link": "Oracle transparency fix (0.0 score) is prerequisite. E-invoicing forces data quality improvement as side effect",
+            "implementation_steps": [
+              { "step": "Configure Oracle Fusion three-way matching (PO→GRN→Invoice)", "month": "1-3" },
+              { "step": "Mandate e-invoicing for top 100 suppliers (80% of spend)", "month": "3-6" },
+              { "step": "Automated duplicate detection rules in Oracle", "month": "2-4" },
+              { "step": "Roll out to remaining suppliers", "month": "6-12" }
+            ],
+            "political_framing": "We've flagged £93.6 million in potential duplicate payments. Most are probably data artifacts, but we can't tell because Oracle has zero transaction descriptions. E-invoicing fixes both problems at once."
+          },
+          "legal_constraints": null }
       ],
       "operational_context": {
         "oracle_status": "Stabilised after catastrophic 2022 migration. Data breaches, payment delays, salary overpayments. KPMG review classified exempt. Limited assurance audit opinion.",
@@ -483,13 +767,113 @@
         { "name": "Equipment/Telecare", "provider": "1 provider", "value": "£6.5M (20 months)", "duration": "Contract", "note": "10,000+ pieces monthly, no waiting list." }
       ],
       "savings_levers": [
-        { "lever": "CHC cost recovery", "est_saving": "£5-12M", "timeline": "3-6 months", "risk": "Medium", "tier": "immediate_recovery", "owner": "portfolio", "description": "Systematic review of NHS Continuing Healthcare eligibility. BCF >£200M p.a. The ICB CEO acknowledged whether ICB should 'contribute more'. Establish dedicated CHC review team.", "legal_constraints": "National Framework for NHS CHC 2022 — joint dispute resolution process" },
-        { "lever": "Off-framework home care reduction", "est_saving": "£3-5M", "timeline": "6-12 months", "risk": "Low", "tier": "procurement_reform", "owner": "centralised", "description": "31% of home care commissioned off-framework at ~20% higher rates. Move to framework providers. New zone-based contracts from Nov 2023 should enable this.", "legal_constraints": null },
-        { "lever": "Reablement expansion", "est_saving": "£3-5M", "timeline": "12-18 months", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Lancashire reablement success: 87.3% still at home at 91 days (national 81.8%). But only 2.6% offered reablement after discharge (national 2.8%). Every 1% shift from residential to community saves ~£3M.", "legal_constraints": null },
-        { "lever": "Digital care technology", "est_saving": "£1-2M", "timeline": "6-12 months", "risk": "Low", "tier": "service_redesign", "owner": "portfolio", "description": "Remote monitoring, telecare, digital care planning. £3M allocated over 3 years for digital transformation. Reduces face-to-face visits for stable clients.", "legal_constraints": null },
-        { "lever": "Direct payment uptake", "est_saving": "£2-4M", "timeline": "12 months", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Self-directed support typically 15-20% cheaper. CQC found direct payments deliver 64% more activities, 66% more control, 60% better health. Increase uptake.", "legal_constraints": "Care Act 2014 s31-33 — must offer DPs to all eligible" },
-        { "lever": "Residential to community shift", "est_saving": "£5-10M", "timeline": "18-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "OP residential £172M/yr annualised vs home care £57M/yr. If 10% of residential placements converted to home care = £10-15M savings. Living Better Lives programme targets this.", "legal_constraints": "Care Act 2014 — must demonstrate placement meets assessed needs" },
-        { "lever": "Demand management — falls prevention", "est_saving": "£2-5M", "timeline": "2-3 years", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Every £1 in falls prevention saves £3.50 in ASC. Cross-portfolio with Public Health. Positive Ageing Mental Health Trailblazer already achieves 4 weeks earlier discharge.", "legal_constraints": null }
+        { "lever": "CHC cost recovery", "est_saving": "£5-12M", "timeline": "3-6 months", "risk": "Medium", "tier": "immediate_recovery", "owner": "portfolio", "description": "Systematic review of NHS Continuing Healthcare eligibility. BCF >£200M p.a. The ICB CEO acknowledged whether ICB should 'contribute more'. Establish dedicated CHC review team.", "legal_constraints": "National Framework for NHS CHC 2022 — joint dispute resolution process",
+          "evidence": {
+            "data_points": ["BCF in excess of £200M p.a.", "ICB is largest single supplier (£170.7M in DOGE data)", "ICB CEO acknowledged 'contribute more'", "CHC disputes are the 'daily fight'", "£28M savings target through better cost sharing 'not worked out as preferred'"],
+            "benchmark": "National CHC recovery rate 8-12%, Lancashire estimated 4-6%",
+            "calculation": "180 high-cost cases × £28K/yr average × 30-50% recovery = £1.5-2.5M. System-wide review of all borderline cases across 334 care homes + home care: £5-12M",
+            "kpi_link": "CQC 'Requires Improvement' found strained NHS partnerships — 'some organisations had disengaged'. This blocks CHC disputes. Improvement plan should include reset of ICB relationship",
+            "implementation_steps": [
+              { "step": "Establish dedicated CHC review team (2 nurses + 1 case manager)", "month": "1-2", "cost": "£180K/yr" },
+              { "step": "Audit top 50 most expensive jointly-funded packages", "month": "2-4" },
+              { "step": "Submit systematic claims to ICB using National Framework dispute resolution", "month": "4-6" },
+              { "step": "Quarterly review cycle for all packages >£1,500/week", "month": "6+" },
+              { "step": "Escalate unresolved disputes to NHS England regional team", "month": "6-9" }
+            ],
+            "political_framing": "The NHS should pay its fair share. Lancashire taxpayers are subsidising the ICB. The BCF is over £200M — we need proper accountability for how that money is spent."
+          }
+        },
+        { "lever": "Off-framework home care reduction", "est_saving": "£3-5M", "timeline": "6-12 months", "risk": "Low", "tier": "procurement_reform", "owner": "centralised", "description": "31% of home care commissioned off-framework at ~20% higher rates. Move to framework providers. New zone-based contracts from Nov 2023 should enable this.", "legal_constraints": null,
+          "evidence": {
+            "data_points": ["31% off-framework at ~20% premium", "88,000 hours/week commissioned", "Zone-based contracts live from Nov 2023", "30+ providers on framework inc. Guardian Homecare (£1.9M/month)"],
+            "benchmark": "Best practice councils <15% off-framework. Some achieve <10%",
+            "calculation": "31% of 88K hrs/week = 27,280 hrs off-framework. At 20% premium over ~£20/hr = £5.46/hr excess × 27,280 × 52 weeks = £7.7M excess. Reducing to 15% = £3-5M saving",
+            "kpi_link": "CQC found assessment waiting lists (2,000+) force emergency off-framework placements. Reducing backlogs = more planned placements on framework",
+            "implementation_steps": [
+              { "step": "Map all off-framework packages by zone, provider, and reason for off-framework", "month": "1-2" },
+              { "step": "Review zone-based framework capacity — identify gaps causing off-framework", "month": "2-3" },
+              { "step": "Targeted recruitment of framework providers in underserved zones", "month": "3-6" },
+              { "step": "Transfer existing off-framework packages to framework at next review point", "month": "6-12" }
+            ],
+            "political_framing": "We're paying 20% more for the same care because the previous administration didn't manage contracts properly. Framework providers deliver the same quality at lower cost."
+          }
+        },
+        { "lever": "Reablement expansion", "est_saving": "£3-5M", "timeline": "12-18 months", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Lancashire reablement success: 87.3% still at home at 91 days (national 81.8%). But only 2.6% offered reablement after discharge (national 2.8%). Every 1% shift from residential to community saves ~£3M.", "legal_constraints": null,
+          "evidence": {
+            "data_points": ["87.3% still at home at 91 days (national 81.8%)", "Only 2.6% offered reablement after discharge (national 2.8%)", "Positive Ageing Mental Health Trailblazer achieves 4 weeks earlier discharge", "In-house domiciliary teams: 9 districts, mostly CQC Good"],
+            "benchmark": "National reablement offer rate 2.8%, top performers 4-5%. Lancashire 2.6%",
+            "calculation": "2.6% → 4% offer rate on ~15,000 hospital discharges/yr = 210 additional people through reablement. At 87.3% success rate, 183 avoid residential (£650/week avg). 183 × £650 × 52 = £6.2M avoided. Net of reablement cost (~£3M) = £3-5M",
+            "kpi_link": "CQC found assessment backlogs delay reablement offers. Reducing waits means more people get timely reablement before they deteriorate into needing residential",
+            "implementation_steps": [
+              { "step": "Expand in-house reablement capacity by 20% (recruit 30 additional staff)", "month": "1-4", "cost": "£750K/yr" },
+              { "step": "Embed reablement pathway at point of hospital discharge — default offer", "month": "2-4" },
+              { "step": "Train NHS discharge coordinators on reablement referral criteria", "month": "3-6" },
+              { "step": "Monitor 91-day outcomes and adjust capacity by zone", "month": "6+" }
+            ],
+            "political_framing": "Lancashire's reablement service is world-class — 87% success rate. We just need to offer it to more people. It keeps people independent and saves the taxpayer millions."
+          }
+        },
+        { "lever": "Digital care technology", "est_saving": "£1-2M", "timeline": "6-12 months", "risk": "Low", "tier": "service_redesign", "owner": "portfolio", "description": "Remote monitoring, telecare, digital care planning. £3M allocated over 3 years for digital transformation. Reduces face-to-face visits for stable clients.", "legal_constraints": null,
+          "evidence": {
+            "data_points": ["£3M allocated over 3 years for digital transformation", "10,000+ pieces telecare equipment issued monthly, no waiting list", "CQC cited 'unreliable electronic records system'", "Liquid Logic social care system integration challenges"],
+            "benchmark": "Leading councils (Kent, Hampshire) achieve 15-20% reduction in face-to-face visits through remote monitoring",
+            "calculation": "88,000 hours/week home care. If 10% of stable clients shift to remote monitoring (reduced visits), saving 1-2 hours/week each × 8,800 clients × 1.5 hrs × £20/hr × 52 = £1-2M",
+            "kpi_link": "CQC 'unreliable electronic records' finding means digital transformation is mandated by improvement plan. Investment in digital care tech addresses CQC AND saves money",
+            "implementation_steps": [
+              { "step": "Identify stable home care clients suitable for remote monitoring (target 2,000)", "month": "1-3" },
+              { "step": "Procure and deploy remote monitoring devices and platform", "month": "3-6", "cost": "£500K" },
+              { "step": "Reduce scheduled visits for monitored clients (from daily to 3x/week)", "month": "6-9" },
+              { "step": "Reinvest freed capacity into reducing assessment waiting list", "month": "9-12" }
+            ],
+            "political_framing": "Technology keeps people safer at home while freeing up care workers for those who need them most. It's modern, it's efficient, and it improves outcomes."
+          }
+        },
+        { "lever": "Direct payment uptake", "est_saving": "£2-4M", "timeline": "12 months", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Self-directed support typically 15-20% cheaper. CQC found direct payments deliver 64% more activities, 66% more control, 60% better health. Increase uptake.", "legal_constraints": "Care Act 2014 s31-33 — must offer DPs to all eligible",
+          "evidence": {
+            "data_points": ["£161M in direct payments over 20 months", "64% more activities, 66% more control, 60% better health (CQC)", "Self-directed support 15-20% cheaper than commissioned care"],
+            "benchmark": "National DP take-up varies 20-40%. Leading councils achieve 35%+",
+            "calculation": "If DP take-up increases by 10pp across 5,000 eligible clients, 500 shift. At 15% saving on avg £400/week package = £60/week × 500 × 52 = £1.56M. Higher-value packages yield more",
+            "kpi_link": "CQC assessed Lancashire on personalisation — DPs are the key metric. Increasing uptake simultaneously improves CQC rating AND saves money",
+            "implementation_steps": [
+              { "step": "Identify all eligible clients not currently offered DPs", "month": "1-2" },
+              { "step": "Simplify DP administration (prepaid card, managed accounts)", "month": "2-4" },
+              { "step": "Train social workers to default-offer DPs at every assessment/review", "month": "3-6" },
+              { "step": "Peer support network for DP holders", "month": "6-12" }
+            ],
+            "political_framing": "Direct payments give people control over their own care. They choose better, cheaper options than the council would commission. It's personal freedom AND value for money."
+          }
+        },
+        { "lever": "Residential to community shift", "est_saving": "£5-10M", "timeline": "18-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "OP residential £172M/yr annualised vs home care £57M/yr. If 10% of residential placements converted to home care = £10-15M savings. Living Better Lives programme targets this.", "legal_constraints": "Care Act 2014 — must demonstrate placement meets assessed needs",
+          "evidence": {
+            "data_points": ["OP residential £242M (20 months) = £172M/yr annualised via 413 providers", "Home care £57M/yr", "334 care homes, 11,800 beds, 10% vacancy rate", "Fair Cost of Care gap: residential £137/week below fair cost", "Living Better Lives programme already underway"],
+            "benchmark": "National direction is community-first. Best-performing councils achieve 60:40 community:residential (Lancashire currently ~25:75)",
+            "calculation": "10% of residential placements (~1,100 beds × 10% = 110 people) moved from residential (avg £800/week) to enhanced home care (avg £350/week) = £450/week × 110 × 52 = £2.6M. At 20% shift: £5.1M. Including Extra Care Housing and Shared Lives: £5-10M",
+            "kpi_link": "CQC improvement plan requires strength-based practice (Living Better Lives). Every person maintained in community with right support = better CQC rating AND lower cost",
+            "implementation_steps": [
+              { "step": "Review all residential placements at next annual review — identify step-down candidates", "month": "1-6" },
+              { "step": "Expand Extra Care Housing capacity (commission 100 additional units)", "month": "6-18", "cost": "Capital, not revenue" },
+              { "step": "Expand Shared Lives scheme (Outstanding rated, 9% of national LD placements)", "month": "3-12" },
+              { "step": "Commission enhanced home care packages with night support for complex needs", "month": "6-12" },
+              { "step": "Invest in community equipment/adaptations to enable home living", "month": "3-9", "cost": "£500K" }
+            ],
+            "political_framing": "People want to live at home, not in care homes. We spend 3x more on residential than home care. Shifting the balance is better for people AND for taxpayers."
+          }
+        },
+        { "lever": "Demand management — falls prevention", "est_saving": "£2-5M", "timeline": "2-3 years", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Every £1 in falls prevention saves £3.50 in ASC. Cross-portfolio with Public Health. Positive Ageing Mental Health Trailblazer already achieves 4 weeks earlier discharge.", "legal_constraints": null,
+          "evidence": {
+            "data_points": ["Every £1 in falls prevention saves £3.50 in ASC (PHE evidence)", "Positive Ageing Mental Health Trailblazer: 4 weeks earlier discharge", "Falls are the leading cause of emergency hospital admission for older people", "Lancashire over-65 population rising 2.1% p.a."],
+            "benchmark": "PHE evidence base: £1 invested = £3.50 saved. NICE guideline CG161 recommends multifactorial falls assessment for all at-risk",
+            "calculation": "Estimated 3,000 falls-related ASC admissions/yr in Lancashire. If 20% prevented through targeted intervention = 600 fewer admissions × avg £8K residential cost = £4.8M avoided. Investment: £1.5M = net £2-5M",
+            "kpi_link": "CQC improvement demands prevention focus. Falls prevention is the single highest-ROI preventive intervention in ASC. Cross-portfolio with Public Health grant (ring-fenced)",
+            "implementation_steps": [
+              { "step": "Commission falls risk screening for all 75+ at GP registration/annual review", "month": "1-6", "cost": "£200K via PH grant" },
+              { "step": "Expand strength and balance classes in all 12 districts (Otago exercise programme)", "month": "3-12", "cost": "£500K via PH grant" },
+              { "step": "Home hazard assessment and modification programme", "month": "6-12", "cost": "£300K" },
+              { "step": "Monitor hospital admission data to track impact", "month": "12+" }
+            ],
+            "political_framing": "Prevention is always cheaper than cure. For every pound we invest in falls prevention, we save three pounds fifty in care costs. It keeps people on their feet and out of care homes."
+          }
+        }
       ],
       "operational_context": {
         "cqc_rating": "Requires Improvement",
@@ -597,8 +981,37 @@
         { "name": "We Are With You", "provider": "We Are With You", "value": "£1.96M (20 months)", "duration": "Unknown", "note": "Substance misuse/mental health support" }
       ],
       "savings_levers": [
-        { "lever": "HCRG contract recommissioning", "est_saving": "£2-5M", "timeline": "18-24 months", "risk": "High", "tier": "procurement_reform", "owner": "centralised", "description": "Break 85% monopoly position (HHI 3,615). Retender 0-19 health visiting in lots to create competitive market. Benchmark against other county councils. Zero Contracts Finder visibility means no public scrutiny of current terms.", "legal_constraints": "Public Health Grant conditions. Light Touch Regime for social care/health. Must ensure service continuity during transition." },
-        { "lever": "CGL contract review", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Medium", "tier": "procurement_reform", "owner": "centralised", "description": "Review dual entity arrangement (CGL / CGL Services Ltd). £36.3M combined. Benchmark drug/alcohol service costs against comparable councils.", "legal_constraints": "Drug and alcohol services have vulnerable client groups — service disruption risk" },
+        { "lever": "HCRG contract recommissioning", "est_saving": "£2-5M", "timeline": "18-24 months", "risk": "High", "tier": "procurement_reform", "owner": "centralised", "description": "Break 85% monopoly position (HHI 3,615). Retender 0-19 health visiting in lots to create competitive market. Benchmark against other county councils. Zero Contracts Finder visibility means no public scrutiny of current terms.", "legal_constraints": "Public Health Grant conditions. Light Touch Regime for social care/health. Must ensure service continuity during transition.",
+          "evidence": {
+            "data_points": ["HCRG 85% of category spend (HHI 3,615)", "£36.7M combined across 2 entity names", "Formerly Virgin Care — rebranded", "Zero Contracts Finder visibility", "Rebilling pattern: £1.95M x11 = £21.5M"],
+            "benchmark": "No comparable county council has 85% concentration in a single public health provider. HHI >2,500 = highly concentrated market (FTC guidelines)",
+            "calculation": "£36.7M (20 months) = ~£22M/yr. If retender in lots achieves 10% saving through competition = £2.2M. At 15%+ if market responds = £3.3M+. Conservative £2-5M",
+            "kpi_link": "Public Health outcomes (0-19 health visiting) linked to provider quality. Competition drives quality improvement AND cost reduction",
+            "implementation_steps": [
+              { "step": "Publish all public health contracts on Contracts Finder immediately", "month": "1-2" },
+              { "step": "Commission benchmarking study vs other county councils", "month": "2-4", "cost": "£30K" },
+              { "step": "Soft market testing — identify alternative providers willing to tender", "month": "4-8" },
+              { "step": "Design lot structure (geographic or service-based) to enable competition", "month": "8-12" },
+              { "step": "Formal procurement — target 18-24 months for full recommissioning", "month": "12-24" }
+            ],
+            "political_framing": "One company controls 85% of our public health spend — £37 million — and none of it is visible on Contracts Finder. That's not competition, it's a monopoly. We'll open it up."
+          }
+        },
+        { "lever": "CGL contract review", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Medium", "tier": "procurement_reform", "owner": "centralised", "description": "Review dual entity arrangement (CGL / CGL Services Ltd). £36.3M combined. Benchmark drug/alcohol service costs against comparable councils.", "legal_constraints": "Drug and alcohol services have vulnerable client groups — service disruption risk",
+          "evidence": {
+            "data_points": ["CGL appears as two entities (CGL / CGL Services Ltd)", "£36.3M combined over 20 months", "Rebilling patterns: £561K x15 = £8.4M, £415K x10 = £4.1M", "Zero contracts on Contracts Finder", "SSMTR/ADDER supplemental funding: £10.6M — time-limited"],
+            "benchmark": "Benchmarking drug/alcohol service costs against comparable county councils (Kent, Hampshire, Essex) would establish fair price",
+            "calculation": "£36.3M (20 months) = ~£22M/yr. If benchmarking reveals 5-10% above comparable councils = £1.1-2.2M. Dual entity consolidation removes admin overhead",
+            "kpi_link": "Drug-related deaths are a public health KPI. Service quality must be maintained. Competition at retender can improve quality AND reduce cost",
+            "implementation_steps": [
+              { "step": "Audit dual entity arrangement — establish why two CGL entities billing LCC", "month": "1-3" },
+              { "step": "Benchmark against 5 comparable county councils", "month": "2-4" },
+              { "step": "Publish contracts on Contracts Finder", "month": "1-2" },
+              { "step": "Prepare for retender if benchmarking shows above-market rates", "month": "6-18" }
+            ],
+            "political_framing": "One drug and alcohol provider billing through two separate entities, none of it visible on Contracts Finder. We need transparency and we need to benchmark the price."
+          }
+        },
         { "lever": "Prevention investment (cross-portfolio ROI)", "est_saving": "£0 (invest to save)", "timeline": "2-3 years", "risk": "Low", "tier": "demand_management", "owner": "portfolio", "description": "Every £1 in falls prevention saves £3.50 in ASC. Every £1 in smoking cessation saves £2.80 in NHS/social care. This portfolio is the long-term savings engine for ASC.", "legal_constraints": null },
         { "lever": "Contract transparency fix", "est_saving": "£0 (enabler)", "timeline": "1-3 months", "risk": "Low", "tier": "immediate_recovery", "owner": "centralised", "description": "0% contract coverage on Contracts Finder. Publish all public health contracts. This enables scrutiny and future competition.", "legal_constraints": null }
       ],
@@ -693,11 +1106,85 @@
         { "name": "Agency EP supply", "provider": "3 agencies", "value": "~£15M total investment", "duration": "Time-limited", "note": "110 agency EPs generating 2,400 EHCP advice pieces/year." }
       ],
       "savings_levers": [
-        { "lever": "SEND transport reform", "est_saving": "£5-10M", "timeline": "6-18 months", "risk": "High", "tier": "service_redesign", "owner": "portfolio", "description": "50 new Ford minibuses deployed (208 total fleet). Passenger occupancy up 3→5. Cost per passenger down 30% (£11K→£8K). Transport Assistant Grants increased 488→750 saving ~£2M/yr. 200+ parents supporting single-occupancy journeys avoiding £1.8M. Personal Travel Budgets for 400+ families.", "legal_constraints": "Education Act 1996 s508B — must provide transport to eligible children. Statutory distances: 2 miles (under 8), 3 miles (8-16)." },
-        { "lever": "SEND early intervention & mainstream inclusion", "est_saving": "£3-8M", "timeline": "2-3 years", "risk": "Medium", "tier": "demand_management", "owner": "portfolio", "description": "Lancashire 48.4% in special schools (national 38.6%). Every child maintained in mainstream vs special school saves £25-40K/yr in placement + transport. £7.5M recurrent investment into SEND staffing + £37M into places. AI assisting EHCP compliance checking.", "legal_constraints": "Children and Families Act 2014 — parental preference for special school must be considered" },
-        { "lever": "Home to school transport review", "est_saving": "£1-3M", "timeline": "6-12 months", "risk": "Medium", "tier": "procurement_reform", "owner": "portfolio", "description": "Review discretionary transport (post-16, denominational). Route optimisation for statutory transport. Renegotiate taxi contracts.", "legal_constraints": "Statutory distances. Discretionary policies can be changed with consultation." },
-        { "lever": "Energy contract review", "est_saving": "£2-5M", "timeline": "6-12 months", "risk": "Low", "tier": "procurement_reform", "owner": "centralised", "description": "Npower £110.8M and TotalEnergies £60.0M both flagged for weak competition (awarded 1 day after deadline). Combined £170.8M in energy. Review framework terms and market test.", "legal_constraints": null },
-        { "lever": "Library service transformation", "est_saving": "£2-4M", "timeline": "12-24 months", "risk": "High", "tier": "service_redesign", "owner": "portfolio", "description": "63 libraries. Community-managed model for low-use branches, digital-first strategy, co-location with other services. No successor to 2022-2025 Libraries Strategy. Requires public consultation.", "legal_constraints": "Public Libraries and Museums Act 1964 — must consult and maintain 'comprehensive' service. JR risk (Brent 2011)." }
+        { "lever": "SEND transport reform", "est_saving": "£5-10M", "timeline": "6-18 months", "risk": "High", "tier": "service_redesign", "owner": "portfolio", "description": "50 new Ford minibuses deployed (208 total fleet). Passenger occupancy up 3→5. Cost per passenger down 30% (£11K→£8K). Transport Assistant Grants increased 488→750 saving ~£2M/yr. 200+ parents supporting single-occupancy journeys avoiding £1.8M. Personal Travel Budgets for 400+ families.", "legal_constraints": "Education Act 1996 s508B — must provide transport to eligible children. Statutory distances: 2 miles (under 8), 3 miles (8-16).",
+          "evidence": {
+            "data_points": ["SEND transport £61M (2025/26), +£17.7M for 2026/27", "208 in-house minibuses (50 new)", "Passenger occupancy up 3→5, cost per passenger down 30%", "Transport Assistant Grants 488→750 saving ~£2M/yr", "200+ parents supporting single-occupancy journeys = £1.8M avoided", "Personal Travel Budgets for 400+ families", "5,200 SEND children + 900 vulnerable adults transported daily"],
+            "benchmark": "AI route optimisation in leading councils (Surrey, Kent) achieves 15-25% cost reduction. Lancashire already achieving 30% per-passenger reduction",
+            "calculation": "Current trajectory: £61M + £17.7M = £78.7M by 2026/27. If reforms hold growth to £5M instead of £17.7M = £12.7M avoided. Conservative £5-10M accounting for demand growth",
+            "kpi_link": "DfE Improvement Notice requires SEND reform plan. More children in mainstream (closer to home) = less transport needed. Each child maintained mainstream vs special saves transport + placement cost",
+            "implementation_steps": [
+              { "step": "Deploy AI route optimisation across all 12 districts", "month": "1-6", "cost": "£200K" },
+              { "step": "Expand Personal Travel Budgets — target 800 families (from 400)", "month": "3-9" },
+              { "step": "Increase Transport Assistant Grants to 1,000 (from 750)", "month": "3-6" },
+              { "step": "Review all single-occupancy taxi routes — combine or convert to minibus", "month": "1-6" },
+              { "step": "Negotiate taxi framework with fixed-price contracts (rural areas pricing power)", "month": "6-12" }
+            ],
+            "political_framing": "We've already cut the cost per passenger by 30% with new minibuses. AI route planning and personal travel budgets give families choices while saving millions. This is reform in action."
+          }
+        },
+        { "lever": "SEND early intervention & mainstream inclusion", "est_saving": "£3-8M", "timeline": "2-3 years", "risk": "Medium", "tier": "demand_management", "owner": "portfolio", "description": "Lancashire 48.4% in special schools (national 38.6%). Every child maintained in mainstream vs special school saves £25-40K/yr in placement + transport. £7.5M recurrent investment into SEND staffing + £37M into places. AI assisting EHCP compliance checking.", "legal_constraints": "Children and Families Act 2014 — parental preference for special school must be considered",
+          "evidence": {
+            "data_points": ["48.4% in special schools (national 38.6%)", "Independent sector: 5.1% at avg £57K/pupil vs mainstream £9.1K", "12,317 EHCPs growing 10.5% p.a.", "300 requests/month vs 53 capacity", "£57M capital for 2 new special schools + expansions + 5 mainstream SEND units", "AI assisting EHCP compliance checking"],
+            "benchmark": "National average 38.6% in special schools. Top-performing SEND areas achieve 30-35%. Lancashire at 48.4% is significantly above",
+            "calculation": "Reducing special school % from 48.4% to 42% = ~780 children in mainstream instead. At £25-40K/yr saving per child: 780 × £32.5K = £25.4M gross saving. Net of mainstream support costs (~£15K each): £13.7M. Conservative £3-8M in year 1-3 as transition is gradual",
+            "kpi_link": "DfE Improvement Notice specifically targets inclusion. Every child successfully included in mainstream = better DfE outcome AND less transport + placement cost",
+            "implementation_steps": [
+              { "step": "Open 5 mainstream SEND units (already funded from £57M capital)", "month": "1-12" },
+              { "step": "Deploy Inclusion Service (rebranded from SEND Service) to support mainstream schools", "month": "1-6" },
+              { "step": "AI-assisted EHCP timeliness — clear backlog by April 2026", "month": "1-6" },
+              { "step": "Invest in mainstream school SEND training (SENCo capacity)", "month": "3-12", "cost": "£1M" },
+              { "step": "Early intervention at nursery/reception to prevent escalation to EHCP", "month": "6-18" }
+            ],
+            "political_framing": "Lancashire sends more children to special schools than the national average. Better support in mainstream schools keeps children in their communities, closer to friends and family, and saves £25,000-£40,000 per child per year."
+          }
+        },
+        { "lever": "Home to school transport review", "est_saving": "£1-3M", "timeline": "6-12 months", "risk": "Medium", "tier": "procurement_reform", "owner": "portfolio", "description": "Review discretionary transport (post-16, denominational). Route optimisation for statutory transport. Renegotiate taxi contracts.", "legal_constraints": "Statutory distances. Discretionary policies can be changed with consultation.",
+          "evidence": {
+            "data_points": ["Total transport £61M (2025/26)", "11% increase in transported pupils since Sep 2024", "Taxi firms have pricing power in rural areas", "Discretionary transport includes post-16, denominational, extended entitlement"],
+            "benchmark": "Statutory distances: 2 miles (under 8), 3 miles (8-16). Discretionary policies vary — some councils have reduced/removed",
+            "calculation": "Discretionary transport estimated 15-20% of total = £9-12M. Policy review could save 10-25% of discretionary = £1-3M. Route optimisation additional",
+            "kpi_link": "Not inspection-linked. Political risk from removal of discretionary transport. Must consult and equality impact assess",
+            "implementation_steps": [
+              { "step": "Map all discretionary transport policies and costs (post-16, denominational, extended)", "month": "1-3" },
+              { "step": "Benchmark against comparable county councils", "month": "2-4" },
+              { "step": "Public consultation on proposed changes (statutory 6-week minimum)", "month": "4-7" },
+              { "step": "Implement revised policy for September start", "month": "7-12" }
+            ],
+            "political_framing": "We must protect statutory transport for every eligible child. But discretionary transport policies need reviewing — some are generous compared to other councils."
+          }
+        },
+        { "lever": "Energy contract review", "est_saving": "£2-5M", "timeline": "6-12 months", "risk": "Low", "tier": "procurement_reform", "owner": "centralised", "description": "Npower £110.8M and TotalEnergies £60.0M both flagged for weak competition (awarded 1 day after deadline). Combined £170.8M in energy. Review framework terms and market test.", "legal_constraints": null,
+          "evidence": {
+            "data_points": ["Npower £110.8M (electricity)", "TotalEnergies £60.0M (gas)", "Both flagged DOGE weak competition (awarded 1 day after deadline)", "Combined £170.8M — largest non-social-care contract", "Supplies LCC buildings + schools", "LASER or CCS framework likely but terms not publicly visible"],
+            "benchmark": "Energy procurement best practice: 3-5% saving achievable through framework review, TPI market test, or direct energy purchase. Some councils save 8-12% through energy bureau model",
+            "calculation": "£170.8M × 3% = £5.1M. Conservative £2-5M depending on framework lock-in terms. Even 1% improvement = £1.7M",
+            "kpi_link": "DOGE weak competition flag evidences lack of competitive tension. This is procurement reform — Contracts Finder publication would enable scrutiny",
+            "implementation_steps": [
+              { "step": "Review existing energy framework terms (LASER/CCS/other) — identify lock-in periods", "month": "1-2" },
+              { "step": "Commission independent Third Party Intermediary (TPI) market test", "month": "2-4", "cost": "£50K" },
+              { "step": "If framework allows, conduct mini-competition between at least 3 suppliers", "month": "4-6" },
+              { "step": "Consider energy bureau model for direct market purchase (higher saving, higher risk)", "month": "6-12" },
+              { "step": "Publish contracts on Contracts Finder (currently invisible)", "month": "1-3" }
+            ],
+            "political_framing": "£170 million on energy with no competitive tension. Both contracts flagged as weak competition. We owe it to taxpayers to market-test these and get the best deal."
+          }
+        },
+        { "lever": "Library service transformation", "est_saving": "£2-4M", "timeline": "12-24 months", "risk": "High", "tier": "service_redesign", "owner": "portfolio", "description": "63 libraries. Community-managed model for low-use branches, digital-first strategy, co-location with other services. No successor to 2022-2025 Libraries Strategy. Requires public consultation.", "legal_constraints": "Public Libraries and Museums Act 1964 — must consult and maintain 'comprehensive' service. JR risk (Brent 2011).",
+          "evidence": {
+            "data_points": ["63 libraries", "Staff shortages caused temporary closures", "No successor to 2022-2025 Libraries Strategy published", "Library of Sanctuary withdrawn by Reform", "Co-location with other services possible"],
+            "benchmark": "Suffolk community libraries model: 30% cost reduction. Lincolnshire: 15 community-run of 51. JR risk: Brent 2011 quashed closure — must prove comprehensive service",
+            "calculation": "Library service estimated £8-12M/yr. Community transfer of 20 low-use branches (30% of network) could save £2-4M. Requires investment in volunteer coordination (~£500K)",
+            "kpi_link": "Not inspection-linked but politically sensitive. Library closures generate significant public opposition. Community transfer is the safest model",
+            "implementation_steps": [
+              { "step": "Develop new Libraries Strategy (successor to expired 2022-2025)", "month": "1-4" },
+              { "step": "Identify 20 lowest-footfall branches for community transfer assessment", "month": "2-4" },
+              { "step": "Public consultation on service model (statutory requirement)", "month": "4-8" },
+              { "step": "Establish community partnerships and volunteer training", "month": "8-12" },
+              { "step": "Transfer first 10 branches to community management", "month": "12-18" }
+            ],
+            "political_framing": "We're not closing libraries — we're empowering communities to run them. Community-managed libraries in Suffolk and Lincolnshire have thrived. We'll keep every branch open."
+          }
+        }
       ],
       "operational_context": {
         "send_inspection": {
@@ -868,9 +1355,52 @@
         { "name": "Padiham flood scheme", "provider": "Jacobs (design), VolkerStevin (construction)", "value": "£39M (revised from £18M)", "duration": "Construction Spring 2026 — Winter 2028", "note": "Partnership with EA, Burnley BC, LEP, NW RFCC." }
       ],
       "savings_levers": [
-        { "lever": "Utility company recharges (s59)", "est_saving": "£2-5M", "timeline": "3-6 months", "risk": "Low", "tier": "income_generation", "owner": "portfolio", "description": "NRSWA 1991 s59 allows councils to charge for excessive road damage. Permit scheme since March 2015. Many councils under-recover. Establish dedicated enforcement team.", "legal_constraints": "NRSWA 1991 — clear legal basis. Case law supports councils." },
-        { "lever": "Managed service model expansion", "est_saving": "£3-6M", "timeline": "12-24 months", "risk": "Low", "tier": "procurement_reform", "owner": "portfolio", "description": "6 months in: defects down 42%, cost per m-sq down 50%+, repair size tripled, 12-month warranty. Extend model to more service areas. First UK trial of asphalt recycling machine. AI inspections piloted.", "legal_constraints": null },
-        { "lever": "Street lighting energy and dimming", "est_saving": "£1-2M", "timeline": "6-12 months", "risk": "Low", "tier": "service_redesign", "owner": "portfolio", "description": "152K of 170K+ columns converted to LED. Cumulative savings £40M+. Part-night dimming in low-risk areas. 26,000+ columns over 40 years old need replacement programme.", "legal_constraints": "Must maintain lighting on classified roads" },
+        { "lever": "Utility company recharges (s59)", "est_saving": "£2-5M", "timeline": "3-6 months", "risk": "Low", "tier": "income_generation", "owner": "portfolio", "description": "NRSWA 1991 s59 allows councils to charge for excessive road damage. Permit scheme since March 2015. Many councils under-recover. Establish dedicated enforcement team.", "legal_constraints": "NRSWA 1991 — clear legal basis. Case law supports councils.",
+          "evidence": {
+            "data_points": ["NRSWA 1991 s59 provides clear statutory basis", "Permit scheme live since March 2015", "5,900km road network", "115,000 defects handled 2024/25", "Utility companies responsible for significant road damage"],
+            "benchmark": "Kent CC recovers £3M+/yr from utility recharges. Transport for London: £5M+. Many councils under-recover by 50%+",
+            "calculation": "Estimated 30% of road defects attributable to utility works. 115,000 × 30% = 34,500 defects. At avg £150 reinstatement cost = £5.2M. Recovery rate of 40-80% = £2-5M",
+            "kpi_link": "Road condition declining (A roads red 2.1%→3.9%). Utility recharges fund maintenance AND incentivise better utility reinstatement, improving road condition",
+            "implementation_steps": [
+              { "step": "Establish dedicated s59 enforcement team (3 inspectors + 1 manager)", "month": "1-3", "cost": "£200K/yr" },
+              { "step": "Audit all current utility works permits vs actual reinstatement quality", "month": "2-4" },
+              { "step": "Issue s59 notices for all substandard reinstatements", "month": "3-6" },
+              { "step": "Automated inspection scheduling linked to permit expiry dates", "month": "6-12" }
+            ],
+            "political_framing": "Utility companies dig up our roads and don't fix them properly. We have the legal power to charge them. Kent recovers £3 million a year — Lancashire should be recovering even more."
+          }
+        },
+        { "lever": "Managed service model expansion", "est_saving": "£3-6M", "timeline": "12-24 months", "risk": "Low", "tier": "procurement_reform", "owner": "portfolio", "description": "6 months in: defects down 42%, cost per m-sq down 50%+, repair size tripled, 12-month warranty. Extend model to more service areas. First UK trial of asphalt recycling machine. AI inspections piloted.", "legal_constraints": null,
+          "evidence": {
+            "data_points": ["Defects down 42% (61K→35K in 6 months)", "Cost per m-sq down 50%+ (£200→<£100)", "Repair size expanded 2→6 m-sq", "12-month warranty on all repairs", "First UK trial of asphalt recycling machine", "AI highway inspections piloted"],
+            "benchmark": "No other UK county council has achieved 42% defect reduction in 6 months. Managed service model is genuinely innovative",
+            "calculation": "Current £72M highways pot. If managed service approach extends to all maintenance: 20% efficiency on £72M = £14.4M. Conservative £3-6M as not all areas suitable",
+            "kpi_link": "DfT AMBER rating dependent on road condition. Managed service improves condition (fewer recurring defects) while cutting cost. Win-win for DfT incentive funding",
+            "implementation_steps": [
+              { "step": "Evaluate Phase 1 results — publish 6-month report", "month": "1-2" },
+              { "step": "Extend managed service to bridge maintenance (1,800+ structures)", "month": "3-12" },
+              { "step": "Scale AI inspection from pilot to full network", "month": "6-18" },
+              { "step": "Deploy asphalt recycling machine at scale (first UK trial already proven)", "month": "6-12" },
+              { "step": "Benchmark against private sector road maintenance costs", "month": "3-6" }
+            ],
+            "political_framing": "In just six months, our new highway model has cut defects by 42% and halved the cost. We're trialling the first asphalt recycling machine in the UK. This is what reform looks like."
+          }
+        },
+        { "lever": "Street lighting energy and dimming", "est_saving": "£1-2M", "timeline": "6-12 months", "risk": "Low", "tier": "service_redesign", "owner": "portfolio", "description": "152K of 170K+ columns converted to LED. Cumulative savings £40M+. Part-night dimming in low-risk areas. 26,000+ columns over 40 years old need replacement programme.", "legal_constraints": "Must maintain lighting on classified roads",
+          "evidence": {
+            "data_points": ["152,000 of 170,000+ columns converted to LED", "Cumulative savings £40M+", "26,000+ columns over 40 years old", "Part-night dimming not yet deployed at scale"],
+            "benchmark": "Essex CC: part-night dimming saved £1.5M/yr. Hampshire: 50% dimming midnight-5am. Buckinghamshire: full switch-off in rural areas",
+            "calculation": "18,000 remaining non-LED columns. Conversion cost ~£500 each = £9M one-off (funded from energy savings within 3 years). Part-night dimming on 50,000 rural/low-risk columns: 5 hours × 365 × £0.015/hr = £1.4M/yr",
+            "kpi_link": "Energy costs feed into £170.8M energy contract. Dimming reduces consumption = smaller contract needed at renewal. Also reduces carbon emissions (climate targets)",
+            "implementation_steps": [
+              { "step": "Complete LED conversion for remaining 18,000 columns", "month": "1-12", "cost": "£9M (invest to save, 3-year payback)" },
+              { "step": "Install CMS (Central Management System) for remote dimming control", "month": "3-9" },
+              { "step": "Implement part-night dimming on 50,000 rural/low-crime columns (midnight-5am)", "month": "6-12" },
+              { "step": "26,000 column replacement programme (safety priority) — phase over 5 years", "month": "1-60", "cost": "£26M phased" }
+            ],
+            "political_framing": "LED conversion has already saved £40 million. Part-night dimming in safe rural areas — not on main roads or in towns — can save another £1-2 million a year."
+          }
+        },
         { "lever": "Income generation", "est_saving": "£1-3M", "timeline": "6-12 months", "risk": "Low", "tier": "income_generation", "owner": "portfolio", "description": "Permit fees for street works, advertising on highway assets, parking charges. Review fee levels against statutory maximums.", "legal_constraints": "Fees must not exceed cost of service (except where statute permits)" },
         { "lever": "Ford fleet diversification", "est_saving": "£0.5-1M", "timeline": "6-12 months", "risk": "Low", "tier": "procurement_reform", "owner": "centralised", "description": "5 category monopolies, all Ford. Multiple same-day awards. Market test alternative suppliers through TPPL framework. 9 late publications (95-132 days) — process fix needed.", "legal_constraints": "Must follow TPPL framework rules" }
       ],
@@ -977,7 +1507,22 @@
         { "name": "Lancashire Environmental Fund", "provider": "SUEZ + LCC + Lancashire Wildlife Trust + Community Futures", "value": "Landfill Communities Fund", "duration": "Since 1998", "note": "Partnership for environmental improvements." }
       ],
       "savings_levers": [
-        { "lever": "Waste contract review", "est_saving": "£3-8M", "timeline": "18-24 months", "risk": "High", "tier": "procurement_reform", "owner": "centralised", "description": "Lancashire Renewables £71M + Suez £46M = £117M. Even 5% saving = £5.8M. Review indexation terms, performance deductions, recycling credits. EfW strategy needed — current vacuum is costing money. Suez non-recyclable waste contracts expire 2030.", "legal_constraints": "PFI legacy terms may limit scope. Legal review of terms needed." },
+        { "lever": "Waste contract review", "est_saving": "£3-8M", "timeline": "18-24 months", "risk": "High", "tier": "procurement_reform", "owner": "centralised", "description": "Lancashire Renewables £71M + Suez £46M = £117M. Even 5% saving = £5.8M. Review indexation terms, performance deductions, recycling credits. EfW strategy needed — current vacuum is costing money. Suez non-recyclable waste contracts expire 2030.", "legal_constraints": "PFI legacy terms may limit scope. Legal review of terms needed.",
+          "evidence": {
+            "data_points": ["Lancashire Renewables £71.2M (20 months), wholly-owned", "Suez £46.2M, 60.7% of category (HHI 4,141)", "33.8% to landfill (national avg 5.6% = 6x higher)", "Waste strategy expired 2020, no successor published", "EfW procurement paused", "Suez contracts expire 2030", "Envirofuel 2-year contract (East Lancashire)"],
+            "benchmark": "National landfill rate 5.6%. Lancashire 33.8% = 6x national average. EfW councils achieve <5% landfill. Waste strategy vacuum is the primary cause",
+            "calculation": "£117M combined. Indexation review + performance deductions could yield 3-5% = £3.5-5.9M. EfW strategy decision could transform long-term trajectory",
+            "kpi_link": "Landfill rate 6x national average is both environmental failure and financial cost (landfill tax escalator). EfW would reduce gate fees long-term",
+            "implementation_steps": [
+              { "step": "Commission independent legal review of Lancashire Renewables and Suez terms", "month": "1-4", "cost": "£100K" },
+              { "step": "Develop new Waste Strategy (successor to expired 2020 strategy)", "month": "3-12" },
+              { "step": "Review all indexation clauses — challenge above-CPI increases", "month": "2-6" },
+              { "step": "Prepare Suez contract exit/retender strategy for 2030 expiry", "month": "6-18" },
+              { "step": "Make EfW decision — procurement or AD alternative (Suez Blackburn proposal)", "month": "12-24" }
+            ],
+            "political_framing": "Lancashire sends 6 times more waste to landfill than the national average because the previous administration never decided on energy-from-waste. We're paying for their indecision — £117 million in waste contracts with no published strategy."
+          }
+        },
         { "lever": "Trading standards modernisation", "est_saving": "£0.5-1M", "timeline": "6-12 months", "risk": "Low", "tier": "service_redesign", "owner": "portfolio", "description": "Shift from reactive to intelligence-led enforcement. Digital-first consumer advice. Regional collaboration. Safe Trader scheme income.", "legal_constraints": null },
         { "lever": "Countryside and access rationalisation", "est_saving": "£0.3-0.5M", "timeline": "6-12 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Review countryside properties and access points. Community transfer where appropriate.", "legal_constraints": "Countryside and Rights of Way Act 2000 — must maintain definitive map" },
         { "lever": "Contract transparency fix", "est_saving": "£0 (enabler)", "timeline": "1-3 months", "risk": "Low", "tier": "immediate_recovery", "owner": "centralised", "description": "0.1% contract coverage on Contracts Finder. Publish all waste and environment contracts to enable scrutiny and competition.", "legal_constraints": null }
@@ -1064,9 +1609,38 @@
         { "name": "Oracle Fusion ERP", "provider": "Oracle Corporation UK", "value": "Unknown — Oracle credits of £162K and £150K noted", "duration": "Ongoing", "note": "Core finance system. KPMG review classified exempt." }
       ],
       "savings_levers": [
-        { "lever": "Channel shift to digital", "est_saving": "£2-5M", "timeline": "12-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Every transaction shifted from phone/face-to-face to digital saves £5-10 per interaction. Target 80% digital for routine services. Netcall AI/CRM investment should enable this.", "legal_constraints": "Must maintain accessibility for digitally excluded — Equality Act 2010" },
+        { "lever": "Channel shift to digital", "est_saving": "£2-5M", "timeline": "12-24 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Every transaction shifted from phone/face-to-face to digital saves £5-10 per interaction. Target 80% digital for routine services. Netcall AI/CRM investment should enable this.", "legal_constraints": "Must maintain accessibility for digitally excluded — Equality Act 2010",
+          "evidence": {
+            "data_points": ["Netcall £4.3M AI/CRM investment already made", "SOCITM benchmark: digital transaction costs 3-20x less than phone/face-to-face", "13,258 employees — customer-facing proportion significant", "AI already proven in EHCP compliance and highway inspections"],
+            "benchmark": "SOCITM: digital transaction £0.08, phone £2.83, face-to-face £8.62. Leading councils achieve 80%+ digital for routine transactions",
+            "calculation": "Estimated 500,000 routine transactions/yr. If 40% shift from phone (£2.83) to digital (£0.08) = 200,000 × £2.75 saving = £550K. Including staff redeployment from contact centre: £2-5M",
+            "kpi_link": "CQC cited need for better digital systems. Channel shift frees staff to focus on complex cases rather than routine enquiries",
+            "implementation_steps": [
+              { "step": "Deploy Netcall AI/CRM for top 10 routine transaction types", "month": "1-6" },
+              { "step": "Design self-service portal for ASC, SEND, highways reporting", "month": "3-9" },
+              { "step": "Chatbot for FAQs and simple enquiries (AI-powered)", "month": "6-12" },
+              { "step": "Redeploy contact centre staff to complex case handling", "month": "12-18" }
+            ],
+            "political_framing": "We've invested £4.3 million in AI and CRM technology. Now we need to use it. Digital services are faster for residents and save the council £5-10 per transaction."
+          }
+        },
         { "lever": "System consolidation", "est_saving": "£1-3M", "timeline": "12-18 months", "risk": "Medium", "tier": "service_redesign", "owner": "portfolio", "description": "Multiple overlapping systems across directorates. Consolidate onto fewer platforms, eliminate duplicate licences. Oracle Fusion stabilised — now build on it.", "legal_constraints": null },
-        { "lever": "AI and automation", "est_saving": "£1-3M", "timeline": "6-18 months", "risk": "Low", "tier": "service_redesign", "owner": "portfolio", "description": "Automate routine processes: FOI triage, invoice matching, customer routing, report generation. Already proven in EHCP compliance and highway inspections. Each automated process saves 0.5-2 FTE.", "legal_constraints": "Public sector equality duty — AI decisions must be fair and auditable" },
+        { "lever": "AI and automation", "est_saving": "£1-3M", "timeline": "6-18 months", "risk": "Low", "tier": "service_redesign", "owner": "portfolio", "description": "Automate routine processes: FOI triage, invoice matching, customer routing, report generation. Already proven in EHCP compliance and highway inspections. Each automated process saves 0.5-2 FTE.", "legal_constraints": "Public sector equality duty — AI decisions must be fair and auditable",
+          "evidence": {
+            "data_points": ["AI already proven in EHCP compliance checking", "AI highway inspections piloted", "Netcall £4.3M AI/CRM investment", "13,258 employees — many doing routine data processing", "Oracle Fusion stabilised — ready for automation"],
+            "benchmark": "UK Government Automation Strategy: 30% of government tasks automatable. AWS estimates £1.7B saving for UK public sector through AI",
+            "calculation": "Each automated process saves 0.5-2 FTE (avg £35K/yr). Target 30 processes = 30 FTE equivalent = £1.05M. Including productivity gains for remaining staff: £1-3M",
+            "kpi_link": "CQC cited unreliable electronic records. AI data quality checking directly addresses this. DfE SEND improvement plan includes AI EHCP compliance — already proven",
+            "implementation_steps": [
+              { "step": "Identify top 30 automatable processes across all directorates", "month": "1-3" },
+              { "step": "Deploy AI for FOI triage and response drafting", "month": "3-6" },
+              { "step": "Automated invoice matching and duplicate detection in Oracle", "month": "3-6" },
+              { "step": "AI report generation for scrutiny committees", "month": "6-12" },
+              { "step": "Scale highway AI inspections from pilot to full network", "month": "6-18" }
+            ],
+            "political_framing": "AI is already checking EHCP compliance and inspecting our highways. We'll extend it to invoice processing, customer service, and report writing. It's not replacing people — it's freeing them up for the work that matters."
+          }
+        },
         { "lever": "Oracle transparency fix", "est_saving": "£0 (critical enabler)", "timeline": "3-6 months", "risk": "Low", "tier": "immediate_recovery", "owner": "portfolio", "description": "Fix Oracle ERP export to include transaction descriptions. This is the single most important fix for accountability. Currently 0.0 transparency score — 100% empty.", "legal_constraints": null }
       ],
       "operational_context": {

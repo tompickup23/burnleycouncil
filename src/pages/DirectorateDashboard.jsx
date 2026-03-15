@@ -1,0 +1,364 @@
+import { useMemo, useState } from 'react'
+import { Link } from 'react-router-dom'
+import { Target, TrendingUp, AlertTriangle, ChevronRight, Zap, BarChart3, Shield, Users, Clock } from 'lucide-react'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend, Cell } from 'recharts'
+import { useData } from '../hooks/useData'
+import { useCouncilConfig } from '../context/CouncilConfig'
+import { isFirebaseEnabled } from '../firebase'
+import { useAuth } from '../context/AuthContext'
+import { LoadingState } from '../components/ui'
+import { StatCard } from '../components/ui/StatCard'
+import { ChartCard, CHART_TOOLTIP_STYLE } from '../components/ui/ChartCard'
+import CollapsibleSection from '../components/CollapsibleSection'
+import { CHART_COLORS, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
+import {
+  buildDirectorateSavingsProfile,
+  evidenceChainStrength,
+  directorateRiskProfile,
+  aggregateSavings,
+  generateDirectives,
+  generateAllDirectives,
+  matchSpendingToPortfolio,
+  formatCurrency,
+  getAccessiblePortfolios,
+} from '../utils/savingsEngine'
+import './DirectorateDashboard.css'
+
+const RISK_COLORS = { critical: '#dc3545', high: '#fd7e14', medium: '#ffc107', low: '#28a745' }
+const TIER_LABELS = {
+  immediate_recovery: 'Immediate', procurement_reform: 'Procurement',
+  service_redesign: 'Service Redesign', demand_management: 'Demand Mgmt',
+  income_generation: 'Income', other: 'Other',
+}
+
+/**
+ * Directorate Dashboard — Reform Savings Command Centre.
+ *
+ * Requires councillor+ role. Replaces the old CabinetDashboard with a
+ * directorate-first architecture focused on evidence-backed savings.
+ */
+export default function DirectorateDashboard() {
+  const config = useCouncilConfig()
+  const dataSources = config.data_sources || {}
+  const authCtx = useAuth()
+  const [activeTab, setActiveTab] = useState('command')
+
+  const hasAccess = authCtx?.isCouncillor || !isFirebaseEnabled
+
+  const { data: allData, loading, error } = useData(
+    dataSources.cabinet_portfolios
+      ? ['/data/cabinet_portfolios.json', '/data/doge_findings.json', '/data/budgets.json', '/data/meetings.json', '/data/council_documents.json']
+      : null
+  )
+
+  const [portfolioData, findingsData, budgetsData, meetingsData, documentsData] = allData || [null, null, null, null, null]
+
+  // Build directorate profiles
+  const directorateProfiles = useMemo(() => {
+    if (!portfolioData?.directorates?.length || !portfolioData?.portfolios) return []
+    return portfolioData.directorates.map(d =>
+      buildDirectorateSavingsProfile(d, portfolioData.portfolios, findingsData, portfolioData)
+    ).filter(Boolean).sort((a, b) => (b.savings_range?.midpoint || 0) - (a.savings_range?.midpoint || 0))
+  }, [portfolioData, findingsData])
+
+  // Build risk profiles
+  const riskProfiles = useMemo(() => {
+    if (!portfolioData?.directorates?.length) return {}
+    const map = {}
+    for (const d of portfolioData.directorates) {
+      map[d.id] = directorateRiskProfile(d, portfolioData.portfolios, [], { findings: findingsData })
+    }
+    return map
+  }, [portfolioData, findingsData])
+
+  // Aggregate totals
+  const totals = useMemo(() => {
+    if (!directorateProfiles.length) return null
+    const totalLow = directorateProfiles.reduce((s, d) => s + (d.savings_range?.low || 0), 0)
+    const totalHigh = directorateProfiles.reduce((s, d) => s + (d.savings_range?.high || 0), 0)
+    const totalMtfs = directorateProfiles.reduce((s, d) => s + (d.mtfs_target || 0), 0)
+    const mtfsTarget = portfolioData?.administration?.mtfs?.savings_targets?.['2026_27'] || totalMtfs || 0
+    const midpoint = (totalLow + totalHigh) / 2
+    const priorTarget = portfolioData?.administration?.mtfs?.prior_year_performance?.target || 0
+    const priorPct = portfolioData?.administration?.mtfs?.prior_year_performance?.achieved_pct || 0
+    const priorGap = priorTarget > 0 ? Math.round(priorTarget * (1 - priorPct / 100)) : 0
+    return { totalLow, totalHigh, midpoint, mtfsTarget, coveragePct: mtfsTarget > 0 ? Math.round(midpoint / mtfsTarget * 100) : 0, priorTarget, priorPct, priorGap }
+  }, [directorateProfiles, portfolioData])
+
+  // Monday Morning List — top directives across all directorates
+  const mondayList = useMemo(() => {
+    if (!portfolioData?.portfolios || !findingsData) return []
+    const allDirectives = generateAllDirectives(portfolioData.portfolios, findingsData, [], portfolioData)
+    return allDirectives
+      .filter(d => d.save_range && d.save_range !== '£0')
+      .sort((a, b) => {
+        const aScore = evidenceChainStrength(portfolioData.portfolios.flatMap(p => p.savings_levers || []).find(l => l.lever === a.lever_name) || {})
+        const bScore = evidenceChainStrength(portfolioData.portfolios.flatMap(p => p.savings_levers || []).find(l => l.lever === b.lever_name) || {})
+        return bScore - aScore
+      })
+      .slice(0, 10)
+  }, [portfolioData, findingsData])
+
+  // MTFS chart data
+  const mtfsChartData = useMemo(() => {
+    return directorateProfiles.map(d => ({
+      name: d.title.split(',')[0].split('&')[0].trim().slice(0, 12),
+      mtfs: (d.mtfs_target || 0) / 1e6,
+      identified_low: (d.savings_range?.low || 0) / 1e6,
+      identified_high: (d.savings_range?.high || 0) / 1e6 - (d.savings_range?.low || 0) / 1e6,
+    }))
+  }, [directorateProfiles])
+
+  // Timeline chart data
+  const timelineData = useMemo(() => {
+    const buckets = { immediate: 0, short_term: 0, medium_term: 0, long_term: 0 }
+    for (const d of directorateProfiles) {
+      for (const [key, val] of Object.entries(d.by_timeline || {})) {
+        buckets[key] = (buckets[key] || 0) + val
+      }
+    }
+    return [
+      { name: 'Immediate', value: buckets.immediate / 1e6 },
+      { name: 'Short (3-6m)', value: buckets.short_term / 1e6 },
+      { name: 'Medium (6-18m)', value: buckets.medium_term / 1e6 },
+      { name: 'Long (18m+)', value: buckets.long_term / 1e6 },
+    ]
+  }, [directorateProfiles])
+
+  if (!dataSources.cabinet_portfolios) return <div className="page-empty"><p>Cabinet portfolios not available for this council.</p></div>
+  if (!hasAccess) return <div className="page-empty"><p>Councillor access required.</p></div>
+  if (loading) return <LoadingState message="Loading Savings Command Centre..." />
+  if (error || !portfolioData) return <div className="page-empty"><p>Failed to load cabinet data.</p></div>
+  if (!portfolioData.directorates?.length) return <div className="page-empty"><p>Directorate data not yet available.</p></div>
+
+  const tabs = [
+    { id: 'command', label: 'Command Centre', icon: <Zap size={14} /> },
+    { id: 'directorates', label: 'Directorates', icon: <BarChart3 size={14} /> },
+    { id: 'mtfs', label: 'MTFS Tracker', icon: <Target size={14} /> },
+  ]
+
+  return (
+    <div className="directorate-dashboard">
+      <div className="page-hero reform-hero">
+        <h1><Zap size={28} /> Reform Savings Command Centre</h1>
+        <p className="hero-subtitle">Evidence-backed savings intelligence across {directorateProfiles.length} directorates</p>
+      </div>
+
+      {/* Hero stats */}
+      {totals && (
+        <div className="stat-grid stat-grid-4">
+          <StatCard
+            title="Total Pipeline"
+            value={`${formatCurrency(totals.totalLow)}–${formatCurrency(totals.totalHigh)}`}
+            icon={<TrendingUp size={24} />}
+            trend="identified"
+          />
+          <StatCard
+            title="MTFS Target"
+            value={formatCurrency(totals.mtfsTarget)}
+            icon={<Target size={24} />}
+            subtitle="Year 1 (2026/27)"
+          />
+          <StatCard
+            title="Coverage"
+            value={`${totals.coveragePct}%`}
+            icon={<Shield size={24} />}
+            trend={totals.coveragePct >= 100 ? 'up' : 'down'}
+            subtitle="Identified vs MTFS"
+          />
+          <StatCard
+            title="Prior Year Gap"
+            value={formatCurrency(totals.priorGap)}
+            icon={<AlertTriangle size={24} />}
+            subtitle={`${totals.priorPct}% delivered`}
+            trend="down"
+          />
+        </div>
+      )}
+
+      {/* Tabs */}
+      <div className="dashboard-tabs">
+        {tabs.map(t => (
+          <button
+            key={t.id}
+            className={`dashboard-tab ${activeTab === t.id ? 'active' : ''}`}
+            onClick={() => setActiveTab(t.id)}
+          >
+            {t.icon} {t.label}
+          </button>
+        ))}
+      </div>
+
+      {/* Command Centre Tab */}
+      {activeTab === 'command' && (
+        <div className="tab-content">
+          {/* Directorate Cards */}
+          <CollapsibleSection title="Directorate Savings Overview" defaultOpen icon={<BarChart3 size={18} />}>
+            <div className="directorate-cards">
+              {directorateProfiles.map(dp => {
+                const risk = riskProfiles[dp.directorate_id]
+                return (
+                  <Link key={dp.directorate_id} to={`/directorate/${dp.directorate_id}`} className="directorate-card">
+                    <div className="dc-header">
+                      <h3>{dp.title}</h3>
+                      <span className="dc-director">{dp.executive_director}</span>
+                    </div>
+                    <div className="dc-budget-bar">
+                      <div className="dc-bar-label">Budget: {formatCurrency(dp.net_budget)}</div>
+                      <div className="dc-bar-track">
+                        <div className="dc-bar-mtfs" style={{ width: `${Math.min(100, (dp.mtfs_target || 0) / (dp.net_budget || 1) * 100 * 10)}%` }} title={`MTFS: ${formatCurrency(dp.mtfs_target)}`} />
+                        <div className="dc-bar-identified" style={{ width: `${Math.min(100, (dp.savings_range?.midpoint || 0) / (dp.net_budget || 1) * 100 * 10)}%` }} title={`Identified: ${formatCurrency(dp.savings_range?.midpoint)}`} />
+                      </div>
+                    </div>
+                    <div className="dc-metrics">
+                      <span className="dc-metric">
+                        <strong>{dp.lever_count}</strong> levers
+                      </span>
+                      <span className="dc-metric">
+                        <strong>{dp.coverage_pct || 0}%</strong> MTFS coverage
+                      </span>
+                      <span className="dc-metric" title="Evidence strength">
+                        <strong>{dp.avg_evidence_strength}</strong>/100 evidence
+                      </span>
+                      {risk && (
+                        <span className="dc-risk-badge" style={{ color: risk.risk_color }}>
+                          {risk.risk_level}
+                        </span>
+                      )}
+                    </div>
+                    {dp.kpi_headline && (
+                      <div className="dc-kpi-badge">{dp.kpi_headline}</div>
+                    )}
+                    {dp.prior_year && (
+                      <div className="dc-prior">
+                        Prior year: {dp.prior_year.achieved_pct}% of {formatCurrency(dp.prior_year.target)} delivered
+                      </div>
+                    )}
+                    <div className="dc-arrow"><ChevronRight size={16} /></div>
+                  </Link>
+                )
+              })}
+            </div>
+          </CollapsibleSection>
+
+          {/* Monday Morning List */}
+          <CollapsibleSection title="Monday Morning List — Top 10 Actions" defaultOpen icon={<Zap size={18} />}>
+            <div className="monday-list">
+              {mondayList.map((d, i) => (
+                <div key={i} className="monday-item">
+                  <span className="monday-rank">#{i + 1}</span>
+                  <div className="monday-content">
+                    <strong className="monday-action">DO</strong> {d.action}
+                    {d.save_range && <span className="monday-save">SAVE {d.save_range}</span>}
+                  </div>
+                  <span className="monday-portfolio">{d.portfolio_title || d.portfolio_id}</span>
+                </div>
+              ))}
+              {mondayList.length === 0 && <p className="empty-message">No directives generated yet.</p>}
+            </div>
+          </CollapsibleSection>
+        </div>
+      )}
+
+      {/* Directorates Tab */}
+      {activeTab === 'directorates' && (
+        <div className="tab-content">
+          <ChartCard title="MTFS Target vs Identified Savings by Directorate" subtitle="£ millions">
+            <ResponsiveContainer width="100%" height={350}>
+              <BarChart data={mtfsChartData} layout="vertical" margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis type="number" tick={AXIS_TICK_STYLE} />
+                <YAxis dataKey="name" type="category" tick={AXIS_TICK_STYLE} width={100} />
+                <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v) => `£${v.toFixed(1)}M`} />
+                <Legend />
+                <Bar dataKey="mtfs" name="MTFS Target" fill="#dc3545" {...CHART_ANIMATION} />
+                <Bar dataKey="identified_low" name="Identified (low)" stackId="identified" fill="#12B6CF" {...CHART_ANIMATION} />
+                <Bar dataKey="identified_high" name="Identified (additional)" stackId="identified" fill="rgba(18,182,207,0.4)" {...CHART_ANIMATION} />
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartCard>
+
+          <ChartCard title="Savings Timeline" subtitle="When savings can be realised">
+            <ResponsiveContainer width="100%" height={250}>
+              <BarChart data={timelineData} margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
+                <YAxis tick={AXIS_TICK_STYLE} />
+                <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v) => `£${v.toFixed(1)}M`} />
+                <Bar dataKey="value" name="Savings (£M)" {...CHART_ANIMATION}>
+                  {timelineData.map((_, idx) => (
+                    <Cell key={idx} fill={CHART_COLORS[idx % CHART_COLORS.length]} />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </ChartCard>
+        </div>
+      )}
+
+      {/* MTFS Tracker Tab */}
+      {activeTab === 'mtfs' && totals && (
+        <div className="tab-content">
+          <div className="mtfs-tracker">
+            <div className="mtfs-row">
+              <span className="mtfs-label">Year 1 Target (2026/27)</span>
+              <div className="mtfs-bar-track">
+                <div className="mtfs-bar-fill" style={{ width: `${Math.min(100, totals.coveragePct)}%` }} />
+              </div>
+              <span className="mtfs-value">{totals.coveragePct}%</span>
+            </div>
+            <div className="mtfs-row">
+              <span className="mtfs-label">Two-Year Target</span>
+              <div className="mtfs-bar-track">
+                <div className="mtfs-bar-fill" style={{
+                  width: `${Math.min(100, portfolioData?.administration?.mtfs?.savings_targets?.two_year_total
+                    ? Math.round(totals.midpoint / portfolioData.administration.mtfs.savings_targets.two_year_total * 100) : 0)}%`
+                }} />
+              </div>
+              <span className="mtfs-value">
+                {portfolioData?.administration?.mtfs?.savings_targets?.two_year_total
+                  ? Math.round(totals.midpoint / portfolioData.administration.mtfs.savings_targets.two_year_total * 100) : 0}%
+              </span>
+            </div>
+          </div>
+
+          <CollapsibleSection title="Prior Year Performance Warning" defaultOpen icon={<AlertTriangle size={18} />}>
+            <div className="prior-year-warning">
+              <p>
+                <strong>2024/25 savings target: {formatCurrency(totals.priorTarget)}</strong> — only{' '}
+                <strong>{totals.priorPct}%</strong> delivered ({formatCurrency(Math.round(totals.priorTarget * totals.priorPct / 100))}).
+              </p>
+              <p>
+                Adult Social Care alone had a <strong>{formatCurrency(portfolioData?.administration?.mtfs?.prior_year_performance?.adult_services_shortfall || 0)}</strong> shortfall
+                and overspent by <strong>{formatCurrency(portfolioData?.administration?.mtfs?.prior_year_performance?.adult_services_overspend || 0)}</strong>.
+              </p>
+              <p className="warning-emphasis">
+                The 2026/27 target is {formatCurrency(totals.mtfsTarget)}. At the prior year delivery rate,
+                only {formatCurrency(Math.round(totals.mtfsTarget * totals.priorPct / 100))} would be delivered —
+                a {formatCurrency(Math.round(totals.mtfsTarget * (1 - totals.priorPct / 100)))} gap.
+              </p>
+            </div>
+          </CollapsibleSection>
+
+          {/* Per-directorate MTFS breakdown */}
+          <CollapsibleSection title="Directorate MTFS Breakdown" icon={<Target size={18} />}>
+            <div className="mtfs-breakdown">
+              {directorateProfiles.map(dp => (
+                <div key={dp.directorate_id} className="mtfs-dir-row">
+                  <Link to={`/directorate/${dp.directorate_id}`} className="mtfs-dir-name">{dp.title}</Link>
+                  <span className="mtfs-dir-target">Target: {formatCurrency(dp.mtfs_target)}</span>
+                  <span className="mtfs-dir-identified">
+                    Identified: {formatCurrency(dp.savings_range?.low)}–{formatCurrency(dp.savings_range?.high)}
+                  </span>
+                  <span className={`mtfs-dir-coverage ${(dp.coverage_pct || 0) >= 100 ? 'covered' : 'gap'}`}>
+                    {dp.coverage_pct || 0}%
+                  </span>
+                </div>
+              ))}
+            </div>
+          </CollapsibleSection>
+        </div>
+      )}
+    </div>
+  )
+}

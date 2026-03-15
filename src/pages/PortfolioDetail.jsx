@@ -114,7 +114,7 @@ export default function PortfolioDetail() {
     <div className="portfolio-detail">
       {/* Hero */}
       <div className="portfolio-hero">
-        <Link to="/cabinet" className="portfolio-back">← Cabinet Dashboard</Link>
+        <Link to="/cabinet" className="portfolio-back">← Savings Dashboard</Link>
         <h1>{portfolio.title}</h1>
         <p className="portfolio-subtitle">{portfolio.cabinet_member?.name} — {portfolio.cabinet_member?.ward}</p>
         <div className="portfolio-hero-stats">

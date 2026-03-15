@@ -305,7 +305,7 @@ function Layout({ children }) {
                   fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.1em',
                 }}
               >
-                Cabinet
+                Savings Command
                 <ChevronDown
                   size={10}
                   style={{
@@ -323,7 +323,7 @@ function Layout({ children }) {
                     onClick={() => setSidebarOpen(false)}
                   >
                     <Zap size={20} />
-                    <span>Cabinet Dashboard</span>
+                    <span>Savings Dashboard</span>
                   </NavLink>
                 </>
               )}

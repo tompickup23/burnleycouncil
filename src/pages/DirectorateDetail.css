@@ -1,0 +1,607 @@
+.directorate-detail {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px 40px;
+}
+
+.dd-back {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  font-size: 0.75rem;
+  margin-bottom: 8px;
+}
+.dd-back:hover { color: #12B6CF; }
+
+/* Hero */
+.dd-hero {
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 16px;
+}
+.dd-hero h1 {
+  font-size: 1.5rem;
+  color: #e8e8e8;
+  margin: 0 0 4px;
+}
+.dd-subtitle {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin: 0 0 8px;
+}
+.dd-kpi-headline {
+  display: inline-block;
+  background: rgba(220, 53, 69, 0.12);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Tabs */
+.dd-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 2px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 10px;
+  margin-bottom: 20px;
+  overflow-x: auto;
+}
+.dd-tab {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 14px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.dd-tab:hover { color: rgba(255, 255, 255, 0.8); background: rgba(255, 255, 255, 0.04); }
+.dd-tab.active { color: #12B6CF; background: rgba(18, 182, 207, 0.1); }
+
+.dd-tab-content { animation: ddFadeIn 0.2s ease; }
+@keyframes ddFadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* Evidence chain cards */
+.evidence-chains {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.evidence-chain-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+.ec-kpi {
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.ec-kpi-name {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 600;
+}
+.ec-kpi-value {
+  font-size: 0.9rem;
+  color: #12B6CF;
+  font-weight: 700;
+}
+.ec-kpi-target {
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+.ec-arrow {
+  color: rgba(255, 255, 255, 0.2);
+  flex-shrink: 0;
+}
+.ec-savings-link {
+  flex: 1;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.4;
+}
+
+/* Savings pipeline table */
+.dd-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.78rem;
+}
+.dd-table th {
+  text-align: left;
+  padding: 8px 10px;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+.dd-table td {
+  padding: 8px 10px;
+  color: rgba(255, 255, 255, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+.dd-lever-name { color: #e8e8e8; font-weight: 600; }
+.dd-evidence-badge {
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+.dd-portfolio-tag {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* MTFS comparison bars */
+.dd-mtfs-comparison {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dd-mtfs-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.dd-mtfs-label {
+  min-width: 120px;
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.5);
+}
+.dd-mtfs-bar-track {
+  flex: 1;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.dd-mtfs-bar-target {
+  height: 100%;
+  background: rgba(220, 53, 69, 0.35);
+  border-radius: 8px;
+}
+.dd-mtfs-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #12B6CF, rgba(18, 182, 207, 0.6));
+  border-radius: 8px;
+  transition: width 0.6s ease;
+}
+.dd-mtfs-bar-high {
+  background: linear-gradient(90deg, rgba(18, 182, 207, 0.6), rgba(18, 182, 207, 0.3));
+}
+.dd-mtfs-bar-prior {
+  height: 100%;
+  background: rgba(253, 126, 20, 0.5);
+  border-radius: 8px;
+}
+.dd-mtfs-val {
+  min-width: 80px;
+  text-align: right;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #12B6CF;
+}
+
+/* Narrative */
+.dd-narrative {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* KPI list */
+.dd-kpi-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.dd-kpi-card {
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid rgba(255, 255, 255, 0.1);
+}
+.dd-kpi-improving { border-left-color: #28a745; }
+.dd-kpi-declining { border-left-color: #dc3545; }
+.dd-kpi-stable { border-left-color: #ffc107; }
+.dd-kpi-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+}
+.dd-kpi-name { font-size: 0.78rem; color: #e8e8e8; font-weight: 600; }
+.dd-kpi-trend {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.dd-trend-improving { color: #28a745; }
+.dd-trend-declining { color: #dc3545; }
+.dd-trend-stable { color: #ffc107; }
+.dd-kpi-value {
+  font-size: 0.9rem;
+  color: #12B6CF;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.dd-kpi-savings-link {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 4px 0 0;
+  line-height: 1.4;
+}
+
+/* Demand pressures */
+.dd-pressures {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dd-pressure-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  color: #fd7e14;
+}
+.dd-pressure-portfolio {
+  margin-left: auto;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Risk summary */
+.dd-risk-summary {
+  padding: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+}
+.dd-risk-level {
+  font-size: 1rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  margin-bottom: 6px;
+}
+.dd-risk-score {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.5);
+  margin-bottom: 10px;
+}
+.dd-risk-item {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin-bottom: 6px;
+  line-height: 1.4;
+}
+.dd-risk-item strong { color: rgba(255, 255, 255, 0.8); }
+
+/* Savings detail: expanded lever cards */
+.dd-levers-expanded {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.dd-lever-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+.dd-lever-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+.dd-lever-header h4 {
+  font-size: 0.88rem;
+  color: #e8e8e8;
+  margin: 0;
+  flex: 1;
+}
+.dd-lever-save {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #12B6CF;
+}
+.dd-lever-evidence {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+.dd-ev-section strong {
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.45);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+  margin-bottom: 3px;
+}
+.dd-ev-section p {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin: 0;
+  line-height: 1.4;
+}
+.dd-ev-section ul, .dd-ev-section ol {
+  margin: 0;
+  padding-left: 18px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.65);
+  line-height: 1.5;
+}
+.dd-step-month {
+  font-size: 0.68rem;
+  color: rgba(18, 182, 207, 0.7);
+  margin-left: 4px;
+}
+.dd-step-cost {
+  font-size: 0.68rem;
+  color: #fd7e14;
+  margin-left: 6px;
+}
+.dd-ev-political {
+  background: rgba(18, 182, 207, 0.04);
+  border-radius: 6px;
+  padding: 8px 10px;
+}
+.dd-no-evidence {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.35);
+  margin: 0;
+  font-style: italic;
+}
+
+/* Evidence heatmap */
+.dd-evidence-heatmap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.dd-heatmap-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+}
+.dd-heatmap-name {
+  min-width: 200px;
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.dd-heatmap-bar {
+  height: 8px;
+  border-radius: 4px;
+  transition: width 0.4s ease;
+}
+.dd-heatmap-score {
+  min-width: 30px;
+  text-align: right;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Political framing */
+.dd-political-framing {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.dd-framing-card {
+  padding: 12px 14px;
+  background: rgba(18, 182, 207, 0.04);
+  border: 1px solid rgba(18, 182, 207, 0.1);
+  border-radius: 8px;
+}
+.dd-framing-card h4 {
+  font-size: 0.82rem;
+  color: #12B6CF;
+  margin: 0 0 6px;
+}
+.dd-framing-text {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin: 0 0 6px;
+  line-height: 1.5;
+}
+.dd-framing-save {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #12B6CF;
+}
+
+/* Opposition attacks */
+.dd-attacks {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.dd-attack-card {
+  padding: 10px 12px;
+  background: rgba(220, 53, 69, 0.05);
+  border: 1px solid rgba(220, 53, 69, 0.1);
+  border-radius: 8px;
+}
+.dd-attack-vector {
+  font-size: 0.78rem;
+  color: rgba(220, 53, 69, 0.8);
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.dd-attack-counter {
+  font-size: 0.75rem;
+  color: rgba(255, 255, 255, 0.6);
+  line-height: 1.4;
+}
+
+/* Borough elections */
+.dd-borough-elections {
+  padding: 12px;
+}
+.dd-borough-date {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 8px;
+}
+.dd-borough-districts {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.55);
+  line-height: 1.4;
+}
+
+/* Narrative hooks */
+.dd-narrative-hooks {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dd-hook-card {
+  padding: 8px 12px;
+  background: rgba(18, 182, 207, 0.06);
+  border-left: 3px solid #12B6CF;
+  border-radius: 4px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Playbook */
+.dd-playbook {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.dd-playbook-year h4 {
+  font-size: 0.85rem;
+  color: #12B6CF;
+  margin: 0 0 8px;
+  text-transform: capitalize;
+}
+.dd-playbook-item {
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.65);
+  border-left: 2px solid rgba(18, 182, 207, 0.3);
+  margin-bottom: 4px;
+}
+
+/* Meetings */
+.dd-meetings {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dd-meeting-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 6px;
+}
+.dd-meeting-date {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #12B6CF;
+  min-width: 90px;
+}
+.dd-meeting-title {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Statutory */
+.dd-statutory {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.dd-statutory-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.65);
+}
+.dd-statutory-portfolio {
+  margin-left: auto;
+  font-size: 0.68rem;
+  color: rgba(255, 255, 255, 0.35);
+}
+
+/* Portfolio links */
+.dd-portfolio-links {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.dd-portfolio-link-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.2s ease;
+}
+.dd-portfolio-link-card:hover {
+  background: rgba(18, 182, 207, 0.05);
+  border-color: rgba(18, 182, 207, 0.15);
+}
+.dd-pl-title {
+  flex: 1;
+  font-size: 0.85rem;
+  color: #e8e8e8;
+  font-weight: 600;
+}
+.dd-pl-member {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.empty-message {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.4);
+  text-align: center;
+  padding: 20px;
+}
+
+@media (max-width: 768px) {
+  .dd-hero h1 { font-size: 1.2rem; }
+  .evidence-chain-card { flex-direction: column; align-items: flex-start; }
+  .ec-kpi { min-width: auto; }
+  .dd-heatmap-name { min-width: 120px; }
+  .dd-mtfs-bar-row { flex-wrap: wrap; }
+  .dd-mtfs-label { min-width: auto; flex: 1 1 100%; }
+  .dd-lever-header { flex-direction: column; align-items: flex-start; }
+}

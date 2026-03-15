@@ -395,7 +395,7 @@ describe('PortfolioDetail', () => {
   it('renders back to cabinet link', () => {
     setupMocks()
     renderComponent()
-    expect(screen.getByText(/Cabinet Dashboard/)).toBeInTheDocument()
+    expect(screen.getByText(/Savings Dashboard/)).toBeInTheDocument()
   })
 
   // --- Tab navigation ---

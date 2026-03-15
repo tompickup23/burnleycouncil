@@ -29,6 +29,11 @@ import {
   crossPortfolioDependencies,
   formatCurrency,
   getAccessiblePortfolios,
+  buildDirectorateSavingsProfile,
+  evidenceChainStrength,
+  directorateKPITracker,
+  benchmarkDirectorate,
+  directorateRiskProfile,
 } from './savingsEngine.js'
 
 // ─── Test fixtures ───
@@ -1183,5 +1188,327 @@ describe('electoralRippleAssessment', () => {
       expect(d.talking_point).toContain('Reform')
       expect(d.district).toBeDefined()
     }
+  })
+})
+
+
+// ═══════════════════════════════════════════════════════════════════════
+// Directorate-Level Functions (Cabinet Command v2)
+// ═══════════════════════════════════════════════════════════════════════
+
+const mockDirectorate = {
+  id: 'adults_health',
+  title: 'Adults, Health & Wellbeing',
+  executive_director: 'Helen Coombes',
+  portfolio_ids: ['adult_social_care', 'health_wellbeing'],
+  net_budget: 558500000,
+  mtfs_savings_target: 46700000,
+  prior_year_target: 34800000,
+  prior_year_achieved: 3800000,
+  savings_narrative: 'Test narrative',
+  kpi_headline: 'CQC Requires Improvement',
+  performance_metrics: [
+    { name: 'CQC rating', value: 'RI', trend: 'first_assessment', savings_link: 'Off-framework costs' },
+    { name: 'Off-framework home care', value: 31, unit: '%', trend: 'stable', savings_link: '31% at 20% premium' },
+    { name: 'CHC recovery', value: '4-6%', trend: 'declining', savings_link: 'Below national avg' },
+    { name: 'Assessment waiting list', value: 1075, trend: 'improving', savings_link: 'Reduced 48%' },
+  ],
+}
+
+const mockHealthPortfolio = {
+  id: 'health_wellbeing',
+  title: 'Health & Wellbeing',
+  short_title: 'Health',
+  spending_department_patterns: ['^Public Health'],
+  savings_levers: [
+    { lever: 'HCRG recommission', est_saving: '£2-5M', timeline: '18-24 months', risk: 'High', tier: 'procurement_reform', owner: 'centralised',
+      evidence: { data_points: ['85% concentration', 'HHI 3615'], benchmark: 'No comparable 85% conc', calculation: '£22M/yr × 10%', kpi_link: 'PH outcomes', implementation_steps: [{ step: 'Publish' }, { step: 'Benchmark' }, { step: 'Retender' }] } },
+    { lever: 'Prevention ROI', est_saving: '£0', timeline: '2-3 years', risk: 'Low', tier: 'demand_management', owner: 'portfolio' },
+  ],
+  operational_context: {},
+}
+
+const mockPortfolioWithEvidence = {
+  ...mockPortfolio,
+  savings_levers: [
+    { lever: 'Lever A', est_saving: '£5-10M', timeline: '3-6 months', tier: 'immediate_recovery', owner: 'portfolio',
+      evidence: { data_points: ['Fact 1', 'Fact 2', 'Fact 3'], benchmark: 'National average is lower', calculation: '100 × £50K = £5M', kpi_link: 'CQC improvement plan mandates this', implementation_steps: [{ step: 'Step 1' }, { step: 'Step 2' }, { step: 'Step 3' }] } },
+    { lever: 'Lever B', est_saving: '£2-4M', timeline: '12-18 months', tier: 'service_redesign', owner: 'portfolio',
+      evidence: { data_points: ['One fact'], benchmark: 'Short', calculation: null, kpi_link: null, implementation_steps: [] } },
+    { lever: 'Lever C', est_saving: '£1-2M', timeline: '6-12 months', tier: 'procurement_reform', owner: 'centralised' },
+  ],
+}
+
+
+describe('evidenceChainStrength', () => {
+  it('returns 0 for null/undefined', () => {
+    expect(evidenceChainStrength(null)).toBe(0)
+    expect(evidenceChainStrength(undefined)).toBe(0)
+  })
+
+  it('returns 0 for lever without evidence', () => {
+    expect(evidenceChainStrength({ lever: 'Test', est_saving: '£1M' })).toBe(0)
+  })
+
+  it('scores 100 for fully evidenced lever', () => {
+    const lever = mockPortfolioWithEvidence.savings_levers[0]
+    expect(evidenceChainStrength(lever)).toBe(100)
+  })
+
+  it('scores partially for incomplete evidence', () => {
+    const lever = mockPortfolioWithEvidence.savings_levers[1]
+    const score = evidenceChainStrength(lever)
+    expect(score).toBeGreaterThan(0)
+    expect(score).toBeLessThan(100)
+  })
+
+  it('gives 20 for data_points with 2+ items', () => {
+    const lever = { evidence: { data_points: ['A', 'B'] } }
+    expect(evidenceChainStrength(lever)).toBe(20)
+  })
+
+  it('gives 10 for data_points with 1 item', () => {
+    const lever = { evidence: { data_points: ['A'] } }
+    expect(evidenceChainStrength(lever)).toBe(10)
+  })
+
+  it('gives 20 for benchmark with sufficient text', () => {
+    const lever = { evidence: { benchmark: 'National average is much lower than Lancashire' } }
+    expect(evidenceChainStrength(lever)).toBe(20)
+  })
+
+  it('gives 10 for implementation_steps with 1-2 items', () => {
+    const lever = { evidence: { implementation_steps: [{ step: 'Do something' }] } }
+    expect(evidenceChainStrength(lever)).toBe(10)
+  })
+
+  it('gives 20 for implementation_steps with 3+ items', () => {
+    const lever = { evidence: { implementation_steps: [{ step: 'A' }, { step: 'B' }, { step: 'C' }] } }
+    expect(evidenceChainStrength(lever)).toBe(20)
+  })
+})
+
+
+describe('buildDirectorateSavingsProfile', () => {
+  const portfolios = [mockPortfolioWithEvidence, mockHealthPortfolio]
+
+  it('returns null for null directorate', () => {
+    expect(buildDirectorateSavingsProfile(null, portfolios)).toBeNull()
+  })
+
+  it('aggregates levers from constituent portfolios', () => {
+    const result = buildDirectorateSavingsProfile(mockDirectorate, portfolios, null, null)
+    // adult_social_care has 3 levers, health_wellbeing has 2 = 5 total
+    expect(result.lever_count).toBe(5)
+  })
+
+  it('calculates savings range from all levers', () => {
+    const result = buildDirectorateSavingsProfile(mockDirectorate, portfolios, null, null)
+    expect(result.savings_range.low).toBeGreaterThan(0)
+    expect(result.savings_range.high).toBeGreaterThan(result.savings_range.low)
+    expect(result.savings_range.midpoint).toBe((result.savings_range.low + result.savings_range.high) / 2)
+  })
+
+  it('calculates MTFS coverage percentage', () => {
+    const result = buildDirectorateSavingsProfile(mockDirectorate, portfolios, null, null)
+    expect(result.coverage_pct).toBeGreaterThan(0)
+    expect(result.mtfs_target).toBe(46700000)
+  })
+
+  it('tracks prior year performance', () => {
+    const result = buildDirectorateSavingsProfile(mockDirectorate, portfolios, null, null)
+    expect(result.prior_year.target).toBe(34800000)
+    expect(result.prior_year.achieved).toBe(3800000)
+    expect(result.prior_year.gap).toBe(31000000)
+    expect(result.prior_year.achieved_pct).toBe(11) // 3.8M / 34.8M
+  })
+
+  it('counts evidenced levers', () => {
+    const result = buildDirectorateSavingsProfile(mockDirectorate, portfolios, null, null)
+    expect(result.evidenced_count).toBe(3) // Lever A, Lever B (partial), HCRG
+  })
+
+  it('computes average evidence strength', () => {
+    const result = buildDirectorateSavingsProfile(mockDirectorate, portfolios, null, null)
+    expect(result.avg_evidence_strength).toBeGreaterThan(0)
+    expect(result.avg_evidence_strength).toBeLessThanOrEqual(100)
+  })
+
+  it('groups savings by tier', () => {
+    const result = buildDirectorateSavingsProfile(mockDirectorate, portfolios, null, null)
+    expect(result.by_tier).toBeDefined()
+    expect(typeof result.by_tier).toBe('object')
+  })
+
+  it('groups savings by timeline', () => {
+    const result = buildDirectorateSavingsProfile(mockDirectorate, portfolios, null, null)
+    expect(result.by_timeline).toBeDefined()
+    expect(result.by_timeline.immediate).toBeDefined()
+    expect(result.by_timeline.short_term).toBeDefined()
+    expect(result.by_timeline.medium_term).toBeDefined()
+    expect(result.by_timeline.long_term).toBeDefined()
+  })
+
+  it('includes narrative and headline', () => {
+    const result = buildDirectorateSavingsProfile(mockDirectorate, portfolios, null, null)
+    expect(result.savings_narrative).toBe('Test narrative')
+    expect(result.kpi_headline).toBe('CQC Requires Improvement')
+  })
+
+  it('handles empty portfolios gracefully', () => {
+    const emptyDir = { ...mockDirectorate, portfolio_ids: ['nonexistent'] }
+    const result = buildDirectorateSavingsProfile(emptyDir, portfolios, null, null)
+    expect(result.lever_count).toBe(0)
+    expect(result.savings_range.low).toBe(0)
+  })
+})
+
+
+describe('directorateKPITracker', () => {
+  const portfolios = [mockPortfolioWithEvidence, mockHealthPortfolio]
+
+  it('returns empty arrays for null directorate', () => {
+    const result = directorateKPITracker(null, portfolios)
+    expect(result.metrics).toEqual([])
+    expect(result.kpi_headline).toBeNull()
+  })
+
+  it('includes directorate-level performance metrics', () => {
+    const result = directorateKPITracker(mockDirectorate, portfolios)
+    expect(result.metrics.length).toBeGreaterThanOrEqual(4) // 4 from directorate
+  })
+
+  it('classifies metrics by trend', () => {
+    const result = directorateKPITracker(mockDirectorate, portfolios)
+    expect(result.improving.length).toBeGreaterThanOrEqual(1) // assessment waiting list
+    expect(result.declining.length).toBeGreaterThanOrEqual(1) // CHC recovery
+  })
+
+  it('returns kpi_headline', () => {
+    const result = directorateKPITracker(mockDirectorate, portfolios)
+    expect(result.kpi_headline).toBe('CQC Requires Improvement')
+  })
+
+  it('extracts CQC/Ofsted/SEND from operational context', () => {
+    const portfoliosWithCtx = [{
+      ...mockPortfolioWithEvidence,
+      operational_context: { cqc_rating: 'Requires Improvement', cqc_date: '2025-08-15' },
+    }, mockHealthPortfolio]
+    const result = directorateKPITracker(mockDirectorate, portfoliosWithCtx)
+    const cqcMetric = result.metrics.find(m => m.type === 'inspection' && m.name.includes('CQC'))
+    expect(cqcMetric).toBeDefined()
+    expect(cqcMetric.value).toBe('Requires Improvement')
+  })
+
+  it('extracts SEND inspection from operational context', () => {
+    const portfoliosWithSEND = [{
+      id: 'education_skills',
+      spending_department_patterns: ['^Education'],
+      savings_levers: [],
+      operational_context: { send_inspection: { rating: 'Widespread failings', date: '2025-02-12', improvement_notice: 'DfE' } },
+    }]
+    const eduDir = { ...mockDirectorate, portfolio_ids: ['education_skills'] }
+    const result = directorateKPITracker(eduDir, portfoliosWithSEND)
+    const sendMetric = result.metrics.find(m => m.name === 'SEND Inspection')
+    expect(sendMetric).toBeDefined()
+  })
+})
+
+
+describe('benchmarkDirectorate', () => {
+  const portfolios = [mockPortfolioWithEvidence, mockHealthPortfolio]
+
+  it('returns null for null directorate', () => {
+    expect(benchmarkDirectorate(null, portfolios, {})).toBeNull()
+  })
+
+  it('returns portfolio benchmarks array', () => {
+    const result = benchmarkDirectorate(mockDirectorate, portfolios, null)
+    expect(result.directorate_id).toBe('adults_health')
+    expect(result.portfolio_benchmarks).toBeDefined()
+    expect(Array.isArray(result.portfolio_benchmarks)).toBe(true)
+  })
+
+  it('handles no GOV.UK data gracefully', () => {
+    const result = benchmarkDirectorate(mockDirectorate, portfolios, null)
+    expect(result.summary).toBeNull()
+  })
+
+  it('includes title', () => {
+    const result = benchmarkDirectorate(mockDirectorate, portfolios, null)
+    expect(result.title).toBe('Adults, Health & Wellbeing')
+  })
+})
+
+
+describe('directorateRiskProfile', () => {
+  const portfolios = [
+    { ...mockPortfolioWithEvidence, operational_context: { cqc_rating: 'Requires Improvement' } },
+    mockHealthPortfolio,
+  ]
+
+  it('returns null for null directorate', () => {
+    expect(directorateRiskProfile(null, portfolios, [])).toBeNull()
+  })
+
+  it('detects CQC inspection risk', () => {
+    const result = directorateRiskProfile(mockDirectorate, portfolios, mockSpending)
+    const inspectionRisk = result.risks.find(r => r.type === 'inspection')
+    expect(inspectionRisk).toBeDefined()
+    expect(inspectionRisk.severity).toBe('high')
+  })
+
+  it('detects savings delivery risk from prior year', () => {
+    const result = directorateRiskProfile(mockDirectorate, portfolios, mockSpending)
+    const deliveryRisk = result.risks.find(r => r.type === 'delivery')
+    expect(deliveryRisk).toBeDefined()
+    expect(deliveryRisk.severity).toBe('critical') // 3.8M/34.8M = 11%
+  })
+
+  it('returns risk score 0-100', () => {
+    const result = directorateRiskProfile(mockDirectorate, portfolios, mockSpending)
+    expect(result.risk_score).toBeGreaterThanOrEqual(0)
+    expect(result.risk_score).toBeLessThanOrEqual(100)
+  })
+
+  it('includes risk level and color', () => {
+    const result = directorateRiskProfile(mockDirectorate, portfolios, mockSpending)
+    expect(['critical', 'high', 'medium', 'low']).toContain(result.risk_level)
+    expect(result.risk_color).toMatch(/^#/)
+  })
+
+  it('detects DSG deficit risk', () => {
+    const portfoliosWithDSG = [{
+      id: 'resources',
+      spending_department_patterns: ['^Finance'],
+      savings_levers: [],
+      known_pressures: ['DSG deficit — £22.4M (Mar 2025)'],
+      operational_context: {},
+    }]
+    const resDir = { ...mockDirectorate, portfolio_ids: ['resources'], prior_year_target: 0 }
+    const result = directorateRiskProfile(resDir, portfoliosWithDSG, [])
+    const fiscalRisk = result.risks.find(r => r.type === 'fiscal')
+    expect(fiscalRisk).toBeDefined()
+    expect(fiscalRisk.severity).toBe('critical')
+  })
+
+  it('handles directorate with no prior year data', () => {
+    const dirNoPrior = { ...mockDirectorate, prior_year_target: null, prior_year_achieved: null }
+    const result = directorateRiskProfile(dirNoPrior, portfolios, mockSpending)
+    const deliveryRisk = result.risks.find(r => r.type === 'delivery')
+    expect(deliveryRisk).toBeUndefined()
+  })
+
+  it('detects SEND improvement notice', () => {
+    const portfoliosWithSEND = [{
+      id: 'education_skills',
+      spending_department_patterns: ['^Education'],
+      savings_levers: [],
+      operational_context: { send_inspection: { rating: 'Widespread failings', improvement_notice: 'DfE Improvement Notice' } },
+    }]
+    const eduDir = { ...mockDirectorate, portfolio_ids: ['education_skills'], prior_year_target: 0 }
+    const result = directorateRiskProfile(eduDir, portfoliosWithSEND, [])
+    const sendRisk = result.risks.find(r => r.detail?.includes('SEND'))
+    expect(sendRisk).toBeDefined()
   })
 })
