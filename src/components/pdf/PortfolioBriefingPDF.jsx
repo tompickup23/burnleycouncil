@@ -1,9 +1,16 @@
 /**
  * PortfolioBriefingPDF - Per-portfolio Cabinet Command briefing.
  *
- * Contains: portfolio overview, savings pipeline, governance & decisions,
- * service intelligence (all 7 models), political & fiscal trajectory,
- * key directives, risk assessment, PR material, reform playbook.
+ * World-class intelligence document covering:
+ *  P1: Cover
+ *  P2: Portfolio Overview (budget, team, duties, workforce, demand)
+ *  P3: Savings Pipeline & Directives (priority table, by-category, evidence strength)
+ *  P4: Governance & Decision Pipeline (upcoming decisions, routing, dependencies)
+ *  P5: Service Intelligence (conditional per model - SEND/ASC/Highways/Waste/Children/PH/Property)
+ *  P6: Political & Fiscal Trajectory
+ *  P7: Key Contracts (full detail cards)
+ *  P8+: Savings Levers Detail (evidence chains, implementation steps, political framing)
+ *  P9: Communication Points (factual, from evidence - NOT speculative)
  */
 import React from 'react'
 import { Document, Page, View, Text } from '@react-pdf/renderer'
@@ -14,6 +21,43 @@ import {
   KeyValue, ProgressBar,
   formatCurrency, formatPct, formatNumber,
 } from './PDFComponents.jsx'
+
+// ── Helpers ──
+
+/** True when a service-intel result contains real data (not just empty fallback) */
+const hasData = {
+  send:     o => o?.yearly?.length > 0,
+  asc:      o => o?.yearly?.length > 0,
+  highway:  o => o?.yearly?.length > 0,
+  waste:    o => o?.scenarios?.length > 0,
+  children: o => o?.yearly?.length > 0,
+  ph:       o => o?.base_grant > 0,
+  property: o => (o?.base_cost > 0 || o?.disposal_pipeline > 0),
+  interventionROI: o => o?.programmes?.length > 0,
+  lac:      o => o?.placements_moved?.length > 0,
+  ascMarket: o => o?.risk_score > 0,
+  chc:      o => o?.gap > 0,
+}
+
+/** Risk colour helper */
+const riskColor = r => {
+  const rl = (r || '').toLowerCase()
+  if (rl === 'high') return COLORS.danger
+  if (rl === 'medium') return COLORS.warning
+  if (rl === 'low') return COLORS.success
+  return COLORS.textSecondary
+}
+
+/** Tier label */
+const tierLabel = t => (t || 'general').replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())
+
+/** Governance routing helper */
+const governanceRoute = (savingsM) => {
+  if (savingsM >= 1000000) return 'Full Council'
+  if (savingsM >= 500000) return 'Cabinet'
+  if (savingsM >= 250000) return 'Exec Director'
+  return 'Officer'
+}
 
 export function PortfolioBriefingPDF({
   portfolio, directives, narrative, serviceIntel, councilName,
@@ -27,6 +71,8 @@ export function PortfolioBriefingPDF({
   const totalSavings = (directives || []).reduce((s, d) => s + (d.save_central || 0), 0)
   const immediateSavings = (directives || []).filter(d => /immediate|0-3/i.test(d.timeline || '')).reduce((s, d) => s + (d.save_central || 0), 0)
   const budget = portfolio.budget_total || portfolio.budget?.total || 0
+  const levers = portfolio.savings_levers || []
+  const contracts = portfolio.key_contracts || []
 
   // Group directives by category
   const byCategory = {}
@@ -42,21 +88,33 @@ export function PortfolioBriefingPDF({
     dep.portfolios?.includes(portfolio.id)
   )
 
-  // Governance routing helper
-  const governanceRoute = (savingsM) => {
-    if (savingsM >= 1) return 'Full Council'
-    if (savingsM >= 0.5) return 'Cabinet'
-    if (savingsM >= 0.25) return 'Exec Director'
-    return 'Officer'
-  }
+  // Determine which service intelligence sections have real data
+  const si = serviceIntel || {}
+  const showSEND = hasData.send(si.sendProjection)
+  const showASC = hasData.asc(si.ascProjection)
+  const showHighway = hasData.highway(si.highwayTrajectory)
+  const showWaste = hasData.waste(si.wasteComparison)
+  const showChildren = hasData.children(si.childrenProjection)
+  const showPH = hasData.ph(si.phProjection)
+  const showProperty = hasData.property(si.propertyProjection)
+  const showIntervention = hasData.interventionROI(si.interventionROI)
+  const showLAC = hasData.lac(si.lacOptimisation)
+  const showASCMarket = hasData.ascMarket(si.ascMarket)
+  const showCHC = hasData.chc(si.chcRecovery)
+  const hasAnyServiceIntel = showSEND || showASC || showHighway || showWaste || showChildren || showPH || showProperty
+
+  // Collect all political_framing texts from levers for communication section
+  const communicationPoints = levers
+    .filter(l => l.evidence?.political_framing)
+    .map(l => ({ lever: l.lever, framing: l.evidence.political_framing, saving: l.est_saving }))
 
   return (
     <Document>
-      {/* Cover */}
+      {/* ─── COVER ─── */}
       <CoverPage
         title={title}
         subtitle="Portfolio Intelligence Briefing"
-        meta={`${portfolio.cabinet_member?.name || 'Cabinet Member'} • Budget: ${formatCurrency(budget)} • Savings Pipeline: ${formatCurrency(totalSavings)} • Generated ${new Date().toLocaleDateString('en-GB')}`}
+        meta={`${portfolio.cabinet_member?.name || 'Cabinet Member'} | Budget: ${formatCurrency(budget)} | Savings Pipeline: ${formatCurrency(totalSavings)} | ${levers.length} savings levers | Generated ${new Date().toLocaleDateString('en-GB')}`}
         classification="CONFIDENTIAL - CABINET USE ONLY"
         councilName={councilName || 'Lancashire County Council'}
       />
@@ -79,17 +137,17 @@ export function PortfolioBriefingPDF({
           <KeyValue label="Lead Officer" value={portfolio.lead_officer?.name || '-'} />
           <KeyValue label="Directorate" value={portfolio.directorate || '-'} />
           {portfolio.statutory_duties?.length > 0 && (
-            <>
+            <View>
               <Divider />
               <SubsectionHeading title="Statutory Duties" />
               <BulletList items={portfolio.statutory_duties.slice(0, 6).map(d => typeof d === 'string' ? d : d.duty || d.description || '')} />
-            </>
+            </View>
           )}
         </Card>
 
         {/* Demand Pressures */}
         {portfolio.demand_pressures?.length > 0 && (
-          <>
+          <View>
             <SectionHeading title="Demand Pressures" />
             {portfolio.demand_pressures.slice(0, 5).map((dp, i) => (
               <Card key={i}>
@@ -106,22 +164,22 @@ export function PortfolioBriefingPDF({
                 )}
               </Card>
             ))}
-          </>
+          </View>
         )}
 
         {/* Quantified Demand Pressures from engine */}
-        {demandPressures && (
+        {demandPressures?.total_annual > 0 && (
           <Card highlight>
             <SubsectionHeading title="Demand Quantification" />
-            {demandPressures.total_annual_demand > 0 && <KeyValue label="Annual Demand Pressure" value={formatCurrency(demandPressures.total_annual_demand)} color={COLORS.danger} />}
+            <KeyValue label="Annual Demand Pressure" value={formatCurrency(demandPressures.total_annual)} color={COLORS.danger} />
             {demandPressures.demand_growth_rate > 0 && <KeyValue label="Growth Rate" value={formatPct(demandPressures.demand_growth_rate)} color={COLORS.danger} />}
             {demandPressures.unfunded_gap > 0 && <KeyValue label="Unfunded Gap" value={formatCurrency(demandPressures.unfunded_gap)} color={COLORS.danger} />}
           </Card>
         )}
 
         {/* Workforce Summary */}
-        {workforce && (
-          <>
+        {workforce?.fte_headcount > 0 && (
+          <View>
             <SectionHeading title="Workforce" />
             <StatsRow>
               <StatCard label="FTE Headcount" value={formatNumber(workforce.fte_headcount)} />
@@ -136,7 +194,7 @@ export function PortfolioBriefingPDF({
               <KeyValue label="Payscale Range" value={workforce.payscale_range || '-'} />
               <KeyValue label="Voluntary Turnover" value={`${workforce.voluntary_turnover_pct}%`} color={workforce.voluntary_turnover_pct > 15 ? COLORS.danger : COLORS.textPrimary} />
             </Card>
-          </>
+          </View>
         )}
 
         <PDFFooter councilName={councilName} classification="PORTFOLIO BRIEFING" />
@@ -187,7 +245,7 @@ export function PortfolioBriefingPDF({
 
         {/* Evidence Chain Strength */}
         {evidenceStrengths?.length > 0 && evidenceStrengths.some(e => e.strength > 0) && (
-          <>
+          <View>
             <SectionHeading title="Evidence Chain Confidence" />
             {evidenceStrengths.filter(e => e.strength > 0).slice(0, 10).map((e, i) => (
               <View key={i} style={{ marginBottom: 3 }}>
@@ -202,7 +260,7 @@ export function PortfolioBriefingPDF({
                 />
               </View>
             ))}
-          </>
+          </View>
         )}
 
         <PDFFooter councilName={councilName} classification="PORTFOLIO BRIEFING" />
@@ -214,9 +272,8 @@ export function PortfolioBriefingPDF({
           <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
           <PDFHeader title={title} subtitle="Governance & Decision Pipeline" classification="CABINET" />
 
-          {/* Decision Pipeline */}
           {upcomingDecisions?.length > 0 && (
-            <>
+            <View>
               <SectionHeading title="Upcoming Decisions" />
               <Table
                 columns={[
@@ -232,10 +289,9 @@ export function PortfolioBriefingPDF({
                   type: d.type || d.decision_type || '-',
                 }))}
               />
-            </>
+            </View>
           )}
 
-          {/* Governance Routing for top savings directives */}
           <SectionHeading title="Governance Routing" />
           <Card>
             <BulletList items={[
@@ -258,14 +314,13 @@ export function PortfolioBriefingPDF({
             }))}
           />
 
-          {/* Cross-Portfolio Dependencies */}
           {portfolioDeps.length > 0 && (
-            <>
+            <View>
               <SectionHeading title="Cross-Portfolio Dependencies" />
               {portfolioDeps.slice(0, 5).map((dep, i) => (
                 <Card key={i}>
                   <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: COLORS.accent }}>
-                    {dep.description || dep.title || `${dep.from} ↔ ${dep.to}`}
+                    {dep.description || dep.title || `${dep.from} > ${dep.to}`}
                   </Text>
                   {dep.risk && (
                     <Text style={{ fontSize: FONT.micro, color: COLORS.warning, marginTop: 2 }}>
@@ -274,129 +329,199 @@ export function PortfolioBriefingPDF({
                   )}
                 </Card>
               ))}
-            </>
+            </View>
           )}
 
           <PDFFooter councilName={councilName} classification="PORTFOLIO BRIEFING" />
         </Page>
       )}
 
-      {/* ─── PAGE 5: Service Intelligence (expanded) ─── */}
-      {serviceIntel && (
+      {/* ─── PAGE 5: Service Intelligence (CONDITIONAL per model) ─── */}
+      {hasAnyServiceIntel && (
         <Page size="A4" style={styles.page}>
           <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
           <PDFHeader title={title} subtitle="Service Intelligence" classification="CABINET" />
 
-          {serviceIntel.sendProjection && (
-            <>
+          {/* SEND Cost Intelligence - only for education_skills */}
+          {showSEND && (
+            <View>
               <SectionHeading title="SEND Cost Intelligence" />
               <Card highlight>
-                <KeyValue label="Base SEND Cost" value={formatCurrency(serviceIntel.sendProjection.base_cost)} />
-                <KeyValue label="5yr Growth" value={formatCurrency(serviceIntel.sendProjection.total_growth)} color={COLORS.danger} />
-                {serviceIntel.sendProjection.cost_breakdown && Object.entries(serviceIntel.sendProjection.cost_breakdown).slice(0, 5).map(([k, v]) => (
+                {si.sendProjection.base_year_cost > 0 && <KeyValue label="Base Year Cost" value={formatCurrency(si.sendProjection.base_year_cost)} />}
+                <KeyValue label="5yr Total Cost" value={formatCurrency(si.sendProjection.total_5yr_cost)} color={COLORS.danger} />
+                {si.sendProjection.growth_rate > 0 && <KeyValue label="Annual Growth" value={formatPct(si.sendProjection.growth_rate)} color={COLORS.danger} />}
+                {si.sendProjection.cost_driver_breakdown && Object.entries(si.sendProjection.cost_driver_breakdown).filter(([, v]) => v > 0).slice(0, 5).map(([k, v]) => (
                   <KeyValue key={k} label={k.replace(/_/g, ' ')} value={formatCurrency(v)} />
                 ))}
+                {si.sendProjection.dsg_trajectory && (
+                  <KeyValue label="DSG Deficit Trajectory" value={si.sendProjection.dsg_trajectory} color={COLORS.warning} />
+                )}
               </Card>
-              {serviceIntel.interventionROI && (
+              {showIntervention && (
                 <Card>
                   <SubsectionHeading title="Early Intervention ROI" />
-                  <KeyValue label="Investment Required" value={formatCurrency(serviceIntel.interventionROI.investment)} />
-                  <KeyValue label="Annual Return" value={formatCurrency(serviceIntel.interventionROI.annual_return)} color={COLORS.success} />
-                  {serviceIntel.interventionROI.roi_ratio && <KeyValue label="ROI Ratio" value={`${serviceIntel.interventionROI.roi_ratio}:1`} color={COLORS.accent} />}
+                  <KeyValue label="Investment Required" value={formatCurrency(si.interventionROI.intervention_cost)} />
+                  <KeyValue label="Annual Return" value={formatCurrency(si.interventionROI.net_saving)} color={COLORS.success} />
+                  {si.interventionROI.children_diverted > 0 && <KeyValue label="Children Diverted" value={si.interventionROI.children_diverted.toString()} />}
+                  {si.interventionROI.payback_years > 0 && <KeyValue label="Payback Period" value={`${si.interventionROI.payback_years} years`} />}
                 </Card>
               )}
-              {serviceIntel.lacOptimisation && (
+              {showLAC && (
                 <Card>
                   <SubsectionHeading title="LAC Placement Optimisation" />
-                  {serviceIntel.lacOptimisation.total_saving && <KeyValue label="Potential Saving" value={formatCurrency(serviceIntel.lacOptimisation.total_saving)} color={COLORS.success} />}
-                  {serviceIntel.lacOptimisation.placements_to_shift > 0 && <KeyValue label="Placements to Shift" value={serviceIntel.lacOptimisation.placements_to_shift.toString()} />}
+                  <KeyValue label="Current Cost" value={formatCurrency(si.lacOptimisation.current_cost)} />
+                  <KeyValue label="Optimised Cost" value={formatCurrency(si.lacOptimisation.optimised_cost)} />
+                  <KeyValue label="Potential Saving" value={formatCurrency(si.lacOptimisation.saving)} color={COLORS.success} />
+                  {si.lacOptimisation.saving_pct > 0 && <KeyValue label="Saving %" value={formatPct(si.lacOptimisation.saving_pct)} color={COLORS.success} />}
                 </Card>
               )}
-            </>
+            </View>
           )}
 
-          {serviceIntel.ascProjection && (
-            <>
+          {/* ASC Demand Intelligence - only for adult_social_care */}
+          {showASC && (
+            <View>
               <SectionHeading title="ASC Demand Intelligence" />
               <Card highlight>
-                <KeyValue label="Demographic Pressure" value={serviceIntel.ascProjection.demographic_pressure || '-'} />
-                <KeyValue label="Market Sustainability" value={serviceIntel.ascProjection.market_sustainability || '-'} />
-                {serviceIntel.ascProjection.yearly?.slice(0, 3).map((y, i) => (
+                {si.ascProjection.base_cost > 0 && <KeyValue label="Base Year Cost" value={formatCurrency(si.ascProjection.base_cost)} />}
+                <KeyValue label="5yr Total Growth" value={formatCurrency(si.ascProjection.total_growth)} color={COLORS.danger} />
+                {si.ascProjection.blended_growth_rate > 0 && <KeyValue label="Blended Growth Rate" value={formatPct(si.ascProjection.blended_growth_rate)} />}
+                {si.ascProjection.yearly?.slice(0, 3).map((y, i) => (
                   <KeyValue key={i} label={`Year ${y.year || i + 1}`} value={formatCurrency(y.total_cost)} />
                 ))}
               </Card>
-              {serviceIntel.ascMarket && (
+              {showASCMarket && (
                 <Card>
-                  <SubsectionHeading title="Market Risk" />
-                  {serviceIntel.ascMarket.risk_level && <KeyValue label="Risk Level" value={serviceIntel.ascMarket.risk_level} color={serviceIntel.ascMarket.risk_level === 'high' ? COLORS.danger : COLORS.warning} />}
-                  {serviceIntel.ascMarket.provider_concentration && <KeyValue label="Provider Concentration" value={serviceIntel.ascMarket.provider_concentration} />}
+                  <SubsectionHeading title="Market Risk Assessment" />
+                  <KeyValue label="Risk Level" value={si.ascMarket.risk_level} color={riskColor(si.ascMarket.risk_level)} />
+                  <KeyValue label="Risk Score" value={`${si.ascMarket.risk_score}/100`} />
+                  {si.ascMarket.provider_count > 0 && <KeyValue label="Provider Count" value={si.ascMarket.provider_count.toString()} />}
+                  {si.ascMarket.vacancy_rate > 0 && <KeyValue label="Vacancy Rate" value={formatPct(si.ascMarket.vacancy_rate)} />}
+                  {si.ascMarket.fair_cost_gap > 0 && <KeyValue label="Fair Cost Gap" value={formatCurrency(si.ascMarket.fair_cost_gap)} color={COLORS.danger} />}
+                  {si.ascMarket.inflation_pressure > 0 && <KeyValue label="Inflation Pressure" value={formatCurrency(si.ascMarket.inflation_pressure)} color={COLORS.warning} />}
                 </Card>
               )}
-              {serviceIntel.chcRecovery && (
+              {showCHC && (
                 <Card>
                   <SubsectionHeading title="CHC Recovery Pipeline" />
-                  {serviceIntel.chcRecovery.recoverable && <KeyValue label="Recoverable" value={formatCurrency(serviceIntel.chcRecovery.recoverable)} color={COLORS.success} />}
-                  {serviceIntel.chcRecovery.cases > 0 && <KeyValue label="Cases" value={serviceIntel.chcRecovery.cases.toString()} />}
+                  <KeyValue label="Current Recovery" value={formatCurrency(si.chcRecovery.current_income)} />
+                  <KeyValue label="Target Recovery" value={formatCurrency(si.chcRecovery.target_income)} color={COLORS.accent} />
+                  <KeyValue label="Recovery Gap" value={formatCurrency(si.chcRecovery.gap)} color={COLORS.success} />
+                  <KeyValue label="Net Benefit" value={formatCurrency(si.chcRecovery.net_benefit)} color={COLORS.success} />
+                  {si.chcRecovery.implementation_cost > 0 && <KeyValue label="Implementation Cost" value={formatCurrency(si.chcRecovery.implementation_cost)} />}
                 </Card>
               )}
-            </>
+            </View>
           )}
 
-          {serviceIntel.childrenProjection && (
-            <>
+          {/* Children's Services - only for children_families */}
+          {showChildren && (
+            <View>
               <SectionHeading title="Children's Services Intelligence" />
               <Card highlight>
-                {serviceIntel.childrenProjection.base_cost && <KeyValue label="Base Cost" value={formatCurrency(serviceIntel.childrenProjection.base_cost)} />}
-                {serviceIntel.childrenProjection.five_year_growth && <KeyValue label="5yr Growth" value={formatCurrency(serviceIntel.childrenProjection.five_year_growth)} color={COLORS.danger} />}
-                {serviceIntel.childrenProjection.yearly?.slice(0, 3).map((y, i) => (
+                {si.childrenProjection.base_cost > 0 && <KeyValue label="Base Year Cost" value={formatCurrency(si.childrenProjection.base_cost)} />}
+                <KeyValue label="5yr Total Cost" value={formatCurrency(si.childrenProjection.total_5yr_cost)} color={COLORS.danger} />
+                {si.childrenProjection.growth_rate > 0 && <KeyValue label="Annual Growth" value={formatPct(si.childrenProjection.growth_rate)} color={COLORS.danger} />}
+                {si.childrenProjection.yearly?.slice(0, 3).map((y, i) => (
                   <KeyValue key={i} label={`Year ${y.year || i + 1}`} value={formatCurrency(y.total_cost || y.cost)} />
                 ))}
+                {si.childrenProjection.wocl_trajectory?.length > 0 && (
+                  <View style={{ marginTop: SPACE.xs }}>
+                    <Text style={{ fontSize: FONT.micro, color: COLORS.accent, fontFamily: FONT.bold }}>WOCL Programme Trajectory</Text>
+                    {si.childrenProjection.wocl_trajectory.slice(0, 3).map((w, i) => (
+                      <KeyValue key={i} label={`Year ${w.year || i + 1}`} value={`${w.homes || '-'} homes, saving ${formatCurrency(w.saving || 0)}`} />
+                    ))}
+                  </View>
+                )}
               </Card>
-            </>
+            </View>
           )}
 
-          {serviceIntel.phProjection && (
-            <>
+          {/* Public Health - only for health_wellbeing */}
+          {showPH && (
+            <View>
               <SectionHeading title="Public Health Intelligence" />
               <Card highlight>
-                {serviceIntel.phProjection.base_cost && <KeyValue label="Base Cost" value={formatCurrency(serviceIntel.phProjection.base_cost)} />}
-                {serviceIntel.phProjection.grant_dependency_pct && <KeyValue label="Grant Dependency" value={formatPct(serviceIntel.phProjection.grant_dependency_pct)} color={COLORS.warning} />}
+                <KeyValue label="Base Grant" value={formatCurrency(si.phProjection.base_grant)} />
+                {si.phProjection.grant_decline_5yr > 0 && <KeyValue label="5yr Grant Decline" value={formatCurrency(si.phProjection.grant_decline_5yr)} color={COLORS.danger} />}
+                {si.phProjection.total_prevention_roi > 0 && <KeyValue label="Prevention ROI" value={formatCurrency(si.phProjection.total_prevention_roi)} color={COLORS.success} />}
+                {si.phProjection.monopoly_risk_value > 0 && <KeyValue label="Monopoly Risk" value={formatCurrency(si.phProjection.monopoly_risk_value)} color={COLORS.warning} />}
               </Card>
-            </>
+            </View>
           )}
 
-          {serviceIntel.propertyProjection && (
-            <>
+          {/* Property Estate - only for resources */}
+          {showProperty && (
+            <View>
               <SectionHeading title="Property Estate Intelligence" />
               <Card highlight>
-                {serviceIntel.propertyProjection.estate_value && <KeyValue label="Estate Value" value={formatCurrency(serviceIntel.propertyProjection.estate_value)} />}
-                {serviceIntel.propertyProjection.disposal_pipeline && <KeyValue label="Disposal Pipeline" value={formatCurrency(serviceIntel.propertyProjection.disposal_pipeline)} color={COLORS.success} />}
-                {serviceIntel.propertyProjection.maintenance_liability && <KeyValue label="Maintenance Liability" value={formatCurrency(serviceIntel.propertyProjection.maintenance_liability)} color={COLORS.danger} />}
+                {si.propertyProjection.base_cost > 0 && <KeyValue label="Estate Running Cost" value={formatCurrency(si.propertyProjection.base_cost)} />}
+                {si.propertyProjection.disposal_pipeline > 0 && <KeyValue label="Disposal Pipeline" value={formatCurrency(si.propertyProjection.disposal_pipeline)} color={COLORS.success} />}
+                {si.propertyProjection.backlog_trajectory > 0 && <KeyValue label="Maintenance Backlog" value={formatCurrency(si.propertyProjection.backlog_trajectory)} color={COLORS.danger} />}
+                {si.propertyProjection.co_location_potential > 0 && <KeyValue label="Co-location Saving" value={formatCurrency(si.propertyProjection.co_location_potential)} color={COLORS.success} />}
+                {si.propertyProjection.care_home_liability > 0 && <KeyValue label="Care Home Liability" value={formatCurrency(si.propertyProjection.care_home_liability)} color={COLORS.warning} />}
               </Card>
-            </>
+            </View>
           )}
 
-          {serviceIntel.highwayTrajectory && (
-            <>
+          {/* Highway Asset - only for highways_transport */}
+          {showHighway && (
+            <View>
               <SectionHeading title="Highway Asset Intelligence" />
               <Card highlight>
-                <KeyValue label="Maintenance Backlog" value={formatCurrency(serviceIntel.highwayTrajectory.maintenance_gap)} color={COLORS.danger} />
-                <KeyValue label="LED Conversion" value={formatPct(serviceIntel.highwayTrajectory.led?.conversion_pct)} />
-                {serviceIntel.highwayTrajectory.condition_trend && <KeyValue label="Condition Trend" value={serviceIntel.highwayTrajectory.condition_trend} />}
+                {si.highwayTrajectory.optimal_spend > 0 && <KeyValue label="Optimal Annual Spend" value={formatCurrency(si.highwayTrajectory.optimal_spend)} />}
+                {si.highwayTrajectory.current_gap > 0 && <KeyValue label="Investment Gap" value={formatCurrency(si.highwayTrajectory.current_gap)} color={COLORS.danger} />}
+                {si.highwayTrajectory.cumulative_shortfall > 0 && <KeyValue label="Cumulative Shortfall" value={formatCurrency(si.highwayTrajectory.cumulative_shortfall)} color={COLORS.danger} />}
+                {si.highwayTrajectory.dft_allocation > 0 && <KeyValue label="DfT Allocation" value={formatCurrency(si.highwayTrajectory.dft_allocation)} color={COLORS.success} />}
+                {si.highwayTrajectory.managed_service_saving_pct > 0 && <KeyValue label="Managed Service Saving" value={formatPct(si.highwayTrajectory.managed_service_saving_pct)} color={COLORS.success} />}
               </Card>
-            </>
+              {si.highwayTrajectory.condition_trends && (
+                <Card>
+                  <SubsectionHeading title="Road Condition" />
+                  {si.highwayTrajectory.condition_trends.a_roads && <KeyValue label="A Roads (red)" value={`${si.highwayTrajectory.condition_trends.a_roads.red_pct}% (national avg ${si.highwayTrajectory.condition_trends.a_roads.national_avg}%)`} color={si.highwayTrajectory.condition_trends.a_roads.trend === 'deteriorating' ? COLORS.danger : COLORS.textPrimary} />}
+                  {si.highwayTrajectory.condition_trends.b_c_roads && <KeyValue label="B/C Roads (red)" value={`${si.highwayTrajectory.condition_trends.b_c_roads.red_pct}% (national avg ${si.highwayTrajectory.condition_trends.b_c_roads.national_avg}%)`} color={si.highwayTrajectory.condition_trends.b_c_roads.trend?.includes('deteriorating') ? COLORS.danger : COLORS.textPrimary} />}
+                  {si.highwayTrajectory.condition_trends.unclassified && <KeyValue label="Unclassified (red)" value={`${si.highwayTrajectory.condition_trends.unclassified.red_pct}% (national avg ${si.highwayTrajectory.condition_trends.unclassified.national_avg}%)`} color={COLORS.danger} />}
+                </Card>
+              )}
+              {si.highwayTrajectory.led && (
+                <Card>
+                  <SubsectionHeading title="LED Programme" />
+                  <KeyValue label="Converted" value={`${formatNumber(si.highwayTrajectory.led.converted)} of ${formatNumber(si.highwayTrajectory.led.total_columns)}`} />
+                  {si.highwayTrajectory.led.conversion_pct > 0 && <KeyValue label="Conversion" value={formatPct(si.highwayTrajectory.led.conversion_pct)} color={COLORS.success} />}
+                  {si.highwayTrajectory.led.dimming_saving_pa > 0 && <KeyValue label="Annual Dimming Saving" value={formatCurrency(si.highwayTrajectory.led.dimming_saving_pa)} color={COLORS.success} />}
+                </Card>
+              )}
+              {si.highwayTrajectory.s59 && si.highwayTrajectory.s59.potential_income > 0 && (
+                <Card>
+                  <SubsectionHeading title="S59 Enforcement Revenue" />
+                  <KeyValue label="Potential Income" value={formatCurrency(si.highwayTrajectory.s59.potential_income)} color={COLORS.success} />
+                  {si.highwayTrajectory.s59.utility_works_pa > 0 && <KeyValue label="Utility Works p.a." value={formatNumber(si.highwayTrajectory.s59.utility_works_pa)} />}
+                </Card>
+              )}
+            </View>
           )}
 
-          {serviceIntel.wasteComparison && (
-            <>
+          {/* Waste Disposal - only for environment_communities */}
+          {showWaste && (
+            <View>
               <SectionHeading title="Waste Disposal Intelligence" />
               <Card highlight>
-                <KeyValue label="Market HHI" value={formatNumber(serviceIntel.wasteComparison.market_hhi)} />
-                {serviceIntel.wasteComparison.scenarios?.slice(0, 3).map((s, i) => (
-                  <KeyValue key={i} label={s.name || `Scenario ${i + 1}`} value={formatCurrency(s.annual_cost)} />
-                ))}
+                <KeyValue label="Current Disposal Cost" value={formatCurrency(si.wasteComparison.current_cost)} />
+                {si.wasteComparison.landfill_rate_pct > 0 && <KeyValue label="Landfill Rate" value={`${si.wasteComparison.landfill_rate_pct}% (national avg ${si.wasteComparison.national_avg_landfill_pct}%)`} color={si.wasteComparison.ratio_to_national > 3 ? COLORS.danger : COLORS.warning} />}
+                {si.wasteComparison.market_hhi > 0 && <KeyValue label="Market HHI" value={formatNumber(si.wasteComparison.market_hhi)} color={si.wasteComparison.market_hhi > 2500 ? COLORS.danger : COLORS.warning} />}
+                {si.wasteComparison.duopoly_pct > 0 && <KeyValue label="Duopoly Market Share" value={formatPct(si.wasteComparison.duopoly_pct)} color={COLORS.danger} />}
               </Card>
-            </>
+              {si.wasteComparison.scenarios.length > 0 && (
+                <Card>
+                  <SubsectionHeading title="Disposal Scenarios" />
+                  {si.wasteComparison.scenarios.map((s, i) => (
+                    <KeyValue key={i} label={s.name || `Scenario ${i + 1}`} value={formatCurrency(s.annual_cost)} color={i === 0 ? COLORS.textPrimary : COLORS.success} />
+                  ))}
+                  {si.wasteComparison.food_waste_impact > 0 && <KeyValue label="Food Waste Mandate Cost" value={formatCurrency(si.wasteComparison.food_waste_impact)} color={COLORS.warning} />}
+                  {si.wasteComparison.efw_saving > 0 && <KeyValue label="EfW Potential Saving" value={formatCurrency(si.wasteComparison.efw_saving)} color={COLORS.success} />}
+                </Card>
+              )}
+            </View>
           )}
 
           <PDFFooter councilName={councilName} classification="PORTFOLIO BRIEFING" />
@@ -404,14 +529,13 @@ export function PortfolioBriefingPDF({
       )}
 
       {/* ─── PAGE 6: Political & Fiscal Trajectory ─── */}
-      {(politicalCtx || fiscalTrajectory) && (
+      {(politicalCtx || (fiscalTrajectory?.yearly?.length > 0)) && (
         <Page size="A4" style={styles.page}>
           <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
           <PDFHeader title={title} subtitle="Political & Fiscal Intelligence" classification="CABINET" />
 
-          {/* Political Context */}
           {politicalCtx && (
-            <>
+            <View>
               <SectionHeading title="Political Context" />
               <Card highlight>
                 {politicalCtx.scrutiny_level && <KeyValue label="Scrutiny Level" value={politicalCtx.scrutiny_level} color={politicalCtx.scrutiny_level === 'high' ? COLORS.danger : COLORS.warning} />}
@@ -430,160 +554,245 @@ export function PortfolioBriefingPDF({
                   <BulletList items={politicalCtx.attack_vectors.slice(0, 4)} color={COLORS.danger} />
                 </Card>
               )}
-            </>
+            </View>
           )}
 
-          {/* Fiscal Trajectory */}
-          {fiscalTrajectory && (
-            <>
+          {fiscalTrajectory?.yearly?.length > 0 && (
+            <View>
               <SectionHeading title="Net Fiscal Trajectory" />
               <StatsRow>
-                {fiscalTrajectory.direction && <StatCard value={fiscalTrajectory.direction} label="Trajectory" color={fiscalTrajectory.direction === 'improving' ? COLORS.success : COLORS.danger} />}
+                {fiscalTrajectory.trajectory && fiscalTrajectory.trajectory !== 'unknown' && <StatCard value={fiscalTrajectory.trajectory} label="Trajectory" color={fiscalTrajectory.trajectory === 'improving' ? COLORS.success : COLORS.danger} />}
                 {fiscalTrajectory.breakeven_year && <StatCard value={fiscalTrajectory.breakeven_year.toString()} label="Breakeven Year" />}
-                {fiscalTrajectory.cumulative_gap != null && <StatCard value={formatCurrency(fiscalTrajectory.cumulative_gap)} label="Cumulative Gap" color={fiscalTrajectory.cumulative_gap >= 0 ? COLORS.success : COLORS.danger} />}
+                {fiscalTrajectory.net_5yr != null && <StatCard value={formatCurrency(fiscalTrajectory.net_5yr)} label="5yr Net Position" color={fiscalTrajectory.net_5yr >= 0 ? COLORS.success : COLORS.danger} />}
               </StatsRow>
-
-              {/* Yearly trajectory table */}
-              {fiscalTrajectory.yearly?.length > 0 && (
-                <Table
-                  columns={[
-                    { key: 'year', label: 'Year', width: 50, bold: true },
-                    { key: 'demand', label: 'Demand', width: 70, align: 'right' },
-                    { key: 'savings', label: 'Savings', width: 70, align: 'right' },
-                    { key: 'net', label: 'Net Position', width: 70, align: 'right' },
-                  ]}
-                  rows={fiscalTrajectory.yearly.slice(0, 5).map(y => ({
-                    year: (y.year || '-').toString(),
-                    demand: formatCurrency(y.demand || y.demand_cost),
-                    savings: formatCurrency(y.savings || y.savings_value),
-                    net: formatCurrency(y.net || y.net_position),
-                    _colors: { net: (y.net || y.net_position || 0) >= 0 ? COLORS.success : COLORS.danger },
-                  }))}
-                />
-              )}
-            </>
+              <Table
+                columns={[
+                  { key: 'year', label: 'Year', width: 50, bold: true },
+                  { key: 'demand', label: 'Demand', width: 70, align: 'right' },
+                  { key: 'savings', label: 'Savings', width: 70, align: 'right' },
+                  { key: 'net', label: 'Net Position', width: 70, align: 'right' },
+                ]}
+                rows={fiscalTrajectory.yearly.slice(0, 5).map(y => ({
+                  year: (y.year || '-').toString(),
+                  demand: formatCurrency(y.demand || y.demand_cost),
+                  savings: formatCurrency(y.savings || y.savings_value),
+                  net: formatCurrency(y.net || y.net_position),
+                  _colors: { net: (y.net || y.net_position || 0) >= 0 ? COLORS.success : COLORS.danger },
+                }))}
+              />
+            </View>
           )}
 
           <PDFFooter councilName={councilName} classification="PORTFOLIO BRIEFING" />
         </Page>
       )}
 
-      {/* ─── PAGE 7: PR & Reform Narrative ─── */}
-      {narrative && (
+      {/* ─── PAGE 7: Key Contracts (detailed cards) ─── */}
+      {contracts.length > 0 && (
         <Page size="A4" style={styles.page}>
           <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
-          <PDFHeader title={title} subtitle="Reform Narrative & PR Material" classification="CABINET" />
+          <PDFHeader title={title} subtitle="Key Contracts" classification="CABINET" />
 
-          {/* Press Releases */}
-          {narrative.press_releases?.length > 0 && (
-            <>
-              <SectionHeading title="Draft Press Releases" />
-              {narrative.press_releases.map((pr, i) => (
+          <SectionHeading title={`Key Contracts (${contracts.length})`} />
+          {contracts.map((c, i) => (
+            <Card key={i}>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: SPACE.xs }}>
+                <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.accent, flex: 1 }}>
+                  {c.name || '-'}
+                </Text>
+                <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.success }}>
+                  {c.value || '-'}
+                </Text>
+              </View>
+              <KeyValue label="Provider" value={c.provider || '-'} />
+              <KeyValue label="Duration" value={c.duration || '-'} />
+              {c.note && (
+                <Text style={{ fontSize: FONT.small, color: COLORS.textSecondary, marginTop: SPACE.xs, lineHeight: 1.4 }}>
+                  {c.note}
+                </Text>
+              )}
+              {c.contracts_finder_ids?.length > 0 && (
+                <Text style={{ fontSize: FONT.micro, color: COLORS.warning, marginTop: 2 }}>
+                  DOGE tracked: {c.contracts_finder_ids.length} contract{c.contracts_finder_ids.length !== 1 ? 's' : ''} on Contracts Finder
+                </Text>
+              )}
+            </Card>
+          ))}
+
+          <PDFFooter councilName={councilName} classification="PORTFOLIO BRIEFING" />
+        </Page>
+      )}
+
+      {/* ─── PAGE 8+: Savings Levers Detail (evidence chains) ─── */}
+      {levers.length > 0 && (
+        <Page size="A4" style={styles.page}>
+          <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
+          <PDFHeader title={title} subtitle="Savings Levers Detail" classification="CABINET" />
+
+          <SectionHeading title={`Savings Levers (${levers.length})`} subtitle={`Total estimated savings: ${levers.reduce((s, l) => s + (l.est_saving ? 1 : 0), 0)} levers with costed estimates`} />
+
+          {levers.map((l, i) => (
+            <View key={i} style={{ marginBottom: SPACE.md }} wrap={false}>
+              {/* Lever header */}
+              <View style={{ backgroundColor: COLORS.bgCard, borderRadius: 6, padding: SPACE.md, borderWidth: 1, borderColor: COLORS.borderLight, borderLeftWidth: 3, borderLeftColor: riskColor(l.risk) }}>
+                {/* Title row */}
+                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: SPACE.xs }}>
+                  <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.accent, flex: 1 }}>
+                    {l.lever || l.action || '-'}
+                  </Text>
+                  <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.success }}>
+                    {l.est_saving || '-'}
+                  </Text>
+                </View>
+
+                {/* Meta row */}
+                <View style={{ flexDirection: 'row', gap: 8, marginBottom: SPACE.xs }}>
+                  <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>Timeline: {l.timeline || '-'}</Text>
+                  <Text style={{ fontSize: FONT.micro, color: riskColor(l.risk) }}>Risk: {l.risk || '-'}</Text>
+                  <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>Tier: {tierLabel(l.tier)}</Text>
+                  <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>Owner: {l.owner || '-'}</Text>
+                </View>
+
+                {/* Description */}
+                {l.description && (
+                  <Text style={{ fontSize: FONT.small, color: COLORS.textPrimary, lineHeight: 1.4, marginBottom: SPACE.xs }}>
+                    {l.description}
+                  </Text>
+                )}
+
+                {/* Legal constraints */}
+                {l.legal_constraints && (
+                  <Text style={{ fontSize: FONT.micro, color: COLORS.warning, marginBottom: SPACE.xs }}>
+                    Legal: {l.legal_constraints}
+                  </Text>
+                )}
+
+                {/* Evidence Chain */}
+                {l.evidence && (
+                  <View style={{ marginTop: SPACE.xs, paddingTop: SPACE.xs, borderTopWidth: 1, borderTopColor: COLORS.borderLight }}>
+                    {/* Data points */}
+                    {l.evidence.data_points?.length > 0 && (
+                      <View style={{ marginBottom: SPACE.xs }}>
+                        <Text style={{ fontSize: FONT.micro, color: COLORS.accent, fontFamily: FONT.bold, marginBottom: 2 }}>EVIDENCE</Text>
+                        {l.evidence.data_points.map((dp, di) => (
+                          <View key={di} style={{ flexDirection: 'row', marginBottom: 1, paddingLeft: 2 }}>
+                            <Text style={{ fontSize: FONT.micro, color: COLORS.accent, width: 8 }}>*</Text>
+                            <Text style={{ fontSize: FONT.micro, color: COLORS.textSecondary, flex: 1, lineHeight: 1.3 }}>{dp}</Text>
+                          </View>
+                        ))}
+                      </View>
+                    )}
+
+                    {/* Benchmark */}
+                    {l.evidence.benchmark && (
+                      <View style={{ marginBottom: SPACE.xs }}>
+                        <Text style={{ fontSize: FONT.micro, color: COLORS.accent, fontFamily: FONT.bold }}>BENCHMARK</Text>
+                        <Text style={{ fontSize: FONT.micro, color: COLORS.textSecondary, lineHeight: 1.3 }}>{l.evidence.benchmark}</Text>
+                      </View>
+                    )}
+
+                    {/* Calculation */}
+                    {l.evidence.calculation && (
+                      <View style={{ marginBottom: SPACE.xs }}>
+                        <Text style={{ fontSize: FONT.micro, color: COLORS.accent, fontFamily: FONT.bold }}>CALCULATION</Text>
+                        <Text style={{ fontSize: FONT.micro, color: COLORS.textSecondary, lineHeight: 1.3 }}>{l.evidence.calculation}</Text>
+                      </View>
+                    )}
+
+                    {/* Implementation steps */}
+                    {l.evidence.implementation_steps?.length > 0 && (
+                      <View style={{ marginBottom: SPACE.xs }}>
+                        <Text style={{ fontSize: FONT.micro, color: COLORS.accent, fontFamily: FONT.bold, marginBottom: 2 }}>IMPLEMENTATION</Text>
+                        {l.evidence.implementation_steps.map((st, si2) => (
+                          <View key={si2} style={{ flexDirection: 'row', marginBottom: 1, paddingLeft: 2 }}>
+                            <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted, width: 50 }}>M{st.month}:</Text>
+                            <Text style={{ fontSize: FONT.micro, color: COLORS.textSecondary, flex: 1, lineHeight: 1.3 }}>
+                              {st.step}{st.cost ? ` (${st.cost})` : ''}
+                            </Text>
+                          </View>
+                        ))}
+                      </View>
+                    )}
+
+                    {/* KPI link */}
+                    {l.evidence.kpi_link && (
+                      <View style={{ marginBottom: SPACE.xs }}>
+                        <Text style={{ fontSize: FONT.micro, color: COLORS.accent, fontFamily: FONT.bold }}>KPI IMPACT</Text>
+                        <Text style={{ fontSize: FONT.micro, color: COLORS.textSecondary, lineHeight: 1.3 }}>{l.evidence.kpi_link}</Text>
+                      </View>
+                    )}
+
+                    {/* Political framing - highlighted */}
+                    {l.evidence.political_framing && (
+                      <View style={{ backgroundColor: COLORS.bgHighlight, borderRadius: 4, padding: SPACE.xs, marginTop: 2 }}>
+                        <Text style={{ fontSize: FONT.micro, color: COLORS.accent, fontFamily: FONT.bold, marginBottom: 1 }}>PUBLIC MESSAGING</Text>
+                        <Text style={{ fontSize: FONT.small, color: COLORS.textPrimary, fontStyle: 'italic', lineHeight: 1.4 }}>
+                          "{l.evidence.political_framing}"
+                        </Text>
+                      </View>
+                    )}
+                  </View>
+                )}
+              </View>
+            </View>
+          ))}
+
+          <PDFFooter councilName={councilName} classification="PORTFOLIO BRIEFING" />
+        </Page>
+      )}
+
+      {/* ─── PAGE 9: Communication Points (factual, from evidence) ─── */}
+      {(communicationPoints.length > 0 || playbook) && (
+        <Page size="A4" style={styles.page}>
+          <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
+          <PDFHeader title={title} subtitle="Communication & Action Plan" classification="CABINET" />
+
+          {/* Key Communication Points from evidence chains */}
+          {communicationPoints.length > 0 && (
+            <View>
+              <SectionHeading title="Key Communication Points" subtitle="Factual messaging drawn from evidence-backed savings levers" />
+              {communicationPoints.slice(0, 8).map((cp, i) => (
                 <Card key={i} accent>
-                  <Text style={{ fontSize: FONT.h3, fontFamily: FONT.bold, color: COLORS.accent }}>{pr.headline}</Text>
-                  <Text style={{ fontSize: FONT.body, color: COLORS.textSecondary, marginTop: 3 }}>{pr.standfirst}</Text>
-                  <Text style={{ fontSize: FONT.small, color: COLORS.textPrimary, marginTop: 3 }}>Key fact: {pr.key_fact}</Text>
-                  <Text style={{ fontSize: FONT.micro, color: COLORS.warning, marginTop: 3 }}>{pr.timing}</Text>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+                    <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: COLORS.accent, flex: 1 }}>
+                      {cp.lever}
+                    </Text>
+                    <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: COLORS.success }}>
+                      {cp.saving}
+                    </Text>
+                  </View>
+                  <Text style={{ fontSize: FONT.small, color: COLORS.textPrimary, fontStyle: 'italic', lineHeight: 1.5 }}>
+                    "{cp.framing}"
+                  </Text>
                 </Card>
               ))}
-            </>
+            </View>
           )}
 
           {/* Reform Playbook */}
           {playbook && (
-            <>
+            <View>
               {playbook.quick_wins?.length > 0 && (
-                <>
+                <View>
                   <SectionHeading title="Quick Wins (0-3 months)" />
                   <BulletList items={playbook.quick_wins.slice(0, 6).map(w => typeof w === 'string' ? w : w.action || w.title || '')} color={COLORS.success} />
-                </>
+                </View>
               )}
               {playbook.structural_reforms?.length > 0 && (
-                <>
+                <View>
                   <SectionHeading title="Structural Reforms (6-18 months)" />
                   <BulletList items={playbook.structural_reforms.slice(0, 6).map(r => typeof r === 'string' ? r : r.action || r.title || '')} color={COLORS.accent} />
-                </>
+                </View>
               )}
-            </>
+            </View>
           )}
 
-          {/* Borough Campaign Material */}
-          {narrative.borough_campaign && (
-            <>
-              <SectionHeading title="Borough Election Material" />
-              <Card>
-                <SubsectionHeading title="Social Media Post" />
-                <Text style={{ fontSize: FONT.body, color: COLORS.textPrimary, fontStyle: 'italic', lineHeight: 1.5 }}>
-                  {narrative.borough_campaign.social_media}
-                </Text>
-              </Card>
-              <Card>
-                <SubsectionHeading title="Canvassing Script" />
-                <Text style={{ fontSize: FONT.body, color: COLORS.textPrimary, fontStyle: 'italic', lineHeight: 1.5 }}>
-                  "{narrative.borough_campaign.canvassing_script}"
-                </Text>
-              </Card>
-            </>
-          )}
-
-          {/* Constituency Talking Points */}
-          {narrative.constituency_talking_points?.length > 0 && (
-            <>
+          {/* Constituency talking points - only if data-driven */}
+          {narrative?.constituency_talking_points?.length > 0 && (
+            <View>
               <SectionHeading title="Constituency Talking Points" />
               <BulletList items={narrative.constituency_talking_points} color={COLORS.accent} />
-            </>
-          )}
-
-          <PDFFooter councilName={councilName} classification="PORTFOLIO BRIEFING" />
-        </Page>
-      )}
-
-      {/* ─── Key Contracts & Savings Levers ─── */}
-      {(portfolio.key_contracts?.length > 0 || portfolio.savings_levers?.length > 0) && (
-        <Page size="A4" style={styles.page}>
-          <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
-          <PDFHeader title={title} subtitle="Key Contracts & Savings Levers" classification="CABINET" />
-
-          {portfolio.key_contracts?.length > 0 && (
-            <>
-              <SectionHeading title="Key Contracts" />
-              <Table
-                columns={[
-                  { key: 'supplier', label: 'Supplier', flex: 2, bold: true },
-                  { key: 'value', label: 'Value', width: 70, align: 'right' },
-                  { key: 'scope', label: 'Scope', flex: 2 },
-                  { key: 'risk', label: 'Risk', width: 50 },
-                ]}
-                rows={(portfolio.key_contracts || []).map(c => ({
-                  supplier: c.supplier || c.name || '-',
-                  value: c.value || c.annual_value || '-',
-                  scope: (c.scope || c.description || '-').substring(0, 50),
-                  risk: c.risk_level || c.risk || '-',
-                  _colors: { risk: c.risk_level === 'high' ? COLORS.danger : c.risk_level === 'medium' ? COLORS.warning : COLORS.textPrimary },
-                }))}
-              />
-            </>
-          )}
-
-          {/* Savings Levers */}
-          {portfolio.savings_levers?.length > 0 && (
-            <>
-              <SectionHeading title="Savings Levers" />
-              <Table
-                columns={[
-                  { key: 'action', label: 'Lever', flex: 3 },
-                  { key: 'saving', label: 'Est. Saving', width: 80, align: 'right', bold: true },
-                  { key: 'timeline', label: 'Timeline', width: 80 },
-                  { key: 'owner', label: 'Owner', width: 60 },
-                ]}
-                rows={(portfolio.savings_levers || []).map(l => ({
-                  action: (l.action || '-').substring(0, 70),
-                  saving: l.est_saving || l.saving || '-',
-                  timeline: l.timeline || '-',
-                  owner: l.owner || '-',
-                }))}
-              />
-            </>
+            </View>
           )}
 
           <PDFFooter councilName={councilName} classification="PORTFOLIO BRIEFING" />
