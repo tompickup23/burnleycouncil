@@ -18,7 +18,7 @@ import { styles, COLORS, FONT, SPACE } from './PDFDesignSystem.js'
 import {
   PDFHeader, PDFFooter, ConfidentialBanner, CoverPage, SectionHeading, SubsectionHeading,
   Card, StatCard, StatsRow, BulletList, Table, Divider,
-  KeyValue, ProgressBar,
+  KeyValue, ProgressBar, HorizontalBarChart,
   formatCurrency, formatPct, formatNumber,
 } from './PDFComponents.jsx'
 
@@ -63,7 +63,7 @@ export function PortfolioBriefingPDF({
   portfolio, directives, narrative, serviceIntel, councilName,
   politicalCtx, upcomingDecisions, dependencies, fiscalTrajectory,
   demandPressures, playbook, evidenceStrengths,
-  budgetsData, workforce,
+  budgetsData, workforce, spendingSummary,
 }) {
   if (!portfolio) return <Document><Page size="A4" style={styles.page}><Text>No portfolio data available</Text></Page></Document>
 
@@ -102,6 +102,17 @@ export function PortfolioBriefingPDF({
   const showASCMarket = hasData.ascMarket(si.ascMarket)
   const showCHC = hasData.chc(si.chcRecovery)
   const hasAnyServiceIntel = showSEND || showASC || showHighway || showWaste || showChildren || showPH || showProperty
+
+  // Spending intelligence for this portfolio
+  const portfolioSpend = spendingSummary?.by_portfolio?.[portfolio.id]
+  const pTopSuppliers = portfolioSpend?.top_suppliers?.slice(0, 5) || []
+  const pHHI = portfolioSpend?.hhi || 0
+  const pTotalSpend = portfolioSpend?.total || 0
+  const pUniqueSuppliers = portfolioSpend?.unique_suppliers || 0
+
+  // Budget context from budgetsData
+  const reserves = Array.isArray(budgetsData?.reserves_trajectory) ? budgetsData.reserves_trajectory : []
+  const latestReserves = reserves[reserves.length - 1]
 
   // Collect all political_framing texts from levers for communication section
   const communicationPoints = levers
@@ -189,13 +200,59 @@ export function PortfolioBriefingPDF({
             <Card>
               <KeyValue label="Agency FTE" value={formatNumber(workforce.agency_fte)} />
               <KeyValue label="Average Salary" value={formatCurrency(workforce.average_salary)} />
-              <KeyValue label="Span of Control" value={`1:${workforce.span_of_control}`} />
+              <KeyValue label="Span of Control" value={workforce.span_of_control ? `1:${workforce.span_of_control}` : '-'} />
               <KeyValue label="Management Layers" value={workforce.management_layers?.toString() || '-'} />
               <KeyValue label="Payscale Range" value={workforce.payscale_range || '-'} />
               <KeyValue label="Voluntary Turnover" value={`${workforce.voluntary_turnover_pct}%`} color={workforce.voluntary_turnover_pct > 15 ? COLORS.danger : COLORS.textPrimary} />
             </Card>
           </View>
         )}
+
+        {/* Spending Intelligence */}
+        {pTotalSpend > 0 && (
+          <View>
+            <SectionHeading title="Spending Intelligence" />
+            <StatsRow>
+              <StatCard label="Actual Spend" value={formatCurrency(pTotalSpend)} />
+              <StatCard label="Suppliers" value={pUniqueSuppliers.toString()} />
+              <StatCard label="HHI" value={Math.round(pHHI).toString()} color={pHHI > 2500 ? COLORS.danger : pHHI > 1500 ? COLORS.warning : COLORS.success} />
+            </StatsRow>
+            {pTopSuppliers.length > 0 ? (
+              <Card>
+                <SubsectionHeading title="Top 5 Suppliers" />
+                <HorizontalBarChart
+                  data={pTopSuppliers.map((s, i) => ({
+                    label: (s.name || s.supplier || 'Unknown').substring(0, 22),
+                    value: s.total || s.amount || 0,
+                    color: COLORS.chart[i % COLORS.chart.length],
+                  }))}
+                  maxBars={5}
+                />
+              </Card>
+            ) : <View />}
+            {budget > 0 ? (
+              <Card accent>
+                <KeyValue label="Budget" value={formatCurrency(budget)} />
+                <KeyValue label="Actual Spend" value={formatCurrency(pTotalSpend)} />
+                <KeyValue
+                  label="Variance"
+                  value={`${((pTotalSpend - budget) / budget * 100) > 0 ? '+' : ''}${((pTotalSpend - budget) / budget * 100).toFixed(1)}%`}
+                  color={Math.abs((pTotalSpend - budget) / budget) > 0.1 ? COLORS.danger : COLORS.success}
+                />
+              </Card>
+            ) : <View />}
+          </View>
+        )}
+
+        {/* Budget Context */}
+        {latestReserves ? (
+          <Card>
+            <SubsectionHeading title="Council Reserves Context" />
+            <KeyValue label="Reserves" value={formatCurrency(latestReserves.total)} />
+            <KeyValue label="Months Cover" value={`${latestReserves.months_cover} months`} color={latestReserves.months_cover < 3 ? COLORS.danger : COLORS.success} />
+            <KeyValue label="Adequacy" value={latestReserves.adequacy_rating || '-'} color={latestReserves.adequacy_rating === 'Low' ? COLORS.danger : COLORS.success} />
+          </Card>
+        ) : <View />}
 
         <PDFFooter councilName={councilName} classification="PORTFOLIO BRIEFING" />
       </Page>
@@ -312,6 +369,7 @@ export function PortfolioBriefingPDF({
               savings: formatCurrency(d.save_central || 0),
               route: d.route || governanceRoute(d.save_central || 0),
             }))}
+            filterEmptyColumns
           />
 
           {portfolioDeps.length > 0 && (

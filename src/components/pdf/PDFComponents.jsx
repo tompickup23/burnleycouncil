@@ -90,11 +90,20 @@ export function Card({ children, accent, highlight, style }) {
 }
 
 // ── Table ──
-export function Table({ columns, rows, striped = true }) {
+export function Table({ columns, rows, striped = true, filterEmptyColumns = false }) {
+  // Optionally remove columns where ALL row values are null, '-', or ''
+  const visibleColumns = filterEmptyColumns
+    ? columns.filter(col => rows.some(row => {
+        const v = row[col.key]
+        return v != null && v !== '-' && v !== '' && v !== '0' && v !== 0
+      }))
+    : columns
+  if (!visibleColumns.length) return <View />
+
   return (
     <View style={styles.table}>
       <View style={styles.tableHeader}>
-        {columns.map((col, i) => (
+        {visibleColumns.map((col, i) => (
           <Text key={i} style={{ ...styles.tableHeaderCell, width: col.width || 'auto', flex: col.flex || 1, textAlign: col.align || 'left' }}>
             {col.label}
           </Text>
@@ -102,7 +111,7 @@ export function Table({ columns, rows, striped = true }) {
       </View>
       {rows.map((row, ri) => (
         <View key={ri} style={striped && ri % 2 === 1 ? styles.tableRowAlt : styles.tableRow}>
-          {columns.map((col, ci) => (
+          {visibleColumns.map((col, ci) => (
             <Text key={ci} style={{
               ...(col.muted ? styles.tableCellMuted : styles.tableCell),
               width: col.width || 'auto',

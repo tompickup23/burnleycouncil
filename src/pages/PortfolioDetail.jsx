@@ -168,6 +168,7 @@ export default function PortfolioDetail() {
       }))}
       budgetsData={budgetsData}
       workforce={portfolio?.workforce}
+      spendingSummary={spendingSummary}
     />
     generatePDF(doc, `portfolio-${portfolioId}.pdf`)
   }

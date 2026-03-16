@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Target, TrendingUp, AlertTriangle, ChevronRight, Zap, BarChart3, Shield, Users, Clock, PoundSterling } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend, Cell } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend, Cell, PieChart, Pie, LabelList } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { isFirebaseEnabled } from '../firebase'
@@ -11,6 +11,7 @@ import { StatCard } from '../components/ui/StatCard'
 import { ChartCard, CHART_TOOLTIP_STYLE } from '../components/ui/ChartCard'
 import CollapsibleSection from '../components/CollapsibleSection'
 import { CHART_COLORS, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
+import GaugeChart from '../components/ui/GaugeChart'
 import {
   buildDirectorateSavingsProfile,
   evidenceChainStrength,
@@ -31,6 +32,7 @@ import {
   electoralRippleAssessment,
   treasuryManagementSavings,
   workforceOptimisation,
+  parseSavingRange,
 } from '../utils/savingsEngine'
 import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import { usePDFExport } from '../components/pdf/usePDFExport'
@@ -195,7 +197,7 @@ export default function DirectorateDashboard() {
     if (!portfolioData?.portfolios?.length || !mondayList?.length) return null
     const actions = portfolioData.portfolios.map(p => ({
       portfolio: p,
-      savings: mondayList.filter(d => d.portfolio_id === p.id).reduce((s, d) => s + (d.save_central || 0), 0) * 1e6,
+      savings: mondayList.filter(d => d.portfolio_id === p.id).reduce((s, d) => s + (d.save_central || 0), 0),
       directives_count: mondayList.filter(d => d.portfolio_id === p.id).length,
     }))
     return electoralRippleAssessment(actions)
@@ -222,6 +224,43 @@ export default function DirectorateDashboard() {
     return totals
   }, [portfolioData])
 
+  // Savings by tier — for pie chart
+  const tierData = useMemo(() => {
+    if (!directorateProfiles.length) return []
+    const buckets = {}
+    for (const dp of directorateProfiles) {
+      for (const [tier, val] of Object.entries(dp.by_tier || {})) {
+        buckets[tier] = (buckets[tier] || 0) + val
+      }
+    }
+    return Object.entries(buckets)
+      .filter(([, v]) => v > 0)
+      .sort(([, a], [, b]) => b - a)
+      .map(([tier, value]) => ({
+        name: TIER_LABELS[tier] || tier.replace(/_/g, ' '),
+        value: value / 1e6,
+        rawValue: value,
+      }))
+  }, [directorateProfiles])
+
+  // Top 10 savings levers across all portfolios
+  const topLeversData = useMemo(() => {
+    if (!portfolioData?.portfolios?.length) return []
+    const all = portfolioData.portfolios.flatMap(p =>
+      (p.savings_levers || []).map(l => {
+        const range = parseSavingRange(l.est_saving)
+        return { name: l.lever, midpoint: (range.low + range.high) / 2, range: l.est_saving, tier: l.tier, portfolio: p.short_title || p.title }
+      })
+    )
+    return all.sort((a, b) => b.midpoint - a.midpoint).slice(0, 10).map(l => ({
+      name: (l.name || '').substring(0, 28),
+      value: l.midpoint / 1e6,
+      rawValue: l.midpoint,
+      range: l.range,
+      portfolio: l.portfolio,
+    }))
+  }, [portfolioData])
+
   // --- PDF Export: Leader Briefing ---
   const { generatePDF, isGenerating: pdfGenerating } = usePDFExport()
   const handleExportLeaderPDF = async () => {
@@ -243,6 +282,7 @@ export default function DirectorateDashboard() {
       treasurySummary={treasurySummary}
       workforceSummary={workforceSummary}
       treasuryRaw={portfolioData?.administration?.treasury}
+      spendingSummary={spendingSummary}
     />
     generatePDF(doc, `leader-briefing-${new Date().toISOString().slice(0, 10)}.pdf`)
   }
@@ -486,6 +526,128 @@ export default function DirectorateDashboard() {
               )}
             </CollapsibleSection>
           )}
+
+          {/* Savings Tier Breakdown */}
+          {tierData.length > 0 && (
+            <CollapsibleSection title="Savings by Tier" icon={<Target size={18} />}>
+              <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                <div style={{ flex: '0 0 280px' }}>
+                  <ResponsiveContainer width="100%" height={260}>
+                    <PieChart>
+                      <Pie data={tierData} dataKey="value" nameKey="name" cx="50%" cy="50%" innerRadius={50} outerRadius={100} paddingAngle={3} {...CHART_ANIMATION}>
+                        {tierData.map((_, i) => <Cell key={i} fill={CHART_COLORS[i % CHART_COLORS.length]} />)}
+                      </Pie>
+                      <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={v => `£${Number(v).toFixed(1)}M`} />
+                      <Legend />
+                    </PieChart>
+                  </ResponsiveContainer>
+                </div>
+                <div style={{ flex: 1, minWidth: 200 }}>
+                  {tierData.map((t, i) => (
+                    <div key={i} style={{ display: 'flex', justifyContent: 'space-between', padding: '0.35rem 0', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
+                      <span style={{ color: CHART_COLORS[i % CHART_COLORS.length], fontWeight: 600 }}>{t.name}</span>
+                      <span style={{ color: 'rgba(255,255,255,0.7)' }}>£{t.value.toFixed(1)}M ({formatCurrency(t.rawValue)})</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </CollapsibleSection>
+          )}
+
+          {/* Top 10 Savings Levers */}
+          {topLeversData.length > 0 && (
+            <CollapsibleSection title="Top 10 Savings Levers" icon={<TrendingUp size={18} />}>
+              <ChartCard title="" subtitle="">
+                <ResponsiveContainer width="100%" height={Math.max(280, topLeversData.length * 36)}>
+                  <BarChart data={topLeversData} layout="vertical" margin={{ left: 10, right: 40, top: 5, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                    <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v.toFixed(0)}M`} />
+                    <YAxis dataKey="name" type="category" tick={AXIS_TICK_STYLE} width={180} />
+                    <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v, name, props) => [`£${Number(v).toFixed(1)}M`, `${props.payload.portfolio}: ${props.payload.range}`]} />
+                    <Bar dataKey="value" name="Midpoint (£M)" fill="#12B6CF" {...CHART_ANIMATION}>
+                      <LabelList dataKey="value" position="right" formatter={v => `£${Number(v).toFixed(1)}M`} fill="rgba(255,255,255,0.6)" fontSize={11} />
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </ChartCard>
+            </CollapsibleSection>
+          )}
+
+          {/* MTFS Coverage Gauge */}
+          {totals && (
+            <CollapsibleSection title="MTFS Coverage" icon={<Shield size={18} />}>
+              <div style={{ display: 'flex', gap: '2rem', alignItems: 'center', justifyContent: 'center', flexWrap: 'wrap' }}>
+                <GaugeChart
+                  value={Math.min(totals.coveragePct, 200)}
+                  max={200}
+                  label="MTFS Coverage %"
+                  size={180}
+                  severity={totals.coveragePct >= 100 ? 'low' : totals.coveragePct >= 80 ? 'medium' : totals.coveragePct >= 50 ? 'high' : 'critical'}
+                />
+                <div style={{ textAlign: 'center' }}>
+                  <div style={{ fontSize: '2rem', fontWeight: 700, color: totals.coveragePct >= 100 ? '#28a745' : '#dc3545' }}>
+                    {totals.coveragePct}%
+                  </div>
+                  <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.85rem' }}>
+                    {formatCurrency(totals.midpoint)} of {formatCurrency(totals.mtfsTarget)} target
+                  </div>
+                  <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '0.75rem', marginTop: '4px' }}>
+                    Range: {formatCurrency(totals.totalLow)} - {formatCurrency(totals.totalHigh)}
+                  </div>
+                </div>
+              </div>
+            </CollapsibleSection>
+          )}
+
+          {/* Treasury Opportunity */}
+          {treasurySummary && (
+            <CollapsibleSection title={`Treasury Opportunity — ${formatCurrency(treasurySummary.total)} identified`} icon={<PoundSterling size={18} />}>
+              <div className="stat-grid stat-grid-4">
+                <StatCard title="Idle Cash" value={formatCurrency(treasurySummary.idle_cash_cost)} icon={<PoundSterling size={18} />} subtitle="Move to MMFs/gilts" />
+                <StatCard title="Refinancing" value={formatCurrency(treasurySummary.refinancing_potential)} icon={<TrendingUp size={18} />} subtitle="PWLB legacy loans" />
+                <StatCard title="MRP Switch" value={formatCurrency(treasurySummary.mrp_method_saving)} icon={<Target size={18} />} subtitle="Asset life method" />
+                <StatCard title="Total Treasury" value={formatCurrency(treasurySummary.total)} icon={<Zap size={18} />} trend="up" />
+              </div>
+            </CollapsibleSection>
+          )}
+
+          {/* Workforce Overview */}
+          {workforceSummary && (
+            <CollapsibleSection title="Workforce Overview" icon={<Users size={18} />}>
+              <div className="stat-grid stat-grid-4">
+                <StatCard title="Total FTE" value={workforceSummary.fte.toLocaleString()} icon={<Users size={18} />} />
+                <StatCard title="Vacancies" value={workforceSummary.vacancies.toLocaleString()} icon={<AlertTriangle size={18} />} subtitle={`${workforceSummary.fte > 0 ? Math.round(workforceSummary.vacancies / workforceSummary.fte * 100) : 0}% rate`} />
+                <StatCard title="Agency Spend" value={formatCurrency(workforceSummary.agency_spend)} icon={<PoundSterling size={18} />} trend="down" />
+                <StatCard title="Agency FTE" value={workforceSummary.agency_fte.toLocaleString()} icon={<Users size={18} />} />
+              </div>
+              <div style={{ overflowX: 'auto', marginTop: '1rem' }}>
+                <table className="data-table">
+                  <thead>
+                    <tr>
+                      <th>Portfolio</th>
+                      <th style={{ textAlign: 'right' }}>FTE</th>
+                      <th style={{ textAlign: 'right' }}>Vacancy %</th>
+                      <th style={{ textAlign: 'right' }}>Agency Spend</th>
+                      <th style={{ textAlign: 'right' }}>Span</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {portfolioData.portfolios.filter(p => p.workforce).map(p => (
+                      <tr key={p.id}>
+                        <td><Link to={`/portfolio/${p.id}`}>{p.short_title || p.title}</Link></td>
+                        <td style={{ textAlign: 'right' }}>{p.workforce.fte_headcount?.toLocaleString()}</td>
+                        <td style={{ textAlign: 'right', color: p.workforce.vacancy_rate_pct > 10 ? '#dc3545' : p.workforce.vacancy_rate_pct > 7 ? '#fd7e14' : '#28a745' }}>
+                          {p.workforce.vacancy_rate_pct}%
+                        </td>
+                        <td style={{ textAlign: 'right' }}>{formatCurrency(p.workforce.agency_spend)}</td>
+                        <td style={{ textAlign: 'right' }}>{p.workforce.span_of_control ? `1:${p.workforce.span_of_control}` : '-'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </CollapsibleSection>
+          )}
         </div>
       )}
 
@@ -496,7 +658,7 @@ export default function DirectorateDashboard() {
             <ResponsiveContainer width="100%" height={350}>
               <BarChart data={mtfsChartData} layout="vertical" margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
-                <XAxis type="number" tick={AXIS_TICK_STYLE} />
+                <XAxis type="number" tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v.toFixed(0)}M`} />
                 <YAxis dataKey="name" type="category" tick={AXIS_TICK_STYLE} width={100} />
                 <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v) => v != null ? `£${Number(v).toFixed(1)}M` : '—'} />
                 <Legend />
@@ -512,12 +674,13 @@ export default function DirectorateDashboard() {
               <BarChart data={timelineData} margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
                 <XAxis dataKey="name" tick={AXIS_TICK_STYLE} />
-                <YAxis tick={AXIS_TICK_STYLE} />
+                <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${v.toFixed(0)}M`} />
                 <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v) => v != null ? `£${Number(v).toFixed(1)}M` : '—'} />
                 <Bar dataKey="value" name="Savings (£M)" {...CHART_ANIMATION}>
                   {timelineData.map((_, idx) => (
                     <Cell key={idx} fill={CHART_COLORS[idx % CHART_COLORS.length]} />
                   ))}
+                  <LabelList dataKey="value" position="top" formatter={v => v > 0 ? `£${Number(v).toFixed(1)}M` : ''} fill="rgba(255,255,255,0.7)" fontSize={11} />
                 </Bar>
               </BarChart>
             </ResponsiveContainer>

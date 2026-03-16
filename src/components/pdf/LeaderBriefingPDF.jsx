@@ -4,6 +4,17 @@
  * The "Monday Morning" document: fiscal system overview, all directorates,
  * top savings opportunities, MTFS comparison, political impact, key actions.
  *
+ * Pages:
+ *  P1: Cover
+ *  P2: Fiscal System Overview
+ *  P3: Monday Morning List
+ *  P4: Spending Intelligence (NEW - top suppliers, portfolio spend, concentration alerts)
+ *  P5: Per-Portfolio Summary
+ *  P6: MTFS Comparison
+ *  P7: Political Impact
+ *  P8: Treasury & Workforce (enhanced with reserves chart, Band D trend, revenue summary)
+ *  P9: Risk Register & Inspections
+ *
  * IMPORTANT: @react-pdf/renderer does NOT filter null/undefined/boolean children
  * like React DOM. All conditional rendering uses explicit arrays with .filter(Boolean)
  * or ternary operators, NEVER {condition && <Component>} patterns.
@@ -14,7 +25,7 @@ import { styles, COLORS, FONT, SPACE } from './PDFDesignSystem.js'
 import {
   PDFHeader, PDFFooter, ConfidentialBanner, CoverPage, SectionHeading, SubsectionHeading,
   Card, StatCard, StatsRow, BulletList, Table, Divider,
-  KeyValue, ProgressBar,
+  KeyValue, ProgressBar, HorizontalBarChart, VerticalBarChart, DonutChart,
   formatCurrency, formatPct, formatNumber,
 } from './PDFComponents.jsx'
 
@@ -23,6 +34,7 @@ export function LeaderBriefingPDF({
   mtfsComparison, politicalImpact, mondayMorningList, councilName,
   riskProfiles, spendingByDirectorate, totals,
   budgetsData, treasurySummary, workforceSummary, treasuryRaw,
+  spendingSummary,
 }) {
   // Aggregate stats
   const totalSavings = (allDirectives || []).reduce((s, d) => s + (d.save_central || 0), 0)
@@ -35,8 +47,7 @@ export function LeaderBriefingPDF({
   const modelsComplete = fiscalOverview?.models_complete || 0
   const modelsTotal = fiscalOverview?.models_total || 10
 
-  // Transform mtfsComparison flat numeric fields into gaps format for rendering
-  // Note: all values (save_central, MTFS targets, cost_pressures) are in raw pounds
+  // Transform mtfsComparison into gaps format for rendering
   const fmtCur = v => v != null ? formatCurrency(v) : '-'
   const mtfsGaps = mtfsComparison ? {
     gaps: [
@@ -61,7 +72,54 @@ export function LeaderBriefingPDF({
         : ''),
   } : null
 
-  // Build risk section children safely (no null children)
+  // ── Spending Intelligence data (from useSpendingSummary) ──
+  const topSuppliers = spendingSummary?.top_suppliers?.slice(0, 10) || []
+  const spendByPortfolio = spendingSummary?.by_portfolio || {}
+  const portfolioSpendRows = (portfolios || [])
+    .map(p => {
+      const ps = spendByPortfolio[p.id]
+      if (!ps?.total) return null
+      const budget = p.budget_total || p.budget?.total || 0
+      const variancePct = budget > 0 ? Math.round(((ps.total - budget) / budget) * 100) : null
+      return {
+        portfolio: p.short_title || p.title,
+        spend: formatCurrency(ps.total),
+        budget: budget > 0 ? formatCurrency(budget) : '-',
+        variance: variancePct != null ? `${variancePct > 0 ? '+' : ''}${variancePct}%` : '-',
+        suppliers: (ps.unique_suppliers || 0).toString(),
+        hhi: ps.hhi ? Math.round(ps.hhi).toString() : '-',
+        _colors: {
+          variance: variancePct > 10 ? COLORS.danger : variancePct > 5 ? COLORS.warning : COLORS.success,
+          hhi: (ps.hhi || 0) > 2500 ? COLORS.danger : (ps.hhi || 0) > 1500 ? COLORS.warning : COLORS.textSecondary,
+        },
+      }
+    })
+    .filter(Boolean)
+
+  // Concentration alerts across all portfolios
+  const concentrationAlerts = Object.entries(spendByPortfolio)
+    .filter(([, ps]) => (ps.hhi || 0) > 2500)
+    .map(([pid, ps]) => {
+      const pName = (portfolios || []).find(p => p.id === pid)?.short_title || pid
+      const topSup = ps.top_suppliers?.[0]
+      return `${pName}: HHI ${Math.round(ps.hhi)} (${topSup?.name || 'unknown'} = ${formatCurrency(topSup?.total || 0)})`
+    })
+
+  // ── Budget data: Reserves trajectory, Council Tax, Revenue departments ──
+  const reservesData = Array.isArray(budgetsData?.reserves_trajectory) ? budgetsData.reserves_trajectory : []
+  const ctHistory = budgetsData?.council_tax_history?.band_d_element || {}
+  const ctEntries = Object.entries(ctHistory)
+    .sort(([a], [b]) => a.localeCompare(b))
+    .slice(-10) // Last 10 years
+  const revBudgets = Array.isArray(budgetsData?.revenue_budgets) ? budgetsData.revenue_budgets : []
+  const latestRevenue = revBudgets[revBudgets.length - 1] || null
+  const topDepts = latestRevenue?.departments
+    ? Object.entries(latestRevenue.departments)
+        .sort(([, a], [, b]) => (b || 0) - (a || 0))
+        .slice(0, 8)
+    : []
+
+  // ── Build risk page children safely (no null children) ──
   const riskPageChildren = []
   if (riskProfiles && Object.keys(riskProfiles).length > 0) {
     riskPageChildren.push(<SectionHeading key="rp-h" title="Directorate Risk Profiles" />)
@@ -136,11 +194,14 @@ export function LeaderBriefingPDF({
             : ins.current_rating?.toLowerCase().includes('good') ? COLORS.success : COLORS.warning,
         },
       }))}
+      filterEmptyColumns
     />,
   ] : []
 
-  // Treasury page children (built as array, no null children)
+  // ── Treasury page children (built as array, no null children) ──
   const treasuryChildren = []
+
+  // Treasury position from raw data
   if (treasuryRaw) {
     treasuryChildren.push(<SectionHeading key="tr-h" title="Treasury Position" />)
     treasuryChildren.push(
@@ -164,6 +225,7 @@ export function LeaderBriefingPDF({
             { metric: 'MRP Method', value: treasuryRaw.mrp_method || 'regulatory', note: `Asset life method saves ${formatCurrency(treasuryRaw.asset_life_mrp_saving)}/yr` },
             { metric: 'Idle Cash Opportunity', value: formatCurrency(treasuryRaw.idle_cash_opportunity || 0), note: 'Move to MMFs and short gilts' },
           ]}
+          filterEmptyColumns
         />
       </Card>
     )
@@ -181,6 +243,73 @@ export function LeaderBriefingPDF({
       )
     }
   }
+
+  // Reserves trajectory chart (from budgets.json)
+  if (reservesData.length > 0) {
+    treasuryChildren.push(<SectionHeading key="res-h" title="Reserves Trajectory" />)
+    treasuryChildren.push(
+      <Card key="res-chart">
+        <HorizontalBarChart
+          data={reservesData.map(r => ({
+            label: r.year,
+            value: r.total || 0,
+            color: r.adequacy_rating === 'Adequate' ? COLORS.success
+              : r.adequacy_rating === 'Low' ? COLORS.danger : COLORS.warning,
+          }))}
+        />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: SPACE.xs }}>
+          <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>
+            Latest: {reservesData[reservesData.length - 1]?.months_cover} months cover
+          </Text>
+          <Text style={{ fontSize: FONT.micro, color: reservesData[reservesData.length - 1]?.adequacy_rating === 'Adequate' ? COLORS.success : COLORS.danger }}>
+            Rating: {reservesData[reservesData.length - 1]?.adequacy_rating}
+          </Text>
+        </View>
+      </Card>
+    )
+  }
+
+  // Council Tax Band D trend (from budgets.json)
+  if (ctEntries.length > 0) {
+    treasuryChildren.push(<SectionHeading key="ct-h" title="Council Tax Band D Trend (10 Years)" />)
+    treasuryChildren.push(
+      <Card key="ct-chart">
+        <VerticalBarChart
+          data={ctEntries.map(([yr, val]) => ({
+            label: yr.replace('20', '').replace('/', '/'),
+            value: val,
+            color: COLORS.accent,
+          }))}
+        />
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: SPACE.xs }}>
+          <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>
+            {ctEntries[0]?.[0]}: {'\u00A3'}{Number(ctEntries[0]?.[1]).toFixed(2)}
+          </Text>
+          <Text style={{ fontSize: FONT.micro, color: COLORS.accent, fontFamily: FONT.bold }}>
+            {ctEntries[ctEntries.length - 1]?.[0]}: {'\u00A3'}{Number(ctEntries[ctEntries.length - 1]?.[1]).toFixed(2)}
+          </Text>
+        </View>
+      </Card>
+    )
+  }
+
+  // Revenue budget departments (latest year)
+  if (topDepts.length > 0) {
+    treasuryChildren.push(<SectionHeading key="rev-h" title={`Revenue Budget ${latestRevenue.financial_year || ''}`} />)
+    treasuryChildren.push(
+      <Card key="rev-chart">
+        <HorizontalBarChart
+          data={topDepts.map(([dept, val], i) => ({
+            label: dept.replace(' services', '').replace('and related', ''),
+            value: val || 0,
+            color: COLORS.chart[i % COLORS.chart.length],
+          }))}
+        />
+      </Card>
+    )
+  }
+
+  // Workforce overview
   if (workforceSummary) {
     treasuryChildren.push(<SectionHeading key="wf-h" title="Workforce Overview" />)
     treasuryChildren.push(
@@ -195,40 +324,29 @@ export function LeaderBriefingPDF({
         <Table
           columns={[
             { key: 'portfolio', label: 'Portfolio', flex: 2, bold: true },
-            { key: 'fte', label: 'FTE', width: 60 },
-            { key: 'vacancy', label: 'Vacancy %', width: 70 },
-            { key: 'agency', label: 'Agency', width: 90 },
-            { key: 'span', label: 'Span', width: 50 },
+            { key: 'fte', label: 'FTE', width: 60, align: 'right' },
+            { key: 'vacancy', label: 'Vacancy %', width: 70, align: 'right' },
+            { key: 'agency', label: 'Agency', width: 90, align: 'right' },
+            { key: 'span', label: 'Span', width: 50, align: 'right' },
           ]}
           rows={(portfolios || []).filter(p => p.workforce).map(p => ({
             portfolio: p.short_title || p.title,
             fte: formatNumber(p.workforce.fte_headcount),
             vacancy: `${p.workforce.vacancy_rate_pct}%`,
             agency: formatCurrency(p.workforce.agency_spend),
-            span: `1:${p.workforce.span_of_control}`,
+            span: p.workforce.span_of_control ? `1:${p.workforce.span_of_control}` : '-',
             _colors: {
               vacancy: p.workforce.vacancy_rate_pct > 10 ? COLORS.danger : p.workforce.vacancy_rate_pct > 7 ? COLORS.warning : COLORS.success,
               agency: p.workforce.agency_spend > 5000000 ? COLORS.danger : COLORS.textSecondary,
             },
           }))}
+          filterEmptyColumns
         />
       </Card>
     )
   }
-  if (budgetsData?.reserves_trajectory) {
-    treasuryChildren.push(
-      <Card key="res-c">
-        <SubsectionHeading title="Reserves Trajectory" />
-        <BulletList items={
-          Object.entries(budgetsData.reserves_trajectory).slice(0, 5).map(([yr, val]) =>
-            `${yr}: ${formatCurrency(val)}`
-          )
-        } />
-      </Card>
-    )
-  }
 
-  // Build fiscal page inner children safely
+  // ── Build fiscal page inner children safely ──
   const fiscalInnerChildren = [
     totals ? (
       <StatsRow key="mtfs-stats">
@@ -252,14 +370,13 @@ export function LeaderBriefingPDF({
   ].filter(Boolean)
 
   // ─── Build all pages as an array, then filter(Boolean) to remove nulls ───
-  // This is the ONLY safe pattern for @react-pdf/renderer which crashes on null children.
   const allPages = [
     // Cover
     <CoverPage
       key="cover"
       title="Leader's Briefing"
       subtitle="Lancashire County Council: Reform Operations Command"
-      meta={`${(portfolios || []).length} portfolios - ${formatCurrency(totalSavings)} savings pipeline - Generated ${new Date().toLocaleDateString('en-GB')}`}
+      meta={`${(portfolios || []).length} portfolios | ${formatCurrency(totalSavings)} savings pipeline | ${formatCurrency(spendingSummary?.total_spend || 0)} spending tracked | Generated ${new Date().toLocaleDateString('en-GB')}`}
       classification="CONFIDENTIAL - LEADER USE ONLY"
       councilName={councilName || 'Lancashire County Council'}
     />,
@@ -300,6 +417,7 @@ export function LeaderBriefingPDF({
             coverage: (d.coverage_pct || 0) >= 100 ? COLORS.success : COLORS.danger,
           },
         }))}
+        filterEmptyColumns
       />
       <PDFFooter councilName={councilName} classification="LEADER BRIEFING" />
     </Page>,
@@ -316,7 +434,7 @@ export function LeaderBriefingPDF({
                 {i + 1}. {d.action?.substring(0, 80) || '-'}
               </Text>
               <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted, marginTop: 2 }}>
-                {d.portfolio_title || d.portfolio || '-'} - {d.category?.replace(/_/g, ' ') || '-'}
+                {d.portfolio_title || d.portfolio || '-'} | {d.category?.replace(/_/g, ' ') || '-'}
               </Text>
             </View>
             <View style={{ alignItems: 'flex-end' }}>
@@ -335,7 +453,97 @@ export function LeaderBriefingPDF({
       <PDFFooter councilName={councilName} classification="LEADER BRIEFING" />
     </Page>,
 
-    // PAGE 4: Per-Portfolio Summary (always shown)
+    // PAGE 4: Spending Intelligence (NEW - only if spending data available)
+    (topSuppliers.length > 0 || portfolioSpendRows.length > 0) ? (
+      <Page key="spending" size="A4" style={styles.page}>
+        <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
+        <PDFHeader title="Spending Intelligence" subtitle={`${formatCurrency(spendingSummary?.total_spend || 0)} tracked | ${spendingSummary?.coverage?.pct || 0}% classified`} classification="LEADER" />
+        <StatsRow>
+          <StatCard value={formatCurrency(spendingSummary?.total_spend || 0)} label="Total Spend Tracked" />
+          <StatCard value={formatNumber(spendingSummary?.total_transactions || 0)} label="Transactions" />
+          <StatCard value={`${spendingSummary?.coverage?.pct || 0}%`} label="Classified" color={COLORS.accent} />
+          <StatCard value={formatNumber(topSuppliers.length)} label="Top Suppliers Shown" />
+        </StatsRow>
+
+        {topSuppliers.length > 0 ? (
+          <View>
+            <SectionHeading title="Top 10 Suppliers by Spend" />
+            <Card>
+              <HorizontalBarChart
+                data={topSuppliers.map((s, i) => ({
+                  label: (s.name || s.supplier || 'Unknown').substring(0, 22),
+                  value: s.total || s.amount || 0,
+                  color: COLORS.chart[i % COLORS.chart.length],
+                }))}
+              />
+            </Card>
+          </View>
+        ) : <View />}
+
+        {portfolioSpendRows.length > 0 ? (
+          <View>
+            <SectionHeading title="Spend vs Budget by Portfolio" />
+            <Table
+              columns={[
+                { key: 'portfolio', label: 'Portfolio', flex: 2, bold: true },
+                { key: 'spend', label: 'Actual Spend', width: 75, align: 'right' },
+                { key: 'budget', label: 'Budget', width: 75, align: 'right' },
+                { key: 'variance', label: 'Variance', width: 55, align: 'right' },
+                { key: 'suppliers', label: 'Suppliers', width: 50, align: 'right' },
+                { key: 'hhi', label: 'HHI', width: 45, align: 'right' },
+              ]}
+              rows={portfolioSpendRows}
+              filterEmptyColumns
+            />
+          </View>
+        ) : <View />}
+
+        {concentrationAlerts.length > 0 ? (
+          <Card accent>
+            <SubsectionHeading title="Supplier Concentration Alerts (HHI > 2500)" />
+            <BulletList items={concentrationAlerts} color={COLORS.danger} />
+          </Card>
+        ) : <View />}
+
+        {spendingSummary?.by_category && Object.keys(spendingSummary.by_category).length > 0 ? (
+          <View>
+            <SectionHeading title="Spend by Category" />
+            <View style={{ flexDirection: 'row', gap: SPACE.md }}>
+              <View style={{ flex: 1 }}>
+                <DonutChart
+                  data={Object.entries(spendingSummary.by_category)
+                    .sort(([, a], [, b]) => (b?.total || 0) - (a?.total || 0))
+                    .slice(0, 8)
+                    .map(([cat, data], i) => ({
+                      value: data?.total || 0,
+                      color: COLORS.chart[i % COLORS.chart.length],
+                    }))}
+                  size={90}
+                  label="By Category"
+                />
+              </View>
+              <View style={{ flex: 2 }}>
+                <HorizontalBarChart
+                  data={Object.entries(spendingSummary.by_category)
+                    .sort(([, a], [, b]) => (b?.total || 0) - (a?.total || 0))
+                    .slice(0, 8)
+                    .map(([cat, data], i) => ({
+                      label: cat.replace(/_/g, ' ').substring(0, 20),
+                      value: data?.total || 0,
+                      color: COLORS.chart[i % COLORS.chart.length],
+                    }))}
+                  maxBars={8}
+                />
+              </View>
+            </View>
+          </View>
+        ) : <View />}
+
+        <PDFFooter councilName={councilName} classification="LEADER BRIEFING" />
+      </Page>
+    ) : null,
+
+    // PAGE 5: Per-Portfolio Summary (always shown)
     <Page key="portfolio" size="A4" style={styles.page}>
       <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
       <PDFHeader title="Portfolio Summary" subtitle="All 10 Portfolios at a Glance" classification="LEADER" />
@@ -343,6 +551,7 @@ export function LeaderBriefingPDF({
         const pDirectives = (allDirectives || []).filter(d => d.portfolio_id === p.id || d.portfolio === p.id)
         const pSavings = pDirectives.reduce((s, d) => s + (d.save_central || 0), 0)
         const pBudget = p.budget_total || p.budget?.total || 0
+        const ps = spendByPortfolio[p.id]
         return (
           <Card key={i}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 3 }}>
@@ -351,7 +560,7 @@ export function LeaderBriefingPDF({
                   {p.short_title || p.title || p.id}
                 </Text>
                 <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>
-                  {p.cabinet_member?.name || '-'} - {p.lead_officer?.name || '-'}
+                  {p.cabinet_member?.name || '-'} | {p.lead_officer?.name || '-'}
                 </Text>
               </View>
               <View style={{ alignItems: 'flex-end' }}>
@@ -370,18 +579,25 @@ export function LeaderBriefingPDF({
               color={COLORS.chart[i % COLORS.chart.length]}
               showPct={false}
             />
-            {pDirectives[0] ? (
-              <Text style={{ fontSize: FONT.micro, color: COLORS.textSecondary, marginTop: 2 }}>
-                Top: {pDirectives[0].action?.substring(0, 100)}
-              </Text>
-            ) : <View />}
+            {[
+              pDirectives[0] ? (
+                <Text key="top" style={{ fontSize: FONT.micro, color: COLORS.textSecondary, marginTop: 2 }}>
+                  Top: {pDirectives[0].action?.substring(0, 100)}
+                </Text>
+              ) : null,
+              ps?.total ? (
+                <Text key="spend" style={{ fontSize: FONT.micro, color: COLORS.textMuted, marginTop: 1 }}>
+                  Actual spend: {formatCurrency(ps.total)} | {ps.unique_suppliers || 0} suppliers
+                </Text>
+              ) : null,
+            ].filter(Boolean)}
           </Card>
         )
       })}
       <PDFFooter councilName={councilName} classification="LEADER BRIEFING" />
     </Page>,
 
-    // PAGE 5: MTFS Comparison (conditional - only if mtfsGaps exists)
+    // PAGE 6: MTFS Comparison (conditional)
     mtfsGaps ? (
       <Page key="mtfs" size="A4" style={styles.page}>
         <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
@@ -424,7 +640,7 @@ export function LeaderBriefingPDF({
       </Page>
     ) : null,
 
-    // PAGE 6: Political Impact (conditional)
+    // PAGE 7: Political Impact (conditional)
     politicalImpact ? (
       <Page key="political" size="A4" style={styles.page}>
         <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
@@ -454,6 +670,7 @@ export function LeaderBriefingPDF({
                 talking_point: di.talking_point || '-',
                 _colors: { score: (di.impact_score ?? di.score ?? 0) >= 60 ? COLORS.success : COLORS.warning },
               }))}
+              filterEmptyColumns
             />
           ) : null,
           politicalImpact.constituency_impact?.national_narrative ? (
@@ -469,17 +686,17 @@ export function LeaderBriefingPDF({
       </Page>
     ) : null,
 
-    // PAGE 7: Treasury & Workforce (conditional)
+    // PAGE 8: Treasury & Workforce (conditional)
     treasuryChildren.length > 0 ? (
       <Page key="treasury" size="A4" style={styles.page}>
         <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
-        <PDFHeader title="Treasury & Workforce" subtitle="Cash Management, Debt Position, and Staffing" classification="LEADER" />
+        <PDFHeader title="Treasury, Budget & Workforce" subtitle="Cash Management, Reserves, Council Tax & Staffing" classification="LEADER" />
         {treasuryChildren}
         <PDFFooter councilName={councilName} classification="LEADER BRIEFING" />
       </Page>
     ) : null,
 
-    // PAGE 8: Risk Register & Inspections (always shown)
+    // PAGE 9: Risk Register & Inspections (always shown)
     <Page key="risk" size="A4" style={styles.page}>
       <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
       <PDFHeader title="Risk Register & Inspections" subtitle="Key Risk Exposures Across All Portfolios" classification="LEADER" />
