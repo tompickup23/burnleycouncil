@@ -169,7 +169,7 @@ export function PortfolioBriefingPDF({
             <View>
               <Divider />
               <SubsectionHeading title="Statutory Duties" />
-              <BulletList items={portfolio.statutory_duties.slice(0, 6).map(d => typeof d === 'string' ? d : d.duty || d.description || '')} />
+              <BulletList items={portfolio.statutory_duties.slice(0, 6).map(d => typeof d === 'string' ? d : d.duty || d.description || d.summary || (d.act ? `${d.act}: ${d.summary || d.risk || ''}` : ''))} />
             </View>
           )}
         </Card>
@@ -181,10 +181,15 @@ export function PortfolioBriefingPDF({
             {portfolio.demand_pressures.slice(0, 5).map((dp, i) => (
               <Card key={i}>
                 <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.warning }}>
-                  {typeof dp === 'string' ? dp : dp.pressure || dp.title || ''}
+                  {typeof dp === 'string' ? dp : dp.pressure || dp.driver || dp.title || ''}
                 </Text>
                 {typeof dp === 'object' && dp.detail && (
                   <Text style={{ fontSize: FONT.small, color: COLORS.textSecondary, marginTop: 2 }}>{dp.detail}</Text>
+                )}
+                {typeof dp === 'object' && dp.severity && (
+                  <Text style={{ fontSize: FONT.micro, color: dp.severity === 'critical' ? COLORS.danger : dp.severity === 'high' ? COLORS.warning : COLORS.textMuted, marginTop: 2 }}>
+                    Severity: {dp.severity}
+                  </Text>
                 )}
                 {typeof dp === 'object' && dp.trend && (
                   <Text style={{ fontSize: FONT.micro, color: dp.trend === 'increasing' ? COLORS.danger : COLORS.success }}>
@@ -431,12 +436,19 @@ export function PortfolioBriefingPDF({
                 {si.sendProjection.base_year_cost > 0 && <KeyValue label="Base Year Cost" value={formatCurrency(si.sendProjection.base_year_cost)} />}
                 <KeyValue label="5yr Total Cost" value={formatCurrency(si.sendProjection.total_5yr_cost)} color={COLORS.danger} />
                 {si.sendProjection.growth_rate > 0 && <KeyValue label="Annual Growth" value={formatPct(si.sendProjection.growth_rate)} color={COLORS.danger} />}
-                {si.sendProjection.cost_driver_breakdown && Object.entries(si.sendProjection.cost_driver_breakdown).filter(([, v]) => v > 0).slice(0, 5).map(([k, v]) => (
-                  <KeyValue key={k} label={k.replace(/_/g, ' ')} value={formatCurrency(v)} />
+                {si.sendProjection.cost_driver_breakdown && Object.entries(si.sendProjection.cost_driver_breakdown).filter(([, v]) => (typeof v === 'number' ? v : v?.value || 0) > 0).slice(0, 5).map(([k, v]) => (
+                  <KeyValue key={k} label={k.replace(/_/g, ' ')} value={`${formatCurrency(typeof v === 'number' ? v : v?.value || 0)}${typeof v === 'object' && v?.pct ? ` (${v.pct}%)` : ''}`} />
                 ))}
-                {si.sendProjection.dsg_trajectory && (
+                {Array.isArray(si.sendProjection.dsg_trajectory) && si.sendProjection.dsg_trajectory.length > 0 ? (
+                  <View style={{ marginTop: SPACE.xs }}>
+                    <Text style={{ fontSize: FONT.micro, color: COLORS.accent, fontFamily: FONT.bold, marginBottom: 2 }}>DSG Deficit Trajectory</Text>
+                    {si.sendProjection.dsg_trajectory.filter(d => d.deficit > 0).map((d, i) => (
+                      <KeyValue key={i} label={`Year ${d.year || i + 1}`} value={formatCurrency(d.deficit)} color={COLORS.danger} />
+                    ))}
+                  </View>
+                ) : typeof si.sendProjection.dsg_trajectory === 'string' && si.sendProjection.dsg_trajectory ? (
                   <KeyValue label="DSG Deficit Trajectory" value={si.sendProjection.dsg_trajectory} color={COLORS.warning} />
-                )}
+                ) : <View />}
               </Card>
               {showIntervention && (
                 <Card>
