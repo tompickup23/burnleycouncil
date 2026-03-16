@@ -213,43 +213,43 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
 
         {/* Housing */}
         <SectionHeading title="Housing" />
-        <View style={styles.row}>
-          <View style={styles.col2}>
-            <Card>
-              <SubsectionHeading title="Tenure" />
-              {housingData?.wards && (() => {
-                const wh = Object.values(housingData.wards).find(w => w.name === wardName)
-                if (!wh?.tenure) return <Text style={styles.textSmall}>No ward data</Text>
-                return Object.entries(wh.tenure).map(([k, v]) => (
-                  <KeyValue key={k} label={k.replace(/_/g, ' ')} value={formatPct(v.pct)} />
-                ))
-              })()}
-            </Card>
-          </View>
-          <View style={styles.col2}>
-            <Card>
-              <SubsectionHeading title="HMO Intelligence" />
-              {hmoData?.modelling?.hotspot_wards && (() => {
-                const wh = hmoData.modelling.hotspot_wards.find(w => w.ward === wardName)
-                if (wh) {
-                  return (
-                    <>
-                      <KeyValue label="Estimated HMOs" value={formatNumber(wh.estimated_hmos)} color={COLORS.warning} />
-                      <KeyValue label="% of Ward Stock" value={formatPct(wh.pct_of_ward_stock)} />
-                      <KeyValue label="Risk Level" value={wh.risk_level?.toUpperCase()} color={wh.risk_level === 'high' ? COLORS.danger : COLORS.warning} />
-                    </>
-                  )
-                }
-                return <Text style={styles.textSmall}>Low HMO density</Text>
-              })()}
-              {hmoData?.modelling?.article_4_direction?.status === 'in_force' && (
-                <Text style={{ fontSize: FONT.micro, color: COLORS.accent, marginTop: 3 }}>
-                  Article 4 Direction in force. HMO growth controlled
-                </Text>
-              )}
-            </Card>
-          </View>
-        </View>
+        {(() => {
+          const housingWard = housingData?.wards ? Object.values(housingData.wards).find(w => w.name === wardName) : null
+          const hmoWard = hmoData?.modelling?.hotspot_wards?.find(w => w.ward === wardName)
+          return (
+            <View style={styles.row}>
+              <View style={styles.col2}>
+                <Card>
+                  <SubsectionHeading title="Tenure" />
+                  {housingWard?.tenure
+                    ? Object.entries(housingWard.tenure).map(([k, v]) => (
+                        <KeyValue key={k} label={k.replace(/_/g, ' ')} value={formatPct(v.pct)} />
+                      ))
+                    : [<Text key="nt" style={styles.textSmall}>No ward-level tenure data</Text>]
+                  }
+                  {housingWard?.overcrowding?.overcrowded_pct != null ? (
+                    <KeyValue label="Overcrowded" value={formatPct(housingWard.overcrowding.overcrowded_pct)} color={housingWard.overcrowding.overcrowded_pct > 5 ? COLORS.danger : COLORS.textPrimary} />
+                  ) : <View />}
+                </Card>
+              </View>
+              <View style={styles.col2}>
+                <Card>
+                  <SubsectionHeading title="HMO Intelligence" />
+                  {hmoWard ? [
+                    <KeyValue key="eh" label="Estimated HMOs" value={formatNumber(hmoWard.estimated_hmos)} color={COLORS.warning} />,
+                    <KeyValue key="pct" label="% of Ward Stock" value={formatPct(hmoWard.pct_of_ward_stock)} />,
+                    <KeyValue key="rl" label="Risk Level" value={hmoWard.risk_level?.toUpperCase()} color={hmoWard.risk_level === 'high' ? COLORS.danger : COLORS.warning} />,
+                  ] : [<Text key="lh" style={styles.textSmall}>Low HMO density</Text>]}
+                  {hmoData?.modelling?.article_4_direction?.status === 'in_force' ? (
+                    <Text style={{ fontSize: FONT.micro, color: COLORS.accent, marginTop: 3 }}>
+                      Article 4 Direction in force. HMO growth controlled
+                    </Text>
+                  ) : <View />}
+                </Card>
+              </View>
+            </View>
+          )
+        })()}
 
         {/* Homelessness Borough Context */}
         {housingData?.homelessness && (

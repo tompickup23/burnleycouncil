@@ -212,6 +212,23 @@ export function computeSpendingSummary(records) {
     }
   }
 
+  // Map spend_category keys → cabinet_portfolios portfolio IDs (for cross-system lookup).
+  // Some portfolio IDs match the category key exactly; others need aliases.
+  const CATEGORY_TO_PORTFOLIO = {
+    leader_cabinet: 'leader',
+    children_services: 'children_families',
+    public_health: 'health_wellbeing',
+    ict_digital: 'data_technology',
+  }
+  for (const [catKey, portfolioId] of Object.entries(CATEGORY_TO_PORTFOLIO)) {
+    if (by_portfolio[catKey] && !by_portfolio[portfolioId]) {
+      by_portfolio[portfolioId] = by_portfolio[catKey]
+    }
+  }
+
+  // Also expose as by_category (category-keyed, for category-level displays)
+  const by_category = { ...by_portfolio }
+
   // Top suppliers overall
   const top_suppliers = Object.entries(supplierAgg)
     .map(([name, s]) => ({ name, total: s.total, count: s.count, categories: [...s.categories] }))
@@ -240,6 +257,7 @@ export function computeSpendingSummary(records) {
       pct: records.length > 0 ? Math.round(classified / records.length * 100) : 0,
     },
     by_portfolio,
+    by_category,
     by_month,
     top_suppliers,
     top_departments,

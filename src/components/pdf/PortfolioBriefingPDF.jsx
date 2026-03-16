@@ -109,6 +109,9 @@ export function PortfolioBriefingPDF({
   const pHHI = portfolioSpend?.hhi || 0
   const pTotalSpend = portfolioSpend?.total || 0
   const pUniqueSuppliers = portfolioSpend?.unique_suppliers || 0
+  // Annualise if less than 12 months of data
+  const pMonthCount = portfolioSpend?.by_month?.length || 1
+  const pAnnualised = pMonthCount < 12 && pTotalSpend > 0 ? (pTotalSpend / pMonthCount) * 12 : pTotalSpend
 
   // Budget context from budgetsData
   const reserves = Array.isArray(budgetsData?.reserves_trajectory) ? budgetsData.reserves_trajectory : []
@@ -233,12 +236,16 @@ export function PortfolioBriefingPDF({
             {budget > 0 ? (
               <Card accent>
                 <KeyValue label="Budget" value={formatCurrency(budget)} />
-                <KeyValue label="Actual Spend" value={formatCurrency(pTotalSpend)} />
+                <KeyValue label="Spend to Date" value={formatCurrency(pTotalSpend)} />
+                {pMonthCount < 12 ? <KeyValue label="Annualised" value={formatCurrency(pAnnualised)} color={COLORS.warning} /> : <View />}
                 <KeyValue
-                  label="Variance"
-                  value={`${((pTotalSpend - budget) / budget * 100) > 0 ? '+' : ''}${((pTotalSpend - budget) / budget * 100).toFixed(1)}%`}
-                  color={Math.abs((pTotalSpend - budget) / budget) > 0.1 ? COLORS.danger : COLORS.success}
+                  label="Variance (annualised vs budget)"
+                  value={`${((pAnnualised - budget) / budget * 100) > 0 ? '+' : ''}${((pAnnualised - budget) / budget * 100).toFixed(1)}%`}
+                  color={Math.abs((pAnnualised - budget) / budget) > 0.1 ? COLORS.danger : COLORS.success}
                 />
+                <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted, marginTop: 2 }}>
+                  Based on {pMonthCount} month{pMonthCount !== 1 ? 's' : ''} of data | {pUniqueSuppliers} unique suppliers
+                </Text>
               </Card>
             ) : <View />}
           </View>

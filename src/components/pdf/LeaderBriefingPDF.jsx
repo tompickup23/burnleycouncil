@@ -42,10 +42,13 @@ export function LeaderBriefingPDF({
   const immediateSavings = immediateDirectives.reduce((s, d) => s + (d.save_central || 0), 0)
   const totalBudget = (portfolios || []).reduce((s, p) => s + (p.budget_total || p.budget?.total || 0), 0)
 
-  // Fiscal system coverage
-  const coveragePct = fiscalOverview?.coverage_pct || 0
-  const modelsComplete = fiscalOverview?.models_complete || 0
-  const modelsTotal = fiscalOverview?.models_total || 10
+  // MTFS coverage (savings vs target, matching dashboard)
+  const coveragePct = totals?.coveragePct || 0
+  // Fiscal system model coverage
+  const modelsComplete = fiscalOverview?.service_model_count || 0
+  const modelsTotal = fiscalOverview?.total_portfolios || 10
+  // Demand-based coverage from fiscal overview (different metric)
+  const demandCoveragePct = fiscalOverview?.coverage_pct || 0
 
   // Transform mtfsComparison into gaps format for rendering
   const fmtCur = v => v != null ? formatCurrency(v) : '-'
@@ -75,21 +78,26 @@ export function LeaderBriefingPDF({
   // ── Spending Intelligence data (from useSpendingSummary) ──
   const topSuppliers = spendingSummary?.top_suppliers?.slice(0, 10) || []
   const spendByPortfolio = spendingSummary?.by_portfolio || {}
+  const spendByCategory = spendingSummary?.by_category || spendByPortfolio
   const portfolioSpendRows = (portfolios || [])
     .map(p => {
       const ps = spendByPortfolio[p.id]
       if (!ps?.total) return null
-      const budget = p.budget_total || p.budget?.total || 0
-      const variancePct = budget > 0 ? Math.round(((ps.total - budget) / budget) * 100) : null
+      const budget = p.budget_latest?.gross_expenditure || p.budget_total || p.budget?.total || 0
+      // Annualise if less than 12 months of data
+      const monthCount = ps.by_month?.length || 1
+      const annualised = monthCount < 12 ? (ps.total / monthCount) * 12 : ps.total
+      const variancePct = budget > 0 ? Math.round(((annualised - budget) / budget) * 100) : null
       return {
         portfolio: p.short_title || p.title,
         spend: formatCurrency(ps.total),
+        annualised: monthCount < 12 ? formatCurrency(annualised) : '-',
         budget: budget > 0 ? formatCurrency(budget) : '-',
         variance: variancePct != null ? `${variancePct > 0 ? '+' : ''}${variancePct}%` : '-',
         suppliers: (ps.unique_suppliers || 0).toString(),
         hhi: ps.hhi ? Math.round(ps.hhi).toString() : '-',
         _colors: {
-          variance: variancePct > 10 ? COLORS.danger : variancePct > 5 ? COLORS.warning : COLORS.success,
+          variance: variancePct > 10 ? COLORS.danger : variancePct > 5 ? COLORS.warning : variancePct < -10 ? COLORS.accent : COLORS.success,
           hhi: (ps.hhi || 0) > 2500 ? COLORS.danger : (ps.hhi || 0) > 1500 ? COLORS.warning : COLORS.textSecondary,
         },
       }
@@ -97,13 +105,14 @@ export function LeaderBriefingPDF({
     .filter(Boolean)
 
   // Concentration alerts across all portfolios
-  const concentrationAlerts = Object.entries(spendByPortfolio)
-    .filter(([, ps]) => (ps.hhi || 0) > 2500)
-    .map(([pid, ps]) => {
-      const pName = (portfolios || []).find(p => p.id === pid)?.short_title || pid
+  const concentrationAlerts = (portfolios || [])
+    .map(p => {
+      const ps = spendByPortfolio[p.id]
+      if (!ps || (ps.hhi || 0) <= 2500) return null
       const topSup = ps.top_suppliers?.[0]
-      return `${pName}: HHI ${Math.round(ps.hhi)} (${topSup?.name || 'unknown'} = ${formatCurrency(topSup?.total || 0)})`
+      return `${p.short_title || p.title}: HHI ${Math.round(ps.hhi)} (${topSup?.name || 'unknown'} = ${formatCurrency(topSup?.total || 0)}, ${formatPct(topSup?.pct)} of spend)`
     })
+    .filter(Boolean)
 
   // ── Budget data: Reserves trajectory, Council Tax, Revenue departments ──
   const reservesData = Array.isArray(budgetsData?.reserves_trajectory) ? budgetsData.reserves_trajectory : []
@@ -349,21 +358,25 @@ export function LeaderBriefingPDF({
   // ── Build fiscal page inner children safely ──
   const fiscalInnerChildren = [
     totals ? (
-      <StatsRow key="mtfs-stats">
-        <StatCard value={formatCurrency(totals.mtfsTarget)} label="MTFS Year 1" />
-        <StatCard value={`${totals.coveragePct}%`} label="Coverage" color={totals.coveragePct >= 100 ? COLORS.success : COLORS.danger} />
-        <StatCard value={`${totals.priorPct}%`} label="Prior Year Delivery" color={totals.priorPct >= 80 ? COLORS.success : COLORS.danger} />
-        <StatCard value={formatCurrency(totals.priorGap)} label="Prior Year Gap" color={COLORS.danger} />
-      </StatsRow>
+      <Card key="mtfs-card" highlight>
+        <SubsectionHeading title="MTFS Position" />
+        <StatsRow>
+          <StatCard value={formatCurrency(totals.mtfsTarget)} label="Year 1 Target" />
+          <StatCard value={formatCurrency(totals.midpoint)} label="Identified (midpoint)" color={COLORS.success} />
+          <StatCard value={`${totals.priorPct}%`} label="Prior Year Delivery" color={totals.priorPct >= 80 ? COLORS.success : COLORS.danger} />
+          <StatCard value={formatCurrency(totals.priorGap)} label="Prior Year Gap" color={COLORS.danger} />
+        </StatsRow>
+        <ProgressBar value={totals.midpoint} max={totals.mtfsTarget || 1} label={`${coveragePct}% of MTFS target`} color={coveragePct >= 100 ? COLORS.success : COLORS.danger} showPct />
+      </Card>
     ) : null,
     fiscalOverview ? (
-      <Card key="fiscal-health" highlight>
-        <SubsectionHeading title="Fiscal Health Assessment" />
+      <Card key="fiscal-health">
+        <SubsectionHeading title="Demand vs Savings Assessment" />
         {[
-          fiscalOverview.demand_growth ? <KeyValue key="dg" label="Demand Growth" value={formatPct(fiscalOverview.demand_growth)} color={COLORS.danger} /> : null,
-          fiscalOverview.savings_coverage ? <KeyValue key="sc" label="Savings vs Demand" value={formatPct(fiscalOverview.savings_coverage)} color={COLORS.accent} /> : null,
+          <KeyValue key="td" label="Quantified Demand Pressure" value={formatCurrency(fiscalOverview.total_demand)} color={COLORS.danger} />,
+          <KeyValue key="ts" label="Savings vs Demand" value={`${demandCoveragePct}%`} color={demandCoveragePct >= 100 ? COLORS.success : COLORS.warning} />,
+          fiscalOverview.net_position != null ? <KeyValue key="np" label="Net Position" value={formatCurrency(fiscalOverview.net_position)} color={fiscalOverview.net_position >= 0 ? COLORS.success : COLORS.danger} /> : null,
           fiscalOverview.net_trajectory ? <KeyValue key="nt" label="Net Fiscal Trajectory" value={fiscalOverview.net_trajectory} /> : null,
-          fiscalOverview.breakeven_year ? <KeyValue key="by" label="Breakeven Year" value={fiscalOverview.breakeven_year.toString()} /> : null,
         ].filter(Boolean)}
       </Card>
     ) : null,
@@ -376,7 +389,13 @@ export function LeaderBriefingPDF({
       key="cover"
       title="Leader's Briefing"
       subtitle="Lancashire County Council: Reform Operations Command"
-      meta={`${(portfolios || []).length} portfolios | ${formatCurrency(totalSavings)} savings pipeline | ${formatCurrency(spendingSummary?.total_spend || 0)} spending tracked | Generated ${new Date().toLocaleDateString('en-GB')}`}
+      meta={[
+        `${(portfolios || []).length} portfolios`,
+        `${formatCurrency(totalSavings)} savings identified (range: ${formatCurrency(totals?.totalLow || 0)}-${formatCurrency(totals?.totalHigh || 0)})`,
+        `${coveragePct}% MTFS coverage`,
+        spendingSummary?.total_spend ? `${formatCurrency(spendingSummary.total_spend)} spending analysed (${formatNumber(spendingSummary.record_count || 0)} transactions)` : null,
+        `Generated ${new Date().toLocaleDateString('en-GB')}`,
+      ].filter(Boolean).join(' | ')}
       classification="CONFIDENTIAL - LEADER USE ONLY"
       councilName={councilName || 'Lancashire County Council'}
     />,
@@ -387,36 +406,39 @@ export function LeaderBriefingPDF({
       <PDFHeader title="Fiscal System Overview" subtitle="Reform Operations Command" classification="LEADER" />
       <StatsRow>
         <StatCard value={formatCurrency(totalBudget)} label="Total Budget" />
-        <StatCard value={formatCurrency(totalSavings)} label="Savings Pipeline" color={COLORS.success} />
-        <StatCard value={formatCurrency(immediateSavings)} label="Immediate Wins" color={COLORS.warning} />
-        <StatCard value={`${coveragePct}%`} label="Model Coverage" color={coveragePct > 60 ? COLORS.success : COLORS.warning} detail={`${modelsComplete}/${modelsTotal} modelled`} />
+        <StatCard value={formatCurrency(totalSavings)} label="Savings Identified" color={COLORS.success} detail={`Range: ${formatCurrency(totals?.totalLow || 0)}-${formatCurrency(totals?.totalHigh || 0)}`} />
+        <StatCard value={formatCurrency(immediateSavings)} label="Immediate Wins" color={COLORS.warning} detail={`${immediateDirectives.length} actions, 0-6 months`} />
+        <StatCard value={`${coveragePct}%`} label="MTFS Coverage" color={coveragePct >= 100 ? COLORS.success : coveragePct >= 80 ? COLORS.warning : COLORS.danger} detail={`${formatCurrency(totals?.midpoint || 0)} of ${formatCurrency(totals?.mtfsTarget || 0)}`} />
       </StatsRow>
       {fiscalInnerChildren}
       <SectionHeading title="Directorate Summary" />
       <Table
         columns={[
           { key: 'name', label: 'Directorate', flex: 2, bold: true },
-          { key: 'portfolios', label: 'Portfolios', width: 55, align: 'right' },
-          { key: 'budget', label: 'Budget', width: 70, align: 'right' },
-          { key: 'savings', label: 'Savings', width: 70, align: 'right' },
-          { key: 'coverage', label: 'MTFS %', width: 50, align: 'right' },
-          { key: 'evidence', label: 'Evidence', width: 50, align: 'right' },
-          { key: 'risk', label: 'Risk', width: 50 },
+          { key: 'portfolios', label: 'Port.', width: 35, align: 'right' },
+          { key: 'budget', label: 'Budget', width: 60, align: 'right' },
+          { key: 'savings', label: 'Savings Range', width: 85, align: 'right' },
+          { key: 'coverage', label: 'Coverage', width: 50, align: 'right' },
+          { key: 'evidence', label: 'Evid.', width: 40, align: 'right' },
+          { key: 'risk', label: 'Risk', width: 45 },
         ]}
-        rows={(directorates || []).map(d => ({
-          name: (d.title || d.name || d.id || '-').split(',')[0],
-          portfolios: d.portfolio_count?.toString() || '-',
-          budget: formatCurrency(d.net_budget || d.total_budget),
-          savings: d.savings_range ? `${formatCurrency(d.savings_range.low)}-${formatCurrency(d.savings_range.high)}` : formatCurrency(d.total_savings || 0),
-          coverage: `${d.coverage_pct || 0}%`,
-          evidence: `${d.avg_evidence_strength || 0}/100`,
-          risk: d.risk_level || (riskProfiles?.[d.directorate_id]?.risk_level) || '-',
-          _colors: {
-            risk: (d.risk_level || riskProfiles?.[d.directorate_id]?.risk_level) === 'high' ? COLORS.danger
-              : (d.risk_level || riskProfiles?.[d.directorate_id]?.risk_level) === 'medium' ? COLORS.warning : COLORS.success,
-            coverage: (d.coverage_pct || 0) >= 100 ? COLORS.success : COLORS.danger,
-          },
-        }))}
+        rows={(directorates || []).map(d => {
+          const riskLevel = d.risk_level || riskProfiles?.[d.directorate_id]?.risk_level || '-'
+          return {
+            name: (d.title || d.name || d.id || '-').split(',')[0],
+            portfolios: d.portfolio_count?.toString() || '-',
+            budget: formatCurrency(d.net_budget || d.total_budget),
+            savings: d.savings_range ? `${formatCurrency(d.savings_range.low)}-${formatCurrency(d.savings_range.high)}` : formatCurrency(d.total_savings || 0),
+            coverage: `${d.coverage_pct || 0}%`,
+            evidence: `${d.avg_evidence_strength || 0}%`,
+            risk: riskLevel,
+            _colors: {
+              risk: riskLevel === 'high' || riskLevel === 'critical' ? COLORS.danger
+                : riskLevel === 'medium' ? COLORS.warning : COLORS.success,
+              coverage: (d.coverage_pct || 0) >= 100 ? COLORS.success : (d.coverage_pct || 0) >= 80 ? COLORS.warning : COLORS.danger,
+            },
+          }
+        })}
         filterEmptyColumns
       />
       <PDFFooter councilName={councilName} classification="LEADER BRIEFING" />
@@ -425,28 +447,31 @@ export function LeaderBriefingPDF({
     // PAGE 3: Monday Morning List (always shown)
     <Page key="monday" size="A4" style={styles.page}>
       <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
-      <PDFHeader title="Monday Morning List" subtitle="Priority Actions This Week" classification="LEADER" />
+      <PDFHeader title="Monday Morning List" subtitle={`Top ${Math.min(15, (mondayMorningList || immediateDirectives).length)} Priority Actions`} classification="LEADER" />
       {(mondayMorningList || immediateDirectives).slice(0, 15).map((d, i) => (
         <Card key={i} accent={i < 3}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
             <View style={{ flex: 3 }}>
               <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: i < 3 ? COLORS.accent : COLORS.textPrimary }}>
-                {i + 1}. {d.action?.substring(0, 80) || '-'}
+                {i + 1}. {d.action?.substring(0, 90) || '-'}
               </Text>
               <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted, marginTop: 2 }}>
-                {d.portfolio_title || d.portfolio || '-'} | {d.category?.replace(/_/g, ' ') || '-'}
+                {d.portfolio_title || d.portfolio || '-'} | {d.category?.replace(/_/g, ' ') || '-'} | {d.timeline || '-'}
               </Text>
             </View>
-            <View style={{ alignItems: 'flex-end' }}>
+            <View style={{ alignItems: 'flex-end', minWidth: 65 }}>
               <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.success }}>
                 {formatCurrency(d.save_central || 0)}
               </Text>
-              <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>{d.timeline || '-'}</Text>
+              <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>
+                {d.save_low && d.save_high ? `${formatCurrency(d.save_low)}-${formatCurrency(d.save_high)}` : '-'}
+              </Text>
             </View>
           </View>
           {[
-            d.how ? <Text key="how" style={{ fontSize: FONT.tiny, color: COLORS.textSecondary, marginTop: 3 }}>HOW: {d.how.substring(0, 120)}</Text> : null,
+            d.how ? <Text key="how" style={{ fontSize: FONT.tiny, color: COLORS.textSecondary, marginTop: 3 }}>HOW: {d.how.substring(0, 140)}</Text> : null,
             d.route ? <Text key="route" style={{ fontSize: FONT.micro, color: COLORS.accent, marginTop: 2 }}>ROUTE: {d.route}</Text> : null,
+            d.legal ? <Text key="legal" style={{ fontSize: FONT.micro, color: COLORS.warning, marginTop: 1 }}>LEGAL: {d.legal.substring(0, 100)}</Text> : null,
           ].filter(Boolean)}
         </Card>
       ))}
@@ -457,12 +482,12 @@ export function LeaderBriefingPDF({
     (topSuppliers.length > 0 || portfolioSpendRows.length > 0) ? (
       <Page key="spending" size="A4" style={styles.page}>
         <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
-        <PDFHeader title="Spending Intelligence" subtitle={`${formatCurrency(spendingSummary?.total_spend || 0)} tracked | ${spendingSummary?.coverage?.pct || 0}% classified`} classification="LEADER" />
+        <PDFHeader title="Spending Intelligence" subtitle={`${formatCurrency(spendingSummary?.total_spend || 0)} tracked across ${formatNumber(spendingSummary?.record_count || 0)} transactions`} classification="LEADER" />
         <StatsRow>
-          <StatCard value={formatCurrency(spendingSummary?.total_spend || 0)} label="Total Spend Tracked" />
-          <StatCard value={formatNumber(spendingSummary?.total_transactions || 0)} label="Transactions" />
-          <StatCard value={`${spendingSummary?.coverage?.pct || 0}%`} label="Classified" color={COLORS.accent} />
-          <StatCard value={formatNumber(topSuppliers.length)} label="Top Suppliers Shown" />
+          <StatCard value={formatCurrency(spendingSummary?.total_spend || 0)} label="Gross Spend" />
+          <StatCard value={formatCurrency(Math.abs(spendingSummary?.total_income || 0))} label="Income/Credits" color={COLORS.accent} />
+          <StatCard value={formatCurrency(spendingSummary?.net || 0)} label="Net Spend" />
+          <StatCard value={`${spendingSummary?.coverage?.pct || 0}%`} label="Category Match" color={(spendingSummary?.coverage?.pct || 0) >= 70 ? COLORS.success : COLORS.warning} />
         </StatsRow>
 
         {topSuppliers.length > 0 ? (
@@ -486,15 +511,19 @@ export function LeaderBriefingPDF({
             <Table
               columns={[
                 { key: 'portfolio', label: 'Portfolio', flex: 2, bold: true },
-                { key: 'spend', label: 'Actual Spend', width: 75, align: 'right' },
-                { key: 'budget', label: 'Budget', width: 75, align: 'right' },
-                { key: 'variance', label: 'Variance', width: 55, align: 'right' },
-                { key: 'suppliers', label: 'Suppliers', width: 50, align: 'right' },
-                { key: 'hhi', label: 'HHI', width: 45, align: 'right' },
+                { key: 'spend', label: 'Actual', width: 65, align: 'right' },
+                { key: 'annualised', label: 'Annual\'d', width: 65, align: 'right' },
+                { key: 'budget', label: 'Budget', width: 65, align: 'right' },
+                { key: 'variance', label: 'Var %', width: 45, align: 'right' },
+                { key: 'suppliers', label: 'Suppliers', width: 45, align: 'right' },
+                { key: 'hhi', label: 'HHI', width: 40, align: 'right' },
               ]}
               rows={portfolioSpendRows}
               filterEmptyColumns
             />
+            <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted, marginTop: 2 }}>
+              HHI: Herfindahl-Hirschman Index. Above 2,500 = high supplier concentration risk. Variance = annualised spend vs budget.
+            </Text>
           </View>
         ) : <View />}
 
@@ -505,16 +534,17 @@ export function LeaderBriefingPDF({
           </Card>
         ) : <View />}
 
-        {spendingSummary?.by_category && Object.keys(spendingSummary.by_category).length > 0 ? (
+        {Object.keys(spendByCategory).length > 0 ? (
           <View>
-            <SectionHeading title="Spend by Category" />
+            <SectionHeading title="Spend by Service Category" />
             <View style={{ flexDirection: 'row', gap: SPACE.md }}>
               <View style={{ flex: 1 }}>
                 <DonutChart
-                  data={Object.entries(spendingSummary.by_category)
+                  data={Object.entries(spendByCategory)
+                    .filter(([cat]) => cat !== 'other')
                     .sort(([, a], [, b]) => (b?.total || 0) - (a?.total || 0))
                     .slice(0, 8)
-                    .map(([cat, data], i) => ({
+                    .map(([, data], i) => ({
                       value: data?.total || 0,
                       color: COLORS.chart[i % COLORS.chart.length],
                     }))}
@@ -524,11 +554,12 @@ export function LeaderBriefingPDF({
               </View>
               <View style={{ flex: 2 }}>
                 <HorizontalBarChart
-                  data={Object.entries(spendingSummary.by_category)
+                  data={Object.entries(spendByCategory)
+                    .filter(([cat]) => cat !== 'other')
                     .sort(([, a], [, b]) => (b?.total || 0) - (a?.total || 0))
                     .slice(0, 8)
                     .map(([cat, data], i) => ({
-                      label: cat.replace(/_/g, ' ').substring(0, 20),
+                      label: (data?.label || cat.replace(/_/g, ' ')).substring(0, 22),
                       value: data?.total || 0,
                       color: COLORS.chart[i % COLORS.chart.length],
                     }))}
@@ -546,12 +577,13 @@ export function LeaderBriefingPDF({
     // PAGE 5: Per-Portfolio Summary (always shown)
     <Page key="portfolio" size="A4" style={styles.page}>
       <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
-      <PDFHeader title="Portfolio Summary" subtitle="All 10 Portfolios at a Glance" classification="LEADER" />
+      <PDFHeader title="Portfolio Summary" subtitle={`All ${(portfolios || []).length} Portfolios at a Glance`} classification="LEADER" />
       {(portfolios || []).map((p, i) => {
         const pDirectives = (allDirectives || []).filter(d => d.portfolio_id === p.id || d.portfolio === p.id)
         const pSavings = pDirectives.reduce((s, d) => s + (d.save_central || 0), 0)
-        const pBudget = p.budget_total || p.budget?.total || 0
+        const pBudget = p.budget_latest?.gross_expenditure || p.budget_total || p.budget?.total || 0
         const ps = spendByPortfolio[p.id]
+        const savingsPct = pBudget > 0 ? Math.round((pSavings / pBudget) * 100) : 0
         return (
           <Card key={i}>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 3 }}>
@@ -565,29 +597,34 @@ export function LeaderBriefingPDF({
               </View>
               <View style={{ alignItems: 'flex-end' }}>
                 <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: COLORS.success }}>
-                  {formatCurrency(pSavings)}
+                  {formatCurrency(pSavings)} ({savingsPct}% of budget)
                 </Text>
                 <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>
-                  of {formatCurrency(pBudget)} budget
+                  Budget: {formatCurrency(pBudget)}
                 </Text>
               </View>
             </View>
             <ProgressBar
               value={pSavings}
               max={totalSavings || 1}
-              label={`${pDirectives.length} directives`}
+              label={`${pDirectives.length} directives | ${formatCurrency(pSavings)} of ${formatCurrency(totalSavings)} total`}
               color={COLORS.chart[i % COLORS.chart.length]}
               showPct={false}
             />
             {[
               pDirectives[0] ? (
                 <Text key="top" style={{ fontSize: FONT.micro, color: COLORS.textSecondary, marginTop: 2 }}>
-                  Top: {pDirectives[0].action?.substring(0, 100)}
+                  Priority: {pDirectives[0].action?.substring(0, 100)}
                 </Text>
               ) : null,
               ps?.total ? (
                 <Text key="spend" style={{ fontSize: FONT.micro, color: COLORS.textMuted, marginTop: 1 }}>
-                  Actual spend: {formatCurrency(ps.total)} | {ps.unique_suppliers || 0} suppliers
+                  Spend tracked: {formatCurrency(ps.total)} | {ps.unique_suppliers || 0} suppliers | HHI: {ps.hhi ? Math.round(ps.hhi) : 'n/a'}
+                </Text>
+              ) : null,
+              p.demand_pressures?.length > 0 ? (
+                <Text key="demand" style={{ fontSize: FONT.micro, color: COLORS.warning, marginTop: 1 }}>
+                  Pressures: {p.demand_pressures.slice(0, 2).map(dp => typeof dp === 'string' ? dp.substring(0, 50) : (dp.pressure || '').substring(0, 50)).join('; ')}
                 </Text>
               ) : null,
             ].filter(Boolean)}
@@ -624,8 +661,8 @@ export function LeaderBriefingPDF({
           ))}
         </Card>
         <StatsRow>
-          <StatCard value={`${mtfsComparison.year1_coverage_pct ?? 0}%`} label="Year 1 Coverage" color={mtfsComparison.year1_coverage_pct >= 80 ? COLORS.success : COLORS.danger} />
-          <StatCard value={`${mtfsComparison.two_year_coverage_pct ?? 0}%`} label="Two-Year Coverage" color={mtfsComparison.two_year_coverage_pct >= 80 ? COLORS.success : COLORS.danger} />
+          <StatCard value={`${mtfsComparison.year1_coverage_pct ?? 0}%`} label="Year 1 Coverage" color={mtfsComparison.year1_coverage_pct >= 100 ? COLORS.success : mtfsComparison.year1_coverage_pct >= 80 ? COLORS.warning : COLORS.danger} detail={`${fmtCur(mtfsComparison.year1_deliverable)} of ${fmtCur(mtfsComparison.mtfs_year1_target)}`} />
+          <StatCard value={`${mtfsComparison.two_year_coverage_pct ?? 0}%`} label="Two-Year Coverage" color={mtfsComparison.two_year_coverage_pct >= 100 ? COLORS.success : mtfsComparison.two_year_coverage_pct >= 80 ? COLORS.warning : COLORS.danger} detail={`${fmtCur(mtfsComparison.identified_central)} of ${fmtCur(mtfsComparison.mtfs_two_year_target)}`} />
           <StatCard value={fmtCur(Math.abs(mtfsComparison.gap_or_surplus))} label={mtfsComparison.gap_or_surplus >= 0 ? 'Surplus' : 'Shortfall'} color={mtfsComparison.gap_or_surplus >= 0 ? COLORS.success : COLORS.danger} />
         </StatsRow>
         {mtfsGaps.overall_assessment ? (
@@ -646,9 +683,10 @@ export function LeaderBriefingPDF({
         <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
         <PDFHeader title="Political Impact Assessment" subtitle="Electoral Ripple from LCC Reform Operations" classification="LEADER" />
         <StatsRow>
-          <StatCard value={formatCurrency(totalSavings)} label="Savings Narrative" color={COLORS.accent} />
+          <StatCard value={formatCurrency(totalSavings)} label="Total Savings Pipeline" color={COLORS.success} />
           <StatCard value={(allDirectives || []).length.toString()} label="Active Directives" />
-          <StatCard value={`${politicalImpact.overall_score || 0}/100`} label="Overall Impact" color={politicalImpact.overall_score >= 70 ? COLORS.success : COLORS.warning} />
+          <StatCard value={`${politicalImpact.overall_score || 0}/100`} label="Political Impact" color={politicalImpact.overall_score >= 70 ? COLORS.success : COLORS.warning} />
+          <StatCard value={`${(portfolios || []).length}`} label="Portfolios" />
         </StatsRow>
         <Card highlight>
           <SubsectionHeading title="Borough Election Impact" />
