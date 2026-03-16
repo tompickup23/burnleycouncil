@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
-import { Construction, AlertTriangle, Layers, Building2, Lightbulb, TrendingUp, TrendingDown, DollarSign, Wrench, Briefcase, FileText, Gavel, MapPin } from 'lucide-react'
+import { Construction, AlertTriangle, Layers, Building2, Lightbulb, TrendingUp, TrendingDown, PoundSterling, Wrench, Briefcase, FileText, Gavel, MapPin } from 'lucide-react'
 import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, Legend, ComposedChart } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -367,7 +367,7 @@ export default function Highways() {
 
             {/* C. True Cost of Getting Roads Right */}
             <div className="hw-assets-sub-heading" style={{ marginTop: 24 }}>
-              <DollarSign size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#ff453a' }} />
+              <PoundSterling size={15} style={{ verticalAlign: 'middle', marginRight: 6, color: '#ff453a' }} />
               True Cost of Getting Roads Right
             </div>
             <div className="hw-cost-analysis">
@@ -919,7 +919,7 @@ export default function Highways() {
             title="Highways Spending Analysis"
             subtitle={`£${assets.spending_integration.total_identifiable_highways_spend ? (assets.spending_integration.total_identifiable_highways_spend / 1e6).toFixed(1) : '8.1'}M identifiable spend across ${assets.spending_integration.budget_departments_count || 42} department codes`}
             severity="neutral"
-            icon={<DollarSign size={18} />}
+            icon={<PoundSterling size={18} />}
           >
             <p className="hw-muted-note" style={{ marginBottom: 16 }}>{assets.spending_integration.data_source}</p>
 

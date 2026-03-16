@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import {
   Target, TrendingUp, Shield, Zap, BarChart3, AlertTriangle, Scale,
-  ChevronRight, Clock, Users, Calendar, FileText, Download, Eye, DollarSign,
+  ChevronRight, Clock, Users, Calendar, FileText, Download, Eye, PoundSterling,
 } from 'lucide-react'
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip,
@@ -392,9 +392,9 @@ export default function DirectorateDetail() {
 
           {/* Directorate Spending Intelligence */}
           {directorateSpending && (
-            <CollapsibleSection title="Spending Intelligence" defaultOpen icon={<DollarSign size={18} />}>
+            <CollapsibleSection title="Spending Intelligence" defaultOpen icon={<PoundSterling size={18} />}>
               <div className="stat-grid stat-grid-3" style={{ marginBottom: '1rem' }}>
-                <StatCard title="Actual Spend" value={formatCurrency(directorateSpending.total)} icon={<DollarSign size={24} />} />
+                <StatCard title="Actual Spend" value={formatCurrency(directorateSpending.total)} icon={<PoundSterling size={24} />} />
                 <StatCard title="Transactions" value={directorateSpending.transactions.toLocaleString()} icon={<BarChart3 size={24} />} />
                 <StatCard title="Unique Suppliers" value={directorateSpending.suppliers.toLocaleString()} icon={<Users size={24} />} />
               </div>

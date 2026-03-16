@@ -20,7 +20,7 @@ import { useParams, Link } from 'react-router-dom'
 import {
   Building, MapPin, Zap, Trash2, Navigation, ArrowLeft,
   ExternalLink, AlertTriangle, Shield, Thermometer,
-  ClipboardCheck, Tag, Lightbulb, TrendingUp, DollarSign,
+  ClipboardCheck, Tag, Lightbulb, TrendingUp, PoundSterling,
   BarChart3, Scale, Landmark,
 } from 'lucide-react'
 import { useData } from '../hooks/useData'
@@ -1065,7 +1065,7 @@ function ValuationTab({ asset }) {
       {/* Market Value Estimate */}
       <div className="glass-card" style={{ padding: 'var(--space-lg)', marginBottom: 'var(--space-lg)' }}>
         <h3 style={{ fontSize: '1rem', marginBottom: 'var(--space-md)', display: 'flex', alignItems: 'center', gap: '6px' }}>
-          <DollarSign size={16} style={{ color: '#30d158' }} /> Market Value Estimate
+          <PoundSterling size={16} style={{ color: '#30d158' }} /> Market Value Estimate
         </h3>
         {gb ? (
           <>

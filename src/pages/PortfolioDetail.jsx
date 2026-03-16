@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { useParams, Link, useLocation } from 'react-router-dom'
-import { Users, PieChart, Target, ChevronRight, Calendar, TrendingUp, TrendingDown, Shield, Zap, Briefcase, FileText, AlertTriangle, Scale, Building, Building2, Wrench, MapPin, Download, Activity, Truck, GraduationCap, Heart, Recycle, Home, DollarSign, Layers, BarChart2 } from 'lucide-react'
+import { Users, PieChart, Target, ChevronRight, Calendar, TrendingUp, TrendingDown, Shield, Zap, Briefcase, FileText, AlertTriangle, Scale, Building, Building2, Wrench, MapPin, Download, Activity, Truck, GraduationCap, Heart, Recycle, Home, PoundSterling, Layers, BarChart2 } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line, Legend, PieChart as RechartsPie, Pie, Cell, ScatterChart, Scatter, ZAxis, AreaChart, Area, Treemap } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -942,7 +942,7 @@ export default function PortfolioDetail() {
                 <div className="service-stat-row">
                   <StatCard label="LAC Population" value={(serviceModel.children_cost_model.lac_population?.current || 0).toLocaleString()} icon={<Users size={16} />} />
                   <StatCard label="In Residential" value={(serviceModel.children_cost_model.lac_population?.in_residential || 0).toLocaleString()} icon={<AlertTriangle size={16} />} />
-                  <StatCard label="Base Year Cost" value={formatCurrency(childrenProjection.base_cost)} icon={<DollarSign size={16} />} />
+                  <StatCard label="Base Year Cost" value={formatCurrency(childrenProjection.base_cost)} icon={<PoundSterling size={16} />} />
                   <StatCard label="5yr Cumulative" value={formatCurrency(childrenProjection.total_5yr_cost)} icon={<TrendingUp size={16} />} />
                 </div>
                 <ChartCard title="Children's Services Cost Trajectory" subtitle="Residential growth drives cost escalation">
@@ -1017,7 +1017,7 @@ export default function PortfolioDetail() {
 
               <CollapsibleSection title="Grant & Prevention Trajectory" icon={<TrendingDown size={16} />} defaultOpen>
                 <div className="service-stat-row">
-                  <StatCard label="PH Grant" value={formatCurrency(phProjection.base_grant)} icon={<DollarSign size={16} />} />
+                  <StatCard label="PH Grant" value={formatCurrency(phProjection.base_grant)} icon={<PoundSterling size={16} />} />
                   <StatCard label="5yr Real-Terms Decline" value={formatCurrency(phProjection.grant_decline_5yr)} icon={<TrendingDown size={16} />} />
                   <StatCard label="Prevention ROI" value={`${phProjection.total_prevention_roi}:1`} icon={<TrendingUp size={16} />} />
                   <StatCard label="Monopoly Risk" value={formatCurrency(phProjection.monopoly_risk_value)} icon={<AlertTriangle size={16} />} sub={`HHI ${serviceModel.public_health_model.hcrg_monopoly?.hhi || 0}`} />
@@ -1064,9 +1064,9 @@ export default function PortfolioDetail() {
 
               <CollapsibleSection title="HCRG Monopoly & Substance Misuse" icon={<AlertTriangle size={16} />}>
                 <div className="service-stat-row">
-                  <StatCard label="HCRG Annual" value={formatCurrency(serviceModel.public_health_model.hcrg_monopoly?.annual_equivalent || 0)} icon={<DollarSign size={16} />} sub={`HHI ${serviceModel.public_health_model.hcrg_monopoly?.hhi || 0}`} />
+                  <StatCard label="HCRG Annual" value={formatCurrency(serviceModel.public_health_model.hcrg_monopoly?.annual_equivalent || 0)} icon={<PoundSterling size={16} />} sub={`HHI ${serviceModel.public_health_model.hcrg_monopoly?.hhi || 0}`} />
                   <StatCard label="CF Published" value={serviceModel.public_health_model.hcrg_monopoly?.contracts_finder_published ?? 'N/A'} icon={<FileText size={16} />} />
-                  <StatCard label="CGL Annual" value={formatCurrency(serviceModel.public_health_model.substance_misuse?.cgl_annual || 0)} icon={<DollarSign size={16} />} />
+                  <StatCard label="CGL Annual" value={formatCurrency(serviceModel.public_health_model.substance_misuse?.cgl_annual || 0)} icon={<PoundSterling size={16} />} />
                   <StatCard label="SSMTR/ADDER" value={formatCurrency(serviceModel.public_health_model.substance_misuse?.ssmtr_adder_value || 0)} icon={<AlertTriangle size={16} />} sub="Time-limited" />
                 </div>
                 {phProjection.supplemental_cliff && (
@@ -1087,7 +1087,7 @@ export default function PortfolioDetail() {
                   <div className="service-stat-row">
                     <StatCard label="LE Gap (Male)" value={`${serviceModel.public_health_model.health_inequalities.life_expectancy_gap_male || 0} years`} icon={<TrendingDown size={16} />} />
                     <StatCard label="LE Gap (Female)" value={`${serviceModel.public_health_model.health_inequalities.life_expectancy_gap_female || 0} years`} icon={<TrendingDown size={16} />} />
-                    <StatCard label="ASC Residential" value={formatCurrency(serviceModel.public_health_model.health_inequalities.asc_residential_annual || 0)} icon={<DollarSign size={16} />} />
+                    <StatCard label="ASC Residential" value={formatCurrency(serviceModel.public_health_model.health_inequalities.asc_residential_annual || 0)} icon={<PoundSterling size={16} />} />
                     <StatCard label="Prevention Target" value={`${serviceModel.public_health_model.health_inequalities.prevention_asc_reduction_target_pct || 0}% reduction`} icon={<Target size={16} />} />
                   </div>
                 </CollapsibleSection>
@@ -1110,7 +1110,7 @@ export default function PortfolioDetail() {
                 <CollapsibleSection title="Estate Cost Trajectory" icon={<Building size={16} />} defaultOpen>
                   <div className="service-stat-row">
                     <StatCard label="Total Properties" value={(serviceModel.property_cost_model.estate_summary?.total_properties || 0).toLocaleString()} icon={<Building size={16} />} />
-                    <StatCard label="Running Cost" value={formatCurrency(propertyProjection.base_cost)} icon={<DollarSign size={16} />} sub={`${serviceModel.property_cost_model.estate_summary?.pct_of_total_spend || 0}% of spend`} />
+                    <StatCard label="Running Cost" value={formatCurrency(propertyProjection.base_cost)} icon={<PoundSterling size={16} />} sub={`${serviceModel.property_cost_model.estate_summary?.pct_of_total_spend || 0}% of spend`} />
                     <StatCard label="Disposal Target" value={formatCurrency(propertyProjection.disposal_pipeline)} icon={<TrendingUp size={16} />} />
                     <StatCard label="Backlog (5yr)" value={formatCurrency(propertyProjection.backlog_trajectory)} icon={<AlertTriangle size={16} />} />
                   </div>
@@ -1134,7 +1134,7 @@ export default function PortfolioDetail() {
                 <CollapsibleSection title="Co-Location & Disposal" icon={<Home size={16} />}>
                   <div className="service-stat-row">
                     <StatCard label="Potential Merges" value={serviceModel.property_cost_model.co_location_opportunity.potential_consolidations || 0} icon={<Layers size={16} />} />
-                    <StatCard label="Saving Per Merge" value={formatCurrency(serviceModel.property_cost_model.co_location_opportunity.estimated_saving_per_merge || 0)} icon={<DollarSign size={16} />} />
+                    <StatCard label="Saving Per Merge" value={formatCurrency(serviceModel.property_cost_model.co_location_opportunity.estimated_saving_per_merge || 0)} icon={<PoundSterling size={16} />} />
                     <StatCard label="Total Potential" value={formatCurrency(serviceModel.property_cost_model.co_location_opportunity.total_potential || 0)} icon={<TrendingUp size={16} />} />
                     <StatCard label="Care Home Backlog" value={formatCurrency(propertyProjection.care_home_liability)} icon={<AlertTriangle size={16} />} />
                   </div>
@@ -1165,7 +1165,7 @@ export default function PortfolioDetail() {
                   <div className="service-stat-row" style={{ marginTop: '8px' }}>
                     <StatCard label="Top 10 Suppliers" value={`${serviceModel.procurement_model.supplier_concentration?.top_10_pct_of_spend || 0}%`} icon={<PieChart size={16} />} sub="of total spend" />
                     <StatCard label="Off-Contract" value={`${serviceModel.procurement_model.supplier_concentration?.off_contract_estimate_pct || 0}%`} icon={<AlertTriangle size={16} />} />
-                    <StatCard label="Non-Compliant Value" value={formatCurrency(serviceModel.procurement_model.contracts_finder_coverage?.non_compliant_value || 0)} icon={<DollarSign size={16} />} />
+                    <StatCard label="Non-Compliant Value" value={formatCurrency(serviceModel.procurement_model.contracts_finder_coverage?.non_compliant_value || 0)} icon={<PoundSterling size={16} />} />
                     <StatCard label="Finance FTEs" value={serviceModel.procurement_model.finance_automation_potential?.finance_ftes || 0} icon={<Users size={16} />} sub={`${serviceModel.procurement_model.finance_automation_potential?.automation_pct || 0}% automatable`} />
                   </div>
                 </CollapsibleSection>

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Target, TrendingUp, AlertTriangle, ChevronRight, Zap, BarChart3, Shield, Users, Clock, DollarSign } from 'lucide-react'
+import { Target, TrendingUp, AlertTriangle, ChevronRight, Zap, BarChart3, Shield, Users, Clock, PoundSterling } from 'lucide-react'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, Legend, Cell } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -267,7 +267,7 @@ export default function DirectorateDashboard() {
         <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginTop: '0.5rem' }}>
           <Link to="/executive" className="dd-cross-link"><Users size={14} /> View Cabinet & Executive</Link>
           <button onClick={handleExportLeaderPDF} disabled={pdfGenerating} style={{ padding: '0.4rem 1rem', background: 'rgba(18,182,207,0.15)', border: '1px solid #12B6CF', borderRadius: '6px', color: '#12B6CF', cursor: 'pointer', fontSize: '0.85rem' }}>
-            <DollarSign size={14} style={{ verticalAlign: 'middle', marginRight: 4 }} />
+            <PoundSterling size={14} style={{ verticalAlign: 'middle', marginRight: 4 }} />
             {pdfGenerating ? 'Generating...' : "Leader's Briefing PDF"}
           </button>
         </div>
@@ -394,7 +394,7 @@ export default function DirectorateDashboard() {
 
           {/* Spending Intelligence */}
           {spendingSummary && Object.keys(spendingByDirectorate).length > 0 && (
-            <CollapsibleSection title={`Spending Intelligence — ${formatCurrency(spendingSummary.total_spend)} tracked (${spendingSummary.coverage?.pct || 0}% classified)`} icon={<DollarSign size={18} />}>
+            <CollapsibleSection title={`Spending Intelligence — ${formatCurrency(spendingSummary.total_spend)} tracked (${spendingSummary.coverage?.pct || 0}% classified)`} icon={<PoundSterling size={18} />}>
               <div className="spending-intel-grid">
                 {portfolioData?.directorates?.map(d => {
                   const ds = spendingByDirectorate[d.id]
