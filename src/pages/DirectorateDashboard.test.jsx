@@ -102,6 +102,12 @@ vi.mock('../utils/savingsEngine', () => ({
   })),
   quantifyDemandPressures: vi.fn(() => ({ pressures: [], total_annual: 0, total_5yr: 0, coverage_pct: 0 })),
   budgetRealismCheck: vi.fn(() => ({ credibility_score: 70 })),
+  mtfsComparison: vi.fn(() => ({ year1: { target: 65000000, identified: 134000000, gap: 0, coverage_pct: 206 }, year2: { target: 130000000, identified: 134000000, gap: 0, coverage_pct: 103 } })),
+  treasuryManagementSavings: vi.fn(() => ({ idle_cash_cost: 3500000, refinancing_potential: 2000000, mrp_method_saving: 3500000, early_payment_saving: 160000, total: 9160000 })),
+  workforceOptimisation: vi.fn(() => ({ vacancy_savings: 5000000, agency_premium: 3000000, delayering_saving: 2000000, turnover_cost: 1500000, total: 11500000 })),
+  spendingBudgetVariance: vi.fn(() => []),
+  spendingConcentration: vi.fn(() => ({ hhi: 0, top_5_pct: 0, suppliers: [] })),
+  electoralRippleAssessment: vi.fn(() => ({ actions: [], overall_risk: 'low' })),
 }))
 
 vi.mock('./DirectorateDashboard.css', () => ({}))

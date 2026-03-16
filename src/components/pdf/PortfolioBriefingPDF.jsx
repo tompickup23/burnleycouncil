@@ -1,5 +1,5 @@
 /**
- * PortfolioBriefingPDF — Per-portfolio Cabinet Command briefing.
+ * PortfolioBriefingPDF - Per-portfolio Cabinet Command briefing.
  *
  * Contains: portfolio overview, savings pipeline, governance & decisions,
  * service intelligence (all 7 models), political & fiscal trajectory,
@@ -19,6 +19,7 @@ export function PortfolioBriefingPDF({
   portfolio, directives, narrative, serviceIntel, councilName,
   politicalCtx, upcomingDecisions, dependencies, fiscalTrajectory,
   demandPressures, playbook, evidenceStrengths,
+  budgetsData, workforce,
 }) {
   if (!portfolio) return null
 
@@ -56,13 +57,13 @@ export function PortfolioBriefingPDF({
         title={title}
         subtitle="Portfolio Intelligence Briefing"
         meta={`${portfolio.cabinet_member?.name || 'Cabinet Member'} • Budget: ${formatCurrency(budget)} • Savings Pipeline: ${formatCurrency(totalSavings * 1e6)} • Generated ${new Date().toLocaleDateString('en-GB')}`}
-        classification="CONFIDENTIAL — CABINET USE ONLY"
+        classification="CONFIDENTIAL - CABINET USE ONLY"
         councilName={councilName || 'Lancashire County Council'}
       />
 
       {/* ─── PAGE 2: Portfolio Overview ─── */}
       <Page size="A4" style={styles.page}>
-        <ConfidentialBanner text="CABINET BRIEFING — RESTRICTED DISTRIBUTION" />
+        <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
         <PDFHeader title={title} subtitle="Portfolio Overview" classification="CABINET" />
 
         <StatsRow>
@@ -74,9 +75,9 @@ export function PortfolioBriefingPDF({
 
         {/* Portfolio Details */}
         <Card>
-          <KeyValue label="Cabinet Member" value={portfolio.cabinet_member?.name || '—'} color={COLORS.accent} />
-          <KeyValue label="Lead Officer" value={portfolio.lead_officer?.name || '—'} />
-          <KeyValue label="Directorate" value={portfolio.directorate || '—'} />
+          <KeyValue label="Cabinet Member" value={portfolio.cabinet_member?.name || '-'} color={COLORS.accent} />
+          <KeyValue label="Lead Officer" value={portfolio.lead_officer?.name || '-'} />
+          <KeyValue label="Directorate" value={portfolio.directorate || '-'} />
           {portfolio.statutory_duties?.length > 0 && (
             <>
               <Divider />
@@ -118,12 +119,32 @@ export function PortfolioBriefingPDF({
           </Card>
         )}
 
+        {/* Workforce Summary */}
+        {workforce && (
+          <>
+            <SectionHeading title="Workforce" />
+            <StatsRow>
+              <StatCard label="FTE Headcount" value={formatNumber(workforce.fte_headcount)} />
+              <StatCard label="Vacancy Rate" value={`${workforce.vacancy_rate_pct}%`} color={workforce.vacancy_rate_pct > 10 ? COLORS.danger : COLORS.textPrimary} />
+              <StatCard label="Agency Spend" value={formatCurrency(workforce.agency_spend)} color={workforce.agency_spend > 2000000 ? COLORS.danger : COLORS.textPrimary} />
+            </StatsRow>
+            <Card>
+              <KeyValue label="Agency FTE" value={formatNumber(workforce.agency_fte)} />
+              <KeyValue label="Average Salary" value={formatCurrency(workforce.average_salary)} />
+              <KeyValue label="Span of Control" value={`1:${workforce.span_of_control}`} />
+              <KeyValue label="Management Layers" value={workforce.management_layers?.toString() || '-'} />
+              <KeyValue label="Payscale Range" value={workforce.payscale_range || '-'} />
+              <KeyValue label="Voluntary Turnover" value={`${workforce.voluntary_turnover_pct}%`} color={workforce.voluntary_turnover_pct > 15 ? COLORS.danger : COLORS.textPrimary} />
+            </Card>
+          </>
+        )}
+
         <PDFFooter councilName={councilName} classification="PORTFOLIO BRIEFING" />
       </Page>
 
       {/* ─── PAGE 3: Savings Pipeline ─── */}
       <Page size="A4" style={styles.page}>
-        <ConfidentialBanner text="CABINET BRIEFING — RESTRICTED DISTRIBUTION" />
+        <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
         <PDFHeader title={title} subtitle="Savings Pipeline & Directives" classification="CABINET" />
 
         {/* Top Directives Table */}
@@ -136,9 +157,9 @@ export function PortfolioBriefingPDF({
             { key: 'route', label: 'Route', width: 60 },
           ]}
           rows={(directives || []).sort((a, b) => (b.save_central || 0) - (a.save_central || 0)).slice(0, 15).map(d => ({
-            action: d.action?.substring(0, 70) || '—',
+            action: d.action?.substring(0, 70) || '-',
             savings: formatCurrency((d.save_central || 0) * 1e6),
-            timeline: d.timeline || '—',
+            timeline: d.timeline || '-',
             route: d.route || governanceRoute(d.save_central || 0),
           }))}
         />
@@ -171,7 +192,7 @@ export function PortfolioBriefingPDF({
             {evidenceStrengths.filter(e => e.strength > 0).slice(0, 10).map((e, i) => (
               <View key={i} style={{ marginBottom: 3 }}>
                 <Text style={{ fontSize: FONT.micro, color: COLORS.textSecondary, marginBottom: 1 }}>
-                  {e.action?.substring(0, 60) || '—'}
+                  {e.action?.substring(0, 60) || '-'}
                 </Text>
                 <ProgressBar
                   value={e.strength}
@@ -190,7 +211,7 @@ export function PortfolioBriefingPDF({
       {/* ─── PAGE 4: Governance & Decisions ─── */}
       {(upcomingDecisions?.length > 0 || portfolioDeps.length > 0) && (
         <Page size="A4" style={styles.page}>
-          <ConfidentialBanner text="CABINET BRIEFING — RESTRICTED DISTRIBUTION" />
+          <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
           <PDFHeader title={title} subtitle="Governance & Decision Pipeline" classification="CABINET" />
 
           {/* Decision Pipeline */}
@@ -205,10 +226,10 @@ export function PortfolioBriefingPDF({
                   { key: 'type', label: 'Type', width: 60 },
                 ]}
                 rows={(upcomingDecisions || []).slice(0, 10).map(d => ({
-                  title: (d.title || d.subject || '—').substring(0, 60),
-                  date: d.date ? new Date(d.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '—',
-                  committee: d.committee || '—',
-                  type: d.type || d.decision_type || '—',
+                  title: (d.title || d.subject || '-').substring(0, 60),
+                  date: d.date ? new Date(d.date).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }) : '-',
+                  committee: d.committee || '-',
+                  type: d.type || d.decision_type || '-',
                 }))}
               />
             </>
@@ -231,7 +252,7 @@ export function PortfolioBriefingPDF({
               { key: 'route', label: 'Route', width: 80 },
             ]}
             rows={(directives || []).sort((a, b) => (b.save_central || 0) - (a.save_central || 0)).slice(0, 8).map(d => ({
-              action: d.action?.substring(0, 60) || '—',
+              action: d.action?.substring(0, 60) || '-',
               savings: formatCurrency((d.save_central || 0) * 1e6),
               route: d.route || governanceRoute(d.save_central || 0),
             }))}
@@ -263,7 +284,7 @@ export function PortfolioBriefingPDF({
       {/* ─── PAGE 5: Service Intelligence (expanded) ─── */}
       {serviceIntel && (
         <Page size="A4" style={styles.page}>
-          <ConfidentialBanner text="CABINET BRIEFING — RESTRICTED DISTRIBUTION" />
+          <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
           <PDFHeader title={title} subtitle="Service Intelligence" classification="CABINET" />
 
           {serviceIntel.sendProjection && (
@@ -298,8 +319,8 @@ export function PortfolioBriefingPDF({
             <>
               <SectionHeading title="ASC Demand Intelligence" />
               <Card highlight>
-                <KeyValue label="Demographic Pressure" value={serviceIntel.ascProjection.demographic_pressure || '—'} />
-                <KeyValue label="Market Sustainability" value={serviceIntel.ascProjection.market_sustainability || '—'} />
+                <KeyValue label="Demographic Pressure" value={serviceIntel.ascProjection.demographic_pressure || '-'} />
+                <KeyValue label="Market Sustainability" value={serviceIntel.ascProjection.market_sustainability || '-'} />
                 {serviceIntel.ascProjection.yearly?.slice(0, 3).map((y, i) => (
                   <KeyValue key={i} label={`Year ${y.year || i + 1}`} value={formatCurrency(y.total_cost)} />
                 ))}
@@ -385,7 +406,7 @@ export function PortfolioBriefingPDF({
       {/* ─── PAGE 6: Political & Fiscal Trajectory ─── */}
       {(politicalCtx || fiscalTrajectory) && (
         <Page size="A4" style={styles.page}>
-          <ConfidentialBanner text="CABINET BRIEFING — RESTRICTED DISTRIBUTION" />
+          <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
           <PDFHeader title={title} subtitle="Political & Fiscal Intelligence" classification="CABINET" />
 
           {/* Political Context */}
@@ -432,7 +453,7 @@ export function PortfolioBriefingPDF({
                     { key: 'net', label: 'Net Position', width: 70, align: 'right' },
                   ]}
                   rows={fiscalTrajectory.yearly.slice(0, 5).map(y => ({
-                    year: (y.year || '—').toString(),
+                    year: (y.year || '-').toString(),
                     demand: formatCurrency(y.demand || y.demand_cost),
                     savings: formatCurrency(y.savings || y.savings_value),
                     net: formatCurrency(y.net || y.net_position),
@@ -450,7 +471,7 @@ export function PortfolioBriefingPDF({
       {/* ─── PAGE 7: PR & Reform Narrative ─── */}
       {narrative && (
         <Page size="A4" style={styles.page}>
-          <ConfidentialBanner text="CABINET BRIEFING — RESTRICTED DISTRIBUTION" />
+          <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
           <PDFHeader title={title} subtitle="Reform Narrative & PR Material" classification="CABINET" />
 
           {/* Press Releases */}
@@ -520,7 +541,7 @@ export function PortfolioBriefingPDF({
       {/* ─── Key Contracts & Savings Levers ─── */}
       {(portfolio.key_contracts?.length > 0 || portfolio.savings_levers?.length > 0) && (
         <Page size="A4" style={styles.page}>
-          <ConfidentialBanner text="CABINET BRIEFING — RESTRICTED DISTRIBUTION" />
+          <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
           <PDFHeader title={title} subtitle="Key Contracts & Savings Levers" classification="CABINET" />
 
           {portfolio.key_contracts?.length > 0 && (
@@ -534,10 +555,10 @@ export function PortfolioBriefingPDF({
                   { key: 'risk', label: 'Risk', width: 50 },
                 ]}
                 rows={(portfolio.key_contracts || []).map(c => ({
-                  supplier: c.supplier || c.name || '—',
-                  value: c.value || c.annual_value || '—',
-                  scope: (c.scope || c.description || '—').substring(0, 50),
-                  risk: c.risk_level || c.risk || '—',
+                  supplier: c.supplier || c.name || '-',
+                  value: c.value || c.annual_value || '-',
+                  scope: (c.scope || c.description || '-').substring(0, 50),
+                  risk: c.risk_level || c.risk || '-',
                   _colors: { risk: c.risk_level === 'high' ? COLORS.danger : c.risk_level === 'medium' ? COLORS.warning : COLORS.textPrimary },
                 }))}
               />
@@ -556,10 +577,10 @@ export function PortfolioBriefingPDF({
                   { key: 'owner', label: 'Owner', width: 60 },
                 ]}
                 rows={(portfolio.savings_levers || []).map(l => ({
-                  action: (l.action || '—').substring(0, 70),
-                  saving: l.est_saving || l.saving || '—',
-                  timeline: l.timeline || '—',
-                  owner: l.owner || '—',
+                  action: (l.action || '-').substring(0, 70),
+                  saving: l.est_saving || l.saving || '-',
+                  timeline: l.timeline || '-',
+                  owner: l.owner || '-',
                 }))}
               />
             </>

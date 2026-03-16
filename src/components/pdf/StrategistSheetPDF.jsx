@@ -1,5 +1,5 @@
 /**
- * StrategistSheetPDF — Comprehensive per-ward strategist briefing (5-7 pages).
+ * StrategistSheetPDF - Comprehensive per-ward strategist briefing (5-7 pages).
  *
  * Contains EVERYTHING: electoral history, demographics, deprivation, housing,
  * HMO, economy, crime, health, planning, DOGE findings, councillor voting record,
@@ -93,17 +93,17 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
         <ConfidentialBanner />
         <PDFHeader
           title={wardName}
-          subtitle={`Strategist Briefing — ${councilName || 'Burnley'}`}
+          subtitle={`Strategist Briefing: ${councilName || 'Burnley'}`}
           classification="STRATEGIST"
           date={formatDate(new Date().toISOString())}
         />
 
         {/* Hero stats */}
         <StatsRow>
-          <StatCard value={overallScore?.toFixed(0) || '—'} label="Priority Score" color={overallScore > 70 ? COLORS.success : overallScore > 40 ? COLORS.warning : COLORS.danger} />
-          <StatCard value={intel.tier?.replace(/_/g, ' ').toUpperCase() || wardStrategy?.archetype?.replace(/_/g, ' ') || '—'} label="Classification" color={COLORS[intel.tier] || COLORS.accent} />
-          <StatCard value={daysLeft != null ? `${daysLeft}` : '—'} label="Days to Election" color={daysLeft < 30 ? COLORS.danger : COLORS.warning} detail={elDate} />
-          <StatCard value={entrenchment?.level?.toUpperCase() || '—'} label="Entrenchment" color={entrenchment?.level === 'vulnerable' ? COLORS.success : entrenchment?.level === 'fortress' ? COLORS.danger : COLORS.warning} />
+          <StatCard value={overallScore?.toFixed(0) || '-'} label="Priority Score" color={overallScore > 70 ? COLORS.success : overallScore > 40 ? COLORS.warning : COLORS.danger} />
+          <StatCard value={intel.tier?.replace(/_/g, ' ').toUpperCase() || wardStrategy?.archetype?.replace(/_/g, ' ') || '-'} label="Classification" color={COLORS[intel.tier] || COLORS.accent} />
+          <StatCard value={daysLeft != null ? `${daysLeft}` : '-'} label="Days to Election" color={daysLeft < 30 ? COLORS.danger : COLORS.warning} detail={elDate} />
+          <StatCard value={entrenchment?.level?.toUpperCase() || '-'} label="Entrenchment" color={entrenchment?.level === 'vulnerable' ? COLORS.success : entrenchment?.level === 'fortress' ? COLORS.danger : COLORS.warning} />
         </StatsRow>
 
         {/* Election Intelligence */}
@@ -112,21 +112,21 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
           <View style={styles.col2}>
             <Card>
               <SubsectionHeading title="Current Position" />
-              <KeyValue label="Defender" value={election?.defender?.name || '—'} color={partyColor(election?.defender?.party)} />
-              <KeyValue label="Party" value={election?.defender?.party || '—'} />
-              <KeyValue label="Predicted Winner" value={election?.prediction?.winner || '—'} />
+              <KeyValue label="Defender" value={election?.defender?.name || '-'} color={partyColor(election?.defender?.party)} />
+              <KeyValue label="Party" value={election?.defender?.party || '-'} />
+              <KeyValue label="Predicted Winner" value={election?.prediction?.winner || '-'} />
               <KeyValue label="Our Predicted %" value={formatPct(election?.prediction?.ourPct)} color={COLORS.accent} />
               <KeyValue label="Swing Required" value={formatPct(election?.prediction?.swingRequired)} color={COLORS.warning} />
               <KeyValue label="Win Probability" value={formatPct((election?.prediction?.winProbability || 0) * 100, 0)} color={COLORS.success} />
-              <KeyValue label="Confidence" value={election?.prediction?.confidence || '—'} />
+              <KeyValue label="Confidence" value={election?.prediction?.confidence || '-'} />
             </Card>
           </View>
           <View style={styles.col2}>
             <Card>
               <SubsectionHeading title="Swing Analysis" />
               <KeyValue label="Avg Swing" value={formatPct(election?.avgSwing)} />
-              <KeyValue label="Trend" value={election?.trend?.toUpperCase() || '—'} color={election?.trend === 'positive' ? COLORS.success : COLORS.danger} />
-              <KeyValue label="Volatility" value={election?.volatility || '—'} />
+              <KeyValue label="Trend" value={election?.trend?.toUpperCase() || '-'} color={election?.trend === 'positive' ? COLORS.success : COLORS.danger} />
+              <KeyValue label="Volatility" value={election?.volatility || '-'} />
               {election?.history?.slice(0, 5).map((s, i) => (
                 <KeyValue key={i} label={`${s.year} swing`} value={formatPct(s.swing)} color={s.swing > 0 ? COLORS.success : COLORS.danger} />
               ))}
@@ -177,15 +177,15 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
           <StatCard value={formatNumber(profile?.population)} label="Population" />
           <StatCard value={formatPct(profile?.whiteBritishPct, 0)} label="White British" />
           <StatCard value={formatPct(profile?.over65Pct, 0)} label="Over 65" />
-          <StatCard value={profile?.deprivation?.decile?.toString() || '—'} label="IMD Decile" detail={`Rank ${profile?.deprivation?.rank || '—'}`} color={profile?.deprivation?.decile <= 2 ? COLORS.danger : COLORS.textPrimary} />
+          <StatCard value={profile?.deprivation?.decile?.toString() || '-'} label="IMD Decile" detail={`Rank ${profile?.deprivation?.rank || '-'}`} color={profile?.deprivation?.decile <= 2 ? COLORS.danger : COLORS.textPrimary} />
         </StatsRow>
 
         {/* Deprivation Deep Dive */}
         {profile?.deprivation && (
           <Card>
             <SubsectionHeading title="Deprivation Profile" />
-            <KeyValue label="IMD Score" value={intel.imd?.toFixed(1) || profile?.deprivation?.score?.toFixed(1) || '—'} />
-            <KeyValue label="Decile" value={profile?.deprivation?.decile?.toString() || '—'} color={profile?.deprivation?.decile <= 2 ? COLORS.danger : COLORS.textPrimary} />
+            <KeyValue label="IMD Score" value={intel.imd?.toFixed(1) || profile?.deprivation?.score?.toFixed(1) || '-'} />
+            <KeyValue label="Decile" value={profile?.deprivation?.decile?.toString() || '-'} color={profile?.deprivation?.decile <= 2 ? COLORS.danger : COLORS.textPrimary} />
             <KeyValue label="Rank" value={formatNumber(profile?.deprivation?.rank)} />
             {profile?.deprivation?.domains && Object.entries(profile.deprivation.domains).map(([k, v]) => (
               <KeyValue key={k} label={k.replace(/_/g, ' ')} value={typeof v === 'number' ? v.toFixed(1) : String(v)} />
@@ -242,7 +242,7 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
               })()}
               {hmoData?.modelling?.article_4_direction?.status === 'in_force' && (
                 <Text style={{ fontSize: FONT.micro, color: COLORS.accent, marginTop: 3 }}>
-                  Article 4 Direction in force — HMO growth controlled
+                  Article 4 Direction in force. HMO growth controlled
                 </Text>
               )}
             </Card>
@@ -260,7 +260,7 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
             </View>
             <View style={styles.row}>
               <View style={styles.col3}><KeyValue label="Temp Accommodation" value={formatNumber(housingData.homelessness.temporary_accommodation)} /></View>
-              <View style={styles.col3}><KeyValue label="Rough Sleeping" value={housingData.homelessness.rough_sleeping?.count_2025?.toString() || '—'} /></View>
+              <View style={styles.col3}><KeyValue label="Rough Sleeping" value={housingData.homelessness.rough_sleeping?.count_2025?.toString() || '-'} /></View>
               <View style={styles.col3}><KeyValue label="Empty Homes" value={formatNumber(housingData.housing_pressure?.empty_homes?.total)} /></View>
             </View>
           </Card>
@@ -271,7 +271,7 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
         <Card>
           <View style={styles.row}>
             <View style={styles.col2}>
-              <KeyValue label="Claimant %" value={econWard?.rate != null ? formatPct(econWard.rate) : intel.claimants_pct ? formatPct(intel.claimants_pct) : '—'} color={(econWard?.rate || intel.claimants_pct || 0) > 5 ? COLORS.danger : COLORS.textPrimary} />
+              <KeyValue label="Claimant %" value={econWard?.rate != null ? formatPct(econWard.rate) : intel.claimants_pct ? formatPct(intel.claimants_pct) : '-'} color={(econWard?.rate || intel.claimants_pct || 0) > 5 ? COLORS.danger : COLORS.textPrimary} />
               {housingData?.housing_pressure?.universal_credit && (
                 <KeyValue label="UC Borough Rate" value={formatPct(housingData.housing_pressure.universal_credit)} />
               )}
@@ -302,7 +302,7 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
           <ConfidentialBanner />
           <PDFHeader title={wardName} subtitle="Crime, Health & Planning Intelligence" classification="STRATEGIST" />
 
-          {/* Crime Intelligence — from deprivation domains */}
+          {/* Crime Intelligence - from deprivation domains */}
           {profile?.deprivation?.domains && (
             <>
               <SectionHeading title="Crime & Safety" />
@@ -315,7 +315,7 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
                   <KeyValue label="Living Environment" value={typeof profile.deprivation.domains.living_environment === 'number' ? profile.deprivation.domains.living_environment.toFixed(1) : String(profile.deprivation.domains.living_environment)} />
                 )}
                 <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted, marginTop: 3 }}>
-                  IMD Decile {profile.deprivation.decile || '—'} — {profile.deprivation.decile <= 2 ? 'Top 20% most deprived nationally' : profile.deprivation.decile <= 4 ? 'Top 40% most deprived' : 'Above average'}
+                  IMD Decile {profile.deprivation.decile || '-'}: {profile.deprivation.decile <= 2 ? 'Top 20% most deprived nationally' : profile.deprivation.decile <= 4 ? 'Top 40% most deprived' : 'Above average'}
                 </Text>
               </Card>
             </>
@@ -370,7 +370,7 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
               <Card>
                 <View style={styles.row}>
                   <View style={styles.col2}><KeyValue label="Total Applications" value={formatNumber(planWard.total || planWard.count)} /></View>
-                  <View style={styles.col2}><KeyValue label="Approval Rate" value={planWard.approval_rate != null ? formatPct(planWard.approval_rate) : '—'} color={COLORS.accent} /></View>
+                  <View style={styles.col2}><KeyValue label="Approval Rate" value={planWard.approval_rate != null ? formatPct(planWard.approval_rate) : '-'} color={COLORS.accent} /></View>
                 </View>
                 {planWard.by_type && Object.entries(planWard.by_type).slice(0, 4).map(([type, count]) => (
                   <KeyValue key={type} label={type.replace(/_/g, ' ')} value={formatNumber(count)} />
@@ -394,8 +394,8 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
             <>
               <SectionHeading title="DOGE Spending Anomalies" />
               <StatsRow>
-                <StatCard value={fraudTriangle?.overall_score?.toFixed(0) || '—'} label="Fraud Triangle" color={fraudTriangle?.overall_score > 60 ? COLORS.danger : COLORS.warning} />
-                <StatCard value={dogeFindings?.meta?.verification_score?.toFixed(0) || dogeFindings?.verification?.overall_score?.toFixed(0) || '—'} label="Verification" />
+                <StatCard value={fraudTriangle?.overall_score?.toFixed(0) || '-'} label="Fraud Triangle" color={fraudTriangle?.overall_score > 60 ? COLORS.danger : COLORS.warning} />
+                <StatCard value={dogeFindings?.meta?.verification_score?.toFixed(0) || dogeFindings?.verification?.overall_score?.toFixed(0) || '-'} label="Verification" />
                 <StatCard value={topFindings.length.toString()} label="Key Findings" color={COLORS.warning} />
               </StatsRow>
               <Table
@@ -428,8 +428,8 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
                   const cv = v.councillor_votes?.find(cv2 => councillorNames.includes(cv2.name?.toLowerCase()))
                   return {
                     motion: (v.title || v.motion || v.description || '').slice(0, 60),
-                    vote: cv?.vote || '—',
-                    date: v.date || '—',
+                    vote: cv?.vote || '-',
+                    date: v.date || '-',
                     _colors: { vote: cv?.vote === 'For' ? COLORS.success : cv?.vote === 'Against' ? COLORS.danger : COLORS.textMuted },
                   }
                 })}
@@ -444,12 +444,12 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
               <Card highlight>
                 <View style={styles.row}>
                   <View style={styles.col2}>
-                    <KeyValue label="Reserves Rating" value={fiscalContext.reserves_rating || '—'} color={fiscalContext.reserves_rating === 'critical' ? COLORS.danger : COLORS.textPrimary} />
-                    <KeyValue label="Reserves (months)" value={fiscalContext.reserves_months != null ? `${fiscalContext.reserves_months.toFixed(1)}` : '—'} color={fiscalContext.reserves_months < 3 ? COLORS.danger : COLORS.textPrimary} />
+                    <KeyValue label="Reserves Rating" value={fiscalContext.reserves_rating || '-'} color={fiscalContext.reserves_rating === 'critical' ? COLORS.danger : COLORS.textPrimary} />
+                    <KeyValue label="Reserves (months)" value={fiscalContext.reserves_months != null ? `${fiscalContext.reserves_months.toFixed(1)}` : '-'} color={fiscalContext.reserves_months < 3 ? COLORS.danger : COLORS.textPrimary} />
                   </View>
                   <View style={styles.col2}>
-                    <KeyValue label="Collection Rate" value={fiscalContext.collection_efficiency ? formatPct(fiscalContext.collection_efficiency) : '—'} />
-                    <KeyValue label="Overall Health" value={fiscalContext.overall_health?.toUpperCase() || '—'} color={fiscalContext.overall_color || COLORS.textPrimary} />
+                    <KeyValue label="Collection Rate" value={fiscalContext.collection_efficiency ? formatPct(fiscalContext.collection_efficiency) : '-'} />
+                    <KeyValue label="Overall Health" value={fiscalContext.overall_health?.toUpperCase() || '-'} color={fiscalContext.overall_color || COLORS.textPrimary} />
                   </View>
                 </View>
               </Card>
@@ -546,10 +546,10 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
         {/* Council Performance */}
         <SectionHeading title="Council Performance Context" />
         <Card>
-          <KeyValue label="Political Control" value={councilPerformance?.politicalControl || '—'} />
-          <KeyValue label="Fraud Triangle" value={councilPerformance?.fraudTriangleScore?.toFixed(1) || '—'} color={councilPerformance?.fraudTriangleScore > 60 ? COLORS.danger : COLORS.warning} />
+          <KeyValue label="Political Control" value={councilPerformance?.politicalControl || '-'} />
+          <KeyValue label="Fraud Triangle" value={councilPerformance?.fraudTriangleScore?.toFixed(1) || '-'} color={councilPerformance?.fraudTriangleScore > 60 ? COLORS.danger : COLORS.warning} />
           <KeyValue label="Collection Rate" value={formatPct(councilPerformance?.collectionRate?.latest)} />
-          <KeyValue label="Council Tax Band D" value={councilPerformance?.councilTaxBandD ? `£${councilPerformance.councilTaxBandD.toFixed(2)}` : '—'} />
+          <KeyValue label="Council Tax Band D" value={councilPerformance?.councilTaxBandD ? `£${councilPerformance.councilTaxBandD.toFixed(2)}` : '-'} />
         </Card>
 
         <PDFFooter councilName={councilName} classification="STRATEGIST BRIEFING" />
@@ -617,7 +617,7 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
         {/* Warnings */}
         {wardStrategy?.warnings?.length > 0 && (
           <>
-            <SubsectionHeading title="Warnings — Do Not Say" />
+            <SubsectionHeading title="Warnings: Do Not Say" />
             <BulletList items={wardStrategy.warnings} color={COLORS.danger} />
           </>
         )}
@@ -651,9 +651,9 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
           <>
             <SectionHeading title="Constituency Context" />
             <Card>
-              <KeyValue label="Constituency" value={constituency?.name || '—'} />
-              <KeyValue label="MP" value={constituency?.mp?.name || '—'} />
-              <KeyValue label="MP Party" value={constituency?.mp?.party || '—'} color={partyColor(constituency?.mp?.party)} />
+              <KeyValue label="Constituency" value={constituency?.name || '-'} />
+              <KeyValue label="MP" value={constituency?.mp?.name || '-'} />
+              <KeyValue label="MP Party" value={constituency?.mp?.party || '-'} color={partyColor(constituency?.mp?.party)} />
               {constituency?.ge2024 && (
                 <>
                   <Divider />

@@ -29,6 +29,8 @@ import {
   spendingConcentration,
   mtfsComparison,
   electoralRippleAssessment,
+  treasuryManagementSavings,
+  workforceOptimisation,
 } from '../utils/savingsEngine'
 import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import { usePDFExport } from '../components/pdf/usePDFExport'
@@ -199,6 +201,27 @@ export default function DirectorateDashboard() {
     return electoralRippleAssessment(actions)
   }, [portfolioData, mondayList])
 
+  // Treasury + workforce summary for leader PDF
+  const treasurySummary = useMemo(() => {
+    const treasury = portfolioData?.administration?.treasury
+    if (!treasury) return null
+    return treasuryManagementSavings(treasury)
+  }, [portfolioData])
+
+  const workforceSummary = useMemo(() => {
+    if (!portfolioData?.portfolios?.length) return null
+    const totals = { fte: 0, vacancies: 0, agency_spend: 0, agency_fte: 0, total_salary_budget: 0 }
+    for (const p of portfolioData.portfolios) {
+      if (!p.workforce) continue
+      totals.fte += p.workforce.fte_headcount || 0
+      totals.vacancies += Math.round((p.workforce.fte_headcount || 0) * (p.workforce.vacancy_rate_pct || 0) / 100)
+      totals.agency_spend += p.workforce.agency_spend || 0
+      totals.agency_fte += p.workforce.agency_fte || 0
+      totals.total_salary_budget += (p.workforce.fte_headcount || 0) * (p.workforce.average_salary || 32000) * 1.3
+    }
+    return totals
+  }, [portfolioData])
+
   // --- PDF Export: Leader Briefing ---
   const { generatePDF, isGenerating: pdfGenerating } = usePDFExport()
   const handleExportLeaderPDF = async () => {
@@ -216,6 +239,10 @@ export default function DirectorateDashboard() {
       riskProfiles={riskProfiles}
       spendingByDirectorate={spendingByDirectorate}
       totals={totals}
+      budgetsData={budgetsData}
+      treasurySummary={treasurySummary}
+      workforceSummary={workforceSummary}
+      treasuryRaw={portfolioData?.administration?.treasury}
     />
     generatePDF(doc, `leader-briefing-${new Date().toISOString().slice(0, 10)}.pdf`)
   }

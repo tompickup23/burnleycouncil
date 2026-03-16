@@ -1,5 +1,5 @@
 /**
- * LeaderBriefingPDF — Comprehensive leader overview covering all portfolios.
+ * LeaderBriefingPDF - Comprehensive leader overview covering all portfolios.
  *
  * The "Monday Morning" document: fiscal system overview, all directorates,
  * top savings opportunities, MTFS comparison, political impact, key actions.
@@ -18,6 +18,7 @@ export function LeaderBriefingPDF({
   portfolios, directorates, allDirectives, fiscalOverview,
   mtfsComparison, politicalImpact, mondayMorningList, councilName,
   riskProfiles, spendingByDirectorate, totals,
+  budgetsData, treasurySummary, workforceSummary, treasuryRaw,
 }) {
   // Aggregate stats
   const totalSavings = (allDirectives || []).reduce((s, d) => s + (d.save_central || 0), 0)
@@ -31,7 +32,7 @@ export function LeaderBriefingPDF({
   const modelsTotal = fiscalOverview?.models_total || 10
 
   // Transform mtfsComparison flat numeric fields into gaps format for rendering
-  const fmtCur = v => v != null ? formatCurrency(v * 1e6) : '—'
+  const fmtCur = v => v != null ? formatCurrency(v * 1e6) : '-'
   const mtfsGaps = mtfsComparison ? {
     gaps: [
       { area: 'Year 1 Target (2026/27)', mtfs_value: fmtCur(mtfsComparison.mtfs_year1_target),
@@ -41,15 +42,15 @@ export function LeaderBriefingPDF({
         doge_value: fmtCur(mtfsComparison.identified_central),
         implication: mtfsComparison.gap_or_surplus >= 0 ? `Surplus: ${fmtCur(mtfsComparison.gap_or_surplus)}` : `Gap: ${fmtCur(Math.abs(mtfsComparison.gap_or_surplus))}` },
       { area: 'Cost Pressures (26/27)', mtfs_value: fmtCur(mtfsComparison.cost_pressures),
-        doge_value: '—', implication: 'Unfunded demand pressure on top of savings targets' },
+        doge_value: '-', implication: 'Unfunded demand pressure on top of savings targets' },
       ...(mtfsComparison.prior_year_shortfall > 0 ? [{
         area: 'Prior Year ASC Shortfall', mtfs_value: fmtCur(mtfsComparison.prior_year_shortfall),
-        doge_value: '—', implication: 'Carried forward demand not addressed' }] : []),
+        doge_value: '-', implication: 'Carried forward demand not addressed' }] : []),
     ],
     overall_assessment: `AI DOGE identifies ${mtfsComparison.two_year_coverage_pct ?? 0}% of the two-year MTFS target.`
       + (mtfsComparison.gap_or_surplus >= 0
         ? ` Surplus position of ${fmtCur(mtfsComparison.gap_or_surplus)}.`
-        : ` Shortfall of ${fmtCur(Math.abs(mtfsComparison.gap_or_surplus))} — structural reform needed.`)
+        : ` Shortfall of ${fmtCur(Math.abs(mtfsComparison.gap_or_surplus))}. Structural reform needed.`)
       + (mtfsComparison.redundancy_provision > 0
         ? ` Redundancy provision: ${fmtCur(mtfsComparison.redundancy_provision)}.`
         : ''),
@@ -60,15 +61,15 @@ export function LeaderBriefingPDF({
       {/* Cover */}
       <CoverPage
         title="Leader's Briefing"
-        subtitle="Lancashire County Council — Reform Operations Command"
+        subtitle="Lancashire County Council: Reform Operations Command"
         meta={`${(portfolios || []).length} portfolios • ${formatCurrency(totalSavings * 1e6)} savings pipeline • Generated ${new Date().toLocaleDateString('en-GB')}`}
-        classification="CONFIDENTIAL — LEADER USE ONLY"
+        classification="CONFIDENTIAL - LEADER USE ONLY"
         councilName={councilName || 'Lancashire County Council'}
       />
 
       {/* ─── PAGE 2: Fiscal System Overview ─── */}
       <Page size="A4" style={styles.page}>
-        <ConfidentialBanner text="LEADER BRIEFING — MOST RESTRICTED" />
+        <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
         <PDFHeader title="Fiscal System Overview" subtitle="Reform Operations Command" classification="LEADER" />
 
         <StatsRow>
@@ -101,14 +102,14 @@ export function LeaderBriefingPDF({
             { key: 'risk', label: 'Risk', width: 50 },
           ]}
           rows={(directorates || []).map(d => ({
-            name: (d.title || d.name || d.id || '—').split(',')[0],
-            portfolios: d.portfolio_count?.toString() || '—',
+            name: (d.title || d.name || d.id || '-').split(',')[0],
+            portfolios: d.portfolio_count?.toString() || '-',
             budget: formatCurrency(d.net_budget || d.total_budget),
             savings: d.savings_range ? `${formatCurrency(d.savings_range.low)}–${formatCurrency(d.savings_range.high)}` : formatCurrency((d.total_savings || 0) * 1e6),
             coverage: `${d.coverage_pct || 0}%`,
             evidence: `${d.avg_evidence_strength || 0}/100`,
-            directives: d.directive_count?.toString() || d.lever_count?.toString() || '—',
-            risk: d.risk_level || (riskProfiles?.[d.directorate_id]?.risk_level) || '—',
+            directives: d.directive_count?.toString() || d.lever_count?.toString() || '-',
+            risk: d.risk_level || (riskProfiles?.[d.directorate_id]?.risk_level) || '-',
             _colors: {
               risk: (d.risk_level || riskProfiles?.[d.directorate_id]?.risk_level) === 'high' ? COLORS.danger
                 : (d.risk_level || riskProfiles?.[d.directorate_id]?.risk_level) === 'medium' ? COLORS.warning : COLORS.success,
@@ -133,7 +134,7 @@ export function LeaderBriefingPDF({
 
       {/* ─── PAGE 3: Monday Morning List ─── */}
       <Page size="A4" style={styles.page}>
-        <ConfidentialBanner text="LEADER BRIEFING — MOST RESTRICTED" />
+        <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
         <PDFHeader title="Monday Morning List" subtitle="Priority Actions This Week" classification="LEADER" />
 
         {(mondayMorningList || immediateDirectives).slice(0, 15).map((d, i) => (
@@ -141,17 +142,17 @@ export function LeaderBriefingPDF({
             <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
               <View style={{ flex: 3 }}>
                 <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: i < 3 ? COLORS.accent : COLORS.textPrimary }}>
-                  {i + 1}. {d.action?.substring(0, 80) || '—'}
+                  {i + 1}. {d.action?.substring(0, 80) || '-'}
                 </Text>
                 <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted, marginTop: 2 }}>
-                  {d.portfolio_title || d.portfolio || '—'} • {d.category?.replace(/_/g, ' ') || '—'}
+                  {d.portfolio_title || d.portfolio || '-'} • {d.category?.replace(/_/g, ' ') || '-'}
                 </Text>
               </View>
               <View style={{ alignItems: 'flex-end' }}>
                 <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.success }}>
                   {formatCurrency((d.save_central || 0) * 1e6)}
                 </Text>
-                <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>{d.timeline || '—'}</Text>
+                <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>{d.timeline || '-'}</Text>
               </View>
             </View>
             {d.how && (
@@ -172,7 +173,7 @@ export function LeaderBriefingPDF({
 
       {/* ─── PAGE 4: Per-Portfolio Summary ─── */}
       <Page size="A4" style={styles.page}>
-        <ConfidentialBanner text="LEADER BRIEFING — MOST RESTRICTED" />
+        <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
         <PDFHeader title="Portfolio Summary" subtitle="All 10 Portfolios at a Glance" classification="LEADER" />
 
         {(portfolios || []).map((p, i) => {
@@ -188,7 +189,7 @@ export function LeaderBriefingPDF({
                     {p.short_title || p.title || p.id}
                   </Text>
                   <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>
-                    {p.cabinet_member?.name || '—'} • {p.lead_officer?.name || '—'}
+                    {p.cabinet_member?.name || '-'} • {p.lead_officer?.name || '-'}
                   </Text>
                 </View>
                 <View style={{ alignItems: 'flex-end' }}>
@@ -223,7 +224,7 @@ export function LeaderBriefingPDF({
       {/* ─── PAGE 5: MTFS Comparison ─── */}
       {mtfsGaps && (
         <Page size="A4" style={styles.page}>
-          <ConfidentialBanner text="LEADER BRIEFING — MOST RESTRICTED" />
+          <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
           <PDFHeader title="MTFS Comparison" subtitle="AI DOGE vs Official Medium Term Financial Strategy" classification="LEADER" />
 
           <Card highlight>
@@ -233,10 +234,10 @@ export function LeaderBriefingPDF({
                 <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.warning }}>{gap.area}</Text>
                 <View style={styles.row}>
                   <View style={styles.col2}>
-                    <KeyValue label="MTFS Says" value={gap.mtfs_value || '—'} />
+                    <KeyValue label="MTFS Says" value={gap.mtfs_value || '-'} />
                   </View>
                   <View style={styles.col2}>
-                    <KeyValue label="AI DOGE Says" value={gap.doge_value || '—'} color={COLORS.accent} />
+                    <KeyValue label="AI DOGE Says" value={gap.doge_value || '-'} color={COLORS.accent} />
                   </View>
                 </View>
                 {gap.implication && (
@@ -271,7 +272,7 @@ export function LeaderBriefingPDF({
       {/* ─── PAGE 6: Political Impact & Electoral Ripple ─── */}
       {politicalImpact && (
         <Page size="A4" style={styles.page}>
-          <ConfidentialBanner text="LEADER BRIEFING — MOST RESTRICTED" />
+          <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
           <PDFHeader title="Political Impact Assessment" subtitle="Electoral Ripple from LCC Reform Operations" classification="LEADER" />
 
           <StatsRow>
@@ -283,7 +284,7 @@ export function LeaderBriefingPDF({
           <Card highlight>
             <SubsectionHeading title="Borough Election Impact" />
             <Text style={{ fontSize: FONT.body, color: COLORS.textPrimary, lineHeight: 1.5, marginBottom: SPACE.sm }}>
-              Every Reform action at LCC ripples across 12 borough districts. Reform as a new governing party gets 2-3x media scrutiny — use this, don't fear it.
+              Every Reform action at LCC ripples across 12 borough districts. Reform as a new governing party gets 2-3x media scrutiny. Use this, don't fear it.
             </Text>
           </Card>
 
@@ -296,9 +297,9 @@ export function LeaderBriefingPDF({
                 { key: 'talking_point', label: 'Talking Point', flex: 3 },
               ]}
               rows={politicalImpact.district_impact.slice(0, 12).map(di => ({
-                district: di.district || di.name || '—',
+                district: di.district || di.name || '-',
                 score: `${di.impact_score ?? di.score ?? 0}/100`,
-                talking_point: di.talking_point || '—',
+                talking_point: di.talking_point || '-',
                 _colors: { score: (di.impact_score ?? di.score ?? 0) >= 60 ? COLORS.success : COLORS.warning },
               }))}
             />
@@ -318,9 +319,100 @@ export function LeaderBriefingPDF({
         </Page>
       )}
 
-      {/* ─── PAGE 7: Risk Register & Inspections ─── */}
+      {/* ─── PAGE 7: Treasury & Workforce Overview ─── */}
+      {(treasuryRaw || workforceSummary) && (
+        <Page size="A4" style={styles.page}>
+          <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
+          <PDFHeader title="Treasury & Workforce" subtitle="Cash Management, Debt Position, and Staffing" classification="LEADER" />
+
+          {treasuryRaw && (
+            <>
+              <SectionHeading title="Treasury Position" />
+              <StatsRow>
+                <StatCard label="Total Borrowing" value={formatCurrency(treasuryRaw.total_borrowing)} />
+                <StatCard label="Debt Service" value={`${formatCurrency(treasuryRaw.annual_debt_service)}/yr`} />
+                <StatCard label="Cash Balances" value={formatCurrency(treasuryRaw.cash_balances_average)} />
+              </StatsRow>
+              <Card>
+                <Table
+                  columns={[
+                    { key: 'metric', label: 'Treasury Metric', flex: 2, bold: true },
+                    { key: 'value', label: 'Current', width: 120 },
+                    { key: 'note', label: 'Action', flex: 2 },
+                  ]}
+                  rows={[
+                    { metric: 'Average Interest Rate', value: `${treasuryRaw.average_interest_rate_pct}%`, note: `Legacy loans at ${treasuryRaw.average_legacy_rate_pct}% vs current ${treasuryRaw.current_pwlb_rate_pct}%` },
+                    { metric: 'Investment Income', value: formatCurrency(treasuryRaw.investment_income_actual), note: `Benchmark: ${formatCurrency(treasuryRaw.investment_income_benchmark)}` },
+                    { metric: 'MRP Method', value: treasuryRaw.mrp_method || 'regulatory', note: `Asset life method saves ${formatCurrency(treasuryRaw.asset_life_mrp_saving)}/yr` },
+                    { metric: 'Idle Cash Opportunity', value: formatCurrency(treasuryRaw.idle_cash_opportunity || 0), note: 'Move to MMFs and short gilts' },
+                  ]}
+                />
+              </Card>
+              {treasurySummary && (
+                <Card accent>
+                  <SubsectionHeading title="Treasury Savings Identified" />
+                  <BulletList items={[
+                    `Idle cash optimisation: ${formatCurrency(treasurySummary.idle_cash_cost)}`,
+                    `Debt refinancing potential: ${formatCurrency(treasurySummary.refinancing_potential)}`,
+                    `MRP method switch: ${formatCurrency(treasurySummary.mrp_method_saving)}`,
+                    `Total treasury savings: ${formatCurrency(treasurySummary.total)}`,
+                  ]} color={COLORS.success} />
+                </Card>
+              )}
+            </>
+          )}
+
+          {workforceSummary && (
+            <>
+              <SectionHeading title="Workforce Overview" />
+              <StatsRow>
+                <StatCard label="Total FTE" value={formatNumber(workforceSummary.fte)} />
+                <StatCard label="Vacancies" value={formatNumber(workforceSummary.vacancies)} />
+                <StatCard label="Agency Spend" value={formatCurrency(workforceSummary.agency_spend)} />
+              </StatsRow>
+              <Card>
+                <Table
+                  columns={[
+                    { key: 'portfolio', label: 'Portfolio', flex: 2, bold: true },
+                    { key: 'fte', label: 'FTE', width: 60 },
+                    { key: 'vacancy', label: 'Vacancy %', width: 70 },
+                    { key: 'agency', label: 'Agency', width: 90 },
+                    { key: 'span', label: 'Span', width: 50 },
+                  ]}
+                  rows={(portfolios || []).filter(p => p.workforce).map(p => ({
+                    portfolio: p.short_title || p.title,
+                    fte: formatNumber(p.workforce.fte_headcount),
+                    vacancy: `${p.workforce.vacancy_rate_pct}%`,
+                    agency: formatCurrency(p.workforce.agency_spend),
+                    span: `1:${p.workforce.span_of_control}`,
+                    _colors: {
+                      vacancy: p.workforce.vacancy_rate_pct > 10 ? COLORS.danger : p.workforce.vacancy_rate_pct > 7 ? COLORS.warning : COLORS.success,
+                      agency: p.workforce.agency_spend > 5000000 ? COLORS.danger : COLORS.textSecondary,
+                    },
+                  }))}
+                />
+              </Card>
+            </>
+          )}
+
+          {budgetsData?.reserves_trajectory && (
+            <Card>
+              <SubsectionHeading title="Reserves Trajectory" />
+              <BulletList items={
+                Object.entries(budgetsData.reserves_trajectory).slice(0, 5).map(([yr, val]) =>
+                  `${yr}: ${formatCurrency(val)}`
+                )
+              } />
+            </Card>
+          )}
+
+          <PDFFooter councilName={councilName} classification="LEADER BRIEFING" />
+        </Page>
+      )}
+
+      {/* ─── PAGE 8: Risk Register & Inspections ─── */}
       <Page size="A4" style={styles.page}>
-        <ConfidentialBanner text="LEADER BRIEFING — MOST RESTRICTED" />
+        <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
         <PDFHeader title="Risk Register & Inspections" subtitle="Key Risk Exposures Across All Portfolios" classification="LEADER" />
 
         {/* Directorate Risk Profiles (computed, not hardcoded) */}
@@ -335,7 +427,7 @@ export function LeaderBriefingPDF({
                   <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 3 }}>
                     <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.accent }}>{dirName}</Text>
                     <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: profile.risk_color || COLORS.warning }}>
-                      {profile.risk_level || '—'} ({profile.risk_score || 0}/100)
+                      {profile.risk_level || '-'} ({profile.risk_score || 0}/100)
                     </Text>
                   </View>
                   {profile.top_risks?.length > 0 && (
@@ -359,7 +451,7 @@ export function LeaderBriefingPDF({
                 items={Object.entries(spendingByDirectorate).flatMap(([dirId, ds]) =>
                   (ds.alerts || []).map(a =>
                     a.type === 'variance'
-                      ? `${a.portfolio}: ${a.pct > 0 ? '+' : ''}${a.pct}% budget variance — investigate immediately`
+                      ? `${a.portfolio}: ${a.pct > 0 ? '+' : ''}${a.pct}% budget variance, investigate immediately`
                       : `${a.portfolio}: HHI ${a.hhi} supplier concentration (top: ${a.top})`
                   )
                 ).slice(0, 8)}
@@ -398,9 +490,9 @@ export function LeaderBriefingPDF({
                 { key: 'target', label: 'Target', width: 90 },
               ]}
               rows={fiscalOverview.inspection_summary.map(ins => ({
-                portfolio: ins.portfolio || '—',
-                rating: ins.current_rating || '—',
-                target: ins.target_rating || '—',
+                portfolio: ins.portfolio || '-',
+                rating: ins.current_rating || '-',
+                target: ins.target_rating || '-',
                 _colors: {
                   rating: ins.current_rating?.toLowerCase().includes('requires') ? COLORS.danger
                     : ins.current_rating?.toLowerCase().includes('good') ? COLORS.success : COLORS.warning,

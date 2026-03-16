@@ -166,6 +166,8 @@ export default function PortfolioDetail() {
         action: d.action,
         strength: evidenceChainStrength(portfolio?.savings_levers?.find(l => l.lever === d.lever_name) || {}),
       }))}
+      budgetsData={budgetsData}
+      workforce={portfolio?.workforce}
     />
     generatePDF(doc, `portfolio-${portfolioId}.pdf`)
   }

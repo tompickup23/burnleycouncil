@@ -1,5 +1,5 @@
 /**
- * PDFComponents — Shared reusable components for all AI DOGE PDF exports.
+ * PDFComponents - Shared reusable components for all AI DOGE PDF exports.
  *
  * These components provide the visual building blocks: headers, footers,
  * stat cards, tables, talking point cards, progress bars, tier badges, etc.
@@ -36,7 +36,7 @@ export function PDFFooter({ councilName, classification }) {
   return (
     <View style={styles.footer} fixed>
       <Text style={styles.footerText}>
-        {classification || 'CONFIDENTIAL'} — {councilName || 'AI DOGE'} — Generated {new Date().toLocaleDateString('en-GB')}
+        {classification || 'CONFIDENTIAL'} | {councilName || 'AI DOGE'} | Generated {new Date().toLocaleDateString('en-GB')}
       </Text>
       <Text style={styles.pageNumber} render={({ pageNumber, totalPages }) => `${pageNumber} / ${totalPages}`} />
     </View>
@@ -47,7 +47,7 @@ export function PDFFooter({ councilName, classification }) {
 export function ConfidentialBanner({ text }) {
   return (
     <View style={styles.confidentialBanner} fixed>
-      <Text style={styles.confidentialText}>{text || 'CONFIDENTIAL — FOR REFORM UK INTERNAL USE ONLY'}</Text>
+      <Text style={styles.confidentialText}>{text || 'CONFIDENTIAL - FOR REFORM UK INTERNAL USE ONLY'}</Text>
     </View>
   )
 }
@@ -111,7 +111,7 @@ export function Table({ columns, rows, striped = true }) {
               fontFamily: col.bold ? FONT.bold : FONT.regular,
               color: row._colors?.[col.key] || (col.muted ? COLORS.textSecondary : COLORS.textPrimary),
             }}>
-              {row[col.key] ?? '—'}
+              {row[col.key] ?? '-'}
             </Text>
           ))}
         </View>
@@ -312,13 +312,13 @@ export function ElectionHistoryTable({ history, wardName }) {
     const winner = sorted[0]
     const runnerUp = sorted[1]
     const margin = winner && runnerUp ? winner.votes - runnerUp.votes : null
-    const turnoutPct = e.turnout ? (e.turnout * 100).toFixed(1) + '%' : e.turnout_pct ? e.turnout_pct.toFixed(1) + '%' : '—'
+    const turnoutPct = e.turnout ? (e.turnout * 100).toFixed(1) + '%' : e.turnout_pct ? e.turnout_pct.toFixed(1) + '%' : '-'
     return {
       year: String(e.year),
-      winner: winner?.name || '—',
-      winnerParty: winner?.party || '—',
-      votes: winner?.votes?.toLocaleString() || '—',
-      margin: margin != null ? margin.toLocaleString() : '—',
+      winner: winner?.name || '-',
+      winnerParty: winner?.party || '-',
+      votes: winner?.votes?.toLocaleString() || '-',
+      margin: margin != null ? margin.toLocaleString() : '-',
       turnout: turnoutPct,
       _colors: { winnerParty: partyColor(winner?.party) },
     }
@@ -361,7 +361,7 @@ export function WardIssuesCard({ wardName, wardIntel, hmoData, housingData, econ
   if (economyData?.claimant_count?.ward_latest) {
     const wardEcon = Object.values(economyData.claimant_count.ward_latest).find(w => w.ward_name === wardName)
     if (wardEcon?.rate && wardEcon.rate > 5) {
-      issues.push(`Claimant count ${wardEcon.rate.toFixed(1)}% — above average`)
+      issues.push(`Claimant count ${wardEcon.rate.toFixed(1)}%, above average`)
     }
   }
 
