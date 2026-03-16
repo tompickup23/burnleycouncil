@@ -8,12 +8,13 @@
  *  P1: Cover
  *  P2: Fiscal System Overview
  *  P3: Monday Morning List
- *  P4: Spending Intelligence (NEW - top suppliers, portfolio spend, concentration alerts)
+ *  P4: Spending Intelligence (top suppliers, portfolio spend, concentration alerts)
  *  P5: Per-Portfolio Summary
  *  P6: MTFS Comparison
  *  P7: Political Impact
- *  P8: Treasury & Workforce (enhanced with reserves chart, Band D trend, revenue summary)
- *  P9: Risk Register & Inspections
+ *  P8: Treasury & Workforce (reserves chart, Band D trend, revenue summary)
+ *  P9: Loss Trajectory & Bond Analysis (Statement of Accounts 8-year analysis)
+ *  P10: Risk Register & Inspections
  *
  * IMPORTANT: @react-pdf/renderer does NOT filter null/undefined/boolean children
  * like React DOM. All conditional rendering uses explicit arrays with .filter(Boolean)
@@ -34,7 +35,7 @@ export function LeaderBriefingPDF({
   mtfsComparison, politicalImpact, mondayMorningList, councilName,
   riskProfiles, spendingByDirectorate, totals,
   budgetsData, treasurySummary, workforceSummary, treasuryRaw,
-  spendingSummary,
+  spendingSummary, lossTrajectory, bondAnalysis,
 }) {
   // Aggregate stats
   const totalSavings = (allDirectives || []).reduce((s, d) => s + (d.save_central || 0), 0)
@@ -734,7 +735,76 @@ export function LeaderBriefingPDF({
       </Page>
     ) : null,
 
-    // PAGE 9: Risk Register & Inspections (always shown)
+    // PAGE 9: Loss Trajectory & Bond Analysis (conditional on data)
+    lossTrajectory ? (
+      <Page key="losses" size="A4" style={styles.page}>
+        <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
+        <PDFHeader title="Loss Trajectory" subtitle={`Statement of Accounts ${lossTrajectory.years_covered || 8}-Year Analysis (Conservative Administration)`} classification="LEADER" />
+        <StatsRow stats={[
+          { label: 'Strict Audited', value: formatCurrency(lossTrajectory.strict_audited_total), color: COLORS.DANGER },
+          { label: 'Broader Official', value: formatCurrency(lossTrajectory.broader_official_total), color: COLORS.DANGER },
+          { label: 'Annual Average', value: formatCurrency(lossTrajectory.annual_average), color: COLORS.WARNING },
+          { label: 'Trend', value: (lossTrajectory.trend || '').replace(/_/g, ' '), color: lossTrajectory.trend === 'worsening' ? COLORS.DANGER : COLORS.WARNING },
+        ]} />
+        <SectionHeading title="Year-by-Year Audited Losses" />
+        <Table
+          columns={[
+            { key: 'year', title: 'Year', width: '15%' },
+            { key: 'fi', title: 'Financial Instruments', width: '25%' },
+            { key: 'disp', title: 'Disposals/Academy', width: '25%' },
+            { key: 'total', title: 'Annual Total', width: '20%' },
+            { key: 'cumulative', title: 'Cumulative', width: '15%' },
+          ]}
+          rows={(lossTrajectory.by_year || []).map(y => ({
+            year: y.year,
+            fi: formatCurrency(y.financial_instruments),
+            disp: formatCurrency(y.disposals),
+            total: formatCurrency(y.total),
+            cumulative: formatCurrency(y.cumulative),
+          }))}
+        />
+        <SectionHeading title="Loss Categories" />
+        <StatsRow stats={Object.entries(lossTrajectory.loss_categories || {}).filter(([,v]) => v > 0).map(([key, value]) => ({
+          label: key.replace(/_/g, ' '),
+          value: formatCurrency(value),
+          color: COLORS.DANGER,
+        }))} />
+        {bondAnalysis && bondAnalysis.total_face_value > 0 ? (
+          <View>
+            <SectionHeading title="UKMBA Bond Portfolio" />
+            <StatsRow stats={[
+              { label: 'Face Value', value: formatCurrency(bondAnalysis.total_face_value), color: COLORS.ACCENT },
+              { label: 'Sale Loss', value: formatCurrency(bondAnalysis.estimated_sale_loss), color: COLORS.DANGER },
+              { label: 'Loss Ratio', value: `${bondAnalysis.loss_ratio_pct}%`, color: bondAnalysis.loss_ratio_pct > 50 ? COLORS.DANGER : COLORS.WARNING },
+              { label: 'Coupon Income', value: formatCurrency(bondAnalysis.annual_coupon_income), color: COLORS.SUCCESS },
+            ]} />
+            <Card title={`Recommendation: ${(bondAnalysis.hold_recommendation || '').replace(/_/g, ' ')}`}>
+              <Text style={{ fontSize: FONT.XS, color: COLORS.TEXT_MUTED }}>
+                {bondAnalysis.hold_recommendation === 'hold_to_maturity'
+                  ? 'Hold to maturity. Selling now would crystallise the £350M mark-to-market loss. Bonds recover face value at maturity assuming no default.'
+                  : 'Review position with treasury advisors.'}
+                {' '}Risk: {(bondAnalysis.risk_rating || 'unknown').toUpperCase()}.
+              </Text>
+            </Card>
+          </View>
+        ) : <View />}
+        {lossTrajectory.veltip_estimate > 0 ? (
+          <Card title="Upper Bound Note">
+            <Text style={{ fontSize: FONT.XS, color: COLORS.TEXT_MUTED }}>
+              Adding the VeLTIP sale-loss estimate ({formatCurrency(lossTrajectory.veltip_estimate)}) gives a political headline of {formatCurrency((lossTrajectory.broader_official_total || 0) + lossTrajectory.veltip_estimate)}, but this likely overlaps with audited financial instrument losses already counted.
+            </Text>
+          </Card>
+        ) : <View />}
+        <BulletList items={[
+          'Stop risky treasury exposure: financial instrument losses alone = ' + formatCurrency(lossTrajectory.loss_categories?.financial_instruments || 0),
+          'Stop avoidable write-downs: disposal/academy charges = ' + formatCurrency(lossTrajectory.loss_categories?.disposals_academy || 0),
+          'Restore budget control: school overspends ' + formatCurrency(lossTrajectory.loss_categories?.school_overspends || 0) + ', council ' + formatCurrency(lossTrajectory.loss_categories?.council_overspends || 0),
+        ]} />
+        <PDFFooter councilName={councilName} classification="LEADER BRIEFING" />
+      </Page>
+    ) : null,
+
+    // PAGE 10: Risk Register & Inspections (always shown)
     <Page key="risk" size="A4" style={styles.page}>
       <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
       <PDFHeader title="Risk Register & Inspections" subtitle="Key Risk Exposures Across All Portfolios" classification="LEADER" />

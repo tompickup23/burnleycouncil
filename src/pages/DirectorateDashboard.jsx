@@ -33,6 +33,9 @@ import {
   treasuryManagementSavings,
   workforceOptimisation,
   parseSavingRange,
+  bondPortfolioAnalysis,
+  lossTrajectoryAnalysis,
+  savingsDeliveryWeighting,
 } from '../utils/savingsEngine'
 import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import { usePDFExport } from '../components/pdf/usePDFExport'
@@ -180,10 +183,10 @@ export default function DirectorateDashboard() {
     ]
   }, [directorateProfiles])
 
-  // Fiscal System Overview — service model coverage + demand vs savings
+  // Fiscal System Overview — service model coverage + demand vs savings + loss trajectory + bond analysis
   const fiscalSystem = useMemo(() => {
     if (!portfolioData?.portfolios?.length) return null
-    return fiscalSystemOverview(portfolioData.portfolios)
+    return fiscalSystemOverview(portfolioData.portfolios, portfolioData)
   }, [portfolioData])
 
   // MTFS comparison for leader PDF
@@ -223,6 +226,28 @@ export default function DirectorateDashboard() {
     }
     return totals
   }, [portfolioData])
+
+  // Loss trajectory + bond analysis from Statement of Accounts
+  const lossTrajectory = useMemo(() => {
+    const soa = portfolioData?.administration?.statement_of_accounts
+    if (!soa) return null
+    return lossTrajectoryAnalysis(soa)
+  }, [portfolioData])
+
+  const bondAnalysis = useMemo(() => {
+    const treasury = portfolioData?.administration?.treasury
+    if (!treasury?.ukmba_bonds) return null
+    return bondPortfolioAnalysis(treasury)
+  }, [portfolioData])
+
+  // Delivery-weighted savings per directorate
+  const deliveryWeighted = useMemo(() => {
+    if (!directorateProfiles.length || !portfolioData?.directorates?.length) return []
+    return directorateProfiles.map(profile => {
+      const dir = portfolioData.directorates.find(d => d.id === profile.directorate_id)
+      return { ...profile, delivery: savingsDeliveryWeighting(profile, dir) }
+    })
+  }, [directorateProfiles, portfolioData])
 
   // Savings by tier — for pie chart
   const tierData = useMemo(() => {
@@ -283,6 +308,8 @@ export default function DirectorateDashboard() {
       workforceSummary={workforceSummary}
       treasuryRaw={portfolioData?.administration?.treasury}
       spendingSummary={spendingSummary}
+      lossTrajectory={lossTrajectory}
+      bondAnalysis={bondAnalysis}
     />
     generatePDF(doc, `leader-briefing-${new Date().toISOString().slice(0, 10)}.pdf`)
   }
@@ -524,6 +551,87 @@ export default function DirectorateDashboard() {
                   </ChartCard>
                 </div>
               )}
+            </CollapsibleSection>
+          )}
+
+          {/* Loss Trajectory — Statement of Accounts intelligence */}
+          {lossTrajectory && (
+            <CollapsibleSection title={`Loss Trajectory — ${formatCurrency(lossTrajectory.broader_official_total)} documented (2017-2025)`} icon={<AlertTriangle size={18} />}>
+              <div className="fiscal-system-grid">
+                <StatCard label="Strict Audited" value={formatCurrency(lossTrajectory.strict_audited_total)} color="#dc3545" icon={<PoundSterling size={18} />} />
+                <StatCard label="Broader Official" value={formatCurrency(lossTrajectory.broader_official_total)} color="#dc3545" icon={<PoundSterling size={18} />} />
+                <StatCard label="Annual Average" value={formatCurrency(lossTrajectory.annual_average)} color="#fd7e14" icon={<TrendingUp size={18} />} />
+                <StatCard label="Worst Year" value={lossTrajectory.worst_year ? `${lossTrajectory.worst_year.year}: ${formatCurrency(lossTrajectory.worst_year.total)}` : '-'} color="#dc3545" icon={<AlertTriangle size={18} />} />
+              </div>
+              {/* Loss category breakdown */}
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '0.5rem', marginTop: '1rem' }}>
+                {Object.entries(lossTrajectory.loss_categories).filter(([,v]) => v > 0).map(([key, value]) => (
+                  <div key={key} style={{ background: 'rgba(220,53,69,0.1)', borderRadius: '8px', padding: '0.6rem 0.8rem', border: '1px solid rgba(220,53,69,0.2)' }}>
+                    <div style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.72rem', textTransform: 'uppercase' }}>{key.replace(/_/g, ' ')}</div>
+                    <div style={{ color: '#dc3545', fontWeight: 700, fontSize: '1rem' }}>{formatCurrency(value)}</div>
+                  </div>
+                ))}
+              </div>
+              {/* Year-by-year cumulative chart */}
+              {lossTrajectory.by_year.length > 0 && (
+                <ChartCard title="Cumulative Loss Trajectory" subtitle="Year-by-year audited losses under Conservative control">
+                  <ResponsiveContainer width="100%" height={280}>
+                    <BarChart data={lossTrajectory.by_year} margin={{ left: 10, right: 20, top: 5, bottom: 5 }}>
+                      <CartesianGrid strokeDasharray="3 3" stroke={GRID_STROKE} />
+                      <XAxis dataKey="year" tick={AXIS_TICK_STYLE} />
+                      <YAxis tick={AXIS_TICK_STYLE} tickFormatter={v => `£${(v / 1000000).toFixed(0)}M`} />
+                      <RechartsTooltip contentStyle={CHART_TOOLTIP_STYLE} formatter={(v) => formatCurrency(v)} />
+                      <Legend />
+                      <Bar dataKey="financial_instruments" name="Financial Instruments" stackId="a" fill="#dc3545" {...CHART_ANIMATION} />
+                      <Bar dataKey="disposals" name="Disposals/Academy" stackId="a" fill="#fd7e14" {...CHART_ANIMATION} />
+                    </BarChart>
+                  </ResponsiveContainer>
+                </ChartCard>
+              )}
+              {/* Bond analysis */}
+              {bondAnalysis && bondAnalysis.total_face_value > 0 && (
+                <div style={{ marginTop: '1rem' }}>
+                  <h4 style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.85rem', marginBottom: '8px' }}>UKMBA Bond Portfolio</h4>
+                  <div className="fiscal-system-grid">
+                    <StatCard label="Face Value" value={formatCurrency(bondAnalysis.total_face_value)} color="#12B6CF" icon={<PoundSterling size={18} />} />
+                    <StatCard label="Sale Loss (if sold)" value={formatCurrency(bondAnalysis.estimated_sale_loss)} color="#dc3545" icon={<AlertTriangle size={18} />} />
+                    <StatCard label="Loss Ratio" value={`${bondAnalysis.loss_ratio_pct}%`} color={bondAnalysis.loss_ratio_pct > 50 ? '#dc3545' : '#fd7e14'} icon={<TrendingUp size={18} />} />
+                    <StatCard label="Annual Coupon" value={formatCurrency(bondAnalysis.annual_coupon_income)} color="#28a745" icon={<PoundSterling size={18} />} />
+                  </div>
+                  <div style={{ background: 'rgba(18,182,207,0.08)', borderRadius: '8px', padding: '0.8rem 1rem', marginTop: '0.5rem', border: '1px solid rgba(18,182,207,0.15)', color: 'rgba(255,255,255,0.7)', fontSize: '0.82rem' }}>
+                    <strong style={{ color: '#12B6CF' }}>Recommendation:</strong> {bondAnalysis.hold_recommendation === 'hold_to_maturity' ? 'Hold to maturity - selling now would crystallise £350M loss. Bonds recover face value at maturity.' : bondAnalysis.hold_recommendation === 'hold_to_maturity_critical' ? 'Hold to maturity CRITICAL - sale would crystallise severe losses.' : 'Review partial sale opportunity.'}
+                    {' '}Risk rating: <span style={{ color: bondAnalysis.risk_rating === 'high' ? '#dc3545' : bondAnalysis.risk_rating === 'medium' ? '#fd7e14' : '#28a745', fontWeight: 600 }}>{bondAnalysis.risk_rating.toUpperCase()}</span>
+                  </div>
+                </div>
+              )}
+              {lossTrajectory.veltip_estimate > 0 && (
+                <div style={{ background: 'rgba(253,126,20,0.08)', borderRadius: '8px', padding: '0.6rem 0.8rem', marginTop: '0.5rem', border: '1px solid rgba(253,126,20,0.15)', color: 'rgba(255,255,255,0.6)', fontSize: '0.78rem' }}>
+                  <strong style={{ color: '#fd7e14' }}>Upper bound:</strong> Adding the VeLTIP sale-loss estimate of {formatCurrency(lossTrajectory.veltip_estimate)} gives a total headline of {formatCurrency((lossTrajectory.broader_official_total ?? 0) + lossTrajectory.veltip_estimate)}, but this likely overlaps with audited financial instrument losses already counted.
+                </div>
+              )}
+            </CollapsibleSection>
+          )}
+
+          {/* Delivery-Weighted Savings */}
+          {deliveryWeighted.length > 0 && deliveryWeighted.some(d => d.delivery?.delivery_weight < 1) && (
+            <CollapsibleSection title="Delivery-Weighted Savings" icon={<Target size={18} />}>
+              <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.82rem', marginBottom: '1rem' }}>
+                Savings estimates adjusted by historical delivery performance. Directorates with poor track records are discounted.
+              </p>
+              <div style={{ display: 'grid', gap: '0.5rem' }}>
+                {deliveryWeighted.map(d => (
+                  <div key={d.directorate_id} style={{ display: 'grid', gridTemplateColumns: '1fr auto auto auto', gap: '1rem', alignItems: 'center', padding: '0.6rem 0.8rem', background: 'rgba(255,255,255,0.03)', borderRadius: '8px', borderLeft: `3px solid ${d.delivery.confidence === 'high' ? '#28a745' : d.delivery.confidence === 'medium' ? '#ffc107' : d.delivery.confidence === 'low' ? '#fd7e14' : '#dc3545'}` }}>
+                    <span style={{ color: 'rgba(255,255,255,0.9)', fontWeight: 600, fontSize: '0.85rem' }}>{d.title}</span>
+                    <span style={{ color: 'rgba(255,255,255,0.5)', fontSize: '0.78rem' }}>Raw: {formatCurrency(d.delivery.raw_range.midpoint)}</span>
+                    <span style={{ color: d.delivery.delivery_weight < 0.5 ? '#dc3545' : '#ffc107', fontSize: '0.78rem', fontWeight: 600 }}>{d.delivery.delivery_weight_pct}% weight</span>
+                    <span style={{ color: '#12B6CF', fontWeight: 700, fontSize: '0.85rem' }}>{formatCurrency(d.delivery.adjusted_range.midpoint)}</span>
+                  </div>
+                ))}
+              </div>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: '0.8rem', padding: '0.6rem 0.8rem', background: 'rgba(18,182,207,0.08)', borderRadius: '8px', border: '1px solid rgba(18,182,207,0.15)' }}>
+                <span style={{ color: 'rgba(255,255,255,0.7)', fontWeight: 600 }}>Total (delivery-adjusted)</span>
+                <span style={{ color: '#12B6CF', fontWeight: 700, fontSize: '1.1rem' }}>{formatCurrency(deliveryWeighted.reduce((s, d) => s + (d.delivery?.adjusted_range?.midpoint ?? 0), 0))}</span>
+              </div>
             </CollapsibleSection>
           )}
 

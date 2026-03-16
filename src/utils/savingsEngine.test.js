@@ -60,6 +60,10 @@ import {
   publicHealthDirectives,
   propertyEstateProjection,
   resourcesServiceDirectives,
+  bondPortfolioAnalysis,
+  lossTrajectoryAnalysis,
+  opaqueSpendingAnalysis,
+  savingsDeliveryWeighting,
 } from './savingsEngine.js'
 
 // ─── Test fixtures ───
@@ -4188,5 +4192,290 @@ describe('quantifyDemandPressures — new service models', () => {
     const backlogPressure = result.pressures.find(p => p.name.includes('Property maintenance'))
     expect(backlogPressure).toBeDefined()
     expect(backlogPressure.severity).toBe('medium')
+  })
+})
+
+// ============================================================
+// Bond Portfolio Analysis
+// ============================================================
+
+describe('bondPortfolioAnalysis', () => {
+  const mockTreasury = {
+    total_borrowing: 1200000000,
+    ukmba_bonds: {
+      five_year_frn: { face_value: 350000000 },
+      forty_year_fixed: { face_value: 250000000 },
+      total_face_value: 600000000,
+      estimated_sale_loss: 350000000,
+    },
+  }
+
+  it('returns defaults for null treasury', () => {
+    const result = bondPortfolioAnalysis(null)
+    expect(result.total_face_value).toBe(0)
+    expect(result.hold_recommendation).toBe('no_data')
+  })
+
+  it('returns defaults when no ukmba_bonds', () => {
+    const result = bondPortfolioAnalysis({ total_borrowing: 1000 })
+    expect(result.total_face_value).toBe(0)
+  })
+
+  it('calculates face value and loss correctly', () => {
+    const result = bondPortfolioAnalysis(mockTreasury)
+    expect(result.total_face_value).toBe(600000000)
+    expect(result.estimated_sale_loss).toBe(350000000)
+    expect(result.loss_ratio_pct).toBe(58)
+  })
+
+  it('calculates annual coupon income', () => {
+    const result = bondPortfolioAnalysis(mockTreasury)
+    // FRN: 350M * 4.5% = 15.75M, Fixed: 250M * 3.5% = 8.75M => ~24.5M
+    expect(result.annual_coupon_income).toBeGreaterThan(20000000)
+    expect(result.annual_coupon_income).toBeLessThan(30000000)
+  })
+
+  it('recommends hold to maturity when loss ratio > 40%', () => {
+    const result = bondPortfolioAnalysis(mockTreasury)
+    expect(result.hold_recommendation).toBe('hold_to_maturity')
+    expect(result.risk_rating).toBe('medium')
+  })
+
+  it('flags critical when loss > 60%', () => {
+    const extreme = { ...mockTreasury, ukmba_bonds: { ...mockTreasury.ukmba_bonds, estimated_sale_loss: 400000000 } }
+    const result = bondPortfolioAnalysis(extreme)
+    expect(result.hold_recommendation).toBe('hold_to_maturity_critical')
+    expect(result.risk_rating).toBe('high')
+  })
+
+  it('returns maturity profile array', () => {
+    const result = bondPortfolioAnalysis(mockTreasury)
+    expect(result.maturity_profile).toHaveLength(2)
+    expect(result.maturity_profile[0].type).toBe('5yr FRN')
+    expect(result.maturity_profile[1].type).toBe('40yr Fixed')
+  })
+})
+
+// ============================================================
+// Loss Trajectory Analysis
+// ============================================================
+
+describe('lossTrajectoryAnalysis', () => {
+  const mockSoA = {
+    strict_audited_total: 809800000,
+    broader_official_total: 921500000,
+    financial_instrument_losses: {
+      total: 416900000,
+      by_year: [
+        { year: '2017/18', amount: 7800000 },
+        { year: '2018/19', amount: 39600000 },
+        { year: '2019/20', amount: 19400000 },
+        { year: '2020/21', amount: 15600000 },
+        { year: '2021/22', amount: 29200000 },
+        { year: '2022/23', amount: 188200000 },
+        { year: '2023/24', amount: 67300000 },
+        { year: '2024/25', amount: 49800000 },
+      ],
+    },
+    disposal_academy_losses: {
+      total: 392900000,
+      by_year: [
+        { year: '2017/18', amount: 11100000 },
+        { year: '2018/19', amount: 44400000 },
+        { year: '2019/20', amount: 64400000 },
+        { year: '2020/21', amount: 23500000 },
+        { year: '2021/22', amount: 16700000 },
+        { year: '2022/23', amount: 85700000 },
+        { year: '2023/24', amount: 50700000 },
+        { year: '2024/25', amount: 95400000 },
+      ],
+    },
+    overspends: {
+      school_overspends: { total: 85441000 },
+      council_overspends: { total: 16576000 },
+    },
+    specific_subsidies: {
+      farington_cricket: { amount: 9715000 },
+    },
+    veltip_sale_loss_estimate: {
+      amount: 350000000,
+      overlap_warning: true,
+    },
+  }
+
+  it('returns defaults for null input', () => {
+    const result = lossTrajectoryAnalysis(null)
+    expect(result.cumulative_total).toBe(0)
+    expect(result.trend).toBe('no_data')
+  })
+
+  it('computes cumulative total from year-by-year data', () => {
+    const result = lossTrajectoryAnalysis(mockSoA)
+    // 8 years of combined losses should sum close to £809.8M
+    expect(result.cumulative_total).toBeGreaterThan(700000000)
+    expect(result.cumulative_total).toBeLessThan(900000000)
+  })
+
+  it('returns strict and broader totals', () => {
+    const result = lossTrajectoryAnalysis(mockSoA)
+    expect(result.strict_audited_total).toBe(809800000)
+    expect(result.broader_official_total).toBe(921500000)
+  })
+
+  it('identifies worst year', () => {
+    const result = lossTrajectoryAnalysis(mockSoA)
+    expect(result.worst_year.year).toBe('2022/23')
+    // 188.2M + 85.7M = 273.9M
+    expect(result.worst_year.total).toBe(273900000)
+  })
+
+  it('computes annual average', () => {
+    const result = lossTrajectoryAnalysis(mockSoA)
+    expect(result.annual_average).toBeGreaterThan(80000000)
+  })
+
+  it('identifies worsening trend', () => {
+    const result = lossTrajectoryAnalysis(mockSoA)
+    // Late years (2023-2025) average much higher than early years (2017-2019)
+    expect(result.trend).toBe('worsening')
+  })
+
+  it('includes loss categories breakdown', () => {
+    const result = lossTrajectoryAnalysis(mockSoA)
+    expect(result.loss_categories.financial_instruments).toBe(416900000)
+    expect(result.loss_categories.disposals_academy).toBe(392900000)
+    expect(result.loss_categories.school_overspends).toBe(85441000)
+    expect(result.loss_categories.council_overspends).toBe(16576000)
+    expect(result.loss_categories.subsidies).toBe(9715000)
+  })
+
+  it('includes VeLTIP estimate with overlap warning', () => {
+    const result = lossTrajectoryAnalysis(mockSoA)
+    expect(result.veltip_estimate).toBe(350000000)
+    expect(result.veltip_overlap_warning).toBe(true)
+  })
+
+  it('has cumulative running totals per year', () => {
+    const result = lossTrajectoryAnalysis(mockSoA)
+    expect(result.by_year[0].cumulative).toBe(result.by_year[0].total)
+    expect(result.by_year[result.by_year.length - 1].cumulative).toBe(result.cumulative_total)
+  })
+})
+
+// ============================================================
+// Opaque Spending Analysis
+// ============================================================
+
+describe('opaqueSpendingAnalysis', () => {
+  it('returns defaults for null spending summary', () => {
+    const result = opaqueSpendingAnalysis(null, [])
+    expect(result.opaque_pct).toBe(0)
+    expect(result.risk_rating).toBe('no_data')
+    expect(result.transparency_score).toBe(100)
+  })
+
+  it('analyses portfolio transparency from spending data', () => {
+    const mockSummary = {
+      by_portfolio: {
+        highways_transport: { total: 100000000, count: 5000, empty_description_count: 4900, empty_description_value: 95000000 },
+        adult_social_care: { total: 500000000, count: 20000, empty_description_count: 2000, empty_description_value: 50000000 },
+      },
+    }
+    const mockPortfolios = [
+      { id: 'highways_transport', short_title: 'Highways' },
+      { id: 'adult_social_care', short_title: 'Adults' },
+    ]
+    const result = opaqueSpendingAnalysis(mockSummary, mockPortfolios)
+    expect(result.by_portfolio).toHaveLength(2)
+    // Highways should be first (highest opaque %)
+    expect(result.by_portfolio[0].id).toBe('highways_transport')
+    expect(result.by_portfolio[0].opaque_pct).toBe(98)
+    expect(result.by_portfolio[0].risk).toBe('critical')
+  })
+
+  it('computes transparency score correctly', () => {
+    const mockSummary = {
+      by_portfolio: {
+        test: { total: 100, count: 100, empty_description_count: 80, empty_description_value: 80 },
+      },
+    }
+    const result = opaqueSpendingAnalysis(mockSummary, [])
+    expect(result.opaque_pct).toBe(80)
+    expect(result.transparency_score).toBe(20)
+    expect(result.risk_rating).toBe('high')
+  })
+})
+
+// ============================================================
+// Savings Delivery Weighting
+// ============================================================
+
+describe('savingsDeliveryWeighting', () => {
+  const mockProfile = {
+    directorate_id: 'adults_health',
+    savings_range: { low: 30000000, high: 60000000, midpoint: 45000000 },
+    prior_year: { target: 34800000, achieved: 3800000, gap: 31000000, achieved_pct: 11 },
+  }
+
+  const mockDirectorate = {
+    id: 'adults_health',
+    savings_delivery_history: [
+      { year: '2024/25', target: 34800000, achieved: 3800000, pct: 11 },
+      { year: '2023/24', target: 28000000, achieved: 14000000, pct: 50 },
+    ],
+  }
+
+  it('returns defaults for null profile', () => {
+    const result = savingsDeliveryWeighting(null, null)
+    expect(result.delivery_weight).toBe(1.0)
+    expect(result.confidence).toBe('no_data')
+  })
+
+  it('applies delivery history weighting', () => {
+    const result = savingsDeliveryWeighting(mockProfile, mockDirectorate)
+    // Weighted avg: (11 * 2 + 50 * 1) / 3 = 72/3 = 24% -> weight 0.24 -> floored at 0.24
+    expect(result.delivery_weight).toBeLessThan(0.5)
+    expect(result.delivery_weight).toBeGreaterThanOrEqual(0.2)
+  })
+
+  it('discounts savings based on weight', () => {
+    const result = savingsDeliveryWeighting(mockProfile, mockDirectorate)
+    expect(result.adjusted_range.midpoint).toBeLessThan(result.raw_range.midpoint)
+    expect(result.discount_amount).toBeGreaterThan(0)
+  })
+
+  it('assigns low confidence for poor delivery', () => {
+    const result = savingsDeliveryWeighting(mockProfile, mockDirectorate)
+    expect(['low', 'very_low']).toContain(result.confidence)
+  })
+
+  it('returns 1.0 weight when no history', () => {
+    const noHistory = { id: 'test' }
+    const profile = { savings_range: { low: 10, high: 20, midpoint: 15 }, prior_year: null }
+    const result = savingsDeliveryWeighting(profile, noHistory)
+    expect(result.delivery_weight).toBe(1.0)
+    expect(result.adjusted_range.midpoint).toBe(15)
+  })
+
+  it('falls back to prior_year when no delivery history', () => {
+    const dirNoHistory = { id: 'test' }
+    const result = savingsDeliveryWeighting(mockProfile, dirNoHistory)
+    // Should use prior_year achieved_pct (11%) -> weight 0.2 (floored)
+    expect(result.delivery_weight).toBe(0.2)
+  })
+
+  it('floors weight at 0.2', () => {
+    const terrible = {
+      id: 'test',
+      savings_delivery_history: [{ year: '2024/25', pct: 5 }],
+    }
+    const result = savingsDeliveryWeighting(mockProfile, terrible)
+    expect(result.delivery_weight).toBe(0.2)
+  })
+
+  it('returns history array in result', () => {
+    const result = savingsDeliveryWeighting(mockProfile, mockDirectorate)
+    expect(result.history).toHaveLength(2)
+    expect(result.history[0].year).toBe('2024/25')
   })
 })

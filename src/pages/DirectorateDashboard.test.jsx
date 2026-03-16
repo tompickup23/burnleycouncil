@@ -119,6 +119,17 @@ vi.mock('../utils/savingsEngine', () => ({
     if (!s) return { low: 0, high: 0 }
     const m = s.match(/(\d+)[^0-9]*(\d+)/); return m ? { low: +m[1] * 1e6, high: +m[2] * 1e6 } : { low: 0, high: 0 }
   }),
+  bondPortfolioAnalysis: vi.fn(() => ({ total_face_value: 0, estimated_sale_loss: 0, annual_coupon_income: 0, opportunity_cost_annual: 0, hold_recommendation: 'no_data', risk_rating: 'unknown', maturity_profile: [] })),
+  lossTrajectoryAnalysis: vi.fn(() => ({ cumulative_total: 0, annual_average: 0, worst_year: null, trend: 'no_data', by_year: [], loss_categories: {} })),
+  savingsDeliveryWeighting: vi.fn((profile) => ({
+    raw_range: profile?.savings_range || { low: 0, high: 0, midpoint: 0 },
+    delivery_weight: 1.0,
+    delivery_weight_pct: 100,
+    adjusted_range: profile?.savings_range || { low: 0, high: 0, midpoint: 0 },
+    discount_amount: 0,
+    confidence: 'medium',
+    history: [],
+  })),
 }))
 
 vi.mock('./DirectorateDashboard.css', () => ({}))

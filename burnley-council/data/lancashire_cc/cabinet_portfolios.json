@@ -183,7 +183,106 @@
       "mrp_method": "regulatory",
       "mrp_annual_charge": 22000000,
       "asset_life_mrp_saving": 3500000,
-      "note": "LCC borrows via PWLB. 45 legacy loans at average 6.8% vs current PWLB certainty rate 4.5%. Cash balances averaging £180M earning below BoE base rate (4.5%). MRP currently uses regulatory method; switching to asset life method saves £3.5M/yr. Investment income benchmark based on 4.5% on £180M average balance = £8.1M; actual yield £8.5M (marginally above benchmark due to short gilts allocation)."
+      "note": "LCC borrows via PWLB. 45 legacy loans at average 6.8% vs current PWLB certainty rate 4.5%. Cash balances averaging £180M earning below BoE base rate (4.5%). MRP currently uses regulatory method; switching to asset life method saves £3.5M/yr. Investment income benchmark based on 4.5% on £180M average balance = £8.1M; actual yield £8.5M (marginally above benchmark due to short gilts allocation).",
+      "ukmba_bonds": {
+        "five_year_frn": {
+          "type": "5-year floating rate note",
+          "face_value": 350000000,
+          "vehicle": "VeLTIP (Very Large Treasury Investment Pool)",
+          "issued_via": "UK Municipal Bonds Agency",
+          "status": "active",
+          "note": "Part of £600M UKMBA programme. Floating rate means annual coupon varies with SONIA."
+        },
+        "forty_year_fixed": {
+          "type": "40-year fixed rate bond",
+          "face_value": 250000000,
+          "vehicle": "VeLTIP",
+          "issued_via": "UK Municipal Bonds Agency",
+          "status": "active",
+          "note": "Long-dated fixed bond. Mark-to-market losses reflect interest rate moves, not default risk."
+        },
+        "total_face_value": 600000000,
+        "estimated_sale_loss": 350000000,
+        "sale_loss_source": "LCC 2026/27 budget report p.13: 'if the VeLTIP bonds were sold at the present time the council would likely incur losses of around £350m'",
+        "hold_to_maturity_loss": 0,
+        "note": "The £350M is a mark-to-market loss if sold now. If held to maturity, the council recovers face value (assuming no default). This overlaps with audited financial instrument losses already counted in statement_of_accounts. The bonds are a political and liquidity risk, not necessarily a cash loss."
+      }
+    },
+    "statement_of_accounts": {
+      "period": "2017/18 to 2024/25",
+      "administration": "Conservative (May 2017 - May 2025)",
+      "strict_audited_total": 809800000,
+      "broader_official_total": 921500000,
+      "upper_bound_headline": 1272000000,
+      "financial_instrument_losses": {
+        "total": 416900000,
+        "source_note": "Statement of Accounts, financial instruments disclosure note, 'net gain/loss for the year'",
+        "by_year": [
+          { "year": "2017/18", "amount": 7800000, "page_ref": "p.90" },
+          { "year": "2018/19", "amount": 39600000, "page_ref": "p.93" },
+          { "year": "2019/20", "amount": 19400000, "page_ref": "p.100" },
+          { "year": "2020/21", "amount": 15600000, "page_ref": "p.100" },
+          { "year": "2021/22", "amount": 29200000, "page_ref": "p.103" },
+          { "year": "2022/23", "amount": 188200000, "page_ref": "p.124" },
+          { "year": "2023/24", "amount": 67300000, "page_ref": "p.117" },
+          { "year": "2024/25", "amount": 49800000, "page_ref": "p.116" }
+        ]
+      },
+      "disposal_academy_losses": {
+        "total": 392900000,
+        "source_note": "Statement of Accounts, 'other operating income and expenditure' note: net losses on disposal of non-current assets and losses on transfer of schools to academy status",
+        "by_year": [
+          { "year": "2017/18", "amount": 11100000, "page_ref": "p.44" },
+          { "year": "2018/19", "amount": 44400000, "page_ref": "p.44" },
+          { "year": "2019/20", "amount": 64400000, "page_ref": "p.50" },
+          { "year": "2020/21", "amount": 23500000, "page_ref": "p.49" },
+          { "year": "2021/22", "amount": 16700000, "page_ref": "p.49" },
+          { "year": "2022/23", "amount": 85700000, "page_ref": "p.53" },
+          { "year": "2023/24", "amount": 50700000, "page_ref": "p.45" },
+          { "year": "2024/25", "amount": 95400000, "page_ref": "p.47" }
+        ]
+      },
+      "overspends": {
+        "school_overspends": {
+          "total": 85441000,
+          "note": "Positive years only. Years with negative school outturn not counted.",
+          "by_year": [
+            { "year": "2017/18", "amount": 7700000, "page_ref": "narrative report p.10" },
+            { "year": "2018/19", "amount": 2300000, "page_ref": "narrative report p.15" },
+            { "year": "2019/20", "amount": 2394000, "page_ref": "narrative report p.19" },
+            { "year": "2022/23", "amount": 17995000, "page_ref": "narrative report p.21" },
+            { "year": "2023/24", "amount": 11133000, "page_ref": "narrative report p.18" },
+            { "year": "2024/25", "amount": 43919000, "page_ref": "narrative report p.21" }
+          ]
+        },
+        "council_overspends": {
+          "total": 16576000,
+          "note": "Council overspend excluding schools. Positive years only.",
+          "by_year": [
+            { "year": "2022/23", "amount": 750000, "page_ref": "narrative report p.21" },
+            { "year": "2023/24", "amount": 5220000, "page_ref": "narrative report p.18" },
+            { "year": "2024/25", "amount": 10606000, "page_ref": "narrative report p.21" }
+          ]
+        }
+      },
+      "specific_subsidies": {
+        "farington_cricket": {
+          "amount": 9715000,
+          "source": "Lancashire County Council major projects page: Farington Cricket Project"
+        }
+      },
+      "veltip_sale_loss_estimate": {
+        "amount": 350000000,
+        "source": "LCC 2026/27 budget report p.13",
+        "note": "Excluded from main total. Likely overlaps with audited financial instrument losses already counted. Valid upper-bound political headline only.",
+        "overlap_warning": true
+      },
+      "savings_case": [
+        "Stop risky treasury exposure: financial instrument losses alone account for £416.9M",
+        "Stop avoidable write-downs: disposal and academy-transfer charges add £392.9M",
+        "Restore budget control: school overspends total £85.4M, council overspends £16.6M",
+        "End non-core subsidy exposure: Farington cricket project £9.715M"
+      ]
     }
   },
   "reform_operations": {
@@ -266,6 +365,10 @@
       "mtfs_savings_target": 46700000,
       "prior_year_target": 34800000,
       "prior_year_achieved": 3800000,
+      "savings_delivery_history": [
+        { "year": "2024/25", "target": 34800000, "achieved": 3800000, "pct": 11, "note": "Catastrophic: £31M shortfall. ASC alone caused £21.6M overspend" },
+        { "year": "2023/24", "target": 28000000, "achieved": 14000000, "pct": 50, "note": "Half delivered. Demand growth outstripped savings" }
+      ],
       "savings_narrative": "Adult Social Care is the council's largest budget (59.3% of net revenue) and the single biggest reform opportunity. The CQC 'Requires Improvement' rating exposes operational failures that directly drive excess costs: 31% of home care commissioned off-framework at 20% premium (£3-5M recoverable), CHC recovery running at half the national rate (£5-12M from NHS ICB), and a residential-heavy model (£172M/yr vs £57M/yr home care) that costs 3x what community care would. The 2024/25 savings target of £34.8M delivered only £3.8M, a £31M shortfall that proves the previous administration's approach failed. Public Health adds long-term ROI: every £1 in falls prevention saves £3.50 in ASC, but the HCRG near-monopoly (85% of category, HHI 3,615) and zero Contracts Finder visibility suggest procurement reform could yield £2-5M.",
       "kpi_headline": "CQC 'Requires Improvement': 2/4 across all 9 quality statements",
       "performance_metrics": [
@@ -577,6 +680,10 @@
       "mtfs_savings_note": "Council-wide target, cross-cutting reform overseen from CE office",
       "prior_year_target": 68600000,
       "prior_year_achieved_pct": 48,
+      "savings_delivery_history": [
+        { "year": "2024/25", "target": 68600000, "achieved": 32900000, "pct": 48, "note": "Council-wide. ASC (11%), other directorates ~70-80%. £35.7M shortfall" },
+        { "year": "2023/24", "target": 55000000, "achieved": 33000000, "pct": 60, "note": "Council-wide. Improvement year-on-year but still 40% gap" }
+      ],
       "savings_narrative": "The Chief Executive's office has the smallest direct budget (£1.3M) but owns the council-wide savings delivery target (£12.9M cross-cutting + oversight of all £103M). The 2024/25 performance (only 48% of £68.6M achieved) is the defining metric. Corporate restructuring (19 staff over £100K, multiple interim appointments), external partnerships audit, and LGR preparation are the direct levers. The real value of this directorate is driving delivery across all others: if savings delivery improves from 48% to 75%, that's an additional £17.5M on the current £65M target.",
       "kpi_headline": "Prior year savings delivery: 48%. £31M ASC shortfall alone",
       "performance_metrics": [
