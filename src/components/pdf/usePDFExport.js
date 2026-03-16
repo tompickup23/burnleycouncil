@@ -10,7 +10,7 @@
  * This is necessary because @react-pdf does NOT filter these values like React DOM,
  * causing "Cannot read properties of null (reading 'props')" crashes.
  */
-import { useState, useCallback, Children, isValidElement, cloneElement } from 'react'
+import { useState, useCallback, Children, isValidElement, createElement } from 'react'
 import { pdf, Document, Page, View, Text, Link, Image, Canvas, Svg } from '@react-pdf/renderer'
 
 /** @react-pdf built-in component types - do NOT call these as functions */
@@ -25,6 +25,10 @@ const PDF_BUILTINS = new Set([Document, Page, View, Text, Link, Image, Canvas, S
  *    so this is safe. This resolves {condition && <X>} patterns that produce null children.
  * 2. Use React.Children.toArray() to filter null/undefined/boolean children,
  *    then recursively sanitize each remaining child element.
+ *
+ * Uses createElement (not cloneElement) to rebuild elements. This avoids a critical
+ * bug: cloneElement(el, {}, ...[]) when safeChildren is empty becomes cloneElement(el, {})
+ * which PRESERVES the original (null-containing) children instead of replacing them.
  */
 function sanitizePDFTree(element) {
   // Primitives (strings, numbers) pass through safely
@@ -43,12 +47,18 @@ function sanitizePDFTree(element) {
     }
   }
 
+  // If element has no children, return as-is (preserves render props on Text etc.)
+  if (element.props.children == null) return element
+
   // Children.toArray flattens fragments and FILTERS null/undefined/boolean
   const safeChildren = Children.toArray(element.props.children)
     .map(child => sanitizePDFTree(child))
 
-  // Clone with sanitized children
-  return cloneElement(element, {}, ...safeChildren)
+  // Rebuild element with createElement to guarantee children replacement.
+  // Extract children from props (we pass them as separate args to createElement).
+  const { children: _c, ...restProps } = element.props
+  if (element.key != null) restProps.key = element.key
+  return createElement(element.type, restProps, ...safeChildren)
 }
 
 /**

@@ -711,7 +711,7 @@ export default function PropertyPortfolio() {
   // Reset to page 1 when filters change
   useEffect(() => {
     setPage(1)
-  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, quickWinsOnly])
+  }, [searchTerm, filterCategory, filterDistrict, filterOwnership, filterTier, filterDisposal, filterCED, filterRecommendation, filterOccupancy, filterPathway, filterServiceStatus, quickWinsOnly, sellableOnly])
 
   // --- Sort handler ---
   const handleSort = useCallback((field) => {

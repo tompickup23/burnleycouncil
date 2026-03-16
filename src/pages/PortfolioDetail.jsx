@@ -960,7 +960,7 @@ export default function PortfolioDetail() {
                       </defs>
                       <XAxis dataKey="label" tick={{ fill: '#999', fontSize: 11 }} />
                       <YAxis tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} tick={{ fill: '#999', fontSize: 11 }} />
-                      <Tooltip formatter={v => formatCurrency(v)} labelStyle={{ color: '#fff' }} contentStyle={{ background: 'rgba(30,30,40,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                      <RechartsTooltip formatter={v => formatCurrency(v)} labelStyle={{ color: '#fff' }} contentStyle={TOOLTIP_STYLE} />
                       <Area type="monotone" dataKey="residential_cost" name="Residential" fill="url(#childResidential)" stroke="#ff6b6b" stackId="1" />
                       <Area type="monotone" dataKey="fostering_cost" name="Fostering" fill="url(#childFostering)" stroke="#12B6CF" stackId="1" />
                       <Area type="monotone" dataKey="agency_premium" name="Agency Premium" fill="rgba(255,193,7,0.15)" stroke="#ffc107" stackId="1" />
@@ -984,7 +984,7 @@ export default function PortfolioDetail() {
                         <XAxis dataKey="year" tickFormatter={v => `Yr ${v}`} tick={{ fill: '#999', fontSize: 11 }} />
                         <YAxis yAxisId="left" tickFormatter={v => v} tick={{ fill: '#999', fontSize: 11 }} />
                         <YAxis yAxisId="right" orientation="right" tickFormatter={v => `£${(v / 1e6).toFixed(1)}M`} tick={{ fill: '#999', fontSize: 11 }} />
-                        <Tooltip formatter={(v, name) => name === 'Saving' ? formatCurrency(v) : v} contentStyle={{ background: 'rgba(30,30,40,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                        <RechartsTooltip formatter={(v, name) => name === 'Saving' ? formatCurrency(v) : v} contentStyle={TOOLTIP_STYLE} />
                         <Bar yAxisId="left" dataKey="homes" name="Homes" fill="#12B6CF" radius={[4, 4, 0, 0]} />
                         <Bar yAxisId="right" dataKey="saving" name="Saving" fill="#28a745" radius={[4, 4, 0, 0]} />
                       </BarChart>
@@ -1033,7 +1033,7 @@ export default function PortfolioDetail() {
                       </defs>
                       <XAxis dataKey="label" tick={{ fill: '#999', fontSize: 11 }} />
                       <YAxis tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} tick={{ fill: '#999', fontSize: 11 }} />
-                      <Tooltip formatter={v => formatCurrency(v)} labelStyle={{ color: '#fff' }} contentStyle={{ background: 'rgba(30,30,40,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                      <RechartsTooltip formatter={v => formatCurrency(v)} labelStyle={{ color: '#fff' }} contentStyle={TOOLTIP_STYLE} />
                       <Area type="monotone" dataKey="grant_real_terms" name="Grant (Real Terms)" fill="url(#phGrant)" stroke="#12B6CF" />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -1119,7 +1119,7 @@ export default function PortfolioDetail() {
                       <BarChart data={propertyProjection.yearly}>
                         <XAxis dataKey="label" tick={{ fill: '#999', fontSize: 11 }} />
                         <YAxis tickFormatter={v => `£${(v / 1e6).toFixed(0)}M`} tick={{ fill: '#999', fontSize: 11 }} />
-                        <Tooltip formatter={v => formatCurrency(v)} contentStyle={{ background: 'rgba(30,30,40,0.95)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: '8px' }} />
+                        <RechartsTooltip formatter={v => formatCurrency(v)} contentStyle={TOOLTIP_STYLE} />
                         <Bar dataKey="running_cost" name="Running Cost" fill="rgba(18,182,207,0.6)" stackId="cost" radius={[0, 0, 0, 0]} />
                         <Bar dataKey="backlog" name="Backlog" fill="rgba(255,107,107,0.6)" stackId="cost" radius={[4, 4, 0, 0]} />
                         <Bar dataKey="disposal_receipts" name="Disposal Receipts" fill="rgba(40,167,69,0.6)" radius={[4, 4, 0, 0]} />

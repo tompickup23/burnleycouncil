@@ -56,7 +56,7 @@ export function PortfolioBriefingPDF({
       <CoverPage
         title={title}
         subtitle="Portfolio Intelligence Briefing"
-        meta={`${portfolio.cabinet_member?.name || 'Cabinet Member'} • Budget: ${formatCurrency(budget)} • Savings Pipeline: ${formatCurrency(totalSavings * 1e6)} • Generated ${new Date().toLocaleDateString('en-GB')}`}
+        meta={`${portfolio.cabinet_member?.name || 'Cabinet Member'} • Budget: ${formatCurrency(budget)} • Savings Pipeline: ${formatCurrency(totalSavings)} • Generated ${new Date().toLocaleDateString('en-GB')}`}
         classification="CONFIDENTIAL - CABINET USE ONLY"
         councilName={councilName || 'Lancashire County Council'}
       />
@@ -68,8 +68,8 @@ export function PortfolioBriefingPDF({
 
         <StatsRow>
           <StatCard value={formatCurrency(budget)} label="Total Budget" />
-          <StatCard value={formatCurrency(totalSavings * 1e6)} label="Savings Identified" color={COLORS.success} />
-          <StatCard value={formatCurrency(immediateSavings * 1e6)} label="Immediate Wins" color={COLORS.warning} />
+          <StatCard value={formatCurrency(totalSavings)} label="Savings Identified" color={COLORS.success} />
+          <StatCard value={formatCurrency(immediateSavings)} label="Immediate Wins" color={COLORS.warning} />
           <StatCard value={(directives || []).length.toString()} label="Active Directives" />
         </StatsRow>
 
@@ -158,7 +158,7 @@ export function PortfolioBriefingPDF({
           ]}
           rows={(directives || []).sort((a, b) => (b.save_central || 0) - (a.save_central || 0)).slice(0, 15).map(d => ({
             action: d.action?.substring(0, 70) || '-',
-            savings: formatCurrency((d.save_central || 0) * 1e6),
+            savings: formatCurrency(d.save_central || 0),
             timeline: d.timeline || '-',
             route: d.route || governanceRoute(d.save_central || 0),
           }))}
@@ -174,7 +174,7 @@ export function PortfolioBriefingPDF({
                   {cat.replace(/_/g, ' ').replace(/\b\w/g, l => l.toUpperCase())}
                 </Text>
                 <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.success }}>
-                  {formatCurrency(catSavings * 1e6)}
+                  {formatCurrency(catSavings)}
                 </Text>
               </View>
               <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>
@@ -253,7 +253,7 @@ export function PortfolioBriefingPDF({
             ]}
             rows={(directives || []).sort((a, b) => (b.save_central || 0) - (a.save_central || 0)).slice(0, 8).map(d => ({
               action: d.action?.substring(0, 60) || '-',
-              savings: formatCurrency((d.save_central || 0) * 1e6),
+              savings: formatCurrency(d.save_central || 0),
               route: d.route || governanceRoute(d.save_central || 0),
             }))}
           />

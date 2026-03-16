@@ -304,38 +304,70 @@ export function CoverPage({ title, subtitle, meta, classification, councilName }
   )
 }
 
-// ── Election History Row ──
+// ── Election History (full results with all candidates) ──
 export function ElectionHistoryTable({ history, wardName }) {
   if (!history?.length) return <View />
-  const rows = history.slice(0, 10).map(e => {
-    const sorted = [...(e.candidates || [])].sort((a, b) => b.votes - a.votes)
-    const winner = sorted[0]
-    const runnerUp = sorted[1]
-    const margin = winner && runnerUp ? winner.votes - runnerUp.votes : null
-    const turnoutPct = e.turnout ? (e.turnout * 100).toFixed(1) + '%' : e.turnout_pct ? e.turnout_pct.toFixed(1) + '%' : '-'
-    return {
-      year: String(e.year),
-      winner: winner?.name || '-',
-      winnerParty: winner?.party || '-',
-      votes: winner?.votes?.toLocaleString() || '-',
-      margin: margin != null ? margin.toLocaleString() : '-',
-      turnout: turnoutPct,
-      _colors: { winnerParty: partyColor(winner?.party) },
-    }
-  })
 
   return (
-    <Table
-      columns={[
-        { key: 'year', label: 'Year', width: 40 },
-        { key: 'winner', label: 'Winner', flex: 2 },
-        { key: 'winnerParty', label: 'Party', flex: 1 },
-        { key: 'votes', label: 'Votes', width: 50, align: 'right' },
-        { key: 'margin', label: 'Margin', width: 50, align: 'right' },
-        { key: 'turnout', label: 'Turnout', width: 50, align: 'right' },
-      ]}
-      rows={rows}
-    />
+    <View>
+      {history.slice(0, 8).map((e, ei) => {
+        const sorted = [...(e.candidates || [])].sort((a, b) => (b.votes || 0) - (a.votes || 0))
+        if (!sorted.length) return <View key={ei} />
+        const totalVotes = sorted.reduce((s, c) => s + (c.votes || 0), 0)
+        const turnoutPct = e.turnout ? (e.turnout * 100).toFixed(1) + '%'
+          : e.turnout_pct ? e.turnout_pct.toFixed(1) + '%' : null
+        const electorate = e.electorate?.toLocaleString()
+
+        return (
+          <View key={ei} style={{ marginBottom: SPACE.sm }} wrap={false}>
+            {/* Year header */}
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between', borderBottomWidth: 1, borderBottomColor: COLORS.accent, paddingBottom: 2, marginBottom: 3 }}>
+              <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.accent }}>
+                {e.date ? formatDate(e.date) : String(e.year || '-')}
+              </Text>
+              <View style={{ flexDirection: 'row', gap: 8 }}>
+                {turnoutPct && <Text style={{ fontSize: FONT.tiny, color: COLORS.textSecondary }}>Turnout: {turnoutPct}</Text>}
+                {electorate && <Text style={{ fontSize: FONT.tiny, color: COLORS.textMuted }}>Electorate: {electorate}</Text>}
+                {totalVotes > 0 && <Text style={{ fontSize: FONT.tiny, color: COLORS.textMuted }}>Total votes: {totalVotes.toLocaleString()}</Text>}
+              </View>
+            </View>
+            {/* All candidates */}
+            {sorted.map((c, ci) => {
+              const pct = totalVotes > 0 ? ((c.votes || 0) / totalVotes * 100) : (c.pct ? c.pct * 100 : 0)
+              const barWidth = Math.min(100, Math.max(2, pct))
+              const color = partyColor(c.party)
+              const isWinner = ci === 0
+              return (
+                <View key={ci} style={{ flexDirection: 'row', alignItems: 'center', marginBottom: 2, paddingLeft: 2 }}>
+                  <Text style={{ fontSize: FONT.tiny, color: isWinner ? COLORS.textPrimary : COLORS.textSecondary, width: 8, fontFamily: isWinner ? FONT.bold : FONT.regular }}>{ci + 1}.</Text>
+                  <Text style={{ fontSize: FONT.tiny, fontFamily: isWinner ? FONT.bold : FONT.regular, color: isWinner ? COLORS.textPrimary : COLORS.textSecondary, width: 100 }}>
+                    {(c.name || '-').substring(0, 18)}
+                  </Text>
+                  <View style={{ width: 70 }}>
+                    <Text style={{ fontSize: FONT.tiny, color, fontFamily: FONT.bold }}>{(c.party || '-').substring(0, 12)}</Text>
+                  </View>
+                  <View style={{ flex: 1, height: 10, backgroundColor: COLORS.bgCardAlt, borderRadius: 2, overflow: 'hidden', marginHorizontal: 4 }}>
+                    <View style={{ height: 10, width: `${barWidth}%`, backgroundColor: color, borderRadius: 2, opacity: isWinner ? 1 : 0.7 }} />
+                  </View>
+                  <Text style={{ fontSize: FONT.tiny, fontFamily: FONT.bold, color: isWinner ? COLORS.textPrimary : COLORS.textSecondary, width: 40, textAlign: 'right' }}>
+                    {c.votes?.toLocaleString() || '-'}
+                  </Text>
+                  <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted, width: 35, textAlign: 'right' }}>
+                    {pct > 0 ? `${pct.toFixed(1)}%` : '-'}
+                  </Text>
+                </View>
+              )
+            })}
+            {/* Margin */}
+            {sorted.length >= 2 && sorted[0]?.votes && sorted[1]?.votes && (
+              <Text style={{ fontSize: FONT.micro, color: COLORS.accent, marginTop: 2, textAlign: 'right' }}>
+                Majority: {(sorted[0].votes - sorted[1].votes).toLocaleString()} votes
+              </Text>
+            )}
+          </View>
+        )
+      })}
+    </View>
   )
 }
 
