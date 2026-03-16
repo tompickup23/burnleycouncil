@@ -26,8 +26,7 @@ export function usePDFExport() {
       URL.revokeObjectURL(url)
     } catch (err) {
       console.error('[PDF] Generation failed:', err)
-      // Fallback: alert user
-      alert('PDF generation failed. Please try again.')
+      alert(`PDF generation failed: ${err?.message || 'Unknown error'}. Check console for details.`)
     } finally {
       setIsGenerating(false)
     }

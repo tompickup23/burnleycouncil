@@ -1,6 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import compression from 'vite-plugin-compression'
+import { nodePolyfills } from 'vite-plugin-node-polyfills'
 import { cpSync, existsSync, readFileSync, writeFileSync, mkdirSync, rmSync, statSync } from 'fs'
 import { resolve, extname } from 'path'
 
@@ -190,6 +191,11 @@ export default defineConfig({
   plugins: [
     react(),
     councilDataPlugin(),
+    // Node.js polyfills required by @react-pdf/renderer (Buffer, process, global)
+    nodePolyfills({
+      include: ['buffer', 'process', 'util', 'stream'],
+      globals: { Buffer: true, process: true, global: true },
+    }),
     // Pre-compress JS/CSS assets with gzip for faster serving
     // Excludes data/ JSON files (huge spending JSONs would take forever)
     compression({
