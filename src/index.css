@@ -1513,4 +1513,28 @@ button:focus-visible {
   .card {
     padding: var(--space-md);
   }
+
+  /* ── iOS Safari GPU memory fix ──
+   * Reduce all backdrop-filter blur on mobile to prevent GPU memory exhaustion.
+   * iOS Safari allocates a compositing layer per blur; 3+ concurrent layers crash.
+   * Cap blur at 10px and remove saturate/brightness modifiers. */
+  .card,
+  .stat-card,
+  .hero-panel,
+  .chart-card,
+  .detail-hero,
+  .tab-btn,
+  .breadcrumb-container,
+  [class*="glass"] {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+
+  /* Disable expensive animations on mobile */
+  @media (prefers-reduced-motion: no-preference) {
+    .card,
+    .stat-card {
+      transition-duration: 0.15s !important;
+    }
+  }
 }

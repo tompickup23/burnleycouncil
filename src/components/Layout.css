@@ -352,6 +352,11 @@
   .sidebar {
     transform: translateX(-100%);
     width: 280px;
+    /* Reduce blur dramatically on mobile — 40px causes GPU memory exhaustion on iOS */
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    will-change: transform;
+    contain: layout style;
   }
 
   .sidebar.open {
@@ -361,10 +366,28 @@
   .sidebar-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(4px);
-    -webkit-backdrop-filter: blur(4px);
+    background: rgba(0, 0, 0, 0.65);
+    /* NO backdrop-filter on mobile — double compositing layer crashes iOS Safari */
     z-index: 99;
+  }
+
+  .sidebar-nav {
+    -webkit-overflow-scrolling: touch;
+    contain: content;
+  }
+
+  /* Disable nav icon hover animations on mobile (no hover, saves GPU) */
+  .nav-item svg {
+    transition: none;
+  }
+  .nav-item:hover svg {
+    transform: none;
+  }
+
+  /* Disable ambient background orbs on mobile — saves significant GPU/memory */
+  .main-content::before,
+  .main-content::after {
+    display: none;
   }
 
   .main-content {
@@ -372,6 +395,7 @@
     padding: var(--space-md);
     padding-top: calc(60px + env(safe-area-inset-top, 0px) + var(--space-md));
     padding-bottom: env(safe-area-inset-bottom, 0px);
+    overflow: visible;
   }
 
   .mobile-header {
@@ -384,11 +408,13 @@
     right: 0;
     height: calc(60px + env(safe-area-inset-top, 0px));
     padding: env(safe-area-inset-top, 0px) var(--space-md) 0;
-    background: rgba(28, 28, 30, 0.95);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    /* Solid background on mobile — no blur needed, saves a compositing layer */
+    background: rgba(28, 28, 30, 0.98);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     z-index: 98;
+    contain: layout;
   }
 
   .menu-toggle {

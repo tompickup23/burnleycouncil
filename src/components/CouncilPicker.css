@@ -208,5 +208,12 @@
     left: 0;
     right: 0;
     border-radius: 0 0 var(--radius-md) var(--radius-md);
+    /* Reduce blur on mobile — 40px causes GPU exhaustion on iOS Safari */
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  .council-picker-list {
+    -webkit-overflow-scrolling: touch;
   }
 }
