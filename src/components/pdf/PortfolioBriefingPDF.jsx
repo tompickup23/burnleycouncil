@@ -70,9 +70,10 @@ export function PortfolioBriefingPDF({
   const title = portfolio.short_title || portfolio.title || portfolio.id
   const totalSavings = (directives || []).reduce((s, d) => s + (d.save_central || 0), 0)
   const immediateSavings = (directives || []).filter(d => /immediate|0-3/i.test(d.timeline || '')).reduce((s, d) => s + (d.save_central || 0), 0)
-  const budget = portfolio.budget_total || portfolio.budget?.total || 0
+  const budget = portfolio.budget_latest?.gross_expenditure || portfolio.budget_total || portfolio.budget?.total || 0
   const levers = portfolio.savings_levers || []
   const contracts = portfolio.key_contracts || []
+  const savingsPct = budget > 0 ? Math.round((totalSavings / budget) * 100) : 0
 
   // Group directives by category
   const byCategory = {}
@@ -128,7 +129,14 @@ export function PortfolioBriefingPDF({
       <CoverPage
         title={title}
         subtitle="Portfolio Intelligence Briefing"
-        meta={`${portfolio.cabinet_member?.name || 'Cabinet Member'} | Budget: ${formatCurrency(budget)} | Savings Pipeline: ${formatCurrency(totalSavings)} | ${levers.length} savings levers | Generated ${new Date().toLocaleDateString('en-GB')}`}
+        meta={[
+          portfolio.cabinet_member?.name || 'Cabinet Member',
+          budget > 0 ? `Budget: ${formatCurrency(budget)}` : null,
+          `Savings: ${formatCurrency(totalSavings)}${savingsPct > 0 ? ` (${savingsPct}% of budget)` : ''}`,
+          `${levers.length} savings levers | ${(directives || []).length} directives`,
+          pTotalSpend > 0 ? `${formatCurrency(pTotalSpend)} spending tracked` : null,
+          `Generated ${new Date().toLocaleDateString('en-GB')}`,
+        ].filter(Boolean).join(' | ')}
         classification="CONFIDENTIAL - CABINET USE ONLY"
         councilName={councilName || 'Lancashire County Council'}
       />
@@ -139,11 +147,18 @@ export function PortfolioBriefingPDF({
         <PDFHeader title={title} subtitle="Portfolio Overview" classification="CABINET" />
 
         <StatsRow>
-          <StatCard value={formatCurrency(budget)} label="Total Budget" />
-          <StatCard value={formatCurrency(totalSavings)} label="Savings Identified" color={COLORS.success} />
-          <StatCard value={formatCurrency(immediateSavings)} label="Immediate Wins" color={COLORS.warning} />
-          <StatCard value={(directives || []).length.toString()} label="Active Directives" />
+          <StatCard value={formatCurrency(budget)} label="Gross Budget" detail={budget > 0 ? `Net: ${formatCurrency(portfolio.budget_latest?.net_expenditure || budget)}` : ''} />
+          <StatCard value={formatCurrency(totalSavings)} label="Savings Identified" color={COLORS.success} detail={savingsPct > 0 ? `${savingsPct}% of budget` : ''} />
+          <StatCard value={formatCurrency(immediateSavings)} label="Immediate (0-6m)" color={COLORS.warning} detail={`${(directives || []).filter(d => /immediate|0-3|0-6/i.test(d.timeline || '')).length} quick wins`} />
+          <StatCard value={(directives || []).length.toString()} label="Active Directives" detail={`${levers.length} levers`} />
         </StatsRow>
+
+        {/* Budget vs Savings Progress */}
+        {budget > 0 ? (
+          <Card highlight>
+            <ProgressBar value={totalSavings} max={budget} label={`Savings = ${savingsPct}% of gross budget`} color={savingsPct >= 5 ? COLORS.success : savingsPct >= 2 ? COLORS.warning : COLORS.danger} showPct />
+          </Card>
+        ) : <View />}
 
         {/* Portfolio Details */}
         <Card>
@@ -216,9 +231,10 @@ export function PortfolioBriefingPDF({
           <View>
             <SectionHeading title="Spending Intelligence" />
             <StatsRow>
-              <StatCard label="Actual Spend" value={formatCurrency(pTotalSpend)} />
+              <StatCard label="Spend to Date" value={formatCurrency(pTotalSpend)} detail={`${pMonthCount} month${pMonthCount !== 1 ? 's' : ''} data`} />
+              <StatCard label={pMonthCount < 12 ? 'Annualised' : 'Annual Spend'} value={formatCurrency(pAnnualised)} color={budget > 0 && pAnnualised > budget * 1.1 ? COLORS.danger : COLORS.textPrimary} />
               <StatCard label="Suppliers" value={pUniqueSuppliers.toString()} />
-              <StatCard label="HHI" value={Math.round(pHHI).toString()} color={pHHI > 2500 ? COLORS.danger : pHHI > 1500 ? COLORS.warning : COLORS.success} />
+              <StatCard label="HHI" value={Math.round(pHHI).toString()} color={pHHI > 2500 ? COLORS.danger : pHHI > 1500 ? COLORS.warning : COLORS.success} detail={pHHI > 2500 ? 'High concentration' : pHHI > 1500 ? 'Moderate' : 'Competitive'} />
             </StatsRow>
             {pTopSuppliers.length > 0 ? (
               <Card>
@@ -694,7 +710,7 @@ export function PortfolioBriefingPDF({
           <ConfidentialBanner text="CABINET BRIEFING - RESTRICTED DISTRIBUTION" />
           <PDFHeader title={title} subtitle="Savings Levers Detail" classification="CABINET" />
 
-          <SectionHeading title={`Savings Levers (${levers.length})`} subtitle={`Total estimated savings: ${levers.reduce((s, l) => s + (l.est_saving ? 1 : 0), 0)} levers with costed estimates`} />
+          <SectionHeading title={`Savings Levers (${levers.length})`} subtitle={`${levers.reduce((s, l) => s + (l.est_saving ? 1 : 0), 0)} levers with costed estimates | Directives: ${formatCurrency(totalSavings)} identified`} />
 
           {levers.map((l, i) => (
             <View key={i} style={{ marginBottom: SPACE.md }} wrap={false}>

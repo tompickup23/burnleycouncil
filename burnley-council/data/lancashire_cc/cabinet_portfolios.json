@@ -845,6 +845,50 @@
             ],
             "political_framing": "Devolution means Lancashire keeps more of its money. We are negotiating hard with Whitehall to get the best deal for Lancashire taxpayers."
           }
+        },
+        {
+          "lever": "Lancashire-wide events and conferencing income",
+          "est_saving": "£0.2-0.5M",
+          "timeline": "3-12 months",
+          "risk": "Low",
+          "tier": "income_generation",
+          "owner": "portfolio",
+          "description": "LCC should establish a central events and conferencing function, commercially marketing County Hall, Woodlands Conference Centre, and other LCC venues for weddings, conferences, corporate events, and civic functions. Currently underused outside office hours and weekends. Quick wins: weekend wedding venue hire at County Hall (Grade II listed, impressive setting), corporate conference packages with catering concessions, room hire rate card at market prices not subsidised rates.",
+          "legal_constraints": "LGA 2003 s93 (charging), Localism Act 2011 (general power of competence), Licensing Act 2003 (premises licence for alcohol/entertainment), planning (change of use not required for occasional events), health and safety regulations",
+          "evidence": {
+            "data_points": [
+              "County Hall is a Grade II listed building with impressive rooms",
+              "Currently minimal commercial hire income from LCC venues",
+              "Wedding venue market in Lancashire: GBP 3-8K per weekend booking",
+              "Conference market: GBP 500-2K per day for quality venues"
+            ],
+            "benchmark": "Hertfordshire CC generates GBP 0.3M from venue hire. Devon CC: GBP 0.2M. Cheshire East: GBP 0.4M. Many county halls now commercially marketed as wedding and events venues.",
+            "calculation": "Weekend weddings (30 at GBP 3-5K): GBP 90-150K. Conferences (100 days at GBP 500-1K): GBP 50-100K. Corporate events (50 at GBP 500-1K): GBP 25-50K. Room hire uplift across all venues: GBP 50-100K. Total: GBP 0.2-0.5M.",
+            "kpi_link": "Venue utilisation rate, income per venue, customer satisfaction",
+            "implementation_steps": [
+              {
+                "step": "Audit all LCC venues for commercial hire potential",
+                "month": "1-2"
+              },
+              {
+                "step": "Obtain premises licence for County Hall and key venues",
+                "month": "2-4"
+              },
+              {
+                "step": "Publish venue hire rate card at market rates (not subsidised)",
+                "month": "2-3"
+              },
+              {
+                "step": "List on wedding and conference booking platforms (Hitched, Venue Scanner)",
+                "month": "3-4"
+              },
+              {
+                "step": "Appoint 0.5 FTE venue coordinator (self-funding from income)",
+                "month": "3-6"
+              }
+            ],
+            "political_framing": "We have beautiful buildings sitting empty at weekends. Every wedding at County Hall pays for council services. This is common sense, not controversial."
+          }
         }
       ],
       "operational_context": {
@@ -2380,6 +2424,90 @@
               }
             ],
             "political_framing": "Lancashire is paying 6.8% interest on loans taken out years ago when rates were higher. We can refinance at 4.5% today and save millions. Any homeowner would do the same."
+          }
+        },
+        {
+          "lever": "Council website and digital advertising income",
+          "est_saving": "£0.2-0.5M",
+          "timeline": "3-6 months",
+          "risk": "Low",
+          "tier": "income_generation",
+          "owner": "centralised",
+          "description": "LCC websites receive millions of visits annually. The Council Advertising Network (CAN Digital) provides a turnkey solution for public sector digital advertising, placing quality brand advertising on council websites with no development cost. Revenue share model: 50% of advertising income paid directly, or 75% as media-buying credits. Additionally, council email newsletters, parking payment apps, and customer service portals all carry advertising potential. Quick win: can be live within 6-8 weeks of signing.",
+          "legal_constraints": "LGA 2003 s93 (charging for discretionary services), Data Protection Act 2018/UK GDPR (no personal data shared with advertisers), Advertising Standards Authority codes, council advertising policy required",
+          "evidence": {
+            "data_points": [
+              "LCC websites receive estimated 5-8M visits per year",
+              "Council Advertising Network already serves 100+ UK councils",
+              "Digital advertising can be live within 6-8 weeks",
+              "Zero upfront cost, pure revenue share model"
+            ],
+            "benchmark": "Coventry City Council: GBP 0.2M/yr from digital advertising. Hampshire CC: GBP 0.3M. Bristol CC: GBP 0.15M. Average county council: GBP 0.1-0.3M.",
+            "calculation": "5M pageviews at GBP 2-5 CPM: GBP 10-25K/month gross. 50% revenue share: GBP 60-150K/yr from web alone. Email newsletters: GBP 30-50K. Parking app: GBP 20-40K. Other digital channels: GBP 50-100K. Total: GBP 0.2-0.5M.",
+            "kpi_link": "Revenue per 1000 pageviews, click-through rate, advertiser satisfaction, no impact on user experience metrics",
+            "implementation_steps": [
+              {
+                "step": "Adopt advertising and sponsorship policy (cabinet approval)",
+                "month": "1-2"
+              },
+              {
+                "step": "Sign concession agreement with CAN Digital or similar provider",
+                "month": "2-3"
+              },
+              {
+                "step": "Go live with website advertising (6-8 weeks from signing)",
+                "month": "3-4"
+              },
+              {
+                "step": "Extend to email newsletters, parking portals, customer apps",
+                "month": "4-6"
+              }
+            ],
+            "political_framing": "Every council in the country is doing this. Millions of people visit our website. We should be generating income from it, not leaving money on the table. Zero cost to set up, income from day one."
+          }
+        },
+        {
+          "lever": "Naming rights and council asset sponsorship programme",
+          "est_saving": "£0.3-1M",
+          "timeline": "3-12 months",
+          "risk": "Low",
+          "tier": "income_generation",
+          "owner": "centralised",
+          "description": "LCC owns hundreds of high-profile assets: county hall, libraries, museums, country parks, bridges, car parks, and leisure facilities. A structured naming rights and sponsorship programme sells naming rights for buildings, rooms, events, wifi networks, and public spaces. Conference rooms become 'The BAE Systems Boardroom', wifi becomes 'Powered by Virgin Media', recycling centres become 'sponsored by...' etc. Requires a clear policy with ethical exclusions (gambling, tobacco, payday lending). Quick win: start with internal meeting rooms and conference facilities, expand to public-facing assets.",
+          "legal_constraints": "LGA 2003 s93/95 (charging and trading powers), Localism Act 2011 general power of competence, advertising standards codes, council sponsorship policy (ethical screen required), planning permission for external signage",
+          "evidence": {
+            "data_points": [
+              "LCC owns 1,200+ property assets across Lancashire",
+              "County Hall, 78 libraries, 5 museums, country parks, bridges",
+              "Conference facilities used by hundreds of external hirers annually",
+              "Wifi networks in all public buildings"
+            ],
+            "benchmark": "LB Barnet: GBP 0.5M from naming rights (The Barnet Copthall leisure centre became 'Allianz Park'). Multiple London boroughs: GBP 0.2-0.8M. Commercial sector: naming rights for venues typically 1-3% of asset value.",
+            "calculation": "County Hall conference suites (5 rooms at GBP 10-30K/yr): GBP 50-150K. Library wifi sponsorship (78 libraries at GBP 1-3K): GBP 78-234K. Country park naming (5 parks at GBP 10-30K): GBP 50-150K. Event sponsorship (20 events at GBP 5-15K): GBP 100-300K. Total: GBP 0.3-1M.",
+            "kpi_link": "Income per asset, sponsorship renewal rate, public perception survey scores",
+            "implementation_steps": [
+              {
+                "step": "Draft and adopt sponsorship and naming rights policy with ethical exclusions",
+                "month": "1-3"
+              },
+              {
+                "step": "Audit all LCC assets for naming rights potential (start with top 50)",
+                "month": "2-4"
+              },
+              {
+                "step": "Create sponsorship prospectus and rate card",
+                "month": "3-5"
+              },
+              {
+                "step": "Approach Lancashire's largest businesses (BAE, Lancashire Teaching Hospitals, UCLan, etc.)",
+                "month": "4-8"
+              },
+              {
+                "step": "Launch wifi sponsorship across all public buildings (quick win)",
+                "month": "3-6"
+              }
+            ],
+            "political_framing": "Every football club, every arena, every transport system sells naming rights. LCC has GBP 600M of property assets sitting there with no commercial income. This is standard practice, not controversial."
           }
         }
       ],
@@ -5113,6 +5241,107 @@
             ],
             "political_framing": "The council has money tied up in investments that are not delivering returns. We are reviewing every one and selling anything that is not working for Lancashire."
           }
+        },
+        {
+          "lever": "Tour de France 2027 commercial programme",
+          "est_saving": "£2-5M",
+          "timeline": "0-18 months",
+          "risk": "Low",
+          "tier": "income_generation",
+          "owner": "portfolio",
+          "description": "Stage 2 of the 2027 Tour de France Grand Depart passes 80 miles through Lancashire on 3 July 2027 (Keswick to Liverpool via Lancaster, Bowland, Clitheroe, Blackburn, Chorley). Independent modelling estimates over GBP 15M in additional economic activity. LCC should capture direct income through: fan zone hosting fees (GBP 200-500K), official merchandise concessions (GBP 100-300K), temporary food/drink trading licences along route (GBP 50-150K), park-and-ride operations (GBP 100-200K), camping/glamping on LCC land (GBP 50-100K), and brokering sponsorship packages that bundle LCC highways assets with the event. Yorkshire 2014 Grand Depart generated GBP 131M for the regional economy. With 3.3M spectators lining the Yorkshire route, Lancashire can expect 500K-1M along its section. Commercial programme should be in procurement by Q3 2026.",
+          "legal_constraints": "Licensing Act 2003 (temporary event notices), Road Traffic Regulation Act 1984 (road closures), Highways Act 1980 s115E (objects on highway), planning (temp structures), Food Safety Act 1990, LGA 2003 s93 charging powers",
+          "evidence": {
+            "data_points": [
+              "80 miles of TdF route through Lancashire on 3 July 2027",
+              "Yorkshire 2014: GBP 131M economic impact, 3.3M spectators over 2 days",
+              "Westmorland & Furness projecting significant income from Stage 1",
+              "Global TV audience 150M+, massive destination marketing value",
+              "Route passes through 8 of 12 Lancashire districts"
+            ],
+            "benchmark": "Yorkshire 2014 Grand Depart: GBP 131M economic impact (Sheffield Hallam University study). Welcome to Yorkshire captured over GBP 2M in direct council income. Cambridge Stage 3 2014: GBP 7.2M local impact from single stage. Cumbria 2027 expecting GBP 10M from Stages 1-2.",
+            "calculation": "Fan zones (3-5 locations at GBP 50-100K each): GBP 200-500K. Trading concessions (200 pitches at GBP 500-1K): GBP 100-200K. Park-and-ride (10K cars at GBP 10-15): GBP 100-150K. Camping (500 pitches at GBP 30-50): GBP 15-25K. Sponsorship packages: GBP 500K-2M. Merchandise: GBP 100-300K. Business rate uplift from visitor spend: GBP 500K-1M. Total direct: GBP 2-5M. Wider economy: GBP 15M+.",
+            "kpi_link": "Economic impact measurement (Sheffield Hallam methodology), visitor count, business rate yield, tourism KPIs",
+            "implementation_steps": [
+              {
+                "step": "Establish TdF Commercial Board with cabinet member, ED, and Marketing Lancashire",
+                "month": "1-2"
+              },
+              {
+                "step": "Appoint commercial programme manager (fixed term, self-funding from income)",
+                "month": "2-3"
+              },
+              {
+                "step": "Map all commercial opportunities along 80-mile Lancashire route section",
+                "month": "2-4"
+              },
+              {
+                "step": "Design and price sponsorship packages (route section naming, fan zones, hospitality)",
+                "month": "3-5"
+              },
+              {
+                "step": "Procure concession partners for fan zones, merchandise, food/drink via competitive tender",
+                "month": "5-8"
+              },
+              {
+                "step": "Negotiate with ASO (race organiser) on commercial rights and exclusion zones",
+                "month": "3-6"
+              },
+              {
+                "step": "Launch park-and-ride, camping, accommodation booking platform",
+                "month": "6-12"
+              },
+              {
+                "step": "Deliver event weekend commercial programme 3 July 2027",
+                "month": "15-18"
+              },
+              {
+                "step": "Commission independent economic impact study within 3 months of event",
+                "month": "18-21"
+              }
+            ],
+            "political_framing": "The Tour de France brings the world's biggest annual sporting event through Lancashire. We are not just hosting it; we are making it pay for Lancashire. Every pound of commercial income from the Tour goes back into Lancashire services. Yorkshire made GBP 131M from their Grand Depart. Lancashire should beat that."
+          }
+        },
+        {
+          "lever": "Filming and location fees",
+          "est_saving": "£0.3-1M",
+          "timeline": "3-12 months",
+          "risk": "Low",
+          "tier": "income_generation",
+          "owner": "portfolio",
+          "description": "Lancashire's landscapes (Bowland AONB, Ribble Valley, coast) and heritage assets attract film/TV production. LCC should establish a filming office charging location fees for use of council-owned land, highways closures, and facilities. Netflix, BBC, ITV and independent productions regularly film in Lancashire but currently pay minimal fees. A proactive filming office with published rate card, fast-track permissions, and a location portfolio generates GBP 0.3-1M annually. Tour de France 2027 media interest multiplies this.",
+          "legal_constraints": "Highways Act 1980 s142 (temporary road closures), Road Traffic Regulation Act 1984, filming generally does not require planning permission (temporary), LGA 2003 s93 charging, property law (licence to occupy)",
+          "evidence": {
+            "data_points": [
+              "Lancashire landscapes featured in multiple TV productions",
+              "Bowland AONB, Pendle, Morecambe Bay, Lancaster Castle attract crews",
+              "TdF 2027 massively raises Lancashire's profile for location scouts",
+              "Film productions typically pay GBP 1-10K per day for council locations"
+            ],
+            "benchmark": "Surrey CC generates GBP 0.5M from filming fees. Kent CC GBP 0.4M. Bristol City Council GBP 0.8M (largest outside London). Screen Manchester: GBP 100M production spend in region.",
+            "calculation": "50 filming days at GBP 2-5K per day: GBP 100-250K. Highway closure fees for productions: GBP 50-100K. Location fees for heritage sites: GBP 50-200K. Total: GBP 0.3-1M.",
+            "kpi_link": "Number of filming days, income per production, economic multiplier from crew spend",
+            "implementation_steps": [
+              {
+                "step": "Create Lancashire filming office within Economic Development (0.5 FTE initially)",
+                "month": "1-3"
+              },
+              {
+                "step": "Publish online location portfolio with rate card and booking system",
+                "month": "2-4"
+              },
+              {
+                "step": "Register with Creative England, BFI, Screen Lancashire location database",
+                "month": "2-3"
+              },
+              {
+                "step": "Market Lancashire as filming destination leveraging TdF 2027 global exposure",
+                "month": "6-12"
+              }
+            ],
+            "political_framing": "Lancashire is one of the most filmed counties in England but we barely charge for it. Other councils make millions. This is about making our beautiful county work harder financially."
+          }
         }
       ],
       "workforce": {
@@ -5247,6 +5476,11 @@
           "driver": "SEND transport growth",
           "detail": "208 in-house minibuses. 5,200 SEND children + 900 vulnerable adults daily. Each new EHCP potentially adds transport cost. Budget +£17.7M for 2026/27.",
           "severity": "high"
+        },
+        {
+          "pressure": "Tour de France 2027 highway preparation costs (up to GBP 6M)",
+          "detail": "Stage 2 passes 80 miles through Lancashire on 3 July 2027. Road preparation (surface repairs, white lining, barriers, signage, traffic management) estimated at GBP 3-6M. Partially offset by commercial income (GBP 0.5-1.5M) and DfT/DCMS funding bids.",
+          "trend": "one-off"
         }
       ],
       "key_contracts": [
@@ -5680,6 +5914,52 @@
               }
             ],
             "political_framing": "Businesses want to advertise on Lancashire's roundabouts and bus shelters. That income goes straight to fixing roads. Everyone benefits."
+          }
+        },
+        {
+          "lever": "Tour de France 2027 highways commercial income",
+          "est_saving": "£0.5-1.5M",
+          "timeline": "6-18 months",
+          "risk": "Low",
+          "tier": "income_generation",
+          "owner": "portfolio",
+          "description": "The 2027 Tour de France Stage 2 will pass 80 miles through Lancashire on LCC-controlled highways. Road preparation costs are estimated at up to GBP 6M (surface repairs, white lining, signage, barrier installation, temporary traffic management). LCC should offset this through highway advertising, route sponsorship, and temporary structure licences. As highway authority, LCC controls thousands of roundabouts, lamp columns, bus shelters along the route and has sole power to grant TROs. The net cost is GBP 4.5-5.5M after commercial income of GBP 0.5-1.5M. However, this is offset by the wider economic benefit (estimated GBP 15M+) and DfT/DCMS event funding bids. Yorkshire 2014 Grand Depart: Leeds alone generated GBP 400K from highway advertising.",
+          "legal_constraints": "Highways Act 1980 s115E (placing objects on highway), s142 (temp closures), Town and Country Planning (Control of Advertisements) Regulations 2007, Road Traffic Regulation Act 1984 (TROs), NRSWA 1991 (coordinating with utilities pre-event)",
+          "evidence": {
+            "data_points": [
+              "LCC controls 80 miles of TdF route as highway authority",
+              "Road preparation cost estimated up to GBP 6M (surfaces, lining, barriers, TM, staff)",
+              "Thousands of roundabouts, lamp columns, bus shelters along route available for advertising",
+              "Event requires extensive TROs which LCC has sole power to grant",
+              "Highway furniture advertising premium during global event",
+              "DfT/DCMS event infrastructure funding bids available to offset costs"
+            ],
+            "benchmark": "Yorkshire 2014: Leeds City Council generated GBP 400K from highway advertising alone during TdF. TfL generates GBP 160M/yr from highway advertising assets.",
+            "calculation": "COSTS: Road surface repairs and preparation (GBP 3-4M), white lining and signage (GBP 0.5-1M), barrier and street furniture (GBP 0.5-0.8M), temporary traffic management (GBP 0.3-0.5M), staff/overtime (GBP 0.2-0.3M). Total estimated cost: up to GBP 6M. INCOME: Route banner advertising (50 sites at GBP 3-5K): GBP 150-250K. Premium roundabout sponsorship (30 roundabouts at GBP 3-5K, TdF premium): GBP 90-150K. Lamp column banners in route towns: GBP 50-100K. Highway land hire for fan zones/hospitality: GBP 100-300K. Temporary structure licences: GBP 50-100K. Total income: GBP 0.5-1.5M. NET COST: GBP 4.5-5.5M before external funding bids (DfT/DCMS/Sport England).",
+            "kpi_link": "Income per highway asset, advertising compliance, DfT incentive funding alignment",
+            "implementation_steps": [
+              {
+                "step": "Audit all highway assets along TdF route for advertising potential",
+                "month": "1-3"
+              },
+              {
+                "step": "Create TdF premium sponsorship packages bundling roundabouts, lampcolumns, banners",
+                "month": "3-6"
+              },
+              {
+                "step": "Procure advertising concession partner for route with TdF uplift clause",
+                "month": "4-8"
+              },
+              {
+                "step": "Issue TROs for commercial fan zone areas on highway land",
+                "month": "9-15"
+              },
+              {
+                "step": "Deliver highway advertising programme for event weekend",
+                "month": "15-18"
+              }
+            ],
+            "political_framing": "The Tour de France needs Lancashire's roads in top condition. We are investing up to GBP 6M to prepare our highways, and we are making every penny work harder by generating commercial income from the route. The roads will be better for Lancashire residents long after the race has passed."
           }
         }
       ],
@@ -6254,6 +6534,50 @@
             ],
             "political_framing": "Council-owned farm land should generate a fair rent. Some tenancies have not been reviewed for years. We are bringing rents in line with what the land is worth."
           }
+        },
+        {
+          "lever": "Tour de France 2027 countryside and events income",
+          "est_saving": "£0.3-0.8M",
+          "timeline": "6-18 months",
+          "risk": "Low",
+          "tier": "income_generation",
+          "owner": "portfolio",
+          "description": "The TdF Stage 2 route passes directly through LCC countryside assets: Bowland AONB, Beacon Fell Country Park, and multiple LCC-managed green spaces. Opportunity: temporary camping/glamping sites on LCC land (500-1,000 pitches at GBP 25-50/night for 2-3 nights), event catering concessions at countryside viewing points, premium hospitality areas at categorised climbs (Jubilee Tower, Rivington), cycling festival in Bowland weekend before race. Post-event: establish annual Lancashire cycling sportive using TdF route, generating ongoing income from entry fees and sponsorship.",
+          "legal_constraints": "CROW Act 2000 (access land restrictions), Countryside and Rights of Way Act, planning permission for temporary camping (28-day rule), Licensing Act 2003 (alcohol sales), Environmental Protection Act 1990 (noise), LCC land ownership and commons registration",
+          "evidence": {
+            "data_points": [
+              "TdF route passes through Bowland AONB and multiple LCC countryside sites",
+              "500K-1M spectators expected along Lancashire section",
+              "Accommodation in rural Lancashire already limited, camping demand huge",
+              "Post-event sportive could become annual revenue source"
+            ],
+            "benchmark": "Yorkshire Festival 2014 around TdF: GBP 2.8M economic impact from fringe events alone. Sportive entry fees: Etape du Tour charges EUR 150-300 per rider, 15K riders.",
+            "calculation": "Camping (750 pitches x 2 nights x GBP 35): GBP 52K. Premium hospitality (200 tickets at GBP 100-250): GBP 20-50K. Catering concessions (20 sites at GBP 2-5K): GBP 40-100K. Cycling festival: GBP 50-150K. Annual sportive post-event (5K riders at GBP 40): GBP 200K ongoing. Total year 1: GBP 0.3-0.8M.",
+            "kpi_link": "Visitor numbers at countryside sites, income per site, camping occupancy, sportive participation",
+            "implementation_steps": [
+              {
+                "step": "Identify all LCC countryside land along TdF route suitable for camping/events",
+                "month": "1-3"
+              },
+              {
+                "step": "Apply for planning permission for temporary camping at 5-8 sites",
+                "month": "3-6"
+              },
+              {
+                "step": "Tender catering and hospitality concessions for climb viewing points",
+                "month": "6-9"
+              },
+              {
+                "step": "Develop and market Lancashire Cycling Sportive for July 2027 and annually thereafter",
+                "month": "6-12"
+              },
+              {
+                "step": "Coordinate with Marketing Lancashire on cycling tourism legacy programme",
+                "month": "12-18"
+              }
+            ],
+            "political_framing": "The Tour de France puts Lancashire's countryside on the global stage. We turn that into lasting income: camping, events, an annual sportive. Not a one-off; a permanent new revenue stream."
+          }
         }
       ],
       "operational_context": {
@@ -6818,6 +7142,50 @@
               }
             ],
             "political_framing": "Printing and posting letters costs a fortune. Email is free. Unless the law says we must send paper, we will send digital."
+          }
+        },
+        {
+          "lever": "Data monetisation and analytics as a service",
+          "est_saving": "£0.2-0.8M",
+          "timeline": "6-18 months",
+          "risk": "Medium",
+          "tier": "income_generation",
+          "owner": "portfolio",
+          "description": "LCC holds vast datasets: traffic flows, planning decisions, social care demand, education outcomes, population demographics, highway conditions, property data, and waste volumes. Anonymised, aggregated data products can be sold to property developers, insurance companies, retail analysts, academic researchers, and neighbouring authorities. Start with anonymised traffic count data (already public via DfT) packaged with LCC-specific analysis. Expand to planning analytics dashboards for developers, footfall data for retailers, and benchmarking services for other councils.",
+          "legal_constraints": "UK GDPR and Data Protection Act 2018 (anonymisation required, DPIA for any personal data, ICO guidance on anonymisation code of practice), LGA 2003 s95 trading powers (must be through company for commercial trading), Freedom of Information Act 2000 (some data already public), Re-use of Public Sector Information Regulations 2015 (RPSI - right to charge marginal cost, or full cost if 'trading fund')",
+          "evidence": {
+            "data_points": [
+              "LCC holds 20+ years of highway, planning, and social data",
+              "Traffic count data alone covers 1,011 DfT count points in Lancashire",
+              "Property developers routinely pay for local authority data packs",
+              "Academic sector values longitudinal council datasets"
+            ],
+            "benchmark": "Ordnance Survey generates GBP 165M/yr from public sector data. TfL generates GBP 3M from data licensing. Smaller councils (Stockport, Warrington) generate GBP 50-100K from planning data packs.",
+            "calculation": "Planning data packs for developers (200 at GBP 500-1K): GBP 100-200K. Traffic analytics subscriptions (50 at GBP 2-5K): GBP 100-250K. Benchmarking service to other councils (10 at GBP 10-20K): GBP 100-200K. Academic data licensing: GBP 30-50K. Total: GBP 0.2-0.8M.",
+            "kpi_link": "Data product revenue, customer count, data quality scores, ICO compliance",
+            "implementation_steps": [
+              {
+                "step": "Audit all LCC datasets for commercial potential and anonymisation requirements",
+                "month": "1-3"
+              },
+              {
+                "step": "Complete DPIA for each data product and obtain DPO sign-off",
+                "month": "2-4"
+              },
+              {
+                "step": "Launch planning data packs as first product (low risk, high demand)",
+                "month": "4-6"
+              },
+              {
+                "step": "Develop traffic analytics dashboard for subscription sale",
+                "month": "6-12"
+              },
+              {
+                "step": "Explore data partnership with UCLan or Lancaster University",
+                "month": "6-18"
+              }
+            ],
+            "political_framing": "We sit on decades of valuable data that commercial companies would pay for. Properly anonymised, this is a zero-risk income stream. We are not selling personal data; we are selling insights."
           }
         }
       ],

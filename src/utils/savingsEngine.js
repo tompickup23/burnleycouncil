@@ -1014,26 +1014,49 @@ export function generateDirectives(portfolio, findings, spending, options = {}) 
   // Commercialisation directives (when portfolio has traded/income levers)
   const commResult = commercialisationPipeline(portfolio)
   if (commResult.total > 100000) {
+    // Build detailed evidence string from all categories
+    const catParts = [
+      commResult.traded_income > 0 ? `Traded services: ${formatCurrency(commResult.traded_income)}` : null,
+      commResult.advertising_income > 0 ? `Advertising/sponsorship: ${formatCurrency(commResult.advertising_income)}` : null,
+      commResult.expertise_income > 0 ? `Expertise/consultancy: ${formatCurrency(commResult.expertise_income)}` : null,
+      commResult.events_income > 0 ? `Events/filming: ${formatCurrency(commResult.events_income)}` : null,
+      commResult.digital_income > 0 ? `Digital/data: ${formatCurrency(commResult.digital_income)}` : null,
+      commResult.fees_income > 0 ? `Fees/charges: ${formatCurrency(commResult.fees_income)}` : null,
+    ].filter(Boolean)
+
+    const howParts = []
+    if (commResult.events_income > 0) howParts.push('commercialise events and venues')
+    if (commResult.advertising_income > 0) howParts.push('deploy advertising and sponsorship')
+    if (commResult.traded_income > 0) howParts.push('sell traded services')
+    if (commResult.expertise_income > 0) howParts.push('provide consultancy and expertise')
+    if (commResult.digital_income > 0) howParts.push('monetise data and digital assets')
+    if (commResult.fees_income > 0) howParts.push('review fees and charges')
+
+    const quickWinNote = commResult.quick_wins.length > 0
+      ? ` ${commResult.quick_wins.length} quick-win opportunities in first year.`
+      : ''
+
     directives.push({
       id: `${portfolio.id}_commercialisation`,
       type: 'income',
       tier: 'medium_term_reform',
       owner: 'portfolio',
-      action: `DO: Develop commercial income from ${portfolio.title} services. SAVE: ${formatCurrency(commResult.total)} pa. HOW: Sell expertise, traded services, sponsorship, and advertising. EVIDENCE: ${commResult.commercial_lever_count} commercial opportunities identified.`,
+      action: `DO: Develop commercial income from ${portfolio.title}. SAVE: ${formatCurrency(commResult.total)} pa. HOW: ${howParts.join(', ')}. EVIDENCE: ${commResult.commercial_lever_count} opportunities identified.${quickWinNote}`,
       save_low: Math.round(commResult.total * 0.4),
       save_high: commResult.total,
       save_central: Math.round(commResult.total * 0.7),
-      timeline: 'Medium-term (6-18 months)',
-      legal_basis: 'Localism Act 2011 general power of competence, LGA 2003 s93-95 trading powers',
-      risk: 'Medium',
-      risk_detail: 'Commercial income is not guaranteed. Requires market development and may need company vehicle for trading.',
-      steps: ['Identify all tradeable services and expertise', 'Price services at cost-plus for external buyers', 'Develop marketing plan for top 3 commercial opportunities', 'Establish trading account or Teckal company if needed'],
-      governance_route: 'cabinet_decision',
-      evidence: `Traded: ${formatCurrency(commResult.traded_income)}. Advertising/sponsorship: ${formatCurrency(commResult.advertising_income)}. Expertise sales: ${formatCurrency(commResult.expertise_income)}.`,
+      timeline: commResult.quick_wins.length > 0 ? '0-12 months (quick wins) to 18 months (full pipeline)' : 'Medium-term (6-18 months)',
+      legal_basis: 'LGA 2003 s93 (cost recovery charging), s95 (trading via company), Localism Act 2011 (general power of competence), Highways Act 1980 s115E (highway advertising)',
+      legal: commResult.legal_notes.length > 0 ? commResult.legal_notes[0] : 'Profits from trading must go through a Teckal company or LATCo under LGA 2003 s95',
+      risk: commResult.quick_wins.length > 2 ? 'Low' : 'Medium',
+      risk_detail: 'Commercial income requires market development. Traded services via company vehicle. Quick wins (fees, events, advertising) achievable within existing powers.',
+      steps: ['Audit all income-generation opportunities across portfolio', 'Prioritise quick wins deliverable in year 1', 'Set pricing frameworks (cost-plus for trading, market rate for advertising)', 'Establish LATCo or trading account where s95 applies', 'Procure concession partners for advertising/sponsorship assets'],
+      governance_route: commResult.total > 1000000 ? 'full_council' : 'cabinet_decision',
+      evidence: catParts.join('. ') + '.',
       portfolio_id: portfolio.id,
       officer: portfolio.executive_director,
-      priority: 'medium',
-      feasibility: 5,
+      priority: commResult.quick_wins.length > 0 ? 'high' : 'medium',
+      feasibility: commResult.quick_wins.length > 2 ? 7 : 5,
       impact: Math.min(8, Math.ceil(commResult.total / 500000)),
     })
   }
@@ -5408,48 +5431,95 @@ export function workforceOptimisation(portfolio) {
 }
 
 /**
- * Commercialisation pipeline.
- * Scans portfolio savings levers for commercial/traded/income items
- * and aggregates the revenue potential.
+ * Commercialisation pipeline - categorise and quantify income-generation levers.
+ *
+ * Legal framework:
+ *  - LGA 2003 s93: Charging for discretionary services (cost recovery only)
+ *  - LGA 2003 s95: Trading powers for profit (must be via company/Teckal)
+ *  - Localism Act 2011: General power of competence (commercial via company)
+ *  - Highways Act 1980 s115E: Objects/structures on highway (advertising, kiosks)
+ *  - Road Traffic Regulation Act 1984: TROs for events
+ *  - UK GDPR: Data monetisation constraints
+ *  - Licensing Act 2003: Temporary event notices
+ *
+ * Six categories: traded, advertising, expertise, events, digital, fees
  *
  * @param {Object} portfolio - Portfolio from cabinet_portfolios.json
- * @returns {{ traded_income: number, advertising_income: number, expertise_income: number, commercial_lever_count: number, total: number }}
+ * @returns {{ traded_income, advertising_income, expertise_income, events_income, digital_income, fees_income, commercial_lever_count, total, by_lever, quick_wins, legal_notes }}
  */
 export function commercialisationPipeline(portfolio) {
-  if (!portfolio) return { traded_income: 0, advertising_income: 0, expertise_income: 0, commercial_lever_count: 0, total: 0 }
+  const empty = {
+    traded_income: 0, advertising_income: 0, expertise_income: 0,
+    events_income: 0, digital_income: 0, fees_income: 0,
+    commercial_lever_count: 0, total: 0, by_lever: [], quick_wins: [], legal_notes: [],
+  }
+  if (!portfolio) return empty
 
-  const TRADED_KEYWORDS = /traded|sell|service.*academ|training|adult learning/i
-  const ADVERTISING_KEYWORDS = /advertising|sponsorship|roundabout|bus shelter|naming rights/i
-  const EXPERTISE_KEYWORDS = /commercial|expertise|consultancy|programme.*NHS|cost-plus/i
+  const TRADED_RE = /traded|sell.*service|academ|training|adult learning|school.*improve|shared.*service/i
+  const ADVERTISING_RE = /advertising|sponsorship|roundabout|bus shelter|naming.*right|lamp.*column|banner|billboard/i
+  const EXPERTISE_RE = /consultancy|programme.*management|expertise|cost-plus|NHS|external.*client/i
+  const EVENTS_RE = /tour de france|event|conferencing|filming|location.*fee|sportive|camping|glamping|fan.*zone/i
+  const DIGITAL_RE = /data.*moneti[sz]|analytics.*service|digital.*advert|website.*advert|platform|SaaS/i
+  const FEES_RE = /fee.*charge|licen[sc]|permit|pre-app|building control|land.*charge|surplus.*charg/i
+  const INCOME_TIER_RE = /income_generation/i
 
   const levers = portfolio.savings_levers || []
-  let tradedIncome = 0
-  let advertisingIncome = 0
-  let expertiseIncome = 0
-  let count = 0
+  const categories = { traded: 0, advertising: 0, expertise: 0, events: 0, digital: 0, fees: 0 }
+  const byLever = []
+  const quickWins = []
+  const legalNotes = []
 
   for (const lever of levers) {
-    const text = `${lever.lever || ''} ${lever.description || ''}`
+    const text = `${lever.lever ?? ''} ${lever.description ?? ''}`
     const { low, high } = parseSavingRange(lever.est_saving)
     const mid = (low + high) / 2
+    if (mid <= 0) continue
 
-    if (TRADED_KEYWORDS.test(text)) {
-      tradedIncome += mid
-      count++
-    } else if (ADVERTISING_KEYWORDS.test(text)) {
-      advertisingIncome += mid
-      count++
-    } else if (EXPERTISE_KEYWORDS.test(text)) {
-      expertiseIncome += mid
-      count++
+    const isIncomeTier = INCOME_TIER_RE.test(lever.tier ?? '')
+    let category = null
+
+    if (EVENTS_RE.test(text)) category = 'events'
+    else if (DIGITAL_RE.test(text)) category = 'digital'
+    else if (ADVERTISING_RE.test(text)) category = 'advertising'
+    else if (TRADED_RE.test(text)) category = 'traded'
+    else if (EXPERTISE_RE.test(text)) category = 'expertise'
+    else if (FEES_RE.test(text)) category = 'fees'
+    else if (isIncomeTier) category = 'fees'
+
+    if (!category) continue
+
+    categories[category] += mid
+    byLever.push({
+      lever: lever.lever ?? '',
+      category,
+      low, high, mid,
+      timeline: lever.timeline ?? '',
+      risk: lever.risk ?? '',
+      legal: lever.legal_constraints ?? '',
+    })
+
+    if (/0-3|0-6|3-6|6-12|immediate/i.test(lever.timeline ?? '') && /low|medium/i.test(lever.risk ?? '')) {
+      quickWins.push({ lever: lever.lever ?? '', saving: lever.est_saving ?? '', timeline: lever.timeline ?? '', category })
+    }
+
+    if (lever.legal_constraints) {
+      legalNotes.push(`${lever.lever}: ${lever.legal_constraints}`)
     }
   }
 
+  const total = Object.values(categories).reduce((s, v) => s + v, 0)
+
   return {
-    traded_income: Math.round(tradedIncome),
-    advertising_income: Math.round(advertisingIncome),
-    expertise_income: Math.round(expertiseIncome),
-    commercial_lever_count: count,
-    total: Math.round(tradedIncome + advertisingIncome + expertiseIncome),
+    traded_income: Math.round(categories.traded),
+    advertising_income: Math.round(categories.advertising),
+    expertise_income: Math.round(categories.expertise),
+    events_income: Math.round(categories.events),
+    digital_income: Math.round(categories.digital),
+    fees_income: Math.round(categories.fees),
+    commercial_lever_count: byLever.length,
+    total: Math.round(total),
+    by_lever: byLever.sort((a, b) => b.mid - a.mid),
+    quick_wins: quickWins,
+    legal_notes: legalNotes,
   }
 }
