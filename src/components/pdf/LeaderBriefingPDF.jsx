@@ -419,8 +419,7 @@ export function LeaderBriefingPDF({
         {riskProfiles && Object.keys(riskProfiles).length > 0 && (
           <>
             <SectionHeading title="Directorate Risk Profiles" />
-            {Object.entries(riskProfiles).map(([dirId, profile]) => {
-              if (!profile) return null
+            {Object.entries(riskProfiles).filter(([, p]) => p).map(([dirId, profile]) => {
               const dirName = (directorates || []).find(d => d.directorate_id === dirId)?.title?.split(',')[0] || dirId
               return (
                 <Card key={dirId}>

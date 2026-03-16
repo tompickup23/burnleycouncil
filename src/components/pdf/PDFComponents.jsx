@@ -251,7 +251,7 @@ export function VerticalBarChart({ data, maxBars = 15 }) {
 // ── Donut / Pie Chart (SVG) ──
 export function DonutChart({ data, size = 100, innerRadius = 30, label }) {
   const total = data.reduce((s, d) => s + (d.value || 0), 0)
-  if (total === 0) return null
+  if (total === 0) return <View />
   const cx = size / 2
   const cy = size / 2
   const r = (size / 2) - 4
@@ -306,7 +306,7 @@ export function CoverPage({ title, subtitle, meta, classification, councilName }
 
 // ── Election History Row ──
 export function ElectionHistoryTable({ history, wardName }) {
-  if (!history?.length) return null
+  if (!history?.length) return <View />
   const rows = history.slice(0, 10).map(e => {
     const sorted = [...(e.candidates || [])].sort((a, b) => b.votes - a.votes)
     const winner = sorted[0]
@@ -370,7 +370,7 @@ export function WardIssuesCard({ wardName, wardIntel, hmoData, housingData, econ
     articles.forEach(a => issues.push(a))
   }
 
-  if (!issues.length) return null
+  if (!issues.length) return <View />
 
   return (
     <Card accent>

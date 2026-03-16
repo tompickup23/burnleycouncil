@@ -43,7 +43,9 @@ const WARD_ARTICLE_ISSUES = {
 }
 
 export function CanvassingSheetPDF({ wardName, playbook, dossier, councilName, electionDate, rawData }) {
-  if (!playbook && !dossier) return null
+  if (!playbook && !dossier) return (
+    <Document><Page size="A4" style={styles.page}><Text style={{ color: COLORS.textPrimary }}>No ward data available for canvassing sheet.</Text></Page></Document>
+  )
   const intel = BURNLEY_WARD_INTEL[wardName] || {}
   const articleIssues = WARD_ARTICLE_ISSUES[wardName] || []
   const tier = playbook?.wardTier || intel.tier || dossier?.wardStrategy?.tier || 'unknown'

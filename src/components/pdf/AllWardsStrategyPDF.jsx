@@ -1,5 +1,5 @@
 /**
- * AllWardsStrategyPDF — Complete multi-ward strategist overview.
+ * AllWardsStrategyPDF - Complete multi-ward strategist overview.
  *
  * Executive summary, battleground rankings, path to control, resource allocation,
  * per-ward summary cards, coalition scenarios.
@@ -32,12 +32,12 @@ export function AllWardsStrategyPDF({
       ward: w,
       tier: intel.tier || ranked?.tier || 'unknown',
       opportunity: intel.opportunity || ranked?.score || 0,
-      defender: d?.election?.defender?.party || '—',
-      defenderName: d?.election?.defender?.name || '—',
+      defender: d?.election?.defender?.party || '-',
+      defenderName: d?.election?.defender?.name || '-',
       ourPct: d?.election?.prediction?.ourPct || 0,
       swingReq: d?.election?.prediction?.swingRequired || Infinity,
       winProb: d?.election?.prediction?.winProbability || 0,
-      entrenchment: d?.entrenchment?.level || '—',
+      entrenchment: d?.entrenchment?.level || '-',
       score: d?.overallScore || 0,
     }
   }).sort((a, b) => b.opportunity - a.opportunity)
@@ -62,9 +62,9 @@ export function AllWardsStrategyPDF({
       {/* Cover Page */}
       <CoverPage
         title={`${councilName || 'Burnley'} Election Strategy`}
-        subtitle={`Borough Elections — ${elDate}`}
+        subtitle={`Borough Elections - ${elDate}`}
         meta={`${totalWards} wards contested • ${daysLeft} days to election • Generated ${new Date().toLocaleDateString('en-GB')}`}
-        classification="CONFIDENTIAL — STRATEGIST USE ONLY"
+        classification="CONFIDENTIAL - STRATEGIST USE ONLY"
         councilName={councilName}
       />
 
@@ -74,7 +74,7 @@ export function AllWardsStrategyPDF({
         <PDFHeader title="Executive Summary" subtitle={councilName} classification="STRATEGIST" />
 
         <StatsRow>
-          <StatCard value={daysLeft?.toString() || '—'} label="Days Left" color={daysLeft < 30 ? COLORS.danger : COLORS.warning} />
+          <StatCard value={daysLeft?.toString() || '-'} label="Days Left" color={daysLeft < 30 ? COLORS.danger : COLORS.warning} />
           <StatCard value={totalWards.toString()} label="Wards Contested" />
           <StatCard value={reformSeats.toString()} label="Current Seats" color={COLORS.accent} />
           <StatCard value={majorityTarget.toString()} label="Majority Target" />
@@ -84,10 +84,10 @@ export function AllWardsStrategyPDF({
         {pathToControl && (
           <Card highlight>
             <SubsectionHeading title="Path to Control" />
-            <KeyValue label="Seats Needed for Majority" value={pathToControl.seatsNeeded?.toString() || '—'} color={COLORS.accent} />
-            <KeyValue label="Most Likely Outcome" value={`${pathToControl.expectedSeats || '—'} seats`} />
-            <KeyValue label="Best Case" value={`${pathToControl.bestCase || '—'} seats`} color={COLORS.success} />
-            <KeyValue label="Assessment" value={pathToControl.assessment || '—'} />
+            <KeyValue label="Seats Needed for Majority" value={pathToControl.seatsNeeded?.toString() || '-'} color={COLORS.accent} />
+            <KeyValue label="Most Likely Outcome" value={`${pathToControl.expectedSeats || '-'} seats`} />
+            <KeyValue label="Best Case" value={`${pathToControl.bestCase || '-'} seats`} color={COLORS.success} />
+            <KeyValue label="Assessment" value={pathToControl.assessment || '-'} />
             <ProgressBar
               value={pathToControl.expectedSeats || 0}
               max={totalSeats}
@@ -107,11 +107,11 @@ export function AllWardsStrategyPDF({
             { key: 'wards', label: 'Wards', flex: 2 },
           ]}
           rows={[
-            { tier: 'MUST WIN', count: tiers.must_win.length, resource: '50%', wards: tiers.must_win.map(w => w.ward).join(', ') || '—', _colors: { tier: COLORS.must_win } },
-            { tier: 'COMPETITIVE', count: tiers.competitive.length, resource: '30%', wards: tiers.competitive.map(w => w.ward).join(', ') || '—', _colors: { tier: COLORS.competitive } },
-            { tier: 'BUILDING', count: tiers.building.length, resource: '15%', wards: tiers.building.map(w => w.ward).join(', ') || '—', _colors: { tier: COLORS.building } },
-            { tier: 'DEFEND', count: tiers.defend.length, resource: '3%', wards: tiers.defend.map(w => w.ward).join(', ') || '—', _colors: { tier: COLORS.defend } },
-            { tier: 'LONG SHOT', count: tiers.long_shot.length, resource: '2%', wards: tiers.long_shot.map(w => w.ward).join(', ') || '—', _colors: { tier: COLORS.long_shot } },
+            { tier: 'MUST WIN', count: tiers.must_win.length, resource: '50%', wards: tiers.must_win.map(w => w.ward).join(', ') || '-', _colors: { tier: COLORS.must_win } },
+            { tier: 'COMPETITIVE', count: tiers.competitive.length, resource: '30%', wards: tiers.competitive.map(w => w.ward).join(', ') || '-', _colors: { tier: COLORS.competitive } },
+            { tier: 'BUILDING', count: tiers.building.length, resource: '15%', wards: tiers.building.map(w => w.ward).join(', ') || '-', _colors: { tier: COLORS.building } },
+            { tier: 'DEFEND', count: tiers.defend.length, resource: '3%', wards: tiers.defend.map(w => w.ward).join(', ') || '-', _colors: { tier: COLORS.defend } },
+            { tier: 'LONG SHOT', count: tiers.long_shot.length, resource: '2%', wards: tiers.long_shot.map(w => w.ward).join(', ') || '-', _colors: { tier: COLORS.long_shot } },
           ]}
         />
 
@@ -162,9 +162,9 @@ export function AllWardsStrategyPDF({
             tier: w.tier?.replace(/_/g, ' ').toUpperCase(),
             defender: w.defender,
             ourPct: formatPct(w.ourPct, 0),
-            swingReq: w.swingReq === Infinity ? '—' : formatPct(w.swingReq, 1),
+            swingReq: w.swingReq === Infinity ? '-' : formatPct(w.swingReq, 1),
             winProb: formatPct(w.winProb * 100, 0),
-            score: w.score?.toFixed(0) || '—',
+            score: w.score?.toFixed(0) || '-',
             _colors: {
               tier: COLORS[w.tier] || COLORS.textMuted,
               defender: partyColor(w.defender),
@@ -195,16 +195,15 @@ export function AllWardsStrategyPDF({
       </Page>
 
       {/* ─── PAGES 4+: Per-Ward Summary Cards ─── */}
-      {['must_win', 'competitive', 'building', 'defend'].map(tierKey => {
+      {['must_win', 'competitive', 'building', 'defend'].filter(tierKey => tiers[tierKey]?.length > 0).map(tierKey => {
         const tierWards = tiers[tierKey]
-        if (!tierWards?.length) return null
 
         return (
           <Page key={tierKey} size="A4" style={styles.page}>
             <ConfidentialBanner />
             <PDFHeader
               title={`${tierKey.replace(/_/g, ' ').toUpperCase()} Wards`}
-              subtitle={`${tierWards.length} wards — ${tierKey === 'must_win' ? '50%' : tierKey === 'competitive' ? '30%' : tierKey === 'building' ? '15%' : '3%'} of resource`}
+              subtitle={`${tierWards.length} wards - ${tierKey === 'must_win' ? '50%' : tierKey === 'competitive' ? '30%' : tierKey === 'building' ? '15%' : '3%'} of resource`}
               classification="STRATEGIST"
             />
 
@@ -227,7 +226,7 @@ export function AllWardsStrategyPDF({
                         {formatPct(w.winProb * 100, 0)} win
                       </Text>
                       <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted }}>
-                        Swing: {w.swingReq === Infinity ? '—' : formatPct(w.swingReq, 1)}
+                        Swing: {w.swingReq === Infinity ? '-' : formatPct(w.swingReq, 1)}
                       </Text>
                     </View>
                   </View>
@@ -272,7 +271,7 @@ export function AllWardsStrategyPDF({
           <PDFHeader title="Coalclough Deep Dive" subtitle="43-Year Lib Dem Fortress Analysis" classification="STRATEGIST" />
 
           <Card highlight>
-            <SubsectionHeading title="Gordon Birtwistle — Lib Dem (since 1983)" />
+            <SubsectionHeading title="Gordon Birtwistle - Lib Dem (since 1983)" />
             <Text style={{ fontSize: FONT.body, color: COLORS.textPrimary, lineHeight: 1.5 }}>
               {electionBriefing.coalcloughDeepDive.recommended_approach}
             </Text>
@@ -290,8 +289,8 @@ export function AllWardsStrategyPDF({
             ]}
             rows={(electionBriefing.coalcloughDeepDive.margin_trajectory || []).map(m => ({
               year: m.year?.toString(),
-              margin: m.margin_pct != null ? m.margin_pct + '%' : '—',
-              winner: m.winner || '—',
+              margin: m.margin_pct != null ? m.margin_pct + '%' : '-',
+              winner: m.winner || '-',
               _colors: { winner: partyColor(m.winner) },
             }))}
           />

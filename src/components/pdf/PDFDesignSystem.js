@@ -513,7 +513,7 @@ export function severityColor(severity) {
 }
 
 export function formatCurrency(value) {
-  if (value == null) return '—'
+  if (value == null) return '-'
   if (Math.abs(value) >= 1e9) return `£${(value / 1e9).toFixed(1)}B`
   if (Math.abs(value) >= 1e6) return `£${(value / 1e6).toFixed(1)}M`
   if (Math.abs(value) >= 1e3) return `£${(value / 1e3).toFixed(0)}K`
@@ -521,17 +521,17 @@ export function formatCurrency(value) {
 }
 
 export function formatPct(value, decimals = 1) {
-  if (value == null) return '—'
+  if (value == null) return '-'
   return `${Number(value).toFixed(decimals)}%`
 }
 
 export function formatNumber(value) {
-  if (value == null) return '—'
+  if (value == null) return '-'
   return Number(value).toLocaleString('en-GB')
 }
 
 export function formatDate(dateStr) {
-  if (!dateStr) return '—'
+  if (!dateStr) return '-'
   try {
     return new Date(dateStr).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })
   } catch { return dateStr }

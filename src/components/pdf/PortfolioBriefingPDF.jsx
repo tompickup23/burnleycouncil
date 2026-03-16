@@ -21,7 +21,7 @@ export function PortfolioBriefingPDF({
   demandPressures, playbook, evidenceStrengths,
   budgetsData, workforce,
 }) {
-  if (!portfolio) return null
+  if (!portfolio) return <Document><Page size="A4" style={styles.page}><Text>No portfolio data available</Text></Page></Document>
 
   const title = portfolio.short_title || portfolio.title || portfolio.id
   const totalSavings = (directives || []).reduce((s, d) => s + (d.save_central || 0), 0)

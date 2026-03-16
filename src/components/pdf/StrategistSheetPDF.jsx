@@ -17,7 +17,9 @@ import {
 import { BURNLEY_WARD_INTEL } from '../../utils/strategyEngine.js'
 
 export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, electionDate, rawData }) {
-  if (!dossier) return null
+  if (!dossier) return (
+    <Document><Page size="A4" style={styles.page}><Text style={{ color: COLORS.textPrimary }}>No dossier data available for strategist briefing.</Text></Page></Document>
+  )
 
   const { profile, election, councillors, councilPerformance, constituency, talkingPoints,
           entrenchment, wardStrategy, fiscalContext, propertySummary, overallScore, scoringFactors, cheatSheet } = dossier
