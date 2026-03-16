@@ -497,9 +497,11 @@ export default function Strategy() {
       dossier={activeDossier}
       councilName={councilName}
       electionDate={elDate}
+      rawData={{ housingData, hmoData, economyData, healthData, electionsData, demographicsData, deprivationData, dogeFindings }}
     />
     generatePDF(doc, `canvassing-${selectedDossierWard.toLowerCase().replace(/\s+/g, '-')}.pdf`)
-  }, [pdfGenerating, selectedDossierWard, activePlaybook, activeDossier, councilName, electionsData, generatePDF])
+  }, [pdfGenerating, selectedDossierWard, activePlaybook, activeDossier, councilName, electionsData,
+    housingData, hmoData, economyData, healthData, demographicsData, deprivationData, dogeFindings, generatePDF])
 
   const handleExportStrategistPDF = useCallback(async () => {
     if (pdfGenerating || !selectedDossierWard) return
@@ -511,11 +513,12 @@ export default function Strategy() {
       playbook={activePlaybook}
       councilName={councilName}
       electionDate={elDate}
-      rawData={{ housingData, hmoData, economyData, healthData, electionsData }}
+      rawData={{ housingData, hmoData, economyData, healthData, electionsData, demographicsData, deprivationData, dogeFindings, planningData, votingData, budgetSummary, collectionRates }}
     />
     generatePDF(doc, `strategist-${selectedDossierWard.toLowerCase().replace(/\s+/g, '-')}.pdf`)
   }, [pdfGenerating, selectedDossierWard, activeDossier, activePlaybook, councilName, electionsData,
-    housingData, hmoData, economyData, healthData, generatePDF])
+    housingData, hmoData, economyData, healthData, demographicsData, deprivationData, dogeFindings,
+    planningData, votingData, budgetSummary, collectionRates, generatePDF])
 
   const handleExportAllWardsPDF = useCallback(async () => {
     if (pdfGenerating) return

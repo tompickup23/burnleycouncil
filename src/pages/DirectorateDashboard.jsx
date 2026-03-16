@@ -27,6 +27,8 @@ import {
   budgetRealismCheck,
   spendingBudgetVariance,
   spendingConcentration,
+  mtfsComparison,
+  electoralRippleAssessment,
 } from '../utils/savingsEngine'
 import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import { usePDFExport } from '../components/pdf/usePDFExport'
@@ -180,6 +182,23 @@ export default function DirectorateDashboard() {
     return fiscalSystemOverview(portfolioData.portfolios)
   }, [portfolioData])
 
+  // MTFS comparison for leader PDF
+  const mtfsData = useMemo(() => {
+    if (!portfolioData?.portfolios?.length || !mondayList?.length) return null
+    return mtfsComparison(mondayList, portfolioData)
+  }, [portfolioData, mondayList])
+
+  // Political/electoral ripple for leader PDF
+  const politicalImpact = useMemo(() => {
+    if (!portfolioData?.portfolios?.length || !mondayList?.length) return null
+    const actions = portfolioData.portfolios.map(p => ({
+      portfolio: p,
+      savings: mondayList.filter(d => d.portfolio_id === p.id).reduce((s, d) => s + (d.save_central || 0), 0) * 1e6,
+      directives_count: mondayList.filter(d => d.portfolio_id === p.id).length,
+    }))
+    return electoralRippleAssessment(actions)
+  }, [portfolioData, mondayList])
+
   // --- PDF Export: Leader Briefing ---
   const { generatePDF, isGenerating: pdfGenerating } = usePDFExport()
   const handleExportLeaderPDF = async () => {
@@ -192,6 +211,11 @@ export default function DirectorateDashboard() {
       fiscalOverview={fiscalSystem}
       mondayMorningList={mondayList}
       councilName={config.council_name || 'Lancashire County Council'}
+      mtfsComparison={mtfsData}
+      politicalImpact={politicalImpact}
+      riskProfiles={riskProfiles}
+      spendingByDirectorate={spendingByDirectorate}
+      totals={totals}
     />
     generatePDF(doc, `leader-briefing-${new Date().toISOString().slice(0, 10)}.pdf`)
   }

@@ -1,9 +1,9 @@
 /**
- * StrategistSheetPDF — Comprehensive per-ward strategist briefing (3-5 pages).
+ * StrategistSheetPDF — Comprehensive per-ward strategist briefing (5-7 pages).
  *
  * Contains EVERYTHING: electoral history, demographics, deprivation, housing,
- * HMO, economy, crime, health data, incumbent analysis, swing analysis,
- * messaging strategy, attack vectors, GOTV, councillor integrity, ward intel.
+ * HMO, economy, crime, health, planning, DOGE findings, councillor voting record,
+ * incumbent analysis, swing analysis, messaging strategy, attack vectors, GOTV.
  */
 import React from 'react'
 import { Document, Page, View, Text } from '@react-pdf/renderer'
@@ -11,7 +11,7 @@ import { styles, COLORS, FONT, SPACE } from './PDFDesignSystem.js'
 import {
   PDFHeader, PDFFooter, ConfidentialBanner, SectionHeading, SubsectionHeading,
   Card, StatCard, StatsRow, BulletList, TierBadge, Table, Divider, TalkingPoint,
-  KeyValue, ElectionHistoryTable, WardIssuesCard, ProgressBar,
+  KeyValue, ElectionHistoryTable, WardIssuesCard, ProgressBar, HorizontalBarChart,
   partyColor, formatCurrency, formatPct, formatNumber, formatDate, daysUntil,
 } from './PDFComponents.jsx'
 import { BURNLEY_WARD_INTEL } from '../../utils/strategyEngine.js'
@@ -31,7 +31,60 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
   const economyData = rawData?.economyData
   const healthData = rawData?.healthData
   const electionsData = rawData?.electionsData
+  const demographicsData = rawData?.demographicsData
+  const deprivationData = rawData?.deprivationData
+  const dogeFindings = rawData?.dogeFindings
+  const planningData = rawData?.planningData
+  const votingData = rawData?.votingData
+  const budgetSummary = rawData?.budgetSummary
+  const collectionRates = rawData?.collectionRates
   const wardElection = electionsData?.wards?.[wardName]
+
+  // Ethnicity breakdown from demographics
+  const wardDemo = demographicsData?.wards
+    ? Object.values(demographicsData.wards).find(w => w?.name === wardName || w?.ward === wardName)
+    : null
+  const ethnicityData = wardDemo?.ethnicity
+    ? Object.entries(wardDemo.ethnicity)
+        .filter(([k]) => !/total/i.test(k))
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 6)
+        .map(([label, value]) => ({ label: label.replace(/^(White|Asian|Black|Mixed|Other)[,:]\s*/i, '').slice(0, 20), value }))
+    : null
+  const religionData = wardDemo?.religion
+    ? Object.entries(wardDemo.religion)
+        .filter(([k]) => !/total/i.test(k))
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([label, value]) => ({ label: label.slice(0, 20), value }))
+    : null
+
+  // Health ward lookup
+  const healthWard = healthData?.census?.wards
+    ? Object.values(healthData.census.wards).find(w => w?.name === wardName || w?.ward === wardName)
+    : null
+
+  // Economy ward lookup
+  const econWard = economyData?.claimant_count?.ward_latest
+    ? Object.values(economyData.claimant_count.ward_latest).find(w => w?.name === wardName || w?.ward === wardName)
+    : null
+
+  // Planning ward lookup
+  const planWard = planningData?.summary?.by_ward?.[wardName] || planningData?.ward_summary?.[wardName]
+
+  // DOGE findings
+  const fraudTriangle = dogeFindings?.fraud_triangle || dogeFindings?.meta?.fraud_triangle
+  const topFindings = (dogeFindings?.findings || [])
+    .filter(f => f.severity === 'critical' || f.severity === 'high' || f.severity === 'warning')
+    .slice(0, 5)
+
+  // Voting record for ward councillors
+  const councillorNames = (councillors || []).map(c => c.name?.toLowerCase())
+  const councillorVotes = votingData?.votes
+    ? votingData.votes
+        .filter(v => v.councillor_votes?.some(cv => councillorNames.includes(cv.name?.toLowerCase())))
+        .slice(0, 8)
+    : []
 
   return (
     <Document>
@@ -140,6 +193,22 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
           </Card>
         )}
 
+        {/* Ethnicity Breakdown */}
+        {ethnicityData?.length > 0 && (
+          <>
+            <SubsectionHeading title="Ethnicity Breakdown" />
+            <HorizontalBarChart data={ethnicityData} maxBars={6} />
+          </>
+        )}
+
+        {/* Religion Breakdown */}
+        {religionData?.length > 0 && (
+          <>
+            <SubsectionHeading title="Religion Breakdown" />
+            <HorizontalBarChart data={religionData} maxBars={5} />
+          </>
+        )}
+
         {/* Housing */}
         <SectionHeading title="Housing" />
         <View style={styles.row}>
@@ -202,9 +271,15 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
         <Card>
           <View style={styles.row}>
             <View style={styles.col2}>
-              <KeyValue label="Claimant %" value={intel.claimants_pct ? formatPct(intel.claimants_pct) : '—'} color={intel.claimants_pct > 5 ? COLORS.danger : COLORS.textPrimary} />
+              <KeyValue label="Claimant %" value={econWard?.rate != null ? formatPct(econWard.rate) : intel.claimants_pct ? formatPct(intel.claimants_pct) : '—'} color={(econWard?.rate || intel.claimants_pct || 0) > 5 ? COLORS.danger : COLORS.textPrimary} />
               {housingData?.housing_pressure?.universal_credit && (
                 <KeyValue label="UC Borough Rate" value={formatPct(housingData.housing_pressure.universal_credit)} />
+              )}
+              {economyData?.earnings?.median_weekly_pay && (
+                <KeyValue label="Median Weekly Pay" value={`£${economyData.earnings.median_weekly_pay}`} />
+              )}
+              {economyData?.earnings?.median_annual_pay && (
+                <KeyValue label="Median Annual Pay" value={`£${formatNumber(economyData.earnings.median_annual_pay)}`} />
               )}
             </View>
             <View style={styles.col2}>
@@ -221,7 +296,171 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
         <PDFFooter councilName={councilName} classification="STRATEGIST BRIEFING" />
       </Page>
 
-      {/* ─── PAGE 3: Councillor Intelligence + Integrity ─── */}
+      {/* ─── PAGE 3: Crime, Health & Planning ─── */}
+      {(healthWard || planWard || profile?.deprivation?.domains) && (
+        <Page size="A4" style={styles.page}>
+          <ConfidentialBanner />
+          <PDFHeader title={wardName} subtitle="Crime, Health & Planning Intelligence" classification="STRATEGIST" />
+
+          {/* Crime Intelligence — from deprivation domains */}
+          {profile?.deprivation?.domains && (
+            <>
+              <SectionHeading title="Crime & Safety" />
+              <Card>
+                <SubsectionHeading title="IMD Crime Domain" />
+                {profile.deprivation.domains.crime != null && (
+                  <KeyValue label="Crime Domain Score" value={typeof profile.deprivation.domains.crime === 'number' ? profile.deprivation.domains.crime.toFixed(1) : String(profile.deprivation.domains.crime)} color={COLORS.danger} />
+                )}
+                {profile.deprivation.domains.living_environment != null && (
+                  <KeyValue label="Living Environment" value={typeof profile.deprivation.domains.living_environment === 'number' ? profile.deprivation.domains.living_environment.toFixed(1) : String(profile.deprivation.domains.living_environment)} />
+                )}
+                <Text style={{ fontSize: FONT.micro, color: COLORS.textMuted, marginTop: 3 }}>
+                  IMD Decile {profile.deprivation.decile || '—'} — {profile.deprivation.decile <= 2 ? 'Top 20% most deprived nationally' : profile.deprivation.decile <= 4 ? 'Top 40% most deprived' : 'Above average'}
+                </Text>
+              </Card>
+            </>
+          )}
+
+          {/* Health Intelligence */}
+          {(healthWard || healthData?.indicators) && (
+            <>
+              <SectionHeading title="Health Intelligence" />
+              <Card>
+                {healthData?.indicators?.life_expectancy_male && (
+                  <View style={styles.row}>
+                    <View style={styles.col2}><KeyValue label="Life Exp (Male)" value={`${healthData.indicators.life_expectancy_male.toFixed(1)} yrs`} /></View>
+                    <View style={styles.col2}><KeyValue label="Life Exp (Female)" value={`${healthData.indicators.life_expectancy_female?.toFixed(1)} yrs`} /></View>
+                  </View>
+                )}
+                {healthData?.indicators?.under_75_mortality && (
+                  <KeyValue label="Under-75 Mortality" value={healthData.indicators.under_75_mortality.toFixed(1)} color={COLORS.danger} />
+                )}
+                {healthWard?.general_health && (
+                  <>
+                    <SubsectionHeading title="Self-Reported Health" />
+                    {Object.entries(healthWard.general_health).filter(([k]) => !/total/i.test(k)).map(([k, v]) => (
+                      <KeyValue key={k} label={k.replace(/_/g, ' ')} value={typeof v === 'object' ? formatPct(v.pct) : formatNumber(v)} />
+                    ))}
+                  </>
+                )}
+                {healthWard?.disability && (
+                  <>
+                    <SubsectionHeading title="Disability" />
+                    {Object.entries(healthWard.disability).filter(([k]) => !/total/i.test(k)).map(([k, v]) => (
+                      <KeyValue key={k} label={k.replace(/_/g, ' ')} value={typeof v === 'object' ? formatPct(v.pct) : formatNumber(v)} />
+                    ))}
+                  </>
+                )}
+                {healthWard?.unpaid_care && (
+                  <>
+                    <SubsectionHeading title="Unpaid Care" />
+                    {Object.entries(healthWard.unpaid_care).filter(([k]) => !/total/i.test(k)).map(([k, v]) => (
+                      <KeyValue key={k} label={k.replace(/_/g, ' ')} value={typeof v === 'object' ? formatPct(v.pct) : formatNumber(v)} />
+                    ))}
+                  </>
+                )}
+              </Card>
+            </>
+          )}
+
+          {/* Planning Intelligence */}
+          {planWard && (
+            <>
+              <SectionHeading title="Planning Intelligence" />
+              <Card>
+                <View style={styles.row}>
+                  <View style={styles.col2}><KeyValue label="Total Applications" value={formatNumber(planWard.total || planWard.count)} /></View>
+                  <View style={styles.col2}><KeyValue label="Approval Rate" value={planWard.approval_rate != null ? formatPct(planWard.approval_rate) : '—'} color={COLORS.accent} /></View>
+                </View>
+                {planWard.by_type && Object.entries(planWard.by_type).slice(0, 4).map(([type, count]) => (
+                  <KeyValue key={type} label={type.replace(/_/g, ' ')} value={formatNumber(count)} />
+                ))}
+              </Card>
+            </>
+          )}
+
+          <PDFFooter councilName={councilName} classification="STRATEGIST BRIEFING" />
+        </Page>
+      )}
+
+      {/* ─── PAGE 4: DOGE & Financial Intelligence ─── */}
+      {(topFindings.length > 0 || councillorVotes.length > 0 || fiscalContext) && (
+        <Page size="A4" style={styles.page}>
+          <ConfidentialBanner />
+          <PDFHeader title={wardName} subtitle="DOGE & Financial Intelligence" classification="STRATEGIST" />
+
+          {/* DOGE Findings */}
+          {topFindings.length > 0 && (
+            <>
+              <SectionHeading title="DOGE Spending Anomalies" />
+              <StatsRow>
+                <StatCard value={fraudTriangle?.overall_score?.toFixed(0) || '—'} label="Fraud Triangle" color={fraudTriangle?.overall_score > 60 ? COLORS.danger : COLORS.warning} />
+                <StatCard value={dogeFindings?.meta?.verification_score?.toFixed(0) || dogeFindings?.verification?.overall_score?.toFixed(0) || '—'} label="Verification" />
+                <StatCard value={topFindings.length.toString()} label="Key Findings" color={COLORS.warning} />
+              </StatsRow>
+              <Table
+                columns={[
+                  { key: 'severity', label: 'Severity', width: 55 },
+                  { key: 'category', label: 'Category', width: 80 },
+                  { key: 'description', label: 'Finding', flex: 3 },
+                ]}
+                rows={topFindings.map(f => ({
+                  severity: (f.severity || '').toUpperCase(),
+                  category: (f.category || f.type || '').replace(/_/g, ' ').slice(0, 18),
+                  description: (f.description || f.title || f.finding || '').slice(0, 80),
+                  _colors: { severity: f.severity === 'critical' ? COLORS.danger : COLORS.warning },
+                }))}
+              />
+            </>
+          )}
+
+          {/* Councillor Voting Record */}
+          {councillorVotes.length > 0 && (
+            <>
+              <SectionHeading title="Councillor Voting Record" />
+              <Table
+                columns={[
+                  { key: 'motion', label: 'Motion', flex: 3 },
+                  { key: 'vote', label: 'Vote', width: 55 },
+                  { key: 'date', label: 'Date', width: 65 },
+                ]}
+                rows={councillorVotes.map(v => {
+                  const cv = v.councillor_votes?.find(cv2 => councillorNames.includes(cv2.name?.toLowerCase()))
+                  return {
+                    motion: (v.title || v.motion || v.description || '').slice(0, 60),
+                    vote: cv?.vote || '—',
+                    date: v.date || '—',
+                    _colors: { vote: cv?.vote === 'For' ? COLORS.success : cv?.vote === 'Against' ? COLORS.danger : COLORS.textMuted },
+                  }
+                })}
+              />
+            </>
+          )}
+
+          {/* Financial Context */}
+          {fiscalContext && (
+            <>
+              <SectionHeading title="Financial Context" />
+              <Card highlight>
+                <View style={styles.row}>
+                  <View style={styles.col2}>
+                    <KeyValue label="Reserves Rating" value={fiscalContext.reserves_rating || '—'} color={fiscalContext.reserves_rating === 'critical' ? COLORS.danger : COLORS.textPrimary} />
+                    <KeyValue label="Reserves (months)" value={fiscalContext.reserves_months != null ? `${fiscalContext.reserves_months.toFixed(1)}` : '—'} color={fiscalContext.reserves_months < 3 ? COLORS.danger : COLORS.textPrimary} />
+                  </View>
+                  <View style={styles.col2}>
+                    <KeyValue label="Collection Rate" value={fiscalContext.collection_efficiency ? formatPct(fiscalContext.collection_efficiency) : '—'} />
+                    <KeyValue label="Overall Health" value={fiscalContext.overall_health?.toUpperCase() || '—'} color={fiscalContext.overall_color || COLORS.textPrimary} />
+                  </View>
+                </View>
+              </Card>
+            </>
+          )}
+
+          <PDFFooter councilName={councilName} classification="STRATEGIST BRIEFING" />
+        </Page>
+      )}
+
+      {/* ─── PAGE 5: Councillor Intelligence + Integrity ─── */}
       <Page size="A4" style={styles.page}>
         <ConfidentialBanner />
         <PDFHeader title={wardName} subtitle="Councillor Intelligence & Attack Lines" classification="STRATEGIST" />
@@ -267,6 +506,13 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
               </>
             )}
 
+            {c.interests?.employment?.length > 0 && (
+              <>
+                <SubsectionHeading title="Employment & Other Interests" />
+                <BulletList items={c.interests.employment.slice(0, 3).map(e => typeof e === 'string' ? e : e.employer || e.name || JSON.stringify(e))} />
+              </>
+            )}
+
             {c.attackLines?.length > 0 && (
               <>
                 <SubsectionHeading title="Attack Lines" />
@@ -309,7 +555,7 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
         <PDFFooter councilName={councilName} classification="STRATEGIST BRIEFING" />
       </Page>
 
-      {/* ─── PAGE 4: Strategy & Messaging ─── */}
+      {/* ─── PAGE 6: Strategy & Messaging ─── */}
       <Page size="A4" style={styles.page}>
         <ConfidentialBanner />
         <PDFHeader title={wardName} subtitle="Strategy & Messaging Playbook" classification="STRATEGIST" />
@@ -379,7 +625,7 @@ export function StrategistSheetPDF({ wardName, dossier, playbook, councilName, e
         <PDFFooter councilName={councilName} classification="STRATEGIST BRIEFING" />
       </Page>
 
-      {/* ─── PAGE 5: Talking Points + Constituency Context ─── */}
+      {/* ─── PAGE 7: Talking Points + Constituency Context ─── */}
       <Page size="A4" style={styles.page}>
         <ConfidentialBanner />
         <PDFHeader title={wardName} subtitle="Talking Points & Constituency Context" classification="STRATEGIST" />

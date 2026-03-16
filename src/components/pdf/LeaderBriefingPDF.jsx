@@ -17,6 +17,7 @@ import {
 export function LeaderBriefingPDF({
   portfolios, directorates, allDirectives, fiscalOverview,
   mtfsComparison, politicalImpact, mondayMorningList, councilName,
+  riskProfiles, spendingByDirectorate, totals,
 }) {
   // Aggregate stats
   const totalSavings = (allDirectives || []).reduce((s, d) => s + (d.save_central || 0), 0)
@@ -28,6 +29,31 @@ export function LeaderBriefingPDF({
   const coveragePct = fiscalOverview?.coverage_pct || 0
   const modelsComplete = fiscalOverview?.models_complete || 0
   const modelsTotal = fiscalOverview?.models_total || 10
+
+  // Transform mtfsComparison flat numeric fields into gaps format for rendering
+  const fmtCur = v => v != null ? formatCurrency(v * 1e6) : '—'
+  const mtfsGaps = mtfsComparison ? {
+    gaps: [
+      { area: 'Year 1 Target (2026/27)', mtfs_value: fmtCur(mtfsComparison.mtfs_year1_target),
+        doge_value: fmtCur(mtfsComparison.year1_deliverable),
+        implication: `Year 1 coverage: ${mtfsComparison.year1_coverage_pct ?? 0}%` },
+      { area: 'Two-Year Total', mtfs_value: fmtCur(mtfsComparison.mtfs_two_year_target),
+        doge_value: fmtCur(mtfsComparison.identified_central),
+        implication: mtfsComparison.gap_or_surplus >= 0 ? `Surplus: ${fmtCur(mtfsComparison.gap_or_surplus)}` : `Gap: ${fmtCur(Math.abs(mtfsComparison.gap_or_surplus))}` },
+      { area: 'Cost Pressures (26/27)', mtfs_value: fmtCur(mtfsComparison.cost_pressures),
+        doge_value: '—', implication: 'Unfunded demand pressure on top of savings targets' },
+      ...(mtfsComparison.prior_year_shortfall > 0 ? [{
+        area: 'Prior Year ASC Shortfall', mtfs_value: fmtCur(mtfsComparison.prior_year_shortfall),
+        doge_value: '—', implication: 'Carried forward demand not addressed' }] : []),
+    ],
+    overall_assessment: `AI DOGE identifies ${mtfsComparison.two_year_coverage_pct ?? 0}% of the two-year MTFS target.`
+      + (mtfsComparison.gap_or_surplus >= 0
+        ? ` Surplus position of ${fmtCur(mtfsComparison.gap_or_surplus)}.`
+        : ` Shortfall of ${fmtCur(Math.abs(mtfsComparison.gap_or_surplus))} — structural reform needed.`)
+      + (mtfsComparison.redundancy_provision > 0
+        ? ` Redundancy provision: ${fmtCur(mtfsComparison.redundancy_provision)}.`
+        : ''),
+  } : null
 
   return (
     <Document>
@@ -52,6 +78,16 @@ export function LeaderBriefingPDF({
           <StatCard value={`${coveragePct}%`} label="Model Coverage" color={coveragePct > 60 ? COLORS.success : COLORS.warning} detail={`${modelsComplete}/${modelsTotal} modelled`} />
         </StatsRow>
 
+        {/* MTFS headline stats */}
+        {totals && (
+          <StatsRow>
+            <StatCard value={formatCurrency(totals.mtfsTarget)} label="MTFS Year 1" />
+            <StatCard value={`${totals.coveragePct}%`} label="Coverage" color={totals.coveragePct >= 100 ? COLORS.success : COLORS.danger} />
+            <StatCard value={`${totals.priorPct}%`} label="Prior Year Delivery" color={totals.priorPct >= 80 ? COLORS.success : COLORS.danger} />
+            <StatCard value={formatCurrency(totals.priorGap)} label="Prior Year Gap" color={COLORS.danger} />
+          </StatsRow>
+        )}
+
         {/* Directorate Summary */}
         <SectionHeading title="Directorate Summary" />
         <Table
@@ -60,17 +96,24 @@ export function LeaderBriefingPDF({
             { key: 'portfolios', label: 'Portfolios', width: 55, align: 'right' },
             { key: 'budget', label: 'Budget', width: 70, align: 'right' },
             { key: 'savings', label: 'Savings', width: 70, align: 'right' },
-            { key: 'directives', label: 'Directives', width: 55, align: 'right' },
+            { key: 'coverage', label: 'MTFS %', width: 50, align: 'right' },
+            { key: 'evidence', label: 'Evidence', width: 50, align: 'right' },
             { key: 'risk', label: 'Risk', width: 50 },
           ]}
           rows={(directorates || []).map(d => ({
-            name: d.name || d.id || '—',
+            name: (d.title || d.name || d.id || '—').split(',')[0],
             portfolios: d.portfolio_count?.toString() || '—',
-            budget: formatCurrency(d.total_budget),
-            savings: formatCurrency((d.total_savings || 0) * 1e6),
-            directives: d.directive_count?.toString() || '—',
-            risk: d.risk_level || '—',
-            _colors: { risk: d.risk_level === 'high' ? COLORS.danger : d.risk_level === 'medium' ? COLORS.warning : COLORS.success },
+            budget: formatCurrency(d.net_budget || d.total_budget),
+            savings: d.savings_range ? `${formatCurrency(d.savings_range.low)}–${formatCurrency(d.savings_range.high)}` : formatCurrency((d.total_savings || 0) * 1e6),
+            coverage: `${d.coverage_pct || 0}%`,
+            evidence: `${d.avg_evidence_strength || 0}/100`,
+            directives: d.directive_count?.toString() || d.lever_count?.toString() || '—',
+            risk: d.risk_level || (riskProfiles?.[d.directorate_id]?.risk_level) || '—',
+            _colors: {
+              risk: (d.risk_level || riskProfiles?.[d.directorate_id]?.risk_level) === 'high' ? COLORS.danger
+                : (d.risk_level || riskProfiles?.[d.directorate_id]?.risk_level) === 'medium' ? COLORS.warning : COLORS.success,
+              coverage: (d.coverage_pct || 0) >= 100 ? COLORS.success : COLORS.danger,
+            },
           }))}
         />
 
@@ -178,16 +221,16 @@ export function LeaderBriefingPDF({
       </Page>
 
       {/* ─── PAGE 5: MTFS Comparison ─── */}
-      {mtfsComparison && (
+      {mtfsGaps && (
         <Page size="A4" style={styles.page}>
           <ConfidentialBanner text="LEADER BRIEFING — MOST RESTRICTED" />
           <PDFHeader title="MTFS Comparison" subtitle="AI DOGE vs Official Medium Term Financial Strategy" classification="LEADER" />
 
           <Card highlight>
             <SubsectionHeading title="Key Differences" />
-            {mtfsComparison.gaps?.map((gap, i) => (
+            {mtfsGaps.gaps.map((gap, i) => (
               <View key={i} style={{ marginBottom: SPACE.sm }}>
-                <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.warning }}>{gap.area || gap.title}</Text>
+                <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.warning }}>{gap.area}</Text>
                 <View style={styles.row}>
                   <View style={styles.col2}>
                     <KeyValue label="MTFS Says" value={gap.mtfs_value || '—'} />
@@ -198,18 +241,25 @@ export function LeaderBriefingPDF({
                 </View>
                 {gap.implication && (
                   <Text style={{ fontSize: FONT.tiny, color: COLORS.textSecondary, marginTop: 2 }}>
-                    Implication: {gap.implication}
+                    {gap.implication}
                   </Text>
                 )}
               </View>
             ))}
           </Card>
 
-          {mtfsComparison.overall_assessment && (
+          {/* MTFS headline numbers */}
+          <StatsRow>
+            <StatCard value={`${mtfsComparison.year1_coverage_pct ?? 0}%`} label="Year 1 Coverage" color={mtfsComparison.year1_coverage_pct >= 80 ? COLORS.success : COLORS.danger} />
+            <StatCard value={`${mtfsComparison.two_year_coverage_pct ?? 0}%`} label="Two-Year Coverage" color={mtfsComparison.two_year_coverage_pct >= 80 ? COLORS.success : COLORS.danger} />
+            <StatCard value={fmtCur(Math.abs(mtfsComparison.gap_or_surplus))} label={mtfsComparison.gap_or_surplus >= 0 ? 'Surplus' : 'Shortfall'} color={mtfsComparison.gap_or_surplus >= 0 ? COLORS.success : COLORS.danger} />
+          </StatsRow>
+
+          {mtfsGaps.overall_assessment && (
             <Card accent>
               <SubsectionHeading title="Overall Assessment" />
               <Text style={{ fontSize: FONT.body, color: COLORS.textPrimary, lineHeight: 1.5 }}>
-                {mtfsComparison.overall_assessment}
+                {mtfsGaps.overall_assessment}
               </Text>
             </Card>
           )}
@@ -224,23 +274,35 @@ export function LeaderBriefingPDF({
           <ConfidentialBanner text="LEADER BRIEFING — MOST RESTRICTED" />
           <PDFHeader title="Political Impact Assessment" subtitle="Electoral Ripple from LCC Reform Operations" classification="LEADER" />
 
+          <StatsRow>
+            <StatCard value={formatCurrency(totalSavings * 1e6)} label="Savings Narrative" color={COLORS.accent} />
+            <StatCard value={(allDirectives || []).length.toString()} label="Active Directives" />
+            <StatCard value={`${politicalImpact.overall_score || 0}/100`} label="Overall Impact" color={politicalImpact.overall_score >= 70 ? COLORS.success : COLORS.warning} />
+          </StatsRow>
+
           <Card highlight>
             <SubsectionHeading title="Borough Election Impact" />
             <Text style={{ fontSize: FONT.body, color: COLORS.textPrimary, lineHeight: 1.5, marginBottom: SPACE.sm }}>
               Every Reform action at LCC ripples across 12 borough districts. Reform as a new governing party gets 2-3x media scrutiny — use this, don't fear it.
             </Text>
-            <KeyValue label="Total Savings Narrative" value={formatCurrency(totalSavings * 1e6)} color={COLORS.accent} />
-            <KeyValue label="Directive Count" value={(allDirectives || []).length.toString()} />
           </Card>
 
-          {/* Key District Impact */}
-          {politicalImpact.district_impact?.slice(0, 8).map((di, i) => (
-            <View key={i} style={{ flexDirection: 'row', justifyContent: 'space-between', paddingVertical: 3, borderBottomWidth: 1, borderBottomColor: COLORS.borderLight }}>
-              <Text style={{ fontSize: FONT.small, color: COLORS.textPrimary }}>{di.district || di.name}</Text>
-              <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: COLORS.accent }}>{di.impact_score || di.score}/100</Text>
-              <Text style={{ fontSize: FONT.tiny, color: COLORS.textSecondary, flex: 2, textAlign: 'right' }}>{di.talking_point || ''}</Text>
-            </View>
-          ))}
+          {/* District Impact Table */}
+          {politicalImpact.district_impact?.length > 0 && (
+            <Table
+              columns={[
+                { key: 'district', label: 'District', flex: 2, bold: true },
+                { key: 'score', label: 'Impact', width: 50, align: 'right' },
+                { key: 'talking_point', label: 'Talking Point', flex: 3 },
+              ]}
+              rows={politicalImpact.district_impact.slice(0, 12).map(di => ({
+                district: di.district || di.name || '—',
+                score: `${di.impact_score ?? di.score ?? 0}/100`,
+                talking_point: di.talking_point || '—',
+                _colors: { score: (di.impact_score ?? di.score ?? 0) >= 60 ? COLORS.success : COLORS.warning },
+              }))}
+            />
+          )}
 
           {/* National Narrative */}
           {politicalImpact.constituency_impact?.national_narrative && (
@@ -256,11 +318,58 @@ export function LeaderBriefingPDF({
         </Page>
       )}
 
-      {/* ─── PAGE 7: Inspection & Risk Summary ─── */}
+      {/* ─── PAGE 7: Risk Register & Inspections ─── */}
       <Page size="A4" style={styles.page}>
         <ConfidentialBanner text="LEADER BRIEFING — MOST RESTRICTED" />
         <PDFHeader title="Risk Register & Inspections" subtitle="Key Risk Exposures Across All Portfolios" classification="LEADER" />
 
+        {/* Directorate Risk Profiles (computed, not hardcoded) */}
+        {riskProfiles && Object.keys(riskProfiles).length > 0 && (
+          <>
+            <SectionHeading title="Directorate Risk Profiles" />
+            {Object.entries(riskProfiles).map(([dirId, profile]) => {
+              if (!profile) return null
+              const dirName = (directorates || []).find(d => d.directorate_id === dirId)?.title?.split(',')[0] || dirId
+              return (
+                <Card key={dirId}>
+                  <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 3 }}>
+                    <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.accent }}>{dirName}</Text>
+                    <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: profile.risk_color || COLORS.warning }}>
+                      {profile.risk_level || '—'} ({profile.risk_score || 0}/100)
+                    </Text>
+                  </View>
+                  {profile.top_risks?.length > 0 && (
+                    <BulletList
+                      items={profile.top_risks.slice(0, 3).map(r => typeof r === 'string' ? r : r.risk || r.title || r.description || '')}
+                      color={profile.risk_level === 'high' || profile.risk_level === 'critical' ? COLORS.danger : COLORS.warning}
+                    />
+                  )}
+                </Card>
+              )
+            })}
+          </>
+        )}
+
+        {/* Spending Concentration Alerts */}
+        {spendingByDirectorate && Object.values(spendingByDirectorate).some(d => d.alerts?.length > 0) && (
+          <>
+            <SectionHeading title="Spending Intelligence Alerts" />
+            <Card highlight>
+              <BulletList
+                items={Object.entries(spendingByDirectorate).flatMap(([dirId, ds]) =>
+                  (ds.alerts || []).map(a =>
+                    a.type === 'variance'
+                      ? `${a.portfolio}: ${a.pct > 0 ? '+' : ''}${a.pct}% budget variance — investigate immediately`
+                      : `${a.portfolio}: HHI ${a.hhi} supplier concentration (top: ${a.top})`
+                  )
+                ).slice(0, 8)}
+                color={COLORS.danger}
+              />
+            </Card>
+          </>
+        )}
+
+        {/* Portfolio-level risks (fallback: from portfolio data) */}
         <SectionHeading title="Top Risks by Portfolio" />
         {(portfolios || []).map((p, i) => {
           const risks = p.known_pressures || p.demand_pressures || []
@@ -278,17 +387,28 @@ export function LeaderBriefingPDF({
           )
         }).filter(Boolean)}
 
-        {/* Cross-Cutting Risks */}
-        <SectionHeading title="Cross-Cutting Exposures" />
-        <Card highlight>
-          <BulletList items={[
-            'Demand growth outpacing savings in social care — net fiscal trajectory must be monitored quarterly',
-            'MTFS optimism bias risk — AI DOGE savings estimates are more conservative than official projections',
-            'Inspection remediation costs could absorb 30-50% of identified savings if not managed proactively',
-            'Reform scrutiny premium means any operational failure gets 2-3x normal coverage',
-            'Borough election proximity creates political pressure to prioritise visible wins over structural reform',
-          ]} color={COLORS.danger} />
-        </Card>
+        {/* Inspection Status */}
+        {fiscalOverview?.inspection_summary?.length > 0 && (
+          <>
+            <SectionHeading title="Inspection Status" />
+            <Table
+              columns={[
+                { key: 'portfolio', label: 'Portfolio', flex: 2, bold: true },
+                { key: 'rating', label: 'Current', width: 90 },
+                { key: 'target', label: 'Target', width: 90 },
+              ]}
+              rows={fiscalOverview.inspection_summary.map(ins => ({
+                portfolio: ins.portfolio || '—',
+                rating: ins.current_rating || '—',
+                target: ins.target_rating || '—',
+                _colors: {
+                  rating: ins.current_rating?.toLowerCase().includes('requires') ? COLORS.danger
+                    : ins.current_rating?.toLowerCase().includes('good') ? COLORS.success : COLORS.warning,
+                },
+              }))}
+            />
+          </>
+        )}
 
         <PDFFooter councilName={councilName} classification="LEADER BRIEFING" />
       </Page>

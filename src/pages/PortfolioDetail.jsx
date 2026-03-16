@@ -42,6 +42,7 @@ import {
   childrenCostProjection,
   publicHealthProjection,
   propertyEstateProjection,
+  evidenceChainStrength,
 } from '../utils/savingsEngine'
 import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import { reformNarrativeEngine } from '../utils/savingsEngine'
@@ -144,13 +145,27 @@ export default function PortfolioDetail() {
     if (pdfGenerating || !portfolio) return
     const { PortfolioBriefingPDF } = await import('../components/pdf/PortfolioBriefingPDF.jsx')
     const narrative = reformNarrativeEngine(portfolio, directives)
-    const serviceIntel = { sendProjection, ascProjection: ascProjection, highwayTrajectory, wasteComparison }
+    const serviceIntel = {
+      sendProjection, ascProjection, highwayTrajectory, wasteComparison,
+      childrenProjection, phProjection, propertyProjection,
+      interventionROI, lacOptimisation, ascMarket, chcRecovery,
+    }
     const doc = <PortfolioBriefingPDF
       portfolio={portfolio}
       directives={directives}
       narrative={narrative}
       serviceIntel={serviceIntel}
       councilName={config.council_name || 'Lancashire County Council'}
+      politicalCtx={politicalCtx}
+      upcomingDecisions={upcomingDecisions}
+      dependencies={dependencies}
+      fiscalTrajectory={fiscalTrajectory}
+      demandPressures={demandPressures}
+      playbook={playbook}
+      evidenceStrengths={(directives || []).slice(0, 15).map(d => ({
+        action: d.action,
+        strength: evidenceChainStrength(portfolio?.savings_levers?.find(l => l.lever === d.lever_name) || {}),
+      }))}
     />
     generatePDF(doc, `portfolio-${portfolioId}.pdf`)
   }

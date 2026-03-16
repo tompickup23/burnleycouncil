@@ -1,9 +1,9 @@
 /**
- * CanvassingSheetPDF — 1-2 page per-ward canvassing sheet for door-knockers.
+ * CanvassingSheetPDF — 2-page per-ward canvassing sheet for door-knockers.
  *
  * Designed to be printed (A4) and carried on the doorstep.
- * Contains: quick ward stats, key issues, opening scripts, objection handling,
- * Q&A with ward-specific issues (e.g., Hapton waste site), dos/don'ts.
+ * Contains: quick ward stats, ward DNA strip, key issues, opening scripts,
+ * objection handling, Q&A, quick facts, dos/don'ts, core messages, GOTV.
  */
 import React from 'react'
 import { Document, Page, View, Text } from '@react-pdf/renderer'
@@ -11,7 +11,7 @@ import { styles, COLORS, FONT, SPACE } from './PDFDesignSystem.js'
 import {
   PDFHeader, PDFFooter, ConfidentialBanner, SectionHeading,
   Card, StatCard, StatsRow, BulletList, TierBadge, Divider,
-  KeyValue, partyColor, formatPct, formatNumber,
+  KeyValue, partyColor, formatPct, formatNumber, formatCurrency,
 } from './PDFComponents.jsx'
 import { BURNLEY_WARD_INTEL } from '../../utils/strategyEngine.js'
 
@@ -42,7 +42,7 @@ const WARD_ARTICLE_ISSUES = {
   ],
 }
 
-export function CanvassingSheetPDF({ wardName, playbook, dossier, councilName, electionDate }) {
+export function CanvassingSheetPDF({ wardName, playbook, dossier, councilName, electionDate, rawData }) {
   if (!playbook && !dossier) return null
   const intel = BURNLEY_WARD_INTEL[wardName] || {}
   const articleIssues = WARD_ARTICLE_ISSUES[wardName] || []
@@ -50,6 +50,27 @@ export function CanvassingSheetPDF({ wardName, playbook, dossier, councilName, e
   const profile = dossier?.profile || {}
   const election = dossier?.election || {}
   const defender = election?.defender || {}
+
+  // Extract rawData for ward DNA + quick facts
+  const economyData = rawData?.economyData
+  const hmoData = rawData?.hmoData
+  const healthData = rawData?.healthData
+  const dogeFindings = rawData?.dogeFindings
+  const deprivationData = rawData?.deprivationData
+
+  // Ward-level lookups
+  const hmoWard = hmoData?.modelling?.hotspot_wards?.find(w => w.ward === wardName)
+  const econWard = economyData?.claimant_count?.ward_latest
+    ? Object.values(economyData.claimant_count.ward_latest).find(w => w?.name === wardName || w?.ward === wardName)
+    : null
+  const depWard = deprivationData?.wards?.[wardName]
+  const defenderIntegrity = dossier?.councillors?.[0]?.integrity
+  const prediction = election?.prediction || {}
+
+  // Constituency Reform GE2024 %
+  const ge2024Reform = dossier?.constituency?.ge2024?.results?.find(r => /reform/i.test(r?.party))
+  const fiscalCtx = dossier?.fiscalContext || {}
+  const councilPerf = dossier?.councilPerformance || {}
 
   return (
     <Document>
@@ -61,7 +82,7 @@ export function CanvassingSheetPDF({ wardName, playbook, dossier, councilName, e
           classification="CANVASSER"
         />
 
-        {/* Quick Stats */}
+        {/* Quick Stats — 6 cards */}
         <StatsRow>
           <StatCard
             value={tier?.replace(/_/g, ' ').toUpperCase()}
@@ -75,6 +96,16 @@ export function CanvassingSheetPDF({ wardName, playbook, dossier, councilName, e
             color={partyColor(defender?.party)}
           />
           <StatCard
+            value={prediction?.winProbability != null ? `${Math.round(prediction.winProbability * 100)}%` : '—'}
+            label="Win Probability"
+            color={prediction?.winProbability > 0.6 ? COLORS.success : prediction?.winProbability > 0.3 ? COLORS.warning : COLORS.danger}
+          />
+          <StatCard
+            value={prediction?.swingRequired != null ? formatPct(prediction.swingRequired) : '—'}
+            label="Swing Required"
+            color={COLORS.warning}
+          />
+          <StatCard
             value={profile?.population?.toLocaleString() || '—'}
             label="Electorate"
           />
@@ -83,6 +114,25 @@ export function CanvassingSheetPDF({ wardName, playbook, dossier, councilName, e
             label="Last Turnout"
           />
         </StatsRow>
+
+        {/* Ward DNA Strip */}
+        <Card>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+            {[
+              { label: 'IMD Decile', value: profile?.deprivation?.decile || depWard?.decile || '—', color: (profile?.deprivation?.decile || 99) <= 2 ? COLORS.danger : COLORS.textPrimary },
+              { label: 'White British', value: profile?.whiteBritishPct != null ? `${Math.round(profile.whiteBritishPct)}%` : '—' },
+              { label: 'Over 65', value: profile?.over65Pct != null ? `${Math.round(profile.over65Pct)}%` : '—' },
+              { label: 'Claimant %', value: econWard?.rate != null ? formatPct(econWard.rate) : intel.claimants_pct ? formatPct(intel.claimants_pct) : '—', color: (econWard?.rate || intel.claimants_pct || 0) > 5 ? COLORS.danger : COLORS.textPrimary },
+              { label: 'HMOs', value: hmoWard ? formatNumber(hmoWard.estimated_hmos) : '0', color: hmoWard?.risk_level === 'high' ? COLORS.danger : COLORS.textPrimary },
+              { label: 'Integrity', value: defenderIntegrity?.score != null ? `${defenderIntegrity.score}/100` : '—', color: defenderIntegrity?.riskLevel === 'high' ? COLORS.danger : COLORS.textPrimary },
+            ].map((item, i) => (
+              <View key={i} style={{ flex: 1, alignItems: 'center', paddingVertical: 2 }}>
+                <Text style={{ fontSize: 10, fontFamily: FONT.bold, color: item.color || COLORS.textPrimary }}>{item.value}</Text>
+                <Text style={{ fontSize: 5.5, color: COLORS.textMuted, marginTop: 1 }}>{item.label}</Text>
+              </View>
+            ))}
+          </View>
+        </Card>
 
         {/* Key Issues — What people will ask about */}
         <SectionHeading title="Key Issues for This Ward" />
@@ -116,7 +166,7 @@ export function CanvassingSheetPDF({ wardName, playbook, dossier, councilName, e
 
         {/* Top Q&A — Issue Responses */}
         <SectionHeading title="If They Ask About..." />
-        {(playbook?.issueResponses || []).slice(0, 6).map((ir, i) => (
+        {(playbook?.issueResponses || []).slice(0, 4).map((ir, i) => (
           <View key={i} style={{ marginBottom: SPACE.sm }} wrap={false}>
             <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: COLORS.warning, marginBottom: 2 }}>
               Q: {ir.issue}
@@ -137,7 +187,7 @@ export function CanvassingSheetPDF({ wardName, playbook, dossier, councilName, e
         <PDFFooter councilName={councilName} classification="CANVASSING SHEET" />
       </Page>
 
-      {/* Page 2: Objections, Closing, Do's/Don'ts */}
+      {/* Page 2: Objections, Quick Facts, Closing, Do's/Don'ts */}
       <Page size="A4" style={styles.page}>
         <ConfidentialBanner text="CANVASSING SHEET — DO NOT DISTRIBUTE PUBLICLY" />
         <PDFHeader title={wardName} subtitle="Canvassing Sheet — Page 2" classification="CANVASSER" />
@@ -157,6 +207,29 @@ export function CanvassingSheetPDF({ wardName, playbook, dossier, councilName, e
             </Text>
           </View>
         ))}
+
+        {/* Quick Facts for Doorstep */}
+        <SectionHeading title="Quick Facts for Doorstep" />
+        <Card accent>
+          <View style={styles.row}>
+            <View style={styles.col2}>
+              <KeyValue label="Council Tax Band D" value={councilPerf?.councilTaxBandD ? `£${councilPerf.councilTaxBandD.toFixed(2)}` : '—'} />
+              <KeyValue label="Reserves Rating" value={fiscalCtx?.reserves_rating || '—'} color={fiscalCtx?.overall_health === 'critical' ? COLORS.danger : COLORS.textPrimary} />
+              <KeyValue label="Council Health" value={fiscalCtx?.overall_health?.toUpperCase() || '—'} />
+              <KeyValue label="Fraud Triangle" value={councilPerf?.fraudTriangleScore ? `${councilPerf.fraudTriangleScore.toFixed(0)}/100` : '—'} color={councilPerf?.fraudTriangleScore > 60 ? COLORS.danger : COLORS.textPrimary} />
+            </View>
+            <View style={styles.col2}>
+              <KeyValue label="GE2024 Reform %" value={ge2024Reform?.pct != null ? formatPct(ge2024Reform.pct) : '—'} color={COLORS.accent} />
+              <KeyValue label="Collection Rate" value={councilPerf?.collectionRate?.latest ? formatPct(councilPerf.collectionRate.latest) : '—'} />
+              {economyData?.earnings?.median_weekly_pay && (
+                <KeyValue label="Median Weekly Pay" value={`£${economyData.earnings.median_weekly_pay}`} />
+              )}
+              {healthData?.indicators?.life_expectancy_male && (
+                <KeyValue label="Life Exp (M/F)" value={`${healthData.indicators.life_expectancy_male?.toFixed(1)}/${healthData.indicators.life_expectancy_female?.toFixed(1)}`} />
+              )}
+            </View>
+          </View>
+        </Card>
 
         {/* Closing */}
         <SectionHeading title="Closing the Conversation" />
