@@ -1,9 +1,9 @@
 {
   "meta": {
     "council": "lancaster",
-    "generated": "2026-03-15T07:02:16.206520",
+    "generated": "2026-03-16T07:02:38.061730",
     "pipeline_version": "1.0",
-    "meetings_count": 1,
+    "meetings_count": 2,
     "archived_count": 0
   },
   "meetings": [
@@ -60,6 +60,145 @@
           "url": "https://committeeadmin.lancaster.gov.uk/documents/s93078/Council Plan 2024-27.pdf",
           "extracted": true,
           "chars": 35063
+        }
+      ],
+      "motions": [],
+      "questions": [],
+      "tactical_scenarios": [],
+      "time_management": {},
+      "speaker_allocation": [],
+      "risk_assessment": {
+        "overall_risk": "unknown",
+        "note": "LLM analysis unavailable"
+      }
+    },
+    {
+      "meeting_id": "planning-regulatory-committee-2026-03-23-8506",
+      "date": "2026-03-23",
+      "time": null,
+      "committee": "Planning Regulatory Committee",
+      "type": "planning",
+      "venue": "Lancaster Town Hall",
+      "link": "https://committeeadmin.lancaster.gov.uk/ieListDocuments.aspx?CId=315&MId=8506&Ver=4",
+      "summary": null,
+      "agenda_items": [
+        "Apologies for Absence",
+        "Minutes",
+        "Items of Urgent Business authorised by the Chair",
+        "Declarations of Interest",
+        "Planning Applications for Decision",
+        "Lundsfield Quarries, Lundsfield, Kellet Road, Carnforth",
+        "The Platform, Marine Road Central, Morecambe",
+        "Planning Performance Reports",
+        "Delegated List",
+        "Updates"
+      ],
+      "agenda_intel": [
+        {
+          "text": "Apologies for Absence",
+          "policy_areas": [
+            "governance"
+          ]
+        },
+        {
+          "text": "Minutes",
+          "policy_areas": [
+            "governance"
+          ]
+        },
+        {
+          "text": "Items of Urgent Business authorised by the Chair",
+          "policy_areas": [
+            "transport_highways",
+            "economy"
+          ]
+        },
+        {
+          "text": "Declarations of Interest",
+          "policy_areas": [
+            "governance"
+          ]
+        },
+        {
+          "text": "Planning Applications for Decision",
+          "policy_areas": [
+            "housing_planning"
+          ]
+        },
+        {
+          "text": "Lundsfield Quarries, Lundsfield, Kellet Road, Carnforth",
+          "policy_areas": [
+            "transport_highways"
+          ]
+        },
+        {
+          "text": "The Platform, Marine Road Central, Morecambe",
+          "policy_areas": [
+            "transport_highways"
+          ]
+        },
+        {
+          "text": "Planning Performance Reports",
+          "policy_areas": [
+            "housing_planning"
+          ]
+        },
+        {
+          "text": "Delegated List",
+          "policy_areas": [
+            "governance"
+          ]
+        },
+        {
+          "text": "Updates",
+          "policy_areas": [
+            "governance"
+          ]
+        }
+      ],
+      "politics": {
+        "ruling_group": "",
+        "seats": [],
+        "majority_threshold": 31
+      },
+      "documents_extracted": 6,
+      "documents_available": 6,
+      "extracted_documents": [
+        {
+          "title": "Lundsfield Quarries Lundsfield Kellet Road Carnforth",
+          "url": "https://committeeadmin.lancaster.gov.uk/documents/s93092/Lundsfield Quarries Lundsfield Kellet Road Carnforth.pdf",
+          "extracted": true,
+          "chars": 138595
+        },
+        {
+          "title": "The Platform Marine Road Central Morecambe",
+          "url": "https://committeeadmin.lancaster.gov.uk/documents/s93093/The Platform Marine Road Central Morecambe.pdf",
+          "extracted": true,
+          "chars": 7420
+        },
+        {
+          "title": "The Platform Marine Road Central Morecambe",
+          "url": "https://committeeadmin.lancaster.gov.uk/documents/s93094/The Platform Marine Road Central Morecambe.pdf",
+          "extracted": true,
+          "chars": 7420
+        },
+        {
+          "title": "A8 -Q3 2526 Planning Performance Report",
+          "url": "https://committeeadmin.lancaster.gov.uk/documents/s93098/A8 -Q3 2526 Planning Performance Report.pdf",
+          "extracted": true,
+          "chars": 15131
+        },
+        {
+          "title": "A8 - Q3 Appeals 2526",
+          "url": "https://committeeadmin.lancaster.gov.uk/documents/s93099/A8 - Q3 Appeals 2526.pdf",
+          "extracted": true,
+          "chars": 3760
+        },
+        {
+          "title": "Delegated List",
+          "url": "https://committeeadmin.lancaster.gov.uk/documents/s93097/Delegated List.pdf",
+          "extracted": true,
+          "chars": 25901
         }
       ],
       "motions": [],
