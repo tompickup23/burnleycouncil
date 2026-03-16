@@ -236,7 +236,7 @@ export default function Strategy() {
     if (!electionsData?.wards || !wardsUp.length) return null
     const nationalPolling = pollingData?.aggregate || referenceData?.national_polling?.parties || {}
     const ge2024Result = referenceData?.national_polling?.ge2024_result || {}
-    const lcc2025 = referenceData?.lancashire_lcc_2025?.results || null
+    const lcc2025 = referenceData?.lancashire_lcc_2025 || null
 
     return predictCouncil(
       electionsData,
