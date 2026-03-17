@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useRef, useMemo, lazy, Suspense } from 'react'
-import { Link } from 'react-router-dom'
-import { MapPin, User, Users, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building, FileText, Home, TrendingUp, ShieldAlert, HeartPulse, Briefcase, Vote, ArrowRight } from 'lucide-react'
+import { Link, useSearchParams } from 'react-router-dom'
+import { MapPin, User, Users, Mail, Phone, Search, Loader2, AlertCircle, CheckCircle2, BarChart3, Building, FileText, Home, TrendingUp, ShieldAlert, HeartPulse, Briefcase, Vote, ArrowRight, Download } from 'lucide-react'
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
@@ -14,6 +14,7 @@ import GaugeChart from '../components/ui/GaugeChart'
 import ChartCard from '../components/ui/ChartCard'
 import { CHART_COLORS, TOOLTIP_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { slugify } from '../utils/format'
+import { usePDFExport } from '../components/pdf/usePDFExport'
 import '../components/ui/AdvancedCharts.css'
 import './MyArea.css'
 
@@ -153,7 +154,7 @@ function MyArea() {
   }
 
   useEffect(() => {
-    document.title = `My Area | ${councilName} Council Transparency`
+    document.title = `My Ward | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
 
@@ -247,7 +248,7 @@ function MyArea() {
         key: 'crime',
         title: 'Crime',
         icon: <ShieldAlert size={22} />,
-        to: '/crime',
+        to: `/crime?ward=${encodeURIComponent(selectedWard)}`,
         color: '#ff453a',
         stat: null,
         label: 'View crime data',
@@ -281,7 +282,7 @@ function MyArea() {
         key: 'housing',
         title: 'Housing',
         icon: <Home size={22} />,
-        to: '/housing',
+        to: `/housing?ward=${encodeURIComponent(selectedWard)}`,
         color: '#af82ff',
         stat,
         label,
@@ -312,7 +313,7 @@ function MyArea() {
         key: 'health',
         title: 'Health',
         icon: <HeartPulse size={22} />,
-        to: '/health',
+        to: `/health?ward=${encodeURIComponent(selectedWard)}`,
         color: '#30d158',
         stat,
         label,
@@ -344,7 +345,7 @@ function MyArea() {
         key: 'economy',
         title: 'Economy',
         icon: <Briefcase size={22} />,
-        to: '/economy',
+        to: `/economy?ward=${encodeURIComponent(selectedWard)}`,
         color: '#ff9f0a',
         stat,
         label,
@@ -366,7 +367,7 @@ function MyArea() {
         key: 'demographics',
         title: 'Demographics',
         icon: <Users size={22} />,
-        to: '/people-and-communities',
+        to: `/people-and-communities?ward=${encodeURIComponent(selectedWard)}`,
         color: '#12B6CF',
         stat,
         label,
@@ -386,7 +387,7 @@ function MyArea() {
         key: 'elections',
         title: 'Elections',
         icon: <Vote size={22} />,
-        to: '/elections',
+        to: `/elections?ward=${encodeURIComponent(selectedWard)}`,
         color: ward?.color || '#636366',
         stat,
         label,
@@ -426,6 +427,60 @@ function MyArea() {
     return pts.sort((a, b) => a.priority - b.priority).slice(0, 8)
   }, [selectedWard, deprivation, housingRaw, healthRaw, economyRaw, demoFiscalRaw])
 
+  // PDF export
+  const { generatePDF, isGenerating: pdfGenerating } = usePDFExport()
+
+  const handleExportWardPDF = useCallback(async () => {
+    if (pdfGenerating || !selectedWard) return
+    const { MyWardPDF } = await import('../components/pdf/MyWardPDF.jsx')
+
+    // Gather ward-level data
+    const dep = deprivation[selectedWard] || Object.entries(deprivation).find(
+      ([k]) => k.toLowerCase() === selectedWard.toLowerCase()
+    )?.[1] || null
+    const wardDemo = demographicsWards[selectedWard] || null
+    const wardHousingKey = housingRaw ? Object.keys(housingRaw?.census?.wards || {}).find(
+      k => (housingRaw.census.wards[k].name || k).toLowerCase() === selectedWard.toLowerCase()
+    ) : null
+    const wardHousing = wardHousingKey ? housingRaw.census.wards[wardHousingKey] : null
+    const wardHealthKey = healthRaw ? Object.keys(healthRaw?.census?.wards || {}).find(
+      k => (healthRaw.census.wards[k].name || k).toLowerCase() === selectedWard.toLowerCase()
+    ) : null
+    const wardHealth = wardHealthKey ? healthRaw.census.wards[wardHealthKey] : null
+    const wardClaimant = economyRaw?.claimant_count?.wards
+      ? Object.values(economyRaw.claimant_count.wards).find(
+          w => (w.name || '').toLowerCase() === selectedWard.toLowerCase()
+        )
+      : null
+    const wardHmoData = hmoData?.summary?.by_ward?.[selectedWard] || null
+    const wardPlanningData = planningData ? { total: planningData.summary?.by_ward?.[selectedWard] || 0 } : null
+    const wardPropertyAssets = propertyAssets.filter(a => a.ced === selectedWard || a.ward === selectedWard)
+    const wardCouncillors = councillors.filter(c => c.ward === selectedWard)
+    const wardIntegrityData = integrityData?.councillors
+      ? wardCouncillors.map(c => integrityData.councillors.find(ic => ic.name === c.name)).filter(Boolean)
+      : []
+
+    const doc = <MyWardPDF
+      wardName={selectedWard}
+      councillors={wardCouncillors}
+      deprivation={dep}
+      demographics={wardDemo}
+      housing={wardHousing}
+      health={wardHealth}
+      economy={wardClaimant}
+      hmo={wardHmoData}
+      planning={wardPlanningData}
+      propertyAssets={wardPropertyAssets}
+      integrity={wardIntegrityData}
+      demoFiscal={demoFiscalRaw}
+      wardBriefingPoints={wardBriefingPoints}
+      councilName={councilName}
+    />
+    generatePDF(doc, `ward-briefing-${selectedWard.toLowerCase().replace(/\s+/g, '-')}.pdf`)
+  }, [pdfGenerating, selectedWard, deprivation, demographicsWards, housingRaw, healthRaw,
+    economyRaw, hmoData, planningData, propertyAssets, councillors, integrityData,
+    demoFiscalRaw, wardBriefingPoints, councilName, generatePDF])
+
   if (loading) {
     return <LoadingState message="Loading ward data..." />
   }
@@ -456,9 +511,9 @@ function MyArea() {
   return (
     <div className="myarea-page animate-fade-in">
       <header className="page-header">
-        <h1>My Area</h1>
+        <h1>My Ward</h1>
         <p className="subtitle">
-          Find your ward and councillors in {councilName}. Enter your postcode or select a ward below.
+          Find your ward and councillors in {councilName}. Enter your postcode or select a ward below, then explore detailed data for your area.
         </p>
       </header>
 
@@ -538,10 +593,19 @@ function MyArea() {
         <section className="ward-details animate-fade-in">
           <div className="ward-header">
             <MapPin size={24} className="ward-icon" />
-            <div>
+            <div style={{ flex: 1 }}>
               <h2>{selectedWard}</h2>
               <p className="text-secondary">Your local councillors</p>
             </div>
+            <button
+              className="ward-pdf-btn"
+              onClick={handleExportWardPDF}
+              disabled={pdfGenerating}
+              title="Download ward briefing PDF"
+            >
+              <Download size={16} />
+              {pdfGenerating ? 'Generating...' : 'Ward Briefing PDF'}
+            </button>
           </div>
 
           {/* Ward Impact Statement — emotional narrative card */}

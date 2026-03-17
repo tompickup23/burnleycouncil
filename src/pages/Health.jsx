@@ -1,4 +1,5 @@
 import { useMemo, useState, useEffect, lazy, Suspense } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { ChartCard } from '../components/ui/ChartCard'
@@ -25,15 +26,25 @@ export default function Health() {
     config.data_sources?.ward_boundaries ? '/data/ward_boundaries.json' : null
   )
 
+  const [searchParams] = useSearchParams()
   const [activeTab, setActiveTab] = useState('overview')
   const [selectedWard, setSelectedWard] = useState('')
   const [mapMetric, setMapMetric] = useState('good_health')
 
   useEffect(() => {
     if (health) {
-      document.title = `Health — ${config.council_name} — AI DOGE`
+      document.title = `Health | ${config.council_name} Council Transparency`
     }
   }, [health, config.council_name])
+
+  // Pre-select ward from URL param (e.g. /health?ward=Hapton)
+  useEffect(() => {
+    const wardParam = searchParams.get('ward')
+    if (wardParam && !selectedWard) {
+      setSelectedWard(wardParam)
+      setActiveTab('wards')
+    }
+  }, [searchParams]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Sorted wards for table + selector
   const sortedWards = useMemo(() => {

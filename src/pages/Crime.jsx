@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState, lazy, Suspense } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -55,6 +56,7 @@ function Crime() {
     config.data_sources?.ward_boundaries ? '/data/ward_boundaries.json' : null
   )
   const { data: deprivationRaw } = useData('/data/deprivation.json')
+  const [searchParams] = useSearchParams()
   const [selectedWard, setSelectedWard] = useState('')
   const [activeTab, setActiveTab] = useState('overview')
   const [mapMetric, setMapMetric] = useState('total_crimes')
@@ -63,6 +65,15 @@ function Crime() {
     document.title = `Crime & Safety | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
+
+  // Pre-select ward from URL param (e.g. /crime?ward=Hapton)
+  useEffect(() => {
+    const wardParam = searchParams.get('ward')
+    if (wardParam && !selectedWard) {
+      setSelectedWard(wardParam)
+      setActiveTab('wards')
+    }
+  }, [searchParams]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const wards = crimeData?.wards || {}
   const categoryDisplay = crimeData?.category_display || {}

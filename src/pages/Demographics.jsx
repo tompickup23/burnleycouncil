@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, lazy, Suspense } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -27,6 +27,7 @@ function Demographics() {
   const { data: compositionProj } = useData('/data/composition_projections.json')
   const { data: deprivation } = useData('/data/deprivation.json')
   const { data: wardBoundaries } = useData('/data/ward_boundaries.json')
+  const [searchParams] = useSearchParams()
   const [selectedWard, setSelectedWard] = useState('')
   const [activeTab, setActiveTab] = useState('census')
   const [mapMetric, setMapMetric] = useState('deprivation')
@@ -47,6 +48,19 @@ function Demographics() {
       .sort((a, b) => a.name.localeCompare(b.name)),
     [wards]
   )
+
+  // Pre-select ward from URL param (e.g. /people-and-communities?ward=Hapton)
+  useEffect(() => {
+    const wardParam = searchParams.get('ward')
+    if (wardParam && !selectedWard && wardList.length > 0) {
+      // URL sends ward name, but Demographics uses ward code as selectedWard
+      const match = wardList.find(w => w.name === wardParam)
+      if (match) {
+        setSelectedWard(match.code)
+        setActiveTab('wards')
+      }
+    }
+  }, [searchParams, wardList]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const ethnicityChart = useMemo(() => {
     const eth = summary.ethnicity || {}

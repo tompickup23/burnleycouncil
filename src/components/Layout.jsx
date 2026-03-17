@@ -53,7 +53,7 @@ const navSections = [
     title: 'Area',
     collapsible: true,
     items: [
-      { path: '/my-area', icon: MapPin, label: 'My Area', requires: 'my_area' },
+      { path: '/my-area', icon: MapPin, label: 'My Ward', requires: 'my_area' },
       { path: '/roadworks', icon: Route, label: 'Roadworks', requires: 'highways' },
       { path: '/people-and-communities', icon: Globe, label: 'People & Communities', requires: 'demographics' },
       { path: '/housing', icon: Building2, label: 'Housing', requires: 'housing' },

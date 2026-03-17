@@ -191,6 +191,40 @@
   margin-bottom: 2px;
 }
 
+.ward-pdf-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--accent-blue, #12B6CF);
+  background: rgba(18, 182, 207, 0.08);
+  border: 1px solid rgba(18, 182, 207, 0.2);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  font-family: inherit;
+}
+
+.ward-pdf-btn:hover:not(:disabled) {
+  background: rgba(18, 182, 207, 0.15);
+  border-color: rgba(18, 182, 207, 0.4);
+}
+
+.ward-pdf-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+  .ward-pdf-btn {
+    font-size: 0.7rem;
+    padding: 6px 12px;
+  }
+}
+
 .ward-councillors {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, lazy, Suspense } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -26,6 +26,7 @@ function Housing() {
   const { data: wardBoundaries } = useData(
     config.data_sources?.ward_boundaries ? '/data/ward_boundaries.json' : null
   )
+  const [searchParams] = useSearchParams()
   const [selectedWard, setSelectedWard] = useState('')
   const [activeTab, setActiveTab] = useState('overview')
   const [mapMetric, setMapMetric] = useState('private_rent')
@@ -34,6 +35,15 @@ function Housing() {
     document.title = `Housing | ${councilName} Council Transparency`
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
+
+  // Pre-select ward from URL param (e.g. /housing?ward=Hapton)
+  useEffect(() => {
+    const wardParam = searchParams.get('ward')
+    if (wardParam && !selectedWard) {
+      setSelectedWard(wardParam)
+      setActiveTab('wards')
+    }
+  }, [searchParams]) // eslint-disable-line react-hooks/exhaustive-deps
 
   const summary = housing?.summary || {}
   const census = housing?.census || {}
