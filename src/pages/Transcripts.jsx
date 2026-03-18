@@ -52,21 +52,49 @@ function scoreColor(score) {
   return '#636366'
 }
 
+function parseTimestamp(ts) {
+  // Parse "H:MM:SS" or "HH:MM:SS" or seconds to total seconds
+  if (typeof ts === 'number') return ts
+  const parts = String(ts).split(':').map(Number)
+  if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2]
+  if (parts.length === 2) return parts[0] * 60 + parts[1]
+  return Number(ts) || 0
+}
+
+function formatTimestampInput(seconds) {
+  // Format seconds as H:MM:SS for input fields
+  const h = Math.floor(seconds / 3600)
+  const m = Math.floor((seconds % 3600) / 60)
+  const s = Math.floor(seconds % 60)
+  return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+}
+
 function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedId }) {
   const webcastUrl = meeting?.webcast_url
   const tsFormatted = formatTimestamp(moment.start)
   const tsLink = webcastUrl ? `${webcastUrl}#t=${Math.floor(moment.start)}` : null
   const [clipState, setClipState] = useState('idle') // idle | loading | ready | error
   const [clipUrl, setClipUrl] = useState(null)
+  const [showTimingEditor, setShowTimingEditor] = useState(false)
+  const [clipStart, setClipStart] = useState(formatTimestampInput(moment.start))
+  const [clipEnd, setClipEnd] = useState(formatTimestampInput(moment.end))
+
+  const clipDuration = useMemo(() => {
+    const s = parseTimestamp(clipStart)
+    const e = parseTimestamp(clipEnd)
+    return Math.max(0, e - s)
+  }, [clipStart, clipEnd])
 
   const requestClip = useCallback(() => {
     if (clipState === 'loading') return
+    const start = parseTimestamp(clipStart)
+    const end = parseTimestamp(clipEnd)
+    if (end <= start) return
+    if (end - start > 300) return // 5 min max
+
     setClipState('loading')
+    const url = `${CLIP_SERVER}/clip?meeting=${encodeURIComponent(moment.meeting_id)}&start=${start}&end=${end}`
 
-    // Build on-demand clip URL
-    const url = `${CLIP_SERVER}/clip?meeting=${encodeURIComponent(moment.meeting_id)}&start=${moment.start}&end=${moment.end}`
-
-    // Test if clip server is reachable, then set URL for video element
     fetch(`${CLIP_SERVER}/health`, { mode: 'cors' })
       .then(r => {
         if (r.ok) {
@@ -77,7 +105,30 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
         }
       })
       .catch(() => setClipState('error'))
-  }, [moment, clipState])
+  }, [moment.meeting_id, clipStart, clipEnd, clipState])
+
+  const resetTiming = useCallback(() => {
+    setClipStart(formatTimestampInput(moment.start))
+    setClipEnd(formatTimestampInput(moment.end))
+    setClipState('idle')
+    setClipUrl(null)
+  }, [moment.start, moment.end])
+
+  // Nudge start/end by seconds
+  const nudge = useCallback((field, delta) => {
+    if (field === 'start') {
+      const v = Math.max(0, parseTimestamp(clipStart) + delta)
+      setClipStart(formatTimestampInput(v))
+    } else {
+      const v = Math.max(0, parseTimestamp(clipEnd) + delta)
+      setClipEnd(formatTimestampInput(v))
+    }
+    // Reset clip if timing changed after extraction
+    if (clipState === 'ready') {
+      setClipState('idle')
+      setClipUrl(null)
+    }
+  }, [clipStart, clipEnd, clipState])
 
   return (
     <div className="tr-moment">
@@ -126,6 +177,57 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
         <div className="tr-moment-summary">{moment.summary}</div>
       )}
 
+      {/* Timing editor — adjust clip start/end before extracting */}
+      {showTimingEditor && (
+        <div className="tr-timing-editor">
+          <div className="tr-timing-row">
+            <div className="tr-timing-field">
+              <label>Start</label>
+              <div className="tr-timing-controls">
+                <button className="tr-nudge" onClick={() => nudge('start', -10)}>-10s</button>
+                <button className="tr-nudge" onClick={() => nudge('start', -5)}>-5s</button>
+                <input
+                  type="text"
+                  className="tr-timing-input"
+                  value={clipStart}
+                  onChange={e => {
+                    setClipStart(e.target.value)
+                    if (clipState === 'ready') { setClipState('idle'); setClipUrl(null) }
+                  }}
+                  placeholder="H:MM:SS"
+                />
+                <button className="tr-nudge" onClick={() => nudge('start', 5)}>+5s</button>
+                <button className="tr-nudge" onClick={() => nudge('start', 10)}>+10s</button>
+              </div>
+            </div>
+            <div className="tr-timing-field">
+              <label>End</label>
+              <div className="tr-timing-controls">
+                <button className="tr-nudge" onClick={() => nudge('end', -10)}>-10s</button>
+                <button className="tr-nudge" onClick={() => nudge('end', -5)}>-5s</button>
+                <input
+                  type="text"
+                  className="tr-timing-input"
+                  value={clipEnd}
+                  onChange={e => {
+                    setClipEnd(e.target.value)
+                    if (clipState === 'ready') { setClipState('idle'); setClipUrl(null) }
+                  }}
+                  placeholder="H:MM:SS"
+                />
+                <button className="tr-nudge" onClick={() => nudge('end', 5)}>+5s</button>
+                <button className="tr-nudge" onClick={() => nudge('end', 10)}>+10s</button>
+              </div>
+            </div>
+          </div>
+          <div className="tr-timing-info">
+            <span>Duration: {clipDuration}s</span>
+            {clipDuration > 300 && <span className="tr-timing-warn">Max 5 minutes</span>}
+            <button className="tr-timing-reset" onClick={resetTiming}>Reset to suggested</button>
+          </div>
+        </div>
+      )}
+
       {/* Video player — shown when clip is ready */}
       {clipState === 'ready' && clipUrl && (
         <div className="tr-video-container">
@@ -136,9 +238,14 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
             src={clipUrl}
             onError={() => setClipState('error')}
           />
-          <a href={clipUrl} download className="tr-download-btn">
-            <Download size={12} /> Download clip
-          </a>
+          <div className="tr-video-actions">
+            <a href={clipUrl} download className="tr-download-btn">
+              <Download size={12} /> Download clip
+            </a>
+            <button className="tr-reclip-btn" onClick={() => { setClipState('idle'); setClipUrl(null) }}>
+              Adjust &amp; re-clip
+            </button>
+          </div>
         </div>
       )}
 
@@ -159,11 +266,25 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
           </span>
         ))}
 
-        {/* Clip button */}
+        {/* Clip controls */}
         {clipState === 'idle' && (
-          <button className="tr-clip-btn" onClick={requestClip}>
-            <Play size={12} /> Clip
-          </button>
+          <>
+            <button className="tr-clip-btn" onClick={() => { setShowTimingEditor(false); requestClip() }}>
+              <Play size={12} /> Clip
+            </button>
+            <button
+              className="tr-clip-btn tr-clip-edit"
+              onClick={() => setShowTimingEditor(!showTimingEditor)}
+              title="Adjust clip timing"
+            >
+              <Clock size={12} /> {showTimingEditor ? 'Hide' : 'Edit timing'}
+            </button>
+            {showTimingEditor && (
+              <button className="tr-clip-btn" onClick={requestClip}>
+                <Play size={12} /> Extract custom clip
+              </button>
+            )}
+          </>
         )}
         {clipState === 'loading' && (
           <span className="tr-clip-loading">
