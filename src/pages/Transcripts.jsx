@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Search, X, Clock, Copy, Check, ExternalLink, ArrowUpDown, Mic, FileText } from 'lucide-react'
+import { Search, X, Clock, Copy, Check, ExternalLink, ArrowUpDown, Mic, FileText, Play, Loader, Download } from 'lucide-react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { useClipboard } from '../hooks/useClipboard'
@@ -9,6 +9,8 @@ import CollapsibleSection from '../components/CollapsibleSection'
 import './Transcripts.css'
 
 const fmt = (n) => typeof n === 'number' ? n.toLocaleString('en-GB') : '—'
+
+const CLIP_SERVER = 'http://46.202.140.7:8420'
 
 const CATEGORY_LABELS = {
   attack: 'Attack', defence: 'Defence', promise: 'Promise',
@@ -54,6 +56,28 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
   const webcastUrl = meeting?.webcast_url
   const tsFormatted = formatTimestamp(moment.start)
   const tsLink = webcastUrl ? `${webcastUrl}#t=${Math.floor(moment.start)}` : null
+  const [clipState, setClipState] = useState('idle') // idle | loading | ready | error
+  const [clipUrl, setClipUrl] = useState(null)
+
+  const requestClip = useCallback(() => {
+    if (clipState === 'loading') return
+    setClipState('loading')
+
+    // Build on-demand clip URL
+    const url = `${CLIP_SERVER}/clip?meeting=${encodeURIComponent(moment.meeting_id)}&start=${moment.start}&end=${moment.end}`
+
+    // Test if clip server is reachable, then set URL for video element
+    fetch(`${CLIP_SERVER}/health`, { mode: 'cors' })
+      .then(r => {
+        if (r.ok) {
+          setClipUrl(url)
+          setClipState('ready')
+        } else {
+          setClipState('error')
+        }
+      })
+      .catch(() => setClipState('error'))
+  }, [moment, clipState])
 
   return (
     <div className="tr-moment">
@@ -102,6 +126,28 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
         <div className="tr-moment-summary">{moment.summary}</div>
       )}
 
+      {/* Video player — shown when clip is ready */}
+      {clipState === 'ready' && clipUrl && (
+        <div className="tr-video-container">
+          <video
+            controls
+            preload="auto"
+            className="tr-video"
+            src={clipUrl}
+            onError={() => setClipState('error')}
+          />
+          <a href={clipUrl} download className="tr-download-btn">
+            <Download size={12} /> Download clip
+          </a>
+        </div>
+      )}
+
+      {clipState === 'error' && (
+        <div className="tr-clip-error">
+          Clip extraction failed — try the webcast link instead
+        </div>
+      )}
+
       <div className="tr-moment-footer">
         {(moment.topics || []).slice(0, 6).map(topic => (
           <span
@@ -112,6 +158,18 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
             {topic.replace(/_/g, ' ')}
           </span>
         ))}
+
+        {/* Clip button */}
+        {clipState === 'idle' && (
+          <button className="tr-clip-btn" onClick={requestClip}>
+            <Play size={12} /> Clip
+          </button>
+        )}
+        {clipState === 'loading' && (
+          <span className="tr-clip-loading">
+            <Loader size={12} className="spin" /> Extracting...
+          </span>
+        )}
 
         <button
           className={`tr-copy-btn ${copiedId === moment.id ? 'copied' : ''}`}
