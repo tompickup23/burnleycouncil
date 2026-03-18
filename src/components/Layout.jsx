@@ -102,6 +102,10 @@ function Layout({ children }) {
   const [councillorsForSearch, configForSearch, propertyAssetsForSearch] = searchData || [[], null, null]
   const propertiesForSearch = propertyAssetsForSearch?.assets || []
 
+  // Load transcripts for GlobalSearch (conditional on config flag)
+  const { data: transcriptsForSearch } = useData(dataSources.transcripts ? '/data/transcripts.json' : null)
+  const transcriptMoments = transcriptsForSearch?.moments || []
+
   // Load cabinet portfolios for nav sub-list
   const { data: cabinetNavData } = useData(dataSources.cabinet_portfolios ? '/data/cabinet_portfolios.json' : null)
   const cabinetPortfolios = cabinetNavData?.portfolios || []
@@ -427,6 +431,7 @@ function Layout({ children }) {
         onClose={() => setSearchOpen(false)}
         councillors={Array.isArray(councillorsForSearch) ? councillorsForSearch : councillorsForSearch?.councillors || []}
         properties={propertiesForSearch}
+        transcripts={transcriptMoments}
       />
 
       {/* Main content */}

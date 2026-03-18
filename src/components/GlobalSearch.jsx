@@ -38,9 +38,38 @@ const TYPE_ICONS = {
   ward: '📍',
   article: '📰',
   property: '🏛️',
+  transcript: '🎙️',
 }
 
-export default function GlobalSearch({ isOpen, onClose, councillors, suppliers, wards, articles, properties }) {
+function searchTranscripts(query, moments) {
+  if (!moments || !query || query.length < 3) return []
+  const q = query.toLowerCase()
+  return moments
+    .filter(m =>
+      m.text?.toLowerCase().includes(q) ||
+      (m.topics || []).some(t => t.toLowerCase().includes(q)) ||
+      (m.speaker || '').toLowerCase().includes(q) ||
+      (m.summary || '').toLowerCase().includes(q)
+    )
+    .sort((a, b) => (b.composite_score || 0) - (a.composite_score || 0))
+    .slice(0, 4)
+    .map(m => {
+      const h = Math.floor(m.start / 3600)
+      const min = Math.floor((m.start % 3600) / 60)
+      const s = Math.floor(m.start % 60)
+      const ts = `${h}:${String(min).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+      const speaker = m.speaker ? `Cllr ${m.speaker}` : ''
+      const preview = m.text?.length > 80 ? m.text.slice(0, 80) + '...' : m.text
+      return {
+        type: 'transcript',
+        label: `[${ts}] ${speaker ? speaker + ': ' : ''}${preview}`,
+        path: `/transcripts?q=${encodeURIComponent(query)}`,
+        item: m,
+      }
+    })
+}
+
+export default function GlobalSearch({ isOpen, onClose, councillors, suppliers, wards, articles, properties, transcripts }) {
   const [query, setQuery] = useState('')
   const [selectedIdx, setSelectedIdx] = useState(0)
   const inputRef = useRef(null)
@@ -66,9 +95,10 @@ export default function GlobalSearch({ isOpen, onClose, councillors, suppliers, 
       ...searchItems(query, properties, 'property',
         p => `${p.name || ''}${p.postcode ? ' (' + p.postcode + ')' : ''}`,
         p => `/property/${p.id}`),
+      ...searchTranscripts(query, transcripts),
     ]
     return r.slice(0, MAX_RESULTS)
-  }, [query, councillors, suppliers, wards, articles, properties])
+  }, [query, councillors, suppliers, wards, articles, properties, transcripts])
 
   // Keyboard navigation
   const handleKeyDown = useCallback((e) => {
