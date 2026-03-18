@@ -73,3 +73,52 @@ export function getAccessiblePortfolios(portfolios, role, portfolioIds = []) {
   if (portfolioIds.includes('*')) return portfolios
   return portfolios.filter(p => portfolioIds.includes(p.id))
 }
+
+
+/**
+ * Find transcript moments relevant to a topic or set of topics.
+ * Used by directives, FOI generation, and evidence chain scoring
+ * to cross-reference spoken council testimony with DOGE findings.
+ *
+ * @param {Object} transcriptsData - From useData('/data/transcripts.json')
+ * @param {string|string[]} topics - Topic tag(s) to search for
+ * @param {Object} [opts] - Options
+ * @param {number} [opts.minScore=3] - Minimum composite score
+ * @param {number} [opts.limit=10] - Max moments to return
+ * @param {string} [opts.category] - Filter by category (attack/defence/promise/etc)
+ * @returns {Array} Matching moments sorted by composite score desc
+ */
+export function getTranscriptEvidence(transcriptsData, topics, opts = {}) {
+  if (!transcriptsData?.moments) return []
+  const topicList = Array.isArray(topics) ? topics : [topics]
+  const minScore = opts.minScore ?? 3
+  const limit = opts.limit ?? 10
+  const categoryFilter = opts.category ?? null
+
+  const topicSet = new Set(topicList.map(t => t.toLowerCase().replace(/\s+/g, '_')))
+
+  return transcriptsData.moments
+    .filter(m => {
+      if ((m.composite_score ?? 0) < minScore) return false
+      if (categoryFilter && m.category !== categoryFilter) return false
+      const momentTopics = (m.topics || []).map(t => t.toLowerCase())
+      return momentTopics.some(t => topicSet.has(t))
+    })
+    .sort((a, b) => (b.composite_score ?? 0) - (a.composite_score ?? 0))
+    .slice(0, limit)
+    .map(m => ({
+      moment_id: m.id,
+      meeting_id: m.meeting_id,
+      timestamp: (() => {
+        const h = Math.floor(m.start / 3600)
+        const min = Math.floor((m.start % 3600) / 60)
+        const s = Math.floor(m.start % 60)
+        return `${h}:${String(min).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+      })(),
+      quote: m.text,
+      speaker: m.speaker,
+      score: m.composite_score,
+      category: m.category,
+      clip_type: m.clip_type,
+    }))
+}

@@ -133,6 +133,13 @@ export function evidenceChainStrength(lever) {
   // Political framing - has Reform messaging? (max 10)
   if (ev.political_framing && ev.political_framing.length > 20) score += 10
 
+  // Transcript testimony - has spoken evidence from council meetings? (max 15)
+  // Cross-references lever topics with meeting transcript moments.
+  // 3+ matching moments = full score (topic was actively debated)
+  const transcriptRefs = ev.transcript_refs ?? lever.transcript_refs ?? []
+  if (Array.isArray(transcriptRefs) && transcriptRefs.length >= 3) score += 15
+  else if (Array.isArray(transcriptRefs) && transcriptRefs.length >= 1) score += 8
+
   return score
 }
 
