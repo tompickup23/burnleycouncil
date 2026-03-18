@@ -157,7 +157,7 @@ describe('MyArea', () => {
   it('renders the page heading with data', () => {
     setupMocks()
     renderComponent()
-    expect(screen.getByText('My Area')).toBeInTheDocument()
+    expect(screen.getByText('My Ward')).toBeInTheDocument()
   })
 
   it('renders postcode input', () => {
@@ -451,7 +451,7 @@ describe('MyArea', () => {
   it('renders without crashing when wards is empty', () => {
     setupMocks({ data: [{}, []] }, null)
     renderComponent()
-    expect(screen.getByText('My Area')).toBeInTheDocument()
+    expect(screen.getByText('My Ward')).toBeInTheDocument()
     expect(screen.getByText('All Wards')).toBeInTheDocument()
   })
 
