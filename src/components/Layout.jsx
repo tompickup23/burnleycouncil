@@ -46,6 +46,7 @@ const navSections = [
     items: [
       { path: '/elections', icon: Vote, label: 'Elections', requires: 'elections' },
       { path: '/meetings', icon: Calendar, label: 'Council Business', requires: 'meetings' },
+      { path: '/transcripts', icon: FileText, label: 'Transcripts', requires: 'transcripts' },
       { path: '/news', icon: Newspaper, label: 'News', requires: 'news' },
     ],
   },

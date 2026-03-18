@@ -47,6 +47,7 @@ const Crime = lazy(() => import('./pages/Crime'))
 const Health = lazy(() => import('./pages/Health'))
 const Economy = lazy(() => import('./pages/Economy'))
 const Highways = lazy(() => import('./pages/Highways'))
+const Transcripts = lazy(() => import('./pages/Transcripts'))
 const Roadworks = lazy(() => import('./pages/Roadworks'))
 const Executive = lazy(() => import('./pages/Executive'))
 const DirectorateDashboard = lazy(() => import('./pages/DirectorateDashboard'))
@@ -161,6 +162,7 @@ function RouterContent() {
             <Route path="/health" element={<Guarded><Health /></Guarded>} />
             <Route path="/economy" element={<Guarded><Economy /></Guarded>} />
             <Route path="/highways" element={<Guarded><Highways /></Guarded>} />
+            <Route path="/transcripts" element={<Guarded><Transcripts /></Guarded>} />
             <Route path="/roadworks" element={<Guarded><Roadworks /></Guarded>} />
             <Route path="/executive" element={<Guarded><Executive /></Guarded>} />
             <Route path="/cabinet" element={<Guarded><DirectorateDashboard /></Guarded>} />
