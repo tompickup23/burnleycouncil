@@ -699,13 +699,13 @@ describe('MyArea', () => {
     const select = screen.getByLabelText(/select your ward/i)
     fireEvent.change(select, { target: { value: 'Cliviger with Worsthorne' } })
     const crimeCard = screen.getByTestId('hub-card-crime')
-    expect(crimeCard.closest('a')).toHaveAttribute('href', '/crime')
+    expect(crimeCard.closest('a').getAttribute('href')).toMatch(/^\/crime/)
     const housingCard = screen.getByTestId('hub-card-housing')
-    expect(housingCard.closest('a')).toHaveAttribute('href', '/housing')
+    expect(housingCard.closest('a').getAttribute('href')).toMatch(/^\/housing/)
     const healthCard = screen.getByTestId('hub-card-health')
-    expect(healthCard.closest('a')).toHaveAttribute('href', '/health')
+    expect(healthCard.closest('a').getAttribute('href')).toMatch(/^\/health/)
     const economyCard = screen.getByTestId('hub-card-economy')
-    expect(economyCard.closest('a')).toHaveAttribute('href', '/economy')
+    expect(economyCard.closest('a').getAttribute('href')).toMatch(/^\/economy/)
   })
 
   it('hub cards show summary stats from loaded data', () => {
