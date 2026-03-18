@@ -4,6 +4,7 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { ChartCard } from '../components/ui/ChartCard'
 import { StatCard } from '../components/ui/StatCard'
+import ErrorState from '../components/ui/ErrorState'
 import { generateEconomyTalkingPoints } from '../utils/strategyEngine'
 import SparkLine from '../components/ui/SparkLine'
 import GaugeChart from '../components/ui/GaugeChart'
@@ -164,7 +165,7 @@ export default function Economy() {
   }, [economy, mapMetric])
 
   if (loading) return <div className="loading-state"><div className="loading-spinner" /></div>
-  if (error) return <div className="error-state"><p>Error loading economy data. Please try again later.</p></div>
+  if (error) return <ErrorState title="Error loading economy data" error={error} />
   if (!economy) return <div className="empty-state"><p>No economy data available for this council.</p></div>
 
   const { summary = {}, claimant_count: claimant, earnings, census = {} } = economy

@@ -32,9 +32,9 @@ function evictIfNeeded() {
   cache.delete(oldest)
 }
 
-/** Fetch with retry + exponential backoff */
-function fetchWithRetry(url, attempt = 0) {
-  return fetch(resolveUrl(url)).then(r => {
+/** Fetch with retry + exponential backoff. Accepts optional AbortSignal. */
+function fetchWithRetry(url, attempt = 0, signal) {
+  return fetch(resolveUrl(url), signal ? { signal } : undefined).then(r => {
     if (!r.ok) {
       const err = new Error(`Failed to fetch ${url}: ${r.status}`)
       // Don't retry 404s — file genuinely doesn't exist
@@ -51,10 +51,12 @@ function fetchWithRetry(url, attempt = 0) {
     }
     return r.json()
   }).catch(err => {
+    // Don't retry aborted requests
+    if (err.name === 'AbortError') throw err
     if (!err.noRetry && attempt < MAX_RETRIES) {
       const delay = RETRY_BASE_MS * Math.pow(2, attempt)
       return new Promise(resolve => setTimeout(resolve, delay))
-        .then(() => fetchWithRetry(url, attempt + 1))
+        .then(() => fetchWithRetry(url, attempt + 1, signal))
     }
     throw err
   })
@@ -112,6 +114,8 @@ export function useData(urls) {
     })
     if (allFresh) return
 
+    const controller = new AbortController()
+
     const fetchUrl = (url) => {
       const entry = cache.get(url)
       if (entry && isFresh(entry)) {
@@ -123,7 +127,7 @@ export function useData(urls) {
         return inflight.get(url)
       }
 
-      const promise = fetchWithRetry(url)
+      const promise = fetchWithRetry(url, 0, controller.signal)
         .then(json => {
           cache.set(url, { data: json, timestamp: Date.now() })
           evictIfNeeded()
@@ -147,6 +151,7 @@ export function useData(urls) {
         setError(null)
       })
       .catch(err => {
+        if (err.name === 'AbortError') return  // silently ignore aborted fetches
         if (!mountedRef.current) return
         if (!err.silent) console.error('Failed to load data:', err)
         setError(err)
@@ -155,6 +160,7 @@ export function useData(urls) {
 
     return () => {
       mountedRef.current = false
+      controller.abort()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [keyStr])

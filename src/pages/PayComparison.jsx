@@ -5,7 +5,7 @@ import { formatCurrency } from '../utils/format'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
-import { LoadingState } from '../components/ui'
+import { LoadingState, ErrorState } from '../components/ui'
 import './PayComparison.css'
 
 function PayComparison() {
@@ -72,12 +72,7 @@ function PayComparison() {
 
   // Early returns AFTER all hooks
   if (loading) return <LoadingState message="Loading pay data..." />
-  if (error) return (
-    <div className="page-error">
-      <h2>Unable to load data</h2>
-      <p>Please try refreshing the page.</p>
-    </div>
-  )
+  if (error) return <ErrorState />
   if (!payData) return <div className="pay-page"><p>No pay comparison data available for this council.</p></div>
 
   return (

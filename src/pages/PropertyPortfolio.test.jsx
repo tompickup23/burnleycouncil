@@ -21,6 +21,7 @@ vi.mock('../firebase', () => ({
 
 vi.mock('../components/ui', () => ({
   LoadingState: () => <div>Loading...</div>,
+  ErrorState: ({ title, message, error }) => <div data-testid="error-state"><span>{title || 'Error'}</span><span>{message || error?.message || ''}</span></div>,
 }))
 
 vi.mock('../components/WardMap', () => ({

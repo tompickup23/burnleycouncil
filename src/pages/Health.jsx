@@ -4,6 +4,7 @@ import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { ChartCard } from '../components/ui/ChartCard'
 import { StatCard } from '../components/ui/StatCard'
+import ErrorState from '../components/ui/ErrorState'
 import { generateHealthTalkingPoints } from '../utils/strategyEngine'
 import CollapsibleSection from '../components/CollapsibleSection'
 import GaugeChart from '../components/ui/GaugeChart'
@@ -126,7 +127,7 @@ export default function Health() {
   }, [health, mapMetric])
 
   if (loading) return <div className="loading-state"><div className="loading-spinner" /></div>
-  if (error) return <div className="error-state"><p>Error loading health data. Please try again later.</p></div>
+  if (error) return <ErrorState title="Error loading health data" error={error} />
   if (!health) return <div className="empty-state"><p>No health data available for this council.</p></div>
 
   const { indicators = {}, summary = {}, census = {} } = health

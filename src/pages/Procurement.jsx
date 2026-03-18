@@ -6,7 +6,7 @@ import { formatCurrency, formatNumber, formatDate, slugify } from '../utils/form
 import { CHART_COLORS, TOOLTIP_STYLE, AXIS_TICK_STYLE } from '../utils/constants'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
-import { LoadingState } from '../components/ui'
+import { LoadingState, ErrorState } from '../components/ui'
 import { ChartCard } from '../components/ui/ChartCard'
 import CollapsibleSection from '../components/CollapsibleSection'
 import './Procurement.css'
@@ -438,7 +438,7 @@ function Procurement() {
   }, [contracts])
 
   if (loading) return <LoadingState />
-  if (error) return <div className="error-state">Failed to load procurement data: {error.message}</div>
+  if (error) return <ErrorState title="Failed to load procurement data" error={error} />
   if (!contracts.length) return <div className="empty-state">No procurement data available for {councilName}.</div>
 
   return (

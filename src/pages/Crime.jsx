@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, lazy, Suspense } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
-import { LoadingState } from '../components/ui'
+import { LoadingState, ErrorState } from '../components/ui'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, LineChart, Line } from 'recharts'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { Shield, MapPin, AlertTriangle, TrendingDown, Users, Search, Eye } from 'lucide-react'
@@ -176,7 +176,7 @@ function Crime() {
   }, [selectedWard, deprivationRaw])
 
   if (loading) return <LoadingState />
-  if (error) return <div className="error-state">Error loading crime data: {error.message}</div>
+  if (error) return <ErrorState title="Error loading crime data" error={error} />
   if (!crimeData || !crimeData.total_crimes) return <div className="empty-state">No crime data available for {councilName}.</div>
 
   const total = crimeData.total_crimes

@@ -64,7 +64,7 @@ describe('useData', () => {
 
     expect(result.current.data).toEqual(mockData)
     expect(result.current.error).toBeNull()
-    expect(global.fetch).toHaveBeenCalledWith('/api/test.json')
+    expect(global.fetch).toHaveBeenCalledWith('/api/test.json', expect.objectContaining({ signal: expect.any(AbortSignal) }))
   })
 
   it('handles fetch errors', async () => {

@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, lazy, Suspense } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
-import { LoadingState } from '../components/ui'
+import { LoadingState, ErrorState } from '../components/ui'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { Building2, MapPin, AlertTriangle, Users, ShieldCheck, Home, TrendingUp, FileText } from 'lucide-react'
@@ -164,7 +164,7 @@ function Housing() {
   }, [selectedWard, housing, hmoData])
 
   if (loading) return <LoadingState />
-  if (error) return <div className="error-state">Error loading housing data: {error.message}</div>
+  if (error) return <ErrorState title="Error loading housing data" error={error} />
   if (!housing || !summary.total_households) return <div className="empty-state">No housing data available for {councilName}.</div>
 
   const mapLegendTitle = mapMetric === 'private_rent' ? 'Private Rent %'

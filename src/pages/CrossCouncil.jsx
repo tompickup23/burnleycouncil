@@ -5,7 +5,7 @@ import { BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveCo
 import { formatCurrency, slugify } from '../utils/format'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
-import { LoadingState } from '../components/ui'
+import { LoadingState, ErrorState } from '../components/ui'
 import { COUNCIL_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, shortenCouncilName, COUNCIL_SLUG_MAP, PARTY_COLORS, CHART_ANIMATION } from '../utils/constants'
 import { peerBenchmark, giniCoefficient, reservesAdequacy } from '../utils/analytics'
 import { computeNorthernMillTownComparison } from '../utils/lgrModel'
@@ -592,12 +592,7 @@ function CrossCouncil() {
   }, [councils])
 
   if (loading) return <LoadingState message="Loading comparison data..." />
-  if (error) return (
-    <div className="page-error">
-      <h2>Unable to load data</h2>
-      <p>Please try refreshing the page.</p>
-    </div>
-  )
+  if (error) return <ErrorState />
   if (!councils.length) return <div className="cross-page"><p>No cross-council comparison data available.</p></div>
 
   const yearRange = councils.map(c => c.num_years || 1)

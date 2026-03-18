@@ -11,6 +11,7 @@ vi.mock('../firebase', () => ({ isFirebaseEnabled: false }))
 vi.mock('../components/ui', () => ({
   LoadingState: ({ message }) => <div>{message || 'Loading...'}</div>,
   ErrorBoundary: ({ children }) => <div>{children}</div>,
+  ErrorState: ({ title, message, error }) => <div data-testid="error-state"><span>{title || 'Error'}</span><span>{message || error?.message || ''}</span></div>,
 }))
 vi.mock('../components/ui/StatCard', () => ({
   StatCard: ({ value, label, icon: Icon, highlight }) => <div data-testid="stat-card"><span>{value}</span><span>{label}</span></div>,

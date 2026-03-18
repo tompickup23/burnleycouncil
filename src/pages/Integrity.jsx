@@ -4,7 +4,7 @@ import { Search, Shield, ShieldAlert, ShieldCheck, ShieldX, Building2, AlertTria
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip } from 'recharts'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
-import { LoadingState } from '../components/ui'
+import { LoadingState, ErrorState } from '../components/ui'
 import CollapsibleSection from '../components/CollapsibleSection'
 import CouncillorLink from '../components/CouncillorLink'
 import ChartCard from '../components/ui/ChartCard'
@@ -432,12 +432,7 @@ function Integrity() {
   const scanComplete = integrity?.councillors_checked > 0
 
   if (loading) return <LoadingState message="Loading integrity data..." />
-  if (error) return (
-    <div className="page-error">
-      <h2>Unable to load integrity data</h2>
-      <p>Please try refreshing the page.</p>
-    </div>
-  )
+  if (error) return <ErrorState title="Unable to load integrity data" />
 
   return (
     <div className="integrity-page animate-fade-in">

@@ -6,7 +6,7 @@ import { formatCurrency, formatNumber } from '../utils/format'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, CHART_ANIMATION } from '../utils/constants'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine } from 'recharts'
 import { Search, Loader2, AlertCircle, PoundSterling, Home, TrendingDown, TrendingUp, ArrowRight, Calculator, MapPin, Building, Users, ChevronDown, ChevronRight, Check, X as XIcon, HelpCircle, ExternalLink, Calendar, AlertTriangle, Brain, BookOpen } from 'lucide-react'
-import { LoadingState } from '../components/ui'
+import { LoadingState, ErrorState } from '../components/ui'
 import './LGRCostCalculator.css'
 
 const PROPOSAL_COLORS = ['#12B6CF', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a']
@@ -350,12 +350,7 @@ function LGRCostCalculator() {
 
   // --- Loading / Error states ---
   if (loading) return <LoadingState message="Loading cost data..." />
-  if (error) return (
-    <div className="page-error">
-      <h2>Unable to load data</h2>
-      <p>Please try refreshing the page.</p>
-    </div>
-  )
+  if (error) return <ErrorState />
 
   const hasResults = currentCosts && postcodeResult?.isLancashire
 

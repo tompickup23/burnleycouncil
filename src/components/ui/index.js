@@ -1,5 +1,6 @@
 export { default as PageHeader } from './PageHeader'
 export { default as ErrorBoundary } from './ErrorBoundary'
+export { default as ErrorState } from './ErrorState'
 export { default as SearchableSelect } from './SearchableSelect'
 export { default as ChartCard, CHART_TOOLTIP_STYLE } from './ChartCard'
 export { default as TabNav, TabPanel } from './TabNav'

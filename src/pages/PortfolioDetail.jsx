@@ -6,7 +6,7 @@ import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { isFirebaseEnabled } from '../firebase'
 import { useAuth } from '../context/AuthContext'
-import { LoadingState } from '../components/ui'
+import { LoadingState, ErrorState } from '../components/ui'
 import { StatCard } from '../components/ui/StatCard'
 import { ChartCard } from '../components/ui/ChartCard'
 import CollapsibleSection from '../components/CollapsibleSection'
@@ -187,7 +187,7 @@ export default function PortfolioDetail() {
     )
   }
   if (loading) return <LoadingState message="Loading portfolio..." />
-  if (error) return <div className="portfolio-detail"><h1>Error</h1><p>{error.message || 'Failed to load'}</p></div>
+  if (error) return <ErrorState title="Error" error={error} message={error?.message || 'Failed to load'} />
   if (!portfolio) {
     const validIds = portfolios.map(p => p.id).filter(Boolean)
     return (

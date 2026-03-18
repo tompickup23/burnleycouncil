@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState, lazy, Suspense } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
-import { LoadingState } from '../components/ui'
+import { LoadingState, ErrorState } from '../components/ui'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line, AreaChart, Area, Legend } from 'recharts'
 import { CHART_COLORS, TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE } from '../utils/constants'
 import { Users, MapPin, Globe, Briefcase, Church, Info, TrendingUp, Shield, Home, AlertTriangle, Activity, Layers, Car, Train, Heart, Languages } from 'lucide-react'
@@ -337,7 +337,7 @@ function Demographics() {
   }, [selectedWard, deprivation, demoFiscalData])
 
   if (loading) return <LoadingState />
-  if (error) return <div className="demo-error">Error loading demographics: {error.message}</div>
+  if (error) return <ErrorState title="Error loading demographics" error={error} />
   if (!demographics) return <div className="demo-error">No demographics data available</div>
 
   return (

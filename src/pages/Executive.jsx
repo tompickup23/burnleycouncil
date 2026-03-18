@@ -6,7 +6,7 @@ import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { isFirebaseEnabled } from '../firebase'
 import { useAuth } from '../context/AuthContext'
-import { LoadingState } from '../components/ui'
+import { LoadingState, ErrorState } from '../components/ui'
 import { StatCard } from '../components/ui/StatCard'
 import { ChartCard, CHART_TOOLTIP_STYLE } from '../components/ui/ChartCard'
 import CollapsibleSection from '../components/CollapsibleSection'
@@ -133,7 +133,7 @@ export default function Executive() {
   }
 
   if (loading) return <LoadingState message="Loading executive data..." />
-  if (error) return <div className="executive-page"><h1>Error</h1><p>{error.message || 'Failed to load data'}</p></div>
+  if (error) return <ErrorState title="Error" error={error} message={error?.message || 'Failed to load data'} />
 
   return (
     <div className="executive-page">
