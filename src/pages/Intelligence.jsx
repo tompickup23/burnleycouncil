@@ -315,6 +315,11 @@ export default function Intelligence() {
     dataSources.councillor_profiles ? '/data/councillor_profiles.json' : null
   )
 
+  // --- Meeting transcripts (optional — from meeting_transcriber.py) ---
+  const { data: transcriptsData } = useData(
+    dataSources.transcripts ? '/data/transcripts.json' : null
+  )
+
   // --- State ---
   const [activeSection, setActiveSection] = useState('warRoom')
   const [selectedMeetingIdx, setSelectedMeetingIdx] = useState(null)
@@ -347,7 +352,8 @@ export default function Intelligence() {
     healthData,
     housingData,
     documentsData,
-  }), [councillorsData, votingData, integrityData, interestsData, committeesData, politicsSummary, dogeFindings, reformTransformation, demographicsData, deprivationData, economyData, healthData, housingData, documentsData])
+    transcriptsData,
+  }), [councillorsData, votingData, integrityData, interestsData, committeesData, politicsSummary, dogeFindings, reformTransformation, demographicsData, deprivationData, economyData, healthData, housingData, documentsData, transcriptsData])
 
   // --- Derived: sorted meetings ---
   const sortedMeetings = useMemo(() => {

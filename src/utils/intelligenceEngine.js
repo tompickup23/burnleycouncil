@@ -572,6 +572,36 @@ export function buildCouncillorDossier(councillorName, allData) {
     return (order[a.severity] ?? 3) - (order[b.severity] ?? 3)
   })
 
+  // --- Transcript quotes (from meeting transcription pipeline) ---
+  const transcriptQuotes = []
+  const transcriptTopics = {}
+  if (allData.transcriptsData?.moments) {
+    const surname = cleanName.split(' ').pop()
+    for (const m of allData.transcriptsData.moments) {
+      if (m.speaker && m.speaker.toLowerCase() === surname.toLowerCase()) {
+        const h = Math.floor(m.start / 3600)
+        const min = Math.floor((m.start % 3600) / 60)
+        const s = Math.floor(m.start % 60)
+        transcriptQuotes.push({
+          text: m.text,
+          timestamp: `${h}:${String(min).padStart(2, '0')}:${String(s).padStart(2, '0')}`,
+          start: m.start,
+          meeting_id: m.meeting_id,
+          score: m.composite_score,
+          category: m.category,
+          clip_type: m.clip_type,
+          topics: m.topics || [],
+          summary: m.summary,
+        })
+        // Aggregate topics this councillor speaks about
+        for (const topic of m.topics || []) {
+          transcriptTopics[topic] = (transcriptTopics[topic] || 0) + 1
+        }
+      }
+    }
+    transcriptQuotes.sort((a, b) => (b.score || 0) - (a.score || 0))
+  }
+
   return {
     name: cleanName,
     rawName: councillor.name,
@@ -589,6 +619,9 @@ export function buildCouncillorDossier(councillorName, allData) {
     interestsProfile,
     attackLines: allAttackLines,
     isOpposition: party !== 'Reform UK',
+    transcriptQuotes,
+    transcriptTopics,
+    speakingFrequency: transcriptQuotes.length,
   }
 }
 
