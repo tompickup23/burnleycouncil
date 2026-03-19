@@ -420,13 +420,28 @@ def tier2_llm_analysis(flagged_moments, all_segments=None, batch_size=6,
                     "speaker": analysis.get("speaker"),
                 }
                 llm = moment["llm"]
-                moment["composite_score"] = round(
+                base_score = (
                     llm["relevance"] * 0.3 +
                     llm["quotability"] * 0.25 +
                     llm["news_value"] * 0.2 +
-                    llm["electoral_value"] * 0.25,
-                    1
+                    llm["electoral_value"] * 0.25
                 )
+                # Speaker boost: identified speakers make moments more usable
+                # OCR-verified = +1.0, chairman/OCR = +0.7, any speaker = +0.5
+                speaker = moment.get("speaker") or llm.get("speaker")
+                speaker_conf = moment.get("speaker_confidence", "")
+                if speaker:
+                    if speaker_conf == "ocr_verified":
+                        base_score += 1.0
+                    elif speaker_conf in ("ocr_fuzzy", "chairman"):
+                        base_score += 0.7
+                    else:
+                        base_score += 0.5
+                    # Use OCR speaker if LLM didn't identify one
+                    if not llm.get("speaker") and speaker:
+                        llm["speaker"] = speaker
+
+                moment["composite_score"] = round(min(base_score, 10), 1)
             else:
                 # Tier 1 only — cap at 6 so LLM-analysed moments rank higher
                 moment["llm"] = None
@@ -755,6 +770,224 @@ def post_process_transcript(segments, batch_size=20):
         text = text.strip()
 
         seg["text"] = text
+
+    return segments
+
+
+def ocr_speaker_detection(video_path, interval=3, councillors_json=None):
+    """Detect speaker names from on-screen overlay via OCR.
+
+    Mediasite webcasts display "Cllr [Name]" on a white bar at the bottom
+    of the video frame when a councillor's microphone is active.
+    Video is 960x540, name bar at approximately y=310, height ~50px.
+
+    Samples one frame every `interval` seconds, OCRs just the name strip,
+    and returns a timeline of speaker changes.
+
+    Args:
+        video_path: Path to video file
+        interval: Seconds between OCR samples (default 3)
+        councillors_json: Optional path to councillors.json for name matching
+
+    Returns:
+        list of {timestamp: float, speaker: str, confidence: str}
+    """
+    import tempfile
+    try:
+        import pytesseract
+    except ImportError:
+        os.system("pip3 install pytesseract 2>/dev/null")
+        import pytesseract
+    from PIL import Image
+
+    # Load councillor surnames for fuzzy matching
+    known_surnames = set()
+    if councillors_json and os.path.exists(councillors_json):
+        with open(councillors_json) as f:
+            data = json.load(f)
+        clist = data if isinstance(data, list) else data.get('councillors', [])
+        for c in clist:
+            name = c.get('name', '')
+            # Extract surname (last word, handling prefixes)
+            name = re.sub(r'^(County Councillor|Councillor|Cllr|Prof\.|Dr |Mr |Mrs |Ms )', '', name).strip()
+            name = name.replace(' OBE', '').replace(' MBE', '').replace(' JP', '')
+            parts = name.split()
+            if parts:
+                known_surnames.add(parts[-1])
+
+    # Get video duration
+    result = subprocess.run(
+        [FFPROBE, "-v", "quiet", "-show_entries", "format=duration",
+         "-of", "csv=p=0", str(video_path)],
+        capture_output=True, text=True, timeout=10
+    )
+    duration = float(result.stdout.strip()) if result.stdout.strip() else 0
+    if duration <= 0:
+        print("  OCR: Could not determine video duration")
+        return []
+
+    print(f"  OCR speaker detection: {duration:.0f}s video, sampling every {interval}s...")
+
+    # Extract frames of just the name bar region
+    tmpdir = tempfile.mkdtemp(prefix="ocr_frames_")
+    total_samples = int(duration / interval)
+
+    # Extract name strip frames in batch (much faster than one-by-one)
+    # Video is 960x540. The councillor name text sits at y≈335, height≈35
+    # Crop wide (700px) to catch long names like "Cllr Stephen Atkinson"
+    cmd = [
+        FFMPEG, "-y",
+        "-i", str(video_path),
+        "-vf", f"fps=1/{interval},crop=700:40:0:330",
+        "-q:v", "2",
+        os.path.join(tmpdir, "name_%06d.jpg"),
+    ]
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
+    if result.returncode != 0:
+        print(f"  OCR: Frame extraction failed: {result.stderr[-200:]}")
+        import shutil
+        shutil.rmtree(tmpdir, ignore_errors=True)
+        return []
+
+    # OCR each frame
+    speaker_timeline = []
+    current_speaker = None
+    # "Cllr" with common OCR misreads: Clir, Cir, C1lr, SC|ir, |ir, etc.
+    # Also match just capitalized names after any "lr/ir" prefix
+    cllr_pattern = re.compile(
+        r'(?:S?C?\s*[|lIi1]{1,3}r|C[li1I]{1,2}r)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z\'-]+)+)',
+        re.IGNORECASE
+    )
+
+    frame_files = sorted(Path(tmpdir).glob("name_*.jpg"))
+    ocr_hits = 0
+
+    for i, frame_path in enumerate(frame_files):
+        timestamp = i * interval
+
+        try:
+            img = Image.open(frame_path)
+            # Preprocess: grayscale → threshold → clean black text on white
+            gray = img.convert("L")
+            bw = gray.point(lambda x: 255 if x > 140 else 0)
+            # OCR with single line mode
+            text = pytesseract.image_to_string(
+                bw, config='--psm 7'
+            ).strip()
+
+            if not text or len(text) < 4:
+                continue
+
+            # Look for "Cllr [Name]" pattern
+            match = cllr_pattern.search(text)
+            if match:
+                name = match.group(1).strip()
+                # Clean up OCR artifacts
+                name = re.sub(r'[^A-Za-z\s\'-]', '', name).strip()
+
+                if not name or len(name) < 3:
+                    continue
+
+                # Strip honours suffixes
+                name = re.sub(r'\s+(OBE|MBE|CBE|JP|DL)\b', '', name, flags=re.IGNORECASE).strip()
+
+                # Extract surname (last word)
+                parts = name.split()
+                surname = parts[-1] if parts else name
+
+                # Fuzzy match against known councillors
+                confidence = "ocr"
+                if known_surnames:
+                    # Try exact match first
+                    if surname in known_surnames:
+                        confidence = "ocr_verified"
+                    else:
+                        # Try close matches (Levenshtein distance 1)
+                        for known in known_surnames:
+                            if len(known) > 3 and len(surname) > 3:
+                                if known.lower()[:3] == surname.lower()[:3]:
+                                    surname = known  # Use the known spelling
+                                    confidence = "ocr_fuzzy"
+                                    break
+
+                if surname != current_speaker:
+                    speaker_timeline.append({
+                        "timestamp": timestamp,
+                        "speaker": surname,
+                        "full_name": name,
+                        "confidence": confidence,
+                        "source": "ocr",
+                    })
+                    current_speaker = surname
+                    ocr_hits += 1
+
+        except Exception:
+            continue
+
+    # Cleanup
+    import shutil
+    shutil.rmtree(tmpdir, ignore_errors=True)
+
+    verified = sum(1 for s in speaker_timeline if s["confidence"] == "ocr_verified")
+    print(f"  OCR complete: {ocr_hits} speaker changes detected "
+          f"({verified} verified against councillors.json)")
+
+    return speaker_timeline
+
+
+def merge_speaker_sources(segments, ocr_timeline, qc_speakers):
+    """Merge speaker attributions from multiple sources.
+
+    Sources (in priority order):
+    1. OCR overlay (ocr_verified > ocr_fuzzy > ocr)
+    2. Chairman announcements (from QC pass)
+    3. Whisper inference (lowest confidence)
+
+    Each segment gets: speaker, speaker_confidence, speaker_source
+    """
+    if not ocr_timeline:
+        return segments
+
+    # Build OCR lookup: for each timestamp, who's speaking?
+    # OCR timeline is sparse (every 3s) — fill gaps
+    ocr_sorted = sorted(ocr_timeline, key=lambda x: x["timestamp"])
+
+    for seg in segments:
+        seg_time = seg["start"]
+
+        # Find most recent OCR detection before this segment
+        ocr_speaker = None
+        ocr_confidence = None
+        for ocr in reversed(ocr_sorted):
+            if ocr["timestamp"] <= seg_time + 5:  # Allow 5s lag for camera
+                ocr_speaker = ocr["speaker"]
+                ocr_confidence = ocr["confidence"]
+                break
+
+        # Merge: OCR takes priority over existing speaker if higher confidence
+        existing_speaker = seg.get("speaker")
+        existing_source = seg.get("speaker_source", "whisper")
+
+        if ocr_speaker:
+            confidence_rank = {"ocr_verified": 3, "ocr_fuzzy": 2, "ocr": 1,
+                             "chairman": 2, "whisper": 0}
+            ocr_rank = confidence_rank.get(ocr_confidence, 1)
+            existing_rank = confidence_rank.get(existing_source, 0)
+
+            if ocr_rank >= existing_rank:
+                seg["speaker"] = ocr_speaker
+                seg["speaker_confidence"] = ocr_confidence
+                seg["speaker_source"] = "ocr"
+            elif existing_speaker:
+                seg["speaker_confidence"] = existing_source
+                seg["speaker_source"] = existing_source
+        elif existing_speaker:
+            seg["speaker_confidence"] = existing_source
+            seg["speaker_source"] = existing_source
+
+    attributed = sum(1 for s in segments if s.get("speaker"))
+    total = len(segments)
+    print(f"  Speaker attribution: {attributed}/{total} segments ({100*attributed/max(total,1):.0f}%)")
 
     return segments
 
@@ -1502,6 +1735,29 @@ def main():
     # Quality control
     print(f"\nStep 2c: Quality control...")
     all_segments, qc_report = qc_transcript(all_segments)
+
+    # OCR speaker detection from video name overlay
+    if video_path and os.path.exists(video_path):
+        print(f"\nStep 2d: OCR speaker detection...")
+        councillors_path = None
+        if args.council:
+            # Try to find councillors.json for name verification
+            for search_dir in [
+                Path(__file__).parent.parent / "data" / args.council,
+                Path("/root/aidoge/burnley-council/data") / args.council,
+            ]:
+                candidate = search_dir / "councillors.json"
+                if candidate.exists():
+                    councillors_path = str(candidate)
+                    break
+        ocr_timeline = ocr_speaker_detection(
+            video_path, interval=3, councillors_json=councillors_path
+        )
+        all_segments = merge_speaker_sources(
+            all_segments, ocr_timeline, qc_report.get("speakers_detected", [])
+        )
+    else:
+        print(f"\n  Skipping OCR (no video file available)")
 
     # Flag keywords (Tier 1)
     print(f"\nStep 3a: Tier 1 keyword flagging...")

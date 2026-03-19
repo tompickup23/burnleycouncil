@@ -139,89 +139,103 @@ def extract_clip_ondemand(meeting_id, start, end, padding=2):
         return None, "Clip extraction already in progress"
 
     try:
-        # Download just the needed section with padding
+        # Step 0: Check if a pre-clip covers this time range
+        preclip_dir = CLIPS_DIR / meeting_id
+        if preclip_dir.exists():
+            manifest_path = preclip_dir / "manifest.json"
+            if manifest_path.exists():
+                with open(manifest_path) as f:
+                    manifest = json.load(f)
+                for clip in manifest.get("clips", []):
+                    # If requested range falls within a pre-clipped moment (with padding)
+                    if clip["start"] - 5 <= start and clip["end"] + 5 >= end:
+                        clip_path = preclip_dir / clip["filename"]
+                        if clip_path.exists():
+                            print(f"  Serving pre-clip: {clip['filename']}")
+                            return str(clip_path), None
+
         dl_start = max(0, start - padding)
         dl_end = end + padding
-        section_spec = f"*{dl_start:.0f}-{dl_end:.0f}"
+        duration = dl_end - dl_start
 
-        # Temp file for yt-dlp output
-        tmp_dl = CACHE_DIR / f"_dl_{cache_key}"
-
-        print(f"  Downloading section [{dl_start:.0f}-{dl_end:.0f}] from {meeting_id}...")
-        cmd_dl = [
-            YTDLP,
-            url,
-            "--download-sections", section_spec,
-            "-o", str(tmp_dl),
+        # Step 1: Get the actual m3u8/stream URL via yt-dlp (fast, no download)
+        print(f"  Resolving stream URL for {meeting_id}...")
+        cmd_url = [
+            YTDLP, url,
+            "--get-url",
             "--no-check-certificates",
             "--quiet",
         ]
-        result = subprocess.run(cmd_dl, capture_output=True, text=True, timeout=120)
+        result = subprocess.run(cmd_url, capture_output=True, text=True, timeout=30)
+        stream_urls = [u.strip() for u in result.stdout.strip().split('\n') if u.strip()]
 
-        # yt-dlp may add extension
+        if not stream_urls:
+            return None, f"Could not resolve stream URL: {result.stderr[-200:]}"
+
+        # Use the first stream URL (usually video+audio or video)
+        stream_url = stream_urls[0]
+        print(f"  Stream URL resolved ({len(stream_urls)} streams)")
+
+        # Step 2: Download just the section with yt-dlp then trim with ffmpeg
+        tmp_dl = CACHE_DIR / f"_dl_{cache_key}.mkv"
+        print(f"  Downloading section [{dl_start:.0f}-{dl_end:.0f}] from {meeting_id}...")
+
+        # yt-dlp --download-sections for HLS — downloads needed fragments
+        cmd_dl = [
+            YTDLP, url,
+            "--download-sections", f"*{int(dl_start)}-{int(dl_end)}",
+            "-o", str(tmp_dl),
+            "--no-check-certificates",
+            "--force-keyframes-at-cuts",
+        ]
+        result = subprocess.run(cmd_dl, capture_output=True, text=True, timeout=300)
+
+        # Find the output file (yt-dlp may add extension or modify name)
         actual_dl = None
-        for ext in ['.mkv', '.mp4', '.webm', '']:
-            candidate = Path(str(tmp_dl) + ext)
-            if candidate.exists():
+        for candidate in [tmp_dl] + list(CACHE_DIR.glob(f"_dl_{cache_key}*")):
+            if candidate.exists() and candidate.stat().st_size > 500:
                 actual_dl = candidate
                 break
-        # Also check without extension
-        if not actual_dl and tmp_dl.exists():
-            actual_dl = tmp_dl
 
-        if not actual_dl:
-            # Fallback: download full and extract with ffmpeg
-            print(f"  Section download failed, trying ffmpeg direct extraction...")
-            cmd_ff = [
+        if actual_dl:
+            # Re-encode to ensure proper MP4
+            print(f"  Re-encoding to MP4...")
+            cmd_enc = [
                 FFMPEG, "-y",
-                "-ss", str(dl_start),
-                "-i", url,
-                "-t", str(dl_end - dl_start),
+                "-i", str(actual_dl),
                 "-c:v", "libx264", "-preset", "fast", "-crf", "23",
                 "-c:a", "aac", "-b:a", "128k",
                 "-movflags", "+faststart",
                 str(cache_path),
             ]
+            result = subprocess.run(cmd_enc, capture_output=True, text=True, timeout=120)
+            actual_dl.unlink(missing_ok=True)
+        else:
+            # Fallback: try ffmpeg direct from resolved stream URL
+            print(f"  yt-dlp section failed, trying ffmpeg from stream URL...")
+            # Use all stream URLs
+            cmd_ff = [FFMPEG, "-y"]
+            for surl in stream_urls:
+                cmd_ff.extend(["-ss", str(dl_start), "-i", surl])
+            cmd_ff.extend([
+                "-t", str(duration),
+                "-c:v", "libx264", "-preset", "fast", "-crf", "23",
+                "-c:a", "aac", "-b:a", "128k",
+                "-movflags", "+faststart",
+                str(cache_path),
+            ])
             result = subprocess.run(cmd_ff, capture_output=True, text=True, timeout=300)
-            if result.returncode == 0 and cache_path.exists():
-                size_mb = cache_path.stat().st_size / (1024 * 1024)
-                print(f"  Clip ready: {cache_key} ({size_mb:.1f}MB)")
-                return str(cache_path), None
-            return None, f"ffmpeg extraction failed: {result.stderr[-200:]}"
 
-        # Trim precisely with ffmpeg
-        trim_start = start - dl_start  # Offset within downloaded chunk
-        trim_duration = end - start
-
-        print(f"  Trimming to {trim_duration:.1f}s...")
-        cmd_trim = [
-            FFMPEG, "-y",
-            "-ss", str(trim_start),
-            "-i", str(actual_dl),
-            "-t", str(trim_duration),
-            "-c:v", "libx264", "-preset", "fast", "-crf", "23",
-            "-c:a", "aac", "-b:a", "128k",
-            "-movflags", "+faststart",
-            str(cache_path),
-        ]
-        result = subprocess.run(cmd_trim, capture_output=True, text=True, timeout=120)
-
-        # Cleanup temp download
-        if actual_dl.exists():
-            actual_dl.unlink()
-
-        if result.returncode != 0:
-            return None, f"ffmpeg trim failed: {result.stderr[-200:]}"
-
-        if not cache_path.exists():
-            return None, "Clip file not created"
+        if not cache_path.exists() or cache_path.stat().st_size < 1000:
+            cache_path.unlink(missing_ok=True)
+            return None, f"Clip extraction failed. Try a pre-clipped moment or adjust timing."
 
         size_mb = cache_path.stat().st_size / (1024 * 1024)
         print(f"  Clip ready: {cache_key} ({size_mb:.1f}MB)")
         return str(cache_path), None
 
     except subprocess.TimeoutExpired:
-        return None, "Extraction timed out"
+        return None, "Extraction timed out (stream may be unavailable)"
     except Exception as e:
         return None, str(e)
     finally:
