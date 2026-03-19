@@ -10,7 +10,7 @@ import './Transcripts.css'
 
 const fmt = (n) => typeof n === 'number' ? n.toLocaleString('en-GB') : '—'
 
-const CLIP_SERVER = 'http://46.202.140.7:8420'
+const CLIP_SERVER = 'https://srv1464572.hstgr.cloud'
 
 const CATEGORY_LABELS = {
   attack: 'Attack', defence: 'Defence', promise: 'Promise',
