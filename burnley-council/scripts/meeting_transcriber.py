@@ -1143,6 +1143,35 @@ def get_video_duration(path):
     return float(result.stdout.strip()) if result.stdout.strip() else 0
 
 
+
+# Whisper initial_prompt — primes the model with vocabulary it will encounter.
+# Dramatically improves proper noun accuracy for councillor names, places,
+# political terms, and Lancashire-specific language.
+WHISPER_VOCABULARY_PROMPT = (
+    "Lancashire County Council Full Council meeting. "
+    "Councillor Atkinson, Councillor Salter, Councillor Murphy, "
+    "Councillor Riggott, Councillor Whipp, Councillor Whalley, "
+    "Councillor Kniveton, Councillor Mirfin, Councillor Kutavicius, "
+    "Councillor Dowding, Councillor Lavalette, Councillor Razakazi, "
+    "Councillor Barnes, Councillor Buckley, Councillor Roberts, "
+    "Councillor Evans, Councillor Potter, Councillor Ali, "
+    "Councillor Brown, Councillor Clifford, Councillor de Freitas, "
+    "Councillor Goldsworthy, Councillor Matchett, Councillor McCollum, "
+    "Councillor Motala, Councillor Pickup, Councillor Ritson, "
+    "Councillor Shaw, Councillor Thomson, Councillor Topp, "
+    "Mr Chairman, County Hall, Preston, Lancashire, "
+    "Reform UK, Conservative, Labour, Liberal Democrat, Green Party, "
+    "Progressive Lancashire, Our West Lancashire, "
+    "SEND, EHCP, Ofsted, MTFS, VeLTIP, UKMBA, "
+    "council tax, Band D, precept, adult social care, "
+    "standing order, notice of motion, recorded vote, division, "
+    "scrutiny, cabinet, portfolio holder, chief executive, "
+    "Burnley, Hyndburn, Pendle, Rossendale, Lancaster, "
+    "Ribble Valley, Chorley, South Ribble, Fylde, Wyre, "
+    "Blackpool, Blackburn with Darwen, West Lancashire."
+)
+
+
 def transcribe(video_path, model_size="small"):
     """Transcribe video using faster-whisper. Returns list of segments."""
     from faster_whisper import WhisperModel
@@ -1152,13 +1181,14 @@ def transcribe(video_path, model_size="small"):
 
     duration = get_video_duration(video_path)
     print(f"  Video duration: {duration / 60:.1f} minutes")
-    print(f"  Transcribing...")
+    print(f"  Transcribing (with vocabulary hints)...")
 
     segments_raw, info = model.transcribe(
         str(video_path),
         language="en",
         beam_size=5,
         word_timestamps=True,
+        initial_prompt=WHISPER_VOCABULARY_PROMPT,
         vad_filter=True,  # Skip silence
         vad_parameters=dict(
             min_silence_duration_ms=500,

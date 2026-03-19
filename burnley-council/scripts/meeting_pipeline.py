@@ -31,11 +31,13 @@ import re
 import subprocess
 import time
 import argparse
+import fcntl
 from pathlib import Path
 from datetime import datetime
 
 # Directories
 TRANSCRIPTS_DIR = Path("/opt/transcripts")
+LOCKFILE = TRANSCRIPTS_DIR / ".pipeline.lock"
 CLIPS_DIR = Path("/opt/clips")
 PIPELINE_STATE = TRANSCRIPTS_DIR / "pipeline_state.json"
 
@@ -68,17 +70,26 @@ def load_state():
             "date": "2025-07-17",
             "processed_at": "2026-03-18T18:00:00",
             "mid": "15359",
+            "pres_id": "7b2a963a016945b29ef6a6c63be50fd51d",
             "note": "First meeting processed — Full Council 17 July 2025",
         }
         save_state(state)
+
+    # Build presID lookup from processed meetings (runtime only, not persisted)
+    processed_pres_ids = set()
+    for m in state.get("processed", {}).values():
+        if isinstance(m, dict) and m.get("pres_id"):
+            processed_pres_ids.add(m["pres_id"])
+    state["_processed_pres_ids"] = processed_pres_ids  # Runtime set, not saved
 
     return state
 
 
 def save_state(state):
-    """Save pipeline state."""
+    """Save pipeline state (strips runtime-only fields)."""
+    saveable = {k: v for k, v in state.items() if not k.startswith("_")}
     with open(PIPELINE_STATE, "w") as f:
-        json.dump(state, f, indent=2)
+        json.dump(saveable, f, indent=2)
 
 
 def discover_meetings():
@@ -176,9 +187,22 @@ def discover_meetings():
         except Exception as e:
             print(f"  MId={mid} ERROR: {e}")
 
-    # Sort by date descending
-    meetings.sort(key=lambda m: m.get("date") or "", reverse=True)
-    return meetings
+    # Deduplicate by presID — same webcast = same meeting regardless of MId
+    seen_pres = {}
+    deduped = []
+    for m in meetings:
+        url = m.get("webcast_url", "")
+        pres_id = url.split("/")[-1] if url else None
+        if pres_id:
+            if pres_id in seen_pres:
+                print(f"  Dedup: MId={m['mid']} same webcast as MId={seen_pres[pres_id]['mid']}, skipping")
+                continue
+            seen_pres[pres_id] = m
+        deduped.append(m)
+
+    # Sort by date ascending (process oldest first)
+    deduped.sort(key=lambda m: m.get("date") or "", reverse=True)
+    return deduped
 
 
 def process_meeting(meeting, state, min_score=7):
@@ -190,9 +214,14 @@ def process_meeting(meeting, state, min_score=7):
         print(f"  Skipping {meeting_id}: no webcast URL")
         return False
 
-    # Check if already processed
+    # Check if already processed (by meeting_id or presID)
     if meeting_id in state.get("processed", {}):
         print(f"  Skipping {meeting_id}: already processed")
+        return False
+
+    pres_id = webcast_url.split("/")[-1] if webcast_url else None
+    if pres_id and pres_id in state.get("_processed_pres_ids", set()):
+        print(f"  Skipping {meeting_id}: webcast already processed (presID {pres_id[:12]}...)")
         return False
 
     output_dir = TRANSCRIPTS_DIR / meeting_id
@@ -209,56 +238,30 @@ def process_meeting(meeting, state, min_score=7):
     print(f"  Webcast: {webcast_url}")
     print(f"{'='*60}")
 
-    # Step 1: Transcribe
-    print(f"\n  Step 1: Transcribe...")
+    # Step 1: Transcribe (includes OCR speaker detection, vocab hints)
+    # Full pipeline: download → transcribe → OCR → post-process → Tier 1 + Tier 2
+    print(f"\n  Step 1: Full transcription pipeline...")
     cmd = [
         sys.executable, str(TRANSCRIBER),
         "--url", webcast_url,
         "--council", "lancashire_cc",
         "--model", "medium",
-        "--no-llm",  # We'll run Tier 2 separately for better control
+        # No --no-llm: run Tier 2 as part of the pipeline
     ]
-    result = subprocess.run(cmd, capture_output=True, text=True, timeout=7200)  # 2hr max
+    result = subprocess.run(cmd, capture_output=True, text=True, timeout=10800)  # 3hr max
     if result.returncode != 0:
-        print(f"  Transcription FAILED: {result.stderr[-300:]}")
+        print(f"  Transcription FAILED:")
+        print(f"  stdout: {result.stdout[-500:]}")
+        print(f"  stderr: {result.stderr[-500:]}")
         return False
-    print(f"  Transcription complete")
+    print(f"  Pipeline complete")
+    # Show key stats from output
+    for line in result.stdout.split('\n'):
+        if any(k in line for k in ['Tier ', 'OCR ', 'QC ', 'segments', 'moments', 'topics']):
+            print(f"    {line.strip()}")
 
-    # Step 2: Tier 2 LLM analysis
-    print(f"\n  Step 2: Tier 2 LLM analysis...")
-    cmd = [
-        sys.executable, "-c",
-        f"""
-import json, sys
-sys.path.insert(0, "{TRANSCRIPTS_DIR}")
-from meeting_transcriber import post_process_transcript, flag_keywords, tier2_llm_analysis
-
-with open("{output_dir}/transcript.json") as f:
-    data = json.load(f)
-
-segments = data["segments"]
-segments = post_process_transcript(segments)
-flagged = flag_keywords(segments)
-print(f"Tier 1: {{len(flagged)}} flagged")
-
-enhanced = tier2_llm_analysis(flagged, all_segments=segments, council_id="lancashire_cc")
-topic_index = getattr(enhanced, "_topic_index", {{}})
-
-with open("{output_dir}/tier2_v2.json", "w") as f:
-    json.dump({{"moments": [{{k:v for k,v in m.items() if k != "words"}} for m in enhanced], "topic_index": topic_index}}, f, indent=2)
-
-print(f"Tier 2: {{len(enhanced)}} moments, {{len(topic_index)}} topics")
-"""
-    ]
-    result = subprocess.run(cmd, capture_output=True, text=True, timeout=600)
-    if result.returncode != 0:
-        print(f"  Tier 2 FAILED: {result.stderr[-300:]}")
-        # Continue without Tier 2 — we have Tier 1 at least
-    else:
-        print(f"  {result.stdout.strip()}")
-
-    # Step 3: Pre-clip high-value moments
-    print(f"\n  Step 3: Pre-clip score {min_score}+ moments...")
+    # Step 2: Pre-clip high-value moments
+    print(f"\n  Step 2: Pre-clip score {min_score}+ moments...")
     cmd = [
         sys.executable, str(CLIP_SERVER),
         "--preclip", meeting_id,
@@ -270,12 +273,24 @@ print(f"Tier 2: {{len(enhanced)}} moments, {{len(topic_index)}} topics")
     else:
         print(f"  {result.stdout.strip()}")
 
-    # Mark as processed
+    # Step 3: Cleanup temp video files
+    print(f"\n  Step 3: Cleanup...")
+    import glob
+    for tmp in glob.glob("/tmp/meeting_*.mkv*") + glob.glob("/tmp/meeting_*.mp4*"):
+        try:
+            os.unlink(tmp)
+            print(f"    Deleted: {tmp}")
+        except Exception:
+            pass
+
+    # Mark as processed (with presID for dedup)
     state.setdefault("processed", {})[meeting_id] = {
         "date": meeting.get("date"),
         "processed_at": datetime.now().isoformat(),
         "mid": meeting["mid"],
+        "pres_id": pres_id,
     }
+    state.setdefault("_processed_pres_ids", set()).add(pres_id)
     save_state(state)
 
     print(f"\n  ✓ {meeting_id} complete")
@@ -325,6 +340,17 @@ def main():
     parser.add_argument("--min-score", type=float, default=7, help="Min score for pre-clipping")
     parser.add_argument("--reprocess", action="store_true", help="Reprocess already-processed meetings")
     args = parser.parse_args()
+
+    # Prevent duplicate instances
+    if args.batch or args.cron or args.mid:
+        lock_fd = open(LOCKFILE, 'w')
+        try:
+            fcntl.flock(lock_fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
+            lock_fd.write(str(os.getpid()))
+            lock_fd.flush()
+        except IOError:
+            print("Another pipeline instance is already running. Exiting.")
+            sys.exit(0)
 
     state = load_state()
     meetings = discover_meetings()
