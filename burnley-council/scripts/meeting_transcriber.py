@@ -62,6 +62,7 @@ POLITICAL_KEYWORDS = {
         r"\btransformation\b",
         r"\bborrowing\b", r"\bdebt\b", r"\btreasury\b",
         r"\baudit(?:or)?\b", r"\bsection 114\b", r"\bsection 151\b",
+        r"\bVeLTIP\b", r"\bbond(?:s)?\b", r"\binvestment loss",
     ],
     # Services — public interest
     "services": [
@@ -73,11 +74,11 @@ POLITICAL_KEYWORDS = {
         r"\bhousing\b", r"\bhomelessness\b",
         r"\bpublic health\b", r"\bmental health\b",
         r"\beducation\b", r"\bOFSTED\b",
-        r"\btransport\b",
+        r"\btransport\b", r"\bschool transport\b",
+        r"\bspecial school\b", r"\btribunal\b",
+        r"\bfire service\b", r"\bpolice\b", r"\blibraries?\b",
     ],
     # Political — party dynamics, votes, power
-    # NOTE: "motion", "vote", "amendment" etc only flag if in a substantive context
-    # not roll calls or procedural "move the report"
     "political": [
         r"\breform\s*(uk)?\b", r"\bconservative\b", r"\blabour\b", r"\bliberal democrat\b",
         r"\bgreen\s*party\b",
@@ -87,6 +88,7 @@ POLITICAL_KEYWORDS = {
         r"\bno confidence\b",
         r"\bpoint of order\b",
         r"\bscrutiny\b",
+        r"\bmandate\b", r"\belected\b", r"\bdemocratic\b",
     ],
     # People & governance — only flag SUBSTANTIVE mentions
     "governance": [
@@ -111,12 +113,18 @@ POLITICAL_KEYWORDS = {
         r"\bcost.?of.?living\b", r"\bfuel poverty\b",
         r"\btransparency\b", r"\bfreedom of information\b", r"\bFOI\b",
         r"\ballowances?\b", r"\bremuneration\b",
+        r"\basylum seeker\b", r"\brefugee\b",
+        r"\bwaiting list\b", r"\bbacklog\b",
     ],
     # Commitments & promises — trackable
     "commitments": [
         r"I (promise|commit|pledge|guarantee|assure)\b",
-        r"we will (deliver|ensure|provide|invest|protect)\b",
+        r"we will (deliver|ensure|provide|invest|protect|stop|end|fix)\b",
+        r"we have (delivered|saved|identified|achieved|protected|stopped)\b",
+        r"we are committed to\b",
+        r"this (administration|government|council) (will|has)\b",
         r"\btarget of\b", r"\bon track\b", r"\bmilestone\b",
+        r"\bnever (again|allow)\b",
     ],
     # Conflict & drama — clip-worthy
     "conflict": [
@@ -127,8 +135,31 @@ POLITICAL_KEYWORDS = {
         r"\bconflict of interest\b", r"\bdeclare an interest\b",
         r"\bcensure\b",
         r"\border\s*!\s*order\b", r"\bsit down\b",
+        r"\bfundamentally disagree\b", r"\bsimply not true\b",
+        r"\bthat is (not|a) (true|lie|false)\b",
+        r"\bhow dare\b", r"\babsolutely (not|wrong|false)\b",
+        r"\byou (should be|are) (ashamed|embarrassed)\b",
+        r"\bhypocrisy\b", r"\bhypocrit",
     ],
 }
+
+# ============================================================
+# SPECIFIC FIGURE DETECTION — financial amounts boost relevance
+# ============================================================
+# Segments mentioning specific £ amounts are more newsworthy than generic
+# budget references. Detected separately and added as a score multiplier.
+# Whisper outputs numbers in varying formats:
+# "£100 million", "100 million", "a hundred million", "one hundred million"
+# "three point eight percent", "3.8%", "£10 billion"
+FIGURE_PATTERN = re.compile(
+    r'£[\d,.]+\s*(?:million|billion|m\b|bn\b|k\b|thousand)?'
+    r'|[\d,.]+\s*(?:million|billion|thousand)\s*(?:pounds?)?'
+    r'|(?:a |one |two |three |four |five |six |seven |eight |nine |ten |twenty |thirty |forty |fifty |sixty |seventy |eighty |ninety )?hundred\s*(?:million|billion|thousand)?\s*(?:pounds?)?'
+    r'|[\d.]+\s*(?:percent|per\s*cent|%)'
+    r'|(?:one|two|three|four|five|six|seven|eight|nine|ten)\s*(?:percent|per\s*cent)'
+    r'|\bpoint\s+\w+\s+(?:percent|per\s*cent)\b',
+    re.IGNORECASE
+)
 
 # ============================================================
 # PROCEDURAL FILTERS — suppress noise from routine items
@@ -228,14 +259,31 @@ Segments:
 # Council political context for LLM scoring
 COUNCIL_CONTEXTS = {
     "lancashire_cc": (
-        "Lancashire County Council is controlled by Reform UK (53 of 84 seats). "
-        "The user is a Reform councillor in the administration. "
-        "Score high: compelling administration speeches for content creation, "
-        "opposition attacks needing rebuttal, cabinet member performances, "
-        "quotable moments for articles and social media, "
-        "opposition hypocrisy (e.g. criticising something they did worse when in power, "
-        "or voting against something they previously supported). "
-        "Score low: routine procedural items."
+        "Lancashire County Council is controlled by Reform UK (53 of 84 seats, outright majority). "
+        "Leader: Cllr Stephen Atkinson. The user is a Reform councillor in the administration. "
+        "Opposition groups: Progressive Lancashire (11 seats, leader Azhar Ali), "
+        "Conservative (8, leader Aidy Riggott), Liberal Democrats (5, John Potter), "
+        "Labour (5, Mark Clifford), OWL (2). "
+        "\n\nKey administration achievements to recognise: "
+        "5 care homes saved from closure, £28M inherited overspend eliminated, "
+        "council tax 3.80% (lowest in 12 years, was 4.99% under Conservatives), "
+        "savings delivery 48%→100%, £417M bond losses exposed, pension director salaries stopped. "
+        "\n\nKey service pressures: SEND (backlog, tribunal costs, transport), "
+        "adult social care (demographic demand), highways (£650M backlog). "
+        "\n\nScore HIGH when: "
+        "- Reform councillor makes a quotable statement (content for articles/social media) "
+        "- Someone cites specific financial figures (£amounts, percentages) "
+        "- Opposition attacks Reform (rebuttal preparation needed) "
+        "- Opposition admits failure or contradicts their own record "
+        "- Cabinet member defends policy with evidence "
+        "- Public would care: care homes, potholes, SEND, council tax, safety "
+        "- A commitment or promise is made (trackable) "
+        "- Heated exchange with clear sides "
+        "\n\nScore LOW when: "
+        "- Procedural (minutes, declarations, roll call, report moving) "
+        "- Vague statements without specific content "
+        "- General thanks or congratulations "
+        "- Reading out motion text verbatim"
     ),
     "default_opposition": (
         "The user is monitoring this council from outside the administration. "
@@ -1369,6 +1417,24 @@ def flag_keywords(segments):
             if is_procedural(text):
                 tier1_score = max(1, tier1_score // 2)
 
+            # BOOST: Specific financial figures mentioned (more newsworthy)
+            figures_found = FIGURE_PATTERN.findall(text)
+            if figures_found:
+                tier1_score += min(len(figures_found) * 2, 4)  # +2 per figure, max +4
+
+            # BOOST: Longer substantive segments (speeches > fragments)
+            word_count = len(text.split())
+            if word_count >= 30:
+                tier1_score += 2  # Sustained speech
+            elif word_count >= 15:
+                tier1_score += 1  # Medium segment
+
+            # BOOST: Speaker identified (more usable as clip)
+            if seg.get("speaker"):
+                tier1_score += 1
+                if seg.get("speaker_confidence") == "ocr_verified":
+                    tier1_score += 1  # Extra for verified speakers
+
             # Only flag if score meets minimum threshold
             if tier1_score >= 2:
                 flagged.append({
@@ -1380,6 +1446,9 @@ def flag_keywords(segments):
                     "section": seg.get("section"),
                     "words": seg.get("words", []),
                     "speaker": seg.get("speaker"),
+                    "speaker_confidence": seg.get("speaker_confidence"),
+                    "speaker_source": seg.get("speaker_source"),
+                    "has_figures": bool(figures_found),
                 })
 
     # Merge adjacent flagged segments (within 5 seconds) for better context
