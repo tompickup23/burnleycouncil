@@ -93,18 +93,42 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
     if (end - start > 300) return // 5 min max
 
     setClipState('loading')
-    const url = `${CLIP_SERVER}/clip?meeting=${encodeURIComponent(moment.meeting_id)}&start=${start}&end=${end}`
 
-    fetch(`${CLIP_SERVER}/health`, { mode: 'cors' })
+    // Try pre-clip first (instant), then fall back to on-demand extraction
+    const preclipUrl = `${CLIP_SERVER}/clips/${encodeURIComponent(moment.meeting_id)}/${start}_${end}.mp4`
+    const onDemandUrl = `${CLIP_SERVER}/clip?meeting=${encodeURIComponent(moment.meeting_id)}&start=${start}&end=${end}`
+
+    fetch(preclipUrl, { method: 'HEAD', mode: 'cors' })
       .then(r => {
         if (r.ok) {
-          setClipUrl(url)
+          setClipUrl(preclipUrl)
           setClipState('ready')
         } else {
-          setClipState('error')
+          // No pre-clip — use on-demand extraction
+          return fetch(`${CLIP_SERVER}/health`, { mode: 'cors' })
+            .then(r => {
+              if (r.ok) {
+                setClipUrl(onDemandUrl)
+                setClipState('ready')
+              } else {
+                setClipState('error')
+              }
+            })
         }
       })
-      .catch(() => setClipState('error'))
+      .catch(() => {
+        // Pre-clip HEAD failed — try on-demand
+        fetch(`${CLIP_SERVER}/health`, { mode: 'cors' })
+          .then(r => {
+            if (r.ok) {
+              setClipUrl(onDemandUrl)
+              setClipState('ready')
+            } else {
+              setClipState('error')
+            }
+          })
+          .catch(() => setClipState('error'))
+      })
   }, [moment.meeting_id, clipStart, clipEnd, clipState])
 
   const resetTiming = useCallback(() => {
