@@ -21,12 +21,22 @@
   transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+@keyframes sidebar-logo-glow {
+  0%, 100% { box-shadow: 0 0 12px rgba(18,182,207,0.3), 0 0 24px rgba(18,182,207,0.1); }
+  50% { box-shadow: 0 0 18px rgba(18,182,207,0.5), 0 0 36px rgba(18,182,207,0.15); }
+}
+
+@keyframes sidebar-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
 .sidebar-header {
-  padding: var(--space-xl) var(--space-lg);
+  padding: var(--space-lg) var(--space-lg);
   border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
   overflow: hidden;
-  background: linear-gradient(180deg, rgba(18, 182, 207, 0.05) 0%, rgba(228, 0, 43, 0.03) 50%, transparent 100%);
+  background: linear-gradient(180deg, rgba(18, 182, 207, 0.06) 0%, rgba(18, 182, 207, 0.02) 50%, transparent 100%);
 }
 
 .sidebar-header::before {
@@ -36,40 +46,82 @@
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, #12B6CF, rgba(18, 182, 207, 0.4) 40%, rgba(228, 0, 43, 0.3) 80%, transparent);
+  background: linear-gradient(90deg, #12B6CF, rgba(18, 182, 207, 0.5) 50%, rgba(18, 182, 207, 0.1) 100%);
 }
 
+/* Shimmer sweep overlay */
 .sidebar-header::after {
-  content: 'AI DOGE';
+  content: '';
   position: absolute;
-  top: 10px;
-  right: 12px;
-  font-size: 0.6rem;
-  font-weight: 900;
-  letter-spacing: 0.12em;
-  color: #12B6CF;
-  text-transform: uppercase;
-  text-shadow: 0 0 12px rgba(18, 182, 207, 0.4);
+  inset: 0;
+  background: linear-gradient(90deg, transparent 0%, rgba(18,182,207,0.04) 45%, rgba(255,255,255,0.03) 50%, rgba(18,182,207,0.04) 55%, transparent 100%);
+  background-size: 200% 100%;
+  animation: sidebar-shimmer 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.sidebar-brand-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sidebar-logo-mark {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #12B6CF 0%, #0a8a9e 60%, #087d8f 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: sidebar-logo-glow 3s ease-in-out infinite;
+  flex-shrink: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.sidebar-logo-mark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+  background-size: 200% 200%;
+  animation: sidebar-shimmer 4s ease-in-out infinite;
+}
+
+.logo-diamond {
+  font-size: 1.2rem;
+  color: #fff;
+  filter: drop-shadow(0 0 6px rgba(255,255,255,0.4));
+  position: relative;
+  z-index: 1;
 }
 
 .site-title {
-  font-size: 1.6rem;
+  font-size: 1.35rem;
   font-weight: 900;
   letter-spacing: -0.03em;
-  margin-bottom: 2px;
+  margin-bottom: 1px;
   background: linear-gradient(135deg, #ffffff 0%, #12B6CF 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+  line-height: 1.15;
 }
 
 .site-subtitle {
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   color: var(--accent-blue);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-weight: 700;
-  opacity: 0.7;
+  opacity: 0.6;
+}
+
+.mobile-logo-diamond {
+  color: #12B6CF;
+  filter: drop-shadow(0 0 4px rgba(18,182,207,0.5));
+  margin-right: 2px;
 }
 
 .sidebar-nav {

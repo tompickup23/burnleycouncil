@@ -168,14 +168,21 @@ function Layout({ children }) {
         >
           {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-        <h1 className="mobile-title">{councilName} Council</h1>
+        <h1 className="mobile-title"><span className="mobile-logo-diamond">◆</span> {councilName}</h1>
       </header>
 
       {/* Sidebar */}
       <aside className={`sidebar ${sidebarOpen ? 'open' : ''}`} aria-label="Main navigation">
         <div className="sidebar-header">
-          <h1 className="site-title">{councilName}</h1>
-          <span className="site-subtitle">Council Transparency</span>
+          <div className="sidebar-brand-row">
+            <div className="sidebar-logo-mark">
+              <span className="logo-diamond">◆</span>
+            </div>
+            <div>
+              <h1 className="site-title">{councilName}</h1>
+              <span className="site-subtitle">AI DOGE · Council Transparency</span>
+            </div>
+          </div>
         </div>
 
         <nav className="sidebar-nav" aria-label="Site navigation">
