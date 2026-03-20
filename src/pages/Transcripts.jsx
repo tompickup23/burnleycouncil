@@ -1,6 +1,6 @@
 import { useMemo, useState, useEffect, useCallback } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import { Search, X, Clock, Copy, Check, ExternalLink, ArrowUpDown, Mic, FileText, Play, Loader, Download } from 'lucide-react'
+import { Search, X, Clock, Copy, Check, ExternalLink, ArrowUpDown, Mic, FileText, Play, Loader, Download, AlertCircle, Video } from 'lucide-react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { useClipboard } from '../hooks/useClipboard'
@@ -53,7 +53,6 @@ function scoreColor(score) {
 }
 
 function parseTimestamp(ts) {
-  // Parse "H:MM:SS" or "HH:MM:SS" or seconds to total seconds
   if (typeof ts === 'number') return ts
   const parts = String(ts).split(':').map(Number)
   if (parts.length === 3) return parts[0] * 3600 + parts[1] * 60 + parts[2]
@@ -62,11 +61,53 @@ function parseTimestamp(ts) {
 }
 
 function formatTimestampInput(seconds) {
-  // Format seconds as H:MM:SS for input fields
   const h = Math.floor(seconds / 3600)
   const m = Math.floor((seconds % 3600) / 60)
   const s = Math.floor(seconds % 60)
   return `${h}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
+}
+
+function scoreClass(score) {
+  if (score >= 7) return 'tr-score-high'
+  if (score >= 4) return 'tr-score-mid'
+  return 'tr-score-low'
+}
+
+function ScoreRing({ score }) {
+  const radius = 13
+  const circumference = 2 * Math.PI * radius
+  const pct = Math.min(10, score || 0) / 10
+  const offset = circumference * (1 - pct)
+  const color = scoreColor(score)
+
+  return (
+    <div className="tr-score-ring">
+      <svg width="32" height="32" viewBox="0 0 32 32">
+        <circle className="tr-score-ring-bg" cx="16" cy="16" r={radius} />
+        <circle
+          className="tr-score-ring-fill"
+          cx="16" cy="16" r={radius}
+          stroke={color}
+          strokeDasharray={circumference}
+          strokeDashoffset={offset}
+          style={{ animation: `tr-score-ring 0.8s ease-out forwards` }}
+        />
+      </svg>
+      <span className="tr-score-ring-text">{score?.toFixed(1) ?? '—'}</span>
+    </div>
+  )
+}
+
+function Waveform() {
+  return (
+    <span className="tr-waveform">
+      <span className="tr-waveform-bar" />
+      <span className="tr-waveform-bar" />
+      <span className="tr-waveform-bar" />
+      <span className="tr-waveform-bar" />
+      <span className="tr-waveform-bar" />
+    </span>
+  )
 }
 
 function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedId }) {
@@ -158,8 +199,10 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
     }
   }, [clipStart, clipEnd, clipState])
 
+  const speakerInitial = moment.speaker ? moment.speaker.charAt(0).toUpperCase() : null
+
   return (
-    <div className="tr-moment">
+    <div className={`tr-moment ${scoreClass(moment.composite_score)}`}>
       <div className="tr-moment-header">
         {tsLink ? (
           <a href={tsLink} target="_blank" rel="noopener noreferrer" className="tr-timestamp">
@@ -170,7 +213,10 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
         )}
 
         {moment.speaker && (
-          <span className="tr-speaker-badge">Cllr {moment.speaker}</span>
+          <span className="tr-speaker-badge">
+            <span className="tr-speaker-initial">{speakerInitial}</span>
+            Cllr {moment.speaker}
+          </span>
         )}
 
         <span className={`tr-category-badge tr-cat-${moment.category || 'routine'}`}>
@@ -179,22 +225,14 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
 
         {moment.clip_type && moment.clip_type !== 'none' && (
           <span className="tr-clip-badge">
-            <Mic size={10} /> {CLIP_LABELS[moment.clip_type]}
+            {moment.clip_type === 'soundbite' ? <Waveform /> : <Mic size={10} />}
+            {' '}{CLIP_LABELS[moment.clip_type]}
           </span>
         )}
 
-        <span className="tr-score">
-          {moment.composite_score?.toFixed(1)}
-          <span className="tr-score-bar">
-            <span
-              className="tr-score-fill"
-              style={{
-                width: `${(moment.composite_score || 0) * 10}%`,
-                background: scoreColor(moment.composite_score),
-              }}
-            />
-          </span>
-        </span>
+        <div className="tr-score-container">
+          <ScoreRing score={moment.composite_score} />
+        </div>
       </div>
 
       <div className="tr-moment-text">
@@ -279,6 +317,7 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
 
       {clipState === 'error' && (
         <div className="tr-clip-error">
+          <AlertCircle size={14} />
           Clip extraction failed — try the webcast link instead
         </div>
       )}
@@ -420,6 +459,16 @@ export default function Transcripts() {
     return results
   }, [data, q, meetingFilter, categoryFilter, clipFilter, speakerFilter, topicFilter, minScore, sortField, sortDir])
 
+  // Per-meeting moment counts for the meeting chips
+  const meetingMomentCounts = useMemo(() => {
+    if (!data?.moments) return {}
+    const counts = {}
+    for (const m of data.moments) {
+      counts[m.meeting_id] = (counts[m.meeting_id] || 0) + 1
+    }
+    return counts
+  }, [data])
+
   // Topic cloud data
   const topicCloud = useMemo(() => {
     if (!data?.topic_index) return []
@@ -471,9 +520,14 @@ export default function Transcripts() {
 
   return (
     <div className="transcripts-page">
+      {/* Hero */}
       <div className="tr-hero">
-        <h1><FileText size={24} style={{ verticalAlign: 'middle', marginRight: 8 }} />Meeting Transcripts</h1>
-        <p>Searchable archive of {councilName} council meeting transcripts with political intelligence scoring</p>
+        <div className="tr-hero-icon">
+          <Video size={24} />
+        </div>
+        <h1>Meeting Transcripts</h1>
+        <div className="tr-hero-accent" />
+        <p>AI-powered political intelligence from {councilName} council chamber — every word scored, searchable, and clippable</p>
       </div>
 
       {/* Stats */}
@@ -504,6 +558,32 @@ export default function Transcripts() {
         </div>
       </div>
 
+      {/* Meeting Timeline */}
+      {(data.meetings || []).length > 0 && (
+        <div className="tr-meetings-row">
+          <div
+            className={`tr-meeting-chip ${!meetingFilter ? 'active' : ''}`}
+            onClick={() => setParam('meeting', '')}
+          >
+            <span className="tr-meeting-dot" />
+            <span className="tr-meeting-date">All Meetings</span>
+            <span className="tr-meeting-moments">{fmt(data.moments?.length)}</span>
+          </div>
+          {(data.meetings || []).map(m => (
+            <div
+              key={m.id}
+              className={`tr-meeting-chip ${meetingFilter === m.id ? 'active' : ''}`}
+              onClick={() => setParam('meeting', meetingFilter === m.id ? '' : m.id)}
+            >
+              <span className="tr-meeting-dot" />
+              <span className="tr-meeting-date">{m.date}</span>
+              <span className="tr-meeting-meta">{m.committee}</span>
+              <span className="tr-meeting-moments">{fmt(meetingMomentCounts[m.id] || 0)}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
       {/* Filters */}
       <div className="tr-filters">
         <div className="tr-search">
@@ -515,15 +595,6 @@ export default function Transcripts() {
             onChange={e => setParam('q', e.target.value)}
           />
         </div>
-
-        {filterOptions.meetings.length > 1 && (
-          <select className="tr-filter-select" value={meetingFilter} onChange={e => setParam('meeting', e.target.value)}>
-            <option value="">All Meetings</option>
-            {filterOptions.meetings.map(m => (
-              <option key={m.id} value={m.id}>{m.label}</option>
-            ))}
-          </select>
-        )}
 
         <select className="tr-filter-select" value={categoryFilter} onChange={e => setParam('category', e.target.value)}>
           <option value="">All Categories</option>
