@@ -8,7 +8,7 @@ export function CouncilConfigProvider({ children }) {
   const { data: config, loading, error } = useData('/data/config.json')
 
   if (loading) {
-    return <LoadingState message="Loading council data..." />
+    return <LoadingState message="Initialising council intelligence..." />
   }
 
   if (error || !config) {

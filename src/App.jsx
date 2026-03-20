@@ -79,7 +79,7 @@ function FirebaseAuthGate({ children }) {
   const { user, role, loading } = useAuth()
 
   if (loading) {
-    return <LoadingState message="Authenticating..." />
+    return <LoadingState message="Verifying credentials..." />
   }
 
   // Not logged in or unassigned (level 0) → show AuthGate

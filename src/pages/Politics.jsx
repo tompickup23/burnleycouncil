@@ -168,7 +168,7 @@ function Politics() {
   }, [summary, votingData, historyData])
 
   if (loading) {
-    return <LoadingState message="Loading councillor data..." />
+    return <LoadingState message="Loading political intelligence..." />
   }
 
   if (error) {

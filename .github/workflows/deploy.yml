@@ -205,27 +205,8 @@ jobs:
             --no-history \
             --user "AI DOGE Deploy <deploy@aidoge.co.uk>"
 
-      # The lancashire repo serves aidoge.co.uk via its own CNAME (custom domain).
-      # Council SPAs are at /<slug>/ (e.g. /burnleycouncil/). Hub pages synced to github.io for redundancy.
-      - name: Sync hub to tompickup23.github.io
-        env:
-          DEPLOY_TOKEN: ${{ secrets.DEPLOY_TOKEN }}
-        run: |
-          cd /tmp
-          git clone --depth 1 https://x-access-token:${DEPLOY_TOKEN}@github.com/tompickup23/tompickup23.github.io.git hub-repo
-          cp /tmp/lancashire-deploy/index.html hub-repo/index.html
-          cp /tmp/lancashire-deploy/404.html hub-repo/404.html
-          cd hub-repo
-          git config user.name "AI DOGE Deploy"
-          git config user.email "deploy@aidoge.co.uk"
-          if git diff --quiet; then
-            echo "Hub pages unchanged — skipping"
-          else
-            git add index.html 404.html
-            git commit -m "Sync hub pages from deploy"
-            git push
-            echo "✓ Hub pages synced to tompickup23.github.io"
-          fi
+      # NOTE: Hub sync to tompickup23.github.io REMOVED (was overwriting tompickup.co.uk Astro site).
+      # aidoge.co.uk is served entirely from the lancashire repo via its own CNAME — no need for github.io.
 
       - name: Verify deployment
         if: success()

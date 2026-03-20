@@ -73,7 +73,7 @@ function News() {
   }, [articles])
 
   if (loading) {
-    return <LoadingState message="Loading articles..." />
+    return <LoadingState message="Fetching latest intelligence..." />
   }
 
   if (error || !articles) {

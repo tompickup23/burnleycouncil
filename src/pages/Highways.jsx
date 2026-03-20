@@ -104,7 +104,7 @@ export default function Highways() {
     )
   }
 
-  if (loading) return <LoadingState message="Loading highways data..." />
+  if (loading) return <LoadingState message="Mapping highway network..." />
   if (error) {
     return (
       <div className="highways-page">

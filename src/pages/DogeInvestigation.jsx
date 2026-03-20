@@ -232,7 +232,7 @@ function DogeInvestigation() {
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councilName])
 
-  if (loading) return <LoadingState message="Loading investigation data..." />
+  if (loading) return <LoadingState message="Compiling investigation findings..." />
 
   if (error) {
     return (

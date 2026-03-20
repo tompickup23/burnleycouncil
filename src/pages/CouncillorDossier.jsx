@@ -357,7 +357,7 @@ export default function CouncillorDossier() {
     return () => { document.title = `${councilName} Council Transparency` }
   }, [councillor, councilName])
 
-  if (loading) return <LoadingState message="Loading councillor dossier..." />
+  if (loading) return <LoadingState message="Compiling councillor dossier..." />
 
   if (error) {
     return (

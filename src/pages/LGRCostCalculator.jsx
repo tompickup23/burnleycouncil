@@ -349,7 +349,7 @@ function LGRCostCalculator() {
   const PIE_COLORS = ['#12B6CF', '#30d158', '#ff9f0a', '#bf5af2', '#ff453a', '#5ac8fa', '#ff6b6b', '#ffd60a', '#64d2ff']
 
   // --- Loading / Error states ---
-  if (loading) return <LoadingState message="Loading cost data..." />
+  if (loading) return <LoadingState message="Loading cost model..." />
   if (error) return <ErrorState />
 
   const hasResults = currentCosts && postcodeResult?.isLancashire

@@ -222,7 +222,7 @@ export default function DirectorateDetail() {
   }, [directorate])
 
   if (!dataSources.cabinet_portfolios) return <div className="page-empty"><p>Not available for this council.</p></div>
-  if (loading) return <LoadingState message="Loading directorate..." />
+  if (loading) return <LoadingState message="Loading directorate intelligence..." />
   if (error || !portfolioData) return <div className="page-empty"><p>Failed to load directorate data.</p></div>
   if (!directorate) return (
     <div className="directorate-detail">

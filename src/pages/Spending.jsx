@@ -267,7 +267,7 @@ function Spending() {
   }
 
   if (loading && !results) {
-    return <LoadingState message="Loading spending data..." />
+    return <LoadingState message="Analysing spending records..." />
   }
 
   if (error) {

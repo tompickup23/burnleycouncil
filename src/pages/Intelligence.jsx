@@ -483,7 +483,7 @@ export default function Intelligence() {
   }, [meetingBriefing])
 
   // --- Loading/error ---
-  if (loading) return <LoadingState message="Loading intelligence data..." />
+  if (loading) return <LoadingState message="Gathering intelligence sources..." />
 
   if (error) {
     return (

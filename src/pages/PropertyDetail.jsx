@@ -2223,7 +2223,7 @@ function PropertyDetail() {
     }
   }
 
-  if (loading) return <LoadingState message="Loading property data..." />
+  if (loading) return <LoadingState message="Loading property intelligence..." />
 
   if (error) {
     return (

@@ -71,7 +71,7 @@ function PayComparison() {
     .sort((a, b) => a.year.localeCompare(b.year)), [tpa])
 
   // Early returns AFTER all hooks
-  if (loading) return <LoadingState message="Loading pay data..." />
+  if (loading) return <LoadingState message="Analysing pay structures..." />
   if (error) return <ErrorState />
   if (!payData) return <div className="pay-page"><p>No pay comparison data available for this council.</p></div>
 

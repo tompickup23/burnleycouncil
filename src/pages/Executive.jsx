@@ -132,7 +132,7 @@ export default function Executive() {
     )
   }
 
-  if (loading) return <LoadingState message="Loading executive data..." />
+  if (loading) return <LoadingState message="Loading executive overview..." />
   if (error) return <ErrorState title="Error" error={error} message={error?.message || 'Failed to load data'} />
 
   return (

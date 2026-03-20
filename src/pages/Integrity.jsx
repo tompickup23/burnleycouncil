@@ -431,7 +431,7 @@ function Integrity() {
   // Determine if scan has been run
   const scanComplete = integrity?.councillors_checked > 0
 
-  if (loading) return <LoadingState message="Loading integrity data..." />
+  if (loading) return <LoadingState message="Scanning integrity records..." />
   if (error) return <ErrorState title="Unable to load integrity data" />
 
   return (

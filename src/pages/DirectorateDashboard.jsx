@@ -316,7 +316,7 @@ export default function DirectorateDashboard() {
 
   if (!dataSources.cabinet_portfolios) return <div className="page-empty"><p>Cabinet portfolios not available for this council.</p></div>
   if (!hasAccess) return <div className="page-empty"><p>Councillor access required.</p></div>
-  if (loading) return <LoadingState message="Loading Savings Command Centre..." />
+  if (loading) return <LoadingState message="Initialising command centre..." />
   if (error || !portfolioData) return <div className="page-empty"><p>Failed to load cabinet data.</p></div>
   if (!portfolioData.directorates?.length) return <div className="page-empty"><p>Directorate data not yet available.</p></div>
 

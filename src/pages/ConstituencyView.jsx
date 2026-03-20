@@ -214,7 +214,7 @@ export default function ConstituencyView() {
   }
 
   // Loading state
-  if (loading) return <LoadingState message="Loading constituency data..." />
+  if (loading) return <LoadingState message="Loading constituency profile..." />
 
   // Error state
   if (error) {

@@ -503,7 +503,7 @@ export default function Elections() {
   }, [])
 
   // --- Loading / error states ---
-  if (loading) return <LoadingState message="Loading election data..." />
+  if (loading) return <LoadingState message="Analysing electoral landscape..." />
   if (error || !electionsData) {
     return (
       <div className="elec-page">

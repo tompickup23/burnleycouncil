@@ -549,7 +549,7 @@ export default function Strategy() {
     politicsSummary, councilPrediction, ourParty, councilName, electionsData, config.council_id, generatePDF])
 
   // --- Loading/error ---
-  if (loading) return <LoadingState message="Loading strategy data..." />
+  if (loading) return <LoadingState message="Preparing strategic assessment..." />
 
   if (error) {
     return (

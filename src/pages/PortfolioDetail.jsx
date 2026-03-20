@@ -186,7 +186,7 @@ export default function PortfolioDetail() {
       </div>
     )
   }
-  if (loading) return <LoadingState message="Loading portfolio..." />
+  if (loading) return <LoadingState message="Loading portfolio briefing..." />
   if (error) return <ErrorState title="Error" error={error} message={error?.message || 'Failed to load'} />
   if (!portfolio) {
     const validIds = portfolios.map(p => p.id).filter(Boolean)

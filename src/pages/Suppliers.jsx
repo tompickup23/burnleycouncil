@@ -621,7 +621,7 @@ function Suppliers() {
   }, [councilName, hasProfiles])
 
   if (isLoading) {
-    return <LoadingState message="Loading supplier data..." />
+    return <LoadingState message="Analysing supplier network..." />
   }
 
   // Full profiles mode

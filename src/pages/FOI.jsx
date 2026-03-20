@@ -125,7 +125,7 @@ function FOI() {
   const wdtkSlug = councilFullName.toLowerCase().replace(/\s+/g, '_')
 
   if (loading) {
-    return <LoadingState message="Loading FOI templates..." />
+    return <LoadingState message="Preparing FOI templates..." />
   }
 
   if (error) {

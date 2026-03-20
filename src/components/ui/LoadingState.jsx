@@ -3,7 +3,12 @@ import './LoadingState.css'
 function LoadingState({ message = 'Loading...' }) {
   return (
     <div className="loading-state">
-      <div className="loading-spinner" />
+      <div className="loading-logo">
+        <div className="loading-circle">
+          <span className="loading-ai-text">AI</span>
+        </div>
+        <div className="loading-doge-text">DOGE</div>
+      </div>
       <span className="loading-message">{message}</span>
     </div>
   )

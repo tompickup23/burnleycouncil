@@ -591,7 +591,7 @@ function CrossCouncil() {
     }
   }, [councils])
 
-  if (loading) return <LoadingState message="Loading comparison data..." />
+  if (loading) return <LoadingState message="Benchmarking across councils..." />
   if (error) return <ErrorState />
   if (!councils.length) return <div className="cross-page"><p>No cross-council comparison data available.</p></div>
 

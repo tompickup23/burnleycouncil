@@ -110,7 +110,7 @@ function SupplierView() {
   }, [profile, councilName])
 
   if (loading) {
-    return <LoadingState message="Loading supplier profile..." />
+    return <LoadingState message="Analysing supplier profile..." />
   }
 
   // Both sources failed with network errors (not just 404)

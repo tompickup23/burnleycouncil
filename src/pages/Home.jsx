@@ -209,7 +209,7 @@ function Home() {
     ? deprivationWardData : wardMapData
 
   if (loading) {
-    return <LoadingState message="Loading dashboard data..." />
+    return <LoadingState message="Assembling intelligence briefing..." />
   }
 
   if (error) {

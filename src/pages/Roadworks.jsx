@@ -313,7 +313,7 @@ export default function Roadworks() {
     )
   }
 
-  if (loading) return <LoadingState message="Loading roadworks data..." />
+  if (loading) return <LoadingState message="Mapping active roadworks..." />
   if (error) {
     return (
       <div className="highways-page">

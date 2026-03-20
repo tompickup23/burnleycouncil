@@ -482,7 +482,7 @@ function MyArea() {
     demoFiscalRaw, wardBriefingPoints, councilName, generatePDF])
 
   if (loading) {
-    return <LoadingState message="Loading ward data..." />
+    return <LoadingState message="Loading area intelligence..." />
   }
 
   if (error) {

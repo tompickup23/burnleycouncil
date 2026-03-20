@@ -255,7 +255,7 @@ function Budgets() {
 
   // Early returns AFTER all hooks
   if (loading) {
-    return <LoadingState message="Loading budget data..." />
+    return <LoadingState message="Analysing budget allocations..." />
   }
 
   if (error) {
