@@ -148,7 +148,7 @@ describe('ConstituencyView', () => {
   it('renders loading state with message', () => {
     useData.mockReturnValue({ data: null, loading: true, error: null })
     renderWithRouter()
-    expect(screen.getByText('Loading constituency data...')).toBeInTheDocument()
+    expect(screen.getByText('Loading constituency profile...')).toBeInTheDocument()
   })
 
   // 2. Error state

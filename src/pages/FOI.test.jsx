@@ -52,7 +52,7 @@ describe('FOI', () => {
   it('shows loading state', () => {
     useData.mockReturnValue({ data: null, loading: true, error: null })
     renderComponent()
-    expect(screen.getByText(/loading foi templates/i)).toBeInTheDocument()
+    expect(screen.getByText(/preparing foi templates/i)).toBeInTheDocument()
   })
 
   it('shows error state', () => {

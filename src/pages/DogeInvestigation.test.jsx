@@ -304,7 +304,7 @@ describe('DogeInvestigation', () => {
     it('shows loading state while data loads', () => {
       setupMocks({ loading: true })
       renderComponent()
-      expect(screen.getByText(/loading investigation data/i)).toBeInTheDocument()
+      expect(screen.getByText(/compiling investigation findings/i)).toBeInTheDocument()
     })
 
     it('shows error state when data fails to load', () => {

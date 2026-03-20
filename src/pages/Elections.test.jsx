@@ -240,7 +240,7 @@ describe('Elections', () => {
     it('shows loading state while data loads', () => {
       setupMocks({ loading: true })
       renderComponent()
-      expect(screen.getByText(/loading election data/i)).toBeInTheDocument()
+      expect(screen.getByText(/analysing electoral landscape/i)).toBeInTheDocument()
     })
 
     it('shows error message when data fails to load', () => {

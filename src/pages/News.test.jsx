@@ -67,7 +67,7 @@ describe('News', () => {
   it('shows loading state', () => {
     useData.mockReturnValue({ data: null, loading: true, error: null })
     renderComponent()
-    expect(screen.getByText(/loading articles/i)).toBeInTheDocument()
+    expect(screen.getByText(/fetching latest intelligence/i)).toBeInTheDocument()
   })
 
   it('shows error state', () => {

@@ -249,7 +249,7 @@ describe('Strategy', () => {
       useCouncilConfig.mockReturnValue(mockConfig)
       useData.mockReturnValue({ data: null, loading: true, error: null })
       renderComponent()
-      expect(screen.getByText(/loading strategy data/i)).toBeInTheDocument()
+      expect(screen.getByText(/preparing strategic assessment/i)).toBeInTheDocument()
     })
 
     it('shows error state when data fails to load', () => {

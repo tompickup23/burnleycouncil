@@ -255,7 +255,7 @@ describe('DirectorateDetail', () => {
   it('renders loading state', () => {
     setupMocks({ data: { data: null, loading: true, error: null } })
     renderDetail()
-    expect(screen.getByText(/loading directorate/i)).toBeInTheDocument()
+    expect(screen.getByText(/loading directorate intelligence/i)).toBeInTheDocument()
   })
 
   it('renders error state', () => {

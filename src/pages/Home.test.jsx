@@ -93,7 +93,7 @@ describe('Home', () => {
       return { data: null, loading: false, error: null }
     })
     renderComponent()
-    expect(screen.getByText(/loading dashboard data/i)).toBeInTheDocument()
+    expect(screen.getByText(/assembling intelligence briefing/i)).toBeInTheDocument()
   })
 
   it('shows error state when data fails to load', () => {

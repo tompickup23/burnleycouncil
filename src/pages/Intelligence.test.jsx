@@ -234,7 +234,7 @@ describe('Intelligence', () => {
   it('renders loading state', () => {
     setupMocks({ requiredData: { data: null, loading: true, error: null } })
     renderIntelligence()
-    expect(screen.getByText(/loading intelligence/i)).toBeInTheDocument()
+    expect(screen.getByText(/gathering intelligence sources/i)).toBeInTheDocument()
   })
 
   it('renders error state when data fails', () => {

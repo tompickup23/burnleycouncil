@@ -145,7 +145,7 @@ describe('PropertyDetail', () => {
   it('renders loading state', () => {
     useData.mockReturnValue({ data: null, loading: true, error: null })
     renderComponent()
-    expect(screen.getByText('Loading property data...')).toBeInTheDocument()
+    expect(screen.getByText('Loading property intelligence...')).toBeInTheDocument()
   })
 
   it('renders error state with back link', () => {

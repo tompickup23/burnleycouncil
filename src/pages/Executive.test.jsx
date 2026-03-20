@@ -186,7 +186,7 @@ describe('Executive', () => {
   it('renders loading state when data is loading', () => {
     setupMocks({ data: { data: null, loading: true, error: null } })
     renderComponent()
-    expect(screen.getByText(/loading executive data/i)).toBeInTheDocument()
+    expect(screen.getByText(/loading executive overview/i)).toBeInTheDocument()
   })
 
   // --- Not available ---

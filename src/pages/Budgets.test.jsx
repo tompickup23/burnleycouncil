@@ -257,7 +257,7 @@ describe('Budgets', () => {
     it('shows loading state', () => {
       setupMocks({ loading: true })
       renderComponent()
-      expect(screen.getByText(/loading budget data/i)).toBeInTheDocument()
+      expect(screen.getByText(/analysing budget allocations/i)).toBeInTheDocument()
     })
 
     it('shows error state', () => {

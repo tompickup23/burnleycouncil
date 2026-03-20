@@ -205,7 +205,7 @@ describe('Spending', () => {
       totalRecords: 0,
     }))
     renderComponent()
-    expect(screen.getByText(/loading spending data/i)).toBeInTheDocument()
+    expect(screen.getByText(/analysing spending records/i)).toBeInTheDocument()
   })
 
   it('shows error state when data fails to load', () => {

@@ -6,7 +6,10 @@ import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear,
          computeWhiteFlightVelocity, adjustSavingsForDeprivation,
          adjustForCCATransfers, computeTimelineFeasibility,
          computePropertyDivision, assessPropertyForLGR,
-         computeThreatAssessment, calculateDogeAdjustedRealisation } from './lgrModel'
+         computeThreatAssessment, calculateDogeAdjustedRealisation,
+         computeStatusQuoSavings, computeOpportunityCost,
+         computeDistractionLoss, computeServiceFailureRisk,
+         computeCounterfactualComparison, computeRiskAdjustedCashflow } from './lgrModel'
 
 const mockParams = {
   annualSavings: 126000000,
@@ -566,6 +569,271 @@ describe('lgrModel', () => {
       expect(result.directiveCount).toBe(0)
       expect(result.avgFeasibility).toBeNull()
       expect(result.avgImpact).toBeNull()
+    })
+  })
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // V8: Opportunity Cost, Distraction & Status Quo Counterfactual Tests
+  // ═══════════════════════════════════════════════════════════════════════
+
+  describe('computeStatusQuoSavings', () => {
+    it('computes annual organic efficiency savings', () => {
+      const result = computeStatusQuoSavings({ totalNetExpenditure: 1324000000 })
+      expect(result.annualSteadyState).toBeGreaterThan(0)
+      expect(result.tenYearTotal).toBeGreaterThan(result.annualSteadyState)
+      expect(result.yearlyProfile).toHaveLength(10)
+      expect(result.factors.length).toBeGreaterThan(3)
+    })
+
+    it('models diminishing returns — year 10 savings less than year 1', () => {
+      const result = computeStatusQuoSavings({ totalNetExpenditure: 1000000000 })
+      const y1 = result.yearlyProfile[0].efficiency
+      const y10 = result.yearlyProfile[9].efficiency
+      expect(y10).toBeLessThan(y1)
+    })
+
+    it('models shared services ramp over 3 years', () => {
+      const result = computeStatusQuoSavings({ totalNetExpenditure: 1000000000 })
+      const y1Shared = result.yearlyProfile[0].sharedServices
+      const y3Shared = result.yearlyProfile[2].sharedServices
+      expect(y3Shared).toBeGreaterThan(y1Shared)
+    })
+
+    it('includes in-flight programmes over first 3 years only', () => {
+      const result = computeStatusQuoSavings({
+        totalNetExpenditure: 1000000000,
+        currentProgrammeSavings: 30000000,
+      })
+      expect(result.yearlyProfile[0].inFlight).toBeGreaterThan(0)
+      expect(result.yearlyProfile[4].inFlight).toBe(0)
+    })
+
+    it('returns 10-year total in realistic range (£200-400M for £1.3B NRE)', () => {
+      const result = computeStatusQuoSavings({ totalNetExpenditure: 1324000000 })
+      expect(result.tenYearTotal).toBeGreaterThan(200000000)
+      expect(result.tenYearTotal).toBeLessThan(400000000)
+    })
+
+    it('handles zero expenditure gracefully', () => {
+      const result = computeStatusQuoSavings({ totalNetExpenditure: 0 })
+      expect(result.annualSteadyState).toBe(0)
+      expect(result.tenYearTotal).toBe(0)
+    })
+  })
+
+  describe('computeOpportunityCost', () => {
+    it('computes financial opportunity cost', () => {
+      const result = computeOpportunityCost({ transitionCostTotal: 80000000 })
+      expect(result.financialOpportunityCost).toBeGreaterThan(0)
+      expect(result.totalOpportunityCost).toBeGreaterThan(result.financialOpportunityCost)
+    })
+
+    it('includes council tax freeze foregone', () => {
+      const result = computeOpportunityCost({
+        transitionCostTotal: 80000000,
+        totalCouncilTaxIncome: 750000000,
+        councilTaxFreezeYears: 2,
+      })
+      expect(result.ctForeGone).toBeGreaterThan(50000000) // £750M × 4.99% × 2 years ≈ £75M
+    })
+
+    it('factors present with evidence citations', () => {
+      const result = computeOpportunityCost({ transitionCostTotal: 80000000 })
+      expect(result.factors.some(f => f.includes('North Yorkshire'))).toBe(true)
+    })
+  })
+
+  describe('computeDistractionLoss', () => {
+    it('computes productivity loss across transition years', () => {
+      const result = computeDistractionLoss({ centralServicesBudget: 180000000 })
+      expect(result.productivityCost).toBeGreaterThan(0)
+      expect(result.turnoverCost).toBeGreaterThan(0)
+      expect(result.totalDistractionCost).toBeGreaterThan(result.productivityCost)
+    })
+
+    it('computes elevated staff turnover', () => {
+      const result = computeDistractionLoss({
+        totalStaff: 30000,
+        transitionTurnoverUplift: 0.06,
+      })
+      expect(result.additionalLeavers).toBe(5400) // 30000 × 0.06 × 3 years
+      expect(result.turnoverCost).toBeGreaterThan(0)
+    })
+
+    it('includes knowledge drain from key person losses', () => {
+      const result = computeDistractionLoss({ totalStaff: 30000 })
+      expect(result.keyPersonLosses).toBeGreaterThan(0)
+      expect(result.knowledgeLossCost).toBeGreaterThan(0)
+    })
+
+    it('total distraction cost in realistic range (£100-200M)', () => {
+      const result = computeDistractionLoss({
+        centralServicesBudget: 180000000,
+        totalStaff: 30000,
+      })
+      expect(result.totalDistractionCost).toBeGreaterThan(80000000)
+      expect(result.totalDistractionCost).toBeLessThan(300000000)
+    })
+
+    it('cites Grant Thornton and NAO evidence', () => {
+      const result = computeDistractionLoss({})
+      expect(result.factors.some(f => f.includes('Grant Thornton'))).toBe(true)
+      expect(result.factors.some(f => f.includes('NAO'))).toBe(true)
+    })
+  })
+
+  describe('computeServiceFailureRisk', () => {
+    it('computes probability-weighted expected costs', () => {
+      const result = computeServiceFailureRisk({})
+      expect(result.risks).toHaveLength(4)
+      expect(result.totalExpectedCost).toBeGreaterThan(0)
+    })
+
+    it('includes correlation penalty', () => {
+      const result = computeServiceFailureRisk({})
+      expect(result.correlationPenalty).toBeGreaterThan(0)
+      expect(result.totalExpectedCost).toBeGreaterThan(
+        result.risks.reduce((s, r) => s + r.expectedCost, 0)
+      )
+    })
+
+    it('each risk has probability, costIfFails, and evidence', () => {
+      const result = computeServiceFailureRisk({})
+      for (const r of result.risks) {
+        expect(r.probability).toBeGreaterThan(0)
+        expect(r.probability).toBeLessThanOrEqual(1)
+        expect(r.costIfFails).toBeGreaterThan(0)
+        expect(r.evidence).toBeTruthy()
+      }
+    })
+  })
+
+  describe('computeCounterfactualComparison', () => {
+    const mockCashflow = computeCashflow({
+      annualSavings: 80000000,
+      transitionCosts: { it: 30000000, redundancy: 20000000, programme: 10000000, legal: 5000000 },
+      costProfile: {
+        it: { year_minus_1: 0.1, year_1: 0.4, year_2: 0.35, year_3: 0.15 },
+        redundancy: { year_1: 0.6, year_2: 0.4 },
+        programme: { year_minus_1: 0.15, year_1: 0.3, year_2: 0.3, year_3: 0.2, year_4: 0.05 },
+        legal: { year_minus_1: 0.2, year_1: 0.5, year_2: 0.3 },
+      },
+      savingsRamp: [0, 0.10, 0.25, 0.50, 0.75, 0.90, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+      assumptions: {},
+    })
+    const mockSQ = computeStatusQuoSavings({ totalNetExpenditure: 1324000000 })
+    const mockOC = computeOpportunityCost({ transitionCostTotal: 65000000 })
+    const mockDL = computeDistractionLoss({ centralServicesBudget: 180000000 })
+    const mockSFR = computeServiceFailureRisk({})
+
+    it('produces LGR and status quo paths', () => {
+      const result = computeCounterfactualComparison({
+        lgrCashflow: mockCashflow, statusQuoSavings: mockSQ,
+        opportunityCost: mockOC, distractionLoss: mockDL, serviceFailureRisk: mockSFR,
+      })
+      expect(result.lgrPath.length).toBeGreaterThan(0)
+      expect(result.statusQuoPath.length).toBeGreaterThan(0)
+      expect(result.lgrPath.length).toBe(result.statusQuoPath.length)
+    })
+
+    it('LGR path includes hidden costs in transition years', () => {
+      const result = computeCounterfactualComparison({
+        lgrCashflow: mockCashflow, statusQuoSavings: mockSQ,
+        opportunityCost: mockOC, distractionLoss: mockDL, serviceFailureRisk: mockSFR,
+      })
+      const y1 = result.lgrPath.find(p => p.year === 'Y1')
+      expect(y1.hiddenCosts).toBeLessThan(0)
+      expect(y1.adjustedNet).toBeLessThan(y1.rawNet)
+    })
+
+    it('computes net incremental benefit (LGR NPV minus SQ NPV)', () => {
+      const result = computeCounterfactualComparison({
+        lgrCashflow: mockCashflow, statusQuoSavings: mockSQ,
+        opportunityCost: mockOC, distractionLoss: mockDL, serviceFailureRisk: mockSFR,
+      })
+      expect(result.netIncrementalBenefit).toBeDefined()
+      expect(typeof result.netIncrementalBenefit).toBe('number')
+    })
+
+    it('provides verdict string', () => {
+      const result = computeCounterfactualComparison({
+        lgrCashflow: mockCashflow, statusQuoSavings: mockSQ,
+        opportunityCost: mockOC, distractionLoss: mockDL, serviceFailureRisk: mockSFR,
+      })
+      expect(result.verdict).toBeTruthy()
+      expect(typeof result.verdict).toBe('string')
+    })
+
+    it('handles missing inputs gracefully', () => {
+      const result = computeCounterfactualComparison({})
+      expect(result.verdict).toBe('Insufficient data')
+    })
+  })
+
+  describe('computeRiskAdjustedCashflow', () => {
+    it('produces risk-adjusted cashflow with all adjustments', () => {
+      const result = computeRiskAdjustedCashflow({
+        annualSavings: 80000000,
+        transitionCosts: { it: 30000000, redundancy: 20000000, programme: 10000000, legal: 5000000 },
+        costProfile: {
+          it: { year_minus_1: 0.1, year_1: 0.4, year_2: 0.35, year_3: 0.15 },
+          redundancy: { year_1: 0.6, year_2: 0.4 },
+          programme: { year_minus_1: 0.15, year_1: 0.3, year_2: 0.3, year_3: 0.2, year_4: 0.05 },
+          legal: { year_minus_1: 0.2, year_1: 0.5, year_2: 0.3 },
+        },
+        savingsRamp: [0, 0.10, 0.25, 0.50, 0.75, 0.90, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+        assumptions: {},
+        dogeRealisation: { realisationRate: 0.65 },
+        deprivationAdjustment: { deprivationMultiplier: 0.75, factors: ['High deprivation'] },
+        timelineOnTimeProbability: 0.20,
+        distractionLoss: { totalDistractionCost: 150000000 },
+        serviceFailureRisk: { totalExpectedCost: 15000000 },
+      })
+      expect(result.cashflow).toHaveLength(12)
+      expect(result.adjustments.realisationRate).toBe(0.65)
+      expect(result.adjustments.deprivationMultiplier).toBe(0.75)
+      expect(result.adjustments.timelineProbability).toBe(0.20)
+      expect(result.npv).toBeDefined()
+    })
+
+    it('risk-adjusted NPV is lower than base NPV', () => {
+      const baseParams = {
+        annualSavings: 80000000,
+        transitionCosts: { it: 30000000, redundancy: 20000000, programme: 10000000, legal: 5000000 },
+        costProfile: {
+          it: { year_minus_1: 0.1, year_1: 0.4, year_2: 0.35, year_3: 0.15 },
+          redundancy: { year_1: 0.6, year_2: 0.4 },
+          programme: { year_minus_1: 0.15, year_1: 0.3, year_2: 0.3, year_3: 0.2, year_4: 0.05 },
+          legal: { year_minus_1: 0.2, year_1: 0.5, year_2: 0.3 },
+        },
+        savingsRamp: [0, 0.10, 0.25, 0.50, 0.75, 0.90, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+        assumptions: {},
+      }
+      const baseCashflow = computeCashflow(baseParams)
+      const baseNPV = baseCashflow[baseCashflow.length - 1].npv
+
+      const riskAdjusted = computeRiskAdjustedCashflow({
+        ...baseParams,
+        dogeRealisation: { realisationRate: 0.65 },
+        deprivationAdjustment: { deprivationMultiplier: 0.80 },
+        timelineOnTimeProbability: 0.20,
+        distractionLoss: { totalDistractionCost: 150000000 },
+        serviceFailureRisk: { totalExpectedCost: 15000000 },
+      })
+
+      expect(riskAdjusted.npv).toBeLessThan(baseNPV)
+    })
+
+    it('works with default values when no risk inputs provided', () => {
+      const result = computeRiskAdjustedCashflow({
+        annualSavings: 80000000,
+        transitionCosts: { it: 30000000, redundancy: 20000000 },
+        costProfile: { it: { year_1: 1.0 }, redundancy: { year_1: 1.0 } },
+        savingsRamp: [0, 0.10, 0.25, 0.50, 0.75, 0.90, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0],
+        assumptions: {},
+      })
+      expect(result.cashflow).toHaveLength(12)
+      expect(result.npv).toBeDefined()
     })
   })
 })

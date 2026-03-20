@@ -324,7 +324,7 @@ describe('Highways', () => {
       return { data: null, loading: false, error: null }
     })
     renderComponent()
-    expect(screen.getByText('Loading highways data...')).toBeInTheDocument()
+    expect(screen.getByText('Mapping highway network...')).toBeInTheDocument()
   })
 
   it('renders error state on fetch failure', () => {

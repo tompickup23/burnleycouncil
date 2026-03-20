@@ -333,7 +333,7 @@ describe('PortfolioDetail', () => {
   it('renders loading state', () => {
     setupMocks({ data: { data: null, loading: true, error: null } })
     renderComponent()
-    expect(screen.getByText(/loading portfolio/i)).toBeInTheDocument()
+    expect(screen.getByText(/loading portfolio briefing/i)).toBeInTheDocument()
   })
 
   // --- Error state ---

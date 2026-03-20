@@ -543,7 +543,7 @@ describe('CrossCouncil', () => {
   it('shows loading state', () => {
     useData.mockReturnValue({ data: null, loading: true, error: null })
     renderComponent()
-    expect(screen.getByText(/loading comparison data/i)).toBeInTheDocument()
+    expect(screen.getByText(/benchmarking across councils/i)).toBeInTheDocument()
   })
 
   it('shows error state', () => {

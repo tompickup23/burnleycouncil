@@ -258,7 +258,7 @@ describe('DirectorateDashboard', () => {
   it('renders loading state', () => {
     setupMocks({ data: { data: null, loading: true, error: null } })
     renderDashboard()
-    expect(screen.getByText(/loading savings command centre/i)).toBeInTheDocument()
+    expect(screen.getByText(/initialising command centre/i)).toBeInTheDocument()
   })
 
   it('renders error state', () => {

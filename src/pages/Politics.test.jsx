@@ -248,7 +248,7 @@ describe('Politics', () => {
   it('shows loading state while data loads', () => {
     setupMocks({ loading: true, data: null })
     renderComponent()
-    expect(screen.getByText(/loading councillor data/i)).toBeInTheDocument()
+    expect(screen.getByText(/loading political intelligence/i)).toBeInTheDocument()
   })
 
   it('shows error state when data fails to load', () => {

@@ -97,7 +97,7 @@ describe('PayComparison', () => {
   it('shows loading state', () => {
     useData.mockReturnValue({ data: null, loading: true, error: null })
     renderComponent()
-    expect(screen.getByText('Loading pay data...')).toBeInTheDocument()
+    expect(screen.getByText('Analysing pay structures...')).toBeInTheDocument()
   })
 
   it('shows fallback when no data', () => {

@@ -141,7 +141,7 @@ describe('MyArea', () => {
       return { data: null, loading: false, error: null }
     })
     renderComponent()
-    expect(screen.getByText(/loading ward data/i)).toBeInTheDocument()
+    expect(screen.getByText(/loading area intelligence/i)).toBeInTheDocument()
   })
 
   it('shows error state when data fails to load', () => {

@@ -290,7 +290,7 @@ describe('CouncillorDossier', () => {
     it('shows loading state', () => {
       setupMocks({ loading: true, data: null })
       renderDossier()
-      expect(screen.getByText(/loading councillor dossier/i)).toBeInTheDocument()
+      expect(screen.getByText(/compiling councillor dossier/i)).toBeInTheDocument()
     })
 
     it('shows error state', () => {

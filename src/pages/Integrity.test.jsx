@@ -423,7 +423,7 @@ describe('Integrity', () => {
   it('shows loading state while data loads', () => {
     useData.mockReturnValue({ data: null, loading: true, error: null })
     renderComponent()
-    expect(screen.getByText(/loading integrity data/i)).toBeInTheDocument()
+    expect(screen.getByText(/scanning integrity records/i)).toBeInTheDocument()
   })
 
   it('shows error state when data fails to load', () => {

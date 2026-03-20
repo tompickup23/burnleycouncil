@@ -1924,6 +1924,585 @@ export function computeEqualPayRisk({ totalStaff, payGapPct } = {}) {
  * @param {number} [targetRate=0.97] - Target national average collection rate
  * @returns {{ revenueAtRiskM, worstCouncil, gapBasis, convergenceYears, factors }}
  */
+// ═══════════════════════════════════════════════════════════════════════
+// V8: Opportunity Cost, Distraction Loss & Status Quo Counterfactual
+// ═══════════════════════════════════════════════════════════════════════
+
+/**
+ * STATUS QUO SAVINGS — what councils already achieve without LGR.
+ *
+ * The counterfactual: if we DON'T reorganise, councils still make
+ * efficiency savings every year through normal improvement programmes.
+ * LGR net benefit = LGR savings MINUS status quo savings that would
+ * have been achieved anyway.
+ *
+ * Evidence:
+ * - NAO (2024): English councils achieved 1.5-2.5% annual efficiency gains 2010-2023
+ * - Wigan "The Deal": £180M savings over decade WITHOUT LGR = £18M/year
+ * - Durham (pre-LGR): districts achieved 1.8% annual savings 2005-2009
+ * - LGA (2025): 68% of councils reporting successful shared service arrangements
+ * - Lancashire CC efficiency programme: £35M achieved 2022-2025 (excl. LGR)
+ *
+ * @param {Object} params
+ * @param {number} params.totalNetExpenditure - Combined NRE of all 15 councils
+ * @param {number} [params.annualEfficiencyRate=0.018] - Organic efficiency rate (1.8%)
+ * @param {number} [params.sharedServicesRate=0.005] - Additional from shared services (0.5%)
+ * @param {number} [params.currentProgrammeSavings=0] - Known in-flight savings programmes
+ * @param {number} [params.yearsToModel=10] - Projection period
+ * @returns {Object} Status quo savings profile
+ */
+export function computeStatusQuoSavings({
+  totalNetExpenditure, annualEfficiencyRate, sharedServicesRate,
+  currentProgrammeSavings, yearsToModel,
+} = {}) {
+  const nre = totalNetExpenditure ?? 1324000000 // LCC + districts combined ~£1.3B NRE
+  const effRate = annualEfficiencyRate ?? 0.018
+  const sharedRate = sharedServicesRate ?? 0.005
+  const inFlight = currentProgrammeSavings || 0
+  const years = yearsToModel || 10
+  const factors = []
+
+  // Annual organic efficiency savings (compounding — diminishing returns modelled)
+  const yearlyProfile = []
+  let cumulativeSQ = 0
+  for (let y = 1; y <= years; y++) {
+    // Diminishing returns: rate decays 5% per year (easy wins go first)
+    const decayFactor = Math.pow(0.95, y - 1)
+    const yearEfficiency = nre * effRate * decayFactor
+    const yearShared = nre * sharedRate * Math.min(1, y / 3) // Shared services ramp over 3 years
+    const yearInFlight = y <= 3 ? inFlight / 3 : 0 // In-flight programmes deliver over 3 years
+    const yearTotal = yearEfficiency + yearShared + yearInFlight
+    cumulativeSQ += yearTotal
+    yearlyProfile.push({
+      year: y,
+      efficiency: Math.round(yearEfficiency),
+      sharedServices: Math.round(yearShared),
+      inFlight: Math.round(yearInFlight),
+      total: Math.round(yearTotal),
+      cumulative: Math.round(cumulativeSQ),
+    })
+  }
+
+  const annualSteadyState = Math.round(nre * (effRate + sharedRate))
+  const tenYearTotal = Math.round(cumulativeSQ)
+
+  factors.push(`Base NRE: £${Math.round(nre / 1000000)}M — annual organic efficiency: ${(effRate * 100).toFixed(1)}% (£${Math.round(nre * effRate / 1000000)}M/year)`)
+  factors.push(`Shared services uplift: ${(sharedRate * 100).toFixed(1)}% (£${Math.round(nre * sharedRate / 1000000)}M/year at full ramp)`)
+  factors.push(`Evidence: NAO 2024 — English councils achieved 1.5-2.5% annual efficiency gains 2010-2023`)
+  factors.push(`Evidence: Wigan "The Deal" — £180M savings over decade WITHOUT LGR (£18M/year avg)`)
+  factors.push(`Evidence: LGA 2025 — 68% of councils report successful shared service arrangements`)
+  if (inFlight > 0) {
+    factors.push(`In-flight programmes: £${Math.round(inFlight / 1000000)}M (delivered over 3 years)`)
+  }
+  factors.push(`10-year cumulative status quo savings: £${Math.round(tenYearTotal / 1000000)}M`)
+
+  return {
+    annualSteadyState,
+    tenYearTotal,
+    yearlyProfile,
+    efficiencyRate: effRate,
+    sharedServicesRate: sharedRate,
+    factors,
+  }
+}
+
+/**
+ * OPPORTUNITY COST — value of transition investment if deployed differently.
+ *
+ * The £62-93M transition cost isn't just money spent — it's money that COULD
+ * have been invested in service improvement, infrastructure, or reserves.
+ * This function computes the opportunity cost of diverting resources to LGR.
+ *
+ * Evidence:
+ * - HM Treasury Green Book: public sector opportunity cost rate = 3.5%
+ * - CIPFA (2024): Lancashire reserves adequacy ratio = 42% (below 50% threshold)
+ * - Buckinghamshire: £220M invested in roads from LGR savings over 5 years
+ * - North Yorkshire: Service improvements delayed 18+ months during transition
+ *
+ * @param {Object} params
+ * @param {number} params.transitionCostTotal - Total transition investment (£)
+ * @param {number} [params.opportunityRate=0.035] - Green Book discount rate
+ * @param {number} [params.transitionYears=3] - Years resources are tied up
+ * @param {number} [params.councilTaxFreezeYears=2] - Years CT frozen during transition
+ * @param {number} [params.totalCouncilTaxIncome=0] - Annual CT yield (£)
+ * @param {number} [params.maxCTRisePct=0.0499] - CT rise foregone per year
+ * @returns {Object} Opportunity cost breakdown
+ */
+export function computeOpportunityCost({
+  transitionCostTotal, opportunityRate, transitionYears,
+  councilTaxFreezeYears, totalCouncilTaxIncome, maxCTRisePct,
+} = {}) {
+  const cost = transitionCostTotal || 80000000 // £80M central estimate
+  const rate = opportunityRate ?? 0.035
+  const txnYears = transitionYears || 3
+  const ctFreezeYears = councilTaxFreezeYears ?? 2
+  const ctIncome = totalCouncilTaxIncome || 750000000 // ~£750M total CT yield Lancashire
+  const ctRise = maxCTRisePct || 0.0499
+  const factors = []
+
+  // 1. Financial opportunity cost — what the transition £ could earn if invested differently
+  // NPV of deploying £80M+ over 3 years instead of investing in service improvements
+  let financialOpportunityCost = 0
+  for (let y = 1; y <= txnYears; y++) {
+    financialOpportunityCost += (cost / txnYears) * rate * (txnYears - y + 1)
+  }
+  financialOpportunityCost = Math.round(financialOpportunityCost)
+  factors.push(`Financial opportunity cost: £${(financialOpportunityCost / 1000000).toFixed(1)}M (£${Math.round(cost / 1000000)}M × ${(rate * 100).toFixed(1)}% × ${txnYears} years)`)
+
+  // 2. Council tax freeze foregone — political pressure to freeze CT during transition
+  // Evidence: North Yorkshire froze CT in shadow year; Buckinghamshire limited rises
+  const ctForeGone = Math.round(ctIncome * ctRise * ctFreezeYears)
+  factors.push(`Council tax rise foregone: £${Math.round(ctForeGone / 1000000)}M (${ctFreezeYears} years × ${(ctRise * 100).toFixed(1)}% rise × £${Math.round(ctIncome / 1000000)}M CT yield)`)
+  factors.push('Evidence: North Yorkshire froze CT in shadow year; political pressure to freeze during uncertainty')
+
+  // 3. Service improvement delay — projects that can't proceed during reorganisation
+  // Evidence: North Yorkshire reported 18+ months of delayed capital projects
+  // Estimate: 10% of annual capital programme delayed for 2 years
+  const capitalDelay = Math.round(cost * 0.15) // 15% of transition cost = delayed service improvement
+  factors.push(`Delayed service improvements: £${Math.round(capitalDelay / 1000000)}M (capital projects paused during transition)`)
+
+  // 4. Reserves drawdown risk — transition costs deplete reserves during vulnerable period
+  // If reserves fall below 5% of NRE, S114 risk escalates
+  factors.push(`Reserves drawdown: £${Math.round(cost / 1000000)}M transition costs reduce reserves during most vulnerable period`)
+
+  const totalOpportunityCost = financialOpportunityCost + ctForeGone + capitalDelay
+
+  return {
+    financialOpportunityCost,
+    ctForeGone,
+    capitalDelay,
+    totalOpportunityCost,
+    factors,
+  }
+}
+
+/**
+ * DISTRACTION & PRODUCTIVITY LOSS — senior leadership diverted from service delivery.
+ *
+ * During LGR transition, chief executives, directors, and corporate services
+ * staff spend 15-20% of their time on reorganisation activities instead of
+ * running services. This is a real cost not captured in transition budgets.
+ *
+ * Evidence:
+ * - Grant Thornton (2024): "15-20% productivity loss in central/corporate functions during transition"
+ * - North Yorkshire (2023): "underestimated organisational inertia — analysis paralysis"
+ * - Buckinghamshire (2020): 2 years of dual-running before systems consolidated
+ * - CIPFA (2025): "Transition periods see 12-18% staff turnover increase"
+ * - NAO (2023): "Reorganisation programmes typically consume 3-5 FTE senior officers full-time"
+ *
+ * @param {Object} params
+ * @param {number} params.centralServicesBudget - Annual central/corporate services spend (£)
+ * @param {number} [params.productivityLossRate=0.175] - % productivity lost (17.5% central estimate)
+ * @param {number} [params.durationYears=3] - Years of distraction (pre-vesting + post-vesting stabilisation)
+ * @param {number} [params.totalStaff=30000] - Total staff subject to TUPE
+ * @param {number} [params.baselineTurnover=0.09] - Normal annual staff turnover rate
+ * @param {number} [params.transitionTurnoverUplift=0.06] - Additional turnover during transition
+ * @param {number} [params.recruitmentCostPerHead=8000] - Cost to recruit replacement
+ * @returns {Object} Distraction cost breakdown
+ */
+export function computeDistractionLoss({
+  centralServicesBudget, productivityLossRate, durationYears,
+  totalStaff, baselineTurnover, transitionTurnoverUplift, recruitmentCostPerHead,
+} = {}) {
+  const centralBudget = centralServicesBudget || 180000000 // ~£180M central services across all 15
+  const lossRate = productivityLossRate ?? 0.175
+  const years = durationYears || 3
+  const staff = totalStaff || 30000
+  const baseTurnover = baselineTurnover ?? 0.09
+  const turnoverUplift = transitionTurnoverUplift ?? 0.06
+  const recruitCost = recruitmentCostPerHead || 8000
+  const factors = []
+
+  // 1. Productivity loss in central/corporate functions
+  // Not all staff are affected — primarily directors, managers, corporate services
+  const productivityCost = Math.round(centralBudget * lossRate * years)
+  factors.push(`Productivity loss: £${Math.round(productivityCost / 1000000)}M (${(lossRate * 100).toFixed(1)}% × £${Math.round(centralBudget / 1000000)}M × ${years} years)`)
+  factors.push('Evidence: Grant Thornton 2024 — "15-20% productivity loss in central/corporate functions during transition"')
+
+  // 2. Elevated staff turnover — people leave during uncertainty
+  const additionalLeavers = Math.round(staff * turnoverUplift * years)
+  const turnoverCost = Math.round(additionalLeavers * recruitCost)
+  factors.push(`Elevated turnover: ${additionalLeavers.toLocaleString()} additional leavers × £${(recruitCost / 1000).toFixed(0)}K = £${Math.round(turnoverCost / 1000000)}M`)
+  factors.push(`Turnover rate: ${((baseTurnover + turnoverUplift) * 100).toFixed(0)}% (normal ${(baseTurnover * 100).toFixed(0)}% + ${(turnoverUplift * 100).toFixed(0)}pp transition uplift)`)
+  factors.push('Evidence: CIPFA 2025 — "Transition periods see 12-18% staff turnover increase"')
+
+  // 3. Knowledge loss — experienced staff leaving take institutional knowledge
+  // Conservative: 20% of additional leavers are "key person" losses
+  const keyPersonLosses = Math.round(additionalLeavers * 0.20)
+  const knowledgeLossCost = Math.round(keyPersonLosses * 25000) // £25K per key person in lost efficiency
+  factors.push(`Knowledge drain: ${keyPersonLosses} key person losses × £25K efficiency impact = £${(knowledgeLossCost / 1000000).toFixed(1)}M`)
+
+  // 4. Senior officer distraction — 3-5 FTE equivalent on LGR programme full-time
+  const seniorFTECost = Math.round(4 * 150000 * years) // 4 FTE × £150K × 3 years
+  factors.push(`Senior officer distraction: 4 FTE × £150K × ${years} years = £${(seniorFTECost / 1000000).toFixed(1)}M`)
+  factors.push('Evidence: NAO 2023 — "Reorganisation programmes typically consume 3-5 FTE senior officers full-time"')
+
+  // 5. Decision paralysis — deferred decisions during transition
+  // Procurement, contracts, IT projects, recruitment freezes
+  const decisionParalysis = Math.round(centralBudget * 0.03 * years) // 3% of central budget deferred
+  factors.push(`Decision paralysis: £${Math.round(decisionParalysis / 1000000)}M in deferred procurement, contracts, recruitment`)
+  factors.push('Evidence: North Yorkshire — "analysis paralysis, people not feeling they had authority to make decisions"')
+
+  const totalDistractionCost = productivityCost + turnoverCost + knowledgeLossCost + seniorFTECost + decisionParalysis
+
+  return {
+    productivityCost,
+    turnoverCost,
+    knowledgeLossCost,
+    seniorFTECost,
+    decisionParalysis,
+    additionalLeavers,
+    keyPersonLosses,
+    totalDistractionCost,
+    factors,
+  }
+}
+
+/**
+ * SERVICE FAILURE RISK — probabilistic cost of things going wrong during transition.
+ *
+ * LGR transitions create windows where critical services (children's safeguarding,
+ * adult social care, SEND) are at elevated risk of failure. A single Ofsted
+ * "inadequate" rating costs £10-30M in intervention + commissioner costs.
+ *
+ * Evidence:
+ * - Northamptonshire: S114 during reorganisation → commissioners £5M/year
+ * - Bradford: Children's services intervention → £50M recovery programme
+ * - Sandwell: S114 2024 → external commissioners + CIPFA support £3M/year
+ * - Slough: S114 2021 → capitalisation direction £475M, commissioners 3 years
+ *
+ * @param {Object} params
+ * @param {number} [params.childrenRiskProbability=0.15] - P(children's services failure)
+ * @param {number} [params.ascRiskProbability=0.10] - P(adult social care failure)
+ * @param {number} [params.sendRiskProbability=0.20] - P(SEND system failure)
+ * @param {number} [params.financialRiskProbability=0.08] - P(S114 / financial failure)
+ * @returns {Object} Expected service failure cost
+ */
+export function computeServiceFailureRisk({
+  childrenRiskProbability, ascRiskProbability,
+  sendRiskProbability, financialRiskProbability,
+} = {}) {
+  const factors = []
+
+  const risks = [
+    {
+      service: "Children's safeguarding",
+      probability: childrenRiskProbability ?? 0.15,
+      costIfFails: 30000000, // £30M intervention + recovery
+      evidence: 'Bradford Children\'s Services intervention: £50M recovery programme',
+    },
+    {
+      service: 'Adult social care continuity',
+      probability: ascRiskProbability ?? 0.10,
+      costIfFails: 20000000, // £20M
+      evidence: 'Case handover failures during transition — NAO 2023',
+    },
+    {
+      service: 'SEND system transition',
+      probability: sendRiskProbability ?? 0.20,
+      costIfFails: 15000000, // £15M (EHCP processing backlog + tribunal costs)
+      evidence: 'Kirklees DSG deficit £78.5M; tribunal costs escalate during system migration',
+    },
+    {
+      service: 'Financial management (S114 risk)',
+      probability: financialRiskProbability ?? 0.08,
+      costIfFails: 50000000, // £50M (commissioners + capitalisation)
+      evidence: 'Northamptonshire S114 twice during reorganisation; Slough capitalisation £475M',
+    },
+  ]
+
+  let totalExpectedCost = 0
+  for (const r of risks) {
+    r.expectedCost = Math.round(r.probability * r.costIfFails)
+    totalExpectedCost += r.expectedCost
+    factors.push(`${r.service}: ${(r.probability * 100).toFixed(0)}% probability × £${Math.round(r.costIfFails / 1000000)}M = £${(r.expectedCost / 1000000).toFixed(1)}M expected cost`)
+  }
+
+  // Correlation penalty: risks are not independent — one failure increases others
+  const correlationPenalty = Math.round(totalExpectedCost * 0.15)
+  totalExpectedCost += correlationPenalty
+  factors.push(`Correlation penalty (+15%): £${(correlationPenalty / 1000000).toFixed(1)}M — service failures cascade (children's → adult social care → financial)`)
+  factors.push(`Total expected service failure cost: £${Math.round(totalExpectedCost / 1000000)}M`)
+
+  return {
+    risks,
+    correlationPenalty,
+    totalExpectedCost,
+    factors,
+  }
+}
+
+/**
+ * COUNTERFACTUAL COMPARISON — LGR vs keeping current structure.
+ *
+ * The central question: is Lancashire better off reorganising or keeping
+ * the current two-tier structure and pursuing efficiency through other means?
+ *
+ * This function produces a side-by-side 10-year comparison showing:
+ * - LGR path: transition costs → ramp savings → steady state (with all risks)
+ * - Status quo path: organic efficiency + shared services + in-flight programmes
+ *
+ * @param {Object} params
+ * @param {Object} params.lgrCashflow - Computed cashflow from computeCashflow()
+ * @param {Object} params.statusQuoSavings - From computeStatusQuoSavings()
+ * @param {Object} params.opportunityCost - From computeOpportunityCost()
+ * @param {Object} params.distractionLoss - From computeDistractionLoss()
+ * @param {Object} params.serviceFailureRisk - From computeServiceFailureRisk()
+ * @param {number} [params.discountRate=0.035] - HM Treasury Green Book rate
+ * @returns {Object} Side-by-side comparison
+ */
+export function computeCounterfactualComparison({
+  lgrCashflow, statusQuoSavings, opportunityCost,
+  distractionLoss, serviceFailureRisk, discountRate,
+} = {}) {
+  const rate = discountRate ?? 0.035
+  const factors = []
+
+  if (!lgrCashflow?.length || !statusQuoSavings?.yearlyProfile?.length) {
+    return {
+      lgrPath: [], statusQuoPath: [], netIncrementalBenefit: 0,
+      breakEvenYear: null, verdict: 'Insufficient data', factors: ['Missing cashflow or status quo data'],
+    }
+  }
+
+  const lgrPath = []
+  const statusQuoPath = []
+  let lgrCumulative = 0
+  let sqCumulative = 0
+  let lgrNPV = 0
+  let sqNPV = 0
+
+  // Spread distraction & opportunity costs across transition years (Y-1 to Y3)
+  const distractionTotal = distractionLoss?.totalDistractionCost || 0
+  const opportunityTotal = opportunityCost?.totalOpportunityCost || 0
+  const serviceFailureTotal = serviceFailureRisk?.totalExpectedCost || 0
+  const hiddenCostsTotal = distractionTotal + opportunityTotal + serviceFailureTotal
+  const hiddenCostsPerYear = hiddenCostsTotal / 4 // Spread over Y-1 to Y3
+
+  for (let i = 0; i < Math.min(lgrCashflow.length, 12); i++) {
+    const lgrYear = lgrCashflow[i]
+    const yearNum = lgrYear.yearNum
+    const df = yearNum <= 0 ? 1 : 1 / Math.pow(1 + rate, yearNum)
+
+    // LGR path: raw cashflow MINUS hidden costs in transition years
+    const hiddenThisYear = (yearNum >= -1 && yearNum <= 3) ? hiddenCostsPerYear : 0
+    const lgrNetAdjusted = lgrYear.net - hiddenThisYear
+    lgrCumulative += lgrNetAdjusted
+    lgrNPV += lgrNetAdjusted * df
+
+    lgrPath.push({
+      year: lgrYear.year,
+      yearNum,
+      rawNet: lgrYear.net,
+      hiddenCosts: -hiddenThisYear,
+      adjustedNet: Math.round(lgrNetAdjusted),
+      cumulative: Math.round(lgrCumulative),
+      npv: Math.round(lgrNPV),
+    })
+
+    // Status quo path: organic savings (no transition costs, no distraction)
+    const sqIdx = yearNum <= 0 ? 0 : yearNum - 1
+    const sqYear = statusQuoSavings.yearlyProfile[sqIdx] || statusQuoSavings.yearlyProfile[statusQuoSavings.yearlyProfile.length - 1]
+    const sqNet = sqYear?.total || 0
+    sqCumulative += sqNet
+    sqNPV += sqNet * df
+
+    statusQuoPath.push({
+      year: lgrYear.year,
+      yearNum,
+      savings: Math.round(sqNet),
+      cumulative: Math.round(sqCumulative),
+      npv: Math.round(sqNPV),
+    })
+  }
+
+  // Net incremental benefit: how much BETTER is LGR vs status quo?
+  const netIncrementalBenefit = Math.round(lgrNPV - sqNPV)
+
+  // Find breakeven: year where LGR cumulative exceeds SQ cumulative
+  let breakEvenYear = null
+  for (let i = 0; i < lgrPath.length; i++) {
+    if (lgrPath[i].cumulative > statusQuoPath[i].cumulative) {
+      breakEvenYear = lgrPath[i].year
+      break
+    }
+  }
+
+  // Verdict
+  let verdict
+  if (netIncrementalBenefit < 0) {
+    verdict = 'Status quo delivers better value — LGR net benefit is negative after accounting for hidden costs'
+  } else if (netIncrementalBenefit < 50000000) {
+    verdict = 'Marginal LGR benefit — within uncertainty range, status quo may be equally effective'
+  } else if (!breakEvenYear || lgrPath.findIndex(p => p.year === breakEvenYear) > 7) {
+    verdict = 'LGR beneficial long-term but slow payback — status quo delivers earlier savings'
+  } else {
+    verdict = 'LGR delivers clear net benefit over status quo'
+  }
+
+  factors.push(`LGR 10-year NPV: £${Math.round(lgrNPV / 1000000)}M (after hidden costs)`)
+  factors.push(`Status quo 10-year NPV: £${Math.round(sqNPV / 1000000)}M`)
+  factors.push(`Net incremental LGR benefit: £${Math.round(netIncrementalBenefit / 1000000)}M`)
+  factors.push(`Hidden costs included: distraction £${Math.round(distractionTotal / 1000000)}M + opportunity £${Math.round(opportunityTotal / 1000000)}M + service failure £${Math.round(serviceFailureTotal / 1000000)}M`)
+  if (breakEvenYear) {
+    factors.push(`LGR exceeds status quo in: ${breakEvenYear}`)
+  } else {
+    factors.push('LGR does NOT exceed status quo savings within modelled period')
+  }
+
+  return {
+    lgrPath,
+    statusQuoPath,
+    netIncrementalBenefit,
+    breakEvenYear,
+    lgrNPV: Math.round(lgrNPV),
+    sqNPV: Math.round(sqNPV),
+    hiddenCosts: {
+      distraction: distractionTotal,
+      opportunity: opportunityTotal,
+      serviceFailure: serviceFailureTotal,
+      total: hiddenCostsTotal,
+    },
+    verdict,
+    factors,
+  }
+}
+
+/**
+ * RISK-ADJUSTED CASHFLOW — integrates ALL risk factors into a single realistic cashflow.
+ *
+ * This is the "honest" model that forces mandatory risk adjustments into the
+ * default view instead of hiding them behind optional toggles.
+ *
+ * Adjustments applied:
+ * 1. DOGE-adjusted realisation (per-authority, based on governance quality)
+ * 2. Deprivation complexity penalty (IMD-based)
+ * 3. Timeline probability weighting (15-25% on-time → expected value)
+ * 4. Distraction loss (spread over transition years)
+ * 5. Service failure expected cost (probability-weighted)
+ *
+ * @param {Object} params — all computeCashflow params plus risk inputs
+ * @returns {Object} Risk-adjusted cashflow with annotation
+ */
+export function computeRiskAdjustedCashflow({
+  annualSavings, transitionCosts, costProfile, savingsRamp, assumptions,
+  serviceLineSavings, equalPayCost, dataRemediationCost,
+  dogeRealisation, deprivationAdjustment,
+  timelineOnTimeProbability, distractionLoss, serviceFailureRisk,
+} = {}) {
+  // Start with base assumptions
+  const merged = { ...DEFAULT_ASSUMPTIONS, ...assumptions }
+  const factors = []
+
+  // 1. Apply DOGE-adjusted realisation if available
+  if (dogeRealisation?.realisationRate) {
+    merged.savingsRealisationRate = dogeRealisation.realisationRate
+    factors.push(`DOGE-adjusted realisation: ${(dogeRealisation.realisationRate * 100).toFixed(0)}% (was ${(DEFAULT_ASSUMPTIONS.savingsRealisationRate * 100).toFixed(0)}%)`)
+  }
+
+  // 2. Apply deprivation multiplier
+  let deprivationMultiplier = 1.0
+  if (deprivationAdjustment?.deprivationMultiplier) {
+    deprivationMultiplier = deprivationAdjustment.deprivationMultiplier
+    factors.push(`Deprivation complexity: ×${deprivationMultiplier.toFixed(2)} (${deprivationAdjustment.factors?.[0] || ''})`)
+  }
+
+  // Adjust annual savings for deprivation
+  const adjustedAnnualSavings = Math.round((annualSavings || 0) * deprivationMultiplier)
+
+  // 3. Compute base cashflow with adjusted inputs
+  const baseCashflow = computeCashflow({
+    annualSavings: adjustedAnnualSavings,
+    transitionCosts, costProfile, savingsRamp,
+    assumptions: merged,
+    serviceLineSavings, equalPayCost, dataRemediationCost,
+  })
+
+  // 4. Apply timeline probability weighting
+  // If only 20% chance of on-time delivery, expected savings = 20% × full + 80% × delayed
+  // Delayed scenario: 35% cost overrun (Grant Thornton median)
+  const onTimeProb = timelineOnTimeProbability ?? 0.20
+  const delayedCostOverrun = 1.35
+
+  // Compute delayed scenario
+  const delayedCashflow = computeCashflow({
+    annualSavings: adjustedAnnualSavings,
+    transitionCosts, costProfile, savingsRamp,
+    assumptions: { ...merged, transitionCostOverrun: delayedCostOverrun },
+    serviceLineSavings, equalPayCost, dataRemediationCost,
+  })
+
+  // Probability-weighted cashflow
+  const weightedCashflow = baseCashflow.map((year, i) => {
+    const delayed = delayedCashflow[i]
+    const weightedNet = (year.net * onTimeProb) + (delayed.net * (1 - onTimeProb))
+    return { ...year, net: Math.round(weightedNet) }
+  })
+
+  // Recompute cumulative and NPV on weighted cashflow
+  let cumulative = 0
+  let npvTotal = 0
+  for (const year of weightedCashflow) {
+    cumulative += year.net
+    year.cumulative = cumulative
+    const df = year.yearNum <= 0 ? 1 : 1 / Math.pow(1 + (merged.discountRate || 0.035), year.yearNum)
+    npvTotal += year.net * df
+    year.npv = Math.round(npvTotal)
+  }
+
+  factors.push(`Timeline probability: ${(onTimeProb * 100).toFixed(0)}% on-time / ${((1 - onTimeProb) * 100).toFixed(0)}% delayed (+${((delayedCostOverrun - 1) * 100).toFixed(0)}% overrun)`)
+
+  // 5. Add distraction & service failure as additional costs in transition years
+  const distractionPerYear = (distractionLoss?.totalDistractionCost || 0) / 3
+  const serviceFailurePerYear = (serviceFailureRisk?.totalExpectedCost || 0) / 3
+
+  for (const year of weightedCashflow) {
+    if (year.yearNum >= -1 && year.yearNum <= 2) {
+      year.distractionCost = -Math.round(distractionPerYear)
+      year.serviceFailureCost = -Math.round(serviceFailurePerYear)
+      year.net += year.distractionCost + year.serviceFailureCost
+    }
+  }
+
+  // Final recompute of cumulative
+  cumulative = 0
+  npvTotal = 0
+  for (const year of weightedCashflow) {
+    cumulative += year.net
+    year.cumulative = cumulative
+    const df = year.yearNum <= 0 ? 1 : 1 / Math.pow(1 + (merged.discountRate || 0.035), year.yearNum)
+    npvTotal += year.net * df
+    year.npv = Math.round(npvTotal)
+  }
+
+  if (distractionPerYear > 0) {
+    factors.push(`Distraction loss: £${Math.round(distractionLoss.totalDistractionCost / 1000000)}M spread over transition years`)
+  }
+  if (serviceFailurePerYear > 0) {
+    factors.push(`Service failure expected cost: £${Math.round(serviceFailureRisk.totalExpectedCost / 1000000)}M (probability-weighted)`)
+  }
+
+  const finalNPV = weightedCashflow[weightedCashflow.length - 1]?.npv || 0
+  const breakeven = findBreakevenYear(weightedCashflow)
+
+  factors.push(`Risk-adjusted 10-year NPV: £${Math.round(finalNPV / 1000000)}M`)
+  factors.push(`Risk-adjusted breakeven: ${breakeven || 'Not within modelled period'}`)
+
+  return {
+    cashflow: weightedCashflow,
+    adjustments: {
+      realisationRate: merged.savingsRealisationRate,
+      deprivationMultiplier,
+      timelineProbability: onTimeProb,
+      distractionLoss: distractionLoss?.totalDistractionCost || 0,
+      serviceFailureCost: serviceFailureRisk?.totalExpectedCost || 0,
+    },
+    npv: finalNPV,
+    breakeven,
+    factors,
+  }
+}
+
 export function computeCollectionRateImpact(councils, targetRate) {
   const target = targetRate || 0.97
   const factors = []
