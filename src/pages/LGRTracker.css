@@ -3561,3 +3561,31 @@
   .lgr-cost-compare { grid-template-columns: 1fr; }
   .lgr-delay-arg-detail { font-size: 0.76rem; }
 }
+
+/* Cross-reference links between sections */
+.lgr-cross-ref {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-top: 1rem;
+  background: rgba(18, 182, 207, 0.08);
+  border-left: 3px solid #12B6CF;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.85rem;
+  color: #a1a1a6;
+}
+
+.lgr-cross-ref > svg {
+  color: #12B6CF;
+  flex-shrink: 0;
+}
+
+.lgr-cross-ref a {
+  color: #12B6CF;
+  text-decoration: none;
+}
+
+.lgr-cross-ref a:hover {
+  text-decoration: underline;
+}

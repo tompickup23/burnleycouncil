@@ -1,0 +1,213 @@
+.lgr-hidden-costs {
+  margin-bottom: 2.5rem;
+}
+
+/* Total banner */
+.hc-total-banner {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 69, 58, 0.08);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.hc-total-banner > svg {
+  color: #ff453a;
+  flex-shrink: 0;
+}
+
+.hc-total-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #a1a1a6;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
+}
+
+.hc-total-value {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #ff453a;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Section grouping */
+.hc-section {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.hc-section:last-child {
+  border-bottom: none;
+}
+
+.hc-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.1rem;
+  color: #e5e5e7;
+  margin-bottom: 0.5rem;
+}
+
+.hc-section-desc {
+  font-size: 0.85rem;
+  color: #8e8e93;
+  margin-bottom: 1rem;
+  line-height: 1.5;
+}
+
+/* Stat grid */
+.hc-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.hc-stat-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+}
+
+.hc-stat-label {
+  font-size: 0.7rem;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.2rem;
+}
+
+.hc-stat-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ff453a;
+  font-variant-numeric: tabular-nums;
+}
+
+.hc-stat-note {
+  font-size: 0.7rem;
+  color: #636366;
+  margin-top: 0.1rem;
+}
+
+/* Chart card */
+.hc-chart-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+/* Factors list */
+.hc-factors-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.hc-factors-list li {
+  font-size: 0.8rem;
+  color: #a1a1a6;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  line-height: 1.5;
+}
+
+.hc-bullet {
+  color: #12B6CF;
+  margin-right: 6px;
+}
+
+/* Risk matrix table */
+.hc-risk-table-wrap {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.hc-risk-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  font-size: 0.85rem;
+}
+
+.hc-risk-table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  color: #8e8e93;
+  font-weight: 600;
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  white-space: nowrap;
+}
+
+.hc-risk-table td {
+  padding: 0.65rem 1rem;
+  color: #e5e5e7;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.hc-risk-table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.hc-risk-table tfoot td {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.75rem;
+}
+
+.hc-service-name {
+  font-weight: 600;
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.hc-col-num {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.hc-evidence-cell {
+  font-size: 0.78rem;
+  color: #8e8e93;
+  max-width: 280px;
+}
+
+.hc-correlation-row {
+  background: rgba(255, 69, 58, 0.04);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .hc-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .hc-stat-value {
+    font-size: 1rem;
+  }
+  .hc-total-value {
+    font-size: 1.5rem;
+  }
+  .hc-evidence-cell {
+    display: none;
+  }
+}

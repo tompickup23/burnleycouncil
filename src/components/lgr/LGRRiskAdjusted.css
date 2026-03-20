@@ -1,0 +1,185 @@
+.lgr-risk-adjusted {
+  margin-bottom: 2.5rem;
+}
+
+/* Stat grid */
+.ra-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.ra-stat-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.ra-stat-label {
+  font-size: 0.72rem;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.25rem;
+}
+
+.ra-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.ra-stat-note {
+  font-size: 0.7rem;
+  color: #636366;
+  margin-top: 0.1rem;
+}
+
+/* Chart card */
+.ra-chart-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.ra-chart-card h3 {
+  font-size: 0.95rem;
+  color: #e5e5e7;
+  margin: 0 0 0.25rem;
+}
+
+.ra-chart-desc {
+  font-size: 0.82rem;
+  color: #8e8e93;
+  margin: 0 0 0.75rem;
+}
+
+/* Annotations */
+.ra-annotations {
+  margin-bottom: 1.5rem;
+}
+
+.ra-annotations h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: #e5e5e7;
+  margin-bottom: 0.75rem;
+}
+
+.ra-annotation-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+  gap: 0.5rem;
+}
+
+.ra-annotation-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(28, 28, 30, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+}
+
+.ra-anno-label {
+  font-size: 0.68rem;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.15rem;
+}
+
+.ra-anno-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ff9f0a;
+  font-variant-numeric: tabular-nums;
+}
+
+.ra-anno-note {
+  font-size: 0.68rem;
+  color: #636366;
+  margin-top: 0.15rem;
+}
+
+.ra-cross-ref {
+  color: #12B6CF;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+}
+
+.ra-cross-ref:hover {
+  text-decoration: underline;
+}
+
+/* Breakeven comparison */
+.ra-breakeven-compare {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  background: rgba(255, 159, 10, 0.08);
+  border-left: 3px solid #ff9f0a;
+  border-radius: 0 8px 8px 0;
+  font-size: 0.85rem;
+  color: #a1a1a6;
+}
+
+.ra-breakeven-compare > svg {
+  color: #ff9f0a;
+  flex-shrink: 0;
+}
+
+.ra-breakeven-compare strong {
+  color: #e5e5e7;
+}
+
+/* Evidence factors */
+.ra-evidence {
+  margin-bottom: 1rem;
+}
+
+.ra-factors-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.ra-factors-list li {
+  font-size: 0.8rem;
+  color: #a1a1a6;
+  padding: 3px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  line-height: 1.5;
+}
+
+.ra-bullet {
+  color: #12B6CF;
+  margin-right: 6px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .ra-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ra-stat-value {
+    font-size: 1.2rem;
+  }
+  .ra-annotation-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

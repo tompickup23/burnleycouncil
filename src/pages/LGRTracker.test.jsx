@@ -87,6 +87,42 @@ vi.mock('../utils/lgrModel', () => ({
   adjustForCCATransfers: vi.fn(() => null),
   adjustSavingsForDeprivation: vi.fn(() => null),
   estimatePlanningConsolidationSavings: vi.fn(() => null),
+  computeStatusQuoSavings: vi.fn(() => ({
+    annualSteadyState: 23200000, tenYearTotal: 205600000,
+    yearlyProfile: [{ year: 1, total: 19200000, cumulative: 19200000 }],
+    factors: ['Base NRE: £1,324M'],
+  })),
+  computeOpportunityCost: vi.fn(() => ({
+    financialOpportunityCost: 8400000, ctForeGone: 74800000, capitalDelay: 12000000,
+    totalOpportunityCost: 95200000, factors: [],
+  })),
+  computeDistractionLoss: vi.fn(() => ({
+    productivityCost: 94500000, turnoverCost: 43200000, knowledgeLossCost: 21600000,
+    seniorFTECost: 1800000, decisionParalysis: 16200000,
+    additionalLeavers: 5400, keyPersonLosses: 1080,
+    totalDistractionCost: 177300000, factors: [],
+  })),
+  computeServiceFailureRisk: vi.fn(() => ({
+    risks: [
+      { service: "Children's safeguarding", probability: 0.15, costIfFails: 30000000, expectedCost: 4500000, evidence: 'Test' },
+    ],
+    correlationPenalty: 2000000, totalExpectedCost: 15500000, factors: [],
+  })),
+  computeCounterfactualComparison: vi.fn(() => ({
+    lgrPath: [{ year: 'Y-1', yearNum: -1, adjustedNet: -60000000, cumulative: -60000000 }],
+    statusQuoPath: [{ year: 'Y-1', yearNum: -1, savings: 0, cumulative: 0 }],
+    netIncrementalBenefit: -50000000, breakEvenYear: null,
+    lgrNPV: 150000000, sqNPV: 200000000,
+    hiddenCosts: { distraction: 177300000, opportunity: 95200000, serviceFailure: 15500000, total: 288000000 },
+    verdict: 'Status quo delivers better value', factors: [],
+  })),
+  computeRiskAdjustedCashflow: vi.fn(() => ({
+    cashflow: [
+      { year: 'Y-1', yearNum: -1, net: -80000000, cumulative: -80000000, npv: -80000000 },
+    ],
+    adjustments: { realisationRate: 0.65, deprivationMultiplier: 0.75, timelineProbability: 0.20, distractionLoss: 177300000, serviceFailureCost: 15500000 },
+    npv: -45000000, breakeven: null, factors: [],
+  })),
   DEFAULT_ASSUMPTIONS: {
     savingsRealisationRate: 0.75,
     transitionCostOverrun: 1.0,

@@ -6,7 +6,7 @@ import { formatCurrency, formatNumber } from '../utils/format'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM, PARTY_COLORS, CHART_ANIMATION } from '../utils/constants'
 import ChartGradient from '../components/ui/ChartGradient'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend, ReferenceLine, LineChart, Line, ComposedChart, Area } from 'recharts'
-import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw, Briefcase, FileWarning, Scale, Target, Zap, Activity } from 'lucide-react'
+import { AlertTriangle, Clock, Building, PoundSterling, Users, TrendingUp, TrendingDown, ChevronDown, ChevronRight, ExternalLink, Calendar, Shield, ArrowRight, Check, X as XIcon, ThumbsUp, ThumbsDown, Star, FileText, Globe, BookOpen, Vote, Brain, Lightbulb, BarChart3, MapPin, Sliders, RotateCcw, Briefcase, FileWarning, Scale, Target, Zap, Activity, Layers } from 'lucide-react'
 
 const LancashireMap = lazy(() => import('../components/LancashireMap'))
 import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear, DEFAULT_ASSUMPTIONS, MODEL_KEY_MAP, computeDemographicFiscalProfile,
@@ -15,6 +15,9 @@ import { computeCashflow, computeSensitivity, computeTornado, findBreakevenYear,
   computeAlternativeTimeline, computeServiceContinuityRisk, computeNorthernMillTownComparison,
   computeEqualPayRisk, computeCollectionRateImpact, computeThreatAssessment,
   adjustForCCATransfers, adjustSavingsForDeprivation, estimatePlanningConsolidationSavings,
+  computeStatusQuoSavings, computeOpportunityCost, computeDistractionLoss,
+  computeServiceFailureRisk, computeCounterfactualComparison, computeRiskAdjustedCashflow,
+  computeTimelineFeasibility,
   SERVICE_LINE_SAVINGS_RATES, PRECEDENT_DATA, NORTHERN_MILL_TOWN_DATA } from '../utils/lgrModel'
 import { projectToLGRAuthority, normalizePartyName } from '../utils/electionModel'
 import LGRDemographicFiscalRisk from '../components/lgr/LGRDemographicFiscalRisk'
@@ -23,6 +26,9 @@ import LGRBoundaryMap from '../components/lgr/LGRBoundaryMap'
 import LGRDeprivationMap from '../components/lgr/LGRDeprivationMap'
 import LGRPropertyDivision from '../components/lgr/LGRPropertyDivision'
 import LGRCCAImpact from '../components/lgr/LGRCCAImpact'
+import LGRCounterfactual from '../components/lgr/LGRCounterfactual'
+import LGRHiddenCosts from '../components/lgr/LGRHiddenCosts'
+import LGRRiskAdjusted from '../components/lgr/LGRRiskAdjusted'
 import LGRMethodology from '../components/lgr/LGRMethodology'
 import LGRAlternativeTimeline from '../components/lgr/LGRAlternativeTimeline'
 import LGRNorthernPrecedents from '../components/lgr/LGRNorthernPrecedents'
@@ -601,6 +607,71 @@ function LGRTracker() {
     return estimatePlanningConsolidationSavings(planningMap)
   }, [crossCouncil])
 
+  // V8: Status quo savings (organic efficiency + shared services without LGR)
+  const statusQuoSavings = useMemo(() => {
+    return computeStatusQuoSavings({ totalNetExpenditure: 1324000000 })
+  }, [])
+
+  // V8: Opportunity cost of diverting transition investment
+  const opportunityCost = useMemo(() => {
+    if (!lgrData?.independent_model?.transition_costs || !activeModel) return null
+    const modelKey = MODEL_KEY_MAP[activeModel]
+    const transitionCosts = lgrData.independent_model.transition_costs[modelKey]
+    if (!transitionCosts) return null
+    return computeOpportunityCost({ transitionCostTotal: transitionCosts.total || 80000000 })
+  }, [lgrData, activeModel])
+
+  // V8: Distraction & productivity loss during transition
+  const distractionLoss = useMemo(() => {
+    return computeDistractionLoss({})
+  }, [])
+
+  // V8: Service failure risk (probability-weighted)
+  const serviceFailureRisk = useMemo(() => {
+    return computeServiceFailureRisk({})
+  }, [])
+
+  // V8: Timeline feasibility for on-time probability
+  const timelineFeasibility = useMemo(() => {
+    if (!lgrEnhanced?.timeline_analysis) return null
+    return computeTimelineFeasibility(lgrEnhanced.timeline_analysis)
+  }, [lgrEnhanced])
+
+  // V8: Counterfactual comparison (LGR vs status quo side-by-side)
+  const counterfactualComparison = useMemo(() => {
+    if (!cashflowData || !statusQuoSavings) return null
+    return computeCounterfactualComparison({
+      lgrCashflow: cashflowData,
+      statusQuoSavings,
+      opportunityCost,
+      distractionLoss,
+      serviceFailureRisk,
+    })
+  }, [cashflowData, statusQuoSavings, opportunityCost, distractionLoss, serviceFailureRisk])
+
+  // V8: Risk-adjusted cashflow (ALL risks integrated)
+  const riskAdjustedCashflow = useMemo(() => {
+    if (!budgetModel?.transition_cost_profile || !lgrData?.independent_model?.transition_costs) return null
+    const modelKey = MODEL_KEY_MAP[activeModel]
+    if (!modelKey) return null
+    const transitionCosts = lgrData.independent_model.transition_costs[modelKey]
+    const annualSavings = budgetModel.per_service_savings?.[activeModel]?.total_annual_savings || 0
+    if (!transitionCosts || annualSavings <= 0) return null
+    const assumptions = userAssumptions || budgetModel.model_defaults || DEFAULT_ASSUMPTIONS
+
+    return computeRiskAdjustedCashflow({
+      annualSavings,
+      transitionCosts,
+      costProfile: budgetModel.transition_cost_profile,
+      savingsRamp: budgetModel.savings_ramp_profile,
+      assumptions,
+      deprivationAdjustment: deprivationAdjusted,
+      timelineOnTimeProbability: timelineFeasibility?.score ? Math.max(0.10, Math.min(0.40, timelineFeasibility.score / 100)) : 0.20,
+      distractionLoss,
+      serviceFailureRisk,
+    })
+  }, [budgetModel, lgrData, activeModel, userAssumptions, deprivationAdjusted, timelineFeasibility, distractionLoss, serviceFailureRisk])
+
   if (loading) {
     return <div className="lgr-page animate-fade-in"><div className="loading-state"><div className="spinner" /><p>Loading LGR Tracker...</p></div></div>
   }
@@ -619,6 +690,9 @@ function LGRTracker() {
     { id: 'independent', label: 'AI DOGE Model', icon: Brain },
     { id: 'cashflow', label: 'Cashflow', icon: TrendingUp },
     { id: 'sensitivity', label: 'Sensitivity', icon: Sliders },
+    { id: 'counterfactual', label: 'Status Quo vs LGR', icon: Scale },
+    { id: 'hidden-costs', label: 'Hidden Costs', icon: Layers },
+    { id: 'risk-adjusted', label: 'Risk-Adjusted', icon: Target },
     { id: 'council-tax', label: 'Council Tax', icon: PoundSterling },
     { id: 'assets', label: 'Assets', icon: PoundSterling },
     { id: 'handover', label: 'Handover', icon: ArrowRight },
@@ -1252,6 +1326,12 @@ function LGRTracker() {
               </div>
             </>
           )}
+          {riskAdjustedCashflow && (
+            <div className="lgr-cross-ref">
+              <AlertTriangle size={14} />
+              <span>This shows headline cashflow only. <a href="#lgr-risk-adjusted" onClick={() => setActiveSection('risk-adjusted')}>See Risk-Adjusted Model</a> for the full picture including distraction, service failure, and timeline risks.</span>
+            </div>
+          )}
         </section>
       )}
 
@@ -1388,6 +1468,40 @@ function LGRTracker() {
             </>
           )}
         </section>
+      )}
+
+      {/* V8: Status Quo vs LGR — Counterfactual Comparison */}
+      {counterfactualComparison && (
+        <CollapsibleSection id="lgr-counterfactual" title="Status Quo vs LGR" icon={<Scale size={20} />} defaultOpen>
+          <LGRCounterfactual
+            comparison={counterfactualComparison}
+            statusQuoSavings={statusQuoSavings}
+            cashflowData={cashflowData}
+          />
+        </CollapsibleSection>
+      )}
+
+      {/* V8: Hidden Costs of Reorganisation */}
+      {(distractionLoss || opportunityCost || serviceFailureRisk) && (
+        <CollapsibleSection id="lgr-hidden-costs" title="Hidden Costs of Reorganisation" icon={<Layers size={20} />}>
+          <LGRHiddenCosts
+            distractionLoss={distractionLoss}
+            opportunityCost={opportunityCost}
+            serviceFailureRisk={serviceFailureRisk}
+          />
+        </CollapsibleSection>
+      )}
+
+      {/* V8: Risk-Adjusted Financial Model */}
+      {riskAdjustedCashflow && (
+        <CollapsibleSection id="lgr-risk-adjusted" title="Risk-Adjusted Financial Model" icon={<Target size={20} />}>
+          <LGRRiskAdjusted
+            riskAdjusted={riskAdjustedCashflow}
+            baseCashflow={cashflowData}
+            deprivationAdjusted={deprivationAdjusted}
+            ccaAdjustment={ccaAdjustment}
+          />
+        </CollapsibleSection>
       )}
 
       {/* Council Tax Harmonisation */}
@@ -2539,6 +2653,12 @@ function LGRTracker() {
         <CollapsibleSection id="lgr-cca-impact" title="CCA Savings Adjustment" icon={<Globe size={20} />}>
           <p className="section-desc">Services already transferred to Lancashire&apos;s Combined County Authority cannot also be claimed as LGR savings — a critical double-counting risk in all proposals.</p>
           <LGRCCAImpact ccaData={lgrEnhanced.cca_impact} />
+          {riskAdjustedCashflow && (
+            <div className="lgr-cross-ref">
+              <ArrowRight size={14} />
+              <span>This adjustment feeds into the <a href="#lgr-risk-adjusted" onClick={() => setActiveSection('risk-adjusted')}>Risk-Adjusted Model</a>.</span>
+            </div>
+          )}
         </CollapsibleSection>
       )}
 
@@ -2552,6 +2672,12 @@ function LGRTracker() {
             selectedModel={activeModel}
             grossSavings={activeGrossSavings}
           />
+          {riskAdjustedCashflow && (
+            <div className="lgr-cross-ref">
+              <ArrowRight size={14} />
+              <span>This adjustment feeds into the <a href="#lgr-risk-adjusted" onClick={() => setActiveSection('risk-adjusted')}>Risk-Adjusted Model</a>.</span>
+            </div>
+          )}
         </CollapsibleSection>
       )}
 

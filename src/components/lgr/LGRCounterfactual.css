@@ -1,0 +1,177 @@
+.lgr-counterfactual {
+  margin-bottom: 2.5rem;
+}
+
+/* Verdict banner */
+.cf-verdict {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.cf-verdict > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.cf-verdict-content strong {
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+
+.cf-verdict-content p {
+  font-size: 0.9rem;
+  color: #e5e5e7;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.verdict-negative {
+  background: rgba(255, 69, 58, 0.08);
+  border: 1px solid rgba(255, 69, 58, 0.3);
+}
+.verdict-negative > svg,
+.verdict-negative .cf-verdict-content strong {
+  color: #ff453a;
+}
+
+.verdict-marginal {
+  background: rgba(255, 159, 10, 0.08);
+  border: 1px solid rgba(255, 159, 10, 0.3);
+}
+.verdict-marginal > svg,
+.verdict-marginal .cf-verdict-content strong {
+  color: #ff9f0a;
+}
+
+.verdict-positive {
+  background: rgba(48, 209, 88, 0.08);
+  border: 1px solid rgba(48, 209, 88, 0.3);
+}
+.verdict-positive > svg,
+.verdict-positive .cf-verdict-content strong {
+  color: #30d158;
+}
+
+/* Stat grid */
+.cf-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.cf-stat-card {
+  display: flex;
+  flex-direction: column;
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1rem 1.25rem;
+}
+
+.cf-stat-label {
+  font-size: 0.72rem;
+  color: #8e8e93;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.25rem;
+}
+
+.cf-stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.cf-stat-note {
+  font-size: 0.72rem;
+  color: #636366;
+  margin-top: 0.15rem;
+}
+
+/* Chart card */
+.cf-chart-card {
+  background: rgba(28, 28, 30, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.cf-chart-card h3 {
+  font-size: 0.95rem;
+  margin: 0 0 0.75rem;
+  color: #e5e5e7;
+}
+
+/* Hidden costs section */
+.cf-hidden-costs-section {
+  margin-bottom: 1.5rem;
+}
+
+.cf-hidden-costs-section h3 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1rem;
+  color: #ff9f0a;
+  margin-bottom: 0.5rem;
+}
+
+.cf-hidden-costs-total {
+  font-size: 0.9rem;
+  color: #a1a1a6;
+  margin-bottom: 0.75rem;
+}
+
+.cf-hidden-costs-total strong {
+  color: #ff453a;
+  font-size: 1.1rem;
+}
+
+/* Evidence factors */
+.cf-evidence {
+  margin-bottom: 1rem;
+}
+
+.cf-evidence h3 {
+  font-size: 0.95rem;
+  color: #e5e5e7;
+  margin-bottom: 0.5rem;
+}
+
+.cf-factors-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cf-factors-list li {
+  font-size: 0.82rem;
+  color: #a1a1a6;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  line-height: 1.5;
+}
+
+.cf-bullet {
+  color: #12B6CF;
+  margin-right: 6px;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .cf-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cf-stat-value {
+    font-size: 1.2rem;
+  }
+}
