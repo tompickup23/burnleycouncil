@@ -53,6 +53,7 @@ const Executive = lazy(() => import('./pages/Executive'))
 const DirectorateDashboard = lazy(() => import('./pages/DirectorateDashboard'))
 const DirectorateDetail = lazy(() => import('./pages/DirectorateDetail'))
 const PortfolioDetail = lazy(() => import('./pages/PortfolioDetail'))
+const TVDashboard = lazy(() => import('./pages/TVDashboard'))
 const AdminPanel = lazy(() => import('./components/AdminPanel'))
 const AuthGate = lazy(() => import('./components/AuthGate'))
 
@@ -97,6 +98,11 @@ function App() {
   const [authenticated, setAuthenticated] = useState(
     () => sessionStorage.getItem('aidoge_auth') === 'true'
   )
+
+  // TV dashboard routes bypass ALL auth — display-only for County Hall screens
+  if (window.location.pathname.startsWith(import.meta.env.BASE_URL + 'tv')) {
+    return <TVRoutes />
+  }
 
   // Firebase mode — use Firebase auth
   if (isFirebaseEnabled) {
@@ -174,6 +180,21 @@ function RouterContent() {
         </div>
       </Layout>
     </CouncilConfigProvider>
+  )
+}
+
+/** TV Dashboard routes — no auth, no Layout, full-screen for County Hall screens */
+function TVRoutes() {
+  return (
+    <Router basename={import.meta.env.BASE_URL}>
+      <CouncilConfigProvider>
+        <Routes>
+          <Route path="/tv" element={<Guarded><TVDashboard /></Guarded>} />
+          <Route path="/tv/:directorateId" element={<Guarded><TVDashboard /></Guarded>} />
+          <Route path="*" element={<Navigate to="/tv" replace />} />
+        </Routes>
+      </CouncilConfigProvider>
+    </Router>
   )
 }
 

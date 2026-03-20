@@ -116,6 +116,15 @@ export function useData(urls) {
 
     const controller = new AbortController()
 
+    // Clear any stale in-flight promises that may have been aborted
+    // by a previous effect cleanup (React StrictMode double-mount)
+    urlList.forEach(url => {
+      const entry = cache.get(url)
+      if (!entry || !isFresh(entry)) {
+        inflight.delete(url)
+      }
+    })
+
     const fetchUrl = (url) => {
       const entry = cache.get(url)
       if (entry && isFresh(entry)) {
