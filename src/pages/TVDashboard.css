@@ -942,6 +942,352 @@
   letter-spacing: 0.06em;
 }
 
+/* ─── 7-column hero row for overview ─────────────────────────────────── */
+.tv-hero-row-7 {
+  grid-template-columns: repeat(7, 1fr);
+}
+
+.tv-hero-row-7 .tv-stat-value {
+  font-size: 1.5rem;
+  letter-spacing: -1px;
+}
+
+/* ─── Overview Grid — 5 directorate cards ────────────────────────────── */
+.tv-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+  flex: 1;
+  min-height: 0;
+  animation: tv-fade-in 0.4s ease-out;
+}
+
+.tv-dir-card {
+  background: rgba(255,255,255,0.015);
+  border: 1px solid rgba(255,255,255,0.045);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.tv-dir-card:hover {
+  border-color: rgba(18,182,207,0.3);
+  background: rgba(18,182,207,0.03);
+  transform: translateY(-2px);
+}
+
+.tv-dir-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.tv-dir-card-title {
+  font-size: 0.82rem;
+  font-weight: 800;
+  color: rgba(255,255,255,0.8);
+  line-height: 1.15;
+  flex: 1;
+}
+
+.tv-dir-card-risk {
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.tv-dir-risk-score {
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: -1px;
+  line-height: 1;
+  display: block;
+}
+
+.tv-dir-risk-label {
+  font-size: 0.5rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  opacity: 0.6;
+  display: block;
+}
+
+.tv-dir-card-stats {
+  display: flex;
+  gap: 8px;
+}
+
+.tv-dir-mini-stat {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.tv-dir-mini-label {
+  font-size: 0.55rem;
+  color: rgba(255,255,255,0.28);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.tv-dir-mini-value {
+  font-size: 0.95rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.tv-dir-mtfs-bar {
+  height: 6px;
+  background: rgba(255,255,255,0.025);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.tv-dir-mtfs-fill {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 1s ease-out;
+}
+
+.tv-dir-mtfs-fill.covered { background: linear-gradient(90deg, #12B6CF, #30d158); }
+.tv-dir-mtfs-fill.partial { background: linear-gradient(90deg, #12B6CF, #ff9f0a); }
+.tv-dir-mtfs-fill.gap { background: linear-gradient(90deg, #ff453a, #ff6b6b); }
+
+.tv-dir-portfolios {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.tv-dir-portfolio-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 3px 6px;
+  background: rgba(255,255,255,0.01);
+  border-radius: 4px;
+  border-left: 2px solid rgba(18,182,207,0.2);
+}
+
+.tv-dir-portfolio-name {
+  font-size: 0.68rem;
+  color: rgba(255,255,255,0.5);
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+}
+
+.tv-dir-portfolio-spend {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #12B6CF;
+  font-variant-numeric: tabular-nums;
+  flex-shrink: 0;
+  margin-left: 4px;
+}
+
+.tv-dir-card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.tv-dir-alert-badge {
+  font-size: 0.58rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #ff453a;
+  background: rgba(255,69,58,0.1);
+  border: 1px solid rgba(255,69,58,0.15);
+  border-radius: 3px;
+  padding: 1px 5px;
+  animation: tv-pulse 2s ease-in-out infinite;
+}
+
+.tv-dir-footer-info {
+  font-size: 0.6rem;
+  color: rgba(255,255,255,0.2);
+}
+
+/* ─── Overview Bottom Row — 3 panels ─────────────────────────────────── */
+.tv-overview-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+  flex-shrink: 0;
+  min-height: 0;
+}
+
+.tv-panel-compact {
+  padding: 8px 12px;
+}
+
+/* ─── Political Composition Bar ──────────────────────────────────────── */
+.tv-politics-bar {
+  display: flex;
+  height: 18px;
+  border-radius: 9px;
+  overflow: hidden;
+  margin-bottom: 6px;
+}
+
+.tv-politics-segment {
+  transition: width 1s ease-out;
+  min-width: 2px;
+}
+
+.tv-politics-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+}
+
+.tv-politics-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tv-politics-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tv-politics-party {
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.45);
+  font-weight: 500;
+}
+
+.tv-politics-seats {
+  font-size: 0.78rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Integrity Row ──────────────────────────────────────────────────── */
+.tv-integrity-row {
+  display: flex;
+  gap: 8px;
+  padding: 6px 8px;
+  background: rgba(255,255,255,0.012);
+  border: 1px solid rgba(255,255,255,0.03);
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+.tv-integrity-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.tv-integrity-label {
+  font-size: 0.55rem;
+  color: rgba(255,255,255,0.28);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 600;
+  text-align: center;
+}
+
+.tv-integrity-value {
+  font-size: 1rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Portfolio Cards (directorate view) ─────────────────────────────── */
+.tv-portfolio-cards {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.tv-portfolio-card {
+  flex: 1;
+  background: rgba(18,182,207,0.025);
+  border: 1px solid rgba(18,182,207,0.08);
+  border-radius: 8px;
+  padding: 8px 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.tv-portfolio-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: #12B6CF;
+  opacity: 0.4;
+}
+
+.tv-portfolio-card-name {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 1px;
+}
+
+.tv-portfolio-card-member {
+  font-size: 0.62rem;
+  color: rgba(255,255,255,0.25);
+  margin-bottom: 4px;
+}
+
+.tv-portfolio-card-stats {
+  display: flex;
+  gap: 10px;
+}
+
+.tv-portfolio-card-stat {
+  display: flex;
+  flex-direction: column;
+}
+
+.tv-portfolio-card-stat-label {
+  font-size: 0.52rem;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 600;
+}
+
+.tv-portfolio-card-stat-value {
+  font-size: 0.88rem;
+  font-weight: 900;
+  color: rgba(255,255,255,0.65);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Special Intelligence Panel ─────────────────────────────────────── */
+.tv-special-intel {
+  background: rgba(18,182,207,0.02);
+  border: 1px solid rgba(18,182,207,0.06);
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
 /* ─── Recharts overrides ──────────────────────────────────────────────── */
 .tv-panel .recharts-cartesian-grid line { stroke: rgba(255,255,255,0.025); }
 .tv-panel .recharts-text { fill: rgba(255,255,255,0.3); font-size: 10px; }

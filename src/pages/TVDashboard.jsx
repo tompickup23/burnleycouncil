@@ -20,21 +20,39 @@ const TIER_COLORS = {
   structural: '#ffd60a',
 }
 
+const PARTY_COLORS = {
+  'Reform UK': '#12B6CF',
+  'Conservative': '#0087DC',
+  'Labour': '#E4003B',
+  'Liberal Democrat': '#FAA61A',
+  'Liberal Democrats': '#FAA61A',
+  'Green': '#6AB023',
+  'Independent': '#888',
+  'Progressive Lancashire': '#9B59B6',
+  'OWL': '#E67E22',
+}
+
 /**
- * TVDashboard v4 — Full-screen directorate KPI display for County Hall TV screens.
- * Route: /tv/:directorateId — no nav, no auth, 1080p optimised, 3–5m viewing distance.
+ * TVDashboard v5 — Full-screen leadership dashboard for County Hall TV screens.
+ * Route: /tv — Overview of all directorates + council-wide intelligence
+ * Route: /tv/:directorateId — Deep-dive into specific directorate with portfolio breakdown
+ * 1920×1080 optimised, readable at 3–5m viewing distance.
  */
 export default function TVDashboard() {
   const { directorateId } = useParams()
   const [clock, setClock] = useState(new Date())
+  const isOverview = !directorateId || directorateId === 'overview'
 
   const { data: allData, loading, error } = useData([
     '/data/cabinet_portfolios.json',
     '/data/doge_findings.json',
     '/data/budgets.json',
+    '/data/councillors.json',
+    '/data/politics_summary.json',
+    '/data/roadworks.json',
   ])
 
-  const [portfolioData, findingsData] = allData || [null, null]
+  const [portfolioData, findingsData, budgetsData, councillorsData, politicsData, roadworksData] = allData || [null, null, null, null, null, null]
   const { summary: spendingSummary } = useSpendingSummary()
 
   useEffect(() => {
@@ -44,45 +62,126 @@ export default function TVDashboard() {
   }, [loading])
 
   const directorates = portfolioData?.directorates || []
-  const dirIdx = useMemo(() => {
-    if (!directorates.length) return 0
-    const idx = directorates.findIndex(d => d.id === directorateId)
+  const allPortfolios = portfolioData?.portfolios || []
+  const mtfs = portfolioData?.administration?.mtfs
+
+  // Navigation — overview is index -1 conceptually, then directorates 0..N
+  const navItems = useMemo(() => {
+    const items = [{ id: 'overview', title: 'Overview' }]
+    for (const d of directorates) items.push({ id: d.id, title: d.title })
+    return items
+  }, [directorates])
+
+  const navIdx = useMemo(() => {
+    if (isOverview) return 0
+    const idx = navItems.findIndex(n => n.id === directorateId)
     return idx >= 0 ? idx : 0
-  }, [directorates, directorateId])
+  }, [navItems, directorateId, isOverview])
 
   useEffect(() => {
-    if (!directorates.length) return
+    if (!navItems.length) return
     const handler = (e) => {
       let next
-      if (e.key === 'ArrowRight') next = (dirIdx + 1) % directorates.length
-      else if (e.key === 'ArrowLeft') next = (dirIdx - 1 + directorates.length) % directorates.length
+      if (e.key === 'ArrowRight') next = (navIdx + 1) % navItems.length
+      else if (e.key === 'ArrowLeft') next = (navIdx - 1 + navItems.length) % navItems.length
       else return
-      window.location.href = window.location.pathname.replace(/\/tv\/?.*/, `/tv/${directorates[next].id}`)
+      const targetId = navItems[next].id
+      const base = window.location.pathname.replace(/\/tv\/?.*/, '/tv')
+      window.location.href = targetId === 'overview' ? base : `${base}/${targetId}`
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [directorates, dirIdx])
+  }, [navItems, navIdx])
 
   const directorate = useMemo(() => {
-    if (!portfolioData?.directorates) return null
+    if (isOverview || !portfolioData?.directorates) return null
     return portfolioData.directorates.find(d => d.id === directorateId) || portfolioData.directorates[0]
-  }, [portfolioData, directorateId])
+  }, [portfolioData, directorateId, isOverview])
 
-  const profile = useMemo(() => {
-    if (!directorate || !portfolioData?.portfolios) return null
-    return buildDirectorateSavingsProfile(directorate, portfolioData.portfolios, findingsData, portfolioData)
-  }, [directorate, portfolioData, findingsData])
+  // ─── Build profiles for ALL directorates (for overview + directorate view) ───
+  const allProfiles = useMemo(() => {
+    if (!directorates.length || !allPortfolios.length) return {}
+    const profiles = {}
+    for (const d of directorates) {
+      profiles[d.id] = {
+        profile: buildDirectorateSavingsProfile(d, allPortfolios, findingsData, portfolioData),
+        risk: directorateRiskProfile(d, allPortfolios, [], { findings: findingsData }),
+        portfolios: allPortfolios.filter(p => d.portfolio_ids?.includes(p.id)),
+      }
+    }
+    return profiles
+  }, [directorates, allPortfolios, findingsData, portfolioData])
 
-  const risk = useMemo(() => {
-    if (!directorate || !portfolioData?.portfolios) return null
-    return directorateRiskProfile(directorate, portfolioData.portfolios, [], { findings: findingsData })
-  }, [directorate, portfolioData, findingsData])
+  const profile = directorate ? allProfiles[directorate.id]?.profile : null
+  const risk = directorate ? allProfiles[directorate.id]?.risk : null
+  const portfolios = directorate ? (allProfiles[directorate.id]?.portfolios || []) : []
 
-  const portfolios = useMemo(() => {
-    if (!directorate || !portfolioData?.portfolios) return []
-    return portfolioData.portfolios.filter(p => directorate.portfolio_ids?.includes(p.id))
-  }, [directorate, portfolioData])
+  // ─── Council-wide totals (for overview) ───
+  const councilTotals = useMemo(() => {
+    if (!directorates.length) return null
+    let totalBudget = 0, totalTarget = 0, totalSavings = 0, totalFTE = 0
+    let totalAgency = 0, criticalPressures = 0, totalLevers = 0
+    for (const d of directorates) {
+      totalBudget += d.net_budget || 0
+      totalTarget += d.mtfs_savings_target || 0
+      const p = allProfiles[d.id]?.profile
+      if (p?.savings_range?.midpoint) totalSavings += p.savings_range.midpoint
+      totalLevers += p?.lever_count || 0
+      const ports = allProfiles[d.id]?.portfolios || []
+      for (const port of ports) {
+        const w = port.workforce
+        if (w) { totalFTE += w.fte_headcount || 0; totalAgency += w.agency_fte || 0 }
+        for (const dp of (port.demand_pressures || [])) {
+          if (dp.severity === 'critical') criticalPressures++
+        }
+      }
+      for (const dp of (d.demand_pressures || [])) {
+        if (dp.severity === 'critical') criticalPressures++
+      }
+    }
+    return {
+      totalBudget, totalTarget, totalSavings, totalFTE, totalAgency,
+      criticalPressures, totalLevers,
+      coveragePct: totalTarget > 0 ? Math.round((totalSavings / totalTarget) * 100) : 0,
+      gap: totalTarget - totalSavings,
+    }
+  }, [directorates, allProfiles])
 
+  // ─── Political composition ───
+  const politics = useMemo(() => {
+    if (!politicsData) return null
+    const parties = politicsData.parties || politicsData.composition || []
+    if (Array.isArray(parties)) {
+      return parties.sort((a, b) => (b.seats || b.count || 0) - (a.seats || a.count || 0))
+    }
+    return null
+  }, [politicsData])
+
+  const totalSeats = useMemo(() => {
+    if (!politics) return 0
+    return politics.reduce((s, p) => s + (p.seats || p.count || 0), 0)
+  }, [politics])
+
+  // ─── Roadworks summary (for Growth directorate) ───
+  const roadworksSummary = useMemo(() => {
+    if (!roadworksData) return null
+    const works = Array.isArray(roadworksData) ? roadworksData : roadworksData?.works || roadworksData?.roadworks || []
+    const active = works.filter(w => {
+      const end = w.end_date || w.expected_end
+      return !end || new Date(end) >= new Date()
+    })
+    const bySeverity = { major: 0, standard: 0, minor: 0, other: 0 }
+    for (const w of active) {
+      const sev = (w.severity || w.traffic_management || 'other').toLowerCase()
+      if (sev.includes('major') || sev.includes('road closure')) bySeverity.major++
+      else if (sev.includes('standard') || sev.includes('multi-way')) bySeverity.standard++
+      else if (sev.includes('minor') || sev.includes('two-way')) bySeverity.minor++
+      else bySeverity.other++
+    }
+    return { total: works.length, active: active.length, bySeverity }
+  }, [roadworksData])
+
+  // ─── Spending by directorate ───
   const dirSpending = useMemo(() => {
     if (!spendingSummary?.by_portfolio || !portfolios.length) return null
     let total = 0, count = 0, suppliers = 0
@@ -93,7 +192,16 @@ export default function TVDashboard() {
     return { total, count, suppliers }
   }, [spendingSummary, portfolios])
 
-  // All KPIs from directorate + constituent portfolios
+  // ─── Total spending across all portfolios ───
+  const totalSpending = useMemo(() => {
+    if (!spendingSummary) return null
+    return {
+      total: spendingSummary.total_spend || 0,
+      count: spendingSummary.transaction_count || 0,
+    }
+  }, [spendingSummary])
+
+  // ─── All KPIs (directorate view) ───
   const allKPIs = useMemo(() => {
     if (!directorate) return []
     const kpis = [...(directorate.performance_metrics || [])]
@@ -105,7 +213,7 @@ export default function TVDashboard() {
     return kpis
   }, [directorate, portfolios])
 
-  // All savings levers
+  // ─── All savings levers ───
   const allLevers = useMemo(() => {
     if (!portfolios.length) return []
     const levers = []
@@ -117,14 +225,10 @@ export default function TVDashboard() {
     return levers.sort((a, b) => (b.range?.high || 0) - (a.range?.high || 0))
   }, [portfolios])
 
-  // Demand pressures — gathered from directorate AND all portfolios
+  // ─── Demand pressures ───
   const demandPressures = useMemo(() => {
     const pressures = []
-    // Directorate-level
-    for (const dp of (directorate?.demand_pressures || [])) {
-      pressures.push({ ...dp })
-    }
-    // Portfolio-level
+    for (const dp of (directorate?.demand_pressures || [])) pressures.push({ ...dp })
     for (const p of portfolios) {
       for (const dp of (p.demand_pressures || [])) {
         if (!pressures.some(x => x.name === dp.name)) pressures.push({ ...dp, portfolio: p.short_title || p.title })
@@ -136,7 +240,7 @@ export default function TVDashboard() {
     })
   }, [directorate, portfolios])
 
-  // Workforce totals across portfolios
+  // ─── Workforce (directorate view) ───
   const workforce = useMemo(() => {
     let fte = 0, agencySpend = 0, agencyFte = 0, vacancySum = 0, vacancyCount = 0
     for (const p of portfolios) {
@@ -152,7 +256,61 @@ export default function TVDashboard() {
     return { fte, agencySpend, agencyFte, vacancyPct: vacancyCount > 0 ? Math.round(vacancySum / vacancyCount * 10) / 10 : null }
   }, [portfolios])
 
-  const mtfs = portfolioData?.administration?.mtfs
+  // ─── Inspections ───
+  const inspections = useMemo(() => {
+    const items = []
+    const searchPorts = directorate ? portfolios : allPortfolios
+    for (const p of searchPorts) {
+      const ctx = p.operational_context || {}
+      if (ctx.cqc_rating) items.push({ name: 'CQC', rating: ctx.cqc_rating, date: ctx.cqc_date, portfolio: p.short_title })
+      if (ctx.ofsted_rating) items.push({ name: 'Ofsted', rating: ctx.ofsted_rating, date: ctx.ofsted_date, portfolio: p.short_title })
+      if (ctx.send_inspection?.rating) items.push({ name: 'SEND', rating: ctx.send_inspection.rating, date: ctx.send_inspection.date, portfolio: p.short_title })
+      if (ctx.dft_rating) items.push({ name: 'DfT Highways', rating: ctx.dft_rating, portfolio: p.short_title })
+    }
+    return items
+  }, [directorate, portfolios, allPortfolios])
+
+  // ─── Portfolio spending map ───
+  const portfolioSpendMap = useMemo(() => {
+    if (!spendingSummary?.by_portfolio) return {}
+    return spendingSummary.by_portfolio
+  }, [spendingSummary])
+
+  // ─── All council-wide demand pressures (for overview) ───
+  const allDemandPressures = useMemo(() => {
+    if (!directorates.length) return []
+    const all = []
+    for (const d of directorates) {
+      for (const dp of (d.demand_pressures || [])) {
+        all.push({ ...dp, directorate: d.title?.split(',')[0] || d.title })
+      }
+      const ports = allProfiles[d.id]?.portfolios || []
+      for (const p of ports) {
+        for (const dp of (p.demand_pressures || [])) {
+          if (!all.some(x => x.name === dp.name)) {
+            all.push({ ...dp, directorate: d.title?.split(',')[0] || d.title })
+          }
+        }
+      }
+    }
+    return all.sort((a, b) => {
+      const ord = { critical: 0, high: 1, medium: 2, low: 3 }
+      return (ord[a.severity] ?? 4) - (ord[b.severity] ?? 4)
+    })
+  }, [directorates, allProfiles])
+
+  // ─── Top savings levers council-wide (for overview) ───
+  const topCouncilLevers = useMemo(() => {
+    if (!allPortfolios.length) return []
+    const levers = []
+    for (const p of allPortfolios) {
+      for (const l of (p.savings_levers || [])) {
+        levers.push({ ...l, portfolio: p.short_title || p.title, range: parseSavingRange(l.est_saving) })
+      }
+    }
+    return levers.sort((a, b) => (b.range?.high || 0) - (a.range?.high || 0)).slice(0, 8)
+  }, [allPortfolios])
+
   const deliveryHistory = directorate?.savings_delivery_history || []
   const coveragePct = profile?.coverage_pct || 0
   const deliveryPct = directorate?.prior_year_achieved != null && directorate?.prior_year_target
@@ -167,31 +325,265 @@ export default function TVDashboard() {
       .sort((a, b) => b.value - a.value)
   }, [profile])
 
-  const inspections = useMemo(() => {
-    const items = []
-    for (const p of portfolios) {
-      const ctx = p.operational_context || {}
-      if (ctx.cqc_rating) items.push({ name: 'CQC', rating: ctx.cqc_rating, date: ctx.cqc_date, portfolio: p.short_title })
-      if (ctx.ofsted_rating) items.push({ name: 'Ofsted', rating: ctx.ofsted_rating, date: ctx.ofsted_date, portfolio: p.short_title })
-      if (ctx.send_inspection?.rating) items.push({ name: 'SEND', rating: ctx.send_inspection.rating, date: ctx.send_inspection.date, portfolio: p.short_title })
-      if (ctx.dft_rating) items.push({ name: 'DfT Highways', rating: ctx.dft_rating, portfolio: p.short_title })
-    }
-    return items
-  }, [portfolios])
-
-  // ─── Loading / Error ────────────────────────────────────────────────
+  // ─── Loading / Error ───
   if (loading) return (
     <div className="tv-dashboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
       <div style={{ textAlign: 'center' }}>
         <div className="tv-reform-badge" style={{ fontSize: '1.5rem', marginBottom: 20 }}>AI DOGE</div>
-        <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.2rem' }}>Loading directorate intelligence...</div>
+        <div style={{ color: 'rgba(255,255,255,0.4)', fontSize: '1.2rem' }}>Loading council intelligence...</div>
       </div>
     </div>
   )
 
-  if (error || !directorate) return (
+  if (error) return (
     <div className="tv-dashboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ color: '#ff453a', fontSize: '1.5rem' }}>{error?.message || `Directorate "${directorateId}" not found`}</div>
+      <div style={{ color: '#ff453a', fontSize: '1.5rem' }}>{error?.message || 'Failed to load data'}</div>
+    </div>
+  )
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // OVERVIEW MODE — All directorates + council-wide intelligence
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (isOverview) {
+    const ct = councilTotals || {}
+    return (
+      <div className="tv-dashboard">
+        <TVHeader clock={clock} title="Council Overview" subtitle={`${directorates.length} Directorates · ${allPortfolios.length} Portfolios · ${ct.totalFTE?.toLocaleString() || '—'} FTE`} />
+
+        <div className="tv-body">
+          {/* Hero Stats — Council-Wide */}
+          <div className="tv-hero-row tv-hero-row-7">
+            <HeroStat label="Total Budget" value={fmtLarge(ct.totalBudget)} variant="accent"
+              sub={mtfs?.total_net_budget ? `of ${fmtLarge(mtfs.total_net_budget)} gross` : ''} />
+            <HeroStat label="MTFS Target" value={fmtLarge(ct.totalTarget)} variant="danger"
+              sub={mtfs?.savings_targets?.['2026_27'] ? `FY 26/27` : ''} />
+            <HeroStat label="Savings Found" value={fmtLarge(ct.totalSavings)} variant="info"
+              sub={`${ct.totalLevers} levers identified`} />
+            <HeroStat label="MTFS Coverage" value={`${ct.coveragePct}%`}
+              variant={ct.coveragePct >= 100 ? 'success' : ct.coveragePct >= 60 ? 'warning' : 'danger'}
+              sub={ct.coveragePct >= 100 ? 'Target covered' : `Gap: ${fmtLarge(ct.gap)}`} />
+            <HeroStat label="Spend Tracked" value={totalSpending ? fmtLarge(totalSpending.total) : '—'} variant="accent"
+              sub={totalSpending ? `${totalSpending.count.toLocaleString()} transactions` : ''} />
+            <HeroStat label="Critical Pressures" value={String(ct.criticalPressures)} variant={ct.criticalPressures > 5 ? 'danger' : 'warning'}
+              sub="Across all directorates" />
+            <HeroStat label="Savings Levers" value={String(ct.totalLevers)} variant="info"
+              sub="Across all portfolios" />
+          </div>
+
+          {/* ═══ Main Grid — 2 rows ═══ */}
+          <div className="tv-overview-grid">
+            {/* ─── Row 1: 5 Directorate Cards ─── */}
+            {directorates.map((d) => {
+              const dp = allProfiles[d.id]
+              const prof = dp?.profile
+              const rsk = dp?.risk
+              const ports = dp?.portfolios || []
+              const cov = prof?.coverage_pct || 0
+              const riskScore = rsk?.risk_score || 0
+              const riskColor = riskScore >= 70 ? '#ff453a' : riskScore >= 40 ? '#ff9f0a' : '#30d158'
+              const mid = prof?.savings_range?.midpoint || 0
+              const tgt = d.mtfs_savings_target || 0
+              const fillPct = tgt > 0 ? Math.min(100, (mid / tgt) * 100) : 0
+              const fillClass = fillPct >= 100 ? 'covered' : fillPct >= 60 ? 'partial' : 'gap'
+              // Count critical KPIs
+              const critKPIs = [...(d.performance_metrics || []), ...ports.flatMap(p => p.performance_metrics || [])]
+                .filter(k => getKPIStatus(k) === 'critical').length
+              // Directorate spending
+              let dSpend = 0
+              for (const p of ports) {
+                const ps = portfolioSpendMap[p.id]
+                if (ps) dSpend += ps.total || 0
+              }
+
+              return (
+                <div key={d.id} className="tv-dir-card"
+                  onClick={() => { window.location.href = window.location.pathname.replace(/\/tv\/?.*/, `/tv/${d.id}`) }}>
+                  <div className="tv-dir-card-header">
+                    <div className="tv-dir-card-title">{d.title?.replace(/ & /g, ' &\n').split(',')[0] || d.title}</div>
+                    <div className="tv-dir-card-risk" style={{ color: riskColor }}>
+                      <span className="tv-dir-risk-score">{Math.round(riskScore)}</span>
+                      <span className="tv-dir-risk-label">RISK</span>
+                    </div>
+                  </div>
+
+                  <div className="tv-dir-card-stats">
+                    <div className="tv-dir-mini-stat">
+                      <span className="tv-dir-mini-label">Budget</span>
+                      <span className="tv-dir-mini-value" style={{ color: '#12B6CF' }}>{fmtLarge(d.net_budget)}</span>
+                    </div>
+                    <div className="tv-dir-mini-stat">
+                      <span className="tv-dir-mini-label">Target</span>
+                      <span className="tv-dir-mini-value" style={{ color: '#ff453a' }}>{fmtLarge(tgt)}</span>
+                    </div>
+                    <div className="tv-dir-mini-stat">
+                      <span className="tv-dir-mini-label">Coverage</span>
+                      <span className="tv-dir-mini-value" style={{ color: cov >= 100 ? '#30d158' : cov >= 60 ? '#ff9f0a' : '#ff453a' }}>{Math.round(cov)}%</span>
+                    </div>
+                  </div>
+
+                  {/* MTFS mini bar */}
+                  <div className="tv-dir-mtfs-bar">
+                    <div className={`tv-dir-mtfs-fill ${fillClass}`} style={{ width: `${fillPct}%` }} />
+                  </div>
+
+                  {/* Portfolios */}
+                  <div className="tv-dir-portfolios">
+                    {ports.map(p => {
+                      const ps = portfolioSpendMap[p.id]
+                      return (
+                        <div key={p.id} className="tv-dir-portfolio-row">
+                          <span className="tv-dir-portfolio-name">{p.short_title || p.title}</span>
+                          <span className="tv-dir-portfolio-spend">{ps ? fmtLarge(ps.total) : '—'}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+
+                  {/* Bottom stats */}
+                  <div className="tv-dir-card-footer">
+                    {critKPIs > 0 && <span className="tv-dir-alert-badge">{critKPIs} critical KPI{critKPIs > 1 ? 's' : ''}</span>}
+                    <span className="tv-dir-footer-info">{prof?.lever_count || 0} levers · {ports.length} portfolio{ports.length > 1 ? 's' : ''}</span>
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+
+          {/* ═══ Bottom Row: 3 panels ═══ */}
+          <div className="tv-overview-bottom">
+            {/* Political Composition */}
+            <div className="tv-panel tv-panel-compact">
+              <div className="tv-panel-header">
+                <div className="tv-panel-title"><span className="icon">◉</span> Political Control</div>
+                <div className="tv-panel-badge live">{totalSeats} seats</div>
+              </div>
+              {politics && politics.length > 0 ? (
+                <>
+                  <div className="tv-politics-bar">
+                    {politics.map((p, i) => {
+                      const seats = p.seats || p.count || 0
+                      const pct = totalSeats > 0 ? (seats / totalSeats) * 100 : 0
+                      const color = PARTY_COLORS[p.party || p.name] || '#666'
+                      return pct > 0 ? (
+                        <div key={i} className="tv-politics-segment"
+                          style={{ width: `${pct}%`, background: color }}
+                          title={`${p.party || p.name}: ${seats}`} />
+                      ) : null
+                    })}
+                  </div>
+                  <div className="tv-politics-legend">
+                    {politics.filter(p => (p.seats || p.count || 0) > 0).map((p, i) => (
+                      <div key={i} className="tv-politics-item">
+                        <div className="tv-politics-dot" style={{ background: PARTY_COLORS[p.party || p.name] || '#666' }} />
+                        <span className="tv-politics-party">{p.party || p.name}</span>
+                        <span className="tv-politics-seats" style={{ color: PARTY_COLORS[p.party || p.name] || '#666' }}>{p.seats || p.count}</span>
+                      </div>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <div style={{ color: 'rgba(255,255,255,0.3)', fontSize: '0.78rem' }}>No political data</div>
+              )}
+
+            </div>
+
+            {/* Inspections & Critical Alerts */}
+            <div className="tv-panel tv-panel-compact">
+              <div className="tv-panel-header">
+                <div className="tv-panel-title"><span className="icon">◎</span> Inspections & Alerts</div>
+              </div>
+              {inspections.length > 0 && (
+                <div className="tv-inspection-row" style={{ flexWrap: 'wrap' }}>
+                  {inspections.map((insp, i) => {
+                    const isGood = /good|outstanding/i.test(insp.rating)
+                    const isBad = /inadequate|requires improvement|widespread|failing/i.test(insp.rating)
+                    return (
+                      <div key={i} className={`tv-inspection-card ${isBad ? 'bad' : isGood ? 'good' : 'neutral'}`}>
+                        <div className="tv-inspection-body">{insp.name}</div>
+                        <div className="tv-inspection-rating" style={{ color: isBad ? '#ff453a' : isGood ? '#30d158' : '#ff9f0a' }}>
+                          {insp.rating}
+                        </div>
+                        {insp.portfolio && <div className="tv-inspection-date">{insp.portfolio}</div>}
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+              {/* Top critical demand pressures */}
+              <div className="tv-section-label" style={{ marginTop: 6 }}>Top Demand Pressures</div>
+              <div className="tv-demand-list">
+                {allDemandPressures.filter(d => d.severity === 'critical').slice(0, 4).map((dp, i) => (
+                  <div key={i} className={`tv-demand-row ${dp.severity}`}>
+                    <span className={`tv-demand-sev ${dp.severity}`}>{dp.severity}</span>
+                    <span className="tv-demand-name" title={dp.name}>{dp.name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Top Savings Levers */}
+            <div className="tv-panel tv-panel-compact">
+              <div className="tv-panel-header">
+                <div className="tv-panel-title"><span className="icon">◈</span> Top Savings Levers</div>
+                <div className="tv-panel-badge live">{topCouncilLevers.length} top</div>
+              </div>
+              <div className="tv-lever-rows">
+                {topCouncilLevers.slice(0, 6).map((lever, i) => {
+                  const maxVal = topCouncilLevers[0]?.range?.high || 1
+                  const barPct = Math.min(100, ((lever.range?.high || 0) / maxVal) * 100)
+                  const tierColor = TIER_COLORS[lever.tier?.split('_')?.slice(0, 2)?.join('_')] || TIER_COLORS[lever.tier] || '#12B6CF'
+                  return (
+                    <div key={i} className="tv-lever-row">
+                      <div className="tv-lever-name" title={lever.lever}>{lever.lever}</div>
+                      <div className="tv-lever-amount">{lever.est_saving}</div>
+                      <div className="tv-lever-bar-wrap">
+                        <div className="tv-lever-bar-fill" style={{ width: `${barPct}%`, background: `linear-gradient(90deg, ${tierColor}, ${tierColor}aa)` }} />
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
+
+              {/* Roadworks summary if available */}
+              {roadworksSummary && (
+                <div className="tv-roadworks-mini" style={{ marginTop: 6 }}>
+                  <div className="tv-section-label">Highways Intelligence</div>
+                  <div className="tv-integrity-row">
+                    <div className="tv-integrity-stat">
+                      <span className="tv-integrity-label">Active Works</span>
+                      <span className="tv-integrity-value" style={{ color: '#ff9f0a' }}>{roadworksSummary.active}</span>
+                    </div>
+                    <div className="tv-integrity-stat">
+                      <span className="tv-integrity-label">Major</span>
+                      <span className="tv-integrity-value" style={{ color: '#ff453a' }}>{roadworksSummary.bySeverity.major}</span>
+                    </div>
+                    <div className="tv-integrity-stat">
+                      <span className="tv-integrity-label">Standard</span>
+                      <span className="tv-integrity-value" style={{ color: '#ff9f0a' }}>{roadworksSummary.bySeverity.standard}</span>
+                    </div>
+                    <div className="tv-integrity-stat">
+                      <span className="tv-integrity-label">Total</span>
+                      <span className="tv-integrity-value" style={{ color: '#12B6CF' }}>{roadworksSummary.total}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        <TVFooter navItems={navItems} navIdx={navIdx} councilTotals={ct} totalSpending={totalSpending} />
+        <div className="tv-nav-hint">← → navigate · click directorate to drill down</div>
+      </div>
+    )
+  }
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // DIRECTORATE VIEW — Deep-dive with portfolio breakdown
+  // ═══════════════════════════════════════════════════════════════════════════
+  if (!directorate) return (
+    <div className="tv-dashboard" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ color: '#ff453a', fontSize: '1.5rem' }}>Directorate "{directorateId}" not found</div>
     </div>
   )
 
@@ -203,31 +595,18 @@ export default function TVDashboard() {
   const mtfsFillPct = target > 0 ? Math.min(100, (midpoint / target) * 100) : 0
   const mtfsFillClass = mtfsFillPct >= 100 ? 'covered' : mtfsFillPct >= 60 ? 'partial' : 'gap'
 
+  // ─── Directorate-specific intelligence ───
+  const isGrowth = directorate.id === 'growth_environment'
+  const isAdults = directorate.id === 'adults_health'
+  const isChildren = directorate.id === 'education_children'
+  const isResources = directorate.id === 'resources_digital'
+  const isChief = directorate.id === 'chief_executive'
+
   return (
     <div className="tv-dashboard">
-      {/* ═══ Header ═══ */}
-      <div className="tv-header">
-        <div className="tv-header-left">
-          <div className="tv-reform-badge">AI DOGE</div>
-          <div>
-            <div className="tv-directorate-title">{directorate.title}</div>
-            <div className="tv-director-name">
-              {directorate.executive_director} · {portfolios.length} portfolio{portfolios.length !== 1 ? 's' : ''}
-              {workforce ? ` · ${workforce.fte.toLocaleString()} FTE` : ''}
-            </div>
-          </div>
-        </div>
-        <div className="tv-header-right">
-          <div className="tv-live-indicator">
-            <div className="tv-live-dot" />
-            <span className="tv-live-text">Live</span>
-          </div>
-          <div className="tv-clock">{clock.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</div>
-          <div className="tv-last-updated">{clock.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}</div>
-        </div>
-      </div>
+      <TVHeader clock={clock} title={directorate.title}
+        subtitle={`${directorate.executive_director} · ${portfolios.length} portfolio${portfolios.length !== 1 ? 's' : ''}${workforce ? ` · ${workforce.fte.toLocaleString()} FTE` : ''}`} />
 
-      {/* ═══ Body ═══ */}
       <div className="tv-body">
         {/* Hero Stats */}
         <div className="tv-hero-row">
@@ -249,6 +628,47 @@ export default function TVDashboard() {
 
         {/* Headline Alert */}
         {directorate.kpi_headline && <div className="tv-headline-alert">{directorate.kpi_headline}</div>}
+
+        {/* Portfolio Cards Row */}
+        {portfolios.length > 1 && (
+          <div className="tv-portfolio-cards">
+            {portfolios.map(p => {
+              const ps = portfolioSpendMap[p.id]
+              const pLevers = (p.savings_levers || []).length
+              const pKPIs = (p.performance_metrics || [])
+              const critCount = pKPIs.filter(k => getKPIStatus(k) === 'critical').length
+              const cm = p.cabinet_member || {}
+              return (
+                <div key={p.id} className="tv-portfolio-card">
+                  <div className="tv-portfolio-card-name">{p.short_title || p.title}</div>
+                  <div className="tv-portfolio-card-member">{cm.name || '—'}</div>
+                  <div className="tv-portfolio-card-stats">
+                    <div className="tv-portfolio-card-stat">
+                      <span className="tv-portfolio-card-stat-label">Spend</span>
+                      <span className="tv-portfolio-card-stat-value" style={{ color: '#12B6CF' }}>{ps ? fmtLarge(ps.total) : '—'}</span>
+                    </div>
+                    <div className="tv-portfolio-card-stat">
+                      <span className="tv-portfolio-card-stat-label">Levers</span>
+                      <span className="tv-portfolio-card-stat-value">{pLevers}</span>
+                    </div>
+                    {critCount > 0 && (
+                      <div className="tv-portfolio-card-stat">
+                        <span className="tv-portfolio-card-stat-label">Critical</span>
+                        <span className="tv-portfolio-card-stat-value" style={{ color: '#ff453a' }}>{critCount}</span>
+                      </div>
+                    )}
+                    {p.workforce && (
+                      <div className="tv-portfolio-card-stat">
+                        <span className="tv-portfolio-card-stat-label">FTE</span>
+                        <span className="tv-portfolio-card-stat-value">{(p.workforce.fte_headcount || 0).toLocaleString()}</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )
+            })}
+          </div>
+        )}
 
         {/* ═══ Main 3-Column Grid ═══ */}
         <div className="tv-main-grid">
@@ -317,6 +737,31 @@ export default function TVDashboard() {
                 <div className="tv-workforce-stat">
                   <div className="tv-workforce-label">Agency £</div>
                   <div className="tv-workforce-value" style={{ color: '#ff9f0a' }}>{fmtLarge(workforce.agencySpend)}</div>
+                </div>
+              </div>
+            )}
+
+            {/* Directorate-specific intelligence panels */}
+            {isGrowth && roadworksSummary && (
+              <div className="tv-special-intel" style={{ marginTop: 4 }}>
+                <div className="tv-section-label">Highways & Transport Intelligence</div>
+                <div className="tv-integrity-row">
+                  <div className="tv-integrity-stat">
+                    <span className="tv-integrity-label">Active</span>
+                    <span className="tv-integrity-value" style={{ color: '#ff9f0a' }}>{roadworksSummary.active}</span>
+                  </div>
+                  <div className="tv-integrity-stat">
+                    <span className="tv-integrity-label">Major</span>
+                    <span className="tv-integrity-value" style={{ color: '#ff453a' }}>{roadworksSummary.bySeverity.major}</span>
+                  </div>
+                  <div className="tv-integrity-stat">
+                    <span className="tv-integrity-label">Standard</span>
+                    <span className="tv-integrity-value" style={{ color: '#ff9f0a' }}>{roadworksSummary.bySeverity.standard}</span>
+                  </div>
+                  <div className="tv-integrity-stat">
+                    <span className="tv-integrity-label">Total Logged</span>
+                    <span className="tv-integrity-value" style={{ color: '#12B6CF' }}>{roadworksSummary.total}</span>
+                  </div>
                 </div>
               </div>
             )}
@@ -468,7 +913,6 @@ export default function TVDashboard() {
         </div>
       </div>
 
-      {/* ═══ Footer ═══ */}
       <div className="tv-footer">
         <div className="tv-footer-left">
           <div className="tv-footer-stat">
@@ -504,21 +948,92 @@ export default function TVDashboard() {
         </div>
         <div className="tv-footer-right">
           <div className="tv-page-dots">
-            {directorates.map((d, i) => (
-              <div key={d.id} className={`tv-page-dot ${i === dirIdx ? 'active' : ''}`}
-                onClick={() => { window.location.href = window.location.pathname.replace(/\/tv\/?.*/, `/tv/${d.id}`) }}
-                title={d.title} />
+            {navItems.map((n, i) => (
+              <div key={n.id} className={`tv-page-dot ${i === navIdx ? 'active' : ''}`}
+                onClick={() => {
+                  const base = window.location.pathname.replace(/\/tv\/?.*/, '/tv')
+                  window.location.href = n.id === 'overview' ? base : `${base}/${n.id}`
+                }}
+                title={n.title} />
             ))}
           </div>
           <div className="tv-brand">Lancashire County Council · Reform UK · AI DOGE</div>
         </div>
       </div>
-      <div className="tv-nav-hint">← → directorates</div>
+      <div className="tv-nav-hint">← → directorates · overview is first dot</div>
     </div>
   )
 }
 
-/* ═══ Sub-components ═══ */
+/* ═══ Shared Sub-components ═══ */
+
+function TVHeader({ clock, title, subtitle }) {
+  return (
+    <div className="tv-header">
+      <div className="tv-header-left">
+        <div className="tv-reform-badge">AI DOGE</div>
+        <div>
+          <div className="tv-directorate-title">{title}</div>
+          <div className="tv-director-name">{subtitle}</div>
+        </div>
+      </div>
+      <div className="tv-header-right">
+        <div className="tv-live-indicator">
+          <div className="tv-live-dot" />
+          <span className="tv-live-text">Live</span>
+        </div>
+        <div className="tv-clock">{clock.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', second: '2-digit' })}</div>
+        <div className="tv-last-updated">{clock.toLocaleDateString('en-GB', { weekday: 'short', day: 'numeric', month: 'short' })}</div>
+      </div>
+    </div>
+  )
+}
+
+function TVFooter({ navItems, navIdx, councilTotals, totalSpending }) {
+  return (
+    <div className="tv-footer">
+      <div className="tv-footer-left">
+        <div className="tv-footer-stat">
+          <span className="tv-footer-label">Budget</span>
+          <span className="tv-footer-value">{fmtLarge(councilTotals?.totalBudget)}</span>
+        </div>
+        <div className="tv-footer-stat">
+          <span className="tv-footer-label">MTFS Gap</span>
+          <span className="tv-footer-value" style={{ color: councilTotals?.gap > 0 ? '#ff453a' : '#30d158' }}>
+            {fmtLarge(councilTotals?.gap)}
+          </span>
+        </div>
+        <div className="tv-footer-stat">
+          <span className="tv-footer-label">FTE</span>
+          <span className="tv-footer-value">{councilTotals?.totalFTE?.toLocaleString() || '—'}</span>
+        </div>
+        <div className="tv-footer-stat">
+          <span className="tv-footer-label">Agency</span>
+          <span className="tv-footer-value" style={{ color: '#ff9f0a' }}>{councilTotals?.totalAgency?.toLocaleString() || '—'}</span>
+        </div>
+        {totalSpending && (
+          <div className="tv-footer-stat">
+            <span className="tv-footer-label">Spend</span>
+            <span className="tv-footer-value">{fmtLarge(totalSpending.total)}</span>
+          </div>
+        )}
+      </div>
+      <div className="tv-footer-right">
+        <div className="tv-page-dots">
+          {navItems.map((n, i) => (
+            <div key={n.id} className={`tv-page-dot ${i === navIdx ? 'active' : ''}`}
+              onClick={() => {
+                const base = window.location.pathname.replace(/\/tv\/?.*/, '/tv')
+                window.location.href = n.id === 'overview' ? base : `${base}/${n.id}`
+              }}
+              title={n.title} />
+          ))}
+        </div>
+        <div className="tv-brand">Lancashire County Council · Reform UK · AI DOGE</div>
+      </div>
+    </div>
+  )
+}
 
 function HeroStat({ label, value, variant, sub }) {
   return (
