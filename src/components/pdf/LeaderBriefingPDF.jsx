@@ -14,7 +14,7 @@
  *  P7: Political Impact
  *  P8: Treasury & Workforce (reserves chart, Band D trend, revenue summary)
  *  P9: Loss Trajectory & Bond Analysis (Statement of Accounts 8-year analysis)
- *  P10: Year-End Spending Drivers (structural causes, demand by directorate, intervention playbook)
+ *  P10: Year-End Sprint (11-day action plan, 20-31 March, addressed to Leader + Cabinet Member for Data & Digital)
  *  P11: Risk Register & Inspections
  *
  * IMPORTANT: @react-pdf/renderer does NOT filter null/undefined/boolean children
@@ -810,83 +810,129 @@ export function LeaderBriefingPDF({
       </Page>
     ) : null,
 
-    // PAGE 10: Year-End Spending Drivers — deep directorate analysis
+    // PAGE 10: Year-End Sprint — what can be done in 11 days (20-31 March)
     (directorates || []).length > 0 ? (
       <Page key="yearend" size="A4" style={styles.page}>
-        <ConfidentialBanner text="LEADER BRIEFING - MOST RESTRICTED" />
-        <PDFHeader title="Year-End Spending Drivers" subtitle="Structural Causes of March Spending Spike by Directorate" classification="LEADER" />
+        <ConfidentialBanner text="LEADER + CABINET MEMBER FOR DATA & DIGITAL — MOST RESTRICTED" />
+        <PDFHeader title="Year-End Sprint: 20-31 March" subtitle="11 days to improve the outturn position Reform inherits." classification="LEADER" />
+
+        <StatsRow>
+          <StatCard value="£3-8M" label="Realistic 11-Day Impact" color={COLORS.success} detail="Outturn improvement range" />
+          <StatCard value="£1-2M" label="Direct Spend Avoided" color={COLORS.accent} detail="Discretionary freeze" />
+          <StatCard value="£2-5M" label="Accrual/Provision Challenge" color={COLORS.warning} detail="Reduce inflated provisions" />
+          <StatCard value="£0-1M" label="Payment Deferrals" color={COLORS.textSecondary} detail="Invoices pushed to 2026/27" />
+        </StatsRow>
+
         <Card highlight>
-          <SubsectionHeading title="Why March Spending Spikes" />
-          <Text style={{ fontSize: FONT.body, color: COLORS.textPrimary, lineHeight: 1.5 }}>
-            LCC spending accelerates sharply in March due to three structural forces: (1) modified accruals accounting forces all expenditure recognition by 31 March; (2) care sector invoice consolidation — residential homes, supported living and IFA submit year-end settlement invoices; (3) 'use it or lose it' incentive — departments accelerate capital spend to avoid budget clawback. These are not anomalies but predictable consequences of public sector accounting rules and demand-led services.
+          <Text style={{ fontSize: FONT.body, color: COLORS.textPrimary, lineHeight: 1.6 }}>
+            The financial year closes on 31 March. Every accrual posted and provision set in the next 11 days determines the outturn position reported to Full Council and the external auditor. Last year: council-wide 48% savings delivery; Adults 11%. The realistic impact of this sprint is £3-8M improvement on the outturn — not transformational, but it establishes the discipline and intelligence infrastructure that will deliver £30-50M in 2026/27.
           </Text>
         </Card>
-        <SectionHeading title="Primary Demand Drivers by Directorate" />
-        {(directorates || []).map((d, i) => {
-          const dirPortfolios = (portfolios || []).filter(p => d.portfolio_ids?.includes(p.id))
-          const allPressures = dirPortfolios.flatMap(p => (p.demand_pressures || []))
-          const criticalPressures = allPressures.filter(dp => dp.severity === 'critical' || dp.severity === 'high')
-          const deliveryHist = d.savings_delivery_history || []
-          const latestDelivery = deliveryHist[0]
-          const deliveryPctVal = latestDelivery?.pct
-          const gap = d.mtfs_savings_target && d.prior_year_achieved != null
-            ? d.mtfs_savings_target - d.prior_year_achieved : null
 
-          return (
-            <Card key={i}>
-              <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 3 }}>
-                <Text style={{ fontSize: FONT.h4, fontFamily: FONT.bold, color: COLORS.accent }}>
-                  {(d.title || d.name || '').split(',')[0]}
-                </Text>
-                <View style={{ flexDirection: 'row', gap: 8 }}>
-                  <Text style={{ fontSize: FONT.small, color: COLORS.textSecondary }}>
-                    Budget: {formatCurrency(d.net_budget)}
-                  </Text>
-                  {deliveryPctVal != null ? (
-                    <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: deliveryPctVal >= 70 ? COLORS.success : deliveryPctVal >= 40 ? COLORS.warning : COLORS.danger }}>
-                      Delivery: {deliveryPctVal}%
-                    </Text>
-                  ) : <View />}
-                </View>
-              </View>
-              {gap != null && gap > 0 ? (
-                <Text style={{ fontSize: FONT.tiny, color: COLORS.danger, marginBottom: 3 }}>
-                  Prior year savings gap: {formatCurrency(gap)} ({latestDelivery?.note || ''})
-                </Text>
-              ) : <View />}
-              {criticalPressures.length > 0 ? (
-                <BulletList
-                  items={criticalPressures.slice(0, 3).map(dp =>
-                    `${(dp.severity || '').toUpperCase()}: ${dp.driver || dp.pressure || ''} — ${dp.detail || dp.impact || ''}`
-                  )}
-                  color={COLORS.danger}
-                />
-              ) : (
-                allPressures.length > 0 ? (
-                  <BulletList
-                    items={allPressures.slice(0, 2).map(dp =>
-                      `${dp.driver || dp.pressure || ''}: ${dp.detail || dp.impact || ''}`
-                    )}
-                    color={COLORS.warning}
-                  />
-                ) : <View />
-              )}
-            </Card>
-          )
-        })}
+        <SectionHeading title="This Week: 20-26 March" />
         <Card accent>
-          <SubsectionHeading title="Year-End Intervention Playbook" />
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+            <SubsectionHeading title="1. Payment Run Oversight" />
+            <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: COLORS.success }}>Impact: £0.5-1M</Text>
+          </View>
+          <Text style={{ fontSize: FONT.tiny, color: COLORS.textSecondary, marginBottom: 3 }}>
+            LCC processes ~50,000 invoices/month. The final two payment runs (w/c 24 and 28 March) will total £150-200M. Oversight alone catches errors and premature payments.
+          </Text>
           <BulletList items={[
-            'IMMEDIATE: Freeze discretionary spend from 1 February — no non-essential procurement in March',
-            'STRUCTURAL: Move care provider settlements to quarterly invoicing — removes March spike',
-            'GOVERNANCE: Mandate S151 sign-off for any single payment > £250K in Q4',
-            'TRANSPORT: Convert SEND transport from annual to termly contracts — spread costs evenly',
-            'CAPITAL: Switch from annual to rolling capital programmes — end March deadline spending',
-            'AGENCY: Cap agency staff by portfolio — EP ratio 10:1 agency:permanent is unacceptable',
-            'DEMAND: Implement SEND early intervention to slow 10.5% p.a. EHCP growth',
-            'PLACEMENTS: Build LCC residential capacity — 85% of Lancashire children\'s homes serve out-of-area children',
+            'S151 Officer to flag every payment > £500K in the final two runs — Leader and Cabinet Member copied on exceptions',
+            'Request schedule of all creditor invoices received but not yet processed — these become accruals if unpaid by 31 March',
+            'Identify invoices being held to push costs into 2026/27 — lawful but distorts both years. Must be a conscious decision not an accident',
           ]} color={COLORS.accent} />
         </Card>
+        <Card accent>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+            <SubsectionHeading title="2. Accruals & Provisions Challenge" />
+            <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: COLORS.success }}>Impact: £2-5M</Text>
+          </View>
+          <Text style={{ fontSize: FONT.tiny, color: COLORS.textSecondary, marginBottom: 3 }}>
+            This is the highest-impact action. Provisions are estimates. The outgoing administration set provisions that may be precautionary or inflated. Every £1M of unnecessary provision worsens the outturn Reform inherits. The S151 Officer has latitude on provisions within accounting standards.
+          </Text>
+          <BulletList items={[
+            'Draft accruals schedule from each Exec Director by 26 March — this is where the outturn is shaped',
+            'Challenge any provision increase > £1M: evidenced or precautionary? MTFS already includes £11M redundancy provision — is more needed?',
+            'ASC fee uplift accrual: confirm the figure for 2025/26 provider settlements. Providers demanding 7-8% — what is the council booking?',
+            'SEND transport: is the £17.7M growth accrued in 2025/26 or deferred? This single decision swings the outturn by £17.7M',
+          ]} color={COLORS.accent} />
+        </Card>
+        <Card accent>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+            <SubsectionHeading title="3. Discretionary Spend Freeze" />
+            <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: COLORS.success }}>Impact: £1-2M</Text>
+          </View>
+          <Text style={{ fontSize: FONT.tiny, color: COLORS.textSecondary, marginBottom: 3 }}>
+            11 days of discretionary freeze across a £2B council = ~£500K-£2M depending on compliance. More importantly, it establishes that Reform is watching and sets the tone for 2026/27.
+          </Text>
+          <BulletList items={[
+            'Email all Exec Directors today: no new purchase orders for non-essential goods/services until 1 April',
+            'Target: consultancy, training, conferences, corporate subscriptions, non-urgent IT purchases, stationery bulk orders',
+            'Exception: statutory services, safeguarding, contractual obligations, already-committed capital projects',
+          ]} color={COLORS.accent} />
+        </Card>
+
+        <SectionHeading title="Next Week: 27-31 March" />
+        <Card>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+            <SubsectionHeading title="4. Outturn Narrative" />
+            <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: COLORS.warning }}>Political value: HIGH</Text>
+          </View>
+          <BulletList items={[
+            'Pre-outturn briefing from S151 by 28 March: projected position, key variances, provisions set',
+            'Agree the narrative BEFORE publication: every overspend is attributed to pre-May 2025 decisions',
+            'Written statement for Full Council: Reform identified the problem in 11 days. The previous administration created it over 8 years',
+            'Commission AI DOGE variance report: actual vs budget by directorate and portfolio, ready for May cabinet',
+          ]} color={COLORS.warning} />
+        </Card>
+        <Card>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+            <SubsectionHeading title="5. Agency & Workforce Audit" />
+            <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: COLORS.warning }}>2026/27 saving: £5-10M</Text>
+          </View>
+          <Text style={{ fontSize: FONT.tiny, color: COLORS.textSecondary, marginBottom: 3 }}>
+            No direct 2025/26 saving — but this data is essential for 2026/27. Every agency worker identified now is a conversion or termination decision in April.
+          </Text>
+          <BulletList items={[
+            'Full agency register by 31 March: name, role, daily rate, start date, commissioning manager, extension history',
+            'Education: 110 agency EPs at ~£350-500/day vs £45K permanent. Converting 20 saves £1.5-2M/year',
+            'Adults: agency social workers at 30-50% premium. Quantify by 31 March, convert from 1 April',
+            'Corporate: 4 interim directors at ~£30K premium each. Gary Fielding (S151) arriving June — plan for remaining',
+          ]} color={COLORS.warning} />
+        </Card>
+        <Card>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginBottom: 2 }}>
+            <SubsectionHeading title="6. Contract Exposure Scan" />
+            <Text style={{ fontSize: FONT.small, fontFamily: FONT.bold, color: COLORS.warning }}>Risk avoidance: £1-3M</Text>
+          </View>
+          <BulletList items={[
+            'List all contracts auto-renewing between 20 March and 30 April — any > £100K needs cabinet member sight',
+            'Check: waste, IT managed services, facilities, legal retainers, HR systems, payroll processing',
+            'Do NOT block statutory renewals — but every one must have a named Reform owner who has reviewed it',
+            'Any contract renewed without review is a missed opportunity for renegotiation or termination',
+          ]} color={COLORS.warning} />
+        </Card>
+
+        <SectionHeading title="Data & Digital: Cabinet Member Asks" />
+        <Card highlight>
+          <BulletList items={[
+            'Oracle Fusion: read-only dashboard access for Reform cabinet members by 28 March — live spend visibility is non-negotiable',
+            'Daily payment extract: automated list of payments > £100K for 24-31 March period — emailed to Leader each morning',
+            'Invoice backlog: total invoices in queue, average days-to-pay, and value of unprocessed invoices as at 25 March',
+            'Three-way match rate: % of invoices auto-matched (PO + goods receipt + invoice). The gap = duplicate payment risk',
+            'March data extract: full spending data to AI DOGE by 7 April for year-end pattern analysis and 2026/27 baseline',
+          ]} color={COLORS.accent} />
+        </Card>
+
+        <Card accent>
+          <SubsectionHeading title="Realistic Expectation" />
+          <Text style={{ fontSize: FONT.body, color: COLORS.textPrimary, lineHeight: 1.5 }}>
+            Realistic outturn improvement from this sprint: £3-8M. The accrual/provision challenge is the highest-leverage action — every £1M of unnecessary provision removed directly improves the outturn. The discretionary freeze adds £1-2M. Payment oversight catches errors worth £0.5-1M. The agency audit and contract scan deliver no 2025/26 saving but create the intelligence base for £15-20M of 2026/27 savings. The political value of demonstrating grip in 11 days is worth more than the cash.
+          </Text>
+        </Card>
+
         <PDFFooter councilName={councilName} classification="LEADER BRIEFING" />
       </Page>
     ) : null,
