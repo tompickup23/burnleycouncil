@@ -1,5 +1,5 @@
-import { useState, useEffect, useMemo } from 'react'
-import { useParams } from 'react-router-dom'
+import { useState, useEffect, useMemo, useCallback, useRef } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import { useData } from '../hooks/useData'
 import { useSpendingSummary } from '../hooks/useSpendingSummary'
 import {
@@ -32,15 +32,23 @@ const PARTY_COLORS = {
   'OWL': '#E67E22',
 }
 
+const SLIDESHOW_INTERVAL = 15000 // 15 seconds per slide
+
 /**
- * TVDashboard v5 — Full-screen leadership dashboard for County Hall TV screens.
- * Route: /tv — Overview of all directorates + council-wide intelligence
- * Route: /tv/:directorateId — Deep-dive into specific directorate with portfolio breakdown
+ * TVDashboard v6 — Full-screen leadership dashboard for County Hall TV screens.
+ * Route: /tv — Auto-cycling slideshow: Overview → each directorate → repeat
+ * Route: /tv/:directorateId — Deep-dive into specific directorate
+ * Click or arrow keys to navigate manually (pauses auto-cycle for 60s).
  * 1920×1080 optimised, readable at 3–5m viewing distance.
  */
 export default function TVDashboard() {
   const { directorateId } = useParams()
+  const navigate = useNavigate()
   const [clock, setClock] = useState(new Date())
+  const [slideTransition, setSlideTransition] = useState('enter') // 'enter' | 'exit' | null
+  const [autoPlay, setAutoPlay] = useState(true)
+  const autoResumeTimer = useRef(null)
+  const slideshowTimer = useRef(null)
   const isOverview = !directorateId || directorateId === 'overview'
 
   const { data: allData, loading, error } = useData([
@@ -78,20 +86,64 @@ export default function TVDashboard() {
     return idx >= 0 ? idx : 0
   }, [navItems, directorateId, isOverview])
 
+  // Navigate to a slide with exit/enter animation
+  const navigateTo = useCallback((targetIdx) => {
+    if (!navItems.length || targetIdx === navIdx) return
+    setSlideTransition('exit')
+    setTimeout(() => {
+      const targetId = navItems[targetIdx]?.id || 'overview'
+      const basePath = window.location.pathname.replace(/\/tv\/?.*/, '/tv')
+      navigate(targetId === 'overview' ? basePath : `${basePath}/${targetId}`, { replace: true })
+      setSlideTransition('enter')
+      setTimeout(() => setSlideTransition(null), 600)
+    }, 400)
+  }, [navItems, navIdx, navigate])
+
+  // Pause auto-play on manual interaction, resume after 60s
+  const pauseAutoPlay = useCallback(() => {
+    setAutoPlay(false)
+    if (autoResumeTimer.current) clearTimeout(autoResumeTimer.current)
+    autoResumeTimer.current = setTimeout(() => setAutoPlay(true), 60000)
+  }, [])
+
+  // Auto-slideshow
+  useEffect(() => {
+    if (!autoPlay || !navItems.length || navItems.length < 2 || loading) return
+    slideshowTimer.current = setInterval(() => {
+      const next = (navIdx + 1) % navItems.length
+      navigateTo(next)
+    }, SLIDESHOW_INTERVAL)
+    return () => { if (slideshowTimer.current) clearInterval(slideshowTimer.current) }
+  }, [autoPlay, navItems, navIdx, loading, navigateTo])
+
+  // Keyboard navigation
   useEffect(() => {
     if (!navItems.length) return
     const handler = (e) => {
       let next
       if (e.key === 'ArrowRight') next = (navIdx + 1) % navItems.length
       else if (e.key === 'ArrowLeft') next = (navIdx - 1 + navItems.length) % navItems.length
+      else if (e.key === ' ') { e.preventDefault(); setAutoPlay(p => !p); return }
       else return
-      const targetId = navItems[next].id
-      const base = window.location.pathname.replace(/\/tv\/?.*/, '/tv')
-      window.location.href = targetId === 'overview' ? base : `${base}/${targetId}`
+      pauseAutoPlay()
+      navigateTo(next)
     }
     window.addEventListener('keydown', handler)
     return () => window.removeEventListener('keydown', handler)
-  }, [navItems, navIdx])
+  }, [navItems, navIdx, navigateTo, pauseAutoPlay])
+
+  // Transition class for enter trigger
+  useEffect(() => {
+    setSlideTransition('enter')
+    const t = setTimeout(() => setSlideTransition(null), 600)
+    return () => clearTimeout(t)
+  }, []) // Only on mount
+
+  // Cleanup timers
+  useEffect(() => () => {
+    if (autoResumeTimer.current) clearTimeout(autoResumeTimer.current)
+    if (slideshowTimer.current) clearInterval(slideshowTimer.current)
+  }, [])
 
   const directorate = useMemo(() => {
     if (isOverview || !portfolioData?.directorates) return null
@@ -348,9 +400,11 @@ export default function TVDashboard() {
     const ct = councilTotals || {}
     return (
       <div className="tv-dashboard">
-        <TVHeader clock={clock} title="Council Overview" subtitle={`${directorates.length} Directorates · ${allPortfolios.length} Portfolios · ${ct.totalFTE?.toLocaleString() || '—'} FTE`} />
+        <TVHeader clock={clock} title="Council Overview" subtitle={`${directorates.length} Directorates · ${allPortfolios.length} Portfolios · ${ct.totalFTE?.toLocaleString() || '—'} FTE`}
+          autoPlay={autoPlay} onToggleAutoPlay={() => setAutoPlay(p => !p)} />
+        {autoPlay && <div className="tv-progress-bar"><div className="tv-progress-fill" style={{ animationDuration: `${SLIDESHOW_INTERVAL}ms` }} /></div>}
 
-        <div className="tv-body">
+        <div className={`tv-body ${slideTransition ? `tv-slide-${slideTransition}` : ''}`}>
           {/* Hero Stats — Council-Wide */}
           <div className="tv-hero-row tv-hero-row-7">
             <HeroStat label="Total Budget" value={fmtLarge(ct.totalBudget)} variant="accent"
@@ -397,7 +451,7 @@ export default function TVDashboard() {
 
               return (
                 <div key={d.id} className="tv-dir-card"
-                  onClick={() => { window.location.href = window.location.pathname.replace(/\/tv\/?.*/, `/tv/${d.id}`) }}>
+                  onClick={() => { pauseAutoPlay(); const idx = navItems.findIndex(n => n.id === d.id); if (idx >= 0) navigateTo(idx) }}>
                   <div className="tv-dir-card-header">
                     <div className="tv-dir-card-title">{d.title?.replace(/ & /g, ' &\n').split(',')[0] || d.title}</div>
                     <div className="tv-dir-card-risk" style={{ color: riskColor }}>
@@ -572,8 +626,9 @@ export default function TVDashboard() {
           </div>
         </div>
 
-        <TVFooter navItems={navItems} navIdx={navIdx} councilTotals={ct} totalSpending={totalSpending} />
-        <div className="tv-nav-hint">← → navigate · click directorate to drill down</div>
+        <TVFooter navItems={navItems} navIdx={navIdx} councilTotals={ct} totalSpending={totalSpending}
+          onNavigate={(idx) => { pauseAutoPlay(); navigateTo(idx) }} />
+        <div className="tv-nav-hint">← → navigate · space to {autoPlay ? 'pause' : 'resume'} · click directorate to drill down</div>
       </div>
     )
   }
@@ -605,9 +660,11 @@ export default function TVDashboard() {
   return (
     <div className="tv-dashboard">
       <TVHeader clock={clock} title={directorate.title}
-        subtitle={`${directorate.executive_director} · ${portfolios.length} portfolio${portfolios.length !== 1 ? 's' : ''}${workforce ? ` · ${workforce.fte.toLocaleString()} FTE` : ''}`} />
+        subtitle={`${directorate.executive_director} · ${portfolios.length} portfolio${portfolios.length !== 1 ? 's' : ''}${workforce ? ` · ${workforce.fte.toLocaleString()} FTE` : ''}`}
+        autoPlay={autoPlay} onToggleAutoPlay={() => setAutoPlay(p => !p)} />
+      {autoPlay && <div className="tv-progress-bar"><div className="tv-progress-fill" style={{ animationDuration: `${SLIDESHOW_INTERVAL}ms` }} /></div>}
 
-      <div className="tv-body">
+      <div className={`tv-body ${slideTransition ? `tv-slide-${slideTransition}` : ''}`}>
         {/* Hero Stats */}
         <div className="tv-hero-row">
           <HeroStat label="Net Budget" value={fmtLarge(directorate.net_budget)} variant="accent"
@@ -950,34 +1007,39 @@ export default function TVDashboard() {
           <div className="tv-page-dots">
             {navItems.map((n, i) => (
               <div key={n.id} className={`tv-page-dot ${i === navIdx ? 'active' : ''}`}
-                onClick={() => {
-                  const base = window.location.pathname.replace(/\/tv\/?.*/, '/tv')
-                  window.location.href = n.id === 'overview' ? base : `${base}/${n.id}`
-                }}
+                onClick={() => { pauseAutoPlay(); navigateTo(i) }}
                 title={n.title} />
             ))}
           </div>
           <div className="tv-brand">Lancashire County Council · Reform UK · AI DOGE</div>
         </div>
       </div>
-      <div className="tv-nav-hint">← → directorates · overview is first dot</div>
+      <div className="tv-nav-hint">← → navigate · space to {autoPlay ? 'pause' : 'resume'} · click to select</div>
     </div>
   )
 }
 
 /* ═══ Shared Sub-components ═══ */
 
-function TVHeader({ clock, title, subtitle }) {
+function TVHeader({ clock, title, subtitle, autoPlay, onToggleAutoPlay }) {
   return (
     <div className="tv-header">
       <div className="tv-header-left">
-        <div className="tv-reform-badge">AI DOGE</div>
+        <div className="tv-reform-badge">
+          <span className="tv-badge-icon">◆</span>
+          <span className="tv-badge-text">AI DOGE</span>
+        </div>
         <div>
           <div className="tv-directorate-title">{title}</div>
           <div className="tv-director-name">{subtitle}</div>
         </div>
       </div>
       <div className="tv-header-right">
+        {onToggleAutoPlay && (
+          <div className={`tv-autoplay-toggle ${autoPlay ? 'playing' : 'paused'}`} onClick={onToggleAutoPlay} title={autoPlay ? 'Pause slideshow' : 'Resume slideshow'}>
+            {autoPlay ? '▮▮' : '▶'}
+          </div>
+        )}
         <div className="tv-live-indicator">
           <div className="tv-live-dot" />
           <span className="tv-live-text">Live</span>
@@ -989,7 +1051,7 @@ function TVHeader({ clock, title, subtitle }) {
   )
 }
 
-function TVFooter({ navItems, navIdx, councilTotals, totalSpending }) {
+function TVFooter({ navItems, navIdx, councilTotals, totalSpending, onNavigate }) {
   return (
     <div className="tv-footer">
       <div className="tv-footer-left">
@@ -1022,10 +1084,7 @@ function TVFooter({ navItems, navIdx, councilTotals, totalSpending }) {
         <div className="tv-page-dots">
           {navItems.map((n, i) => (
             <div key={n.id} className={`tv-page-dot ${i === navIdx ? 'active' : ''}`}
-              onClick={() => {
-                const base = window.location.pathname.replace(/\/tv\/?.*/, '/tv')
-                window.location.href = n.id === 'overview' ? base : `${base}/${n.id}`
-              }}
+              onClick={() => onNavigate?.(i)}
               title={n.title} />
           ))}
         </div>
