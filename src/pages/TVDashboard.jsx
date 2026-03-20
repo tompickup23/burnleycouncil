@@ -92,8 +92,8 @@ export default function TVDashboard() {
     setSlideTransition('exit')
     setTimeout(() => {
       const targetId = navItems[targetIdx]?.id || 'overview'
-      const basePath = window.location.pathname.replace(/\/tv\/?.*/, '/tv')
-      navigate(targetId === 'overview' ? basePath : `${basePath}/${targetId}`, { replace: true })
+      // Use React Router paths (relative to basename), NOT window.location.pathname
+      navigate(targetId === 'overview' ? '/tv' : `/tv/${targetId}`, { replace: true })
       setSlideTransition('enter')
       setTimeout(() => setSlideTransition(null), 600)
     }, 400)
