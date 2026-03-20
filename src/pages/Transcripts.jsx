@@ -94,40 +94,38 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
 
     setClipState('loading')
 
-    // Try pre-clip first (instant), then fall back to on-demand extraction
-    const preclipUrl = `${CLIP_SERVER}/clips/${encodeURIComponent(moment.meeting_id)}/${start}_${end}.mp4`
-    const onDemandUrl = `${CLIP_SERVER}/clip?meeting=${encodeURIComponent(moment.meeting_id)}&start=${start}&end=${end}`
+    const meetingId = encodeURIComponent(moment.meeting_id)
+    const manifestUrl = `${CLIP_SERVER}/clips/${meetingId}/manifest.json`
 
-    fetch(preclipUrl, { method: 'HEAD', mode: 'cors' })
-      .then(r => {
-        if (r.ok) {
-          setClipUrl(preclipUrl)
-          setClipState('ready')
-        } else {
-          // No pre-clip — use on-demand extraction
-          return fetch(`${CLIP_SERVER}/health`, { mode: 'cors' })
-            .then(r => {
-              if (r.ok) {
-                setClipUrl(onDemandUrl)
-                setClipState('ready')
-              } else {
-                setClipState('error')
-              }
-            })
+    // Step 1: Check manifest for a pre-clip covering this time range
+    fetch(manifestUrl, { mode: 'cors' })
+      .then(r => r.ok ? r.json() : null)
+      .then(manifest => {
+        if (manifest?.clips) {
+          const match = manifest.clips.find(c =>
+            c.start - 5 <= start && c.end + 5 >= end
+          )
+          if (match) {
+            setClipUrl(`${CLIP_SERVER}/clips/${meetingId}/${match.filename}`)
+            setClipState('ready')
+            return
+          }
         }
+        // Step 2: No pre-clip — try on-demand extraction (fetch as blob, can take minutes)
+        const onDemandUrl = `${CLIP_SERVER}/clip?meeting=${meetingId}&start=${start}&end=${end}`
+        return fetch(onDemandUrl, { mode: 'cors' })
+          .then(r => {
+            if (!r.ok) throw new Error('extraction failed')
+            return r.blob()
+          })
+          .then(blob => {
+            const url = URL.createObjectURL(blob)
+            setClipUrl(url)
+            setClipState('ready')
+          })
       })
       .catch(() => {
-        // Pre-clip HEAD failed — try on-demand
-        fetch(`${CLIP_SERVER}/health`, { mode: 'cors' })
-          .then(r => {
-            if (r.ok) {
-              setClipUrl(onDemandUrl)
-              setClipState('ready')
-            } else {
-              setClipState('error')
-            }
-          })
-          .catch(() => setClipState('error'))
+        setClipState('error')
       })
   }, [moment.meeting_id, clipStart, clipEnd, clipState])
 
@@ -135,8 +133,14 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
     setClipStart(formatTimestampInput(moment.start))
     setClipEnd(formatTimestampInput(moment.end))
     setClipState('idle')
+    if (clipUrl?.startsWith('blob:')) URL.revokeObjectURL(clipUrl)
     setClipUrl(null)
-  }, [moment.start, moment.end])
+  }, [moment.start, moment.end, clipUrl])
+
+  // Clean up blob URLs on unmount
+  useEffect(() => {
+    return () => { if (clipUrl?.startsWith('blob:')) URL.revokeObjectURL(clipUrl) }
+  }, [clipUrl])
 
   // Nudge start/end by seconds
   const nudge = useCallback((field, delta) => {
@@ -312,7 +316,7 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
         )}
         {clipState === 'loading' && (
           <span className="tr-clip-loading">
-            <Loader size={12} className="spin" /> Extracting...
+            <Loader size={12} className="spin" /> Extracting clip — this may take a minute...
           </span>
         )}
 
