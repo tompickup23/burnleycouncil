@@ -20,16 +20,13 @@ const TRANSFER_COLORS = [
 ]
 
 function LGRCCAImpact({ ccaData }) {
-  if (!ccaData) return null
-
-  const transfers = ccaData.transfers || []
-  const totalTransferred = ccaData.total_transferred || 0
-  const deduction = ccaData.deduction_from_savings || 0
-
-  if (transfers.length === 0 && totalTransferred === 0) return null
+  const transfers = ccaData?.transfers || []
+  const totalTransferred = ccaData?.total_transferred || 0
+  const deduction = ccaData?.deduction_from_savings || 0
 
   // Chart data — transfers sorted by amount descending
   const chartData = useMemo(() => {
+    if (!transfers.length) return []
     return [...transfers]
       .sort((a, b) => (b.amount || 0) - (a.amount || 0))
       .map(t => ({
@@ -38,6 +35,9 @@ function LGRCCAImpact({ ccaData }) {
         description: t.description || '',
       }))
   }, [transfers])
+
+  if (!ccaData) return null
+  if (transfers.length === 0 && totalTransferred === 0) return null
 
   return (
     <section className="lgr-cca-impact" aria-label="CCA Double-Counting Impact">

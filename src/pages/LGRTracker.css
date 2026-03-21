@@ -1034,6 +1034,21 @@
   flex-shrink: 0;
 }
 
+.lgr-nav-group {
+  display: contents;
+}
+
+.lgr-nav-group-label {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #636366;
+  padding: 6px 8px 2px;
+  white-space: nowrap;
+  align-self: center;
+}
+
 /* Score bar category label */
 .score-bar-cat {
   font-size: 0.75rem;

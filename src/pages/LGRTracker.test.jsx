@@ -614,14 +614,15 @@ describe('LGRTracker', () => {
       expect(within(nav).getByText('Cashflow')).toBeInTheDocument()
       expect(within(nav).getByText('Sensitivity')).toBeInTheDocument()
       expect(within(nav).getByText('Council Tax')).toBeInTheDocument()
-      expect(within(nav).getByText('Risks')).toBeInTheDocument()
-      expect(within(nav).getByText('Precedents')).toBeInTheDocument()
+      expect(within(nav).getByText('Key Risks')).toBeInTheDocument()
+      expect(within(nav).getByText('UK Precedents')).toBeInTheDocument()
     })
 
     it('highlights active section on click', () => {
       setupMocks()
       renderComponent()
-      const risksBtn = screen.getByText('Risks').closest('button')
+      const nav = screen.getByRole('navigation', { name: /lgr tracker sections/i })
+      const risksBtn = within(nav).getByText('Key Risks').closest('button')
       fireEvent.click(risksBtn)
       expect(risksBtn.getAttribute('aria-current')).toBe('true')
     })
@@ -1043,7 +1044,7 @@ describe('LGRTracker', () => {
     it('renders risks heading', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText('Key Risks')).toBeInTheDocument()
+      expect(screen.getAllByText('Key Risks').length).toBeGreaterThanOrEqual(1)
     })
 
     it('shows all risk issues', () => {
@@ -1092,7 +1093,7 @@ describe('LGRTracker', () => {
     it('renders precedents heading', () => {
       setupMocks()
       renderComponent()
-      expect(screen.getByText('UK Precedents')).toBeInTheDocument()
+      expect(screen.getAllByText('UK Precedents').length).toBeGreaterThanOrEqual(1)
     })
 
     it('shows precedent cards', () => {
@@ -1734,10 +1735,10 @@ describe('LGRTracker', () => {
       setupMocks()
       renderComponent()
       const nav = screen.getByRole('navigation', { name: /lgr tracker sections/i })
-      expect(within(nav).getByText('CT Harmonisation')).toBeInTheDocument()
-      expect(within(nav).getByText('Impl. Risk')).toBeInTheDocument()
-      expect(within(nav).getByText('Revenue Impact')).toBeInTheDocument()
-      expect(within(nav).getByText('Efficiency Adj.')).toBeInTheDocument()
+      expect(within(nav).getByText('CT Timeline')).toBeInTheDocument()
+      expect(within(nav).getByText('Implementation')).toBeInTheDocument()
+      expect(within(nav).getByText('Revenue')).toBeInTheDocument()
+      expect(within(nav).getByText('Efficiency')).toBeInTheDocument()
     })
   })
 })

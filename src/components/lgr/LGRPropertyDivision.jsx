@@ -39,13 +39,12 @@ const TIER_COLORS = {
 function LGRPropertyDivision({ propertyData, selectedModel, models }) {
   const [internalModel, setInternalModel] = useState(null)
 
-  if (!propertyData) return null
-
   // Use internal model selection if set, otherwise fall back to parent's selectedModel
   const activeModel = internalModel || selectedModel
 
   // Find all available models from propertyData keys (exclude meta keys like 'contested_assets')
   const availableModels = useMemo(() => {
+    if (!propertyData) return []
     if (!models?.length) {
       return Object.keys(propertyData)
         .filter(k => k !== 'contested_assets' && typeof propertyData[k] === 'object')
@@ -55,13 +54,12 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
     return models.filter(m => propertyData[m.id])
   }, [models, propertyData])
 
-  const modelData = propertyData[activeModel]
-  if (!modelData) return null
-
-  const authorities = Object.keys(modelData)
+  const modelData = propertyData?.[activeModel] || null
+  const authorities = modelData ? Object.keys(modelData) : []
 
   // Build stacked bar chart data — one bar per authority, categories stacked
   const { stackedData, allCategories } = useMemo(() => {
+    if (!modelData) return { stackedData: [], allCategories: [] }
     const catSet = new Set()
     authorities.forEach(auth => {
       const cats = modelData[auth]?.categories
@@ -84,6 +82,7 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
 
   // Condition backlog comparison data
   const backlogData = useMemo(() => {
+    if (!modelData) return []
     return authorities.map(auth => ({
       authority: auth,
       backlog: modelData[auth]?.condition_backlog || 0,
@@ -92,6 +91,7 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
 
   // Disposal candidates
   const disposalData = useMemo(() => {
+    if (!modelData) return []
     return authorities.map(auth => ({
       authority: auth,
       candidates: modelData[auth]?.disposal_candidates || 0,
@@ -100,25 +100,30 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
 
   // Total assets across all authorities
   const totalAssets = useMemo(() => {
+    if (!modelData) return 0
     return authorities.reduce((sum, auth) => sum + (modelData[auth]?.assets_count || 0), 0)
   }, [modelData, authorities])
 
   // Total disposal candidates
   const totalDisposals = useMemo(() => {
+    if (!modelData) return 0
     return authorities.reduce((sum, auth) => sum + (modelData[auth]?.disposal_candidates || 0), 0)
   }, [modelData, authorities])
 
   // Total valuations
   const totalEstValue = useMemo(() => {
+    if (!modelData) return 0
     return authorities.reduce((sum, auth) => sum + (modelData[auth]?.estimated_value || 0), 0)
   }, [modelData, authorities])
 
   const totalRBValue = useMemo(() => {
+    if (!modelData) return 0
     return authorities.reduce((sum, auth) => sum + (modelData[auth]?.rb_market_value || 0), 0)
   }, [modelData, authorities])
 
   // Valuation comparison data
   const valuationData = useMemo(() => {
+    if (!modelData) return []
     return authorities.map(auth => ({
       authority: auth,
       green_book: modelData[auth]?.estimated_value || 0,
@@ -129,6 +134,7 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
 
   // Ownership tier data for stacked bar
   const tierData = useMemo(() => {
+    if (!modelData) return { data: [], tiers: [] }
     const allTiers = new Set()
     authorities.forEach(auth => {
       const tiers = modelData[auth]?.ownership_tiers
@@ -146,6 +152,7 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
 
   // Subsidiary entities across all authorities
   const allSubsidiaries = useMemo(() => {
+    if (!modelData) return []
     const subs = {}
     authorities.forEach(auth => {
       const s = modelData[auth]?.subsidiaries || {}
@@ -159,6 +166,10 @@ function LGRPropertyDivision({ propertyData, selectedModel, models }) {
       .map(([name, count]) => ({ name, count }))
       .sort((a, b) => b.count - a.count)
   }, [modelData, authorities])
+
+  // Early returns after all hooks
+  if (!propertyData) return null
+  if (!modelData) return null
 
   // Check for contested assets
   const contestedAssets = propertyData.contested_assets

@@ -202,9 +202,6 @@ export default function LGRBoundaryMap({ boundaries, authorities, fiscalProfile,
     return boundaries.features.map(f => f.properties?.name).filter(Boolean)
   }, [boundaries])
 
-  // Early return for missing data
-  if (!boundaries?.features?.length) return null
-
   // Authority legend items
   const legendItems = useMemo(() => {
     if (overlayMode === 'authority') {
@@ -235,6 +232,9 @@ export default function LGRBoundaryMap({ boundaries, authorities, fiscalProfile,
     }
     return []
   }, [overlayMode, authorities])
+
+  // Early return for missing data
+  if (!boundaries?.features?.length) return null
 
   return (
     <div className="lgr-map-container" role="region" aria-label="LGR Boundary Map">
