@@ -18,6 +18,13 @@
   border-top-color: rgba(20, 20, 22, 0.96) !important;
 }
 
+@media (max-width: 768px) {
+  .lancashire-map-tooltip {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+}
+
 /* Map container */
 .lancashire-map-container {
   border: 1px solid rgba(255, 255, 255, 0.08);

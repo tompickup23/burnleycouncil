@@ -1538,3 +1538,49 @@ button:focus-visible {
     }
   }
 }
+
+/* === GLOBAL PERFORMANCE: cap blur on mobile/tablet, respect reduced-motion === */
+
+/* Mobile: cap all backdrop-filter blur at 8px */
+@media (max-width: 768px) {
+  [style*="backdrop"], .card, .stat-card, .chart-card,
+  [class*="hero"], [class*="tooltip"], [class*="modal"],
+  [class*="section"], [class*="header"], [class*="badge"],
+  [class*="pill"], [class*="chip"], [class*="panel"],
+  [class*="dropdown"], [class*="popup"], [class*="overlay"],
+  [class*="ward-"], [class*="election-"], [class*="dossier-"],
+  [class*="lgr-"], [class*="integrity-"], [class*="strategy-"],
+  [class*="intel-"], [class*="foi-"], [class*="budget-"],
+  [class*="constituency-"], [class*="supplier-"], [class*="meeting-"],
+  [class*="spending-"], [class*="crime-"], [class*="health-"],
+  [class*="economy-"], [class*="housing-"], [class*="highway-"],
+  [class*="mp-"], [class*="pay-"], [class*="cross-"],
+  [class*="about-"], [class*="news-"], [class*="procurement-"],
+  [class*="councillor-"], [class*="demographics-"] {
+    backdrop-filter: blur(8px) !important;
+    -webkit-backdrop-filter: blur(8px) !important;
+  }
+}
+
+/* Tablet: cap at 12px */
+@media (min-width: 769px) and (max-width: 1024px) {
+  [style*="backdrop"], .card, .stat-card, .chart-card,
+  [class*="hero"], [class*="tooltip"], [class*="modal"],
+  [class*="section"], [class*="header"], [class*="badge"],
+  [class*="pill"], [class*="chip"], [class*="panel"],
+  [class*="dropdown"], [class*="popup"], [class*="overlay"] {
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+  }
+}
+
+/* Respect reduced-motion: disable animations and blur */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+}
