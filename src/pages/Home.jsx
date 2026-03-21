@@ -51,24 +51,25 @@ function Home() {
   const spendingPeriod = config.spending_data_period || 'Recent years'
 
   // Build list of data files to fetch — only request what exists
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
   const dataUrls = ['/data/insights.json']
   if (dataSources.doge_investigation) dataUrls.push('/data/doge_findings.json')
   if (dataSources.politics) dataUrls.push('/data/politics_summary.json')
   if (dataSources.news) dataUrls.push('/data/articles-index.json')
-  if (dataSources.budget_trends) dataUrls.push('/data/revenue_trends.json')
+  if (dataSources.budget_trends && !isMobile) dataUrls.push('/data/revenue_trends.json')
   // Reform transformation showcase (only LCC currently) — loaded separately so failure doesn't break the page
   const hasReformShowcase = config.council_id === 'lancashire_cc'
 
   const { data, loading, error } = useData(dataUrls)
 
-  const { data: reformTransformationData } = useData(hasReformShowcase ? '/data/reform_transformation.json' : null)
+  const { data: reformTransformationData } = useData(hasReformShowcase && !isMobile ? '/data/reform_transformation.json' : null)
 
-  // Map data
-  const wardBoundariesEnabled = !!dataSources.ward_boundaries
+  // Map data — skip heavy map/boundary data on mobile
+  const wardBoundariesEnabled = !!dataSources.ward_boundaries && !isMobile
   const { data: wardBoundariesData } = useData(wardBoundariesEnabled ? '/data/ward_boundaries.json' : null)
-  const { data: wardsData } = useData(dataSources.my_area ? '/data/wards.json' : null)
-  const { data: deprivationData } = useData(dataSources.deprivation ? '/data/deprivation.json' : null)
-  const { data: demoFiscalData } = useData('/data/demographic_fiscal.json')
+  const { data: wardsData } = useData(dataSources.my_area && !isMobile ? '/data/wards.json' : null)
+  const { data: deprivationData } = useData(dataSources.deprivation && !isMobile ? '/data/deprivation.json' : null)
+  const { data: demoFiscalData } = useData(isMobile ? null : '/data/demographic_fiscal.json')
   const { data: pipelineStateData } = useData('/data/shared/pipeline_state.json')
   const { summary: spendingSummary } = useSpendingSummary()
 

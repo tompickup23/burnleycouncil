@@ -168,7 +168,7 @@ function Layout({ children }) {
         >
           {sidebarOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
-        <h1 className="mobile-title"><span className="mobile-logo-diamond">◆</span> {councilName}</h1>
+        <h1 className="mobile-title"><svg className="mobile-logo-eye" viewBox="0 0 120 80" width="28" height="19"><path d="M60 10 C25 10, 2 40, 2 40 C2 40, 25 70, 60 70 C95 70, 118 40, 118 40 C118 40, 95 10, 60 10 Z" fill="none" stroke="#12B6CF" strokeWidth="4"/><circle cx="60" cy="40" r="14" fill="none" stroke="#12B6CF" strokeWidth="3"/><circle cx="60" cy="40" r="6" fill="#12B6CF"/></svg> {councilName}</h1>
       </header>
 
       {/* Sidebar */}
@@ -176,7 +176,7 @@ function Layout({ children }) {
         <div className="sidebar-header">
           <div className="sidebar-brand-row">
             <div className="sidebar-logo-mark">
-              <span className="logo-diamond">◆</span>
+              <svg viewBox="0 0 120 80" width="32" height="22"><path d="M60 10 C25 10, 2 40, 2 40 C2 40, 25 70, 60 70 C95 70, 118 40, 118 40 C118 40, 95 10, 60 10 Z" fill="none" stroke="#fff" strokeWidth="4"/><circle cx="60" cy="40" r="14" fill="none" stroke="#fff" strokeWidth="3"/><circle cx="60" cy="40" r="6" fill="#12B6CF"/></svg>
             </div>
             <div>
               <h1 className="site-title">{councilName}</h1>

@@ -1058,7 +1058,7 @@ function TVHeader({ clock, title, subtitle, autoPlay, onToggleAutoPlay }) {
     <div className="tv-header">
       <div className="tv-header-left">
         <div className="tv-reform-badge">
-          <span className="tv-badge-icon">◆</span>
+          <svg className="tv-badge-icon" viewBox="0 0 120 80" width="22" height="15"><path d="M60 10 C25 10, 2 40, 2 40 C2 40, 25 70, 60 70 C95 70, 118 40, 118 40 C118 40, 95 10, 60 10 Z" fill="none" stroke="#fff" strokeWidth="5"/><circle cx="60" cy="40" r="12" fill="none" stroke="#fff" strokeWidth="4"/><circle cx="60" cy="40" r="5" fill="#12B6CF"/></svg>
           <span className="tv-badge-text">AI DOGE</span>
         </div>
         <div>
