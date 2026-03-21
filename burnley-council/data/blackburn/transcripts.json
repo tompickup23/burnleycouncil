@@ -13,7 +13,17 @@
         "total_moments": 29,
         "high_value": 0,
         "soundbites": 0
-      }
+      },
+      "speaker_stats": {
+        "total_speakers": 1,
+        "identified_speakers": 0,
+        "chair_calls_detected": 6,
+        "speaker_changes": 0,
+        "speaker_counts": {
+          "Chair": 438
+        }
+      },
+      "attendees": []
     },
     {
       "id": "560072e183b1",
@@ -28,7 +38,18 @@
         "total_moments": 74,
         "high_value": 1,
         "soundbites": 1
-      }
+      },
+      "speaker_stats": {
+        "total_speakers": 2,
+        "identified_speakers": 1,
+        "chair_calls_detected": 56,
+        "speaker_changes": 0,
+        "speaker_counts": {
+          "Chair": 934,
+          "Chief Executive": 96
+        }
+      },
+      "attendees": []
     }
   ],
   "moments": [
@@ -548,7 +569,7 @@
       "topics": [
         "reform"
       ],
-      "speaker": "Chair",
+      "speaker": "Chief Executive",
       "summary": "",
       "quotability": 3,
       "news_value": 2,
@@ -748,7 +769,7 @@
       "topics": [
         "governance"
       ],
-      "speaker": "Chair",
+      "speaker": "Chief Executive",
       "summary": "",
       "quotability": 3,
       "news_value": 2,
@@ -768,7 +789,7 @@
       "topics": [
         "social_care"
       ],
-      "speaker": "Chair",
+      "speaker": "Chief Executive",
       "summary": "",
       "quotability": 3,
       "news_value": 2,
@@ -788,7 +809,7 @@
       "topics": [
         "controversy"
       ],
-      "speaker": "Chair",
+      "speaker": "Chief Executive",
       "summary": "",
       "quotability": 3,
       "news_value": 2,
@@ -2221,7 +2242,7 @@
     "total_moments": 103,
     "high_value_moments": 1,
     "source": "youtube",
-    "generated": "2026-03-21T00:21:38.430432",
+    "generated": "2026-03-21T10:48:23.561468",
     "council_id": "blackburn"
   }
 }
