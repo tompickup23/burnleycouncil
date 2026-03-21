@@ -135,7 +135,7 @@ def extract_clip_ondemand(meeting_id, start, end, padding=2):
 
     # Lock to prevent duplicate extraction
     lock = get_clip_lock(cache_key)
-    if not lock.acquire(timeout=120):
+    if not lock.acquire(timeout=660):
         return None, "Clip extraction already in progress"
 
     try:
@@ -181,6 +181,7 @@ def extract_clip_ondemand(meeting_id, start, end, padding=2):
         print(f"  Downloading section [{dl_start:.0f}-{dl_end:.0f}] from {meeting_id}...")
 
         # yt-dlp --download-sections for HLS — downloads needed fragments
+        # Mediasite HLS can be slow (5+ min), use generous timeout
         cmd_dl = [
             YTDLP, url,
             "--download-sections", f"*{int(dl_start)}-{int(dl_end)}",
@@ -188,7 +189,7 @@ def extract_clip_ondemand(meeting_id, start, end, padding=2):
             "--no-check-certificates",
             "--force-keyframes-at-cuts",
         ]
-        result = subprocess.run(cmd_dl, capture_output=True, text=True, timeout=300)
+        result = subprocess.run(cmd_dl, capture_output=True, text=True, timeout=600)
 
         # Find the output file (yt-dlp may add extension or modify name)
         actual_dl = None
@@ -224,7 +225,7 @@ def extract_clip_ondemand(meeting_id, start, end, padding=2):
                 "-movflags", "+faststart",
                 str(cache_path),
             ])
-            result = subprocess.run(cmd_ff, capture_output=True, text=True, timeout=300)
+            result = subprocess.run(cmd_ff, capture_output=True, text=True, timeout=600)
 
         if not cache_path.exists() or cache_path.stat().st_size < 1000:
             cache_path.unlink(missing_ok=True)
@@ -236,6 +237,91 @@ def extract_clip_ondemand(meeting_id, start, end, padding=2):
 
     except subprocess.TimeoutExpired:
         return None, "Extraction timed out (stream may be unavailable)"
+    except Exception as e:
+        return None, str(e)
+    finally:
+        lock.release()
+
+
+def extract_youtube_clip(video_id, start, end, padding=2):
+    """Extract a clip from a YouTube video using yt-dlp.
+
+    Downloads just the needed section and re-encodes to MP4.
+    Caches result for 24h.
+    """
+    duration = end - start
+    if duration <= 0 or duration > MAX_CLIP_SECONDS:
+        return None, f"Invalid duration: {duration:.0f}s (max {MAX_CLIP_SECONDS}s)"
+
+    # Cache key
+    raw = f"yt_{video_id}_{start:.1f}_{end:.1f}"
+    h = hashlib.md5(raw.encode()).hexdigest()[:12]
+    cache_key = f"yt_{video_id}_{int(start)}_{int(end)}_{h}.mp4"
+    cache_path = CACHE_DIR / cache_key
+
+    # Check cache
+    if cache_path.exists():
+        age_hours = (time.time() - cache_path.stat().st_mtime) / 3600
+        if age_hours < CACHE_TTL_HOURS:
+            return str(cache_path), None
+
+    # Lock to prevent duplicate extraction
+    lock = get_clip_lock(cache_key)
+    if not lock.acquire(timeout=120):
+        return None, "Clip extraction already in progress"
+
+    try:
+        dl_start = max(0, start - padding)
+        dl_end = end + padding
+        yt_url = f"https://www.youtube.com/watch?v={video_id}"
+
+        # Download section with yt-dlp
+        tmp_dl = CACHE_DIR / f"_dl_{cache_key}.mkv"
+        print(f"  Downloading YouTube section [{dl_start:.0f}-{dl_end:.0f}] from {video_id}...")
+
+        cmd_dl = [
+            YTDLP, yt_url,
+            "--download-sections", f"*{int(dl_start)}-{int(dl_end)}",
+            "-o", str(tmp_dl),
+            "--no-check-certificates",
+            "--force-keyframes-at-cuts",
+            "--quiet",
+        ]
+        result = subprocess.run(cmd_dl, capture_output=True, text=True, timeout=300)
+
+        # Find the output file
+        actual_dl = None
+        for candidate in [tmp_dl] + list(CACHE_DIR.glob(f"_dl_{cache_key}*")):
+            if candidate.exists() and candidate.stat().st_size > 500:
+                actual_dl = candidate
+                break
+
+        if not actual_dl:
+            return None, f"YouTube download failed: {result.stderr[-200:] if result.stderr else 'no output'}"
+
+        # Re-encode to MP4
+        print(f"  Re-encoding YouTube clip to MP4...")
+        cmd_enc = [
+            FFMPEG, "-y",
+            "-i", str(actual_dl),
+            "-c:v", "libx264", "-preset", "fast", "-crf", "23",
+            "-c:a", "aac", "-b:a", "128k",
+            "-movflags", "+faststart",
+            str(cache_path),
+        ]
+        subprocess.run(cmd_enc, capture_output=True, text=True, timeout=120)
+        actual_dl.unlink(missing_ok=True)
+
+        if not cache_path.exists() or cache_path.stat().st_size < 1000:
+            cache_path.unlink(missing_ok=True)
+            return None, "YouTube clip extraction failed"
+
+        size_mb = cache_path.stat().st_size / (1024 * 1024)
+        print(f"  YouTube clip ready: {cache_key} ({size_mb:.1f}MB)")
+        return str(cache_path), None
+
+    except subprocess.TimeoutExpired:
+        return None, "Extraction timed out"
     except Exception as e:
         return None, str(e)
     finally:
@@ -391,9 +477,11 @@ class ClipHandler(BaseHTTPRequestHandler):
         """Send a file with proper headers."""
         try:
             size = os.path.getsize(path)
+            filename = os.path.basename(path)
             self.send_response(200)
             self.send_header("Content-Type", content_type)
             self.send_header("Content-Length", str(size))
+            self.send_header("Content-Disposition", f'attachment; filename="{filename}"')
             self.send_header("Accept-Ranges", "bytes")
             self.send_header("Access-Control-Allow-Origin", "*")
             self.send_header("Cache-Control", "public, max-age=86400")
@@ -519,6 +607,38 @@ class ClipHandler(BaseHTTPRequestHandler):
             t = threading.Thread(target=do_preclip, daemon=True)
             t.start()
             self.send_json({"status": "pre-clipping started", "meeting_id": meeting_id})
+            return
+
+        # YouTube clip extraction: /ytclip?video=VIDEO_ID&start=S&end=E
+        if path == '/ytclip':
+            video_id = params.get('video', [None])[0]
+            start = params.get('start', [None])[0]
+            end = params.get('end', [None])[0]
+
+            if not all([video_id, start, end]):
+                self.send_json({"error": "Required: video, start, end"}, 400)
+                return
+
+            try:
+                start = float(start)
+                end = float(end)
+            except ValueError:
+                self.send_json({"error": "start and end must be numbers"}, 400)
+                return
+
+            duration = end - start
+            if duration <= 0 or duration > MAX_CLIP_SECONDS:
+                self.send_json({"error": f"Invalid duration: {duration:.0f}s (max {MAX_CLIP_SECONDS}s)"}, 400)
+                return
+
+            print(f"  YouTube clip: {video_id} [{start:.0f}-{end:.0f}]")
+
+            clip_path, error = extract_youtube_clip(video_id, start, end)
+            if error:
+                self.send_json({"error": error}, 500)
+                return
+
+            self.send_file(clip_path)
             return
 
         self.send_error(404, "Not found")

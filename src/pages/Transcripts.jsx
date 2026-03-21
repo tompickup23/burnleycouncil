@@ -122,7 +122,7 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
   const tsFormatted = formatTimestamp(moment.start)
   const tsLink = isYouTube && videoId
     ? `https://www.youtube.com/watch?v=${videoId}&t=${Math.floor(moment.start)}`
-    : webcastUrl ? `${webcastUrl}#t=${Math.floor(moment.start)}` : null
+    : webcastUrl ? `${webcastUrl}#currenttime=${Math.floor(moment.start)}` : null
   const [clipState, setClipState] = useState('idle') // idle | loading | ready | error | youtube
   const [clipUrl, setClipUrl] = useState(null)
   const [showTimingEditor, setShowTimingEditor] = useState(false)
@@ -201,6 +201,65 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
   useEffect(() => {
     return () => { if (clipUrl?.startsWith('blob:')) URL.revokeObjectURL(clipUrl) }
   }, [clipUrl])
+
+  const [downloading, setDownloading] = useState(false)
+
+  const downloadClip = useCallback(async () => {
+    if (downloading) return
+    const filename = `clip_${moment.meeting_id}_${Math.floor(moment.start)}s.mp4`
+
+    // YouTube source — extract via clip server
+    if (isYouTube && videoId) {
+      setDownloading(true)
+      try {
+        const start = Math.floor(parseTimestamp(clipStart))
+        const end = Math.floor(parseTimestamp(clipEnd))
+        const url = `${CLIP_SERVER}/ytclip?video=${encodeURIComponent(videoId)}&start=${start}&end=${end}`
+        const resp = await fetch(url, { mode: 'cors' })
+        if (!resp.ok) throw new Error('extraction failed')
+        const blob = await resp.blob()
+        const blobUrl = URL.createObjectURL(blob)
+        const a = document.createElement('a')
+        a.href = blobUrl
+        a.download = filename
+        a.click()
+        URL.revokeObjectURL(blobUrl)
+      } catch {
+        // Fallback: open on YouTube
+        window.open(`https://www.youtube.com/watch?v=${videoId}&t=${Math.floor(moment.start)}`, '_blank')
+      } finally {
+        setDownloading(false)
+      }
+      return
+    }
+
+    // Mediasite clip — already loaded
+    if (!clipUrl) return
+    // Blob URLs can be downloaded directly
+    if (clipUrl.startsWith('blob:')) {
+      const a = document.createElement('a')
+      a.href = clipUrl
+      a.download = filename
+      a.click()
+      return
+    }
+    // Cross-origin clip server URLs: fetch as blob first
+    setDownloading(true)
+    try {
+      const resp = await fetch(clipUrl, { mode: 'cors' })
+      const blob = await resp.blob()
+      const blobUrl = URL.createObjectURL(blob)
+      const a = document.createElement('a')
+      a.href = blobUrl
+      a.download = filename
+      a.click()
+      URL.revokeObjectURL(blobUrl)
+    } catch {
+      window.open(clipUrl, '_blank')
+    } finally {
+      setDownloading(false)
+    }
+  }, [clipUrl, clipStart, clipEnd, moment.meeting_id, moment.start, isYouTube, videoId, downloading])
 
   // Nudge start/end by seconds
   const nudge = useCallback((field, delta) => {
@@ -329,6 +388,9 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
             <a href={tsLink} target="_blank" rel="noopener noreferrer" className="tr-download-btn">
               <ExternalLink size={12} /> Open on YouTube
             </a>
+            <button className="tr-download-btn" onClick={downloadClip} disabled={downloading}>
+              {downloading ? <><Loader size={12} className="spin" /> Extracting...</> : <><Download size={12} /> Download clip</>}
+            </button>
             <button className="tr-reclip-btn" onClick={() => { setClipState('idle'); setClipUrl(null) }}>
               Adjust timing
             </button>
@@ -347,9 +409,9 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
             onError={() => setClipState('error')}
           />
           <div className="tr-video-actions">
-            <a href={clipUrl} download className="tr-download-btn">
-              <Download size={12} /> Download clip
-            </a>
+            <button className="tr-download-btn" onClick={downloadClip} disabled={downloading}>
+              {downloading ? <><Loader size={12} className="spin" /> Downloading...</> : <><Download size={12} /> Download clip</>}
+            </button>
             <button className="tr-reclip-btn" onClick={() => { setClipState('idle'); setClipUrl(null) }}>
               Adjust &amp; re-clip
             </button>
@@ -380,6 +442,10 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
           <>
             <button className="tr-clip-btn" onClick={() => { setShowTimingEditor(false); requestClip() }}>
               <Play size={12} /> {isYouTube ? 'Watch' : 'Clip'}
+            </button>
+            <button className="tr-clip-btn" onClick={downloadClip} disabled={downloading} title="Download as MP4">
+              {downloading ? <Loader size={12} className="spin" /> : <Download size={12} />}
+              {downloading ? ' Extracting...' : ' Download'}
             </button>
             <button
               className="tr-clip-btn tr-clip-edit"
