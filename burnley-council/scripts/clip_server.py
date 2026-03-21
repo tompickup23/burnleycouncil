@@ -279,14 +279,19 @@ def extract_youtube_clip(video_id, start, end, padding=2):
         tmp_dl = CACHE_DIR / f"_dl_{cache_key}.mkv"
         print(f"  Downloading YouTube section [{dl_start:.0f}-{dl_end:.0f}] from {video_id}...")
 
+        cookies_path = MEETINGS_DIR / "youtube_cookies.txt"
         cmd_dl = [
             YTDLP, yt_url,
             "--download-sections", f"*{int(dl_start)}-{int(dl_end)}",
             "-o", str(tmp_dl),
             "--no-check-certificates",
             "--force-keyframes-at-cuts",
+            "--js-runtimes", "node",
+            "--remote-components", "ejs:github",
             "--quiet",
         ]
+        if cookies_path.exists():
+            cmd_dl.extend(["--cookies", str(cookies_path)])
         result = subprocess.run(cmd_dl, capture_output=True, text=True, timeout=300)
 
         # Find the output file

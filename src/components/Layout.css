@@ -470,8 +470,14 @@
   }
 
   .menu-toggle {
-    padding: var(--space-sm);
+    min-width: 44px;
+    min-height: 44px;
+    padding: 10px;
     color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: rgba(18, 182, 207, 0.15);
   }
 
   .mobile-title {

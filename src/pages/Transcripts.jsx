@@ -488,7 +488,8 @@ export default function Transcripts() {
   const [searchParams, setSearchParams] = useSearchParams()
   const { copy } = useClipboard()
   const [copiedId, setCopiedId] = useState(null)
-  const [visibleCount, setVisibleCount] = useState(50)
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768
+  const [visibleCount, setVisibleCount] = useState(isMobile ? 20 : 50)
 
   // Read filters from URL
   const q = searchParams.get('q') || ''
