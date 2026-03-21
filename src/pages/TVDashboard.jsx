@@ -45,8 +45,23 @@ export default function TVDashboard() {
   const { directorateId } = useParams()
   const navigate = useNavigate()
   const [clock, setClock] = useState(new Date())
+  const [showIntro, setShowIntro] = useState(true)
+  const [introPhase, setIntroPhase] = useState(0) // 0=black, 1=circle, 2=text, 3=tagline, 4=fade-out
   const [slideTransition, setSlideTransition] = useState('enter') // 'enter' | 'exit' | null
   const [autoPlay, setAutoPlay] = useState(true)
+
+  // Intro sequence timing
+  useEffect(() => {
+    if (!showIntro) return
+    const timers = [
+      setTimeout(() => setIntroPhase(1), 400),    // Circle appears
+      setTimeout(() => setIntroPhase(2), 1200),    // "AI DOGE" text
+      setTimeout(() => setIntroPhase(3), 2200),    // "Challenge Everything" tagline
+      setTimeout(() => setIntroPhase(4), 3800),    // Fade out
+      setTimeout(() => setShowIntro(false), 4600),  // Remove intro, show dashboard
+    ]
+    return () => timers.forEach(clearTimeout)
+  }, [showIntro])
   const autoResumeTimer = useRef(null)
   const slideshowTimer = useRef(null)
   const isOverview = !directorateId || directorateId === 'overview'
@@ -376,6 +391,23 @@ export default function TVDashboard() {
       .map(([tier, value]) => ({ tier: tier.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase()), value: Math.round(value / 1e6 * 10) / 10, rawKey: tier }))
       .sort((a, b) => b.value - a.value)
   }, [profile])
+
+  // ─── Intro Ident (EA Sports style) ───
+  if (showIntro) return (
+    <div className="tv-dashboard tv-intro">
+      <div className={`tv-intro-circle ${introPhase >= 1 ? 'visible' : ''}`}>
+        <svg className="tv-intro-eye" viewBox="0 0 120 80" width="120" height="80">
+          <path d="M60 10 C25 10, 2 40, 2 40 C2 40, 25 70, 60 70 C95 70, 118 40, 118 40 C118 40, 95 10, 60 10 Z" fill="none" stroke="#12B6CF" strokeWidth="2.5" />
+          <circle cx="60" cy="40" r="16" fill="none" stroke="#12B6CF" strokeWidth="2" />
+          <circle cx="60" cy="40" r="7" fill="#12B6CF" className="tv-intro-pupil" />
+        </svg>
+      </div>
+      <div className={`tv-intro-title ${introPhase >= 2 ? 'visible' : ''}`}>AI DOGE</div>
+      <div className={`tv-intro-tagline ${introPhase >= 3 ? 'visible' : ''}`}>Challenge Everything</div>
+      <div className={`tv-intro-sweep ${introPhase >= 1 ? 'active' : ''}`} />
+      <div className={`tv-intro-fade ${introPhase >= 4 ? 'active' : ''}`} />
+    </div>
+  )
 
   // ─── Loading / Error ───
   if (loading) return (

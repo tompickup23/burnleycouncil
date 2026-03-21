@@ -5,11 +5,21 @@
  * Development (no Firebase config): Uses simple password gate
  */
 import { useState, useRef, useEffect } from 'react'
-import { Lock, Eye, EyeOff } from 'lucide-react'
+import { Eye, EyeOff } from 'lucide-react'
 import { isFirebaseEnabled } from '../firebase'
 import './PasswordGate.css'
 
 const GATE_PASSWORD = 'DOGEReform2026!'
+
+function DogeEyeLogo({ size = 48 }) {
+  return (
+    <svg viewBox="0 0 120 80" width={size * 1.5} height={size} style={{ filter: 'drop-shadow(0 0 12px rgba(18,182,207,0.5))' }}>
+      <path d="M60 10 C25 10, 2 40, 2 40 C2 40, 25 70, 60 70 C95 70, 118 40, 118 40 C118 40, 95 10, 60 10 Z" fill="none" stroke="#12B6CF" strokeWidth="2.5" />
+      <circle cx="60" cy="40" r="16" fill="none" stroke="#12B6CF" strokeWidth="2" />
+      <circle cx="60" cy="40" r="7" fill="#12B6CF" />
+    </svg>
+  )
+}
 
 export default function PasswordGate({ onUnlock }) {
   // In Firebase mode, don't render the password gate — AuthGate handles it
@@ -46,7 +56,7 @@ function DevPasswordGate({ onUnlock }) {
     <div className="password-gate">
       <div className="password-gate-card">
         <div className="password-gate-icon">
-          <Lock size={48} />
+          <DogeEyeLogo size={48} />
         </div>
         <h1>AI DOGE</h1>
         <p>Council spending transparency platform. Enter the password to continue.</p>
