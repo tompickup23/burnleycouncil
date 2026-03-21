@@ -16,10 +16,15 @@ const CATEGORY_LABELS = {
   attack: 'Attack', defence: 'Defence', promise: 'Promise',
   revelation: 'Revelation', conflict: 'Conflict', policy: 'Policy',
   speech: 'Speech', procedural: 'Procedural', routine: 'Routine',
+  finance: 'Finance', governance: 'Governance', housing: 'Housing',
+  social_care: 'Social Care', highways: 'Highways', environment: 'Environment',
+  reform: 'Reform', political: 'Political', controversy: 'Controversy',
+  general: 'General',
 }
 
 const CLIP_LABELS = {
   soundbite: 'Soundbite', full_speech: 'Full Speech',
+  key_exchange: 'Key Exchange', confrontation: 'Confrontation',
   archive: 'Archive', none: '—',
 }
 
@@ -112,9 +117,13 @@ function Waveform() {
 
 function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedId }) {
   const webcastUrl = meeting?.webcast_url
+  const isYouTube = moment.source === 'youtube' || meeting?.source === 'youtube'
+  const videoId = moment.video_id || meeting?.video_id
   const tsFormatted = formatTimestamp(moment.start)
-  const tsLink = webcastUrl ? `${webcastUrl}#t=${Math.floor(moment.start)}` : null
-  const [clipState, setClipState] = useState('idle') // idle | loading | ready | error
+  const tsLink = isYouTube && videoId
+    ? `https://www.youtube.com/watch?v=${videoId}&t=${Math.floor(moment.start)}`
+    : webcastUrl ? `${webcastUrl}#t=${Math.floor(moment.start)}` : null
+  const [clipState, setClipState] = useState('idle') // idle | loading | ready | error | youtube
   const [clipUrl, setClipUrl] = useState(null)
   const [showTimingEditor, setShowTimingEditor] = useState(false)
   const [clipStart, setClipStart] = useState(formatTimestampInput(moment.start))
@@ -127,7 +136,17 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
   }, [clipStart, clipEnd])
 
   const requestClip = useCallback(() => {
-    if (clipState === 'loading') return
+    if (clipState === 'loading' || clipState === 'youtube') return
+
+    // YouTube source — use embedded player
+    if (isYouTube && videoId) {
+      const start = Math.floor(parseTimestamp(clipStart))
+      const end = Math.floor(parseTimestamp(clipEnd))
+      setClipUrl(`https://www.youtube.com/embed/${videoId}?start=${start}&end=${end}&autoplay=1`)
+      setClipState('youtube')
+      return
+    }
+
     const start = parseTimestamp(clipStart)
     const end = parseTimestamp(clipEnd)
     if (end <= start) return
@@ -168,7 +187,7 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
       .catch(() => {
         setClipState('error')
       })
-  }, [moment.meeting_id, clipStart, clipEnd, clipState])
+  }, [moment.meeting_id, clipStart, clipEnd, clipState, isYouTube, videoId])
 
   const resetTiming = useCallback(() => {
     setClipStart(formatTimestampInput(moment.start))
@@ -215,7 +234,9 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
         {moment.speaker && (
           <span className="tr-speaker-badge">
             <span className="tr-speaker-initial">{speakerInitial}</span>
-            Cllr {moment.speaker}
+            {moment.speaker.startsWith('Speaker_') || moment.speaker === 'Chair'
+              ? moment.speaker.replace('_', ' ')
+              : `Cllr ${moment.speaker}`}
           </span>
         )}
 
@@ -294,7 +315,28 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
         </div>
       )}
 
-      {/* Video player — shown when clip is ready */}
+      {/* YouTube embed — shown for YouTube-sourced clips */}
+      {clipState === 'youtube' && clipUrl && (
+        <div className="tr-video-container tr-youtube-container">
+          <iframe
+            className="tr-youtube-embed"
+            src={clipUrl}
+            title={`${meeting?.title || 'Meeting'} clip`}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+          <div className="tr-video-actions">
+            <a href={tsLink} target="_blank" rel="noopener noreferrer" className="tr-download-btn">
+              <ExternalLink size={12} /> Open on YouTube
+            </a>
+            <button className="tr-reclip-btn" onClick={() => { setClipState('idle'); setClipUrl(null) }}>
+              Adjust timing
+            </button>
+          </div>
+        </div>
+      )}
+
+      {/* Video player — shown when clip is ready (Mediasite source) */}
       {clipState === 'ready' && clipUrl && (
         <div className="tr-video-container">
           <video
@@ -337,7 +379,7 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
         {clipState === 'idle' && (
           <>
             <button className="tr-clip-btn" onClick={() => { setShowTimingEditor(false); requestClip() }}>
-              <Play size={12} /> Clip
+              <Play size={12} /> {isYouTube ? 'Watch' : 'Clip'}
             </button>
             <button
               className="tr-clip-btn tr-clip-edit"
@@ -348,7 +390,7 @@ function MomentCard({ moment, meeting, searchTerm, onTopicClick, onCopy, copiedI
             </button>
             {showTimingEditor && (
               <button className="tr-clip-btn" onClick={requestClip}>
-                <Play size={12} /> Extract custom clip
+                <Play size={12} /> {isYouTube ? 'Watch custom clip' : 'Extract custom clip'}
               </button>
             )}
           </>
