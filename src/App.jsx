@@ -54,6 +54,7 @@ const DirectorateDashboard = lazy(() => import('./pages/DirectorateDashboard'))
 const DirectorateDetail = lazy(() => import('./pages/DirectorateDetail'))
 const PortfolioDetail = lazy(() => import('./pages/PortfolioDetail'))
 const TVDashboard = lazy(() => import('./pages/TVDashboard'))
+const Chat = lazy(() => import('./pages/Chat'))
 const AdminPanel = lazy(() => import('./components/AdminPanel'))
 const AuthGate = lazy(() => import('./components/AuthGate'))
 
@@ -170,6 +171,7 @@ function RouterContent() {
             <Route path="/highways" element={<Guarded><Highways /></Guarded>} />
             <Route path="/transcripts" element={<Guarded><Transcripts /></Guarded>} />
             <Route path="/roadworks" element={<Guarded><Roadworks /></Guarded>} />
+            <Route path="/chat" element={<Guarded><Chat /></Guarded>} />
             <Route path="/executive" element={<Guarded><Executive /></Guarded>} />
             <Route path="/cabinet" element={<Guarded><DirectorateDashboard /></Guarded>} />
             <Route path="/cabinet/:portfolioId" element={<Guarded><PortfolioDetail /></Guarded>} />

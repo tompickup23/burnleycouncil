@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Building2, Shield, Heart, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair, ChevronDown, ChevronUp, Search, Construction, Route, Briefcase, Zap, Target } from 'lucide-react'
+import { Home, Newspaper, PoundSterling, PieChart, Users, MapPin, Menu, X, Info, FileQuestion, Calendar, BadgePoundSterling, GitCompareArrows, Building, Building2, Shield, Heart, FileText, Megaphone, Globe, Landmark, Fingerprint, Calculator, Vote, LayoutGrid, Settings, LogOut, Crosshair, ChevronDown, ChevronUp, Search, Construction, Route, Briefcase, Zap, Target, Sparkles } from 'lucide-react'
 import { useState, useMemo, useEffect, useCallback } from 'react'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { isFirebaseEnabled } from '../firebase'
@@ -15,6 +15,7 @@ const navSections = [
   {
     items: [
       { path: '/', icon: Home, label: 'Home' },
+      { path: '/chat', icon: Sparkles, label: 'Ask Lancashire' },
     ],
   },
   {

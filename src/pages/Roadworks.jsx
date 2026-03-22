@@ -1,6 +1,6 @@
 import { useState, useMemo, useCallback, useRef, useEffect, lazy, Suspense } from 'react'
 import { useSearchParams, Link } from 'react-router-dom'
-import { Construction, AlertTriangle, MapPin, Clock, Users, Filter, Search, ChevronLeft, ChevronRight, Route, Activity, Gavel, Eye, EyeOff, BarChart3, TrendingUp, Play, Pause, Calendar, Layers } from 'lucide-react'
+import { Construction, AlertTriangle, MapPin, Clock, Users, Filter, Search, ChevronLeft, ChevronRight, Route, Activity, Gavel, Eye, EyeOff, BarChart3, TrendingUp, Play, Pause, Calendar, Layers, Trophy, Timer, Gauge } from 'lucide-react'
 import { useData } from '../hooks/useData'
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { LoadingState } from '../components/ui'
@@ -138,6 +138,9 @@ export default function Roadworks() {
       : null
   )
 
+  // Analytics data (operator league, district volume, severity trends, duration)
+  const { data: analyticsData } = useData(dataSources.highways ? '/data/roadworks_analytics.json' : null)
+
   // State
   const [searchParams, setSearchParams] = useSearchParams()
   const [selectedId, setSelectedId] = useState(null)
@@ -208,10 +211,19 @@ export default function Roadworks() {
     if (!allStarts.length) return { start: null, end: null, totalDays: 0, dates: [] }
     allStarts.sort((a, b) => a - b)
     allEnds.sort((a, b) => a - b)
-    const start = allStarts[0]
+    // Filter out stale permits — anything starting more than 12 months ago is a zombie permit
+    const twelveMonthsAgo = new Date()
+    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12)
+    const recentStarts = allStarts.filter(d => d >= twelveMonthsAgo)
+    const recentEnds = allEnds.filter(d => d >= twelveMonthsAgo)
+    if (!recentStarts.length) return { start: null, end: null, totalDays: 0, dates: [] }
+    // Clamp timeline start to max 3 months ago for a useful date range
+    const threeMonthsAgo = new Date()
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
+    const start = recentStarts[0] < threeMonthsAgo ? threeMonthsAgo : recentStarts[0]
     // Use 95th percentile end date to avoid outlier long-running works
-    const endIdx = Math.min(Math.floor(allEnds.length * 0.95), allEnds.length - 1)
-    const end = allEnds.length ? allEnds[endIdx] : allStarts[allStarts.length - 1]
+    const endIdx = Math.min(Math.floor(recentEnds.length * 0.95), recentEnds.length - 1)
+    const end = recentEnds.length ? recentEnds[endIdx] : recentStarts[recentStarts.length - 1]
     const totalDays = Math.max(1, daysBetween(start, end))
     return { start, end, totalDays }
   }, [roadworks])
@@ -1073,6 +1085,184 @@ export default function Roadworks() {
                 ))}
               </tbody>
             </table>
+            </div>
+          </CollapsibleSection>
+        )}
+        {/* Operator League Table */}
+        {analyticsData?.operator_league?.length > 0 && (
+          <CollapsibleSection
+            title="Operator League Table"
+            subtitle="Which operators cause the most roadworks and disruption"
+            severity="neutral"
+            icon={<Trophy size={18} />}
+            count={analyticsData.operator_league.length}
+            countLabel="operators"
+          >
+            <div className="hw-table-overflow">
+              <table className="hw-legal-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Operator</th>
+                    <th>Active</th>
+                    <th>Completed</th>
+                    <th>Avg Days</th>
+                    <th>Overrun %</th>
+                    <th>High Sev %</th>
+                    <th>Districts</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {analyticsData.operator_league.slice(0, 20).map((op, i) => (
+                    <tr key={op.operator} style={{ cursor: 'pointer' }} onClick={() => setFilter('operator', op.operator)}>
+                      <td style={{ color: '#8e8e93' }}>{i + 1}</td>
+                      <td className="hw-td-bold">{op.operator}</td>
+                      <td>{op.active_works}</td>
+                      <td>{op.completed_works}</td>
+                      <td>{op.avg_duration_days != null ? op.avg_duration_days : '-'}</td>
+                      <td style={{ color: op.overrun_pct > 20 ? '#ff453a' : op.overrun_pct > 10 ? '#ff9f0a' : undefined }}>
+                        {op.overrun_pct != null ? `${op.overrun_pct}%` : '-'}
+                      </td>
+                      <td style={{ color: op.high_severity_pct > 15 ? '#ff453a' : undefined }}>
+                        {op.high_severity_pct.toFixed(0)}%
+                      </td>
+                      <td>{op.districts_active_in}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CollapsibleSection>
+        )}
+
+        {/* Duration Analysis */}
+        {analyticsData?.duration_analysis && (
+          <CollapsibleSection
+            title="Duration Analysis"
+            subtitle="How long roadworks take and which are overdue"
+            severity={analyticsData.duration_analysis.overdue_count > 10 ? 'warning' : 'neutral'}
+            icon={<Timer size={18} />}
+            count={analyticsData.duration_analysis.overdue_count || 0}
+            countLabel="overdue"
+          >
+            {/* Overall stats */}
+            <div className="hw-strategic-summary-grid">
+              {[
+                { label: 'Avg Duration', value: analyticsData.duration_analysis.overall_avg ? `${analyticsData.duration_analysis.overall_avg}d` : '-', color: '#12B6CF' },
+                { label: 'Median Duration', value: analyticsData.duration_analysis.overall_median ? `${analyticsData.duration_analysis.overall_median}d` : '-', color: '#12B6CF' },
+                { label: 'Overdue Works', value: analyticsData.duration_analysis.overdue_count || 0, color: analyticsData.duration_analysis.overdue_count > 0 ? '#ff453a' : '#30d158' },
+              ].map(({ label, value, color }) => (
+                <div key={label} className="hw-strategic-summary-cell">
+                  <div className="hw-strategic-summary-value" style={{ color }}>{value}</div>
+                  <div className="hw-strategic-summary-label">{label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* Duration by category */}
+            {Object.keys(analyticsData.duration_analysis.by_category || {}).length > 0 && (
+              <div style={{ marginTop: 16 }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#e5e5ea', marginBottom: 8 }}>By Category</div>
+                <div className="hw-table-overflow">
+                  <table className="hw-legal-table">
+                    <thead><tr><th>Category</th><th>Count</th><th>Avg Days</th><th>Median</th><th>Max</th></tr></thead>
+                    <tbody>
+                      {Object.entries(analyticsData.duration_analysis.by_category).map(([cat, d]) => (
+                        <tr key={cat}>
+                          <td className="hw-td-bold">{cat}</td>
+                          <td>{d.count}</td>
+                          <td>{d.avg}</td>
+                          <td>{d.median}</td>
+                          <td style={{ color: d.max > 365 ? '#ff453a' : undefined }}>{d.max}d</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Longest running */}
+            {analyticsData.duration_analysis.longest_running?.length > 0 && (
+              <div style={{ marginTop: 16 }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#e5e5ea', marginBottom: 8 }}>Longest Running Active Works</div>
+                <div className="hw-table-overflow">
+                  <table className="hw-legal-table">
+                    <thead><tr><th>Road</th><th>District</th><th>Operator</th><th>Days</th></tr></thead>
+                    <tbody>
+                      {analyticsData.duration_analysis.longest_running.slice(0, 10).map((w, i) => (
+                        <tr key={i}>
+                          <td className="hw-td-bold">{w.road}</td>
+                          <td>{w.district}</td>
+                          <td>{w.operator}</td>
+                          <td style={{ color: w.days > 365 ? '#ff453a' : w.days > 180 ? '#ff9f0a' : undefined, fontWeight: 600 }}>{w.days}d</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+
+            {/* Overdue works */}
+            {analyticsData.duration_analysis.overdue_works?.length > 0 && (
+              <div style={{ marginTop: 16 }}>
+                <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#ff453a', marginBottom: 8 }}>Overdue Works (past planned end date)</div>
+                <div className="hw-table-overflow">
+                  <table className="hw-legal-table">
+                    <thead><tr><th>Road</th><th>District</th><th>Operator</th><th>Planned End</th><th>Overdue</th></tr></thead>
+                    <tbody>
+                      {analyticsData.duration_analysis.overdue_works.slice(0, 15).map((w, i) => (
+                        <tr key={i}>
+                          <td className="hw-td-bold">{w.road}</td>
+                          <td>{w.district}</td>
+                          <td>{w.operator}</td>
+                          <td>{w.planned_end}</td>
+                          <td style={{ color: '#ff453a', fontWeight: 600 }}>{w.days_overdue}d</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            )}
+          </CollapsibleSection>
+        )}
+
+        {/* Severity Trends */}
+        {analyticsData?.severity_trends && (
+          <CollapsibleSection
+            title="Severity Trends"
+            subtitle="Current severity breakdown vs recently completed works"
+            severity="neutral"
+            icon={<Gauge size={18} />}
+            count={null}
+          >
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16, maxWidth: 500 }}>
+              <div>
+                <div style={{ fontSize: '0.8rem', color: '#8e8e93', marginBottom: 8, fontWeight: 600 }}>Current Active</div>
+                {Object.entries(analyticsData.severity_trends.current).map(([sev, count]) => {
+                  const color = sev === 'high' ? '#ff453a' : sev === 'medium' ? '#ff9f0a' : sev === 'low' ? '#30d158' : '#8e8e93'
+                  return (
+                    <div key={sev} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                      <span style={{ color, textTransform: 'capitalize', fontSize: '0.85rem' }}>{sev}</span>
+                      <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>{count}</span>
+                    </div>
+                  )
+                })}
+              </div>
+              <div>
+                <div style={{ fontSize: '0.8rem', color: '#8e8e93', marginBottom: 8, fontWeight: 600 }}>Completed (30d)</div>
+                {Object.entries(analyticsData.severity_trends.completed_30d).map(([sev, count]) => {
+                  const color = sev === 'high' ? '#ff453a' : sev === 'medium' ? '#ff9f0a' : sev === 'low' ? '#30d158' : '#8e8e93'
+                  return (
+                    <div key={sev} style={{ display: 'flex', justifyContent: 'space-between', padding: '4px 0', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                      <span style={{ color, textTransform: 'capitalize', fontSize: '0.85rem' }}>{sev}</span>
+                      <span style={{ fontWeight: 600, fontSize: '0.85rem' }}>{count}</span>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </CollapsibleSection>
         )}

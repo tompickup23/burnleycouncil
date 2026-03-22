@@ -1514,63 +1514,48 @@ button:focus-visible {
     padding: var(--space-md);
   }
 
-  /* ── iOS Safari GPU memory fix ──
-   * Reduce all backdrop-filter blur on mobile to prevent GPU memory exhaustion.
-   * iOS Safari allocates a compositing layer per blur; 3+ concurrent layers crash.
-   * Cap blur at 10px and remove saturate/brightness modifiers. */
+  /* Opaque backgrounds on mobile — no blur means no glass effect, so use solid BGs */
   .card,
   .stat-card,
   .hero-panel,
   .chart-card,
   .detail-hero,
-  .tab-btn,
-  .breadcrumb-container,
   [class*="glass"] {
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
+    background: rgb(28, 28, 30) !important;
   }
 
-  /* Disable expensive animations on mobile */
-  @media (prefers-reduced-motion: no-preference) {
-    .card,
-    .stat-card {
-      transition-duration: 0.15s !important;
-    }
+  .tab-btn,
+  .breadcrumb-container {
+    background: rgba(28, 28, 30, 0.95) !important;
+  }
+
+  /* Disable hover transforms and expensive animations on mobile */
+  .card:hover,
+  .stat-card:hover {
+    transform: none !important;
+  }
+  .card,
+  .stat-card {
+    transition-duration: 0.1s !important;
   }
 }
 
-/* === GLOBAL PERFORMANCE: cap blur on mobile/tablet, respect reduced-motion === */
+/* === GLOBAL PERFORMANCE: kill blur on mobile, cap on tablet === */
 
-/* Mobile: cap all backdrop-filter blur at 8px */
+/* Mobile: REMOVE all backdrop-filter — iOS Safari allocates a compositing layer
+   per blur element; pages with 20+ cards crash the GPU. Use solid backgrounds. */
 @media (max-width: 768px) {
-  [style*="backdrop"], .card, .stat-card, .chart-card,
-  [class*="hero"], [class*="tooltip"], [class*="modal"],
-  [class*="section"], [class*="header"], [class*="badge"],
-  [class*="pill"], [class*="chip"], [class*="panel"],
-  [class*="dropdown"], [class*="popup"], [class*="overlay"],
-  [class*="ward-"], [class*="election-"], [class*="dossier-"],
-  [class*="lgr-"], [class*="integrity-"], [class*="strategy-"],
-  [class*="intel-"], [class*="foi-"], [class*="budget-"],
-  [class*="constituency-"], [class*="supplier-"], [class*="meeting-"],
-  [class*="spending-"], [class*="crime-"], [class*="health-"],
-  [class*="economy-"], [class*="housing-"], [class*="highway-"],
-  [class*="mp-"], [class*="pay-"], [class*="cross-"],
-  [class*="about-"], [class*="news-"], [class*="procurement-"],
-  [class*="councillor-"], [class*="demographics-"] {
-    backdrop-filter: blur(8px) !important;
-    -webkit-backdrop-filter: blur(8px) !important;
+  *, *::before, *::after {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
   }
 }
 
-/* Tablet: cap at 12px */
+/* Tablet: cap at 10px */
 @media (min-width: 769px) and (max-width: 1024px) {
-  [style*="backdrop"], .card, .stat-card, .chart-card,
-  [class*="hero"], [class*="tooltip"], [class*="modal"],
-  [class*="section"], [class*="header"], [class*="badge"],
-  [class*="pill"], [class*="chip"], [class*="panel"],
-  [class*="dropdown"], [class*="popup"], [class*="overlay"] {
-    backdrop-filter: blur(12px) !important;
-    -webkit-backdrop-filter: blur(12px) !important;
+  *, *::before, *::after {
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
   }
 }
 

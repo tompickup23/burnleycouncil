@@ -404,9 +404,8 @@
   .sidebar {
     transform: translateX(-100%);
     width: 280px;
-    /* Reduce blur dramatically on mobile — 40px causes GPU memory exhaustion on iOS */
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    /* No blur on mobile — solid background, global rule kills all backdrop-filter */
+    background: rgb(28, 28, 30);
     will-change: transform;
     contain: layout style;
   }
@@ -460,10 +459,8 @@
     right: 0;
     height: calc(60px + env(safe-area-inset-top, 0px));
     padding: env(safe-area-inset-top, 0px) var(--space-md) 0;
-    /* Solid background on mobile — no blur needed, saves a compositing layer */
-    background: rgba(28, 28, 30, 0.98);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
+    /* Solid background on mobile — no blur, saves compositing layer */
+    background: rgb(28, 28, 30);
     border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     z-index: 98;
     contain: layout;
