@@ -193,14 +193,26 @@
     }
     .cta-btn:active { transform: translateY(0); }
 
-    .cta-secondary {
-      color: rgba(255,255,255,0.4); font-size: 0.85rem;
+    .cta-row {
+      display: flex; align-items: center; gap: 12px;
+      margin-top: 4px;
     }
-    .cta-secondary a {
-      color: rgba(18,182,207,0.7); text-decoration: none;
-      transition: color 0.2s;
+    .cta-link {
+      color: rgba(18,182,207,0.7); font-size: 0.9rem; text-decoration: none;
+      transition: color 0.2s; font-weight: 500;
     }
-    .cta-secondary a:hover { color: #12B6CF; }
+    .cta-link:hover { color: #12B6CF; }
+    .cta-dot { color: rgba(255,255,255,0.2); }
+
+    .council-grid {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 6px 12px;
+      margin-top: 16px; max-width: 520px;
+    }
+    .council-grid a {
+      color: rgba(255,255,255,0.35); font-size: 0.75rem; text-decoration: none;
+      transition: color 0.2s; font-weight: 400;
+    }
+    .council-grid a:hover { color: #12B6CF; }
 
     /* Stats ticker */
     .stats {
@@ -240,6 +252,9 @@
       .lancashire-bg { width: 70vw; }
       .cta-btn { padding: 14px 36px; font-size: 1rem; }
       .eye-svg { animation: none; filter: drop-shadow(0 0 15px rgba(18,182,207,0.4)); }
+      .council-grid { max-width: 300px; gap: 4px 10px; }
+      .council-grid a { font-size: 0.7rem; }
+      .stats { bottom: 70px; }
     }
 
     /* Reduced motion */
@@ -284,8 +299,28 @@
 
     <!-- CTA -->
     <div class="cta-wrap">
-      <a href="/lancashirecc/" class="cta-btn">Get Started</a>
-      <p class="cta-secondary">or choose your council: <a href="/burnleycouncil/">Burnley</a> · <a href="/pendlecouncil/">Pendle</a> · <a href="/hyndburncouncil/">Hyndburn</a> · <a href="/blackpoolcouncil/">Blackpool</a> · <a href="/blackburncouncil/">Blackburn</a></p>
+      <a href="/lancashirecc/" class="cta-btn">Get Started →</a>
+      <div class="cta-row">
+        <a href="/lancashirecc/chat" class="cta-link">Ask Lancashire AI</a>
+        <span class="cta-dot">·</span>
+        <a href="/lancashirecc/login" class="cta-link">Login / Register</a>
+      </div>
+      <div class="council-grid">
+        <a href="/burnleycouncil/">Burnley</a>
+        <a href="/hyndburncouncil/">Hyndburn</a>
+        <a href="/pendlecouncil/">Pendle</a>
+        <a href="/rossendalecouncil/">Rossendale</a>
+        <a href="/lancastercouncil/">Lancaster</a>
+        <a href="/ribblevalleycouncil/">Ribble Valley</a>
+        <a href="/chorleycouncil/">Chorley</a>
+        <a href="/southribblecouncil/">South Ribble</a>
+        <a href="/prestoncouncil/">Preston</a>
+        <a href="/westlancashirecouncil/">West Lancs</a>
+        <a href="/wyrecouncil/">Wyre</a>
+        <a href="/fyldecouncil/">Fylde</a>
+        <a href="/blackpoolcouncil/">Blackpool</a>
+        <a href="/blackburncouncil/">Blackburn</a>
+      </div>
     </div>
 
     <!-- Stats -->

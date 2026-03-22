@@ -187,17 +187,19 @@ export default function Roadworks() {
   // Destructure data (safe even when null/loading)
   const [roadworksData, trafficData, boundariesData, legalData] = allData || [null, null, null, null]
   const allRoadworks = roadworksData?.roadworks || []
-  // Filter out zombie permits: must have started within last 12 months AND end in the future
+  // Filter out zombie permits: must have started within last 6 months AND not already ended
   const roadworks = allRoadworks.filter(rw => {
     const now = new Date()
-    const twelveMonthsAgo = new Date(now)
-    twelveMonthsAgo.setMonth(now.getMonth() - 12)
+    const sixMonthsAgo = new Date(now)
+    sixMonthsAgo.setMonth(now.getMonth() - 6)
     const start = rw.start_date ? new Date(rw.start_date) : null
     const end = rw.end_date ? new Date(rw.end_date) : null
-    // Must have started within last 12 months (kills 2023/2024 zombie permits)
-    if (start && start < twelveMonthsAgo) return false
-    // Must not have already ended
-    if (end && end < now) return false
+    // Kill anything starting before 6 months ago (2023/2024 zombie permits)
+    if (start && start < sixMonthsAgo) return false
+    // Must not have already ended (allow 1 day grace for timezone)
+    const yesterday = new Date(now)
+    yesterday.setDate(yesterday.getDate() - 1)
+    if (end && end < yesterday) return false
     return true
   })
   const stats = roadworksData?.stats || {}
@@ -216,16 +218,16 @@ export default function Roadworks() {
     if (!allStarts.length) return { start: null, end: null, totalDays: 0, dates: [] }
     allStarts.sort((a, b) => a - b)
     allEnds.sort((a, b) => a - b)
-    // Filter out stale permits — anything starting more than 12 months ago is a zombie permit
-    const twelveMonthsAgo = new Date()
-    twelveMonthsAgo.setMonth(twelveMonthsAgo.getMonth() - 12)
-    const recentStarts = allStarts.filter(d => d >= twelveMonthsAgo)
-    const recentEnds = allEnds.filter(d => d >= twelveMonthsAgo)
+    // Filter out stale — only works starting within last 6 months
+    const sixMonthsAgo = new Date()
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6)
+    const recentStarts = allStarts.filter(d => d >= sixMonthsAgo)
+    const recentEnds = allEnds.filter(d => d >= sixMonthsAgo)
     if (!recentStarts.length) return { start: null, end: null, totalDays: 0, dates: [] }
-    // Clamp timeline start to max 3 months ago for a useful date range
-    const threeMonthsAgo = new Date()
-    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3)
-    const start = recentStarts[0] < threeMonthsAgo ? threeMonthsAgo : recentStarts[0]
+    // Clamp timeline start to max 1 month ago for a tight, useful date range
+    const oneMonthAgo = new Date()
+    oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1)
+    const start = recentStarts[0] < oneMonthAgo ? oneMonthAgo : recentStarts[0]
     // Use 95th percentile end date to avoid outlier long-running works
     const endIdx = Math.min(Math.floor(recentEnds.length * 0.95), recentEnds.length - 1)
     const end = recentEnds.length ? recentEnds[endIdx] : recentStarts[recentStarts.length - 1]

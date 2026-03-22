@@ -98,17 +98,23 @@ function Layout({ children }) {
   // Auth context — returns null when no AuthProvider (dev mode)
   const authCtx = useAuthHook()
 
-  // Load data for GlobalSearch
-  const { data: searchData } = useData(['/data/councillors.json', '/data/config.json', '/data/property_assets.json'])
-  const [councillorsForSearch, configForSearch, propertyAssetsForSearch] = searchData || [[], null, null]
-  const propertiesForSearch = propertyAssetsForSearch?.assets || []
+  // Mobile detection — skip heavy data loads on mobile to prevent crashes
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 768
 
-  // Load transcripts for GlobalSearch (conditional on config flag)
-  const { data: transcriptsForSearch } = useData(dataSources.transcripts ? '/data/transcripts.json' : null)
+  // Load data for GlobalSearch — skip property_assets + transcripts on mobile (15MB+ JSON causes OOM)
+  const searchUrls = isMobile
+    ? ['/data/councillors.json', '/data/config.json']
+    : ['/data/councillors.json', '/data/config.json', '/data/property_assets.json']
+  const { data: searchData } = useData(searchUrls)
+  const [councillorsForSearch, configForSearch, propertyAssetsForSearch] = searchData || [[], null, null]
+  const propertiesForSearch = (!isMobile && propertyAssetsForSearch?.assets) || []
+
+  // Load transcripts for GlobalSearch — skip on mobile
+  const { data: transcriptsForSearch } = useData(!isMobile && dataSources.transcripts ? '/data/transcripts.json' : null)
   const transcriptMoments = transcriptsForSearch?.moments || []
 
-  // Load cabinet portfolios for nav sub-list
-  const { data: cabinetNavData } = useData(dataSources.cabinet_portfolios ? '/data/cabinet_portfolios.json' : null)
+  // Load cabinet portfolios for nav sub-list — skip on mobile
+  const { data: cabinetNavData } = useData(!isMobile && dataSources.cabinet_portfolios ? '/data/cabinet_portfolios.json' : null)
   const cabinetPortfolios = cabinetNavData?.portfolios || []
 
   // Keyboard shortcut: Cmd+K / Ctrl+K for GlobalSearch
