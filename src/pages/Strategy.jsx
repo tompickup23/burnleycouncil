@@ -560,6 +560,70 @@ export default function Strategy() {
   }, [pdfGenerating, buildAllData, wardsUp, rankedWards, pathToControl, resourceAllocation,
     politicsSummary, councilPrediction, ourParty, councilName, electionsData, config.council_id, generatePDF])
 
+  // --- NEW: Canvasser Pack PDF (council-agnostic, per-ward) ---
+  const handleExportCanvasserPack = useCallback(async () => {
+    if (pdfGenerating || !selectedDossierWard) return
+    const { CanvasserPackPDF } = await import('../components/pdf/CanvasserPackPDF.jsx')
+    const { prepareWardData } = await import('../components/pdf/pdfDataPrep.js')
+    const elDate = electionsData?.meta?.next_election?.date || '2026-05-07'
+    const wardData = prepareWardData(selectedDossierWard, {
+      demographics: demographicsData, deprivation: deprivationData,
+      housing: housingData, economy: economyData, health: healthData
+    })
+    const doc = <CanvasserPackPDF
+      wardName={selectedDossierWard}
+      councilName={councilName}
+      electionDate={elDate}
+      dossier={activeDossier}
+      wardData={wardData}
+      playbook={activePlaybook}
+    />
+    generatePDF(doc, `canvasser-${selectedDossierWard.toLowerCase().replace(/\s+/g, '-')}.pdf`)
+  }, [pdfGenerating, selectedDossierWard, activeDossier, activePlaybook, councilName, electionsData,
+    demographicsData, deprivationData, housingData, economyData, healthData, generatePDF])
+
+  // --- NEW: Borough Briefing PDF (council-agnostic, per-council) ---
+  const handleExportBoroughBriefing = useCallback(async () => {
+    if (pdfGenerating) return
+    const { BoroughBriefingPDF } = await import('../components/pdf/BoroughBriefingPDF.jsx')
+    const { prepareBoroughData, buildBoroughAggregates, buildCompetitorAnalysis, buildElectionTimeline } = await import('../components/pdf/pdfDataPrep.js')
+    const allData = buildAllData()
+    const dossiers = {}
+    for (const ward of wardsUp) {
+      try {
+        dossiers[ward] = generateWardDossier(ward, { ...allData, rankedWard: rankedWards.find(w => w.ward === ward) }, ourParty)
+      } catch (e) { console.error('[PDF] Dossier error for', ward, e) }
+    }
+    const elDate = electionsData?.meta?.next_election?.date || '2026-05-07'
+    const allDataSources = { demographics: demographicsData, deprivation: deprivationData, housing: housingData, economy: economyData, health: healthData }
+    const wardDataMap = prepareBoroughData(wardsUp, allDataSources)
+    const boroughAggregates = buildBoroughAggregates(wardDataMap)
+    const competitorAnalysis = buildCompetitorAnalysis(wardsUp, electionsData, politicsSummary)
+    const timeline = buildElectionTimeline(elDate)
+    const doc = <BoroughBriefingPDF
+      councilName={councilName}
+      councilId={config.council_id}
+      electionDate={elDate}
+      ourParty={ourParty}
+      wardsUp={wardsUp}
+      dossiers={dossiers}
+      rankedWards={rankedWards}
+      pathToControl={pathToControl}
+      councilPrediction={councilPrediction}
+      politicsSummary={politicsSummary}
+      wardDataMap={Object.fromEntries(wardDataMap)}
+      boroughAggregates={boroughAggregates}
+      competitorAnalysis={competitorAnalysis}
+      timeline={timeline}
+      resourceAllocation={Object.fromEntries(resourceAllocation.map(r => [r.ward, r]))}
+      votingData={votingData}
+      councilDocuments={null}
+    />
+    generatePDF(doc, `borough-briefing-${config.council_id}.pdf`)
+  }, [pdfGenerating, buildAllData, wardsUp, rankedWards, pathToControl, resourceAllocation,
+    politicsSummary, councilPrediction, ourParty, councilName, electionsData, config.council_id,
+    demographicsData, deprivationData, housingData, economyData, healthData, votingData, generatePDF])
+
   // --- Loading/error ---
   if (loading) return <LoadingState message="Preparing strategic assessment..." />
 
@@ -779,11 +843,17 @@ export default function Strategy() {
           {selectedDossierWard && activeDossier ? (
             <>
               <div className="dossier-pdf-actions">
-                <button className="strategy-export-btn" onClick={handleExportCanvassingPDF} disabled={pdfGenerating}>
-                  <Printer size={14} /> {pdfGenerating ? 'Generating...' : 'Canvassing PDF'}
+                <button className="strategy-export-btn" onClick={handleExportCanvasserPack} disabled={pdfGenerating}>
+                  <Printer size={14} /> {pdfGenerating ? 'Generating...' : 'Canvasser Pack'}
                 </button>
-                <button className="strategy-export-btn" onClick={handleExportStrategistPDF} disabled={pdfGenerating}>
-                  <Printer size={14} /> {pdfGenerating ? 'Generating...' : 'Strategist PDF'}
+                <button className="strategy-export-btn" onClick={handleExportBoroughBriefing} disabled={pdfGenerating}>
+                  <Printer size={14} /> {pdfGenerating ? 'Generating...' : 'Borough Briefing'}
+                </button>
+                <button className="strategy-export-btn" onClick={handleExportCanvassingPDF} disabled={pdfGenerating} style={{opacity: 0.6, fontSize: '0.8em'}}>
+                  <Printer size={12} /> Legacy Canvassing
+                </button>
+                <button className="strategy-export-btn" onClick={handleExportStrategistPDF} disabled={pdfGenerating} style={{opacity: 0.6, fontSize: '0.8em'}}>
+                  <Printer size={12} /> Legacy Strategist
                 </button>
               </div>
               <WardDossierView
