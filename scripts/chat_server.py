@@ -75,7 +75,7 @@ Rules:
 
 # --- Query Classification ---
 TOPIC_PATTERNS = {
-    "spending": r"\b(spend|payment|supplier|vendor|contract|procur|waste.*(money|cost)|cost|paid|invoice|transaction)\b",
+    "spending": r"\b(spend(ing)?|payment|supplier|vendor|contract|procur|waste.*(money|cost)|cost|paid|invoice|transaction|expenditure|categor)\b",
     "councillors": r"\b(councillor|member|council\s*member|who\s*(is|are)|representative|elected|seat)\b",
     "integrity": r"\b(integrity|conflict|interest|declaration|compan(y|ies)\s*house|dodg|corrupt|flag)\b",
     "budgets": r"\b(budget|council\s*tax|band\s*d|reserve|revenue|capital|financ|fund|deficit|surplus)\b",
@@ -90,14 +90,44 @@ TOPIC_PATTERNS = {
 }
 
 
-def classify_query(query: str) -> list[str]:
+def classify_query(query: str, council: str = None) -> list[str]:
     """Return list of topic tags matching the query."""
     q = query.lower()
     topics = []
     for topic, pattern in TOPIC_PATTERNS.items():
         if re.search(pattern, q):
             topics.append(topic)
+    # Name-based detection: if query mentions a person's name, check councillor data
+    if not topics or "councillors" not in topics:
+        if council and _looks_like_name_query(q, council):
+            topics.append("councillors")
+            if "integrity" not in topics:
+                topics.append("integrity")
     return topics or ["general"]
+
+
+def _looks_like_name_query(query: str, council: str) -> bool:
+    """Check if query mentions a councillor name."""
+    raw = safe_load(council, "councillors.json")
+    if not raw:
+        return False
+    councillors = raw if isinstance(raw, list) else raw.get("councillors", [])
+    for c in councillors:
+        name = (c.get("name") or "").lower()
+        # Strip title prefixes
+        clean = re.sub(r"^(county |borough )?councillor\s+", "", name)
+        parts = clean.split()
+        # Match if surname appears in query, or full name
+        if parts and len(parts[-1]) > 3 and parts[-1] in query:
+            return True
+        if clean and clean in query:
+            return True
+    # Also check "tell me about X" / "who is X" patterns
+    if re.search(r"\b(tell me|who is|about|know about)\b", query):
+        words = [w for w in query.split() if len(w) > 3 and w not in ("tell", "about", "know", "everything", "what", "does", "their")]
+        if words:
+            return True  # Assume it's a person query, include councillor context
+    return False
 
 
 # --- Data Loading & Caching ---
@@ -132,8 +162,21 @@ def safe_load(council: str, filename: str):
 def build_spending_context(council: str, query: str) -> str:
     """Extract spending stats relevant to query."""
     idx = safe_load(council, "spending-index.json")
+    lines = [f"SPENDING DATA ({council}):"]
     if not idx:
-        return ""
+        # No spending index — still try budget_mapping for categories
+        bm = safe_load(council, "budget_mapping.json")
+        if bm and isinstance(bm, dict):
+            cats = bm.get("category_summary", {})
+            if isinstance(cats, dict) and cats:
+                lines.append("Spending categories (from budget mapping):")
+                for cat, total in sorted(cats.items(), key=lambda x: -(x[1] if isinstance(x[1], (int, float)) else 0)):
+                    if isinstance(total, (int, float)):
+                        lines.append(f"  - {cat}: £{total:,.0f}")
+            cov = bm.get("coverage", {})
+            if cov:
+                lines.append(f"Coverage: {cov.get('mapped_pct', '?')}% of departments mapped")
+        return "\n".join(l for l in lines if l) if len(lines) > 1 else ""
     meta = idx.get("meta", {})
     fo = idx.get("filterOptions", {})
     lines = [
@@ -155,8 +198,13 @@ def build_spending_context(council: str, query: str) -> str:
     # Budget mapping if available
     bm = safe_load(council, "budget_mapping.json")
     if bm and isinstance(bm, dict):
-        cats = bm.get("category_summary", bm.get("categories", []))
-        if isinstance(cats, list):
+        cats = bm.get("category_summary", bm.get("categories", {}))
+        if isinstance(cats, dict):
+            lines.append("Spending categories:")
+            for cat, total in sorted(cats.items(), key=lambda x: -(x[1] if isinstance(x[1], (int, float)) else 0)):
+                if isinstance(total, (int, float)):
+                    lines.append(f"  - {cat}: £{total:,.0f}")
+        elif isinstance(cats, list):
             lines.append("Spending categories:")
             for c in cats[:10]:
                 if isinstance(c, dict):
@@ -178,12 +226,38 @@ def build_councillor_context(council: str, query: str) -> str:
     lines.append("By party: " + ", ".join(f"{p}: {n}" for p, n in sorted(parties.items(), key=lambda x: -x[1])))
     # Search for specific councillor mentioned in query
     q = query.lower()
+    matched = []
     for c in councillors:
         name = (c.get("name") or "").lower()
-        if any(word in name for word in q.split() if len(word) > 3):
-            lines.append(f"\nMatch: {c.get('name')} — {c.get('party', '?')}, Ward: {c.get('ward', '?')}")
-            if c.get("email"):
-                lines.append(f"  Email: {c['email']}")
+        clean = re.sub(r"^(county |borough )?councillor\s+", "", name)
+        if any(word in clean for word in q.split() if len(word) > 3):
+            matched.append(c)
+    for c in matched:
+        lines.append(f"\nMATCHED COUNCILLOR: {c.get('name')}")
+        lines.append(f"  Party: {c.get('party', '?')}")
+        lines.append(f"  Ward/Division: {c.get('ward', c.get('division', '?'))}")
+        if c.get("email"):
+            lines.append(f"  Email: {c['email']}")
+        if c.get("phone"):
+            lines.append(f"  Phone: {c['phone']}")
+        # Add any extra fields
+        for key in ["committees", "roles", "appointed", "biography"]:
+            if c.get(key):
+                val = c[key] if isinstance(c[key], str) else json.dumps(c[key], default=str)[:300]
+                lines.append(f"  {key.title()}: {val}")
+    # Also check councillor_profiles.json for more detail
+    if matched:
+        profiles = safe_load(council, "councillor_profiles.json")
+        if profiles and isinstance(profiles, list):
+            for p in profiles:
+                pname = (p.get("name") or "").lower()
+                if any(word in pname for word in q.split() if len(word) > 3):
+                    lines.append(f"\nPROFILE DETAIL: {p.get('name')}")
+                    for key in ["occupation", "dob", "biography", "committees", "electoral_history", "employment", "land_interests", "securities"]:
+                        if p.get(key):
+                            val = p[key] if isinstance(p[key], str) else json.dumps(p[key], default=str)[:400]
+                            lines.append(f"  {key.replace('_', ' ').title()}: {val}")
+                    break
     return "\n".join(lines)
 
 
@@ -481,7 +555,7 @@ async def chat(req: ChatRequest, request: Request):
     session = get_session(session_id, council)
 
     # Classify and build context
-    topics = classify_query(query)
+    topics = classify_query(query, council)
     context = build_context(council, query, topics)
     log.info(f"[{ip}] council={council} topics={topics} query={query[:80]}")
 
