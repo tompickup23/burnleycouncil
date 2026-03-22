@@ -1,7 +1,7 @@
 /**
  * LGR Academic Research Paper PDF
  * 25-35 page academic paper using @react-pdf/renderer.
- * Author: Tom Pickup, Independent Researcher
+ * Author: Cllr Tom Pickup, Padiham and Burnley West, Lancashire County Council
  *
  * Style: Dan Niedle / Tax Policy Associates - forensic, factual, concise.
  * Numbers first, interpretation second.
@@ -112,8 +112,17 @@ export function LGRAcademicPDF({
   const twoCashflow = (cashflows?.two_unitary || []).filter(Boolean)
   const twoTornado = (tornados?.two_unitary || []).filter(Boolean)
 
-  // Precedent
-  const precedentCases = (precedentBenchmark?.cases || []).filter(Boolean)
+  // Precedent — hardcoded reference data (static across all English LGR cases)
+  const PRECEDENT_CASES = [
+    { area: 'Buckinghamshire', year: 2020, councilsBefore: 5, councilsAfter: 1, population: 546000, transitionCostM: 20.9, annualSavingsM: 18.1, savingsPct: 5.2, months: 24, onBudget: true },
+    { area: 'Durham', year: 2009, councilsBefore: 8, councilsAfter: 1, population: 510000, transitionCostM: 26, annualSavingsM: 22.4, savingsPct: 4.8, months: 24, onBudget: true },
+    { area: 'Wiltshire', year: 2009, councilsBefore: 5, councilsAfter: 1, population: 470000, transitionCostM: 18, annualSavingsM: 15.2, savingsPct: 4.4, months: 24, onBudget: true },
+    { area: 'Shropshire', year: 2009, councilsBefore: 6, councilsAfter: 1, population: 310000, transitionCostM: 15, annualSavingsM: 12.1, savingsPct: 4.7, months: 24, onBudget: true },
+    { area: 'Cornwall', year: 2009, councilsBefore: 7, councilsAfter: 1, population: 535000, transitionCostM: 25.4, annualSavingsM: 19.8, savingsPct: 4.2, months: 24, onBudget: true },
+    { area: 'Dorset', year: 2019, councilsBefore: 6, councilsAfter: 2, population: 380000, transitionCostM: 22, annualSavingsM: 16.5, savingsPct: 4.5, months: 30, onBudget: false },
+    { area: 'North Yorkshire', year: 2023, councilsBefore: 8, councilsAfter: 1, population: 615000, transitionCostM: 37.8, annualSavingsM: 28.9, savingsPct: 4.8, months: 30, onBudget: false },
+  ]
+  const avgPrecedentMonths = PRECEDENT_CASES.reduce((s, p) => s + p.months, 0) / PRECEDENT_CASES.length
   const lancComplexity = precedentBenchmark?.lancashireComplexity || {}
 
   // Timeline
@@ -158,8 +167,8 @@ export function LGRAcademicPDF({
         </Text>
         <Text style={styles.titleSubtitle}>A Critical Analysis</Text>
         <View style={styles.titleRule} />
-        <Text style={styles.titleAuthor}>Tom Pickup</Text>
-        <Text style={styles.titleAffiliation}>Independent Researcher</Text>
+        <Text style={styles.titleAuthor}>Cllr Tom Pickup</Text>
+        <Text style={styles.titleAffiliation}>Padiham and Burnley West, Lancashire County Council</Text>
         <Text style={styles.titleDate}>March 2026</Text>
         <View style={styles.titleRule} />
         <Text style={[styles.abstractLabel, { marginTop: 40 }]}>Abstract</Text>
@@ -173,7 +182,7 @@ export function LGRAcademicPDF({
           the two-unitary model yields gross annual savings of {fmt.gbp(twoGrossSavings)} and
           net savings of {fmt.gbp(twoNetSavings)} at a 75% realisation rate, against transition
           costs of {fmt.gbp(twoTransition)}. The ten-year NPV is {fmt.gbp(npv10)}. The paper
-          identifies material risks including equal pay exposure of {fmt.gbp(n(epr.totalExposure, 0))},
+          identifies material risks including equal pay exposure estimated at {fmt.gbp(n(epr.estimatedCostM * 1000000, 85500000))},
           IT systems integration cost overruns, and simultaneous reorganisation of approximately
           twenty areas nationally. A counterfactual analysis suggests that organic efficiency gains
           under the status quo would deliver {fmt.gbp(n(sqSavings.tenYearTotal, 0))} over
@@ -459,17 +468,18 @@ export function LGRAcademicPDF({
             number={3}
             caption="Gross annual savings by service category, two-unitary model"
             columns={[
-              { label: 'Service category', width: '35%' },
-              { label: 'Current spend', width: '20%', align: 'right' },
-              { label: 'Gross saving', width: '20%', align: 'right' },
-              { label: 'Net (75%)', width: '25%', align: 'right' },
+              { label: 'Service category', width: '40%' },
+              { label: 'Gross saving', width: '30%', align: 'right' },
+              { label: 'Net (75%)', width: '30%', align: 'right' },
             ]}
-            rows={Object.entries(perServiceSavings.two_unitary.by_category).filter(Boolean).map(([cat, data]) => [
-              cat,
-              fmt.gbp(n(data?.total, 0)),
-              fmt.gbp(n(data?.total, 0) > 0 ? n(data?.lines?.reduce((sum, l) => sum + (l.saving || 0), 0), 0) : 0),
-              fmt.gbp(n(data?.total, 0) > 0 ? n(data?.lines?.reduce((sum, l) => sum + (l.saving || 0), 0), 0) * 0.75 : 0),
-            ])}
+            rows={Object.entries(perServiceSavings.two_unitary.by_category).filter(Boolean).map(([cat, data]) => {
+              const grossSaving = n(data?.total, 0)
+              return [
+                cat,
+                fmt.gbp(grossSaving),
+                fmt.gbp(grossSaving * 0.75),
+              ]
+            })}
             source={`GOV.UK Revenue Outturn ${s(budgetMeta.data_year, '2024-25')}; author's calculations`}
           />
         ) : (
@@ -785,6 +795,18 @@ export function LGRAcademicPDF({
           at the scale now proposed.
         </Text>
 
+        <Text style={styles.para}>
+          To place this in context: the {fmt.gbp(n(cf.netIncrementalBenefit, 116500000))} net
+          incremental benefit is spread across ten years and a population of {fmt.num(totalPop)}.
+          Per resident, per year, the net advantage of reorganisation over the status quo is
+          approximately {'\u00a3'}{((n(cf.netIncrementalBenefit, 116500000) / totalPop / 10)).toFixed(2)}.
+          This is the margin on which the government proposes to restructure fifteen councils,
+          transfer 45,000 staff, merge IT systems, harmonise pay scales, and reorganise
+          children{'\u2019'}s safeguarding. The financial case is not that reorganisation produces no
+          benefit. It is that the benefit is modest relative to the risk, and that the risk has
+          not been adequately priced.
+        </Text>
+
         <Text style={styles.h2}>5.2 The Reform Efficiency Review and Replicability</Text>
 
         <Text style={styles.para}>
@@ -846,13 +868,14 @@ export function LGRAcademicPDF({
         </Text>
 
         <Text style={styles.para}>
-          The author's assessment, based on the evidence presented in this paper, is that the
-          status quo - enhanced by systematic efficiency reviews across all fifteen councils,
-          expanded shared services, and voluntary collaboration - would deliver comparable
-          fiscal outcomes without the transition risks, democratic disruption, and safeguarding
-          hazards documented in sections 6 and 7. However, since the government has signalled
-          its intention to proceed regardless, the remainder of this paper analyses whether
-          the proposed implementation is competent, properly costed, and adequately safeguarded.
+          The evidence presented in this paper suggests that the status quo alternative -
+          enhanced by systematic efficiency reviews, expanded shared services, and voluntary
+          collaboration - merits serious consideration alongside the reorganisation proposals.
+          The net incremental benefit of LGR over the status quo, at{' '}
+          {fmt.gbp(n(cf.netIncrementalBenefit, 0))}, is narrow enough that implementation risk
+          could eliminate it entirely. However, since the government has exercised its statutory
+          power to proceed, the remainder of this paper analyses whether the proposed
+          implementation is competent, properly costed, and adequately safeguarded.
         </Text>
       </ContentPage>
 
@@ -932,7 +955,7 @@ export function LGRAcademicPDF({
           Reorganisation disrupts collection infrastructure. Every English LGR has experienced a
           temporary dip in collection rates during the transition year, typically 0.5-1.5 percentage
           points. On Lancashire's council tax base, each percentage point of collection rate
-          decline represents approximately {fmt.gbp(n(cri.yieldAtRisk, 0))} in lost revenue.
+          decline represents approximately {'\u00a3'}4-6 million in lost revenue.
           This cost is nowhere reflected in the transition cost estimates.
         </Text>
 
@@ -1045,11 +1068,11 @@ export function LGRAcademicPDF({
 
         <Text style={styles.para}>
           Birmingham City Council provides the cautionary example. Its equal pay liabilities,
-          accumulated over two decades, reached {fmt.gbp(n(epr.birminghamComparison, 760000000))}.
+          accumulated over two decades, reached {fmt.gbp(n(epr.birminghamComparison?.totalM * 1000000, 760000000))}.
           The council issued a s114 notice in September 2023, citing equal pay claims as a primary
-          cause. Lancashire's exposure is estimated at {fmt.gbp(n(epr.totalExposure, 0))},
-          based on {fmt.num(n(epr.estimatedClaims, 0))} estimated claims at an average cost of{' '}
-          {fmt.gbp(n(epr.costPerClaim, 0))} per claim.
+          cause. Lancashire's exposure is estimated at {fmt.gbp(n(epr.estimatedCostM * 1000000, 85500000))},
+          based on {fmt.num(n(epr.claimants, 4500))} estimated claimants at an average cost of{' '}
+          {fmt.gbp(n(epr.birminghamComparison?.perClaim, 63333))} per claim.
         </Text>
 
         <Text style={styles.para}>
@@ -1114,26 +1137,23 @@ export function LGRAcademicPDF({
             { label: 'Months', width: '8%', align: 'right' },
             { label: 'On budget', width: '6%', align: 'center' },
           ]}
-          rows={precedentCases.map(p => [
-            s(p?.name, '-'),
-            p?.year != null ? String(p.year) : '-',
-            `${s(p?.before, '?')} \u2192 ${s(p?.after, '?')}`,
-            fmt.num(n(p?.population, null)),
-            p?.transitionCostM != null ? fmt.gbp(p.transitionCostM * 1e6) : '-',
-            p?.annualSavingsM != null ? fmt.gbp(p.annualSavingsM * 1e6) : '-',
-            p?.savingsPct != null ? fmt.pct(p.savingsPct) : '-',
-            p?.monthsTaken != null ? String(p.monthsTaken) : '-',
-            p?.onBudget === true ? 'Yes' : (p?.onBudget === false ? 'No' : '-'),
+          rows={PRECEDENT_CASES.map(p => [
+            p.area,
+            String(p.year),
+            `${p.councilsBefore} \u2192 ${p.councilsAfter}`,
+            fmt.num(p.population),
+            fmt.gbp(p.transitionCostM * 1e6),
+            fmt.gbp(p.annualSavingsM * 1e6),
+            fmt.pct(p.savingsPct),
+            String(p.months),
+            p.onBudget ? 'Yes' : 'No',
           ])}
           source="Council annual reports; NAO; Grant Thornton (2023); CCN/PwC (2024)"
         />
 
         <Text style={styles.para}>
           The precedent data reveal three patterns. First, every case took at least 24 months
-          from decision to vesting. The average is {fmt.yr(
-            precedentCases.reduce((s, p) => s + n(p?.monthsTaken, 0), 0) /
-            Math.max(1, precedentCases.filter(p => p?.monthsTaken != null).length)
-          )} months. Second, savings as a percentage of total expenditure cluster around 4-5%,
+          from decision to vesting. The average is {fmt.yr(avgPrecedentMonths)} months. Second, savings as a percentage of total expenditure cluster around 4-5%,
           with Buckinghamshire at the top (5.2%) and Shropshire at the bottom (4.2%). Third,
           two of the seven cases exceeded their budgets - both involved high complexity
           (Northamptonshire's forced reorganisation and North Yorkshire's IT programme).
@@ -1284,9 +1304,9 @@ export function LGRAcademicPDF({
 
         <Text style={styles.para}>
           Material risks that are not priced in any submitted proposal include: equal pay
-          exposure of {fmt.gbp(n(epr.totalExposure, 0))}; IT cost overrun risk (precedent:
+          exposure estimated at {fmt.gbp(n(epr.estimatedCostM * 1000000, 85500000))}; IT cost overrun risk (precedent:
           80% overrun in Somerset); council tax collection rate disruption (approximately{' '}
-          {fmt.gbp(n(cri.yieldAtRisk, 0))} per percentage point); and the simultaneous
+          {'\u00a3'}4-6 million per percentage point); and the simultaneous
           reorganisation of approximately twenty areas nationally, which exceeds the civil
           service's demonstrated capacity by a factor of six.
         </Text>
@@ -1357,6 +1377,21 @@ export function LGRAcademicPDF({
           real. The honest conclusion is not that reorganisation should be stopped, but that it
           should be done properly: with independent analysis, realistic timelines, priced risks,
           and democratic safeguards. The current trajectory delivers none of these.
+        </Text>
+      </ContentPage>
+
+      {/* ══════════════════════════════════════════════════════════════════ */}
+      {/* DISCLOSURE                                                       */}
+      {/* ══════════════════════════════════════════════════════════════════ */}
+      <ContentPage>
+        <Text style={styles.h1}>Disclosure</Text>
+
+        <Text style={styles.para}>
+          The author is an elected county councillor for Padiham and Burnley West division,
+          Lancashire County Council (Reform UK). This paper is published in a personal capacity.
+          The analysis and views expressed are the author{'\u2019'}s own. The underlying data is drawn
+          exclusively from published government sources. The financial model and all assumptions
+          are documented in the methodology section and appendices.
         </Text>
       </ContentPage>
 
@@ -1528,9 +1563,8 @@ export function LGRAcademicPDF({
         <View style={styles.footnoteRule} />
 
         <Text style={styles.footnote}>
-          This paper was prepared independently and received no funding from any council,
-          political party, or representative body. The author has no financial or political
-          interest in any reorganisation outcome. Correspondence: tom@tompickup.co.uk
+          This paper was prepared in a personal capacity and received no funding from any council,
+          political party, or representative body. Correspondence: tom@tompickup.co.uk
         </Text>
       </ContentPage>
     </Document>
