@@ -193,6 +193,60 @@ export function LGRAcademicPDF({
       </Page>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
+      {/* EXECUTIVE SUMMARY                                                */}
+      {/* ══════════════════════════════════════════════════════════════════ */}
+      <ContentPage>
+        <Text style={styles.h1}>Executive Summary</Text>
+
+        <View style={{ border: '1.5pt solid #333', padding: 14, marginBottom: 14 }}>
+          <Text style={[styles.para, { marginBottom: 6 }]}>
+            This paper identifies six findings that, taken together, suggest the financial and
+            governance case for Lancashire's reorganisation is substantially weaker than the
+            headline figures imply:
+          </Text>
+          <Text style={styles.listItem}>
+            <Text style={styles.listBullet}>{'\u2022'}</Text>
+            {'  '}The net benefit of reorganisation over the status quo is {fmt.gbp(n(cf.netIncrementalBenefit, 116500000))} over
+            ten years - equivalent to {'\u00a3'}{((n(cf.netIncrementalBenefit, 116500000) / totalPop / 10)).toFixed(2)} per
+            resident per year. This is the margin on which fifteen councils, 45,000 staff, and every
+            open child protection case would be transferred.
+          </Text>
+          <Text style={styles.listItem}>
+            <Text style={styles.listBullet}>{'\u2022'}</Text>
+            {'  '}The government proposes an 18-month timeline. The average across seven completed English
+            reorganisations is {fmt.yr(avgPrecedentMonths)} months. Paul Rowsell, the former MHCLG official who
+            oversaw every successful case, has warned that the civil service can manage approximately three
+            reorganisations per year. The government proposes approximately twenty simultaneously.
+          </Text>
+          <Text style={styles.listItem}>
+            <Text style={styles.listBullet}>{'\u2022'}</Text>
+            {'  '}Equal pay exposure of {fmt.gbp(n(epr.estimatedCostM * 1000000, 85500000))} is not priced in
+            any submitted proposal, in the CCN/PwC financial baseline, or in the government's impact assessment.
+            This is an off-balance-sheet liability that crystallises on vesting day.
+          </Text>
+          <Text style={styles.listItem}>
+            <Text style={styles.listBullet}>{'\u2022'}</Text>
+            {'  '}The counterfactual - the status quo enhanced by systematic efficiency reviews and shared
+            services - would deliver {fmt.gbp(n(sqSavings.tenYearTotal, 0))} over the same period without
+            transition costs. The incremental benefit of reorganisation is narrow enough that a 25% cost
+            overrun combined with 65% savings realisation would eliminate it entirely.
+          </Text>
+          <Text style={styles.listItem}>
+            <Text style={styles.listBullet}>{'\u2022'}</Text>
+            {'  '}Reorganisation requires the transfer of every open child protection case from existing
+            authorities to successor authorities with zero grace period. A child at risk on 31 March must be
+            protected on 1 April by a newly constituted organisation with untested referral pathways.
+          </Text>
+          <Text style={styles.listItem}>
+            <Text style={styles.listBullet}>{'\u2022'}</Text>
+            {'  '}The CCN/PwC financial baseline - the only analysis referenced by all five proposals - was
+            commissioned, reviewed, and published by the County Councils Network, whose members include
+            Lancashire County Council, the submitter of the government's preferred two-unitary model.
+          </Text>
+        </View>
+      </ContentPage>
+
+      {/* ══════════════════════════════════════════════════════════════════ */}
       {/* §1 INTRODUCTION                                                  */}
       {/* ══════════════════════════════════════════════════════════════════ */}
       <ContentPage>
@@ -301,6 +355,13 @@ export function LGRAcademicPDF({
         </Text>
 
         <Text style={styles.para}>
+          All model assumptions are drawn from published precedent analysis and academic literature.
+          The author's contribution is methodological - applying service-line granularity to the
+          savings estimate rather than the top-down percentage used in the CCN/PwC report. No
+          assumption in this paper is original to the author.
+        </Text>
+
+        <Text style={styles.para}>
           Transition costs are modelled by category: IT systems integration, redundancy and early
           retirement, programme management, and legal and advisory fees. Costs are profiled across
           a five-year timeline (Y-1 through Y3) using an S-curve ramp. The HM Treasury Green Book
@@ -399,6 +460,20 @@ export function LGRAcademicPDF({
           guideline. The precedent of Somerset (population 570,000) being approved as a single
           unitary suggests some flexibility, but the three-unitary model's non-compliance creates
           a structural vulnerability to ministerial rejection.
+        </Text>
+
+        <Text style={styles.para}>
+          No proposal considers a single unitary authority. A one-unitary model for Lancashire
+          would serve 1.6 million residents with approximately 80-120 councillors - a ratio of
+          between 1:13,000 and 1:20,000. For comparison, Birmingham, the largest English council,
+          has a ratio of approximately 1:12,000. The financial case for a single authority is
+          stronger than any submitted model: estimated gross savings of {fmt.gbp(150200000)} annually
+          (net {fmt.gbp(112700000)} at 75% realisation) with transition costs of approximately
+          {fmt.gbp(52800000)} and a payback period under one year. The reason no council submitted
+          this model is instructive: no elected member or chief executive supports a structure
+          that eliminates their own position entirely. The gap between financial optimality and
+          political feasibility illustrates why the savings estimates in all submitted proposals
+          should be treated as constrained optima, not global ones.
         </Text>
 
         <Text style={styles.para}>
@@ -810,12 +885,17 @@ export function LGRAcademicPDF({
         <Text style={styles.h2}>5.2 The Reform Efficiency Review and Replicability</Text>
 
         <Text style={styles.para}>
-          Lancashire County Council's incoming administration conducted an efficiency review in
-          2025 identifying savings targets across directorates without structural reorganisation.
-          The review applied zero-based budgeting principles to corporate overhead, contract
-          renegotiation, and demand management. The approach mirrors Wigan Council's "The Deal"
-          programme, which delivered approximately {'\u00a3'}180 million in savings over a decade{' '}
-          without any reorganisation.
+          Lancashire County Council's incoming administration conducted a line-by-line efficiency
+          review in 2025, applying zero-based budgeting principles to identify savings without
+          structural reorganisation. The review targeted corporate overhead, contract renegotiation,
+          demand management, and digital transformation. The county council's Medium Term Financial
+          Strategy identifies savings targets of {'\u00a3'}65 million for 2026/27 and {'\u00a3'}103 million
+          over two years - figures that, if achieved, would match the net annual savings projected
+          for the two-unitary model ({fmt.gbp(n(twoUnitary.doge_annual_savings, 79400000))}) within
+          a single budget cycle and without transition costs. The approach mirrors Wigan Council's
+          programme, which delivered approximately {'\u00a3'}180 million in savings over a decade
+          without any reorganisation. It also reflects the methodology recommended by the Audit
+          Commission's 2009 report on efficiency in two-tier areas.
         </Text>
 
         <Text style={styles.para}>
@@ -876,6 +956,17 @@ export function LGRAcademicPDF({
           could eliminate it entirely. However, since the government has exercised its statutory
           power to proceed, the remainder of this paper analyses whether the proposed
           implementation is competent, properly costed, and adequately safeguarded.
+        </Text>
+
+        <Text style={styles.para}>
+          The reorganisation is also linked to the government's devolution agenda. The English
+          Devolution White Paper envisages Lancashire forming a Mayoral Combined Authority with
+          strategic powers over transport, planning, housing, and skills. This creates an additional
+          layer of governance above the new unitary authorities. The net effect is not simplification
+          but reconfiguration: twelve district councils and one county council are replaced by two to
+          five unitary authorities and a combined authority with an elected mayor. Whether this
+          represents an improvement in democratic accountability is a question that has not been put
+          to Lancashire's residents.
         </Text>
       </ContentPage>
 
@@ -977,6 +1068,40 @@ export function LGRAcademicPDF({
           in the face of structural economic disadvantage. This undermines the argument that
           larger authorities can better target resources at deprivation: they can, in theory,
           but the evidence that they do is thin.
+        </Text>
+
+        <Text style={styles.h2}>6.5 Council Tax Harmonisation Risk</Text>
+
+        <Text style={styles.para}>
+          Lancashire's fourteen billing authorities currently set Band D rates ranging from
+          approximately {'\u00a3'}170 to {'\u00a3'}350 for the district share alone. When county, police, and
+          fire precepts are included, the total combined Band D ranges from approximately
+          {' \u00a3'}1,906 (Ribble Valley) to {'\u00a3'}2,100 (Preston). Under any reorganisation model,
+          these rates must be harmonised within the new authority boundaries. The Structural
+          Changes Order will specify a harmonisation period - typically five years - during which
+          differential rates may apply. At the end of this period, a single rate must be set.
+        </Text>
+
+        <Text style={styles.para}>
+          The author's harmonisation model, using 2024/25 council tax requirement and tax base
+          data from all fifteen councils, calculates the weighted average Band D for each proposed
+          authority. Under the two-unitary model, North Lancashire would harmonise at approximately
+          {' \u00a3'}2,000 - requiring Ribble Valley residents to pay {'\u00a3'}93 per year more and Blackpool
+          residents to pay {'\u00a3'}100 per year less. Under the three-unitary model, Pennine
+          Lancashire shows the widest spread: {'\u00a3'}98 per year increase for the lowest-rate council
+          and {'\u00a3'}76 per year decrease for the highest. A hypothetical one-unitary model would
+          harmonise at approximately {'\u00a3'}1,999, with Ribble Valley facing a {'\u00a3'}92 annual increase
+          and Preston seeing a {'\u00a3'}102 annual decrease.
+        </Text>
+
+        <Text style={styles.para}>
+          These are not trivial sums. A {'\u00a3'}93 annual increase for a Ribble Valley household is a
+          4.9% rise attributable solely to administrative restructuring, not to any improvement in
+          service delivery. The political toxicity of council tax harmonisation has been documented
+          in every completed English reorganisation. Buckinghamshire's harmonisation required five
+          years of differential rates and generated sustained public complaint. No submitted proposal
+          for Lancashire addresses the harmonisation timetable, specifies a transition mechanism,
+          or quantifies the fiscal impact on individual households.
         </Text>
       </ContentPage>
 
@@ -1110,6 +1235,27 @@ export function LGRAcademicPDF({
           be weighed against the possibility, however small, that a child falls through the gaps
           during transition. No financial model can price this risk.
         </Text>
+
+        <Text style={styles.h2}>7.5 Workforce Transfer and Attrition</Text>
+
+        <Text style={styles.para}>
+          Lancashire's fifteen councils collectively employ approximately 45,000 staff.
+          Reorganisation requires the transfer of every employee to a successor authority under
+          TUPE regulations. The administrative burden is substantial: each employee's terms,
+          conditions, pension arrangements, and contractual obligations must be mapped and
+          transferred.
+        </Text>
+
+        <Text style={styles.para}>
+          The greater risk is pre-vesting attrition. North Yorkshire reported losing approximately
+          15 percent of its senior management team before vesting day, as experienced officers
+          sought positions outside the uncertainty of reorganisation. Somerset experienced similar
+          senior attrition. Lancashire's transition would coincide with approximately nineteen other
+          reorganisations nationally, creating an unprecedented labour market for local government
+          executives. The result is likely to be a bidding war for experienced chief executives,
+          section 151 officers, and directors of children's services - precisely the individuals on
+          whom safe transition depends.
+        </Text>
       </ContentPage>
 
       {/* ══════════════════════════════════════════════════════════════════ */}
@@ -1129,7 +1275,7 @@ export function LGRAcademicPDF({
           columns={[
             { label: 'Case', width: '16%' },
             { label: 'Year', width: '8%', align: 'center' },
-            { label: 'Before \u2192 After', width: '12%', align: 'center' },
+            { label: 'Before / After', width: '12%', align: 'center' },
             { label: 'Population', width: '12%', align: 'right' },
             { label: 'Transition cost', width: '14%', align: 'right' },
             { label: 'Annual savings', width: '14%', align: 'right' },
@@ -1140,7 +1286,7 @@ export function LGRAcademicPDF({
           rows={PRECEDENT_CASES.map(p => [
             p.area,
             String(p.year),
-            `${p.councilsBefore} \u2192 ${p.councilsAfter}`,
+            `${p.councilsBefore} / ${p.councilsAfter}`,
             fmt.num(p.population),
             fmt.gbp(p.transitionCostM * 1e6),
             fmt.gbp(p.annualSavingsM * 1e6),
@@ -1261,6 +1407,19 @@ export function LGRAcademicPDF({
           financial savings. In the submitted proposals, it has not been.
         </Text>
 
+        <Text style={styles.para}>
+          The reorganisation also affects Lancashire's 200-plus parish and town councils. These
+          bodies currently receive precept collection, planning consultation, and grant funding
+          through their billing authority - in most cases, the district council. Reorganisation
+          eliminates the district councils. Parish and town councils have been listed as
+          consultation consultees, but few have access to the financial modelling, demographic
+          analysis, or implementation detail required to form an informed view. The consultation
+          period provides the question - "which model do you prefer?" - without providing the
+          evidence base to answer it. The Local Government Boundary Commission's guidance on
+          community governance reviews suggests that parish councils may need to be reorganised
+          concurrently - an additional administrative burden that no submitted proposal acknowledges.
+        </Text>
+
         <Text style={styles.h2}>9.4 The Government's Position</Text>
 
         <Text style={styles.para}>
@@ -1372,11 +1531,14 @@ export function LGRAcademicPDF({
         </NumItem>
 
         <Text style={[styles.para, { marginTop: 16 }]}>
-          Reorganisation may well be the right answer for Lancashire. The financial analysis
-          supports it - narrowly. The governance case is debatable. The implementation risk is
-          real. The honest conclusion is not that reorganisation should be stopped, but that it
-          should be done properly: with independent analysis, realistic timelines, priced risks,
-          and democratic safeguards. The current trajectory delivers none of these.
+          The question is not whether Lancashire's governance can be improved. It can, and it should.
+          The question is whether this process - at this speed, with this level of financial analysis,
+          against this risk profile - will deliver that improvement. The evidence presented in this
+          paper suggests that the proposed timeline is inconsistent with precedent, the financial case
+          is narrower than claimed, material risks have not been priced, and the democratic implications
+          have not been debated. If reorganisation proceeds without addressing these deficiencies, the
+          most likely outcome is not the efficient, modern governance that proponents promise, but a
+          protracted and expensive transition that consumes the very savings it was designed to deliver.
         </Text>
       </ContentPage>
 
