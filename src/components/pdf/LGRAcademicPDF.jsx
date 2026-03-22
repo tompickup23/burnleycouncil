@@ -1653,8 +1653,8 @@ export function LGRAcademicPDF({
             { label: 'Evidence', width: '58%' },
           ]}
           rows={[
-            ['Central Services', '18%', 'Fast', 'Andrews & Boyne 2009; Durham admin spend 19%\u21929%'],
-            ['Corporate & Democratic Core', '30%', 'Fast', 'Councillor reduction (648\u2192~200); CEO layer elimination'],
+            ['Central Services', '18%', 'Fast', 'Andrews & Boyne 2009; Durham admin spend 19% to9%'],
+            ['Corporate & Democratic Core', '30%', 'Fast', 'Councillor reduction (648 to~200); CEO layer elimination'],
             ['IT & Digital', '15%', 'Slow', 'System consolidation; Buckinghamshire IT programme'],
             ['Revenues & Benefits', '12%', 'Medium', 'Single billing authority; single council tax system'],
             ['Waste Collection', '5%', 'Slow', 'Contract renegotiation scope; 12 separate district contracts'],
