@@ -4,6 +4,7 @@ const WardMap = lazy(() => import('../components/WardMap'))
 import { useCouncilConfig } from '../context/CouncilConfig'
 import { useData } from '../hooks/useData'
 import { formatNumber } from '../utils/format'
+import { buildWardLookup } from '../utils/wardReconciler'
 import { usePDFExport } from '../components/pdf/usePDFExport'
 import { TOOLTIP_STYLE, GRID_STROKE, AXIS_TICK_STYLE, AXIS_TICK_STYLE_SM, PARTY_COLORS } from '../utils/constants'
 import {
@@ -218,18 +219,29 @@ export default function Strategy() {
     return electionsData?.meta?.next_election?.wards_up || []
   }, [electionsData])
 
-  // --- Derived: demographics maps ---
+  // --- Derived: demographics maps (reconciled via wardReconciler) ---
   const { demoByName, depByName } = useMemo(() => {
+    // Build reconciled lookup for demographics (handles ward name mismatches)
+    const demoLookup = buildWardLookup(
+      electionsData?.wards || {},
+      demographicsData?.wards || {}
+    )
+    // Build reconciled lookup for deprivation
+    const depLookup = buildWardLookup(
+      electionsData?.wards || {},
+      deprivationData?.wards || {}
+    )
+    // Create name-keyed maps compatible with existing code
     const demoByName = {}
-    if (demographicsData?.wards) {
-      for (const [, val] of Object.entries(demographicsData.wards)) {
-        if (val?.name) demoByName[val.name] = val
-        if (val?.ward_name) demoByName[val.ward_name] = val
-      }
+    const depByName = {}
+    for (const wardName of Object.keys(electionsData?.wards || {})) {
+      const demoMatch = demoLookup.lookup(wardName)
+      if (demoMatch) demoByName[wardName] = demoMatch
+      const depMatch = depLookup.lookup(wardName)
+      if (depMatch) depByName[wardName] = depMatch
     }
-    const depByName = deprivationData?.wards || {}
     return { demoByName, depByName }
-  }, [demographicsData, deprivationData])
+  }, [electionsData, demographicsData, deprivationData])
 
   // --- Derived: council prediction ---
   const councilPrediction = useMemo(() => {
