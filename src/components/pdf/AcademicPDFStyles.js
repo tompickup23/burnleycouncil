@@ -72,8 +72,8 @@ export const styles = StyleSheet.create({
     backgroundColor: WHITE,
     color: BLACK,
     fontFamily: SERIF,
-    paddingTop: 160,
-    paddingBottom: 72,
+    paddingTop: 120,
+    paddingBottom: 60,
     paddingLeft: 72,
     paddingRight: 72,
     justifyContent: 'flex-start',
@@ -121,8 +121,8 @@ export const styles = StyleSheet.create({
     width: 80,
     height: 1,
     backgroundColor: RULE_COLOUR,
-    marginTop: 32,
-    marginBottom: 32,
+    marginTop: 20,
+    marginBottom: 20,
   },
 
   // --- Abstract ---

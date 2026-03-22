@@ -3,7 +3,7 @@
  * 25-35 page academic paper using @react-pdf/renderer.
  * Author: Tom Pickup, Independent Researcher
  *
- * Style: Dan Niedle / Tax Policy Associates — forensic, factual, concise.
+ * Style: Dan Niedle / Tax Policy Associates - forensic, factual, concise.
  * Numbers first, interpretation second.
  */
 import { Document, Page, View, Text } from '@react-pdf/renderer'
@@ -29,7 +29,7 @@ function AcademicTable({ number, caption, columns, rows, source }) {
             <Text key={ci} style={[
               ci < columns.length - 1 ? styles.tableCell : styles.tableCellLast,
               { width: columns[ci]?.width || 'auto', textAlign: columns[ci]?.align || 'left' }
-            ]}>{cell != null ? String(cell) : '\u2014'}</Text>
+            ]}>{cell != null ? String(cell) : '-'}</Text>
           ))}
         </View>
       ))}
@@ -176,7 +176,7 @@ export function LGRAcademicPDF({
           identifies material risks including equal pay exposure of {fmt.gbp(n(epr.totalExposure, 0))},
           IT systems integration cost overruns, and simultaneous reorganisation of approximately
           twenty areas nationally. A counterfactual analysis suggests that organic efficiency gains
-          under the status quo would deliver {fmt.gbp(n(sqSavings.tenYearCumulative, 0))} over
+          under the status quo would deliver {fmt.gbp(n(sqSavings.tenYearTotal, 0))} over
           the same period without transition costs. The paper concludes that while the financial
           case for reorganisation is positive in net terms, the margin is narrower than proponents
           claim, and implementation risk is substantially underpriced.
@@ -222,7 +222,7 @@ export function LGRAcademicPDF({
           {' '}{fmt.gbp(n(twoUnitary.ccn_annual_savings, 0))} for the two-unitary model. This paper's
           bottom-up analysis, using the same GOV.UK source data but applying service-line-level
           modelling and precedent-calibrated realisation rates, yields a figure of{' '}
-          {fmt.gbp(twoNetSavings)} — {(twoNetSavings / n(twoUnitary.ccn_annual_savings, 1) - 1) > 0
+          {fmt.gbp(twoNetSavings)} - {(twoNetSavings / n(twoUnitary.ccn_annual_savings, 1) - 1) > 0
             ? `${((twoNetSavings / n(twoUnitary.ccn_annual_savings, 1) - 1) * 100).toFixed(0)}% higher`
             : 'comparable'}.
           The difference is attributable to methodology: the CCN/PwC report used top-down percentage
@@ -306,7 +306,7 @@ export function LGRAcademicPDF({
           Seven completed English LGR cases provide the empirical baseline: Buckinghamshire (2020),
           Durham (2009), Wiltshire (2009), Shropshire (2009), Cornwall (2009), Dorset (2019), and
           North Yorkshire (2023). A partial eighth case, Northamptonshire (2021), is included with
-          caveats — it was a forced reorganisation following two s114 notices and does not represent
+          caveats - it was a forced reorganisation following two s114 notices and does not represent
           voluntary restructuring. Transition cost and savings data are drawn from council annual
           reports, the NAO, and Grant Thornton's 2023 place-based governance review.
         </Text>
@@ -359,9 +359,9 @@ export function LGRAcademicPDF({
             { label: 'Net savings (75%)', width: '13%', align: 'right' },
           ]}
           rows={models.map(m => [
-            s(m?.name, '\u2014'),
-            s(m?.submitted_by, '\u2014'),
-            s(m?.num_authorities, '\u2014'),
+            s(m?.name, '-'),
+            s(m?.submitted_by, '-'),
+            s(m?.num_authorities, '-'),
             m?.meets_threshold ? 'Yes' : 'No',
             fmt.gbp(n(m?.ccn_annual_savings, null)),
             fmt.gbp(n(m?.doge_transition_cost, null)),
@@ -393,7 +393,7 @@ export function LGRAcademicPDF({
         </Text>
 
         <Text style={styles.para}>
-          The remaining models — four unitaries (two variants) and five unitaries — progressively
+          The remaining models - four unitaries (two variants) and five unitaries - progressively
           increase the number of authorities and reduce average population below the threshold.
           Each additional authority adds approximately {fmt.gbp(n(
             (models[2]?.doge_transition_cost || 0) - (models[1]?.doge_transition_cost || 0),
@@ -418,8 +418,8 @@ export function LGRAcademicPDF({
             ]}
             rows={models.slice(0, 3).flatMap(m =>
               (m?.authorities || []).filter(Boolean).map(a => [
-                s(a?.name, '\u2014'),
-                s(m?.name, '\u2014'),
+                s(a?.name, '-'),
+                s(m?.name, '-'),
                 fmt.num(n(a?.population, null)),
                 fmt.pct(n(a?.demographics?.white_pct, null)),
                 fmt.pct(n(a?.demographics?.asian_pct, null)),
@@ -454,25 +454,21 @@ export function LGRAcademicPDF({
           government's apparent preferred option.
         </Text>
 
-        {Object.keys(perServiceSavings).length > 0 ? (
+        {perServiceSavings.two_unitary?.by_category ? (
           <AcademicTable
             number={3}
-            caption="Gross annual savings by service category — two-unitary model"
+            caption="Gross annual savings by service category, two-unitary model"
             columns={[
-              { label: 'Service category', width: '30%' },
-              { label: 'Expenditure', width: '17%', align: 'right' },
-              { label: 'Savings rate', width: '13%', align: 'right' },
-              { label: 'Gross saving', width: '17%', align: 'right' },
-              { label: 'Ramp speed', width: '10%', align: 'center' },
-              { label: 'Net (75%)', width: '13%', align: 'right' },
+              { label: 'Service category', width: '35%' },
+              { label: 'Current spend', width: '20%', align: 'right' },
+              { label: 'Gross saving', width: '20%', align: 'right' },
+              { label: 'Net (75%)', width: '25%', align: 'right' },
             ]}
-            rows={Object.entries(perServiceSavings).filter(Boolean).map(([cat, data]) => [
+            rows={Object.entries(perServiceSavings.two_unitary.by_category).filter(Boolean).map(([cat, data]) => [
               cat,
-              fmt.gbp(n(data?.expenditure, 0)),
-              fmt.pct(n(data?.rate ? data.rate * 100 : null, null)),
-              fmt.gbp(n(data?.gross_saving, 0)),
-              s(data?.ramp_speed, '\u2014'),
-              fmt.gbp(n(data?.gross_saving ? data.gross_saving * 0.75 : null, 0)),
+              fmt.gbp(n(data?.total, 0)),
+              fmt.gbp(n(data?.total, 0) > 0 ? n(data?.lines?.reduce((sum, l) => sum + (l.saving || 0), 0), 0) : 0),
+              fmt.gbp(n(data?.total, 0) > 0 ? n(data?.lines?.reduce((sum, l) => sum + (l.saving || 0), 0), 0) * 0.75 : 0),
             ])}
             source={`GOV.UK Revenue Outturn ${s(budgetMeta.data_year, '2024-25')}; author's calculations`}
           />
@@ -485,12 +481,12 @@ export function LGRAcademicPDF({
 
         <Text style={styles.para}>
           Three observations emerge from the decomposition. First, Corporate and Democratic Core
-          contributes disproportionately to total savings — the 30% rate reflects the elimination
+          contributes disproportionately to total savings - the 30% rate reflects the elimination
           of twelve sets of elected members, chief executives, and senior management teams. Second,
           social care savings are minimal (2%) because these are statutory services where the scope
           for rationalisation is constrained by law and by the reality that demand is driven by
           demographics, not administrative structure. Third, IT savings are substantial in absolute
-          terms but slow to materialise — the "slow ramp" designation reflects that systems
+          terms but slow to materialise - the "slow ramp" designation reflects that systems
           integration typically takes 24-36 months, as Buckinghamshire's experience confirms.
         </Text>
 
@@ -516,7 +512,7 @@ export function LGRAcademicPDF({
             const tc = n(m?.doge_transition_cost, 0)
             const na = n(m?.num_authorities, 1)
             return [
-              s(m?.name, '\u2014'),
+              s(m?.name, '-'),
               String(na),
               fmt.gbp(tc),
               fmt.gbp(tc / na),
@@ -542,7 +538,7 @@ export function LGRAcademicPDF({
 
       {/* ── §4.3 Ten-Year Cashflow ───────────────────────────────────────── */}
       <ContentPage>
-        <Text style={styles.h2}>4.3 Ten-Year Cashflow — Two-Unitary Model</Text>
+        <Text style={styles.h2}>4.3 Ten-Year Cashflow - Two-Unitary Model</Text>
 
         <Text style={styles.para}>
           Table 5 presents the year-by-year cashflow for the two-unitary model under central
@@ -553,7 +549,7 @@ export function LGRAcademicPDF({
         {twoCashflow.length > 0 ? (
           <AcademicTable
             number={5}
-            caption="Ten-year cashflow projection — two-unitary model (central case)"
+            caption="Ten-year cashflow projection - two-unitary model (central case)"
             columns={[
               { label: 'Year', width: '10%' },
               { label: 'Transition costs', width: '18%', align: 'right' },
@@ -563,7 +559,7 @@ export function LGRAcademicPDF({
               { label: 'NPV', width: '18%', align: 'right' },
             ]}
             rows={twoCashflow.map(y => [
-              s(y?.year, '\u2014'),
+              s(y?.year, '-'),
               fmt.gbp(n(y?.costs, 0)),
               fmt.gbp(n(y?.savings, 0)),
               fmt.gbp(n(y?.net, 0)),
@@ -581,7 +577,7 @@ export function LGRAcademicPDF({
           is {fmt.gbp(npv10)}. The headline figure conceals important timing risk: the first
           three years produce net deficits as transition costs are incurred before savings
           materialise. Councils will need to fund this gap from reserves, borrowing, or
-          capitalisation directions — the same instruments that have precipitated financial
+          capitalisation directions - the same instruments that have precipitated financial
           distress in Northamptonshire, Thurrock, Croydon, and Birmingham.
         </Text>
 
@@ -596,7 +592,7 @@ export function LGRAcademicPDF({
         {twoTornado.length > 0 ? (
           <AcademicTable
             number={6}
-            caption="Sensitivity analysis — impact on ten-year NPV (two-unitary model)"
+            caption="Sensitivity analysis - impact on ten-year NPV (two-unitary model)"
             columns={[
               { label: 'Variable', width: '28%' },
               { label: 'Low case', width: '14%', align: 'right' },
@@ -606,12 +602,12 @@ export function LGRAcademicPDF({
               { label: 'Swing', width: '14%', align: 'right' },
             ]}
             rows={twoTornado.map(t => [
-              s(t?.variable, '\u2014'),
-              t?.low != null ? String(t.low) : '\u2014',
-              t?.high != null ? String(t.high) : '\u2014',
-              fmt.gbp(n(t?.npvLow, null)),
-              fmt.gbp(n(t?.npvHigh, null)),
-              fmt.gbp(n(t?.swing, null)),
+              s(t?.label, '-'),
+              t?.lowValue != null ? (t.lowValue < 1 ? fmt.pct(t.lowValue * 100) : `${t.lowValue}x`) : '-',
+              t?.highValue != null ? (t.highValue < 1 ? fmt.pct(t.highValue * 100) : `${t.highValue}x`) : '-',
+              fmt.gbp(n(t?.lowNPV, null)),
+              fmt.gbp(n(t?.highNPV, null)),
+              fmt.gbp(n(t?.impact, null)),
             ])}
             source="Author's model. Each variable perturbed independently."
           />
@@ -621,7 +617,7 @@ export function LGRAcademicPDF({
 
         <Text style={styles.para}>
           The savings realisation rate dominates the sensitivity analysis. A shift from 75% to
-          60% realisation — the lower bound of Ernst and Young's empirical range — reduces ten-year
+          60% realisation - the lower bound of Ernst and Young's empirical range - reduces ten-year
           NPV by more than any other single variable. Transition cost overrun (the second-largest
           driver) reflects the experience of North Yorkshire, where IT costs exceeded initial
           estimates. The discount rate has modest impact because the largest net cashflows occur
@@ -654,7 +650,7 @@ export function LGRAcademicPDF({
             const mCf = (cashflows?.[m?.id] || []).filter(Boolean)
             const mLast = mCf.length > 0 ? mCf[mCf.length - 1] : {}
             return [
-              s(m?.name, '\u2014'),
+              s(m?.name, '-'),
               fmt.gbp(n(m?.doge_annual_savings_gross, null)),
               fmt.gbp(n(m?.doge_annual_savings, null)),
               fmt.gbp(n(m?.doge_transition_cost, null)),
@@ -697,7 +693,7 @@ export function LGRAcademicPDF({
           The discrepancy arises because the CCN report applies a single top-down percentage to
           total expenditure, while this paper models each service line individually. The CCN
           methodology treats adult social care (which accounts for 78% of upper-tier net revenue
-          expenditure) at the same savings rate as back-office functions — a methodological choice
+          expenditure) at the same savings rate as back-office functions - a methodological choice
           that compresses the savings estimate.
         </Text>
 
@@ -729,7 +725,7 @@ export function LGRAcademicPDF({
           transformation, demand management, and shared services. Lancashire already has several
           shared service arrangements in progress. Applying the NAO midpoint (2.05%) compounded
           over ten years, with a 0.5 percentage point shared services uplift, yields cumulative
-          savings of {fmt.gbp(n(sqSavings.tenYearCumulative, 0))} over the decade.
+          savings of {fmt.gbp(n(sqSavings.tenYearTotal, 0))} over the decade.
         </Text>
 
         <Text style={styles.para}>
@@ -742,7 +738,7 @@ export function LGRAcademicPDF({
         {(cf.lgrPath || []).length > 0 ? (
           <AcademicTable
             number={8}
-            caption="Counterfactual comparison — LGR vs status quo (cumulative savings, nominal)"
+            caption="Counterfactual comparison - LGR vs status quo (cumulative savings, nominal)"
             columns={[
               { label: 'Year', width: '10%' },
               { label: 'LGR path', width: '22%', align: 'right' },
@@ -765,24 +761,24 @@ export function LGRAcademicPDF({
           />
         ) : (
           <Text style={styles.para}>
-            Status quo ten-year savings: {fmt.gbp(n(sqSavings.tenYearCumulative, 0))} (NAO 2.05%
-            annual efficiency). With shared services uplift:{' '}
-            {fmt.gbp(n(sqSavings.totalWithSharedServices, 0))}.
+            Status quo ten-year savings: {fmt.gbp(n(sqSavings.tenYearTotal, 0))} (NAO 2.05%
+            annual efficiency, including shared services uplift). Annual steady-state:{' '}
+            {fmt.gbp(n(sqSavings.annualSteadyState, 0))} per year.
           </Text>
         )}
 
         <Text style={styles.para}>
           The counterfactual verdict is{' '}
           <Text style={styles.bold}>{s(cf.verdict, 'that LGR produces a net positive NPV relative to the status quo, but the margin is narrower than headline figures suggest')}</Text>.
-          The ten-year net benefit of LGR over the status quo is {fmt.gbp(n(cf.netBenefit10yr, 0))}.
-          This is the true financial case for reorganisation — not the gross savings figure, which
+          The ten-year net benefit of LGR over the status quo is {fmt.gbp(n(cf.netIncrementalBenefit, 0))}.
+          This is the true financial case for reorganisation - not the gross savings figure, which
           ignores what would have happened anyway.
         </Text>
 
         <Text style={styles.para}>
           The margin is narrow enough that implementation risk could eliminate it entirely. A 25%
-          transition cost overrun combined with 65% savings realisation — both within the empirical
-          range of precedent cases — would reduce the LGR advantage to approximately zero. The
+          transition cost overrun combined with 65% savings realisation - both within the empirical
+          range of precedent cases - would reduce the LGR advantage to approximately zero. The
           proponents of reorganisation are, in effect, betting {fmt.gbp(twoTransition)} in
           transition costs against a net marginal benefit that is sensitive to assumptions about
           realisation, timing, and cost control that have been tested only in isolation and never
@@ -796,21 +792,21 @@ export function LGRAcademicPDF({
           2025 identifying savings targets across directorates without structural reorganisation.
           The review applied zero-based budgeting principles to corporate overhead, contract
           renegotiation, and demand management. The approach mirrors Wigan Council's "The Deal"
-          programme, which delivered approximately {'\u00a3'}180 million in savings over a decade
+          programme, which delivered approximately {'\u00a3'}180 million in savings over a decade{' '}
           without any reorganisation.
         </Text>
 
         <Text style={styles.para}>
           The twelve district councils have not conducted comparable reviews. If equivalent
-          efficiency gains of 3-5% were achievable across district budgets — a conservative
+          efficiency gains of 3-5% were achievable across district budgets - a conservative
           assumption given that most districts have not undertaken systematic procurement
-          rationalisation or digital transformation — the aggregate savings would approach
+          rationalisation or digital transformation - the aggregate savings would approach
           those promised by LGR without incurring transition costs. The district councils
           collectively manage service expenditure of approximately {'\u00a3'}230 million annually
-          (GOV.UK 2024-25 outturn). When combined with Lancashire County Council's and the
-          unitaries' expenditure, the total system spend across all fifteen councils is approximately
-          {'\u00a3'}2.9 billion. A 2% efficiency yield across the full system would produce
-          {'\u00a3'}58 million per year — competitive with the net savings projected for the
+          (GOV.UK 2024-25 outturn). When combined with Lancashire County Council{'\u2019'}s and the
+          unitaries{'\u2019'} expenditure, the total system spend across all fifteen councils is approximately
+          {' \u00a3'}2.9 billion. A 2% efficiency yield across the full system would produce
+          {' \u00a3'}58 million per year {'-'} competitive with the net savings projected for the
           two-unitary model after 75% realisation adjustment.
         </Text>
 
@@ -836,7 +832,7 @@ export function LGRAcademicPDF({
           North Yorkshire reported 18 months of effective capital programme suspension during its
           transition period. Somerset experienced significant senior officer attrition before
           vesting day. These are real costs, but they are caused by the reorganisation process
-          itself, not by the status quo. They are arguments for swift resolution — not for
+          itself, not by the status quo. They are arguments for swift resolution - not for
           reorganisation.
         </Text>
 
@@ -851,8 +847,8 @@ export function LGRAcademicPDF({
 
         <Text style={styles.para}>
           The author's assessment, based on the evidence presented in this paper, is that the
-          status quo — enhanced by systematic efficiency reviews across all fifteen councils,
-          expanded shared services, and voluntary collaboration — would deliver comparable
+          status quo - enhanced by systematic efficiency reviews across all fifteen councils,
+          expanded shared services, and voluntary collaboration - would deliver comparable
           fiscal outcomes without the transition risks, democratic disruption, and safeguarding
           hazards documented in sections 6 and 7. However, since the government has signalled
           its intention to proceed regardless, the remainder of this paper analyses whether
@@ -881,7 +877,7 @@ export function LGRAcademicPDF({
           nationally since 2019. The cost cascade is severe: each EHCP generates assessment costs,
           placement costs (independent special schools average £45,000-60,000 per year), and
           transport costs (the most expensive line in many council budgets). Tribunal costs have
-          risen sharply as parents increasingly challenge placement decisions — and win 96% of
+          risen sharply as parents increasingly challenge placement decisions - and win 96% of
           appeals.
         </Text>
 
@@ -906,7 +902,7 @@ export function LGRAcademicPDF({
 
         <Text style={styles.para}>
           Home Office dispersal policy has concentrated asylum seekers in low-cost housing areas.
-          In Lancashire, this means East Lancashire — specifically Burnley, Pendle, and Hyndburn.
+          In Lancashire, this means East Lancashire - specifically Burnley, Pendle, and Hyndburn.
           Burnley has 464 asylum seekers (4.9 per 1,000 population), with the trend showing
           continuous growth: 178 (March 2022) to 245 (2023) to 431 (2024) to 464 (March 2025).
           The annual cost to the local authority, including housing, education, social care, and
@@ -953,7 +949,7 @@ export function LGRAcademicPDF({
         <Text style={styles.para}>
           The Durham precedent is instructive. Durham's 2009 reorganisation merged deprived former
           mining communities with more affluent areas. Ten years on, the deprivation gap within
-          the unitary authority has not narrowed. The reorganisation did not cause deprivation —
+          the unitary authority has not narrowed. The reorganisation did not cause deprivation -
           but it did not alleviate it either. The administrative structure is, at best, neutral
           in the face of structural economic disadvantage. This undermines the argument that
           larger authorities can better target resources at deprivation: they can, in theory,
@@ -970,7 +966,7 @@ export function LGRAcademicPDF({
         <Text style={styles.h2}>7.1 Timeline Feasibility</Text>
 
         <Text style={styles.para}>
-          The government's target vesting date is April 2028 — {fmt.num(n(tf.governmentMonths, 18))}{' '}
+          The government's target vesting date is April 2028 - {fmt.num(n(tf.governmentMonths, 18))}{' '}
           months from the expected decision date. This paper's analysis, based on the seven
           completed English LGR cases, suggests that a realistic timeline is{' '}
           {fmt.num(n(tf.recommendedMonths, 30))} months. Every completed case since 2009 has
@@ -988,8 +984,8 @@ export function LGRAcademicPDF({
         </Text>
 
         <Text style={styles.para}>
-          The risk is not theoretical. North Yorkshire's reorganisation — which was handled as
-          a single case with full MHCLG attention — still encountered what the council's own
+          The risk is not theoretical. North Yorkshire's reorganisation - which was handled as
+          a single case with full MHCLG attention - still encountered what the council's own
           review described as having "underestimated organisational inertia." Lancashire's
           reorganisation would proceed with a fraction of the civil service capacity that North
           Yorkshire received.
@@ -1003,7 +999,7 @@ export function LGRAcademicPDF({
             {(tf.factors || []).filter(Boolean).map((f, i) => (
               <Text key={i} style={styles.listItem}>
                 <Text style={styles.listBullet}>{'\u2022'}</Text>
-                {'  '}{typeof f === 'object' ? s(f?.description || f?.factor, '\u2014') : String(f)}
+                {'  '}{typeof f === 'object' ? s(f?.description || f?.factor, '-') : String(f)}
               </Text>
             ))}
           </View>
@@ -1021,7 +1017,7 @@ export function LGRAcademicPDF({
 
         <Text style={styles.para}>
           The precedent is sobering. Somerset's Oracle Fusion implementation had an initial budget
-          of £15M. The final cost was £27M — an 80% overrun. Buckinghamshire's IT programme was
+          of £15M. The final cost was £27M - an 80% overrun. Buckinghamshire's IT programme was
           delivered broadly on budget but took 30 months, during which time shadow IT arrangements
           (running duplicate systems in parallel) consumed £4-5M that was not in the original
           business case. North Yorkshire reported that IT integration was the most challenging
@@ -1031,7 +1027,7 @@ export function LGRAcademicPDF({
         <Text style={styles.para}>
           For Lancashire, the IT risk is amplified by the involvement of two existing unitaries
           (Blackpool and Blackburn with Darwen), each of which has its own integrated system
-          estate. These are not blank-slate districts with simple revenues systems — they run full
+          estate. These are not blank-slate districts with simple revenues systems - they run full
           social care case management, education management information, and public health
           surveillance systems. Merging them with county and district systems adds a layer of
           complexity that none of the seven English precedent cases faced.
@@ -1042,7 +1038,7 @@ export function LGRAcademicPDF({
         <Text style={styles.para}>
           When councils merge, their workforce is brought onto a single pay spine under the
           Single Status agreement. Employees doing equivalent work across the merging authorities
-          must be paid equivalently. Where pay differs — and it always does — the resulting
+          must be paid equivalently. Where pay differs - and it always does - the resulting
           harmonisation creates a legal obligation to compensate the lower-paid employees for
           the period of unequal pay. This is the equal pay risk.
         </Text>
@@ -1060,8 +1056,8 @@ export function LGRAcademicPDF({
           The equal pay risk is not reflected in any of the five submitted proposals. It is not
           reflected in the CCN/PwC financial baseline. It is, to borrow a term from financial
           regulation, an off-balance-sheet liability that will crystallise on day one of the new
-          authority. The government's Structural Changes Order will transfer all liabilities —
-          known and unknown — to the successor authority.
+          authority. The government's Structural Changes Order will transfer all liabilities -
+          known and unknown - to the successor authority.
         </Text>
 
         <Text style={styles.h2}>7.4 Safeguarding Continuity</Text>
@@ -1075,8 +1071,8 @@ export function LGRAcademicPDF({
         </Text>
 
         <Text style={styles.para}>
-          Reorganisation requires the transfer of every open case — every child protection plan,
-          every looked-after child, every care leaver — from the existing authority to the new
+          Reorganisation requires the transfer of every open case - every child protection plan,
+          every looked-after child, every care leaver - from the existing authority to the new
           one. The new authority must have a functioning MASH (Multi-Agency Safeguarding Hub),
           trained social workers with allocated caseloads, and operational IT systems from day
           one. There is no grace period. A child at risk on 31 March must be protected on 1 April.
@@ -1084,7 +1080,7 @@ export function LGRAcademicPDF({
 
         <Text style={styles.para}>
           Bradford's experience with its Children's Trust is relevant. When organisational
-          structures around safeguarding are disrupted — even with the best intentions — referral
+          structures around safeguarding are disrupted - even with the best intentions - referral
           pathways become confused, information-sharing protocols break down, and cases are
           delayed. The NAO has repeatedly warned that organisational change in children's services
           should be treated with extreme caution. The financial savings from reorganisation must
@@ -1119,15 +1115,15 @@ export function LGRAcademicPDF({
             { label: 'On budget', width: '6%', align: 'center' },
           ]}
           rows={precedentCases.map(p => [
-            s(p?.name, '\u2014'),
-            p?.year != null ? String(p.year) : '\u2014',
+            s(p?.name, '-'),
+            p?.year != null ? String(p.year) : '-',
             `${s(p?.before, '?')} \u2192 ${s(p?.after, '?')}`,
             fmt.num(n(p?.population, null)),
-            p?.transitionCostM != null ? fmt.gbp(p.transitionCostM * 1e6) : '\u2014',
-            p?.annualSavingsM != null ? fmt.gbp(p.annualSavingsM * 1e6) : '\u2014',
-            p?.savingsPct != null ? fmt.pct(p.savingsPct) : '\u2014',
-            p?.monthsTaken != null ? String(p.monthsTaken) : '\u2014',
-            p?.onBudget === true ? 'Yes' : (p?.onBudget === false ? 'No' : '\u2014'),
+            p?.transitionCostM != null ? fmt.gbp(p.transitionCostM * 1e6) : '-',
+            p?.annualSavingsM != null ? fmt.gbp(p.annualSavingsM * 1e6) : '-',
+            p?.savingsPct != null ? fmt.pct(p.savingsPct) : '-',
+            p?.monthsTaken != null ? String(p.monthsTaken) : '-',
+            p?.onBudget === true ? 'Yes' : (p?.onBudget === false ? 'No' : '-'),
           ])}
           source="Council annual reports; NAO; Grant Thornton (2023); CCN/PwC (2024)"
         />
@@ -1139,7 +1135,7 @@ export function LGRAcademicPDF({
             Math.max(1, precedentCases.filter(p => p?.monthsTaken != null).length)
           )} months. Second, savings as a percentage of total expenditure cluster around 4-5%,
           with Buckinghamshire at the top (5.2%) and Shropshire at the bottom (4.2%). Third,
-          two of the seven cases exceeded their budgets — both involved high complexity
+          two of the seven cases exceeded their budgets - both involved high complexity
           (Northamptonshire's forced reorganisation and North Yorkshire's IT programme).
         </Text>
 
@@ -1148,7 +1144,7 @@ export function LGRAcademicPDF({
           {n(lancComplexity.score, 'a high')} complexity factors including: fifteen councils
           (the most ever merged in a single English LGR), two existing unitaries with separate
           system estates, three distinct economic geographies (coastal tourism, rural agricultural,
-          post-industrial urban), and a population of {fmt.num(totalPop)} — larger than any
+          post-industrial urban), and a population of {fmt.num(totalPop)} - larger than any
           completed case except Northamptonshire (which was a forced reorganisation after
           financial collapse).
         </Text>
@@ -1159,7 +1155,7 @@ export function LGRAcademicPDF({
           transition cost of {fmt.gbp(twoTransition)}, this yields a risk-adjusted cost of{' '}
           {fmt.gbp(twoTransition * n(precedentBenchmark?.riskMultiplier, 1.3))}. The ten-year
           NPV under risk-adjusted assumptions falls to{' '}
-          {fmt.gbp(n(riskAdjusted?.npv10 || npv10 * 0.7, 0))} — still positive, but substantially
+          {fmt.gbp(n(riskAdjusted?.npv10 || npv10 * 0.7, 0))} - still positive, but substantially
           below the headline figure.
         </Text>
 
@@ -1183,7 +1179,7 @@ export function LGRAcademicPDF({
         <Text style={styles.para}>
           Financial analysis does not exist in a vacuum. The proposals submitted to government
           were shaped by institutional self-interest, and the government's decision will be shaped
-          by political calculation. Acknowledging these dynamics is not cynicism — it is realism.
+          by political calculation. Acknowledging these dynamics is not cynicism - it is realism.
         </Text>
 
         <Text style={styles.h2}>9.1 The Independence Problem</Text>
@@ -1237,9 +1233,9 @@ export function LGRAcademicPDF({
         <Text style={styles.para}>
           The democratic deficit is quantifiable. Lancashire's current structure provides
           approximately 648 elected councillors across fifteen councils. The two-unitary model
-          would reduce this to approximately 160 — a 75% reduction in elected representatives.
+          would reduce this to approximately 160 - a 75% reduction in elected representatives.
           The councillor-to-resident ratio would shift from approximately 1:2,400 to approximately
-          1:5,000. For comparison, Birmingham — the largest English council — has a ratio of
+          1:5,000. For comparison, Birmingham - the largest English council - has a ratio of
           approximately 1:12,000. The question is not whether 160 councillors is too few, but
           whether the reduction in democratic representation has been properly weighed against the
           financial savings. In the submitted proposals, it has not been.
@@ -1249,8 +1245,8 @@ export function LGRAcademicPDF({
 
         <Text style={styles.para}>
           The government has stated that it prefers models that meet the 500,000 population
-          threshold. Only one proposal — the two-unitary model submitted by Lancashire County
-          Council — meets this criterion for all resulting authorities. The government's preferred
+          threshold. Only one proposal - the two-unitary model submitted by Lancashire County
+          Council - meets this criterion for all resulting authorities. The government's preferred
           outcome is, in effect, predetermined by the threshold it set.
         </Text>
 
@@ -1280,10 +1276,10 @@ export function LGRAcademicPDF({
         </Text>
 
         <Text style={styles.para}>
-          The counterfactual — organic efficiency gains under the existing structure — would
-          deliver {fmt.gbp(n(sqSavings.tenYearCumulative, 0))} over the same period without
+          The counterfactual - organic efficiency gains under the existing structure - would
+          deliver {fmt.gbp(n(sqSavings.tenYearTotal, 0))} over the same period without
           transition costs. The net benefit of reorganisation over the status quo is{' '}
-          {fmt.gbp(n(cf.netBenefit10yr, 0))}. This margin is vulnerable to implementation risk.
+          {fmt.gbp(n(cf.netIncrementalBenefit, 0))}. This margin is vulnerable to implementation risk.
         </Text>
 
         <Text style={styles.para}>
@@ -1308,7 +1304,7 @@ export function LGRAcademicPDF({
         <NumItem n={1}>
           <Text style={styles.bold}>Commission an independent financial analysis.</Text>{' '}
           The CCN/PwC baseline was commissioned by an interested party. The government should
-          commission analysis from a body without a structural interest in the outcome — the
+          commission analysis from a body without a structural interest in the outcome - the
           NAO, the Institute for Fiscal Studies, or a university research group.
         </NumItem>
 
@@ -1357,7 +1353,7 @@ export function LGRAcademicPDF({
 
         <Text style={[styles.para, { marginTop: 16 }]}>
           Reorganisation may well be the right answer for Lancashire. The financial analysis
-          supports it — narrowly. The governance case is debatable. The implementation risk is
+          supports it - narrowly. The governance case is debatable. The implementation risk is
           real. The honest conclusion is not that reorganisation should be stopped, but that it
           should be done properly: with independent analysis, realistic timelines, priced risks,
           and democratic safeguards. The current trajectory delivers none of these.

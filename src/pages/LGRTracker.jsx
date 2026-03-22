@@ -236,35 +236,48 @@ function LGRTracker() {
   const handleExportAcademicPDF = async () => {
     if (!lgrData?.proposed_models || !budgetModel) return
     try {
+      const costProfile = budgetModel.transition_cost_profile || {}
+      const savingsRamp = budgetModel.savings_ramp_profile || {}
+      const assumptions = budgetModel.model_defaults || DEFAULT_ASSUMPTIONS
+
       // Pre-compute all model results
       const cashflows = {}
       const sensitivities = {}
       const tornados = {}
       for (const model of lgrData.proposed_models) {
-        const params = {
-          annualSavings: model.doge_annual_savings || model.annual_savings_net || 50e6,
-          transitionCosts: model.doge_transition_cost || model.transition_cost || 80e6,
-        }
-        cashflows[model.id] = computeCashflow(params)
-        sensitivities[model.id] = computeSensitivity(params)
-        tornados[model.id] = computeTornado(params)
+        const modelKey = MODEL_KEY_MAP[model.id]
+        const transitionCosts = lgrData.independent_model?.transition_costs?.[modelKey] || {}
+        const annualSavings = budgetModel.per_service_savings?.[model.id]?.total_annual_savings || model.doge_annual_savings || 50e6
+        const params = { annualSavings, transitionCosts, costProfile, savingsRamp, assumptions }
+        try {
+          cashflows[model.id] = computeCashflow(params)
+          sensitivities[model.id] = computeSensitivity(params)
+          tornados[model.id] = computeTornado(params)
+        } catch { /* skip models without data */ }
       }
       const precedentBenchmark = computePrecedentBenchmark({
         lancashireCouncils: 15,
         lancashirePopulation: lgrData.meta?.total_population || 1530000,
       })
-      const statusQuoSavings = computeStatusQuoSavings({
-        totalSpend: budgetModel.meta?.total_expenditure || 2.9e9,
-      })
+      // Total net revenue expenditure across all 15 councils
+      const totalNRE = Object.values(budgetModel.council_budgets || {}).reduce((s, c) => s + (c.net_revenue_expenditure || c.total_service_expenditure || 0), 0) || 1.3e9
+      const statusQuoSavings = computeStatusQuoSavings({ totalNetExpenditure: totalNRE })
+
+      // Get the two-unitary cashflow for counterfactual comparison
+      const firstModel = lgrData.proposed_models[0]
+      const firstModelKey = MODEL_KEY_MAP[firstModel?.id]
+      const firstTC = lgrData.independent_model?.transition_costs?.[firstModelKey] || {}
+      const firstAS = budgetModel.per_service_savings?.[firstModel?.id]?.total_annual_savings || firstModel?.doge_annual_savings || 79e6
+      const twoUnitaryCashflow = cashflows[firstModel?.id] || []
+
       const counterfactual = computeCounterfactualComparison({
-        lgrAnnualSavings: lgrData.proposed_models[0]?.doge_annual_savings || 79e6,
-        transitionCosts: lgrData.proposed_models[0]?.doge_transition_cost || 62e6,
-        statusQuoAnnualRate: 0.018,
-        totalSpend: budgetModel.meta?.total_expenditure || 2.9e9,
+        lgrCashflow: twoUnitaryCashflow,
+        statusQuoSavings,
       })
       const riskAdjusted = computeRiskAdjustedCashflow({
-        annualSavings: lgrData.proposed_models[0]?.doge_annual_savings || 79e6,
-        transitionCosts: lgrData.proposed_models[0]?.doge_transition_cost || 62e6,
+        annualSavings: firstAS,
+        transitionCosts: firstTC,
+        costProfile, savingsRamp, assumptions,
       })
       const timelineFeasibility = computeTimelineFeasibility(
         lgrData.meta?.government_timeline || { months: 18, vesting: '2028-04-01' },
