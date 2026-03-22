@@ -33,6 +33,7 @@ import LGRMethodology from '../components/lgr/LGRMethodology'
 import LGRAlternativeTimeline from '../components/lgr/LGRAlternativeTimeline'
 import LGRNorthernPrecedents from '../components/lgr/LGRNorthernPrecedents'
 import CollapsibleSection from '../components/CollapsibleSection'
+import { usePDFExport } from '../components/pdf/usePDFExport'
 import './LGRTracker.css'
 
 const SEVERITY_COLORS = { critical: '#ff453a', high: '#ff9f0a', medium: '#ffd60a', low: '#30d158' }
@@ -229,6 +230,77 @@ function LGRTracker() {
   const [expandedIssue, setExpandedIssue] = useState(null)
   const [expandedCritique, setExpandedCritique] = useState(null)
   const [activeSection, setActiveSection] = useState('proposals')
+  const { generatePDF, isGenerating: pdfGenerating } = usePDFExport()
+
+  // Academic paper PDF export
+  const handleExportAcademicPDF = async () => {
+    if (!lgrData?.proposed_models || !budgetModel) return
+    try {
+      // Pre-compute all model results
+      const cashflows = {}
+      const sensitivities = {}
+      const tornados = {}
+      for (const model of lgrData.proposed_models) {
+        const params = {
+          annualSavings: model.doge_annual_savings || model.annual_savings_net || 50e6,
+          transitionCosts: model.doge_transition_cost || model.transition_cost || 80e6,
+        }
+        cashflows[model.id] = computeCashflow(params)
+        sensitivities[model.id] = computeSensitivity(params)
+        tornados[model.id] = computeTornado(params)
+      }
+      const precedentBenchmark = computePrecedentBenchmark({
+        lancashireCouncils: 15,
+        lancashirePopulation: lgrData.meta?.total_population || 1530000,
+      })
+      const statusQuoSavings = computeStatusQuoSavings({
+        totalSpend: budgetModel.meta?.total_expenditure || 2.9e9,
+      })
+      const counterfactual = computeCounterfactualComparison({
+        lgrAnnualSavings: lgrData.proposed_models[0]?.doge_annual_savings || 79e6,
+        transitionCosts: lgrData.proposed_models[0]?.doge_transition_cost || 62e6,
+        statusQuoAnnualRate: 0.018,
+        totalSpend: budgetModel.meta?.total_expenditure || 2.9e9,
+      })
+      const riskAdjusted = computeRiskAdjustedCashflow({
+        annualSavings: lgrData.proposed_models[0]?.doge_annual_savings || 79e6,
+        transitionCosts: lgrData.proposed_models[0]?.doge_transition_cost || 62e6,
+      })
+      const timelineFeasibility = computeTimelineFeasibility(
+        lgrData.meta?.government_timeline || { months: 18, vesting: '2028-04-01' },
+        { months: 30, vesting: '2029-04-01' }
+      )
+      const equalPayRisk = computeEqualPayRisk({
+        totalStaff: lgrData.meta?.total_staff || 45000,
+        payGapPct: 5,
+      })
+      const collectionRateImpact = computeCollectionRateImpact(
+        (Array.isArray(crossCouncil) ? crossCouncil : crossCouncil?.councils || []),
+        97.0
+      )
+
+      const { LGRAcademicPDF } = await import('../components/pdf/LGRAcademicPDF.jsx')
+      const doc = <LGRAcademicPDF
+        lgrData={lgrData}
+        budgetModel={budgetModel}
+        lgrEnhanced={lgrEnhanced}
+        crossCouncil={crossCouncil}
+        cashflows={cashflows}
+        sensitivities={sensitivities}
+        tornados={tornados}
+        precedentBenchmark={precedentBenchmark}
+        statusQuoSavings={statusQuoSavings}
+        counterfactual={counterfactual}
+        riskAdjusted={riskAdjusted}
+        timelineFeasibility={timelineFeasibility}
+        equalPayRisk={equalPayRisk}
+        collectionRateImpact={collectionRateImpact}
+      />
+      await generatePDF(doc, 'Lancashire-LGR-Critical-Analysis-Pickup-2026.pdf')
+    } catch (err) {
+      console.error('PDF generation failed:', err)
+    }
+  }
 
   useEffect(() => {
     document.title = `LGR Tracker | ${councilName} Council Transparency`
@@ -736,15 +808,29 @@ function LGRTracker() {
             <h1>LGR <span className="accent">Tracker</span></h1>
             <p className="subtitle">Analysis of Lancashire&apos;s proposed reorganisation — 5 proposals, £12B+ in spending data, 1.6 million residents</p>
           </div>
-          {daysUntilClose !== null && daysUntilClose > 0 && (
-            <div className="consultation-countdown">
-              <Clock size={18} />
-              <div>
-                <span className="countdown-number">{daysUntilClose}</span>
-                <span className="countdown-label">days until consultation closes</span>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            {lgrData && budgetModel ? (
+              <button
+                className="export-btn"
+                onClick={handleExportAcademicPDF}
+                disabled={pdfGenerating}
+                title="Download academic research paper on Lancashire LGR"
+                style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', padding: '8px 16px', borderRadius: '8px', border: '1px solid rgba(255,255,255,0.1)', background: 'rgba(18,182,207,0.1)', color: '#12B6CF', cursor: 'pointer', fontSize: '0.85rem', fontWeight: 600, fontFamily: 'inherit' }}
+              >
+                <FileText size={16} />
+                {pdfGenerating ? 'Generating\u2026' : 'Research Paper'}
+              </button>
+            ) : <span />}
+            {daysUntilClose !== null && daysUntilClose > 0 ? (
+              <div className="consultation-countdown">
+                <Clock size={18} />
+                <div>
+                  <span className="countdown-number">{daysUntilClose}</span>
+                  <span className="countdown-label">days until consultation closes</span>
+                </div>
               </div>
-            </div>
-          )}
+            ) : <span />}
+          </div>
         </div>
       </header>
 
