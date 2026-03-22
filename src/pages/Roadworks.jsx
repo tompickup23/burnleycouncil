@@ -187,13 +187,18 @@ export default function Roadworks() {
   // Destructure data (safe even when null/loading)
   const [roadworksData, trafficData, boundariesData, legalData] = allData || [null, null, null, null]
   const allRoadworks = roadworksData?.roadworks || []
-  // Filter to only show roadworks since 1 Feb 2026
-  const CUTOFF_DATE = '2026-02-01'
+  // Filter out zombie permits: must have started within last 12 months AND end in the future
   const roadworks = allRoadworks.filter(rw => {
-    // Include if start_date is on or after cutoff, OR if end_date is on or after cutoff (still active)
-    if (rw.start_date && rw.start_date >= CUTOFF_DATE) return true
-    if (rw.end_date && rw.end_date >= CUTOFF_DATE) return true
-    return false
+    const now = new Date()
+    const twelveMonthsAgo = new Date(now)
+    twelveMonthsAgo.setMonth(now.getMonth() - 12)
+    const start = rw.start_date ? new Date(rw.start_date) : null
+    const end = rw.end_date ? new Date(rw.end_date) : null
+    // Must have started within last 12 months (kills 2023/2024 zombie permits)
+    if (start && start < twelveMonthsAgo) return false
+    // Must not have already ended
+    if (end && end < now) return false
+    return true
   })
   const stats = roadworksData?.stats || {}
   const meta = roadworksData?.meta || {}

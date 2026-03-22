@@ -1549,6 +1549,13 @@ button:focus-visible {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
   }
+
+  /* Kill heavy box-shadows — 20+ cards with 40-120px blur cause GPU memory pressure */
+  .chart-card, .stat-card, .glass-card, .doge-card,
+  .hero-card, .news-card, .election-card, .strategy-card,
+  [class*="card"], [class*="Card"] {
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3) !important;
+  }
 }
 
 /* Tablet: cap at 10px */
