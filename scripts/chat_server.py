@@ -80,7 +80,7 @@ TOPIC_PATTERNS = {
     "integrity": r"\b(integrity|conflict|interest|declaration|compan(y|ies)\s*house|dodg|corrupt|flag)\b",
     "budgets": r"\b(budget|council\s*tax|band\s*d|reserve|revenue|capital|financ|fund|deficit|surplus)\b",
     "elections": r"\b(election|vote|swing|turnout|ballot|candidate|ward\s*result|majority|poll)\b",
-    "roads": r"\b(road|highway|pothole|roadwork|traffic|closure|lane|resurfac|gritting)\b",
+    "roads": r"\b(road|highway|pothole|roadwork|traffic|closure|lane|resurfac|gritting|overdue|operator.*league|longest.*(running|work))\b",
     "planning": r"\b(planning|application|develop|hmo|hous(e|ing)|build|permit|dwelling)\b",
     "health": r"\b(health|life\s*expectan|obesity|mortality|disabled|deprivat|imd|depriv)\b",
     "demographics": r"\b(population|census|ethnic|religion|age\s*(group|profile)|demograph|migra)\b",
@@ -439,15 +439,58 @@ CONTEXT_BUILDERS = {
 
 
 def build_context(council: str, query: str, topics: list[str]) -> str:
-    """Build combined context string from relevant data files."""
-    parts = [build_general_context(council, query)]
-    for topic in topics:
-        builder = CONTEXT_BUILDERS.get(topic)
-        if builder and topic != "general":
-            ctx = builder(council, query)
-            if ctx:
-                parts.append(ctx)
-    combined = "\n\n".join(parts)
+    """Build two-tier context: always-loaded core + topic-specific detail."""
+    parts = []
+
+    # Tier 1: Always-loaded core briefing (~130 tokens)
+    core = safe_load(council, "chat_briefing_core.json")
+    if core and isinstance(core, dict):
+        parts.append(core.get("briefing", ""))
+    else:
+        # Fallback to general context if briefing not generated yet
+        parts.append(build_general_context(council, query))
+
+    # Tier 2: Topic-specific detail (~500-800 tokens per topic)
+    detail = safe_load(council, "chat_briefing_detail.json")
+    if detail and isinstance(detail, dict):
+        topic_data = detail.get("topics", {})
+        for topic in topics:
+            if topic in topic_data:
+                parts.append(topic_data[topic])
+            # Map some topics to detail keys
+            elif topic == "spending" and "budgets" in topic_data:
+                parts.append(topic_data["budgets"])
+            elif topic == "planning" and "housing" in topic_data:
+                parts.append(topic_data["housing"])
+    else:
+        # Fallback to old builders if briefings not generated
+        for topic in topics:
+            builder = CONTEXT_BUILDERS.get(topic)
+            if builder and topic != "general":
+                ctx = builder(council, query)
+                if ctx:
+                    parts.append(ctx)
+
+    # Name search: if query mentions a specific person, add councillor profile detail
+    q = query.lower()
+    profiles = safe_load(council, "councillor_profiles.json")
+    if profiles and isinstance(profiles, list):
+        for p in profiles:
+            pname = (p.get("name") or "").lower()
+            clean = re.sub(r"^(county |borough )?councillor\s+", "", pname)
+            parts_name = clean.split()
+            if parts_name and len(parts_name[-1]) > 3 and parts_name[-1] in q:
+                profile_lines = [f"\nDETAILED PROFILE: {p.get('name')}"]
+                for key in ["party", "ward", "division", "email", "phone", "occupation", "dob",
+                            "biography", "committees", "electoral_history", "employment",
+                            "land_interests", "securities"]:
+                    if p.get(key):
+                        val = p[key] if isinstance(p[key], str) else json.dumps(p[key], default=str)[:400]
+                        profile_lines.append(f"  {key.replace('_', ' ').title()}: {val}")
+                parts.append("\n".join(profile_lines))
+                break
+
+    combined = "\n\n".join(p for p in parts if p)
     # Truncate to fit context window
     max_chars = MAX_CONTEXT_TOKENS * 4
     if len(combined) > max_chars:
