@@ -106,6 +106,11 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `src/components/pdf/AllWardsStrategyPDF.jsx` | Multi-page all-wards strategy overview (executive summary, battleground rankings, tier breakdowns) |
 | `src/components/pdf/PortfolioBriefingPDF.jsx` | Per-portfolio Cabinet briefing (budget, savings, service intelligence, PR narrative) |
 | `src/components/pdf/LeaderBriefingPDF.jsx` | Leader overview (fiscal system, Monday morning list, all portfolios, MTFS, political impact, risk register) |
+| `src/components/pdf/LGRAcademicPDF.jsx` | 35-page LGR research paper: 10 sections, 12 tables, 33 references, one-unitary model, harmonisation, equal pay, disclosure |
+| `src/components/pdf/BoroughBriefingPDF.jsx` | 10-20 page per-council strategist pack: battleground, per-ward spreads, coalition, competitor analysis, resource allocation |
+| `src/components/pdf/CanvasserPackPDF.jsx` | 2-page per-ward canvasser sheet: Know Your Ward + Doorstep Guide |
+| `src/components/pdf/pdfDataPrep.js` | Data prep bridge for PDFs: census GSS-to-name lookup, ward data extraction, borough aggregates, competitor analysis |
+| `src/utils/wardReconciler.js` | 4-phase ward name reconciliation bridging election wards to census wards across all 15 councils |
 | `src/components/pdf/usePDFExport.js` | React hook: client-side PDF blob generation + download via @react-pdf/renderer |
 | `src/utils/savings/` | Cabinet Command engine split into 15 focused modules with barrel re-export via `savingsEngine.js`. 62 functions, 462 tests. Modules: core.js (utils), spending.js (classification), directives.js (DO/SAVE/LEGAL), playbook.js (strategy), operations.js (operational), political.js (electoral), benchmarking.js (peer comparison), governance.js (FOI/risk), directorate.js (management), send.js (SEND model), asc.js (adult social care), crossCutting.js (fiscal/highways/waste), serviceModels.js (children/health/property), expansion.js (treasury/fees/workforce), soa.js (Statement of Accounts) |
 | `src/utils/chartDefaults.js` | Recharts boilerplate helpers: gridProps, xAxisProps, yAxisProps, tooltipProps, animProps |
@@ -164,6 +169,7 @@ npx gh-pages -d /tmp/lancashire-deploy --repo https://github.com/tompickup23/lan
 | `scripts/generate_lgr_enhanced.py` | LGR demographic fiscal intelligence: lgr_enhanced.json + 15× demographic_fiscal.json |
 | `burnley-council/scripts/llm_router.py` | Multi-LLM router: Gemini Flash → Mistral Small → Cerebras → Groq failover. API keys via env vars only |
 | `scripts/generate_cross_council.py` | Cross-council comparison data (collection rates, dependency ratio, reserves, HHI) |
+| `scripts/generate_chat_briefings.py` | Two-tier chat briefings per council: core (~120 words) + detail (9-10 topics). Reads 12+ data sources |
 | `scripts/generate_service_gaps.py` | Service gap analysis for LGR |
 | `scripts/academic_export.py` | Academic export: panel dataset, LGR model inputs, cross-council efficiency CSVs |
 | `scripts/daily_audit.py` | Daily automated code quality/data audit (runs via GitHub Actions) |
